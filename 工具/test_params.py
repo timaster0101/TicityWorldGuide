@@ -208,5 +208,18 @@ class DocsSynced(unittest.TestCase):
         self.assertNotIn('标签升阶与退化阈值留给第4期', book)
 
 
+class RulingsEightyOne(unittest.TestCase):
+    PHASE_IDS = ['C75', 'C76', 'C77', 'C78', 'C79', 'C80', 'C81']
+
+    def test_seven_new_rulings_recorded(self):
+        rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
+        by_id = {r['编号']: r for r in rows}
+        for cid in self.PHASE_IDS:
+            self.assertIn(cid, by_id)
+            self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
+        self.assertEqual(len(rows), 81)
+        self.assertEqual(rows[-1]['编号'], 'C81')
+
+
 if __name__ == '__main__':
     unittest.main()
