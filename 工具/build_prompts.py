@@ -82,9 +82,12 @@ MANIFEST_PATH = DATA / "开图清单.json"
 if MANIFEST_PATH.exists():
     PREV = {it["id"]: it for it in json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))["items"]}
 
+NOTES_PATH = DATA / "开图验收备注.json"
+MANUAL = json.loads(NOTES_PATH.read_text(encoding="utf-8"))["备注"] if NOTES_PATH.exists() else {}
 
-def review_state(prev, prompt_sha256):
-    note = prev.get("review_note") or ""
+
+def review_state(prev, prompt_sha256, manual):
+    note = "；".join(manual) if manual else (prev.get("review_note") or "")
     reason = ""
     if not prev.get("image_file"):
         status = "待开图"
@@ -184,7 +187,7 @@ for rec in KB:
     # 状态、摘要自身、图片路径、批次与人工备注在计算后加入，避免自引用与回填漂移。
     prompt_sha256 = hashlib.sha256(("\n".join(lines) + "\n").encode("utf-8")).hexdigest()
     prev = PREV.get(eid) or {}
-    status, review_note = review_state(prev, prompt_sha256)
+    status, review_note = review_state(prev, prompt_sha256, MANUAL.get(eid) or [])
     metadata_at = lines.index("## 提示词正文") - 1
     lines[metadata_at:metadata_at] = [
         "- 状态：%s" % status,
@@ -218,6 +221,7 @@ for rec in KB:
         "batch": prev.get("batch"),
         "status": status,
         "review_note": review_note,
+        "review_note_history": list(MANUAL.get(eid) or []),
         "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；"
                       "平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
     })
@@ -266,6 +270,7 @@ for typ in BATCH_ORDER:
             m["pricing_reference"], m["prompt_file"], m["image_file"] or "待生成",
             m["status"], m["review_note"].replace("|", "\\|").replace("\n", "<br>") or "—"))
     md.append("")
+md.append("人工验收备注只在 数据/开图验收备注.json 里改，重跑后同步进 review_note_history；清单里的 review_note 是「人工末条＋派生原因」的拼接展示值，不手改。")
 (ROOT / "数据" / "开图清单.md").write_text("\n".join(md), encoding="utf-8")
 print("prompts", len(manifest), "files", len(list(PROMPT_DIR.glob('*.txt'))))
 print("no-facing", sum(1 for m in manifest if m["camera_facing_deg"] is None))

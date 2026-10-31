@@ -48,7 +48,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "24d7bef69e0a084990283e7ea7934b17aafdaa0ecf968ab2f8c348e2d05323fd",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L002",
@@ -81,7 +82,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b5cdb05ba68809db7c1313003202ab7200713b520d0d651d141ea35108a885ae",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L003",
@@ -114,7 +116,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "90e726ae41cae758bf6c2be7e30aa286bfe37b7e6dcaf2bbb4e300ae91edd949",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L004",
@@ -147,7 +150,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "bceb871a19a74af2e753e03b115f39ffd3492ea9f3a5f2cc939d8e35a2d99e5b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L005",
@@ -180,7 +184,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "3738d57b52d47d2b0301f044f25766ca255c8740c8294e3cc88e49fcea7a781f",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L006",
@@ -213,7 +218,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "39a5b26c21b6f41045f7d1f8a9863c67afb8b3e5fec48942c46fb236105a14f8",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L007",
@@ -249,7 +255,10 @@
       "generation_input_sha256": "66c96d4fe78ee4dd3ed621f5bb92e82c81b42d22362d5d914039769d559f4a00",
       "image_base_prompt_sha256": "e11d6df7eafbad29e58b4ffd67589378371e26c115b8ce8f33c0f858138e158f",
       "image_prompt_sha256": "66c96d4fe78ee4dd3ed621f5bb92e82c81b42d22362d5d914039769d559f4a00",
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；图片对应的基准提示词已变化，须对照当前提示词实际复验"
+      "review_note": "v01塔身稳定但冠部画成双坡尖顶，不通过；v02改为单坡但冠部出现可读标识且楼层横缝不足，不通过；v03单坡冠、天线、直塔与无字立面稳定，尺寸1024x1536且685字节XMP与源图一致，但可见楼层仍明显少于78层；v04不同区域仅检出约53至60个横缝候选峰，不通过；v05为1600x2400，单坡冠、天线、直塔与无字立面正常，但三段立面放大仍见多层合并，横缝候选数随区域和阈值明显漂移，低阈值偶得78个峰不构成逐层验收证据，立面主周期约31.5至34.5像素，与78层应有的细密分格不符。五轮文本生图均未兑现恰好78层，停止抽卡。v06以显式几何兑现78层但材质偏示意化，不验收；v07改用v05照片材质透视合成，floor_bands()明确控制裙房以上78个连续等高楼层与77条内部横缝，首图视觉、尺寸和685字节XMP复验通过，绑定本实际输入记录。写实预演-v01末帧右缘复制拉伸，不验收；v02修正边界后为1024x1536、24fps、192帧、8.000秒，关键帧连续性通过。视频采用同一照片母版的图像空间平移，不冒充完整三维多视角渲染。其余地点批量门禁仍关闭。；图片对应的基准提示词已变化，须对照当前提示词实际复验",
+      "review_note_history": [
+        "v01塔身稳定但冠部画成双坡尖顶，不通过；v02改为单坡但冠部出现可读标识且楼层横缝不足，不通过；v03单坡冠、天线、直塔与无字立面稳定，尺寸1024x1536且685字节XMP与源图一致，但可见楼层仍明显少于78层；v04不同区域仅检出约53至60个横缝候选峰，不通过；v05为1600x2400，单坡冠、天线、直塔与无字立面正常，但三段立面放大仍见多层合并，横缝候选数随区域和阈值明显漂移，低阈值偶得78个峰不构成逐层验收证据，立面主周期约31.5至34.5像素，与78层应有的细密分格不符。五轮文本生图均未兑现恰好78层，停止抽卡。v06以显式几何兑现78层但材质偏示意化，不验收；v07改用v05照片材质透视合成，floor_bands()明确控制裙房以上78个连续等高楼层与77条内部横缝，首图视觉、尺寸和685字节XMP复验通过，绑定本实际输入记录。写实预演-v01末帧右缘复制拉伸，不验收；v02修正边界后为1024x1536、24fps、192帧、8.000秒，关键帧连续性通过。视频采用同一照片母版的图像空间平移，不冒充完整三维多视角渲染。其余地点批量门禁仍关闭。"
+      ]
     },
     {
       "id": "L008",
@@ -285,7 +294,10 @@
       "generation_input_sha256": "b13b2ab7ca15092c6581d72c4761aa29c940e85e0fa6828310c84a3cca49a146",
       "image_base_prompt_sha256": "e7c34eacbe787b72790ac53a8316768cdcf2a2db7d71099f2e6e4109ccce52af",
       "image_prompt_sha256": "b13b2ab7ca15092c6581d72c4761aa29c940e85e0fa6828310c84a3cca49a146",
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；图片对应的基准提示词已变化，须对照当前提示词实际复验"
+      "review_note": "v01封闭展厅上部大面积连续玻璃，未落实哑光灰板要求，不通过并保留。v02针对该项重试，生成2400x1600同源母版并缩放为1536x1024，685字节XMP保留；封闭展厅为实体哑光灰板，银钛竖肋、深色石基、西向入口与庭院廊段玻璃、中央开缝平缓折面屋顶及前景关系均可辨，未见凭空文字、第三方水印、L007、金融塔、全透明展厅或夸张尖冠，首图复验通过，绑定本实际输入记录。本次未制作L008视频。；图片对应的基准提示词已变化，须对照当前提示词实际复验",
+      "review_note_history": [
+        "v01封闭展厅上部大面积连续玻璃，未落实哑光灰板要求，不通过并保留。v02针对该项重试，生成2400x1600同源母版并缩放为1536x1024，685字节XMP保留；封闭展厅为实体哑光灰板，银钛竖肋、深色石基、西向入口与庭院廊段玻璃、中央开缝平缓折面屋顶及前景关系均可辨，未见凭空文字、第三方水印、L007、金融塔、全透明展厅或夸张尖冠，首图复验通过，绑定本实际输入记录。本次未制作L008视频。"
+      ]
     },
     {
       "id": "L009",
@@ -318,7 +330,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "54633299e2d12292de0e86f626a6a3b2da0377e766088e85d9411cb17b3cdcc6",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L010",
@@ -351,7 +364,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "f981abecc88530888b880d2225d5223fceaa39fd9affdd9e99ebaa2ad7c583a6",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L011",
@@ -384,7 +398,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "8f2c217b568347fd6277502bd4d3afce113f95d804d6f706c48b614c44aec352",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L012",
@@ -417,7 +432,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "c2cd700157fbcef17129d9787a8fac273476cc901a8e573fed363bcfc47491c7",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L013",
@@ -450,7 +466,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "163ba9c4eb5a63ad5a10c65190bed7933782566e095659c8218966aaecf30157",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L014",
@@ -483,7 +500,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "cc4e24e91b84448d5f07758accfb47ab0fdf0618ec02531e4e0c3fc20d27f657",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L015",
@@ -516,7 +534,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "8f6be1b703de9ee5212eca905f10b9938bf5ac804cb5bbe8b776e8ee35a906ee",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L016",
@@ -549,7 +568,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "fa70f5cd60147b0c06c4ffc3c677cb072e13c4c34e95581fef8504b343b18947",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L017",
@@ -582,7 +602,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "1ef021aee7ea43651ea1dd59244426de21bcccaf845da7081ff792f24151f611",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L018",
@@ -615,7 +636,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "9051433cac180ef52e853973da1dc4eea6002063d5d60237096221e0d5a98445",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L019",
@@ -648,7 +670,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "25ccf132d7d66b84f27abe5a405de5e3da2db50803ce9bfe407c7b374a7a35f5",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L020",
@@ -681,7 +704,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "38348d01eed6adeab694707bc8ece0d37665df9d87cce993bd8cb7a79ef246c3",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L021",
@@ -714,7 +738,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "f42946d429dd74963153d03e92eb450cf661ee248e95d5a70085bb9c9fa26972",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L022",
@@ -747,7 +772,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "411f059411d6a9092eee120b2faf03e8b1ace022bb7fc4f620b39be4c7b85d43",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L023",
@@ -780,7 +806,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "22b686521911f80cd15aa100799a99166c56e0fc5bf11f0a78b6f6808d3df4f5",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L024",
@@ -813,7 +840,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "77b07d36262c3f7d22a7d4412ca1319854bd84d91a5ff855116c3fe3351b285c",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L025",
@@ -846,7 +874,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "8159e33d0cd830cdb3dffacc92c544c53c303d0c4573cc2ae0c292d944d7904c",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L026",
@@ -879,7 +908,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "4c0d4b7916ae0dac0de089dfbe6ccf2d5aea7942aec04c8854baf57354eebc37",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L027",
@@ -912,7 +942,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "beca10d6e3b940f196ecefdd320708a776769a80e23024b5510a023bd26f1ebc",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L028",
@@ -945,7 +976,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "eecfe512657a39120df5bdfed4ab1a174694cca2fe36f446cb9d1fbdae5a339e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L029",
@@ -978,7 +1010,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "67e07175dd992c35394a1649e6c6d9f7ea47404ad768d108d6d34e585fa4bd6f",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L030",
@@ -1011,7 +1044,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "a8b8681c16514523dc4b88e420bb6cdf33993dac3271a1284338e8e60d2ef976",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L031",
@@ -1044,7 +1078,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "3ff9c75464fa1ef745536f56b976e5ed9f8cf372d30e6e71f81da66a252cc0b1",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L032",
@@ -1077,7 +1112,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b65b1001913131fb2135946ebd090db2650a3a634f4acd6ac65c567a8ee1423b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L033",
@@ -1110,7 +1146,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "04777f615b3e1af1d6af307b68611ad0be5229cd4fc24f29fb9ead4635836abe",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L034",
@@ -1143,7 +1180,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "4d074b26a627a40b2edfa15ca3b9dfae7ab64dcfe88dd0c8937da2cac5d9ea34",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L035",
@@ -1176,7 +1214,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "edfb1b2856b69931a431fe31266bf8f73781d872318376b8cef86ae88dab8068",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L036",
@@ -1209,7 +1248,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "5dacd1fca88824f0ed62ffb803ac57bfc4efb123063445bb22079b60a8872b50",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L037",
@@ -1242,7 +1282,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "885659f3df1133b932446168b8f34d6e683669472d3ceaf605e761ec33593a2d",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L038",
@@ -1275,7 +1316,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "f7a5778c4a9b7c075ee432f3e5005c947abc1f905849255cffd37204268d0e40",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L039",
@@ -1308,7 +1350,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "a0cb0809f3a5fe1c8d17e4cc84ddc70405a01cceb2227e27e2d3263c6b1b774b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L040",
@@ -1341,7 +1384,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b99a94e87428a342113ba6ced9d36ae7ad1f54724c1718c83ef6250f29459e7e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L041",
@@ -1374,7 +1418,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "600c695232690151e5ba04b36b4f69d59488eef9b7d8aa89bf82bcfcebdb2f17",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L042",
@@ -1407,7 +1452,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "c20731a4203ed262d022bb19504e903a957deb534a2def690bf396e27718207d",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L043",
@@ -1440,7 +1486,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "cf5528c9e2748410c063d98312cd6b37572076837e65bb42ff7d7ea72917bcf0",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L044",
@@ -1473,7 +1520,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "8f6b8fbe7276ab10b3ede2085fa0e499ca8c8247e8bbe943f182312918375260",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L045",
@@ -1506,7 +1554,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "bd1f54e747838497555f6b2d2c1ae4a484747b542f3aa6ea049f1e255a47dc53",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L046",
@@ -1539,7 +1588,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b76bb162d1949d09ffd0dedb68842d157baccb25d1bce258121be77735058de4",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L047",
@@ -1572,7 +1622,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "c24ba12e3aa4fb3b3d7c11966bacc01ecfa612fc8aadae32b9c44cd7ccc733cc",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L048",
@@ -1605,7 +1656,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "318a64fb70ecf88fdccc899e3cff70cfbc32f5639ed1cfb62b41059f9e2132f8",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L049",
@@ -1638,7 +1690,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "d073a95a189b703beca70f5c24329df87069723793f75b9ecf7d5c8ddba33d05",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L050",
@@ -1671,7 +1724,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "92940743c8f57516339297e0617487a13ee5c028ba89f1e2ac6022360f99b0c4",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L051",
@@ -1704,7 +1758,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ae1e4e6fd294675e802701a4c453bffca8b750e6f2dccc145f57bc08a74fca0d",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L052",
@@ -1737,7 +1792,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "49c8032141142a35ae1cbd9da2f9e33a37a77ad379d7bb1fbfdc61db0db0e118",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L053",
@@ -1770,7 +1826,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "cc3c256e5a716877414febc1771154476d1f3a78d6ec3c64a7b68118713732cb",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L054",
@@ -1803,7 +1860,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "76ab3993a94819e89c7e0e820d1a5ee16c204264e932ed8cb2743cde04d86ec4",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L055",
@@ -1836,7 +1894,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "f3c42ab1b2c43aef6db6b649bc26ee57f8322804f7cfdbee5152df029257785c",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L056",
@@ -1869,7 +1928,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "fa9a34eff8c6a33bb29cbac5b2cbc33d55390e7f6778b315449823f67406a85b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L057",
@@ -1902,7 +1962,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "70f89e2c5091361ed9e4f395392199c357d0ec7e0358b75f0e58c03faa88ad91",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L058",
@@ -1935,7 +1996,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "1a8c84032314894a416fba4b56aca7502c629069156460d286e133b08bc19cb8",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L059",
@@ -1968,7 +2030,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "d9b4e5e603157e60d8931d925154d1cc2c95c717cdcc80167eb8828ee97331e9",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "L060",
@@ -2001,7 +2064,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "604e41bcbd80b9fd6525ba36decd663a0cf840b08263adb256ac8294e024f337",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F001",
@@ -2034,7 +2098,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "a4ad2602035ade1a04395a5e27aeca262c207e99262b350262d6d93c830cb97d",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F002",
@@ -2067,7 +2132,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "3bc354f1b7ec4f7f2ea0a4adff6519d1a670409de25c0ba88760b7abc4008b67",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F003",
@@ -2100,7 +2166,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "df656893f19fdbec13cafa20e15eb2bc81ced36a0397a55e35ac3c151e18765b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F004",
@@ -2133,7 +2200,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "562b4140ef45e3756d6eab887c22df628b0f06bb71bcdc7d2f8d5caac16c563b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F005",
@@ -2166,7 +2234,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "e97c6f5aab7af264e39ec68ca7c078ad8d9e61505bc69592576c603f000fa0b4",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F006",
@@ -2199,7 +2268,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "6aac4b2be8d9b169c34a24ff13b258fbe14a105b4340e11e24e8a3e7bef40ca1",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F007",
@@ -2232,7 +2302,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "df84954c5e98f677523edb58b59ecd0722bea79db43b6e644e44d3992153b586",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F008",
@@ -2265,7 +2336,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "036e5581dd5d9833f6bf84bb2ad39190b878d87bca08e62aaa266d850a42f231",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F009",
@@ -2298,7 +2370,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "80fe1eb11bdf671c4d79c043920ebb4614096ec73796f3ed7eb1714a1169ab54",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F010",
@@ -2331,7 +2404,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "e03e637e9f78c63aafb85ec8c4ccd37cbb2c06494609787efb8fe57164c73274",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F011",
@@ -2364,7 +2438,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ac058e18a971b4f0c92dc3ea38c8fcd1c53e3ef6699a23ccbf0bb696ee735029",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F012",
@@ -2397,7 +2472,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "a7f3599058d8bbc1040d87b4c2a8427842aac2d3d3808892904d7ccca94c2d50",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F013",
@@ -2430,7 +2506,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "aa59a3bbeb10bafb62d9d56303d9eb49fc728af7eddf819c25e313b4e7315547",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F014",
@@ -2463,7 +2540,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b9839bb76e5d741933c6d6deba94e1c8a70e7f042a6f9519c4947c2969238376",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F015",
@@ -2496,7 +2574,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b18c8cd775ab08c44cf3df7c24e23e35a0ad370bf2b9241d6ddb02a5173eb623",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F016",
@@ -2529,7 +2608,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b927e08fbbd1992c00755309d44321df0b810293499226e290f2e49726882e07",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F017",
@@ -2562,7 +2642,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "948bc9a4f43c792b0cd830dfa34de733d2a9d02e09ed5df946bf08e8d66a06a6",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F018",
@@ -2595,7 +2676,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ed975890f36bfcb0d9b9b43c049ed8efa88a2b6c1f17c46337e0ccfec72536ae",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F019",
@@ -2628,7 +2710,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "40c72df6c4c059fc0e6ea023e598fd38210843057adffc4e7d166537685b09b4",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F020",
@@ -2661,7 +2744,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "0c16a02a49a1629f52ea5bb2842e07e17d7a1c46804dfc48e0b32bea7296c540",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F021",
@@ -2694,7 +2778,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "041169ce6e0d013f9d209842422bb34c5382c1341a81b699b363b23ac51c8233",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F022",
@@ -2727,7 +2812,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "682479e6ce1597750df665ada19074e5ae566c1538dc70108af27131af6385c1",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F023",
@@ -2760,7 +2846,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "fe612653df5cdf9b6101d3bec179c253752d7f14506fd3c7c543b620551c64fc",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F024",
@@ -2793,7 +2880,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "23547942a0975088d114352a7c4bdd18161056aa3591880fb4bc4f73060dc7d5",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F025",
@@ -2826,7 +2914,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "995992815c1eb6566dbf9b672624a6093ade13bdaa59771ce80e8f51c951ebe3",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F026",
@@ -2859,7 +2948,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "e9eae62ec1a9d06b9f706e4cb19d15f9cc909599059539a57e769a7414a523e0",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F027",
@@ -2892,7 +2982,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "bbeae916a2aa99360571511e72eec1fbaee724e019ebcfbd103d131aa447bce7",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F028",
@@ -2925,7 +3016,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "131b43efb1f9af1ac13dabdd00f841167761d57ed0a2da297958a1a2eadcc37f",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F029",
@@ -2958,7 +3050,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "9ea82ceefc03a50184320918bc1133e089b1cfba6ab7c90ee32f82a744f0d823",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F030",
@@ -2991,7 +3084,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "8f3aabedfee26ed21a20c3ffacc4e682729edbca746d081315e81061436b95db",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F031",
@@ -3024,7 +3118,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "66eda55c4b8c6459b518656ea27d9bf24e9de6ce2ef9a674cc69c480842385a3",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F032",
@@ -3057,7 +3152,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "19594364ebf8068de434b77f14e232e771cc65198d62509c95c312108a992551",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F033",
@@ -3090,7 +3186,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "75af52be79ad1bdcabb7706b74398347abe6278ce1dc6e2ac8896c86627d3044",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F034",
@@ -3123,7 +3220,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "1e8d17fd630d70b3abf26cd5c6aa74f9717c8a82ffb90e76264cbd82abe5e7be",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F035",
@@ -3156,7 +3254,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "7e07c4d8b4e38c6801787cc0f04a1721b6018bb3ac266e59aab8049247ad26a0",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F036",
@@ -3189,7 +3288,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "58533232cda1c83df237fcec1e59fb32aefe4ea0d328243653c1a6ffe85d9808",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F037",
@@ -3222,7 +3322,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "3f98ebc3c439a6e09345d1d54c787de809799dce0a0e97ae418b8fd595368f2c",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F038",
@@ -3255,7 +3356,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "f98f168a21119b95551b3015c1bb1257cabd7372f083e29664e0a44e16237d71",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F039",
@@ -3288,7 +3390,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "8e29d58f03b604f40d191f6f3f148681eb03832d2b6a983cd2c82d3370601c45",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "F040",
@@ -3321,7 +3424,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "9d98b58460c87e614f02822de5a48f9d58ce36d8e2655de7d4cec29698efb0f6",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S01",
@@ -3354,7 +3458,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "56678a134a78f9f7d9ec4d87eb2a186e639fa0490458ec383196c23caecc6f08",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S02",
@@ -3387,7 +3492,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "e81953688b71eb62b2ee517cf5791155076eae4e15646b5340d5f08d909435ea",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S03",
@@ -3420,7 +3526,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "e3e504f038d2a4edea1cde81e663fcec6ceaefaf5d4e70b9eca0da4d034b83a5",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S04",
@@ -3453,7 +3560,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "807c9f48d037e538bbf80c23c722ec45c20e33abecab0fa94791e1747b6ee3d0",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S05",
@@ -3486,7 +3594,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "d291992cc39eeccb15f1421eed0e1ca473c3732c0ce5b86893cdda76b1c487c5",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S06",
@@ -3519,7 +3628,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "194f192bc83cf287261e80e5aedc5fb5d5c91ac1a46420b13e164e36d8cbf077",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S07",
@@ -3552,7 +3662,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "0ac51b242c2345aa6b7c73be17cc0e3bebb48ed632c162d9d0c5c61318adef6c",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S08",
@@ -3585,7 +3696,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "782c0da77cccefbcebca01686bdaec98298b536a0f51be05df1964eefefb34b9",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S09",
@@ -3618,7 +3730,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "73ca1fe95733241183199c8c0f272c0177478e40b7ffd2d117eb38d8ed25b4d7",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S10",
@@ -3651,7 +3764,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ecb60be558654cdc8e2b6904697b503a622db64b6dd64ff4a0f9cfd878f2bd5e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S11",
@@ -3684,7 +3798,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "0c07dc92176eb82f7130bde0edafb4911de57fc37b712591180d8e2b67a6a0a7",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S12",
@@ -3717,7 +3832,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "4aa06624f8672dd332bb0145af79a6bb4d49d689a1ac86f9c7d7bcfd2c4b525b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S13",
@@ -3750,7 +3866,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "09d9b8aad3e392dbdfed31383614bb3cb114b8721bdf2618657bb6efb8ce6121",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S14",
@@ -3783,7 +3900,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "0557b20168080f0038ae1cb9b7451c3b962e0ff76e142ad23432327a74265855",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S15",
@@ -3816,7 +3934,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ace2d55d214d7fdd7c018ca45c4003ba802f8527ecf9d43f3519dfc50776fe83",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S16",
@@ -3849,7 +3968,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "0bca5dfe1469f8dd53a802c1d834e15f82b87644f5d999fe3597ff12a7114d9e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S17",
@@ -3882,7 +4002,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "cf9bf97c1b1512c7a185059c45dc68754aa07b1936c1d3b32cf6185d770eceaa",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S18",
@@ -3915,7 +4036,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b9a5506d44021a3e0fc53a440a68810ae5c83fb87d481073670d5a0ed671af47",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S19",
@@ -3948,7 +4070,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "0ad2a79d71b7bc69c3119786671e34c8fbe10648f53dffb6ba09ee32a0c30dd4",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S20",
@@ -3981,7 +4104,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "d964aac4fc1c9d2adf019da48796ebca831a0fc31aaed30c12dcbb18318104f6",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S21",
@@ -4014,7 +4138,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "eeb0126ec759b9c02d01d989202c3b15467e852056aa590dbca64050e72a60d0",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S22",
@@ -4047,7 +4172,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "4953ce273782c9e9c5467aa16bd4ba380e67659e1be05643c854fe0446e472e8",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S23",
@@ -4080,7 +4206,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "79f9ac91dccbd8ee3b4c0cccb021b46ced2d2ecfb6cb63f4e36d48d8a85d7d7e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "S24",
@@ -4113,7 +4240,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "0bd89ea2896340dd5e189133223e2e3f6a02d0b2c02b1a88a970fadd2c7adf59",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R001",
@@ -4146,7 +4274,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "7ede8b3a197153c5fb2377b32828ed190274e72a0d131209811773c24b591991",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R002",
@@ -4179,7 +4308,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "51befc2a7da2171ed209bd432d8eab3013718ce87cbafa9ef1692931b08fe730",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R003",
@@ -4212,7 +4342,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "46854cf478a3d2073572efc5b3c1f431f73685e54602806e234ca1ecf0f4b949",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R004",
@@ -4245,7 +4376,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "0b4cb29f073c5bc3ccce30879292685bba7a04007e7d09125b94cdb95b908896",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R005",
@@ -4278,7 +4410,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "575f0bc090610c4a44e75cff0f18b55e3732675af64a2772a5a35310d1384b54",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R006",
@@ -4311,7 +4444,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "9d4bf4154fe4ad2c49aa493983ec9c740e7d0d791187e5212431b0320ec688e9",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R007",
@@ -4344,7 +4478,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "d129758c3b614d6492ef011fad3d01c8bf60b91809ca02f1c4ef1a3711df0e16",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R008",
@@ -4377,7 +4512,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "90c96d5a71488e5cce337d4bdb1b8336c131f35539f8f134f7dff1d63622cad9",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R009",
@@ -4410,7 +4546,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "5de096bdba891ce2db669185397dcc6d12e6ef82e008c8d66ee88046f9e27ce4",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R010",
@@ -4443,7 +4580,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "0b0ef4e580c092ac67de5b0928db5099d7c2b8c4dcafa72977ca5f1815fa3083",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R011",
@@ -4476,7 +4614,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "1a8a46c5f0ac8e62383a07cea1c24af38cc0ccda1a8505d9606e5d7b81b44b23",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R012",
@@ -4509,7 +4648,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "5cd987f1b517552661fac0fe3a6fdf2d73b649de4becb8c87ec2150d69d248e5",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R013",
@@ -4542,7 +4682,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "1519355ab5185486183f1f3652c141751ccb685764cb8010d56b616511adcb55",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R014",
@@ -4575,7 +4716,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "0449676ddbab9c09231892956acdf8f6f981b8ee6fc8fd9b569d699034e0ab80",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R015",
@@ -4608,7 +4750,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "e779e3d8c13f1ea21a16772b43d432f80c260cdebb3a696a8ca331f3862d4194",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R016",
@@ -4641,7 +4784,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "17ee865d7a607c03d06d96072e94db4a1846f6dd2887581fe004fcb87ca7790a",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R017",
@@ -4674,7 +4818,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "9a495211d54b29db28c17353169c8e7c75141e4b94d556e61288517a4232df10",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R018",
@@ -4707,7 +4852,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "cf9a2446704d6dca2eadbdffb391d7d50bc93f049812f1a08db9eece8926ee2b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R019",
@@ -4740,7 +4886,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "66c1b9ce4ff7220ef6bb2b96e6bada94f510a39dd8aa92e57c07ad5580eb5971",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R020",
@@ -4773,7 +4920,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "7fed5bdb191222c30496d585a52a9675b970b53af9b52364ff91fe458d228f9a",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R021",
@@ -4806,7 +4954,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "a77dd6bc0503c73d5ec11cfbbd4085828d0daaf371bbf23e3617062296c0475d",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R022",
@@ -4839,7 +4988,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "61d66c7ded7505f0e8636804f8c835f669a43c9c88e35e26d74693fb7f52079c",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R023",
@@ -4872,7 +5022,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "f023042fbbde37f2057de66caa58f1eed277699f01734ed3588d1782422b246c",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R024",
@@ -4905,7 +5056,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "12d703d29a8e1a4f3fffbde9c5e169d18142d4831634ee347f69e48d68838623",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R025",
@@ -4938,7 +5090,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "3891fdf19fc562ee0c4e4fb16703c4d974e8f80a818c39d0449b9a1e4d914b96",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R026",
@@ -4971,7 +5124,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ebfe9f1408a8f7634a1825106a848fa50ad449af21105062352fe3e93bc6db1f",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R027",
@@ -5004,7 +5158,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ec4369e8df4197f2fa73cc74530e489198a367172f57f63dd7e2084c770ab7d2",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R028",
@@ -5037,7 +5192,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "eb0001e4e749453dcd4a8a1780c35549efe591622c17476a140acdd94b6c2656",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R029",
@@ -5070,7 +5226,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ad4d61f9aaba949ce395aa69b457431b8e80c99e95c4d2fa6ebd06d725141bfc",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R030",
@@ -5103,7 +5260,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "7a8ad2fa8ca300c5c61a5942a540d42cdeb1500473b470c2db1a1ab18c11b4a6",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R031",
@@ -5136,7 +5294,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "fb17891a6a60455189ea580b1145f40911e519c0d942be955547ce6c04ffa8cc",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R032",
@@ -5169,7 +5328,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "82a14ba3d7835b48f268bdde6f309b8a7a500ad01d9a3372e79fbd752a31b824",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R033",
@@ -5202,7 +5362,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "145264e3660b3932bd6e5ad1f8d37a55020358319e7b0faba5203813277bf0ef",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R034",
@@ -5235,7 +5396,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "58ff89f28e7613c5bee6a5ea0465c68fdd0f7cebd64e43a63763a98a3f9e9852",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R035",
@@ -5268,7 +5430,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "533bd3163d795bf536daff9dc8821d7bab9946506e00e3c48163da44ff3dec64",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R036",
@@ -5301,7 +5464,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "9d31607d34f2edabb31cbdbcd20b68143cc59e4987cc6294c0277ed894bdb23e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R037",
@@ -5334,7 +5498,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "48874329c347e5f5b11b5f468c999d4ba3f2589736fcdfad69e4d22f1a0bd807",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R038",
@@ -5367,7 +5532,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "a24d3d8de6e6c039556b9c706b327999f2f1d6eaa1a4a2a21207bd8582b6a9df",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R039",
@@ -5400,7 +5566,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b876d46dfae6d85a3bb437be4eb1e872ab60f1f1dfac7c3296c9d1bb217694e9",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R040",
@@ -5433,7 +5600,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "7d0f718bf4629dd65d1cb5ef3674f3461217d584547dd4776d6afe3df2ab896e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R041",
@@ -5466,7 +5634,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b6c23673fe5e3d3a24a0d72f934b7a35e0729e955ad851c80bfdc58544408259",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R042",
@@ -5499,7 +5668,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "1d6ca4cd187a77e5ab1df1bf71980461a0c2bfa49a4c02f97ce79437f2518336",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R043",
@@ -5535,7 +5705,10 @@
       "generation_input_sha256": "d7c3363f9a367ff407ab939af90027c21e9a9693d9a7b6b320a0d365ace30076",
       "image_base_prompt_sha256": "7a77a3128dcea4a84acf26e80890baeaf92159966bd0a93b8b6558d1f39f5851",
       "image_prompt_sha256": "d7c3363f9a367ff407ab939af90027c21e9a9693d9a7b6b320a0d365ace30076",
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；图片对应的基准提示词已变化，须对照当前提示词实际复验"
+      "review_note": "2026-10-30首图复验通过：一二层疏院、灰瓦双坡屋顶、白墙青石基座、白石扶靠面、细雨水槽、提菜篮老人与尽头关闭木院门均可辨；未见高楼、密院、湖河水港或可读凭空文字。尺寸1280x1024，685字节XMP与源图一致；实际输入及基准版本已绑定。；图片对应的基准提示词已变化，须对照当前提示词实际复验",
+      "review_note_history": [
+        "2026-10-30首图复验通过：一二层疏院、灰瓦双坡屋顶、白墙青石基座、白石扶靠面、细雨水槽、提菜篮老人与尽头关闭木院门均可辨；未见高楼、密院、湖河水港或可读凭空文字。尺寸1280x1024，685字节XMP与源图一致；实际输入及基准版本已绑定。"
+      ]
     },
     {
       "id": "R044",
@@ -5568,7 +5741,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "29efff83796164f209bf954f712e3accf87db1aec6c9972f929597903815ac7a",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R045",
@@ -5601,7 +5775,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "e0056184b2b6b76bf81d9120b939084338e412831afd87833ccf7148dde9c924",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R046",
@@ -5634,7 +5809,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "22f64fc3c9d7570b43e3068f9cbae6ef011f4545fa5cf5a033406e4eabb23a3b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R047",
@@ -5667,7 +5843,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "68a8b10282f1669c60822f3b15585cde47ab94a420872b7e9e4d74d5eb88e238",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R048",
@@ -5700,7 +5877,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "551243d04385d205f2667ab19fa5e5d930d98fd2a637e9f2f0742d208f8ed601",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R049",
@@ -5733,7 +5911,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "a7d03b33ba15ab8c56a230eb4dc1b5c9ab12f50c6a787944fd413f85af200856",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R050",
@@ -5766,7 +5945,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "54c22d2a41979fe1b69ff5e6de8fbc118bf2e70d39478fe7274efe2aaca57e42",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R051",
@@ -5799,7 +5979,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "8f48d9498957e9dcaebbc5cefcf0b7500dc8ce366372cbcd72b85e1568edc6de",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R052",
@@ -5832,7 +6013,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b5d626cc9f8135ea49a6e9365c637343ce92913630fdbbf12996fa033c101962",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R053",
@@ -5865,7 +6047,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "136c9f09520f5340cf3be60087dd6de0e0bc4b38ca3f016ebb9f79328aff84ec",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R054",
@@ -5898,7 +6081,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "69edde9172a1dd3dec98edd25351e081fed0ce13a7363dfa2eee0afcaa9a0897",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R055",
@@ -5931,7 +6115,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "d5250059cfc74d54650f79e91ba4201a0a0b8cb3e6a32257cf49447f9808bfe6",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R056",
@@ -5964,7 +6149,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "09a4a4038b1887373f9b93266b159aa84bc1d84be67179aea996f34d4913799e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R057",
@@ -5997,7 +6183,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "a36e09dd59e1a0abf9f2e0886d71d307132b2ac646847a237154f88e972ac61b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R058",
@@ -6030,7 +6217,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "d38cff0c276d7752ece2214dcc887fce00562cccaf19f634eb85d6e302a0431a",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R059",
@@ -6063,7 +6251,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "295597f98d708e3fd993f4ac4916b42b9932f6a0be02592c7c4ae7975e50ff26",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R060",
@@ -6096,7 +6285,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "e516dd14a56f733340d8ee1b5e33c260f313d725157c0e2192251e22cf623353",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R061",
@@ -6129,7 +6319,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b5e88f74676e3f6b06fcbfc123343a4e33150c4d1bbcdcb75c0a2b686111a709",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R062",
@@ -6162,7 +6353,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "5dd069590ceedb410449eab35b985e784987d0d2fcce7bf90d965d0453cfbe11",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R063",
@@ -6195,7 +6387,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "42419038ce3884b1dbf5bad59682e3749a272436e7ca63fd54a352c9ec9700b2",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R064",
@@ -6228,7 +6421,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "4605e92afae300a4b692dea0cd87abb701e924e8b1fc7b74ad09e9ac037986cd",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R065",
@@ -6261,7 +6455,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "d2cb9e08c5e0a801c84d10ee9119fdbcf411eb339a36440b93d92233b447201f",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R066",
@@ -6294,7 +6489,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "20129f2db32f841929c18e969c1ac4f2c3b8a8583569ac487d17e8f0582b1a43",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R067",
@@ -6327,7 +6523,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "1d9640f45841659d0fdf2bd8adffcaa0e0796494b9af0ca653fe111530ca87dc",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R068",
@@ -6360,7 +6557,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b46186bf2c784583547de997bf3aabd3c6cb8f0b4f6d33629cf54d1a8325b1a0",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R069",
@@ -6393,7 +6591,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "e634dea3bef63ec91417a2e425d2790f009e450d24a5289cc77a67db3aed6fdf",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R070",
@@ -6426,7 +6625,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "c70c558cd73a56084fdb6713acf35d43eb8a6907382a6294df69fb27b7ecae0d",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R071",
@@ -6459,7 +6659,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "4d6378472a82dbe2b691626c3be539d1e082d3567b3ceec4b94adfc053d854f7",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R072",
@@ -6492,7 +6693,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "efa4b348cfe9a72405e78373d859480dd7bb444c49c26b00173b4848dde37f0f",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R073",
@@ -6525,7 +6727,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "864ef61d5dcb3d19568d41599d87e50ec6b52b02e901c3d2cbddb8cd43af2bd0",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R074",
@@ -6558,7 +6761,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "9b975b2221bc9d10b1814715834ab54a80d1e9a3029028c1cb83002ebcea4c46",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R075",
@@ -6591,7 +6795,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "2f87636065e7c3ef53c662435379facfe53f15a266c32698c694e19c78df7e91",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R076",
@@ -6624,7 +6829,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "bf23f18244bfd5383e88649142acda1e81a3a2040f875d516da708baaa21b2f2",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R077",
@@ -6657,7 +6863,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ce0a146921dbbe6b9af7d3c81053bc336b15944822a5f7f54683af5224620e68",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R078",
@@ -6690,7 +6897,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "f46a0f655e01b629a47d2e42def405fda64e77dd50bccc147d519544b03be579",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R079",
@@ -6723,7 +6931,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "2bb7280ddd6cb45a5252b3a621da1c75b11779ebb4848ca6ac8e4679c261fa24",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R080",
@@ -6756,7 +6965,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "855b3c44771bc2b52dd38b22db736f53cf797b03b98646764d188a51df570926",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R081",
@@ -6789,7 +6999,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "dc01552b954166737492e77f2e14876b81b30cd802ceab8908e7b570069a232e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R082",
@@ -6822,7 +7033,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "432cde3393be6044f64cd2e53333894c50ddde0e40aab07b675aa19981d47f14",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R083",
@@ -6855,7 +7067,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "28ca83d24b11a36c660a06f50b23228271eff73b6f859b52499f8a1d52db3621",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R084",
@@ -6888,7 +7101,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "960b10c41c44b2c2c1dec17a9c9b75fdbe5d1bc2c03bfff373f602ab0c339414",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R085",
@@ -6921,7 +7135,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "a27fa02b18a14cbc450d4f5c18aeb28a65c8b43493d2c3f845718877e8c9ee86",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R086",
@@ -6954,7 +7169,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "65d395f9a75c26539ce9bfe8fb1b729c6b60b0ad118c0e191327e32195892df1",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R087",
@@ -6987,7 +7203,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "7d06c1146c8290362a694ec98e7f8006b2be6221473aae02c2d0fdb71c148df7",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R088",
@@ -7020,7 +7237,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "23365a88f43461727c4df99e170fedc27809830d62bc3856ed1c2a3a54f4c374",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R089",
@@ -7053,7 +7271,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "556716f48b7f0aa299d957e8dd80d64467d5d3916e7f7ebe5e39c2ce37a70741",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R090",
@@ -7086,7 +7305,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "cb58b30837fd275c8cdf338cba3b13f1738d66496f2bb059e1c0c2ea48a88604",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R091",
@@ -7119,7 +7339,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "8a8681af4fb68a32dff42c7c03d0a09a596dc2500a11ff9c35ae74c4af35b5ff",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R092",
@@ -7152,7 +7373,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "c99f9b35070453ecba0653fe1699e91fa74c1b5c2364c9db68e341f0d336cf8b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R093",
@@ -7185,7 +7407,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "de508fc06246d3962fcd9d352a466f99598e27e0eb875f0686dbc403250ad481",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R094",
@@ -7218,7 +7441,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "f71e35103e090bf1169aeec95eadb32309ae4a8d0fbd8952fd17e73b2342c43a",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R095",
@@ -7251,7 +7475,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "837e974dbb894460e7c24caa09650979912b1cf46e3ed286eb1475108d8b53ea",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R096",
@@ -7284,7 +7509,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "813ed0cfaa6d3f2676a3964765a8eed9cc1a4c70fd4770f126bd1551d1e04673",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R097",
@@ -7317,7 +7543,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "7a7b4d5c723147f4e2fa9f0f07df6a9d8bc471e8e8f92e11b917756b0b7ab8fe",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R098",
@@ -7350,7 +7577,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "5c608fd051850ce9a2085e50dfb2c392fc9cc3519cef2f707d9d73744909935c",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R099",
@@ -7383,7 +7611,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "a8b00b5ffcd129a041582aa2fc7a1624350b06b38aa61355ed1fd0f90202c6d8",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R100",
@@ -7416,7 +7645,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "63595f48cf6b78286ea888c16fe393977ac7752bbd51eab8bd13972bd42513da",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R101",
@@ -7449,7 +7679,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "f7e19c3a86d75be41891923ad686946764ed2b0aa8cab01eb22eaeb5dcfbdfb7",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R102",
@@ -7482,7 +7713,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "c90da41a8cec34e98540c430e0070f2c2426511f5c68d3ed611eb6599a0d1263",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R103",
@@ -7515,7 +7747,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "1c30a8cc70cd40896ea70dc9e8c256fd9189b81f1fdc42ed71270753bb3e2e92",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R104",
@@ -7548,7 +7781,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "5bc8fc0a8ec02041819db8dc611c1cc0bf69c979b4bda4c552a5201f3260f01e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R105",
@@ -7581,7 +7815,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "66d80de310d2ae46ff95b48124498de692bb462bdcb419e7e8a243ba612c7d67",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R106",
@@ -7614,7 +7849,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "e979362300ae5fbd3f492f4d4b594770a3ef8925b92b45428ef4d5fb5d21c166",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R107",
@@ -7647,7 +7883,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "9cec9206fc8a16c9aec0e24971844f68b6fdaf020cabec5a0c887eddcccacdf4",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R108",
@@ -7680,7 +7917,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "2a134e41c2dca7c973e737b886d0e97a684f0c8341031b80fb0947d1cc0b8588",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R109",
@@ -7713,7 +7951,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "7115365c63c713ae736a06805b6cb28a29c5d9f047b425a250061f0b7943b0da",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R110",
@@ -7746,7 +7985,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ca31ad069db6a9bd7880c3f7db13251d5ceceba10a21eba9173b3c1954763aaa",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R111",
@@ -7779,7 +8019,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "4c5e74a89249ded076273d49991d990d4577abbea8c46c33597b2c6de52bff83",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R112",
@@ -7812,7 +8053,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "4b3b90d88cc5b0575a8ec1cd6023f03781bc5987a8edfef4e02eb3b045042efb",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R113",
@@ -7845,7 +8087,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ed7dd87312f73de41130d7558bb36d3503c078dee5ac98a5fb25492cacbdb905",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R114",
@@ -7878,7 +8121,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "654e6bbe7a6c09fa14a2f1ec06d05a37deadfb85c39ebca87dc074e3e81b884e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R115",
@@ -7911,7 +8155,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ee8c70fd919e4c98b27dbbc6a77ec27fb74deb2796b44a25a2e7a03037710a70",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R116",
@@ -7944,7 +8189,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "4da7b86ffcf571fa4fd37e64e5d3329e2d00c9075971bdce6dae6c824e200251",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R117",
@@ -7977,7 +8223,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "d1217088f91b88824ce2ee37ace03861af04dbfe76622f16ad2c18944bb6ceb0",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R118",
@@ -8010,7 +8257,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "9714045731f5c6b582555d516aad48b356e4a87df965190660152c334b0e8bfd",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R119",
@@ -8043,7 +8291,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "2fe52572cdffbccc17422cb3c2c02f8a60ef1f27873c6c891a4f3560c8c8143e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "R120",
@@ -8076,7 +8325,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "c11a4ef4b880092c6958d708cbd4c70b16cdd10d9b4a97e62373d73ca69c249b",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D01",
@@ -8106,13 +8356,16 @@
       ],
       "batch": "城市片区-D01复验-v04B",
       "status": "待复验",
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；图片对应的基准提示词已变化，须对照当前提示词实际复验",
+      "review_note": "2026-10-30正式复验通过：v04B右侧近岸清岚河入湖口清楚且与主湖面连续；L003左、L002中、L001右及10层46米、4层24米、6层32米关系可辨；开放岸线、光照与禁则未见穿帮；尺寸1792x1024，685字节XMP与源图一致。实际生成输入见数据/生成输入记录/D01-v04B.txt，图片绑定实际输入摘要及当前基准提示词版本。历史版本保留：v04A河道居中且右缘出现第四个体量，未采用。；图片对应的基准提示词已变化，须对照当前提示词实际复验",
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "1dfb2dd894f8d45e17385ea12e280c5a92acc37949160264b63be947807c3571",
       "generation_input_file": "数据/生成输入记录/D01-v04B.txt",
       "generation_input_sha256": "d0556d18de117a4b3c9b13c2277bb50252a8bfe32c650dfc044a943cf7204cf5",
       "image_base_prompt_sha256": "6e09109a814c34d12c82f1751e6b0cb8bb16a3d1ba12eeb9b2aecd130b9f6660",
-      "image_prompt_sha256": "d0556d18de117a4b3c9b13c2277bb50252a8bfe32c650dfc044a943cf7204cf5"
+      "image_prompt_sha256": "d0556d18de117a4b3c9b13c2277bb50252a8bfe32c650dfc044a943cf7204cf5",
+      "review_note_history": [
+        "2026-10-30正式复验通过：v04B右侧近岸清岚河入湖口清楚且与主湖面连续；L003左、L002中、L001右及10层46米、4层24米、6层32米关系可辨；开放岸线、光照与禁则未见穿帮；尺寸1792x1024，685字节XMP与源图一致。实际生成输入见数据/生成输入记录/D01-v04B.txt，图片绑定实际输入摘要及当前基准提示词版本。历史版本保留：v04A河道居中且右缘出现第四个体量，未采用。"
+      ]
     },
     {
       "id": "D02",
@@ -8145,7 +8398,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "f12619c25da03ca113d0ff2c908277912dcfac4623703a71fc1cddb7a26f6de4",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D03",
@@ -8178,7 +8432,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "ddd00768a0964c0fe2147625dc795b31ed50ef18f855f768d533e5b29eda16d8",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D04",
@@ -8211,7 +8466,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "f9229ac858b621875c968e3107038d10a9c00fab05eecbf8edbaf8d5e3c5d19f",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D05",
@@ -8244,7 +8500,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "41fc88f6330247ac78706a13aa68f1ad5afec32028706c6a8f0539af20d7a6ee",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D06",
@@ -8277,7 +8534,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "66692134d851f233edf8f784cf4fdceb912a7c0d24b93bd4f4e08ca66de7baaf",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D07",
@@ -8310,7 +8568,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "d95ff7f1e98dc1a64751de4b2d303bcb201dfe684e76e31b64490e8a4c41412e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D08",
@@ -8343,7 +8602,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "fd4937e56983d431c6cbe061300c672ce26499a6eac260ade4c61f8074e2608c",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D09",
@@ -8376,7 +8636,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "4cf35d58c5e640c4e598789e556a208ddebdeca090577213a724c1b1aedf9b86",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D10",
@@ -8409,7 +8670,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "bd345937e45515d42d03d476d1bc55127f9db3c5749867b8c4f4a115b6cd31e8",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D11",
@@ -8442,7 +8704,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "9c7e4c4d56afa728473e843ba7731c86566ee9ff1abc15776892f55fa5735b99",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D12",
@@ -8475,7 +8738,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "9ddd7f9cdc08a5eb0ddb6471179844e59b8bef43bd14a1a34391f1d5712d508e",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D13",
@@ -8508,7 +8772,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "0b31c2f24fbf082801e3dcf6861629519db8df0a2b33373382ff1f9dd417d141",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D14",
@@ -8541,7 +8806,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "5c0bc82b05fc5eabe34f98534d66dd0b0aafd0904f5b5cb4738ec201539f5cd1",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D15",
@@ -8574,7 +8840,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "983b58112237092a152dcb9dc57b7ebec90d9e72c35f37406f8086963aeff3ba",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D16",
@@ -8607,7 +8874,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "650183447a4263295efe263e95f6be4ed6eae81103c4fb5318bbdfcbbf89b9a4",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D17",
@@ -8640,7 +8908,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b0098f3e0df4c440ef769fd1f1d0d362384fb500138fe4fcb47889686f43d614",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D18",
@@ -8673,7 +8942,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b7effe3fccc1e8802d0e3b925b1f6ca53ff945326010acb1b0167f57a21801d9",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D19",
@@ -8706,7 +8976,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "08f37f4067a3202be883d7112e62e5ea9a3c41e6aa0101d41fe33f1e18e9a56c",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     },
     {
       "id": "D20",
@@ -8739,7 +9010,8 @@
       "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、第二座超两百米塔、可读凭空文字或第三方台标渠道logo即判废；平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
       "prompt_sha256": "b20319c67b8f09835af019c89312fe8b9f9ae2caa203a7aad9926f8348197623",
       "image_prompt_sha256": null,
-      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
+      "review_note": "四向(主/顺/逆/背)图归档至四向图集，各ID四张；旧图缺少 image_prompt_sha256，须对照当前提示词实际复验",
+      "review_note_history": []
     }
   ]
 }
