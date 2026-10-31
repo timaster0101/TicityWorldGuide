@@ -412,19 +412,21 @@ NEGTEST = ROOT / '工具' / 'negtest_occupations.py'
 
 class Negtest(unittest.TestCase):
     def test_every_injection_turns_the_gate_red(self):
-        """违例自检必须 40 条全判红、夹具零残留，且被守护的三份正典字节不变。"""
+        """违例自检必须 45 条全判红、夹具零残留，且被守护的四份正典字节不变。"""
         before = (ROOT / '数据' / '产业就业正典.json').read_bytes()
         adm_before = (ROOT / '数据' / '岗位准入正典.json').read_bytes()
         cost_before = (ROOT / '数据' / '物价与生活正典.json').read_bytes()
+        param_before = (ROOT / '数据' / '运行参数正典.json').read_bytes()
         r = subprocess.run([sys.executable, str(NEGTEST)], cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         summary = json.loads(next(l for l in r.stdout.splitlines() if l.startswith('{')))
-        self.assertEqual(summary['cases'], 40)
+        self.assertEqual(summary['cases'], 45)
         self.assertEqual(summary['not_red'], 0)
         self.assertEqual(summary['fixture_leftover'], 0)
         self.assertEqual((ROOT / '数据' / '产业就业正典.json').read_bytes(), before)
         self.assertEqual((ROOT / '数据' / '岗位准入正典.json').read_bytes(), adm_before)
         self.assertEqual((ROOT / '数据' / '物价与生活正典.json').read_bytes(), cost_before)
+        self.assertEqual((ROOT / '数据' / '运行参数正典.json').read_bytes(), param_before)
 
 
 class BookChannel(unittest.TestCase):

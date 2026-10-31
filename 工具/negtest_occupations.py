@@ -38,14 +38,25 @@ def costs_of(tmp):
     return json.loads((tmp / '数据' / '物价与生活正典.json').read_text(encoding='utf-8'))
 
 
+def params_of(tmp):
+    return json.loads((tmp / '数据' / '运行参数正典.json').read_text(encoding='utf-8'))
+
+
+# 用例改动函数的形参顺序即正典写入顺序：1 参改产业、2 参加字典、3 参加物价、4 参加运行参数
+OBJ_NAMES = ['canon', 'adm', 'costs', 'params']
+FILES = {'canon': '产业就业正典.json', 'adm': '岗位准入正典.json',
+         'costs': '物价与生活正典.json', 'params': '运行参数正典.json'}
+
+
 def cards(canon):
     return [x for comp in canon['公司'] for x in comp['岗位卡']]
 
 
 def cases():
-    """返回 (用例名, 改动函数, 期望出现的判红字样)；改动只动两份正典，三份源表与名录保持原样。
+    """返回 (用例名, 改动函数, 期望出现的判红字样)；改动只动四份正典，三份源表与名录保持原样。
 
-    旧用例只接一个参数（改产业正典），新用例接两个（改字典正典）；main 里按参数个数分发。
+    形参个数就是注入范围：1 个改产业就业正典，2 个再加岗位准入正典，3 个再加物价正典，
+    4 个再加运行参数正典；main 按 OBJ_NAMES 的前缀取对象，写完只回写被改的那几份。
     """
 
     def conservation(c):
@@ -207,6 +218,22 @@ def cases():
     def sparse_on_district(c, a, s):
         s['库存'][0]['挂靠人口'] += 10
 
+    def threshold_not_monotonic(c, a, s, p):
+        p['参数']['技能']['等级阈值月']['LVL3'] = 6
+
+    def transport_cell_off_formula(c, a, s, p):
+        cell = next(x for x in p['交通矩阵'] if x['耗时分钟'] is not None and x['方式'] == 'TR-BUS')
+        cell['耗时分钟'] += 5
+
+    def year_table_missing_day(c, a, s, p):
+        p['天气年历'].pop(50)
+
+    def personal_cooldown_above_city(c, a, s, p):
+        p['参数']['事件']['冷却天']['个人'] = 999
+
+    def round_quota_below_month(c, a, s, p):
+        p['参数']['事件']['负面配额']['每轮'] = 1
+
     return [
         ('逐区守恒人数被改', conservation, '守恒'),
         ('整区公司缺失', missing_anchor, '守恒'),
@@ -248,6 +275,11 @@ def cases():
         ('兜底配额手改一户', quota_rounded_up, '配额取整不符'),
         ('住房类型只剩三类', three_house_types, '住房类型数'),
         ('散居挂靠落到片区行', sparse_on_district, '片区行带了散居挂靠'),
+        ('等级阈值改成非单调', threshold_not_monotonic, '等级阈值非严格递增'),
+        ('手改一格交通耗时使其与公式不符', transport_cell_off_formula, '交通矩阵'),
+        ('删掉年历一格使其不等于游程展开', year_table_missing_day, '天气年历: 正典'),
+        ('个人冷却改成大于城市冷却', personal_cooldown_above_city, '冷却天须随级别单调不减'),
+        ('每轮负面配额改成小于每自然月配额', round_quota_below_month, '每轮负面配额不得小于每自然月配额'),
     ]
 
 
@@ -274,19 +306,11 @@ def main():
             for f in DATA:
                 shutil.copy2(ROOT / '数据' / f, tmp / '数据' / f)
             rc0, _ = run_gate(tmp)
-            canon, adm, costs = canon_of(tmp), adm_of(tmp), costs_of(tmp)
-            n = _arity(mutate)
-            if n == 1:
-                mutate(canon)
-                payload = [(tmp / '数据' / '产业就业正典.json', canon)]
-            elif n == 2:
-                mutate(canon, adm)
-                payload = [(tmp / '数据' / '产业就业正典.json', canon),
-                           (tmp / '数据' / '岗位准入正典.json', adm)]
-            else:
-                mutate(canon, adm, costs)
-                payload = [(tmp / '数据' / '产业就业正典.json', canon),
-                           (tmp / '数据' / '物价与生活正典.json', costs)]
+            objs = {'canon': canon_of(tmp), 'adm': adm_of(tmp),
+                    'costs': costs_of(tmp), 'params': params_of(tmp)}
+            names = OBJ_NAMES[:_arity(mutate)]
+            mutate(*[objs[k] for k in names])
+            payload = [(tmp / '数据' / FILES[k], objs[k]) for k in names]
             for path, obj in payload:
                 path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding='utf-8')
             rc, out = run_gate(tmp)
