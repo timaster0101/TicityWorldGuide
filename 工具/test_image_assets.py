@@ -4,6 +4,7 @@
 跑法：python 工具/test_image_assets.py（工作目录＝设定集根）
 """
 import json
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -39,6 +40,95 @@ class ReviewNoteHistory(unittest.TestCase):
         self.assertEqual(self.manifest['accepted'], 0)
         self.assertEqual(self.manifest['generated'], 264)
         self.assertEqual(self.manifest['pending'], 0)
+
+
+def jpeg(segments):
+    """按 marker＋body 拼一段合法 JPEG：size 字段＝2＋body 长度，含 size 自身。
+    夹具里的段长必须由这个函数算出来，不能手写常数——手写 40／56 会让核验器在长度不符时
+    提前 break，把「XMP 缺 TC260」误判成「缺XMP段」，测的就不是那条判据了。"""
+    body = b'\xff\xd8'
+    for marker, payload in segments:
+        body += marker + (len(payload) + 2).to_bytes(2, 'big') + payload
+    return body + b'\xff\xd9'
+
+
+def write_jpeg(name, segments):
+    import tempfile
+    tmp = Path(tempfile.mkdtemp())
+    (tmp / name).write_bytes(jpeg(segments))
+    return tmp
+
+
+XMP_NS = b'http://ns.adobe.com/xap/1.0/\x00'
+
+
+class AssetGate(unittest.TestCase):
+    def setUp(self):
+        import verify_image_assets as va
+        self.va = va
+        self.manifest = json.loads((ROOT / '数据' / '开图清单.json').read_text(encoding='utf-8'))
+        self.report = json.loads((ROOT / '数据' / '图片资产核验.json').read_text(encoding='utf-8'))
+
+    def test_paths_are_authoritative_and_unique(self):
+        paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
+        self.assertEqual(len(paths), 1056)
+        self.assertEqual(len(set(paths)), 1056)
+        self.assertEqual(sum(1 for i in self.manifest['items'] if i.get('image_file')), 264)
+
+    def test_report_all_green_and_disclaims(self):
+        self.assertEqual(self.report['文件格数'], 1056)
+        self.assertEqual(self.report['失败格数'], 0)
+        self.assertEqual(self.report['通过格数'], 1056)
+        self.assertNotIn('已验收', json.dumps(self.report, ensure_ascii=False))
+        self.assertIn('结构合规不等于视觉验收', self.report['声明'])
+
+    def test_c2pa_absent_is_expected_not_failure(self):
+        self.assertEqual(self.report['C2PA在位格数'], 0)
+        self.assertIn('C2PA', self.report['判据'])
+
+    def test_extension_mismatch_is_advisory(self):
+        self.assertEqual(self.report['提示格数'], 1056)
+        self.assertIn('扩展名', self.report['提示口径'])
+
+    def test_missing_file_fixture_red(self):
+        import tempfile
+        items = [{'id': 'X001', 'image_file': ['数据/图集/不存在-甲.png']}]
+        bad = self.va.check(items, root=Path(tempfile.mkdtemp()))
+        self.assertEqual(bad['失败明细'][0]['原因'], '文件缺失')
+
+    def test_stripped_metadata_fixture_red(self):
+        tmp = write_jpeg('无元数据.jpg', [(b'\xff\xe0', b'JFIF\x00' + bytes(10))])
+        bad = self.va.check([{'id': 'X002', 'image_file': ['无元数据.jpg']}], root=tmp)
+        self.assertEqual(bad['失败明细'][0]['原因'], '缺XMP段')
+
+    def test_xmp_without_tc260_fixture_red(self):
+        tmp = write_jpeg('有XMP无TC260.jpg', [(b'\xff\xe1', XMP_NS + b'<x:xmpmeta><a>TCAAA</a></x:xmpmeta>')])
+        bad = self.va.check([{'id': 'X003', 'image_file': ['有XMP无TC260.jpg']}], root=tmp)
+        self.assertEqual(bad['失败明细'][0]['原因'], 'XMP缺TC260标识')
+
+    def test_xmp_without_aigc_fixture_red(self):
+        tmp = write_jpeg('有TC260无AIGC.jpg', [(b'\xff\xe1', XMP_NS + b'<x:xmpmeta>TC260</x:xmpmeta>')])
+        bad = self.va.check([{'id': 'X004', 'image_file': ['有TC260无AIGC.jpg']}], root=tmp)
+        self.assertEqual(bad['失败明细'][0]['原因'], 'XMP缺AIGC标识')
+
+    def test_non_jpeg_magic_fixture_red(self):
+        import tempfile
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / '假png.png').write_bytes(b'\x89PNG\r\n\x1a\n' + bytes(24))
+        bad = self.va.check([{'id': 'X005', 'image_file': ['假png.png']}], root=tmp)
+        self.assertEqual(bad['失败明细'][0]['原因'], '非JPEG字节头')
+
+    def test_c2pa_box_fixture_does_not_turn_xmp_green(self):
+        tmp = write_jpeg('带jumb.jpg', [(b'\xff\xeb', b'jumb' + bytes(20)),
+                                        (b'\xff\xe1', XMP_NS + b'<x:xmpmeta>TC260 AIGC</x:xmpmeta>')])
+        ok = self.va.check([{'id': 'X006', 'image_file': ['带jumb.jpg']}], root=tmp)
+        self.assertEqual((ok['通过格数'], ok['C2PA在位格数']), (1, 1))
+
+    def test_recheck_worksheet_lists_every_id(self):
+        md = (ROOT / '数据' / '图片复验清单.md').read_text(encoding='utf-8')
+        self.assertEqual(len(re.findall(r'^\| [DFLRS]\d+ \|', md, re.M)), 264)
+        for token in ('结构合规不等于视觉验收', '待人工复验', '不得由脚本代签'):
+            self.assertIn(token, md)
 
 
 if __name__ == '__main__':
