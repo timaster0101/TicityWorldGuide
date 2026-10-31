@@ -86,9 +86,28 @@ class AssetGate(unittest.TestCase):
         self.assertEqual(self.report['C2PA在位格数'], 0)
         self.assertIn('C2PA', self.report['判据'])
 
+    def test_c2pa_is_recorded_not_a_delivery_criterion(self):
+        # 缺位既不是判红也不是待办，口径要写死，否则每轮都要有人重新问一遍
+        for token in ('不是交付判据', '不列待办'):
+            self.assertIn(token, self.report['判据'])
+        self.assertNotIn('本期不改名', self.report['提示口径'])
+        self.assertIn('rename_gallery_ext', self.report['提示口径'])
+
     def test_extension_mismatch_is_advisory(self):
-        self.assertEqual(self.report['提示格数'], 1056)
+        # 判据行为本身：字节对、元数据全，只扩展名不符 → 通过但记提示，绝不判红
+        tmp = write_jpeg('真JPEG假扩展名.png', [(b'\xff\xe1', XMP_NS + b'<x:xmpmeta>TC260 AIGC</x:xmpmeta>')])
+        got = self.va.check([{'id': 'X007', 'image_file': ['真JPEG假扩展名.png']}], root=tmp)
+        self.assertEqual((got['通过格数'], got['失败格数'], got['提示格数']), (1, 0, 1))
         self.assertIn('扩展名', self.report['提示口径'])
+
+    def test_gallery_extension_is_normalised(self):
+        self.assertEqual(self.report['提示格数'], 0)
+        self.assertEqual(self.report['失败格数'], 0)
+        paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
+        self.assertEqual(len(paths), 1056)
+        for p in paths:
+            self.assertTrue(p.lower().endswith(('.jpg', '.jpeg')), p)
+            self.assertTrue((ROOT / p).is_file(), p)
 
     def test_missing_file_fixture_red(self):
         import tempfile
@@ -129,6 +148,21 @@ class AssetGate(unittest.TestCase):
         self.assertEqual(len(re.findall(r'^\| [DFLRS]\d+ \|', md, re.M)), 264)
         for token in ('结构合规不等于视觉验收', '待人工复验', '不得由脚本代签'):
             self.assertIn(token, md)
+
+
+class AssetRulings(unittest.TestCase):
+    IDS = ['C82', 'C83']
+
+    def test_two_asset_rulings_recorded(self):
+        rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
+        by_id = {r['编号']: r for r in rows}
+        for cid in self.IDS:
+            self.assertIn(cid, by_id)
+            self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
+        self.assertEqual(len(rows), 83)
+        self.assertEqual(rows[-1]['编号'], 'C83')
+        self.assertIn('rename_gallery_ext', by_id['C82']['裁定'])
+        self.assertIn('不是交付判据', by_id['C83']['裁定'])
 
 
 if __name__ == '__main__':
