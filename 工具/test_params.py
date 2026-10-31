@@ -172,5 +172,41 @@ class GateExtended(unittest.TestCase):
         self.assertEqual(rep['参数汇总']['年历格数'], 365)
 
 
+class DocsSynced(unittest.TestCase):
+    TOKENS = ('各交通方式固定耗时', '天气的画面演进与表现规则', '事件冷却与负面配额',
+              '技能成长与退化阈值', '检查点频率')
+
+    def test_index_param_gap_line_removed(self):
+        index = (ROOT / '城市运行规则索引.md').read_text(encoding='utf-8')
+        self.assertNotIn('- 参数类：', index)
+        for token in self.TOKENS:
+            self.assertEqual(index.count(token), 1, token)
+            self.assertTrue(any(token in l and l.startswith('- 已收口（第4期运行参数')
+                                for l in index.splitlines()), token)
+        self.assertIn('已收口（第4期运行参数，见《运行参数设定》）', index)
+
+    def test_narrative_doc_matches_canon_numbers(self):
+        canon = json.loads((ROOT / '数据' / '运行参数正典.json').read_text(encoding='utf-8'))
+        doc = (ROOT / '运行参数设定.md').read_text(encoding='utf-8')
+        for token in ('0／12／24／48／96', '1.35', '33 格', '17 格', '365 格',
+                      '个人 7 天', '每自然月 2 次', '00:00', '不提供用户自助回档'):
+            self.assertIn(token, doc)
+        self.assertEqual(canon['汇总']['可用格数'], 33)
+
+    def test_manual_and_entry_and_book_wired(self):
+        manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
+        self.assertIn('运行参数源表.json', manual)
+        self.assertIn('build_params.py', manual)
+        self.assertIn('二十五条判据', manual)
+        self.assertIn('四十五类改坏', manual)
+        self.assertLess(manual.index('build_occupations.py'), manual.index('build_params.py'))
+        entry = (ROOT / '阅读入口.md').read_text(encoding='utf-8')
+        self.assertIn('运行参数设定.md', entry)
+        self.assertIn('运行参数总表.md', entry)
+        book = (ROOT / '钛湖城城市设定集-完整合订本.md').read_text(encoding='utf-8')
+        self.assertIn('# 钛湖城运行参数设定', book)
+        self.assertNotIn('标签升阶与退化阈值留给第4期', book)
+
+
 if __name__ == '__main__':
     unittest.main()
