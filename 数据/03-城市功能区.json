@@ -1,0 +1,723 @@
+[
+  {
+    "id": "F001",
+    "name": "湖政公共服务轴",
+    "type": "功能区",
+    "parent": "D01",
+    "center_km": [
+      -0.579,
+      4.715
+    ],
+    "area_km2": 0.72,
+    "focus": "公共治理、法务与市民服务",
+    "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
+    "daily_workers": 4000,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "北湖政务片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 353.0
+  },
+  {
+    "id": "F002",
+    "name": "法务与城市档案园",
+    "type": "功能区",
+    "parent": "D01",
+    "center_km": [
+      0.579,
+      4.715
+    ],
+    "area_km2": 0.88,
+    "focus": "公共治理、法务与市民服务",
+    "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
+    "daily_workers": 4800,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "北湖政务片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 7.0
+  },
+  {
+    "id": "F003",
+    "name": "钛湖大学开放校园",
+    "type": "功能区",
+    "parent": "D02",
+    "center_km": [
+      2.303,
+      4.154
+    ],
+    "area_km2": 0.72,
+    "focus": "大学、人文教育与公共知识",
+    "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
+    "daily_workers": 5300,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "东北文教片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 29.0
+  },
+  {
+    "id": "F004",
+    "name": "北书公共教育园",
+    "type": "功能区",
+    "parent": "D02",
+    "center_km": [
+      3.239,
+      3.474
+    ],
+    "area_km2": 0.88,
+    "focus": "大学、人文教育与公共知识",
+    "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
+    "daily_workers": 6100,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "东北文教片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 43.0
+  },
+  {
+    "id": "F005",
+    "name": "钛心总部金融区",
+    "type": "功能区",
+    "parent": "D03",
+    "center_km": [
+      4.305,
+      2.007
+    ],
+    "area_km2": 0.72,
+    "focus": "金融、专业服务与总部办公",
+    "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+    "daily_workers": 6600,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "东湖金融片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 65.0
+  },
+  {
+    "id": "F006",
+    "name": "东岸专业服务街区",
+    "type": "功能区",
+    "parent": "D03",
+    "center_km": [
+      4.663,
+      0.906
+    ],
+    "area_km2": 0.88,
+    "focus": "金融、专业服务与总部办公",
+    "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+    "daily_workers": 7400,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "东湖金融片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 79.0
+  },
+  {
+    "id": "F007",
+    "name": "湖东国际会展园",
+    "type": "功能区",
+    "parent": "D04",
+    "center_km": [
+      4.663,
+      -0.906
+    ],
+    "area_km2": 0.72,
+    "focus": "会议、展览、旅游与商务接待",
+    "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
+    "daily_workers": 7900,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "东南会展片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 101.0
+  },
+  {
+    "id": "F008",
+    "name": "潮湾酒店与游憩带",
+    "type": "功能区",
+    "parent": "D04",
+    "center_km": [
+      4.305,
+      -2.007
+    ],
+    "area_km2": 0.88,
+    "focus": "会议、展览、旅游与商务接待",
+    "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
+    "daily_workers": 8700,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "东南会展片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 115.0
+  },
+  {
+    "id": "F009",
+    "name": "青湾综合医学园",
+    "type": "功能区",
+    "parent": "D05",
+    "center_km": [
+      3.239,
+      -3.474
+    ],
+    "area_km2": 0.72,
+    "focus": "综合医疗、康复与健康研究",
+    "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
+    "daily_workers": 9200,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "青湾医养片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 137.0
+  },
+  {
+    "id": "F010",
+    "name": "静溪康复与生命研究园",
+    "type": "功能区",
+    "parent": "D05",
+    "center_km": [
+      2.303,
+      -4.154
+    ],
+    "area_km2": 0.88,
+    "focus": "综合医疗、康复与健康研究",
+    "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
+    "daily_workers": 10000,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "青湾医养片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 151.0
+  },
+  {
+    "id": "F011",
+    "name": "南湖家庭消费中心",
+    "type": "功能区",
+    "parent": "D06",
+    "center_km": [
+      0.579,
+      -4.715
+    ],
+    "area_km2": 0.72,
+    "focus": "大众消费、家庭生活与社区服务",
+    "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
+    "daily_workers": 4000,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "南湖生活片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 173.0
+  },
+  {
+    "id": "F012",
+    "name": "湖湾社区服务网",
+    "type": "功能区",
+    "parent": "D06",
+    "center_km": [
+      -0.579,
+      -4.715
+    ],
+    "area_km2": 0.88,
+    "focus": "大众消费、家庭生活与社区服务",
+    "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
+    "daily_workers": 4800,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "南湖生活片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 187.0
+  },
+  {
+    "id": "F013",
+    "name": "西声演艺制作园",
+    "type": "功能区",
+    "parent": "D07",
+    "center_km": [
+      -2.303,
+      -4.154
+    ],
+    "area_km2": 0.72,
+    "focus": "表演、电影、设计与夜间文化",
+    "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
+    "daily_workers": 5300,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "西南文艺片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 209.0
+  },
+  {
+    "id": "F014",
+    "name": "旧炉设计与影像园",
+    "type": "功能区",
+    "parent": "D07",
+    "center_km": [
+      -3.239,
+      -3.474
+    ],
+    "area_km2": 0.88,
+    "focus": "表演、电影、设计与夜间文化",
+    "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
+    "daily_workers": 6100,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "西南文艺片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 223.0
+  },
+  {
+    "id": "F015",
+    "name": "白石老城保护区",
+    "type": "功能区",
+    "parent": "D08",
+    "center_km": [
+      -4.305,
+      -2.007
+    ],
+    "area_km2": 0.72,
+    "focus": "地方历史、传统商业与手工艺",
+    "visual": "灰瓦白墙、青石基座、木檐和贴水小巷",
+    "daily_workers": 6600,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "西湖古城片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 245.0
+  },
+  {
+    "id": "F016",
+    "name": "西湖传统商埠",
+    "type": "功能区",
+    "parent": "D08",
+    "center_km": [
+      -4.663,
+      -0.906
+    ],
+    "area_km2": 0.88,
+    "focus": "地方历史、传统商业与手工艺",
+    "visual": "灰瓦白墙、青石基座、木檐和贴水小巷",
+    "daily_workers": 7400,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "西湖古城片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 259.0
+  },
+  {
+    "id": "F017",
+    "name": "云栈软件创新园",
+    "type": "功能区",
+    "parent": "D09",
+    "center_km": [
+      -4.663,
+      0.906
+    ],
+    "area_km2": 0.72,
+    "focus": "软件、人工智能应用与数字内容",
+    "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+    "daily_workers": 7900,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "云栈数创片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 281.0
+  },
+  {
+    "id": "F018",
+    "name": "数岸互动内容园",
+    "type": "功能区",
+    "parent": "D09",
+    "center_km": [
+      -4.305,
+      2.007
+    ],
+    "area_km2": 0.88,
+    "focus": "软件、人工智能应用与数字内容",
+    "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+    "daily_workers": 8700,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "云栈数创片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 295.0
+  },
+  {
+    "id": "F019",
+    "name": "松岬竞技体育园",
+    "type": "功能区",
+    "parent": "D10",
+    "center_km": [
+      -3.239,
+      3.474
+    ],
+    "area_km2": 0.72,
+    "focus": "竞技体育、全民运动与户外休闲",
+    "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
+    "daily_workers": 9200,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "松岬体育片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 317.0
+  },
+  {
+    "id": "F020",
+    "name": "环湖全民运动公园",
+    "type": "功能区",
+    "parent": "D10",
+    "center_km": [
+      -2.303,
+      4.154
+    ],
+    "area_km2": 0.88,
+    "focus": "竞技体育、全民运动与户外休闲",
+    "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
+    "daily_workers": 10000,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "松岬体育片区",
+    "distance_to_lake_center_km": 4.75,
+    "bearing_from_lake_center_deg": 331.0
+  },
+  {
+    "id": "F021",
+    "name": "北屏森林教育园",
+    "type": "功能区",
+    "parent": "D11",
+    "center_km": [
+      -0.926,
+      7.543
+    ],
+    "area_km2": 2.1,
+    "focus": "森林门户、自然教育与低密居住",
+    "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
+    "daily_workers": 4000,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "北屏生态片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 353.0
+  },
+  {
+    "id": "F022",
+    "name": "林下低扰动生活区",
+    "type": "功能区",
+    "parent": "D11",
+    "center_km": [
+      0.926,
+      7.543
+    ],
+    "area_km2": 2.5500000000000003,
+    "focus": "森林门户、自然教育与低密居住",
+    "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
+    "daily_workers": 4800,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "北屏生态片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 7.0
+  },
+  {
+    "id": "F023",
+    "name": "书岭基础研究园",
+    "type": "功能区",
+    "parent": "D12",
+    "center_km": [
+      3.685,
+      6.647
+    ],
+    "area_km2": 2.1,
+    "focus": "基础科研、精密实验与人才生活",
+    "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
+    "daily_workers": 5300,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "书岭科研片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 29.0
+  },
+  {
+    "id": "F024",
+    "name": "青岚精密仪器园",
+    "type": "功能区",
+    "parent": "D12",
+    "center_km": [
+      5.183,
+      5.558
+    ],
+    "area_km2": 2.5500000000000003,
+    "focus": "基础科研、精密实验与人才生活",
+    "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
+    "daily_workers": 6100,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "书岭科研片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 43.0
+  },
+  {
+    "id": "F025",
+    "name": "东门铁路综合枢纽区",
+    "type": "功能区",
+    "parent": "D13",
+    "center_km": [
+      6.888,
+      3.212
+    ],
+    "area_km2": 2.1,
+    "focus": "铁路换乘、区域商务与物流调度",
+    "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+    "daily_workers": 6600,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "东门枢纽片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 65.0
+  },
+  {
+    "id": "F026",
+    "name": "东站城市商务园",
+    "type": "功能区",
+    "parent": "D13",
+    "center_km": [
+      7.46,
+      1.45
+    ],
+    "area_km2": 2.5500000000000003,
+    "focus": "铁路换乘、区域商务与物流调度",
+    "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+    "daily_workers": 7400,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "东门枢纽片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 79.0
+  },
+  {
+    "id": "F027",
+    "name": "钛东精密制造园",
+    "type": "功能区",
+    "parent": "D14",
+    "center_km": [
+      7.46,
+      -1.45
+    ],
+    "area_km2": 2.1,
+    "focus": "精密制造、工业设计与清洁装配",
+    "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
+    "daily_workers": 7900,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "钛东智造片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 101.0
+  },
+  {
+    "id": "F028",
+    "name": "东铸工业设计园",
+    "type": "功能区",
+    "parent": "D14",
+    "center_km": [
+      6.888,
+      -3.212
+    ],
+    "area_km2": 2.5500000000000003,
+    "focus": "精密制造、工业设计与清洁装配",
+    "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
+    "daily_workers": 8700,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "钛东智造片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 115.0
+  },
+  {
+    "id": "F029",
+    "name": "南溪综合应急园",
+    "type": "功能区",
+    "parent": "D15",
+    "center_km": [
+      5.183,
+      -5.558
+    ],
+    "area_km2": 2.1,
+    "focus": "城市应急、维修、回收与生活保障",
+    "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
+    "daily_workers": 9200,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "南溪服务片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 137.0
+  },
+  {
+    "id": "F030",
+    "name": "循环生活资源园",
+    "type": "功能区",
+    "parent": "D15",
+    "center_km": [
+      3.685,
+      -6.647
+    ],
+    "area_km2": 2.5500000000000003,
+    "focus": "城市应急、维修、回收与生活保障",
+    "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
+    "daily_workers": 10000,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "南溪服务片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 151.0
+  },
+  {
+    "id": "F031",
+    "name": "南原公共生活中心",
+    "type": "功能区",
+    "parent": "D16",
+    "center_km": [
+      0.926,
+      -7.543
+    ],
+    "area_km2": 2.1,
+    "focus": "大规模成熟居住与基础公共服务",
+    "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
+    "daily_workers": 4000,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "南原居住片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 173.0
+  },
+  {
+    "id": "F032",
+    "name": "晨光基础教育园",
+    "type": "功能区",
+    "parent": "D16",
+    "center_km": [
+      -0.926,
+      -7.543
+    ],
+    "area_km2": 2.5500000000000003,
+    "focus": "大规模成熟居住与基础公共服务",
+    "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
+    "daily_workers": 4800,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "南原居住片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 187.0
+  },
+  {
+    "id": "F033",
+    "name": "西麓农食研究园",
+    "type": "功能区",
+    "parent": "D17",
+    "center_km": [
+      -3.685,
+      -6.647
+    ],
+    "area_km2": 2.1,
+    "focus": "食品研发、城市农业与生鲜供应",
+    "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
+    "daily_workers": 5300,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "西麓农食片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 209.0
+  },
+  {
+    "id": "F034",
+    "name": "丰仓生鲜集配园",
+    "type": "功能区",
+    "parent": "D17",
+    "center_km": [
+      -5.183,
+      -5.558
+    ],
+    "area_km2": 2.5500000000000003,
+    "focus": "食品研发、城市农业与生鲜供应",
+    "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
+    "daily_workers": 6100,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "西麓农食片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 223.0
+  },
+  {
+    "id": "F035",
+    "name": "西门区域贸易园",
+    "type": "功能区",
+    "parent": "D18",
+    "center_km": [
+      -6.888,
+      -3.212
+    ],
+    "area_km2": 2.1,
+    "focus": "批零贸易、修配与区域商贸",
+    "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
+    "daily_workers": 6600,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "西门商贸片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 245.0
+  },
+  {
+    "id": "F036",
+    "name": "古道修配工坊区",
+    "type": "功能区",
+    "parent": "D18",
+    "center_km": [
+      -7.46,
+      -1.45
+    ],
+    "area_km2": 2.5500000000000003,
+    "focus": "批零贸易、修配与区域商贸",
+    "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
+    "daily_workers": 7400,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "西门商贸片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 259.0
+  },
+  {
+    "id": "F037",
+    "name": "西岭清洁能源园",
+    "type": "功能区",
+    "parent": "D19",
+    "center_km": [
+      -7.46,
+      1.45
+    ],
+    "area_km2": 2.1,
+    "focus": "清洁能源调度、储能研发与绿色生活",
+    "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
+    "daily_workers": 7900,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "西岭能源片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 281.0
+  },
+  {
+    "id": "F038",
+    "name": "光谷低碳示范区",
+    "type": "功能区",
+    "parent": "D19",
+    "center_km": [
+      -6.888,
+      3.212
+    ],
+    "area_km2": 2.5500000000000003,
+    "focus": "清洁能源调度、储能研发与绿色生活",
+    "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
+    "daily_workers": 8700,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "西岭能源片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 295.0
+  },
+  {
+    "id": "F039",
+    "name": "北港净水与调蓄园",
+    "type": "功能区",
+    "parent": "D20",
+    "center_km": [
+      -5.183,
+      5.558
+    ],
+    "area_km2": 2.1,
+    "focus": "水资源管理、净水、监测与滨水教育",
+    "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
+    "daily_workers": 9200,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "parent_name": "北港水务片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 317.0
+  },
+  {
+    "id": "F040",
+    "name": "入湖河口生态园",
+    "type": "功能区",
+    "parent": "D20",
+    "center_km": [
+      -3.685,
+      6.647
+    ],
+    "area_km2": 2.5500000000000003,
+    "focus": "水资源管理、净水、监测与滨水教育",
+    "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
+    "daily_workers": 10000,
+    "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
+    "spatial_note": "河口生态主题教育园，不在真实入湖口；中心距清岚河主槽约1.85千米，园内是人工示范湿地，不得把主河移入园内。",
+    "parent_name": "北港水务片区",
+    "distance_to_lake_center_km": 7.6,
+    "bearing_from_lake_center_deg": 331.0
+  }
+]

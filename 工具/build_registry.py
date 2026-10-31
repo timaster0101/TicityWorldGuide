@@ -1,0 +1,182 @@
+import argparse
+import json
+import math
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+parser = argparse.ArgumentParser()
+parser.add_argument('--rebuild', action='store_true')
+args = parser.parse_args()
+if (ROOT/'数据'/'城市空间名录.json').exists() and not args.rebuild:
+    raise SystemExit('Existing canon preserved. Update authored inputs, then use --rebuild explicitly.')
+
+def polar(r, a):
+    t = math.radians(a)
+    return [round(r * math.sin(t), 3), round(r * math.cos(t), 3)]
+
+def lake_slice(a):
+    n = 3600
+    lo, hi = math.radians(a - 18), math.radians(a + 18)
+    dt = (hi - lo) / n
+    return sum(0.5 / ((math.sin(lo + (j + .5) * dt) / 3.2) ** 2 + (math.cos(lo + (j + .5) * dt) / 2.1) ** 2) * dt for j in range(n))
+
+# Names, populations and identities are authored inputs; geometry is derived in one place.
+districts = [
+('北湖政务片区','公共治理、法务与市民服务',48000,'暖灰石材、深铜竖框、低台阶和疏朗银杏广场'),
+('东北文教片区','大学、人文教育与公共知识',56000,'红褐砖、浅灰预制混凝土、内院和高树冠步道'),
+('东湖金融片区','金融、专业服务与总部办公',38000,'冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道'),
+('东南会展片区','会议、展览、旅游与商务接待',42000,'浅香槟金属、折板大屋顶、通透门厅和疏林广场'),
+('青湾医养片区','综合医疗、康复与健康研究',46000,'米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院'),
+('南湖生活片区','大众消费、家庭生活与社区服务',95000,'暖米色涂层、深棕窗框、窄街底商和遮雨连廊'),
+('西南文艺片区','表演、电影、设计与夜间文化',52000,'深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台'),
+('西湖古城片区','地方历史、传统商业与手工艺',60000,'灰瓦白墙、青石基座、木檐和贴水小巷'),
+('云栈数创片区','软件、人工智能应用与数字内容',43000,'浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶'),
+('松岬体育片区','竞技体育、全民运动与户外休闲',50000,'钛灰拉索、木色座椅、草坡看台和连续运动步道'),
+('北屏生态片区','森林门户、自然教育与低密居住',67000,'烟灰石、耐候木、深檐小体量和雨水花园'),
+('书岭科研片区','基础科研、精密实验与人才生活',68000,'浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落'),
+('东门枢纽片区','铁路换乘、区域商务与物流调度',74000,'浅钛金属长屋盖、透明侧厅和明确的步行导向'),
+('钛东智造片区','精密制造、工业设计与清洁装配',78000,'石墨灰厂房、银色设备廊道、北向天窗和规则货运院'),
+('南溪服务片区','城市应急、维修、回收与生活保障',71000,'土黄清水砖、灰钢架、分隔式院落和防雨卸货棚'),
+('南原居住片区','大规模成熟居住与基础公共服务',132000,'浅沙色板楼、酒红阳台、宽树荫街和社区球场'),
+('西麓农食片区','食品研发、城市农业与生鲜供应',73000,'浅褐砖、温室玻璃、低平坡顶和食用景观带'),
+('西门商贸片区','批零贸易、修配与区域商贸',79000,'赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷'),
+('西岭能源片区','清洁能源调度、储能研发与绿色生活',53000,'石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲'),
+('北港水务片区','水资源管理、净水、监测与滨水教育',55000,'浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗'),
+]
+zone_names = [
+('湖政公共服务轴','法务与城市档案园'),('钛湖大学开放校园','北书公共教育园'),('钛心总部金融区','东岸专业服务街区'),('湖东国际会展园','潮湾酒店与游憩带'),('青湾综合医学园','静溪康复与生命研究园'),('南湖家庭消费中心','湖湾社区服务网'),('西声演艺制作园','旧炉设计与影像园'),('白石老城保护区','西湖传统商埠'),('云栈软件创新园','数岸互动内容园'),('松岬竞技体育园','环湖全民运动公园'),('北屏森林教育园','林下低扰动生活区'),('书岭基础研究园','青岚精密仪器园'),('东门铁路综合枢纽区','东站城市商务园'),('钛东精密制造园','东铸工业设计园'),('南溪综合应急园','循环生活资源园'),('南原公共生活中心','晨光基础教育园'),('西麓农食研究园','丰仓生鲜集配园'),('西门区域贸易园','古道修配工坊区'),('西岭清洁能源园','光谷低碳示范区'),('北港净水与调蓄园','入湖河口生态园')
+]
+landmark_names = [
+('钛湖市民议事厅','钛湖司法服务馆','城市记忆档案塔'),('钛湖大学中央图书馆','北书科学博物馆','湖畔青年交流馆'),('钛湖之脊','金融秩序博物馆','东岸企业会客厅'),('钛湖国际会展中心','潮湾会议酒店','水光游客中心'),('青湾中央医院','静溪康复中心','生命之窗医学馆'),('南湖百业市场','湖湾邻里中心','南湖公共儿童馆'),('西声大剧院','旧炉影像馆','风帆设计工坊'),('白石钟楼','西湖商埠会馆','青瓦地方民俗馆'),('云栈协作中心','数岸交互艺术馆','城市计算展示馆'),('松岬体育场','钛湖游泳馆','山湖户外运动中心'),('北屏自然学校','森林访客中心','杉谷观鸟塔'),('书岭联合实验楼','青岚仪器共享中心','科研伦理与公众交流馆'),('钛湖东站','东站城市接待塔','山湖交通博物馆'),('钛东工业设计中心','精工制造展示馆','新铸工匠学院'),('南溪城市应急指挥馆','循环材料展示馆','城市维修技能中心'),('南原中央图书分馆','晨光综合体育馆','南原妇幼社区中心'),('西麓种子与食品馆','丰仓城市食物馆','农时试验温室'),('西门贸易交易馆','古道修配博物馆','西门工友服务站'),('西岭能源调度馆','光谷低碳体验馆','山城能源史馆'),('北港水文博物馆','清流水质公开实验馆','河口生态观察馆')
+]
+res_names = [
+('银杏议庭','北湖公务花园','铜檐里','清简公寓','法桐书舍','映湖安居坊'),
+('书声里','红砖学府苑','青藤教师村','北书青年寓','杏坛家园','知行合居院'),
+('钛心云邸','东岸金融公寓','澄镜府','银脊人才庭','湖光职住里','晴窗里'),
+('潮湾旅居苑','展园服务公寓','水岸会客里','鹭汀花园','金篷家园','东澜共享寓'),
+('青湾医师苑','静溪康养里','杏林陪护公寓','白鹭康复居','暖庭护士家园','春汀无障碍社区'),
+('南湖烟火里','月湾家园','米巷公寓','雨棚里','棠树邻院','湖湾青少年家庭苑'),
+('旧炉艺居','西声演员公寓','红厂画家村','幕间里','黑窗青年坊','音桥家园'),
+('白石老街坊','青瓦南里','渔火巷','榕荫祖屋群','西埠新邻苑','纸伞里'),
+('云栈工程师公寓','数岸创客庭','折光里','蓝帆协作居','星栈青年社','算溪花园'),
+('松岬运动员村','跑道里','岚风家庭苑','木台阶公寓','绿径康体居','观赛家园'),
+('杉影山居','北屏护林员社区','雨谷花园','松籽里','林缘共居院','青苔坡社区'),
+('书岭科研家园','青岚博士公寓','仪光里','静思庭','山窗研究员村','知微家庭苑'),
+('东站通勤城','轨光公寓','山门工务村','早班里','东门安居坊','晨笛家园'),
+('钛东技师苑','精工新村','铸梦公寓','蓝领晴庭','榫合里','东铸家庭坊'),
+('南溪应急家园','橙灯里','循环工友苑','修缮师公寓','安澜保障社区','晨守庭'),
+('南原万家苑','晨光学区里','榆树新村','青禾保障房社区','向阳老年友好苑','南原新家庭城'),
+('西麓农科苑','丰仓鲜活里','田畔工友村','麦穗公寓','果园家庭庭院','苗圃青年居'),
+('西门商旅家园','古道匠居','赤陶里','店后人家','货巷新邻苑','西关合居坊'),
+('西岭光合社区','储能技师家园','坡地风庭','净零示范居','蓝瓦里','谷风长者苑'),
+('北港水师苑','清流家园','湿地观察员社区','芦苇庭','河口新居','水尺巷')
+]
+towns = [
+('稻穗农业小镇','产业小镇',-17,-16,24,24000,'水稻、种业与农业服务','西南开阔冲积台地；低坡田网、白墙灰瓦粮仓和红褐烘干塔'),
+('翼谷航空小镇','产业小镇',20,-16,38,34000,'民用航空、维修培训与区域机场','东南山外台地；东西向跑道、银灰机库、深绿隔音林和低层服务街'),
+('星核高科技小镇','产业小镇',18,16,22,26000,'半导体测试、传感器与机器人研发','东北山外平缓盆地；白灰实验楼、精密装配院和连续绿廊'),
+('茶岚茶业小镇','产业小镇',-16,17,18,16000,'高山茶、茶器与茶文化旅游','西北向阳缓坡；等高线茶垄、灰瓦制茶院和白色晾青棚'),
+('竹弦竹木小镇','产业小镇',-24,8,21,18500,'竹木材料、家具与低碳构件','西部支谷；竹林、浅木厂房和有消防间距的晒场'),
+('清泉康养小镇','产业小镇',7,20,16,15500,'温泉康复、养老与护理培训','北部山外温泉台地；低层院落、烟灰石墙和不连续的热雾池面'),
+('光伏岭能源小镇','产业小镇',-20,-7,25,17500,'光伏、储能维护与能源培训','西部干燥阳坡；蓝黑板阵、灰白检修房和裸露检修道'),
+('镜湾影视小镇','产业小镇',-14,-23,20,21000,'影视拍摄、布景与后期制作','西南山外谷地；黑灰摄影棚、可辨识的封闭外景街和临时布景仓'),
+('雪岩户外小镇','产业小镇',3,25,28,12000,'山地运动、救援与自然导览','北部高山门户；石木旅舍、装备小店和步道起点，冬季高处见雪'),
+('陶火工艺小镇','产业小镇',-26,-18,17,13500,'陶瓷、玻璃工艺与小型工作室','西南丘陵；赭红窑房、耐火砖烟囱和分区燃烧作业院'),
+('花汀园艺小镇','产业小镇',11,-23,18,17000,'花卉苗木、景观培育与园艺教育','南部河阶；白色玻璃温室、露天苗圃和彩度克制的花田'),
+('河仓食品小镇','产业小镇',20,-25,26,26500,'粮油加工、冷链与食品质量检测','东南出城河流西侧高台；浅灰冷库、坡顶车间与防洪堤'),
+('云织纺创小镇','产业小镇',-24,20,19,19000,'功能纺织、服装设计与再生纤维','西北山外台地；红砖纺厂、短烟囱遗存、染整封闭循环设施'),
+('石桥商贸小镇','产业小镇',26,5,24,22000,'区域贸易、仓配与维修服务','东部通道山外；米灰仓房、连续雨棚市场和货运停车场'),
+('溪源水务小镇','产业小镇',-9,23,21,15000,'上游水源保护、仪器监测与环境教育','西北入城河上游；低密水务院、消落滩和不开发的山林缓冲'),
+('回环循环小镇','产业小镇',27,-8,27,17000,'再制造、材料回收与维修教育','东部下风向隔离台地；封闭灰绿厂房、分拣筒仓和厚隔离林'),
+('白鹭渔村','特色村落',13,-14,3.2,2600,'小规模淡水养殖、渔食与湿地管护','东南支流水塘边；灰瓦渔家、窄木栈桥和分隔的养殖塘'),
+('杏坳果村','特色村落',-13,-12,4.5,3200,'果园、蜂业与季节采摘','西南背风坳；杏树梯田、黄色抹灰院墙和简易分拣棚'),
+('杉关古村','特色村落',-8,15,2.4,1800,'古道服务、杉木修复与山地客栈','西北山口外侧；杉木穿斗房、青石阶和灰石古关门'),
+('云台牧村','特色村落',13,25,6.8,1400,'小规模山地乳畜、草地维护与乳品直售','东北高台草甸；低矮石圈、深棕畜舍和木栅轮牧地'),
+('南埠水村','特色村落',9,-17,3.6,2400,'河运记忆、艇修与水岸手作','南部支渠河阶；抬高地台的砖木院、台阶埠头和艇棚'),
+('石耳菌村','特色村落',-29,1,4.2,2800,'食用菌、林下经济与山货合作社','西部背阴支谷；深色菌棚、石砌挡墙和无高烟囱的烘干房'),
+('星坡观测村','特色村落',-2,19,2.1,1200,'天文教育、气象观测与暗夜民宿','北部山脊背后的平台；深檐石房、小型白色圆顶和低位遮光灯'),
+('芦塘湿地村','特色村落',27,-27,5.4,2300,'湿地保育、芦苇编织与生态导览','东南出城河末段东侧湿地；中心距澜川主槽约2.5千米，以季节性湿地沟渠联系主河；抬升木屋、芦苇荡和有限开放木栈道')
+]
+
+entries=[]
+for i,(name,focus,pop,visual) in enumerate(districts):
+    did=f'D{i+1:02d}'
+    ring='内湖环' if i<10 else '外城环'
+    a=(i%10)*36
+    inner,outer=(0,5.8) if i<10 else (5.8,10.2)
+    area=math.pi*(outer**2-inner**2)/10-(lake_slice(a) if i<10 else 0)
+    center=polar(4.65 if i<10 else 8,a)
+    entries.append(dict(id=did,name=name,type='城市片区',parent='CITY',center_km=center,area_km2=round(area,4),population=pop,focus=focus,visual=visual,sector=dict(angle_center_deg=a,angle_half_width_deg=18,inner_radius_km=inner,outer_radius_km=outer,exclude_lake=i<10),ring=ring))
+    for j,zname in enumerate(zone_names[i]):
+        fid=f'F{i*2+j+1:03d}'
+        zr=4.75 if i<10 else 7.6
+        za=a+(-7 if j==0 else 7)
+        za_area=(.72+j*.16) if i<10 else (2.1+j*.45)
+        entries.append(dict(id=fid,name=zname,type='功能区',parent=did,center_km=polar(zr,za),area_km2=za_area,focus=focus,visual=visual,daily_workers=4000+(i%5)*1300+j*800,definition='跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总'))
+    for j,lname in enumerate(landmark_names[i]):
+        lid=f'L{i*3+j+1:03d}'
+        r=3.8 if i<10 else 7.1
+        a2=a+[-11,0,11][j]
+        height=[32,24,46][j]+(i%3)*4
+        floors=[6,4,10][j]
+        plot=[.042,.036,.018][j]
+        gfa=[68000,41000,39000][j]
+        if lname=='钛湖之脊': height,floors,plot,gfa=368,78,.062,236000
+        elif lname=='松岬体育场': height,floors,plot,gfa=46,6,.185,146000
+        elif lname=='钛湖国际会展中心': height,floors,plot,gfa=38,3,.24,184000
+        elif lname=='钛湖东站': height,floors,plot,gfa=39,3,.31,198000
+        elif lname=='青湾中央医院': height,floors,plot,gfa=78,18,.12,228000
+        elif lname=='潮湾会议酒店': height,floors,plot,gfa=112,28,.044,91000
+        elif lname=='白石钟楼': height,floors,plot,gfa=28,5,.009,3600
+        elif lname=='杉谷观鸟塔': height,floors,plot,gfa=22,5,.006,850
+        elif lname=='农时试验温室': height,floors,plot,gfa=12,1,.056,29000
+        entries.append(dict(id=lid,name=lname,type='标志性建筑',parent=did,center_km=polar(r,a2),area_km2=plot,gross_floor_area_m2=gfa,height_m=height,floors=floors,focus=focus,visual=visual,neighbors=[f'L{i*3+((j+1)%3)+1:03d}',f'F{i*2+(j%2)+1:03d}']))
+    for j,rname in enumerate(res_names[i]):
+        rid=f'R{i*6+j+1:03d}'
+        rad=([4.25,5.38][j//3] if i<10 else [8.35,9.45][j//3])
+        angle=a+[-11,0,11][j%3]
+        plot=round((.11+(j%3)*.035+(i%4)*.015)*(1 if i<10 else 1.6),3)
+        pop=1800+(i%5)*500+j*320+(1500 if i>=10 else 0)
+        dwell=math.ceil(pop/2.45)
+        height=(18+(j%3)*9) if i in [7,10] else (33+(j%3)*12+(12 if i>=10 else 0))
+        if i==15: pop+=4200;dwell=math.ceil(pop/2.7);height=72+(j%3)*9;plot=round(plot*1.3,3)
+        if i==2 and j==0:height=96
+        if i==7 and j<4: height=12;plot=round(plot*1.9,3);pop=900+j*180;dwell=math.ceil(pop/2.4)
+        gfa=round(dwell*(90+(j%3)*8)*1.18/100)*100
+        entries.append(dict(id=rid,name=rname,type='居民区',parent=did,center_km=polar(rad,angle),area_km2=plot,gross_floor_area_m2=gfa,population=pop,households=dwell,height_limit_m=height,visual=visual,focus=focus,nearby_landmark=f'L{i*3+(j%3)+1:03d}',status='已建成并有人居住；更新规划另述，不混作现状'))
+
+S_JOB_RATIO={'产业小镇':0.30,'特色村落':0.20}
+def settlement_jobs(kind,pop):
+    ratio=S_JOB_RATIO[kind]
+    step=100 if kind=='产业小镇' else 10
+    return int(math.floor(pop*ratio/step+0.5)*step)
+
+for i,(name,kind,x,y,area,pop,focus,visual) in enumerate(towns):
+    entries.append(dict(id=f'S{i+1:02d}',name=name,type=kind,parent='REGION',center_km=[x,y],area_km2=area,population=pop,daily_workers=settlement_jobs(kind,pop),focus=focus,visual=visual,straight_distance_to_lake_center_km=round(math.hypot(x,y),2),built_up_ratio=.24 if kind=='产业小镇' else .16,height_limit_m=36 if kind=='产业小镇' else 15,definition='聚落规划边界含生产用地、农林水面与建设用地，不是连续建成区面积'))
+
+byid={e['id']:e for e in entries}
+for eid,center in {'R021':[4.7,-.85],'R024':[5.1,-2.3],'R085':polar(8.35,134.5),'R088':polar(9.45,138)}.items():
+    byid[eid]['center_km']=center
+    byid[eid]['spatial_note']='锚点已按澜川最大440米水面宽及岸外30米避让复核；实际地块须再校验完整建筑基底。'
+byid['F040']['spatial_note']='河口生态主题教育园，不在真实入湖口；中心距清岚河主槽约1.85千米，园内是人工示范湿地，不得把主河移入园内。'
+byid['L060']['spatial_note']='河口生态主题展示馆，不是现场河口观测点；中心距真实入湖口约4.99千米、距清岚河主槽约1.26千米。'
+byid['S24']['spatial_note']='位于澜川末段东侧湿地，非西岸；聚落中心距主槽约2.5千米，亲水镜头表现湿地沟渠而非紧邻主河。'
+for e in entries:
+    if e['parent'] in byid: e['parent_name']=byid[e['parent']]['name']
+    x,y=e['center_km']
+    e['distance_to_lake_center_km']=round(math.hypot(x,y),3)
+    e['bearing_from_lake_center_deg']=round(math.degrees(math.atan2(x,y))%360,2)
+    if e['type']=='居民区':
+        e['floor_area_ratio']=round(e['gross_floor_area_m2']/(e['area_km2']*1000000),3)
+        e['building_coverage_max']=.34 if e['height_limit_m']>18 else .44
+
+population_city=sum(e['population'] for e in entries if e['type']=='城市片区')
+satellite_pop=sum(e['population'] for e in entries if e['id'].startswith('S'))
+registry=dict(version='1.0',fictional=True,setting_year=2013,coordinate_system='THC-LOCAL-2013：千米；湖心(0,0)；x东正、y北正；方位角北0度顺时针；高程米',region_boundary_km=[-36,-32,36,32],region_area_km2=4608,urban_radius_km=10.2,urban_gross_area_km2=round(math.pi*10.2**2,4),lake=dict(name='钛湖',center_km=[0,0],east_west_semiaxis_km=3.2,north_south_semiaxis_km=2.1,normal_surface_elevation_m=312,area_km2=round(math.pi*3.2*2.1,4),max_depth_m=38,mean_depth_m=16),rivers=[dict(id='W01',name='清岚河',flow='由西北向湖内',centerline_km=[[-15,32],[-12,28],[-9,23],[-7,16],[-3,11],[-2,7.5],[-1,4],[-.6,round(2.1*math.sqrt(1-(-.6/3.2)**2),4)]],width_m=[120,260]),dict(id='W02',name='澜川',flow='由钛湖向东南外流',centerline_km=[[2.9,round(-2.1*math.sqrt(1-(2.9/3.2)**2),4)],[4,-2],[5.5,-4],[7.5,-7],[10,-11],[14,-16],[22,-25],[28,-32]],width_m=[280,440])],population=dict(city_core=population_city,satellite_settlements=satellite_pop,dispersed_rural=42000,regional_total=population_city+satellite_pop+42000,featured_residences=sum(e['population'] for e in entries if e['type']=='居民区')),entries=entries)
+(ROOT/'数据'/'城市空间名录.json').write_text(json.dumps(registry,ensure_ascii=False,indent=2),encoding='utf-8')
+
+assignments=[('01-外围村镇.md',[e for e in entries if e['id'].startswith('S')]),('02-城市片区.md',[e for e in entries if e['id'].startswith('D')]),('03-城市功能区.md',[e for e in entries if e['id'].startswith('F')]),('04-地标建筑上卷.md',[e for e in entries if e['id'].startswith('L') and int(e['id'][1:])<=30]),('05-地标建筑下卷.md',[e for e in entries if e['id'].startswith('L') and int(e['id'][1:])>30])]
+for k in range(4):assignments.append((f'{6+k:02d}-居民区第{k+1}卷.md',[e for e in entries if e['id'].startswith('R') and k*30<int(e['id'][1:])<=(k+1)*30]))
+for fn,items in assignments:
+    (ROOT/'数据'/(fn.removesuffix('.md')+'.json')).write_text(json.dumps(items,ensure_ascii=False,indent=2),encoding='utf-8')
+print(json.dumps(dict(count=len(entries),counts={p:sum(e['id'].startswith(p) for e in entries) for p in 'SDFLR'},population=registry['population'],city_area=registry['urban_gross_area_km2'],lake_area=registry['lake']['area_km2']),ensure_ascii=False,indent=2))

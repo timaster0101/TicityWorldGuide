@@ -1,0 +1,693 @@
+[
+  {
+    "id": "L031",
+    "name": "北屏自然学校",
+    "type": "标志性建筑",
+    "parent": "D11",
+    "center_km": [
+      -1.355,
+      6.97
+    ],
+    "area_km2": 0.042,
+    "gross_floor_area_m2": 68000,
+    "height_m": 36,
+    "floors": 6,
+    "focus": "森林门户、自然教育与低密居住",
+    "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
+    "neighbors": [
+      "L032",
+      "F021"
+    ],
+    "parent_name": "北屏生态片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 349.0
+  },
+  {
+    "id": "L032",
+    "name": "森林访客中心",
+    "type": "标志性建筑",
+    "parent": "D11",
+    "center_km": [
+      0.0,
+      7.1
+    ],
+    "area_km2": 0.036,
+    "gross_floor_area_m2": 41000,
+    "height_m": 28,
+    "floors": 4,
+    "focus": "森林门户、自然教育与低密居住",
+    "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
+    "neighbors": [
+      "L033",
+      "F022"
+    ],
+    "parent_name": "北屏生态片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 0.0
+  },
+  {
+    "id": "L033",
+    "name": "杉谷观鸟塔",
+    "type": "标志性建筑",
+    "parent": "D11",
+    "center_km": [
+      1.355,
+      6.97
+    ],
+    "area_km2": 0.006,
+    "gross_floor_area_m2": 850,
+    "height_m": 22,
+    "floors": 5,
+    "focus": "森林门户、自然教育与低密居住",
+    "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
+    "neighbors": [
+      "L031",
+      "F021"
+    ],
+    "parent_name": "北屏生态片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 11.0
+  },
+  {
+    "id": "L034",
+    "name": "书岭联合实验楼",
+    "type": "标志性建筑",
+    "parent": "D12",
+    "center_km": [
+      3.001,
+      6.435
+    ],
+    "area_km2": 0.042,
+    "gross_floor_area_m2": 68000,
+    "height_m": 40,
+    "floors": 6,
+    "focus": "基础科研、精密实验与人才生活",
+    "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
+    "neighbors": [
+      "L035",
+      "F023"
+    ],
+    "parent_name": "书岭科研片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 25.0
+  },
+  {
+    "id": "L035",
+    "name": "青岚仪器共享中心",
+    "type": "标志性建筑",
+    "parent": "D12",
+    "center_km": [
+      4.173,
+      5.744
+    ],
+    "area_km2": 0.036,
+    "gross_floor_area_m2": 41000,
+    "height_m": 32,
+    "floors": 4,
+    "focus": "基础科研、精密实验与人才生活",
+    "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
+    "neighbors": [
+      "L036",
+      "F024"
+    ],
+    "parent_name": "书岭科研片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 36.0
+  },
+  {
+    "id": "L036",
+    "name": "科研伦理与公众交流馆",
+    "type": "标志性建筑",
+    "parent": "D12",
+    "center_km": [
+      5.193,
+      4.842
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 39000,
+    "height_m": 54,
+    "floors": 10,
+    "focus": "基础科研、精密实验与人才生活",
+    "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
+    "neighbors": [
+      "L034",
+      "F023"
+    ],
+    "parent_name": "书岭科研片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 47.0
+  },
+  {
+    "id": "L037",
+    "name": "钛湖东站",
+    "type": "标志性建筑",
+    "parent": "D13",
+    "center_km": [
+      6.21,
+      3.442
+    ],
+    "area_km2": 0.31,
+    "gross_floor_area_m2": 198000,
+    "height_m": 39,
+    "floors": 3,
+    "focus": "铁路换乘、区域商务与物流调度",
+    "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+    "neighbors": [
+      "L038",
+      "F025"
+    ],
+    "parent_name": "东门枢纽片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 61.0
+  },
+  {
+    "id": "L038",
+    "name": "东站城市接待塔",
+    "type": "标志性建筑",
+    "parent": "D13",
+    "center_km": [
+      6.753,
+      2.194
+    ],
+    "area_km2": 0.036,
+    "gross_floor_area_m2": 41000,
+    "height_m": 24,
+    "floors": 4,
+    "focus": "铁路换乘、区域商务与物流调度",
+    "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+    "neighbors": [
+      "L039",
+      "F026"
+    ],
+    "parent_name": "东门枢纽片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 72.0
+  },
+  {
+    "id": "L039",
+    "name": "山湖交通博物馆",
+    "type": "标志性建筑",
+    "parent": "D13",
+    "center_km": [
+      7.047,
+      0.865
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 39000,
+    "height_m": 46,
+    "floors": 10,
+    "focus": "铁路换乘、区域商务与物流调度",
+    "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+    "neighbors": [
+      "L037",
+      "F025"
+    ],
+    "parent_name": "东门枢纽片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 83.0
+  },
+  {
+    "id": "L040",
+    "name": "钛东工业设计中心",
+    "type": "标志性建筑",
+    "parent": "D14",
+    "center_km": [
+      7.047,
+      -0.865
+    ],
+    "area_km2": 0.042,
+    "gross_floor_area_m2": 68000,
+    "height_m": 36,
+    "floors": 6,
+    "focus": "精密制造、工业设计与清洁装配",
+    "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
+    "neighbors": [
+      "L041",
+      "F027"
+    ],
+    "parent_name": "钛东智造片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 97.0
+  },
+  {
+    "id": "L041",
+    "name": "精工制造展示馆",
+    "type": "标志性建筑",
+    "parent": "D14",
+    "center_km": [
+      6.753,
+      -2.194
+    ],
+    "area_km2": 0.036,
+    "gross_floor_area_m2": 41000,
+    "height_m": 28,
+    "floors": 4,
+    "focus": "精密制造、工业设计与清洁装配",
+    "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
+    "neighbors": [
+      "L042",
+      "F028"
+    ],
+    "parent_name": "钛东智造片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 108.0
+  },
+  {
+    "id": "L042",
+    "name": "新铸工匠学院",
+    "type": "标志性建筑",
+    "parent": "D14",
+    "center_km": [
+      6.21,
+      -3.442
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 39000,
+    "height_m": 50,
+    "floors": 10,
+    "focus": "精密制造、工业设计与清洁装配",
+    "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
+    "neighbors": [
+      "L040",
+      "F027"
+    ],
+    "parent_name": "钛东智造片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 119.0
+  },
+  {
+    "id": "L043",
+    "name": "南溪城市应急指挥馆",
+    "type": "标志性建筑",
+    "parent": "D15",
+    "center_km": [
+      5.193,
+      -4.842
+    ],
+    "area_km2": 0.042,
+    "gross_floor_area_m2": 68000,
+    "height_m": 40,
+    "floors": 6,
+    "focus": "城市应急、维修、回收与生活保障",
+    "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
+    "neighbors": [
+      "L044",
+      "F029"
+    ],
+    "parent_name": "南溪服务片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 133.0
+  },
+  {
+    "id": "L044",
+    "name": "循环材料展示馆",
+    "type": "标志性建筑",
+    "parent": "D15",
+    "center_km": [
+      4.173,
+      -5.744
+    ],
+    "area_km2": 0.036,
+    "gross_floor_area_m2": 41000,
+    "height_m": 32,
+    "floors": 4,
+    "focus": "城市应急、维修、回收与生活保障",
+    "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
+    "neighbors": [
+      "L045",
+      "F030"
+    ],
+    "parent_name": "南溪服务片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 144.0
+  },
+  {
+    "id": "L045",
+    "name": "城市维修技能中心",
+    "type": "标志性建筑",
+    "parent": "D15",
+    "center_km": [
+      3.001,
+      -6.435
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 39000,
+    "height_m": 54,
+    "floors": 10,
+    "focus": "城市应急、维修、回收与生活保障",
+    "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
+    "neighbors": [
+      "L043",
+      "F029"
+    ],
+    "parent_name": "南溪服务片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 155.0
+  },
+  {
+    "id": "L046",
+    "name": "南原中央图书分馆",
+    "type": "标志性建筑",
+    "parent": "D16",
+    "center_km": [
+      1.355,
+      -6.97
+    ],
+    "area_km2": 0.042,
+    "gross_floor_area_m2": 68000,
+    "height_m": 32,
+    "floors": 6,
+    "focus": "大规模成熟居住与基础公共服务",
+    "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
+    "neighbors": [
+      "L047",
+      "F031"
+    ],
+    "parent_name": "南原居住片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 169.0
+  },
+  {
+    "id": "L047",
+    "name": "晨光综合体育馆",
+    "type": "标志性建筑",
+    "parent": "D16",
+    "center_km": [
+      0.0,
+      -7.1
+    ],
+    "area_km2": 0.036,
+    "gross_floor_area_m2": 41000,
+    "height_m": 24,
+    "floors": 4,
+    "focus": "大规模成熟居住与基础公共服务",
+    "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
+    "neighbors": [
+      "L048",
+      "F032"
+    ],
+    "parent_name": "南原居住片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 180.0
+  },
+  {
+    "id": "L048",
+    "name": "南原妇幼社区中心",
+    "type": "标志性建筑",
+    "parent": "D16",
+    "center_km": [
+      -1.355,
+      -6.97
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 39000,
+    "height_m": 46,
+    "floors": 10,
+    "focus": "大规模成熟居住与基础公共服务",
+    "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
+    "neighbors": [
+      "L046",
+      "F031"
+    ],
+    "parent_name": "南原居住片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 191.0
+  },
+  {
+    "id": "L049",
+    "name": "西麓种子与食品馆",
+    "type": "标志性建筑",
+    "parent": "D17",
+    "center_km": [
+      -3.001,
+      -6.435
+    ],
+    "area_km2": 0.042,
+    "gross_floor_area_m2": 68000,
+    "height_m": 36,
+    "floors": 6,
+    "focus": "食品研发、城市农业与生鲜供应",
+    "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
+    "neighbors": [
+      "L050",
+      "F033"
+    ],
+    "parent_name": "西麓农食片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 205.0
+  },
+  {
+    "id": "L050",
+    "name": "丰仓城市食物馆",
+    "type": "标志性建筑",
+    "parent": "D17",
+    "center_km": [
+      -4.173,
+      -5.744
+    ],
+    "area_km2": 0.036,
+    "gross_floor_area_m2": 41000,
+    "height_m": 28,
+    "floors": 4,
+    "focus": "食品研发、城市农业与生鲜供应",
+    "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
+    "neighbors": [
+      "L051",
+      "F034"
+    ],
+    "parent_name": "西麓农食片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 216.0
+  },
+  {
+    "id": "L051",
+    "name": "农时试验温室",
+    "type": "标志性建筑",
+    "parent": "D17",
+    "center_km": [
+      -5.193,
+      -4.842
+    ],
+    "area_km2": 0.056,
+    "gross_floor_area_m2": 29000,
+    "height_m": 12,
+    "floors": 1,
+    "focus": "食品研发、城市农业与生鲜供应",
+    "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
+    "neighbors": [
+      "L049",
+      "F033"
+    ],
+    "parent_name": "西麓农食片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 227.0
+  },
+  {
+    "id": "L052",
+    "name": "西门贸易交易馆",
+    "type": "标志性建筑",
+    "parent": "D18",
+    "center_km": [
+      -6.21,
+      -3.442
+    ],
+    "area_km2": 0.042,
+    "gross_floor_area_m2": 68000,
+    "height_m": 40,
+    "floors": 6,
+    "focus": "批零贸易、修配与区域商贸",
+    "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
+    "neighbors": [
+      "L053",
+      "F035"
+    ],
+    "parent_name": "西门商贸片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 241.0
+  },
+  {
+    "id": "L053",
+    "name": "古道修配博物馆",
+    "type": "标志性建筑",
+    "parent": "D18",
+    "center_km": [
+      -6.753,
+      -2.194
+    ],
+    "area_km2": 0.036,
+    "gross_floor_area_m2": 41000,
+    "height_m": 32,
+    "floors": 4,
+    "focus": "批零贸易、修配与区域商贸",
+    "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
+    "neighbors": [
+      "L054",
+      "F036"
+    ],
+    "parent_name": "西门商贸片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 252.0
+  },
+  {
+    "id": "L054",
+    "name": "西门工友服务站",
+    "type": "标志性建筑",
+    "parent": "D18",
+    "center_km": [
+      -7.047,
+      -0.865
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 39000,
+    "height_m": 54,
+    "floors": 10,
+    "focus": "批零贸易、修配与区域商贸",
+    "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
+    "neighbors": [
+      "L052",
+      "F035"
+    ],
+    "parent_name": "西门商贸片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 263.0
+  },
+  {
+    "id": "L055",
+    "name": "西岭能源调度馆",
+    "type": "标志性建筑",
+    "parent": "D19",
+    "center_km": [
+      -7.047,
+      0.865
+    ],
+    "area_km2": 0.042,
+    "gross_floor_area_m2": 68000,
+    "height_m": 32,
+    "floors": 6,
+    "focus": "清洁能源调度、储能研发与绿色生活",
+    "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
+    "neighbors": [
+      "L056",
+      "F037"
+    ],
+    "parent_name": "西岭能源片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 277.0
+  },
+  {
+    "id": "L056",
+    "name": "光谷低碳体验馆",
+    "type": "标志性建筑",
+    "parent": "D19",
+    "center_km": [
+      -6.753,
+      2.194
+    ],
+    "area_km2": 0.036,
+    "gross_floor_area_m2": 41000,
+    "height_m": 24,
+    "floors": 4,
+    "focus": "清洁能源调度、储能研发与绿色生活",
+    "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
+    "neighbors": [
+      "L057",
+      "F038"
+    ],
+    "parent_name": "西岭能源片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 288.0
+  },
+  {
+    "id": "L057",
+    "name": "山城能源史馆",
+    "type": "标志性建筑",
+    "parent": "D19",
+    "center_km": [
+      -6.21,
+      3.442
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 39000,
+    "height_m": 46,
+    "floors": 10,
+    "focus": "清洁能源调度、储能研发与绿色生活",
+    "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
+    "neighbors": [
+      "L055",
+      "F037"
+    ],
+    "parent_name": "西岭能源片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 299.0
+  },
+  {
+    "id": "L058",
+    "name": "北港水文博物馆",
+    "type": "标志性建筑",
+    "parent": "D20",
+    "center_km": [
+      -5.193,
+      4.842
+    ],
+    "area_km2": 0.042,
+    "gross_floor_area_m2": 68000,
+    "height_m": 36,
+    "floors": 6,
+    "focus": "水资源管理、净水、监测与滨水教育",
+    "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
+    "neighbors": [
+      "L059",
+      "F039"
+    ],
+    "parent_name": "北港水务片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 313.0
+  },
+  {
+    "id": "L059",
+    "name": "清流水质公开实验馆",
+    "type": "标志性建筑",
+    "parent": "D20",
+    "center_km": [
+      -4.173,
+      5.744
+    ],
+    "area_km2": 0.036,
+    "gross_floor_area_m2": 41000,
+    "height_m": 28,
+    "floors": 4,
+    "focus": "水资源管理、净水、监测与滨水教育",
+    "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
+    "neighbors": [
+      "L060",
+      "F040"
+    ],
+    "parent_name": "北港水务片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 324.0
+  },
+  {
+    "id": "L060",
+    "name": "河口生态观察馆",
+    "type": "标志性建筑",
+    "parent": "D20",
+    "center_km": [
+      -3.001,
+      6.435
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 39000,
+    "height_m": 50,
+    "floors": 10,
+    "focus": "水资源管理、净水、监测与滨水教育",
+    "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
+    "neighbors": [
+      "L058",
+      "F039"
+    ],
+    "spatial_note": "河口生态主题展示馆，不是现场河口观测点；中心距真实入湖口约4.99千米、距清岚河主槽约1.26千米。",
+    "parent_name": "北港水务片区",
+    "distance_to_lake_center_km": 7.1,
+    "bearing_from_lake_center_deg": 335.0
+  }
+]
