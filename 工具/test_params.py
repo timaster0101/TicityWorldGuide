@@ -82,5 +82,51 @@ class SourceShape(unittest.TestCase):
             self.assertEqual(row['锚点对数'], got['锚点对数'], key)
 
 
+class CanonDerived(unittest.TestCase):
+    ARTIFACTS = ('运行参数正典.json', '运行参数总表.md')
+
+    def setUp(self):
+        self.canon = json.loads((ROOT / '数据' / '运行参数正典.json').read_text(encoding='utf-8'))
+
+    def test_matrix_shape_33_usable_17_dash(self):
+        cells = self.canon['交通矩阵']
+        self.assertEqual(len(cells), 50)
+        self.assertEqual(sum(1 for c in cells if c['耗时分钟'] is not None), 33)
+        self.assertEqual(sum(1 for c in cells if c['耗时分钟'] is None), 17)
+
+    def test_matrix_spot_values(self):
+        got = {(c['圈层对'], c['方式']): c['耗时分钟'] for c in self.canon['交通矩阵']}
+        self.assertEqual(got[('内湖环|外城环', 'TR-BUS')], 50)
+        self.assertEqual(got[('内湖环|产业小镇', 'TR-CAR')], 85)
+        self.assertEqual(got[('内湖环|特色村落', 'TR-RAIL')], 50)
+        self.assertEqual(got[('产业小镇|特色村落', 'TR-BUS')], 165)
+        self.assertEqual(got[('特色村落|特色村落', 'TR-CAR')], 115)
+        self.assertIsNone(got[('内湖环|内湖环', 'TR-RAIL')])
+        self.assertIsNone(got[('内湖环|产业小镇', 'TR-WALK')])
+
+    def test_year_table_and_month_lookup(self):
+        year = self.canon['天气年历']
+        self.assertEqual(len(year), 365)
+        self.assertEqual(year[0], dict(year[0], **{'年内第几天': 1, '月': 1, '日': 1,
+                                                   'SEA': 'SEA-4', '态': 'WX-OVC', '名': '阴'}))
+        self.assertEqual(year[-1]['年内第几天'], 365)
+        self.assertEqual(year[-1]['月'], 12)
+        self.assertEqual(self.canon['月季节'],
+                         {'1': 'SEA-4', '2': 'SEA-4', '3': 'SEA-1', '4': 'SEA-1', '5': 'SEA-1',
+                          '6': 'SEA-2', '7': 'SEA-2', '8': 'SEA-2', '9': 'SEA-3', '10': 'SEA-3',
+                          '11': 'SEA-3', '12': 'SEA-4'})
+
+    def test_deriver_is_byte_idempotent(self):
+        import hashlib
+        import subprocess
+        before = {a: hashlib.sha1((ROOT / '数据' / a).read_bytes()).hexdigest() for a in self.ARTIFACTS}
+        for _ in range(2):
+            subprocess.run([sys.executable, str(ROOT / '工具' / 'build_params.py')],
+                           check=True, capture_output=True)
+            for a in self.ARTIFACTS:
+                self.assertEqual(hashlib.sha1((ROOT / '数据' / a).read_bytes()).hexdigest(),
+                                 before[a], f'{a} 双跑不幂等')
+
+
 if __name__ == '__main__':
     unittest.main()
