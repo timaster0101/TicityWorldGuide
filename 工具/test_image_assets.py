@@ -109,6 +109,18 @@ class AssetGate(unittest.TestCase):
             self.assertTrue(p.lower().endswith(('.jpg', '.jpeg')), p)
             self.assertTrue((ROOT / p).is_file(), p)
 
+    def test_out_of_gallery_extension_sweep_is_advisory(self):
+        # 图集外还有一批 .png 装 JPEG 字节，但被视频工程 JSON 与文档按文件名引用，改名会打断既有工程；
+        # 「看不见」不等于「不用核验」，所以扫一遍只提示、只写口径，绝不判红。
+        sweep = self.report['图集外扩展名体检']
+        self.assertGreater(sweep['不一致数'], 0)
+        self.assertEqual(sweep['判红数'], 0)
+        refs = {p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']}
+        self.assertFalse(set(sweep['明细']) & refs)
+        for token in ('影像作品', '视觉控制资产'):
+            self.assertIn(token, json.dumps(sweep['按目录'], ensure_ascii=False))
+        self.assertIn('按文件名引用', sweep['不改名口径'])
+
     def test_missing_file_fixture_red(self):
         import tempfile
         items = [{'id': 'X001', 'image_file': ['数据/图集/不存在-甲.png']}]
@@ -146,23 +158,25 @@ class AssetGate(unittest.TestCase):
     def test_recheck_worksheet_lists_every_id(self):
         md = (ROOT / '数据' / '图片复验清单.md').read_text(encoding='utf-8')
         self.assertEqual(len(re.findall(r'^\| [DFLRS]\d+ \|', md, re.M)), 264)
-        for token in ('结构合规不等于视觉验收', '待人工复验', '不得由脚本代签'):
+        for token in ('结构合规不等于视觉验收', '待人工复验', '不得由脚本代签', '图集外扩展名体检', '只报不办、不改名'):
             self.assertIn(token, md)
 
 
 class AssetRulings(unittest.TestCase):
-    IDS = ['C82', 'C83']
+    IDS = ['C82', 'C83', 'C84']
 
-    def test_two_asset_rulings_recorded(self):
+    def test_three_asset_rulings_recorded(self):
         rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
         by_id = {r['编号']: r for r in rows}
         for cid in self.IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 83)
-        self.assertEqual(rows[-1]['编号'], 'C83')
+        self.assertEqual(len(rows), 84)
+        self.assertEqual(rows[-1]['编号'], 'C84')
         self.assertIn('rename_gallery_ext', by_id['C82']['裁定'])
         self.assertIn('不是交付判据', by_id['C83']['裁定'])
+        self.assertIn('不判红、不改名', by_id['C84']['裁定'])
+        self.assertIn('按文件名引用', by_id['C84']['原因'])
 
 
 if __name__ == '__main__':

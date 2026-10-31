@@ -7,10 +7,48 @@ APP1 XMP 段在不在、XMP 里 TC260 与 AIGC 标识在不在。
 """
 import argparse
 import json
+import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 XMP_NS = b'http://ns.adobe.com/xap/1.0/'
+JPEG_MAGIC = b'\xff\xd8\xff'
+PNG_MAGIC = b'\x89PNG\r\n\x1a\n'
+IMG_EXT = ('.png', '.jpg', '.jpeg')
+
+
+def sweep_extensions(root=ROOT):
+    """图集外的扩展名体检：只数「扩展名与字节不符」，一律提示不判红。
+
+    这批文件不参与 image_file 核验，改名要同步动视频工程 JSON 与文档引用，所以只报不办；
+    没有这一段，图集外的问题会因为「没人核验」而永久隐形。
+    """
+    counts, bad = {}, []
+    base = root / '数据'
+    if not base.is_dir():
+        return {'扫描数': 0, '不一致数': 0, '判红数': 0, '按目录': {}, '明细': []}
+    scanned = 0
+    for dirpath, dirnames, filenames in os.walk(base):
+        rel_dir = Path(dirpath).relative_to(root).as_posix()
+        if rel_dir == '数据/图集' or rel_dir.startswith('数据/图集/'):
+            dirnames[:] = []
+            continue
+        for name in sorted(filenames):
+            ext = os.path.splitext(name)[1].lower()
+            if ext not in IMG_EXT:
+                continue
+            scanned += 1
+            with open(os.path.join(dirpath, name), 'rb') as fh:
+                head = fh.read(8)
+            is_jpeg, is_png = head[:3] == JPEG_MAGIC, head == PNG_MAGIC
+            mismatch = (ext == '.png' and is_jpeg and not is_png) or \
+                       (ext in ('.jpg', '.jpeg') and is_png and not is_jpeg)
+            if mismatch:
+                key = '/'.join(rel_dir.split('/')[0:2])
+                counts[key] = counts.get(key, 0) + 1
+                bad.append(rel_dir + '/' + name)
+    counts['合计'] = len(bad)
+    return {'扫描数': scanned, '不一致数': len(bad), '判红数': 0, '按目录': counts, '明细': bad[:60]}
 
 
 def sniff(path):
@@ -79,6 +117,11 @@ def check(items, root=ROOT):
                         '只改文件名、逐文件比对改名前后 sha256，字节一个没动，也不是重新出图；'
                         '真 PNG 只有 5 个且都不在 image_file 引用里，保持 .png 不改。'
                         '扩展名与字节再不符时只记提示、不判红。',
+            '图集外扩展名体检': dict(sweep_extensions(root), **{
+                '不改名口径': '图集外的图片文件名被 数据/影像作品/工程文件/**/项目文件/*.json（如 shots_login_tour.json、'
+                              'shots_logo_anim.json）与《卡面标准样式规范》《成就卡打卡套系-设计》按文件名引用，'
+                              '改名要同步改工程 JSON 与文档引用，否则素材会脱链；'
+                              '这批文件又都不在 image_file 交付判据内，所以本期只体检、只报数，判红数固定 0、不催办、不改名。'}),
             '声明': '结构合规不等于视觉验收。本核验不判构图、不判穿帮、不判水印，'
                     '不得由脚本代签 image_prompt_sha256；人工复验结论只能由人写进验收备注。'}
 
@@ -86,6 +129,11 @@ def check(items, root=ROOT):
 def render_worksheet(report, items):
     rows = {id(r['id']) and (r['id'], r['路径']): r['判定'] for r in report['逐格']}
     bad_ids = {f['id'] for f in report['逐格'] if f['判定'] == '失败'}
+    sw = report['图集外扩展名体检']
+    by_dir = '／'.join('%s %d' % (k, v) for k, v in sw['按目录'].items() if k != '合计')
+    sweep_line = ('图集外扩展名体检：扫 %d 个图片文件，扩展名与字节不符 %d 个（%s），判红 %d。'
+                  '这批文件不在 `image_file` 交付判据内、且被视频工程 JSON 与文档按文件名引用，只报不办、不改名（C84）。'
+                  % (sw['扫描数'], sw['不一致数'], by_dir, sw['判红数']))
     md = ['# 钛湖城开图图片复验工作单', '',
           '生成物，禁止手改：本单由 `python 工具/verify_image_assets.py` 从 `数据/开图清单.json` 的 `image_file` 逐格派生。',
           '**结构合规不等于视觉验收**：下表「结构核验」只回答文件存在、JPEG 字节头、XMP 段与 TC260·AIGC 标识四件事，',
@@ -93,6 +141,7 @@ def render_worksheet(report, items):
           '合计 %d 格｜结构通过 %d｜结构失败 %d｜扩展名提示 %d｜C2PA 在位 %d。' % (
               report['文件格数'], report['通过格数'], report['失败格数'], report['提示格数'], report['C2PA在位格数']),
           '「C2PA 在位 0」不是待办：本平台只写 XMP·TC260，C2PA 不属交付判据，缺位不判红也不催办（C83）。',
+          sweep_line,
           '',
           '| ID | 名称 | 类型 | 四向图 | 结构核验 | 视觉复验 | 备注 |',
           '|---|---|---|---|---|---|---|']
