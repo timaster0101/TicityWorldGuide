@@ -4121,7 +4121,7 @@
       "facing_deg": 180.0,
       "lens_mm": 35.0,
       "half_fov_deg": 27.2,
-      "camera_height_m": null,
+      "camera_height_m": 1.5,
       "own_subjects": [
         "R101"
       ],
@@ -4175,7 +4175,7 @@
       "facing_deg": 0.0,
       "lens_mm": 35.0,
       "half_fov_deg": 27.2,
-      "camera_height_m": null,
+      "camera_height_m": 1.6,
       "own_subjects": [
         "R104"
       ],
@@ -4229,7 +4229,7 @@
       "facing_deg": 180.0,
       "lens_mm": 40.0,
       "half_fov_deg": 24.2,
-      "camera_height_m": null,
+      "camera_height_m": 1.6,
       "own_subjects": [
         "R107"
       ],
@@ -4409,7 +4409,7 @@
       "facing_deg": 0.0,
       "lens_mm": 50.0,
       "half_fov_deg": 19.8,
-      "camera_height_m": null,
+      "camera_height_m": 1.5,
       "own_subjects": [
         "R117"
       ],

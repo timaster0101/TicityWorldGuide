@@ -7,7 +7,7 @@
     "L": 60,
     "R": 120
   },
-  "total_cjk": 233684,
+  "total_cjk": 233790,
   "min_cjk": 807,
   "max_cjk": 964,
   "errors": [],
@@ -235,7 +235,7 @@
     },
     {
       "id": "F001",
-      "cjk_count": 887,
+      "cjk_count": 888,
       "source": "03-F001-F010.md"
     },
     {
@@ -245,7 +245,7 @@
     },
     {
       "id": "F003",
-      "cjk_count": 888,
+      "cjk_count": 889,
       "source": "03-F001-F010.md"
     },
     {
@@ -280,7 +280,7 @@
     },
     {
       "id": "F010",
-      "cjk_count": 940,
+      "cjk_count": 941,
       "source": "03-F001-F010.md"
     },
     {
@@ -320,12 +320,12 @@
     },
     {
       "id": "F018",
-      "cjk_count": 894,
+      "cjk_count": 895,
       "source": "03-F011-F020.md"
     },
     {
       "id": "F019",
-      "cjk_count": 889,
+      "cjk_count": 890,
       "source": "03-F011-F020.md"
     },
     {
@@ -335,7 +335,7 @@
     },
     {
       "id": "F021",
-      "cjk_count": 888,
+      "cjk_count": 889,
       "source": "03-F021-F030.md"
     },
     {
@@ -345,7 +345,7 @@
     },
     {
       "id": "F023",
-      "cjk_count": 890,
+      "cjk_count": 891,
       "source": "03-F021-F030.md"
     },
     {
@@ -420,12 +420,12 @@
     },
     {
       "id": "F038",
-      "cjk_count": 888,
+      "cjk_count": 889,
       "source": "03-F031-F040.md"
     },
     {
       "id": "F039",
-      "cjk_count": 883,
+      "cjk_count": 884,
       "source": "03-F031-F040.md"
     },
     {
@@ -440,7 +440,7 @@
     },
     {
       "id": "L002",
-      "cjk_count": 907,
+      "cjk_count": 908,
       "source": "04-L001-L010.md"
     },
     {
@@ -585,7 +585,7 @@
     },
     {
       "id": "L031",
-      "cjk_count": 899,
+      "cjk_count": 900,
       "source": "05-L031-L040.md"
     },
     {
@@ -595,12 +595,12 @@
     },
     {
       "id": "L033",
-      "cjk_count": 879,
+      "cjk_count": 888,
       "source": "05-L031-L040.md"
     },
     {
       "id": "L034",
-      "cjk_count": 899,
+      "cjk_count": 900,
       "source": "05-L031-L040.md"
     },
     {
@@ -725,7 +725,7 @@
     },
     {
       "id": "L059",
-      "cjk_count": 898,
+      "cjk_count": 899,
       "source": "05-L051-L060.md"
     },
     {
@@ -735,7 +735,7 @@
     },
     {
       "id": "R001",
-      "cjk_count": 850,
+      "cjk_count": 851,
       "source": "06-R001-R010.md"
     },
     {
@@ -755,7 +755,7 @@
     },
     {
       "id": "R005",
-      "cjk_count": 866,
+      "cjk_count": 867,
       "source": "06-R001-R010.md"
     },
     {
@@ -765,7 +765,7 @@
     },
     {
       "id": "R007",
-      "cjk_count": 855,
+      "cjk_count": 856,
       "source": "06-R001-R010.md"
     },
     {
@@ -790,7 +790,7 @@
     },
     {
       "id": "R012",
-      "cjk_count": 876,
+      "cjk_count": 877,
       "source": "06-R011-R020.md"
     },
     {
@@ -820,7 +820,7 @@
     },
     {
       "id": "R018",
-      "cjk_count": 874,
+      "cjk_count": 875,
       "source": "06-R011-R020.md"
     },
     {
@@ -900,7 +900,7 @@
     },
     {
       "id": "R034",
-      "cjk_count": 837,
+      "cjk_count": 857,
       "source": "07-R031-R040.md"
     },
     {
@@ -980,7 +980,7 @@
     },
     {
       "id": "R050",
-      "cjk_count": 853,
+      "cjk_count": 854,
       "source": "07-R041-R050.md"
     },
     {
@@ -995,17 +995,17 @@
     },
     {
       "id": "R053",
-      "cjk_count": 858,
+      "cjk_count": 860,
       "source": "07-R051-R060.md"
     },
     {
       "id": "R054",
-      "cjk_count": 848,
+      "cjk_count": 871,
       "source": "07-R051-R060.md"
     },
     {
       "id": "R055",
-      "cjk_count": 853,
+      "cjk_count": 854,
       "source": "07-R051-R060.md"
     },
     {
@@ -1035,7 +1035,7 @@
     },
     {
       "id": "R061",
-      "cjk_count": 899,
+      "cjk_count": 900,
       "source": "08-R061-R070.md"
     },
     {
@@ -1045,12 +1045,12 @@
     },
     {
       "id": "R063",
-      "cjk_count": 896,
+      "cjk_count": 911,
       "source": "08-R061-R070.md"
     },
     {
       "id": "R064",
-      "cjk_count": 899,
+      "cjk_count": 900,
       "source": "08-R061-R070.md"
     },
     {
@@ -1065,7 +1065,7 @@
     },
     {
       "id": "R067",
-      "cjk_count": 885,
+      "cjk_count": 886,
       "source": "08-R061-R070.md"
     },
     {
@@ -1080,7 +1080,7 @@
     },
     {
       "id": "R070",
-      "cjk_count": 895,
+      "cjk_count": 896,
       "source": "08-R061-R070.md"
     },
     {
@@ -1090,7 +1090,7 @@
     },
     {
       "id": "R072",
-      "cjk_count": 900,
+      "cjk_count": 901,
       "source": "08-R071-R080.md"
     },
     {
@@ -1140,7 +1140,7 @@
     },
     {
       "id": "R082",
-      "cjk_count": 899,
+      "cjk_count": 900,
       "source": "08-R081-R090.md"
     },
     {
@@ -1190,7 +1190,7 @@
     },
     {
       "id": "R092",
-      "cjk_count": 897,
+      "cjk_count": 910,
       "source": "09-R091-R100.md"
     },
     {
@@ -1235,7 +1235,7 @@
     },
     {
       "id": "R101",
-      "cjk_count": 892,
+      "cjk_count": 890,
       "source": "09-R101-R110.md"
     },
     {
@@ -1336,8 +1336,8 @@
   ],
   "referenced_id_count": 920,
   "numeric_distance_claims": 32,
-  "light_direction_checked": 252,
-  "light_variant_entries": 12,
+  "light_direction_checked": 248,
+  "light_variant_entries": 16,
   "occupation_summary": {
     "岗位锚点数": 64,
     "公司数": 1403,
