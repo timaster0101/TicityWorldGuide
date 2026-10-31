@@ -134,19 +134,95 @@ def build_canon():
     return canon
 
 
+def _cell(v):
+    if v is None:
+        return '—'
+    if isinstance(v, bool):
+        return '是' if v else '否'
+    if isinstance(v, dict):
+        return '、'.join(f'{k} {x}' for k, x in v.items())
+    if isinstance(v, list):
+        return '、'.join(str(x) for x in v)
+    return str(v)
+
+
+def _md(v):
+    """圈层对键名里的 `|` 是表格分隔符，落到 markdown 单元格必须转义，否则一格被拆成两列。"""
+    return _cell(v).replace('|', '\\|')
+
+
 def render_table(canon):
-    lines = [f'# 运行参数总表（{canon["setting_year"]} 年基准，币种 {canon["currency"]}）', '',
+    p, sp, w = canon['参数'], canon['参数']['交通'], canon['参数']['天气']
+    lines = ['# 运行参数总表', '',
              f'本文件由 `工具/build_params.py` 生成，基准年 {canon["setting_year"]}，'
-             f'货币 钛币（TT），禁止手改。', '',
-             '## 三、交通固定耗时', '',
-             '### 3.3 圈层对 × 方式矩阵', '',
-             '| 圈层对 | 方式 | 方式名 | 耗时分钟 | 路线km | 换乘分钟 |',
-             '| --- | --- | --- | --- | --- | --- |']
+             '货币 钛币（TT），禁止手改。', '',
+             f'规模：{canon["汇总"]["圈层对数"]} 个圈层对 × {canon["汇总"]["方式数"]} 种方式 '
+             f'＝ {canon["汇总"]["矩阵格数"]} 格（可用 {canon["汇总"]["可用格数"]} 格，'
+             f'不通 {canon["汇总"]["不可用格数"]} 格）；天气年历 {canon["汇总"]["年历格数"]} 格。', '']
+
+    lines += ['## 一、技能成长与退化', '', '| 项 | 值 |', '| --- | --- |']
+    for k, v in p['技能'].items():
+        lines.append(f'| {k} | {_cell(v)} |')
+    lines += ['', '### 等级阈值', '', '| LVL | 累计经验月 |', '| --- | --- |']
+    for lvl, months in canon['技能等级阈值'].items():
+        lines.append(f'| {lvl} | {months} |')
+
+    lines += ['', '## 二、季节月份与日照时段', '',
+              '| SEA | 名 | 月份 | 天数 | 温度带 | 画面基调 |', '| --- | --- | --- | --- | --- | --- |']
+    for sea, info in p['季节月份'].items():
+        lines.append(f'| {sea} | {info["名"]} | {_cell(info["月"])} 月 | {info["天数"]} | '
+                     f'{info["温度带"]} | {info["画面基调"]} |')
+    lines += ['', '| 季 | 日出 | 正午 | 日落 | 黄昏 |', '| --- | --- | --- | --- | --- |']
+    for sea, info in canon['季节日照'].items():
+        lines.append(f'| {p["季节月份"][sea]["名"]}（{sea}） | {info["日出"]} | {info["正午"]} | '
+                     f'{info["日落"]} | {info["黄昏"]} |')
+    lines += ['', '| 季 | 各态次数区间（天） |', '| --- | --- |']
+    for sea, rng in w['次数区间'].items():
+        lines.append(f'| {p["季节月份"][sea]["名"]}（{sea}） | '
+                     + '、'.join(f'{code} {v[0]}—{v[1]}' for code, v in rng.items()) + ' |')
+
+    lines += ['', '## 三、交通固定耗时', '', '### 3.1 圈层对几何（实测自名录中心点）', '',
+              '| A | B | 锚点对数 | 中位直线 km | 最小 km | 最大 km | 最大偏差 km |',
+              '| --- | --- | --- | --- | --- | --- | --- |']
+    pair_rows = {pair_key(r['A'], r['B']): r for r in p['圈层对']}
     for c in canon['交通矩阵']:
-        lines.append('| {} | {} | {} | {} | {} | {} |'.format(
-            c['圈层对'], c['方式'], c['方式名'],
-            c['耗时分钟'] if c['耗时分钟'] is not None else '—',
-            c['路线km'] if c['路线km'] is not None else '—', c['换乘分钟']))
+        if c['方式'] != MODE_ORDER[0]:
+            continue
+        lines.append(f'| {c["A"]} | {c["B"]} | {pair_rows[c["圈层对"]]["锚点对数"]} | '
+                     f'{c["中位直线km"]} | {c["最小km"]} | {c["最大km"]} | {c["最大偏差km"]} |')
+    lines += ['', '### 3.2 方式与覆盖', '', '| 方式名 | 码 | 速度 km/h | 覆盖圈层对 | 覆盖对数 |',
+              '| --- | --- | --- | --- | --- |']
+    for m in sp['方式']:
+        lines.append(f'| {m["名"]} | {m["码"]} | {m["速度km_h"]} | {_md(m["覆盖"])} | '
+                     f'{len(m["覆盖"])} |')
+    lines += ['', '### 3.3 固定耗时矩阵', '',
+              '| 方式 | 方式名 | 圈层对 | 耗时分钟 | 路线km | 换乘分钟 |',
+              '| --- | --- | --- | --- | --- | --- |']
+    for c in canon['交通矩阵']:
+        lines.append(f'| {c["方式"]} | {c["方式名"]} | {_md(c["圈层对"])} | {_cell(c["耗时分钟"])} | '
+                     f'{_cell(c["路线km"])} | {c["换乘分钟"]} |')
+    lines += ['', '### 3.4 延后方式（不进矩阵）', '', '| 名 | 码 | 待落定的清单 |',
+              '| --- | --- | --- |']
+    for m in canon['延后方式']:
+        lines.append(f'| {m["名"]} | {m["码"]} | {m["待"]} |')
+
+    lines += ['', '## 四、天气年历（2013 公共日历，零随机）', '',
+              '| 年内第几天 | 月 | 日 | SEA | 态 | 名 |', '| --- | --- | --- | --- | --- | --- |']
+    for d in canon['天气年历']:
+        lines.append(f'| {d["年内第几天"]} | {d["月"]} | {d["日"]} | {d["SEA"]} | {d["态"]} | {d["名"]} |')
+
+    lines += ['', '## 五、事件冷却与负面配额', '', '| 项 | 值 |', '| --- | --- |']
+    for k, v in p['事件'].items():
+        lines.append(f'| {k} | {_cell(v)} |')
+
+    lines += ['', '## 六、检查点频率', '', '| 项 | 值 |', '| --- | --- |']
+    for k, v in p['检查点'].items():
+        lines.append(f'| {k} | {_cell(v)} |')
+
+    lines += ['', '## 七、口径与不做项', '']
+    for text in (canon['汇总']['口径'], sp['口径'], sp['换乘口径'], sp['城市内不设站'],
+                 w['索引口径'], w['编排约束'], w['口径'], p['技能']['口径']):
+        lines.append(f'- {text}')
     return '\n'.join(lines) + '\n'
 
 

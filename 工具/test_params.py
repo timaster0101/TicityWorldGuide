@@ -128,5 +128,28 @@ class CanonDerived(unittest.TestCase):
                                  before[a], f'{a} 双跑不幂等')
 
 
+class RenderedTable(unittest.TestCase):
+    def test_table_row_counts(self):
+        import re
+        table = (ROOT / '数据' / '运行参数总表.md').read_text(encoding='utf-8')
+        self.assertEqual(len(re.findall(r'^\| TR-[A-Z]+ \|', table, re.M)), 50)
+        self.assertEqual(len(re.findall(r'^\| \d+ \| \d+ \| \d+ \| SEA-[1-4] \| WX-[A-Z]+ \|',
+                                        table, re.M)), 365)
+        self.assertEqual(len(re.findall(r'^\| 内湖环 \||^\| 外城环 \||^\| 产业小镇 \||^\| 特色村落 \|',
+                                        table, re.M)), 10)
+        self.assertEqual(len(re.findall(r'^\| SEA-[1-4] \|', table, re.M)), 4)
+        for token in ('禁止手改', '中位直线 km', '最大偏差 km', '延后方式', '用户自助回档'):
+            self.assertIn(token, table)
+        # 圈层对键名里的竖线必须转义，否则 markdown 表格会把一格拆成两列
+        self.assertNotIn('内湖环|内湖环', table)
+        self.assertGreaterEqual(table.count('内湖环\\|内湖环'), 1)
+
+    def test_no_ellipsis_or_replacement_in_artifacts(self):
+        for name in ('运行参数正典.json', '运行参数总表.md'):
+            text = (ROOT / '数据' / name).read_text(encoding='utf-8')
+            self.assertNotIn('\ufffd', text, name)
+            self.assertNotIn('\u2026', text, f'{name} 混入 U+2026 省略号')
+
+
 if __name__ == '__main__':
     unittest.main()
