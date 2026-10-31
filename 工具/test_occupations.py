@@ -376,7 +376,10 @@ class Gate(unittest.TestCase):
     def issues(self, canon):
         adm = json.loads((ROOT / '数据' / '岗位准入正典.json').read_text(encoding='utf-8'))
         costs = json.loads((ROOT / '数据' / '物价与生活正典.json').read_text(encoding='utf-8'))
-        return self.ns['issues'](canon, self.ns['SOURCE'], self.ns['REGISTRY'], adm, costs)
+        params = json.loads((ROOT / '数据' / '运行参数正典.json').read_text(encoding='utf-8'))
+        psource = json.loads((ROOT / '数据' / '运行参数源表.json').read_text(encoding='utf-8'))['参数']
+        return self.ns['issues'](canon, self.ns['SOURCE'], self.ns['REGISTRY'], adm, costs,
+                                 params, psource)
 
     def test_clean_repo_passes(self):
         r = subprocess.run([sys.executable, str(VERIFY)], cwd=ROOT, capture_output=True, text=True)
@@ -398,9 +401,9 @@ class Gate(unittest.TestCase):
         card['月薪带_钛币'][0] = 1
         self.assertTrue(any('住所覆盖红线' in i for i in self.issues(canon)))
 
-    def test_gate_writes_twenty_check_report(self):
+    def test_gate_writes_twenty_five_check_report(self):
         report = json.loads((ROOT / '数据' / '产业就业核验.json').read_text(encoding='utf-8'))
-        self.assertEqual(report['检查项数'], 20)
+        self.assertEqual(report['检查项数'], 25)
         self.assertEqual(report['失败数'], 0)
 
 
@@ -621,25 +624,28 @@ class AdmissionGate(unittest.TestCase):
         self.canon = json.loads((ROOT / '数据' / '产业就业正典.json').read_text(encoding='utf-8'))
         self.adm = json.loads((ROOT / '数据' / '岗位准入正典.json').read_text(encoding='utf-8'))
         self.costs = json.loads((ROOT / '数据' / '物价与生活正典.json').read_text(encoding='utf-8'))
+        self.params = json.loads((ROOT / '数据' / '运行参数正典.json').read_text(encoding='utf-8'))
+        self.psource = json.loads((ROOT / '数据' / '运行参数源表.json').read_text(encoding='utf-8'))['参数']
 
     def bad(self):
-        return self.vo.issues(self.canon, self.vo.SOURCE, self.vo.REGISTRY, self.adm, self.costs)
+        return self.vo.issues(self.canon, self.vo.SOURCE, self.vo.REGISTRY, self.adm,
+                              self.costs, self.params, self.psource)
 
-    def test_twenty_checks_and_clean_canon_passes(self):
-        self.assertEqual(len(self.vo.CHECKS), 20)
+    def test_twenty_five_checks_and_clean_canon_passes(self):
+        self.assertEqual(len(self.vo.CHECKS), 25)
         self.assertEqual(self.bad(), [])
 
     def test_gate_detects_dangling_tag_and_empty_scene(self):
         c = json.loads(json.dumps(self.canon))
         card = next(x for comp in c['公司'] for x in comp['岗位卡'] if x['岗位层'] == 'LVL3')
         card['准入标签'][0][0] = 'SKL-Z99-B99-S1'
-        self.assertTrue(any('引用完整性' in x for x in self.vo.issues(c, self.vo.SOURCE, self.vo.REGISTRY, self.adm, self.costs)))
+        self.assertTrue(any('引用完整性' in x for x in self.vo.issues(c, self.vo.SOURCE, self.vo.REGISTRY, self.adm, self.costs, self.params, self.psource)))
         c2 = json.loads(json.dumps(self.canon))
         for comp in c2['公司']:
             for x in comp['岗位卡']:
                 if x['岗位层'] == 'LVL3':
                     x['关键场景'] = []
-        self.assertTrue(any('关键场景' in x for x in self.vo.issues(c2, self.vo.SOURCE, self.vo.REGISTRY, self.adm, self.costs)))
+        self.assertTrue(any('关键场景' in x for x in self.vo.issues(c2, self.vo.SOURCE, self.vo.REGISTRY, self.adm, self.costs, self.params, self.psource)))
 
 
 class AdmissionDoc(unittest.TestCase):
@@ -653,7 +659,7 @@ class AdmissionDoc(unittest.TestCase):
     def test_gate_wording_matches_check_count_in_generated_report(self):
         n = json.loads((ROOT / '数据' / '产业就业核验.json').read_text(encoding='utf-8'))['检查项数']
         report = (ROOT / '质量核验报告.md').read_text(encoding='utf-8')
-        self.assertEqual(n, 20)
+        self.assertEqual(n, 25)
         self.assertIn(f'{n}条判据实测0失败', report)
 
 

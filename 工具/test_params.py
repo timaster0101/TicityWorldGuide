@@ -151,5 +151,26 @@ class RenderedTable(unittest.TestCase):
             self.assertNotIn('\u2026', text, f'{name} 混入 U+2026 省略号')
 
 
+class GateExtended(unittest.TestCase):
+    def setUp(self):
+        import verify_occupations as vo
+        self.vo = vo
+
+    def test_twenty_five_checks_registered(self):
+        self.assertEqual(len(self.vo.CHECKS), 25)
+        self.assertEqual(self.vo.CHECKS[20:],
+                         ['参数完整性', '交通矩阵可复算', '天气年历闭合', '技能阈值同源', '事件与检查点自洽'])
+
+    def test_gate_green_and_report_records_params(self):
+        import subprocess
+        r = subprocess.run([sys.executable, str(ROOT / '工具' / 'verify_occupations.py')],
+                           check=True, capture_output=True, text=True)
+        self.assertIn('二十五条判红', r.stdout)
+        rep = json.loads((ROOT / '数据' / '产业就业核验.json').read_text(encoding='utf-8'))
+        self.assertEqual(rep['检查项数'], 25)
+        self.assertEqual(rep['参数汇总']['矩阵格数'], 50)
+        self.assertEqual(rep['参数汇总']['年历格数'], 365)
+
+
 if __name__ == '__main__':
     unittest.main()

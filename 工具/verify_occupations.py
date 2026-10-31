@@ -1,16 +1,39 @@
 # -*- coding: utf-8 -*-
-"""产业与就业层闸门：二十条判红全部落在数据层（十条产业＋六条字典＋四条物价），任一失败即非零退出。跑法：python 工具/verify_occupations.py"""
+"""产业与就业层闸门：二十五条判红全部落在数据层（十条产业＋六条字典＋四条物价＋五条运行参数），任一失败即非零退出。跑法：python 工具/verify_occupations.py"""
 import json, math, re
 from pathlib import Path
 
-from anchors import entry_ring
+from anchors import entry_ring, RINGS, pair_key, ring_pair_stats
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = json.loads((ROOT / '数据' / '产业就业源表.json').read_text(encoding='utf-8'))
 REGISTRY = json.loads((ROOT / '数据' / '城市空间名录.json').read_text(encoding='utf-8'))['entries']
 
+MONTH_DAYS = dict(zip(range(1, 13), [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]))
+INNER = ('内湖环', '外城环')
 
-def issues(canon, source, registry, adm, costs):
+
+def expand_runs(runs):
+    return [code for code, count in runs for _ in range(count)]
+
+
+def transfer_minutes(sp, code, a, b):
+    if code == 'TR-BUS' and a != b:
+        return sp['公交跨圈换乘分钟']
+    if code == 'TR-RAIL' and (a in INNER) != (b in INNER):
+        return sp['铁路内外衔接分钟']
+    return 0
+
+
+def sea_of(params):
+    out = {}
+    for sea, info in params['参数']['季节月份'].items():
+        for m in info['月']:
+            out[str(m)] = sea
+    return out
+
+
+def issues(canon, source, registry, adm, costs, params, psource):
     out, p = [], canon['参数']
     by_id = {e['id']: e for e in registry}
     bands = {t['档']: tuple(t['雇员数']) for t in source['公司档']}
@@ -123,6 +146,7 @@ def issues(canon, source, registry, adm, costs):
                 out.append(f'无人机禁空: {c["id"]} 具名含无人机字样，落在 {zid}')
     out += adm_issues(canon, adm)
     out += cost_issues(canon, costs, registry)
+    out += param_issues(params, psource, costs, canon)
     return out
 
 def adm_issues(canon, adm):
@@ -260,7 +284,8 @@ def adm_issues(canon, adm):
 CHECKS = ['分区守恒', 'T5每大类一家', '档位区间与占比', '住所覆盖红线', '层系数单调',
           '起始年窗口', 'A08职责禁则', '公职不可申请边界', '字段黑名单', '无人机禁区',
           '引用完整性', '标签体系', '关键场景', '合同矩阵', '卡牌边界', '释放流程',
-          '篮子完整性', '硬下限钳', '价物表自洽', '库存与配额']
+          '篮子完整性', '硬下限钳', '价物表自洽', '库存与配额',
+          '参数完整性', '交通矩阵可复算', '天气年历闭合', '技能阈值同源', '事件与检查点自洽']
 
 
 def cost_issues(canon, costs, registry):
@@ -392,6 +417,144 @@ def cost_issues(canon, costs, registry):
     return out
 
 
+def param_issues(params, psource, costs, occ):
+    """第 21 至 25 条：参数完整性、交通矩阵可复算、天气年历闭合、技能阈值同源、事件与检查点自洽。
+
+    第一参数是运行参数正典（函数内简称 p 的来源），第四参数是产业就业正典——门禁必须自己独立
+    算一遍矩阵与年历，不许 import build_params。
+    """
+    out, p = [], params['参数']
+    order = ['个人', '家庭', '社区', '城市']
+
+    # 21 参数完整性：六节无缺键，阈值严格递增，速度与系数为正，配额非负
+    for group in ('技能', '季节月份', '交通', '圈层对', '天气', '事件', '检查点'):
+        if group not in p:
+            out.append(f'参数完整性: 缺 {group} 一节')
+    if '圈层对' in p and len(p['圈层对']) != 10:
+        out.append(f"参数完整性: 圈层对 {len(p['圈层对'])} 行 != 10")
+    th = p['技能']['等级阈值月']
+    if list(th) != ['LVL1', 'LVL2', 'LVL3', 'LVL4', 'LVL5']:
+        out.append(f'参数完整性: 等级阈值键不齐 {list(th)}')
+    if any(b <= a for a, b in zip(list(th.values()), list(th.values())[1:])):
+        out.append('参数完整性: 等级阈值非严格递增')
+    for m in p['交通']['方式']:
+        if m['速度km_h'] <= 0:
+            out.append(f"参数完整性: {m['码']} 速度非正")
+    if p['交通']['绕行系数'] <= 0 or p['交通']['取整分钟'] <= 0:
+        out.append('参数完整性: 绕行系数或取整系数非正')
+    for label, v in (('每自然月', p['事件']['负面配额']['每自然月']), ('每轮', p['事件']['负面配额']['每轮'])):
+        if v < 0:
+            out.append(f'参数完整性: 负面配额{label}为负')
+    if p['技能']['同标签每轮卡片上限'] < 0 or p['技能']['退化零使用月'] <= 0:
+        out.append('参数完整性: 卡片上限或退化月数越界')
+
+    # 22 交通矩阵可复算：逐格按公式重算；`—` 只允许出现在声明的不可用组合；几何实测对账；延后方式不得进矩阵
+    #   速度、系数与覆盖清单一律取自 psource（手填源表），不取正典自带的同一份——否则派生器改写了常量也无从可查
+    stats = ring_pair_stats()
+    sp, by_cell = psource['交通'], {(c['圈层对'], c['方式']): c for c in params['交通矩阵']}
+    want = {(pair_key(r['A'], r['B']), m['码']) for r in psource['圈层对'] for m in sp['方式']}
+    if set(by_cell) != want:
+        out.append(f'交通矩阵: 格子不齐 {sorted(set(by_cell) ^ want)[:4]}')
+    for (key, code), cell in sorted(by_cell.items()):
+        mode = next((m for m in sp['方式'] if m['码'] == code), None)
+        if not mode:
+            out.append(f'交通矩阵: 方式 {code} 未在源表声明')
+            continue
+        a, b = key.split('|')
+        got = stats.get(key)
+        if not got:
+            out.append(f'交通矩阵: 圈层对 {key} 不在名录几何内')
+            continue
+        if abs(cell['中位直线km'] - got['中位直线km']) > 0.05:
+            out.append(f"交通矩阵: {key} 中位直线 {cell['中位直线km']} 与实测 {got['中位直线km']} 偏差超 0.05")
+        if key in mode['覆盖']:
+            route = round(got['中位直线km'] * sp['绕行系数'], 2)
+            mins = math.ceil((route / mode['速度km_h'] * 60 + transfer_minutes(sp, code, a, b))
+                             / sp['取整分钟']) * sp['取整分钟']
+            if cell['耗时分钟'] != mins or cell['路线km'] != route:
+                out.append(f"交通矩阵: {key}/{code} 登记 {cell['耗时分钟']}分·{cell['路线km']}km，复算 {mins}分·{route}km")
+        elif cell['耗时分钟'] is not None:
+            out.append(f'交通矩阵: {key}/{code} 不在覆盖清单内却有耗时')
+    deferred = {m['码'] for m in sp['延后方式']}
+    for code in sorted(deferred & {c['方式'] for c in params['交通矩阵']}):
+        out.append(f'交通矩阵: 延后方式 {code} 进了矩阵，耗时须待第5期清单')
+
+    # 23 天气年历闭合：月份不重不漏、逐月展开天数、总和 365、相邻游程不同态、单游程≤10、季度次数落区间、态码在字典内、SEA 与物价同源
+    sea = p['季节月份']
+    months = [m for info in sea.values() for m in info['月']]
+    if sorted(months) != list(range(1, 13)):
+        out.append(f'天气年历: 十二个月不重不漏失败 {sorted(months)}')
+    if any(info['天数'] != sum(MONTH_DAYS[m] for m in info['月']) for info in sea.values()):
+        out.append('天气年历: 某季声明天数与其月份天数之和不符')
+    codes = {s['码'] for s in p['天气']['态']}
+    runs = p['天气']['逐月游程']
+    if sorted(runs, key=int) != [str(m) for m in range(1, 13)]:
+        out.append(f'天气年历: 游程月份键不齐 {sorted(runs, key=int)}')
+    for mm, rr in runs.items():
+        if len(expand_runs(rr)) != MONTH_DAYS[int(mm)]:
+            out.append(f"天气年历: {mm} 月展开 {len(expand_runs(rr))} 天 != {MONTH_DAYS[int(mm)]}")
+        if any(rr[i][0] == rr[i + 1][0] for i in range(len(rr) - 1)):
+            out.append(f'天气年历: {mm} 月存在相邻同态游程')
+        if any(c > 10 for _, c in rr):
+            out.append(f'天气年历: {mm} 月单游程超过 10 天')
+        for code, _ in rr:
+            if code not in codes:
+                out.append(f'天气年历: 态码 {code} 不在字典内（{mm} 月）')
+    year = params['天气年历']
+    if len(year) != 365:
+        out.append(f'天气年历: 正典 {len(year)} 格 != 365')
+    sea_lookup = sea_of(params)
+    # 十二个月不重不漏是展开比对的前提：月份表被改坏时 sea_of 会静默吞掉重复键，
+    # 此时只报上面那条判红，不能让门禁以 KeyError 代替判红。
+    months_ok = sorted(months) == list(range(1, 13))
+    expect = [(sea_lookup[mm], code) for mm in sorted(runs, key=int)
+              for code in expand_runs(runs[mm])] if months_ok else []
+    if months_ok and (len(expect) != len(year) or any((c['SEA'], c['态']) != e for c, e in zip(year, expect))):
+        out.append('天气年历: 与逐月游程展开不符')
+    for s_code, ranges in p['天气']['次数区间'].items():
+        counts = {}
+        for mm in sea[s_code]['月']:
+            for code, n in runs[str(mm)]:
+                counts[code] = counts.get(code, 0) + n
+        for code, (lo, hi) in ranges.items():
+            if not lo <= counts.get(code, 0) <= hi:
+                out.append(f'天气年历: {s_code}/{code} 实得 {counts.get(code, 0)} 越出 [{lo}, {hi}]')
+    if sorted(sea) != sorted(costs['参数']['季节系数']):
+        out.append(f'天气年历: SEA 键与物价季节系数不齐 物价 {sorted(costs["参数"]["季节系数"])}')
+
+    # 24 技能阈值与五层同源：五档递增且首档 0、键与岗位卡 LVL 码一一对应、退化比例在 (0,1)、五维刻度正且下界小于上界
+    if list(th.values())[0] != 0:
+        out.append('技能阈值: 首档不为 0')
+    lvl_codes = {card['岗位层'] for comp in occ['公司'] for card in comp['岗位卡']}
+    if lvl_codes != set(th):
+        out.append(f'技能阈值: 与岗位卡层码不对应 {sorted(lvl_codes ^ set(th))}')
+    ratio = p['技能']['退化下限比例']
+    if not 0.0 < ratio < 1.0:
+        out.append(f'技能阈值: 退化下限比例 {ratio} 越出 (0,1)')
+    lo, hi = p['技能']['五维刻度']
+    if not (lo > 0 and hi > lo):
+        out.append(f'技能阈值: 五维刻度 {p["技能"]["五维刻度"]} 不正或倒挂')
+
+    # 25 事件与检查点自洽：冷却与预告随级别单调、每轮配额不小于每自然月、保留数≥1、时刻 HH:MM、不得自助回档
+    cd = p['事件']['冷却天']
+    if set(cd) != set(order):
+        out.append(f'事件与检查点: 冷却级别不齐 {sorted(cd)}')
+    if any(cd[b] < cd[a] for a, b in zip(order, order[1:]) if a in cd and b in cd):
+        out.append('事件与检查点: 冷却天须随级别单调不减')
+    if p['事件']['负面配额']['每轮'] < p['事件']['负面配额']['每自然月']:
+        out.append('事件与检查点: 每轮负面配额不得小于每自然月配额')
+    pn = p['事件']['预告天']
+    if any(pn[b] < pn[a] for a, b in zip(['社区级', '城市级'], ['社区级', '城市级'][1:])):
+        out.append('事件与检查点: 预告天须随级别单调不减')
+    if p['检查点']['保留日检查点数'] < 1:
+        out.append('事件与检查点: 检查点保留数须 ≥1')
+    if not re.match(r'^\d{2}:\d{2}$', p['检查点']['日检查点时刻']):
+        out.append(f"事件与检查点: 日检查点时刻 {p['检查点']['日检查点时刻']} 不匹配 HH:MM")
+    if p['检查点']['用户自助回档'] is not False:
+        out.append('事件与检查点: 用户自助回档必须为 false')
+    return out
+
+
 def main():
     ap = ROOT / '数据' / '岗位准入正典.json'
     if not ap.exists():
@@ -402,7 +565,15 @@ def main():
     canon = json.loads((ROOT / '数据' / '产业就业正典.json').read_text(encoding='utf-8'))
     adm = json.loads(ap.read_text(encoding='utf-8'))
     costs = json.loads(cp.read_text(encoding='utf-8'))
-    bad = issues(canon, SOURCE, REGISTRY, adm, costs)
+    pp = ROOT / '数据' / '运行参数正典.json'
+    if not pp.exists():
+        raise SystemExit('缺少 数据/运行参数正典.json：先运行 python 工具/build_params.py，参数门禁不得空转判绿')
+    ps = ROOT / '数据' / '运行参数源表.json'
+    if not ps.exists():
+        raise SystemExit('缺少 数据/运行参数源表.json：门禁须按源表声明的覆盖清单复核矩阵，不得只信正典自证')
+    params = json.loads(pp.read_text(encoding='utf-8'))
+    psource = json.loads(ps.read_text(encoding='utf-8'))['参数']
+    bad = issues(canon, SOURCE, REGISTRY, adm, costs, params, psource)
     report = {'检查项': CHECKS, '检查项数': len(CHECKS), '失败数': len(bad), '失败明细': bad[:40],
               '字典汇总': {k: adm['汇总'][k] for k in ('标签数', '场景数', '合同类型数', '卡牌族数', '释放状态数')},
               '物价汇总': {'篮子': costs['篮子'], '品类数': costs['汇总']['品类数'],
@@ -411,14 +582,17 @@ def main():
                         '被顶起卡数': canon['汇总']['被顶起卡数'],
                         '被顶起名额数': canon['汇总']['被顶起名额数'],
                         '被顶起按圈层': canon['汇总']['被顶起按圈层']},
-              '判据': '二十条判红（十条产业＋六条字典＋四条物价）；任一失败即非零退出，不允许空转判绿'}
+              '参数汇总': {'矩阵格数': params['汇总']['矩阵格数'], '可用格数': params['汇总']['可用格数'],
+                        '年历格数': params['汇总']['年历格数'], '季节数': params['汇总']['季节数'],
+                        '等级阈值': params['技能等级阈值']},
+              '判据': '二十五条判红（十条产业＋六条字典＋四条物价＋五条运行参数）；任一失败即非零退出，不允许空转判绿'}
     (ROOT / '数据' / '产业就业核验.json').write_text(json.dumps(report, ensure_ascii=False, indent=2),
                                                     encoding='utf-8')
     if bad:
         for b in bad[:20]:
             print('FAIL', b)
         raise SystemExit(1)
-    print(f'全绿：二十条判红，0 失败；公司 {canon["汇总"]["公司数"]} 家（具名 {canon["汇总"]["具名公司数"]}）'
+    print(f'全绿：二十五条判红，0 失败；公司 {canon["汇总"]["公司数"]} 家（具名 {canon["汇总"]["具名公司数"]}）'
           f'，岗位卡 {canon["汇总"]["岗位卡数"]} 张，雇员 {canon["汇总"]["雇员总数"]} 人'
           f'，被顶起 {canon["汇总"]["被顶起卡数"]} 张／{canon["汇总"]["被顶起名额数"]} 名额')
 
