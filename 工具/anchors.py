@@ -6,6 +6,7 @@
 被 build_costs.py 与 build_occupations.py 共用；产业就业正典里 64 个锚点必须与 dwelling_anchors() 逐项相等。
 """
 import json
+import math
 import statistics
 from pathlib import Path
 
@@ -47,3 +48,37 @@ def district_anchors():
 def dwelling_anchors():
     """只保留可作为岗位锚点的 64 区（40F＋24S）；D 键只作继承，不对外暴露。"""
     return {k: v for k, v in district_anchors().items() if k[0] in 'FS'}
+
+
+RINGS = ('内湖环', '外城环', '产业小镇', '特色村落')
+
+
+def pair_key(a, b):
+    """无序圈层对的规范键名，按 RINGS 下标定先后，避免 A|B 与 B|A 两份键。"""
+    return f'{a}|{b}' if RINGS.index(a) <= RINGS.index(b) else f'{b}|{a}'
+
+
+def ring_pair_stats():
+    """64 个 F／S 锚点两两直线距离的逐圈层对统计。交通固定耗时由它派生，门禁也按它复核。"""
+    coords = {e['id']: e['center_km'] for e in REGISTRY if e['id'][0] in 'FS'}
+    buckets = {}
+    for key in coords:
+        buckets.setdefault(entry_ring(BY_ID[key], BY_ID), []).append(key)
+    out = {}
+    for i, a in enumerate(RINGS):
+        for b in RINGS[i:]:
+            ds = []
+            for x in buckets[a]:
+                for y in buckets[b]:
+                    if a != b and x >= y:
+                        continue          # 跨圈层只取一份（400／320／160／128）
+                    if x == y:
+                        continue          # 同圈层保留 (x,y) 与 (y,x) 两份（380／240／56）
+                    dx = coords[x][0] - coords[y][0]
+                    dy = coords[x][1] - coords[y][1]
+                    ds.append(math.hypot(dx, dy))
+            med = statistics.median(ds)
+            out[pair_key(a, b)] = {'锚点对数': len(ds), '中位直线km': round(med, 3),
+                                   '最小km': round(min(ds), 3), '最大km': round(max(ds), 3),
+                                   '最大偏差km': round(max(abs(d - med) for d in ds), 3)}
+    return out
