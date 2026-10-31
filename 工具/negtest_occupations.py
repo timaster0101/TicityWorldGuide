@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-"""产业与就业层闸门的违例自检：把闸门与五份数据整批复制到临时目录，逐条改坏正典，断言闸门必须判红并给出该条自己的措辞。
+"""产业与就业层闸门的违例自检：把闸门与七份数据整批复制到临时目录，逐条改坏正典，断言闸门必须判红并给出该条自己的措辞。
 
-闸门只会打印"全绿"，无法自证它抓得住违例；本脚本按十六条判据反向注入，只操作临时副本，
-绝不改动被守护的仓库文件。闸门只读落盘 JSON，因此临时目录里不需要 工具/build_admission.py。
+闸门只会打印"全绿"，无法自证它抓得住违例；本脚本按二十条判据反向注入，只操作临时副本，
+绝不改动被守护的仓库文件。闸门只读落盘 JSON，因此临时目录里不需要 build_admission.py 与 build_costs.py，
+但必须带上 anchors.py——闸门的圈层归属与住所锚都从它取。
 跑法：python 工具/negtest_occupations.py
 """
 import json
@@ -13,9 +14,10 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-GATE = ROOT / '工具' / 'verify_occupations.py'
+TOOLS = ['verify_occupations.py', 'anchors.py']
 DATA = ['产业就业正典.json', '产业就业源表.json', '城市空间名录.json',
-        '岗位准入正典.json', '岗位准入源表.json']
+        '岗位准入正典.json', '岗位准入源表.json',
+        '物价与生活正典.json', '物价生活源表.json', '参考房价租金.json']
 TMP_PREFIX = 'occneg-'
 
 
@@ -29,6 +31,10 @@ def first(canon, pred):
 
 def adm_of(tmp):
     return json.loads((tmp / '数据' / '岗位准入正典.json').read_text(encoding='utf-8'))
+
+
+def costs_of(tmp):
+    return json.loads((tmp / '数据' / '物价与生活正典.json').read_text(encoding='utf-8'))
 
 
 def cards(canon):
@@ -157,6 +163,49 @@ def cases():
     def coefficient_gap(c):
         c['参数']['层系数']['LVL5'] = 5.5
 
+    # —— 第 17 至 20 条（物价与生活成本包）——
+    def basket_off_baseline(c, a, s):
+        s['篮子']['内湖环'] = round(s['篮子基线_内湖环'] * 1.13, 1)
+
+    def seasonal_view_missing_slot(c, a, s):
+        s['季节展示'].pop('SEA-3')
+
+    def clamp_bypassed(c, a, s):
+        card = next(x for comp in c['公司'] for x in comp['岗位卡'] if x['红线_钛币']['是否被顶起'])
+        card['月薪带_钛币'][0] = card['红线_钛币']['住所四成线']
+
+    def clamp_line_misrecorded(c, a, s):
+        card = next(x for comp in c['公司'] for x in comp['岗位卡'] if x['红线_钛币']['是否被顶起'])
+        card['红线_钛币']['住所加篮子线'] += 10
+
+    def dangling_category(c, a, s):
+        s['品类'][0]['域'] = 'PRD-XXXX'
+
+    def hand_filled_upgrade_price(c, a, s):
+        s['品类'][1]['三档基准价']['改善'] = round(s['品类'][1]['三档基准价']['必需'] * 1.9, 1)
+
+    def second_hand_cap_at_one(c, a, s):
+        row = next(x for x in s['品类'] if x.get('二手折价上限'))
+        row['二手折价上限'] = 1.0
+
+    def recovery_ratio_above_one(c, a, s):
+        s['参数']['回收系数'] = 1.5
+
+    def dangling_relief_ref(c, a, s):
+        s['品类'][0]['减免归属']['A'] = 'WEL-Z'
+
+    def quota_rounded_up(c, a, s):
+        row = s['库存'][0]
+        row['兜底配额'] += 1
+
+    def three_house_types(c, a, s):
+        for row in s['库存']:
+            if row['住房类型ID'] == 'HOU-04':
+                row['住房类型ID'] = 'HOU-03'
+
+    def sparse_on_district(c, a, s):
+        s['库存'][0]['挂靠人口'] += 10
+
     return [
         ('逐区守恒人数被改', conservation, '守恒'),
         ('整区公司缺失', missing_anchor, '守恒'),
@@ -186,6 +235,18 @@ def cases():
         ('合同用工形态跳出五值', contract_form_out_of_five, '合同矩阵'),
         ('卡牌效果越界发钱', card_family_pays_money, '卡牌边界'),
         ('晚起始卡提前开放', late_post_opens_early, '释放流程'),
+        ('篮子值不等于基线乘系数', basket_off_baseline, '未由基线×系数得出'),
+        ('季节展示缺档', seasonal_view_missing_slot, '季节展示缺档'),
+        ('被顶起卡退回住所四成线', clamp_bypassed, '下界'),
+        ('卡上记录的生效线与复算不符', clamp_line_misrecorded, '记录的生效线'),
+        ('品类引用悬空的域', dangling_category, '品类引用悬空'),
+        ('改善价手填不派生', hand_filled_upgrade_price, '改善或奢侈价不是由必需价乘派生系数得出'),
+        ('二手上限填成 1.0', second_hand_cap_at_one, '二手上限越界'),
+        ('回收比例越出区间', recovery_ratio_above_one, '维修或回收比例越出 (0,1)'),
+        ('减免归属指向不存在的档位', dangling_relief_ref, '减免归属悬空'),
+        ('兜底配额手改一户', quota_rounded_up, '配额取整不符'),
+        ('住房类型只剩三类', three_house_types, '住房类型数'),
+        ('散居挂靠落到片区行', sparse_on_district, '片区行带了散居挂靠'),
     ]
 
 
@@ -207,18 +268,24 @@ def main():
         try:
             (tmp / '工具').mkdir()
             (tmp / '数据').mkdir()
-            shutil.copy2(GATE, tmp / '工具' / 'verify_occupations.py')
+            for f in TOOLS:
+                shutil.copy2(ROOT / '工具' / f, tmp / '工具' / f)
             for f in DATA:
                 shutil.copy2(ROOT / '数据' / f, tmp / '数据' / f)
             rc0, _ = run_gate(tmp)
-            canon, adm = canon_of(tmp), adm_of(tmp)
-            if _arity(mutate) == 1:
+            canon, adm, costs = canon_of(tmp), adm_of(tmp), costs_of(tmp)
+            n = _arity(mutate)
+            if n == 1:
                 mutate(canon)
                 payload = [(tmp / '数据' / '产业就业正典.json', canon)]
-            else:
+            elif n == 2:
                 mutate(canon, adm)
                 payload = [(tmp / '数据' / '产业就业正典.json', canon),
                            (tmp / '数据' / '岗位准入正典.json', adm)]
+            else:
+                mutate(canon, adm, costs)
+                payload = [(tmp / '数据' / '产业就业正典.json', canon),
+                           (tmp / '数据' / '物价与生活正典.json', costs)]
             for path, obj in payload:
                 path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding='utf-8')
             rc, out = run_gate(tmp)

@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-"""产业与就业层闸门：十条判红全部落在数据层，任一失败即非零退出。跑法：python 工具/verify_occupations.py"""
+"""产业与就业层闸门：二十条判红全部落在数据层（十条产业＋六条字典＋四条物价），任一失败即非零退出。跑法：python 工具/verify_occupations.py"""
 import json, math, re
 from pathlib import Path
+
+from anchors import entry_ring
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = json.loads((ROOT / '数据' / '产业就业源表.json').read_text(encoding='utf-8'))
 REGISTRY = json.loads((ROOT / '数据' / '城市空间名录.json').read_text(encoding='utf-8'))['entries']
 
 
-def issues(canon, source, registry, adm):
+def issues(canon, source, registry, adm, costs):
     out, p = [], canon['参数']
     by_id = {e['id']: e for e in registry}
     bands = {t['档']: tuple(t['雇员数']) for t in source['公司档']}
@@ -120,6 +122,7 @@ def issues(canon, source, registry, adm):
             if c['名称'] and any(k in c['名称'] for k in source['禁则']['无人机关键词']):
                 out.append(f'无人机禁空: {c["id"]} 具名含无人机字样，落在 {zid}')
     out += adm_issues(canon, adm)
+    out += cost_issues(canon, costs, registry)
     return out
 
 def adm_issues(canon, adm):
@@ -256,27 +259,168 @@ def adm_issues(canon, adm):
 
 CHECKS = ['分区守恒', 'T5每大类一家', '档位区间与占比', '住所覆盖红线', '层系数单调',
           '起始年窗口', 'A08职责禁则', '公职不可申请边界', '字段黑名单', '无人机禁区',
-          '引用完整性', '标签体系', '关键场景', '合同矩阵', '卡牌边界', '释放流程']
+          '引用完整性', '标签体系', '关键场景', '合同矩阵', '卡牌边界', '释放流程',
+          '篮子完整性', '硬下限钳', '价物表自洽', '库存与配额']
+
+
+def cost_issues(canon, costs, registry):
+    """第 17 至 20 条：篮子完整性、硬下限钳、价物表自洽、库存与配额。"""
+    out, p, cp = [], canon['参数'], costs['参数']
+    rings = cp['圈层顺序']
+    by_id = {e['id']: e for e in registry}
+
+    # 17 篮子完整性：四圈层各一个年篮子，且每个值必须能由逐品类复算得出
+    if sorted(costs['篮子']) != sorted(rings):
+        out.append(f'篮子完整性: 圈层不齐 {sorted(costs["篮子"])}')
+    if len(cp['商品圈层系数']) != 4:
+        out.append('篮子完整性: 商品系数族不是四档')
+    rebase = round(sum(c['三档基准价']['必需'] * c['标准月消耗量'] for c in costs['品类']), 1)
+    if abs(rebase - costs['篮子基线_内湖环']) > 0.05:
+        out.append(f'篮子完整性: 基线复算 {rebase} != 登记 {costs["篮子基线_内湖环"]}')
+    for ring, coef in zip(rings, cp['商品圈层系数']):
+        if costs['篮子'].get(ring) != round(rebase * coef, 1):
+            out.append(f'篮子完整性: {ring} 未由基线×系数得出')
+    if sorted(costs['季节展示']) != ['SEA-1', 'SEA-2', 'SEA-3', 'SEA-4']:
+        out.append('篮子完整性: 季节展示缺档')
+
+    # 18 硬下限钳：逐张卡的下界不得低于两条线的大值，卡上记录的生效线须与复算一致
+    for comp in canon['公司']:
+        z = comp['锚点']
+        if z not in canon['住所锚'] or z not in by_id:
+            out.append(f'硬下限钳: {z} 没有住所锚或名录条目')
+            continue
+        ring = entry_ring(by_id[z], by_id)
+        if ring not in costs['篮子']:
+            out.append(f'硬下限钳: {z} 的圈层 {ring} 没有篮子')
+            continue
+        anchor = canon['住所锚'][z]
+        line = int(math.ceil(max(anchor / p['住所占比判据'],
+                                 anchor + costs['篮子'][ring]) / p['月薪取整']) * p['月薪取整'])
+        for card in comp['岗位卡']:
+            if card['月薪带_钛币'][0] < line:
+                out.append(f'硬下限钳: {card["id"]} 下界 {card["月薪带_钛币"][0]} < 生效线 {line}')
+            if card['红线_钛币']['住所加篮子线'] != line:
+                out.append(f'硬下限钳: {card["id"]} 记录的生效线 {card["红线_钛币"]["住所加篮子线"]} != 复算 {line}')
+
+    # 19 价物表自洽：三档由两个乘数得出、精度 0.1、挂牌与维修回收单向走低
+    #   参数级不变量先判，否则逐品类会先刷满 20 行打印窗口，把参数级措辞挤出 stdout
+    if not 1.0 < cp['改善乘数'] < cp['奢侈乘数']:
+        out.append('价物表: 派生乘数未严格递增')
+    if not all(0.0 < v < 1.0 for v in (cp['维修费比例'], cp['回收系数'])):
+        out.append('价物表: 维修或回收比例越出 (0,1)')
+    if not all(0.0 <= v <= 1.0 for v in cp['减免比例'].values()):
+        out.append('价物表: 减免比例越界')
+    if len(cp['季节系数']) != 4:
+        out.append('价物表: 季节系数不是四档')
+    domain_by_id = {d['id']: d for d in costs['域表']}
+    seen = set()
+    for c in costs['品类']:
+        if c['id'] in seen:
+            out.append(f'价物表: 品类 id 重复 {c["id"]}')
+        seen.add(c['id'])
+        if c['域'] not in domain_by_id:
+            out.append(f'价物表: 品类引用悬空 {c["id"]}')
+            continue
+        t = c['三档基准价']
+        if not (t['必需'] <= t['改善'] <= t['奢侈']):
+            out.append(f'价物表: 三档非单调 {c["id"]}')
+        if t['改善'] != round(t['必需'] * cp['改善乘数'], 1) or t['奢侈'] != round(t['必需'] * cp['奢侈乘数'], 1):
+            out.append(f'价物表: 改善或奢侈价不是由必需价乘派生系数得出 {c["id"]}')
+        for v in (t['必需'], t['改善'], t['奢侈']):
+            if round(v, 1) != v:
+                out.append(f'价物表: 精度越出 0.1 {c["id"]}')
+        if c['季节生效'] != domain_by_id[c['域']]['季节敏感']:
+            out.append(f'价物表: 季节标志与域矛盾 {c["id"]}')
+        if not set(c['减免归属'].values()) <= set(cp['减免比例']):
+            out.append(f'价物表: 减免归属悬空 {c["id"]}')
+        if c['二手适用']:
+            cap = c['二手折价上限']
+            if not 0.0 < cap < 1.0:
+                out.append(f'价物表: 二手上限越界 {c["id"]}')
+            listing, scrap = c['二手挂牌价_必需档'], c['回收价_必需档']
+            if listing != round(t['必需'] * cap, 1) or scrap != round(listing * cp['回收系数'], 1):
+                out.append(f'价物表: 挂牌价或回收价不是派生值 {c["id"]}')
+            if not scrap < listing < t['必需']:
+                out.append(f'价物表: 价格未沿 新品→二手→回收 单向走低 {c["id"]}')
+        elif '二手折价上限' in c:
+            out.append(f'价物表: 禁挂牌品类带了上限 {c["id"]}')
+        if c['维修适用'] and c['维修费_必需档'] != round(t['必需'] * cp['维修费比例'], 1):
+            out.append(f'价物表: 维修费不是派生值 {c["id"]}')
+
+    # 20 库存与配额：176 行齐全、行合计守恒、配额向下取整保底 1 户、散居只挂聚落且恰好摊完
+    rows = costs['库存']
+    by_unit = {}
+    for r in rows:
+        by_unit.setdefault(r['单元ID'], []).append(r)
+    if len(rows) != 176 or len(by_unit) != 44:
+        out.append(f'库存与配额: 行数 {len(rows)} 或单元数 {len(by_unit)} 不对')
+    if {r['住房类型ID'] for r in rows} != {'HOU-01', 'HOU-02', 'HOU-03', 'HOU-04'}:
+        out.append(f'库存与配额: 住房类型数 {len({r["住房类型ID"] for r in rows})} != 4')
+    for u, rs in sorted(by_unit.items()):
+        if sum(x['总量'] for x in rs) != rs[0]['推导户数']:
+            out.append(f'库存与配额: {u} Σ总量 != 推导户数')
+        if abs(sum(x['类型配比'] for x in rs) - 1.0) > 1e-9:
+            out.append(f'库存与配额: {u} 配比合计 != 1.00')
+        if rs[0]['单元人口'] != rs[0]['登记人口'] + rs[0]['挂靠人口']:
+            out.append(f'库存与配额: {u} 单元人口不自洽')
+        for x in rs:
+            if x['兜底配额'] != max(1, math.floor(x['总量'] * cp['兜底比例'])):
+                out.append(f'库存与配额: {u}/{x["住房类型ID"]} 配额取整不符')
+            if x['可分配'] != x['兜底配额'] or x['已占用'] + x['可分配'] != x['总量']:
+                out.append(f'库存与配额: {u}/{x["住房类型ID"]} 占用恒等式破')
+        if u.startswith('S'):
+            up = rs[0]['挂靠人口'] / rs[0]['登记人口']
+            if not 0.125 <= up <= 0.127:
+                out.append(f'库存与配额: {u} 上浮比例 {up:.4f} 越出 12.5%—12.7%')
+    if any(r['挂靠人口'] and r['单元ID'].startswith('D') for r in rows):
+        out.append('库存与配额: 片区行带了散居挂靠')
+    linked = sum(r['挂靠人口'] for r in rows) // 4
+    if linked != costs['散居挂靠']['总人口']:
+        out.append(f'库存与配额: Σ挂靠 {linked} != {costs["散居挂靠"]["总人口"]}')
+    city = sum(rs[0]['推导户数'] for rs in by_unit.values())
+    if city != costs['汇总']['全城户数']:
+        out.append(f'库存与配额: 全城户数 {city} != 登记 {costs["汇总"]["全城户数"]}')
+    if abs(city - costs['汇总']['全城人口'] / cp['户均规模']) > 44:
+        out.append(f'库存与配额: 全城户数 {city} 偏离全域除法超过 44 户')
+    detail = {}
+    for rec in json.loads((ROOT / '数据' / '参考房价租金.json').read_text(encoding='utf-8'))['records']:
+        if rec.get('parent', '').startswith('D') and 'typical_dwelling' in rec:
+            detail[rec['parent']] = detail.get(rec['parent'], 0) + rec['typical_dwelling']['households']
+    for d, got in sorted(detail.items()):
+        if d in by_unit and got > by_unit[d][0]['推导户数']:
+            out.append(f'库存与配额: {d} 居民区明细户数 {got} > 推导户数')
+    return out
 
 
 def main():
     ap = ROOT / '数据' / '岗位准入正典.json'
     if not ap.exists():
         raise SystemExit('缺少 数据/岗位准入正典.json：先运行 python 工具/build_admission.py，门禁不得因无引用可查而空转判绿')
+    cp = ROOT / '数据' / '物价与生活正典.json'
+    if not cp.exists():
+        raise SystemExit('缺少 数据/物价与生活正典.json：先运行 python 工具/build_costs.py，物价门禁不得空转判绿')
     canon = json.loads((ROOT / '数据' / '产业就业正典.json').read_text(encoding='utf-8'))
     adm = json.loads(ap.read_text(encoding='utf-8'))
-    bad = issues(canon, SOURCE, REGISTRY, adm)
+    costs = json.loads(cp.read_text(encoding='utf-8'))
+    bad = issues(canon, SOURCE, REGISTRY, adm, costs)
     report = {'检查项': CHECKS, '检查项数': len(CHECKS), '失败数': len(bad), '失败明细': bad[:40],
               '字典汇总': {k: adm['汇总'][k] for k in ('标签数', '场景数', '合同类型数', '卡牌族数', '释放状态数')},
-              '判据': '十六条判红（十条产业＋六条字典）；任一失败即非零退出，不允许空转判绿'}
+              '物价汇总': {'篮子': costs['篮子'], '品类数': costs['汇总']['品类数'],
+                        '库存行数': costs['汇总']['库存行数'], '全城户数': costs['汇总']['全城户数'],
+                        '散居挂靠余数': costs['汇总']['散居挂靠余数'],
+                        '被顶起卡数': canon['汇总']['被顶起卡数'],
+                        '被顶起名额数': canon['汇总']['被顶起名额数'],
+                        '被顶起按圈层': canon['汇总']['被顶起按圈层']},
+              '判据': '二十条判红（十条产业＋六条字典＋四条物价）；任一失败即非零退出，不允许空转判绿'}
     (ROOT / '数据' / '产业就业核验.json').write_text(json.dumps(report, ensure_ascii=False, indent=2),
                                                     encoding='utf-8')
     if bad:
         for b in bad[:20]:
             print('FAIL', b)
         raise SystemExit(1)
-    print(f'全绿：十六条判红，0 失败；公司 {canon["汇总"]["公司数"]} 家（具名 {canon["汇总"]["具名公司数"]}）'
-          f'，岗位卡 {canon["汇总"]["岗位卡数"]} 张，雇员 {canon["汇总"]["雇员总数"]} 人')
+    print(f'全绿：二十条判红，0 失败；公司 {canon["汇总"]["公司数"]} 家（具名 {canon["汇总"]["具名公司数"]}）'
+          f'，岗位卡 {canon["汇总"]["岗位卡数"]} 张，雇员 {canon["汇总"]["雇员总数"]} 人'
+          f'，被顶起 {canon["汇总"]["被顶起卡数"]} 张／{canon["汇总"]["被顶起名额数"]} 名额')
 
 
 if __name__ == '__main__':

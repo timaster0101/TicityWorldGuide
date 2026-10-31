@@ -4,7 +4,7 @@
 正典只从三个 read_text 输入取得，脚本内不内嵌任何 ID、名称或坐标常量。
 跑法：python 工具/build_occupations.py [--out-dir DIR]
 """
-import json, math, statistics
+import json, math
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,45 +23,36 @@ def load_admission():
 ADMISSION = load_admission()
 BASE_YEAR = SOURCE['setting_year']
 from build_admission import contracts_for
+from anchors import dwelling_anchors, entry_ring
 PARAMS = SOURCE['参数']
 BY_ID = {e['id']: e for e in REGISTRY}
 PRICE_BY_ID = {r['id']: r for r in PRICING}
 
 
-def household_area_proxy():
-    values = [r['typical_dwelling']['avg_unit_gross_floor_area_m2'] for r in PRICING if 'typical_dwelling' in r]
-    return statistics.median(values)
+def load_baskets(path=ROOT / '数据' / '物价与生活正典.json'):
+    if not Path(path).exists():
+        raise SystemExit('缺少 数据/物价与生活正典.json：先运行 python 工具/build_costs.py，红线不得静默退回只比 住所锚÷0.40')
+    return json.loads(Path(path).read_text(encoding='utf-8'))['篮子']
 
 
-def district_anchors():
-    """全部锚点：D 取其下属 R 的户均月租中位数；F 继承所属 D；S 用每平方米月租×户均面积代理。"""
-    anchors = {}
-    for d in [e for e in REGISTRY if e['type'] == '城市片区']:
-        rents = [r['typical_dwelling']['monthly_rent_tt'] for r in PRICING
-                 if r.get('parent') == d['id'] and 'typical_dwelling' in r]
-        anchors[d['id']] = round(statistics.median(rents), 1)
-    for f in [e for e in REGISTRY if e['type'] == '功能区']:
-        anchors[f['id']] = anchors[f['parent']]
-    proxy = household_area_proxy()
-    for s in [e for e in REGISTRY if e['id'].startswith('S')]:
-        anchors[s['id']] = round(PRICE_BY_ID[s['id']]['residential']['rent_tt_per_m2_month'] * proxy, 1)
-    return anchors
+BASKETS = load_baskets()
 
 
-def dwelling_anchors():
-    """只保留可作为岗位锚点的 64 区（40F＋24S）；D 键只作继承，不对外暴露。"""
-    return {k: v for k, v in district_anchors().items() if k[0] in 'FS'}
+def red_lines(anchor, basket):
+    """两条候选红线，各自向上取整到月薪取整：第1期的 住所锚÷0.40 与本期的 住所锚＋本圈层基本篮子。"""
+    step = PARAMS['月薪取整']
+    old = anchor / PARAMS['住所占比判据']
+    return (int(math.ceil(old / step) * step),
+            int(math.ceil(max(old, anchor + basket) / step) * step))
 
 
-def monthly_band(anchor, level, shape, tier):
-    red_line = anchor / PARAMS['住所占比判据']
-    base = red_line * PARAMS['层系数'][level] * shape * PARAMS['档位加成'][tier]
+def monthly_band(anchor, level, shape, tier, basket):
+    _, eff = red_lines(anchor, basket)
+    base = (anchor / PARAMS['住所占比判据']) * PARAMS['层系数'][level] * shape * PARAMS['档位加成'][tier]
     lo = int(math.floor(base * PARAMS['带宽'][0] / PARAMS['月薪取整']) * PARAMS['月薪取整'])
     hi = int(math.ceil(base * PARAMS['带宽'][1] / PARAMS['月薪取整']) * PARAMS['月薪取整'])
-    if level == 'LVL1':
-        # §5 第4条红线：一个全职岗位要撑得起住所锚 ÷ 0.40。形状系数 <1.00 的大类公式值在线下，带下限被钳平。
-        lo = max(lo, int(math.ceil(red_line / PARAMS['月薪取整']) * PARAMS['月薪取整']))
-    return lo, hi
+    # 生效线只把落在线下的带顶起，不压低任何卡；带下限取大后带上限同样取大，保证 hi ≥ lo。
+    return max(lo, eff), max(hi, eff)
 
 
 def hourly(low, high):
@@ -217,12 +208,16 @@ def make_company(zid, tier, emp, cid, seq, anchor):
     slots = level_slots(emp, layer_scheme, allowed)
     subclass = subclass_for(cid, seq, zid)
     shape, cards = CLASS[cid]['形状系数'], []
+    basket = BASKETS[entry_ring(BY_ID[zid], BY_ID)]
     for l, n in slots:
-        lo, hi = monthly_band(anchor, l, shape, tier)
+        lo, hi = monthly_band(anchor, l, shape, tier, basket)
+        old_line, eff_line = red_lines(anchor, basket)
         named = TIERS[tier]['逐家具名']
         cards.append({'id': f'POST-CORP-{zid}-{seq:02d}-{subclass["id"]}-{l}', '岗位层': l,
                       '行业小类': subclass['id'], '起始城市年': subclass['起始城市年'],
                       '名额': n, '月薪带_钛币': [lo, hi], '时薪带_钛币': list(hourly(lo, hi)),
+                      '红线_钛币': {'住所四成线': old_line, '住所加篮子线': eff_line,
+                                 '是否被顶起': eff_line > old_line and lo == eff_line},
                       '用工形态': ['全职', '兼职', '轮班', '临时', '自由接单'],
                       '占用名额': True,
                       '准入标签': required_tags(l, subclass['id'], cid),
@@ -293,6 +288,13 @@ def main():
     args = parser.parse_args()
     out = Path(args.out_dir) if args.out_dir else ROOT / '数据'
     zw, anchors, companies = zone_workers(), dwelling_anchors(), expand_companies()
+    lifted = [c for comp in companies for c in comp['岗位卡'] if c['红线_钛币']['是否被顶起']]
+    lifted_by_ring = {}
+    for comp in companies:
+        ring = entry_ring(BY_ID[comp['锚点']], BY_ID)
+        bucket = lifted_by_ring.setdefault(ring, [0, 0])
+        bucket[0] += sum(1 for c in comp['岗位卡'] if c['红线_钛币']['是否被顶起'])
+        bucket[1] += sum(c['名额'] for c in comp['岗位卡'] if c['红线_钛币']['是否被顶起'])
     canon = {
         'version': '1.0', 'fictional': True, 'setting_year': SOURCE['setting_year'],
         'currency': 'TT', 'currency_name': '钛币',
@@ -308,8 +310,11 @@ def main():
             '岗位卡数': sum(len(c['岗位卡']) for c in companies),
             '雇员总数': sum(c['雇员数'] for c in companies),
             '名录岗位总数': sum(zw.values()),
+            '被顶起卡数': len(lifted), '被顶起名额数': sum(c['名额'] for c in lifted),
+            '被顶起按圈层': {k: lifted_by_ring[k] for k in sorted(lifted_by_ring)},
             '口径': '雇员数守恒于功能区与聚落的日常岗位规模；聚落岗位数不等于常住人口。'
-                    'T1 为每区一条的个体户统计口径，不计入具名公司数。',
+                    'T1 为每区一条的个体户统计口径，不计入具名公司数。'
+                    '被顶起按圈层的两个数是 [卡数, 名额数]，口径为 生效线 由 住所加篮子 而非 住所四成 决定的卡。',
         },
     }
     (out / '产业就业正典.json').write_text(json.dumps(canon, ensure_ascii=False, indent=2), encoding='utf-8')

@@ -3,6 +3,9 @@
 import json, math, subprocess, sys, tempfile, unittest
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import anchors
+
 ROOT = Path(__file__).resolve().parent.parent
 REGISTRY = ROOT / '数据' / '城市空间名录.json'
 
@@ -121,19 +124,19 @@ class WageBand(unittest.TestCase):
         self.assertNotIn('D10', a)
 
     def test_office_anchor_inherits_parent_district(self):
-        d, a = self.ns['district_anchors'](), self.ns['dwelling_anchors']()
+        d, a = anchors.district_anchors(), self.ns['dwelling_anchors']()
         self.assertEqual(a['F019'], d['D10'])
         self.assertEqual(a['F031'], d['D16'])
 
     def test_city_core_anchors_span_measured_band(self):
-        d = self.ns['district_anchors']()
+        d = anchors.district_anchors()
         values = [v for k, v in d.items() if k.startswith('D')]
         self.assertAlmostEqual(min(values), 2104.5, places=1)
         self.assertAlmostEqual(max(values), 3417.5, places=1)
 
     def test_lvl1_floor_equals_anchor_over_ratio(self):
         """§5 第4条红线：全域 LVL1 全职月薪 ≥ 住所锚 ÷ 0.40，带下限就取这条线。"""
-        band = self.ns['monthly_band'](2500.0, 'LVL1', 1.00, 'T1')
+        band = self.ns['monthly_band'](2500.0, 'LVL1', 1.00, 'T1', 0.0)
         self.assertEqual(band[0], 2500.0 / 0.40)
 
     def test_lvl1_floor_survives_low_shape_and_low_tier(self):
@@ -141,21 +144,21 @@ class WageBand(unittest.TestCase):
         red = 2500.0 / 0.40
         for shape in (0.88, 1.00, 1.18):
             for tier in ('T1', 'T2', 'T3', 'T4', 'T5'):
-                lo, hi = self.ns['monthly_band'](2500.0, 'LVL1', shape, tier)
+                lo, hi = self.ns['monthly_band'](2500.0, 'LVL1', shape, tier, 0.0)
                 self.assertGreaterEqual(lo, red, f'shape={shape} tier={tier}')
                 self.assertGreater(hi, lo, f'带宽被钳平 shape={shape} tier={tier}')
 
     def test_clamp_only_binds_at_lvl1(self):
-        """LVL2 起层系数 ≥1.45，公式值本就在线上；钳制不得改动 LVL2+ 的带下限。"""
+        """篮子取 0 即退化为第1期旧线：LVL2 起层系数 ≥1.45，公式值本就在线上，旧线钳不动 LVL2+ 的带下限。"""
         params = json.loads(SOURCE.read_text(encoding='utf-8'))['参数']
         for level in ('LVL2', 'LVL3', 'LVL4', 'LVL5'):
             base = 2500.0 / params['住所占比判据'] * params['层系数'][level] * 0.88 * params['档位加成']['T1']
             expected = int(math.floor(base * params['带宽'][0] / params['月薪取整']) * params['月薪取整'])
-            lo, _ = self.ns['monthly_band'](2500.0, level, 0.88, 'T1')
+            lo, _ = self.ns['monthly_band'](2500.0, level, 0.88, 'T1', 0.0)
             self.assertEqual(lo, expected, level)
 
     def test_measured_sample_magnitudes(self):
-        a = self.ns['district_anchors']()
+        a = anchors.district_anchors()
         self.assertAlmostEqual(a['D10'] / 0.40, 8543, delta=6)
         self.assertAlmostEqual(a['D03'] / 0.40, 8373, delta=6)
         self.assertAlmostEqual(a['D17'] / 0.40, 5261, delta=6)
@@ -372,7 +375,8 @@ class Gate(unittest.TestCase):
 
     def issues(self, canon):
         adm = json.loads((ROOT / '数据' / '岗位准入正典.json').read_text(encoding='utf-8'))
-        return self.ns['issues'](canon, self.ns['SOURCE'], self.ns['REGISTRY'], adm)
+        costs = json.loads((ROOT / '数据' / '物价与生活正典.json').read_text(encoding='utf-8'))
+        return self.ns['issues'](canon, self.ns['SOURCE'], self.ns['REGISTRY'], adm, costs)
 
     def test_clean_repo_passes(self):
         r = subprocess.run([sys.executable, str(VERIFY)], cwd=ROOT, capture_output=True, text=True)
@@ -394,9 +398,9 @@ class Gate(unittest.TestCase):
         card['月薪带_钛币'][0] = 1
         self.assertTrue(any('住所覆盖红线' in i for i in self.issues(canon)))
 
-    def test_gate_writes_sixteen_check_report(self):
+    def test_gate_writes_twenty_check_report(self):
         report = json.loads((ROOT / '数据' / '产业就业核验.json').read_text(encoding='utf-8'))
-        self.assertEqual(report['检查项数'], 16)
+        self.assertEqual(report['检查项数'], 20)
         self.assertEqual(report['失败数'], 0)
 
 
@@ -405,18 +409,19 @@ NEGTEST = ROOT / '工具' / 'negtest_occupations.py'
 
 class Negtest(unittest.TestCase):
     def test_every_injection_turns_the_gate_red(self):
-        """违例自检必须 28 条全判红、夹具零残留，且被守护的两份正典字节不变。"""
+        """违例自检必须 40 条全判红、夹具零残留，且被守护的三份正典字节不变。"""
         before = (ROOT / '数据' / '产业就业正典.json').read_bytes()
         adm_before = (ROOT / '数据' / '岗位准入正典.json').read_bytes()
+        cost_before = (ROOT / '数据' / '物价与生活正典.json').read_bytes()
         r = subprocess.run([sys.executable, str(NEGTEST)], cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         summary = json.loads(next(l for l in r.stdout.splitlines() if l.startswith('{')))
-        self.assertEqual(summary['cases'], 28)
+        self.assertEqual(summary['cases'], 40)
         self.assertEqual(summary['not_red'], 0)
         self.assertEqual(summary['fixture_leftover'], 0)
         self.assertEqual((ROOT / '数据' / '产业就业正典.json').read_bytes(), before)
-        after = (ROOT / '数据' / '岗位准入正典.json').read_bytes()
-        self.assertEqual(after, adm_before)
+        self.assertEqual((ROOT / '数据' / '岗位准入正典.json').read_bytes(), adm_before)
+        self.assertEqual((ROOT / '数据' / '物价与生活正典.json').read_bytes(), cost_before)
 
 
 class BookChannel(unittest.TestCase):
@@ -444,15 +449,16 @@ class BookChannel(unittest.TestCase):
 
 
 class Rulings(unittest.TestCase):
+    PHASE_IDS = ['C48', 'C49', 'C50', 'C51', 'C52', 'C53', 'C54', 'C55', 'C56']
+
     def test_nine_new_rulings_recorded(self):
         rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
         self.assertIsInstance(rows, list)
-        ids = [r['编号'] for r in rows]
-        for cid in ['C48', 'C49', 'C50', 'C51', 'C52', 'C53', 'C54', 'C55', 'C56']:
-            self.assertIn(cid, ids)
-        self.assertEqual(len(rows), 65)
-        for r in rows[-9:]:
-            self.assertEqual(set(r), {'编号', '裁定', '原因', '影响'})
+        by_id = {r['编号']: r for r in rows}
+        for cid in self.PHASE_IDS:
+            self.assertIn(cid, by_id)
+            self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
+        self.assertEqual(len(rows), 74)
 
     def test_manual_chains_occupation_steps(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -462,14 +468,15 @@ class Rulings(unittest.TestCase):
 
 
 class AdmissionRulings(unittest.TestCase):
+    PHASE_IDS = ['C57', 'C58', 'C59', 'C60', 'C61', 'C62', 'C63', 'C64', 'C65']
+
     def test_nine_new_rulings_recorded(self):
         rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        ids = [r['编号'] for r in rows]
-        for cid in ['C57', 'C58', 'C59', 'C60', 'C61', 'C62', 'C63', 'C64', 'C65']:
-            self.assertIn(cid, ids)
-        self.assertEqual(len(rows), 65)
-        for r in rows[-9:]:
-            self.assertEqual(set(r), {'编号', '裁定', '原因', '影响'})
+        by_id = {r['编号']: r for r in rows}
+        for cid in self.PHASE_IDS:
+            self.assertIn(cid, by_id)
+            self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
+        self.assertEqual(len(rows), 74)
 
     def test_manual_chains_admission_before_occupations(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -613,25 +620,26 @@ class AdmissionGate(unittest.TestCase):
         self.vo = vo
         self.canon = json.loads((ROOT / '数据' / '产业就业正典.json').read_text(encoding='utf-8'))
         self.adm = json.loads((ROOT / '数据' / '岗位准入正典.json').read_text(encoding='utf-8'))
+        self.costs = json.loads((ROOT / '数据' / '物价与生活正典.json').read_text(encoding='utf-8'))
 
     def bad(self):
-        return self.vo.issues(self.canon, self.vo.SOURCE, self.vo.REGISTRY, self.adm)
+        return self.vo.issues(self.canon, self.vo.SOURCE, self.vo.REGISTRY, self.adm, self.costs)
 
-    def test_sixteen_checks_and_clean_canon_passes(self):
-        self.assertEqual(len(self.vo.CHECKS), 16)
+    def test_twenty_checks_and_clean_canon_passes(self):
+        self.assertEqual(len(self.vo.CHECKS), 20)
         self.assertEqual(self.bad(), [])
 
     def test_gate_detects_dangling_tag_and_empty_scene(self):
         c = json.loads(json.dumps(self.canon))
         card = next(x for comp in c['公司'] for x in comp['岗位卡'] if x['岗位层'] == 'LVL3')
         card['准入标签'][0][0] = 'SKL-Z99-B99-S1'
-        self.assertTrue(any('引用完整性' in x for x in self.vo.issues(c, self.vo.SOURCE, self.vo.REGISTRY, self.adm)))
+        self.assertTrue(any('引用完整性' in x for x in self.vo.issues(c, self.vo.SOURCE, self.vo.REGISTRY, self.adm, self.costs)))
         c2 = json.loads(json.dumps(self.canon))
         for comp in c2['公司']:
             for x in comp['岗位卡']:
                 if x['岗位层'] == 'LVL3':
                     x['关键场景'] = []
-        self.assertTrue(any('关键场景' in x for x in self.vo.issues(c2, self.vo.SOURCE, self.vo.REGISTRY, self.adm)))
+        self.assertTrue(any('关键场景' in x for x in self.vo.issues(c2, self.vo.SOURCE, self.vo.REGISTRY, self.adm, self.costs)))
 
 
 class AdmissionDoc(unittest.TestCase):
@@ -645,7 +653,7 @@ class AdmissionDoc(unittest.TestCase):
     def test_gate_wording_matches_check_count_in_generated_report(self):
         n = json.loads((ROOT / '数据' / '产业就业核验.json').read_text(encoding='utf-8'))['检查项数']
         report = (ROOT / '质量核验报告.md').read_text(encoding='utf-8')
-        self.assertEqual(n, 16)
+        self.assertEqual(n, 20)
         self.assertIn(f'{n}条判据实测0失败', report)
 
 
