@@ -171,8 +171,9 @@ class Inventory(unittest.TestCase):
             self.assertGreaterEqual(r['总量'], r['兜底配额'])
 
     def test_city_households_match_division(self):
+        registry = json.loads((ROOT / '数据' / '城市空间名录.json').read_text(encoding='utf-8'))
         total = sum(r['推导户数'] for r in self.rows if r['住房类型ID'] == 'HOU-01')
-        self.assertLessEqual(abs(total - 1654200 / 2.47), 44)
+        self.assertLessEqual(abs(total - registry['population']['regional_total'] / 2.47), 44)
         self.assertEqual(total, self.canon['汇总']['全城户数'])
 
 
@@ -184,19 +185,22 @@ class Clamp(unittest.TestCase):
 
     def test_band_lower_bound_never_below_effective_line(self):
         basket = self.costs['篮子']['内湖环']
-        line = max(3280.2 / 0.4, 3280.2 + basket)
-        lo, _ = self.bo.monthly_band(3280.2, 'LVL1', 0.85, 'T1', basket)
+        anchor = self.costs['保障']['内湖环']['押金_钛币']
+        line = max(anchor / 0.4, anchor + basket)
+        lo, _ = self.bo.monthly_band(anchor, 'LVL1', 0.85, 'T1', basket)
         self.assertGreaterEqual(lo, math.ceil(line / 10) * 10)
 
     def test_inner_ring_unchanged_by_new_clamp(self):
         b = self.costs['篮子']['内湖环']
-        self.assertEqual(self.bo.monthly_band(3280.2, 'LVL1', 1.0, 'T1', b)[0],
-                         self.bo.monthly_band(3280.2, 'LVL1', 1.0, 'T1', 0.0)[0])
+        anchor = self.costs['保障']['内湖环']['押金_钛币']
+        self.assertEqual(self.bo.monthly_band(anchor, 'LVL1', 1.0, 'T1', b)[0],
+                         self.bo.monthly_band(anchor, 'LVL1', 1.0, 'T1', 0.0)[0])
 
     def test_periphery_lifted_by_new_clamp(self):
         b = self.costs['篮子']['产业小镇']
-        self.assertGreater(self.bo.monthly_band(1223.8, 'LVL1', 1.0, 'T1', b)[0],
-                           self.bo.monthly_band(1223.8, 'LVL1', 1.0, 'T1', 0.0)[0])
+        anchor = self.costs['保障']['产业小镇']['押金_钛币']
+        self.assertGreater(self.bo.monthly_band(anchor, 'LVL1', 1.0, 'T1', b)[0],
+                           self.bo.monthly_band(anchor, 'LVL1', 1.0, 'T1', 0.0)[0])
 
     def test_band_never_inverted_after_clamp(self):
         for ring, basket in self.costs['篮子'].items():
@@ -212,9 +216,10 @@ class Clamp(unittest.TestCase):
         canon = json.loads((ROOT / '数据' / '产业就业正典.json').read_text(encoding='utf-8'))
         card = canon['公司'][0]['岗位卡'][0]
         self.assertEqual(sorted(card['红线_钛币']), sorted(['住所四成线', '住所加篮子线', '是否被顶起']))
-        self.assertEqual(canon['汇总']['公司数'], 1403)
-        self.assertEqual(canon['汇总']['岗位卡数'], 5151)
-        self.assertEqual(canon['汇总']['雇员总数'], 378140)
+        # 三条量级金标准：改人口或岗位量级要连带重定，不跟随自动派生（自动派生的守恒断言在 test_occupations）。
+        self.assertEqual(canon['汇总']['公司数'], 2889)
+        self.assertEqual(canon['汇总']['岗位卡数'], 10541)
+        self.assertEqual(canon['汇总']['雇员总数'], 798140)
 
 
 class CanonConsistency(unittest.TestCase):
@@ -246,12 +251,32 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_85(self):
+    def test_rulings_are_92(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 85)
-        self.assertEqual(rulings[-1]['编号'], 'C85')
+        self.assertEqual(len(rulings), 92)
+        self.assertEqual(rulings[-1]['编号'], 'C92')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C76', 'C77', 'C78', 'C79', 'C80', 'C81', 'C82', 'C83', 'C84', 'C85'])
+                         ['C83', 'C84', 'C85', 'C86', 'C87', 'C88', 'C89', 'C90', 'C91', 'C92'])
+        by_id = {r['编号']: r for r in rulings}
+        # C89 的「高度第一交给 L066、形态第一留在 L007」是本卷定价外溢的唯一出处，钉死措辞防止被改写后说明与价表脱钩。
+        self.assertIn('458米/106层', by_id['C89']['裁定'])
+        self.assertIn('唯一形态', by_id['C89']['裁定'])
+        self.assertIn('D03 商业 23950→24000', by_id['C89']['影响'])
+        # C90 的分档缺口收口与 180 米住宅上限是本卷 1.04/1.10 档外溢的唯一出处。
+        self.assertIn('60—99 档由 1 条增至 40 条', by_id['C90']['裁定'])
+        self.assertIn('R013 钛心云邸 96→180', by_id['C90']['裁定'])
+        self.assertIn('定价外溢实测 17 条读数', by_id['C90']['影响'])
+        # C91 只改画幅判定；这句「不改高度/坐标/占地/总建面」是价表与 2-D 之后名录不脱钩的唯一出处。
+        self.assertIn('只改画幅判定', by_id['C91']['影响'])
+        # C92 只改提示词取段与人群档位；这句是与价表、名录口径不脱钩的唯一出处。
+        self.assertIn('只改提示词取段与人群档位', by_id['C92']['影响'])
+        # 量级锚与「判据已定档、产物未落地」两处措辞钉死在裁定记录里，防止后人误当 D4／D2 已生效。
+        self.assertIn('280000→700000', by_id['C86']['裁定'])
+        self.assertIn('1280000→3200000', by_id['C86']['裁定'])
+        self.assertIn('【已被C86取代】', by_id['C04']['裁定'])
+        self.assertIn('不是已交付事实', by_id['C87']['影响'])
+        self.assertIn('尚未执行', by_id['C88']['影响'])
+        self.assertIn('【通道分工已被C88取代', by_id['C85']['裁定'])
 
 
     def test_manual_chains_costs_before_occupations(self):
@@ -259,6 +284,72 @@ class CanonConsistency(unittest.TestCase):
         for token in ('build_costs.py', '物价生活源表.json', '物价与生活正典.json', '先跑物价再跑就业'):
             self.assertIn(token, manual)
         self.assertLess(manual.index('build_costs.py'), manual.index('build_occupations.py'))
+
+
+class PricingModelNote(unittest.TestCase):
+    """数据/房价模型说明.md 是人工维护、抄了生成 JSON 读数的第二份；逐字段对拍，防止说明停在旧量级。"""
+
+    ROWS = [
+        ('住宅全部', 'residential', None),
+        ('住宅·内湖环', 'residential', '内湖环'),
+        ('住宅·外城环', 'residential', '外城环'),
+        ('住宅·产业小镇', 'residential', '产业小镇'),
+        ('住宅·特色村落', 'residential', '特色村落'),
+        ('办公（D/F/L）', 'office', None),
+        ('商业（D/F/L，不含R/S底商）', 'retail', None),
+    ]
+
+    def setUp(self):
+        self.records = json.loads((ROOT / '数据' / '参考房价租金.json').read_text(encoding='utf-8'))['records']
+        self.by_id = {r['id']: r for r in self.records}
+        self.note = (ROOT / '数据' / '房价模型说明.md').read_text(encoding='utf-8')
+
+    def sample(self, field, ring):
+        values = sorted(r[field]['sale_tt_per_m2'] for r in self.records
+                        if field in r and (ring is None or r['ring'] == ring))
+        return len(values), values[0], values[len(values) // 2], values[-1]
+
+    @staticmethod
+    def label(r):
+        return r['id'] + r['name'].removesuffix('片区')
+
+    def extreme(self, rows, field):
+        return (min(rows, key=lambda r: r[field]['sale_tt_per_m2']),
+                max(rows, key=lambda r: r[field]['sale_tt_per_m2']))
+
+    def test_gradient_table_rows_match_generated_json(self):
+        table = {name: (int(n), int(lo), int(med), int(hi))
+                 for name, n, lo, med, hi in re.findall(r'^\| (\S.*?) \| (\d+) \| (\d+) \| (\d+) \| (\d+) \|$', self.note, re.M)}
+        self.assertEqual(len(table), len(self.ROWS), '第五节表格行数或行名与闸门约定不符')
+        for name, field, ring in self.ROWS:
+            self.assertEqual(table[name], self.sample(field, ring), name)
+
+    def test_named_readings_in_prose_match_generated_json(self):
+        d01, d01o, d01r = (self.by_id['D01'][k] for k in ('residential', 'office', 'retail'))
+        l007 = self.by_id['L007']['office']
+        districts = [r for r in self.records if r['id'].startswith('D')]
+        residences = [r for r in self.records if r['id'].startswith('R')]
+        all_homes = [r for r in self.records if 'residential' in r]
+        dh_lo, dh_hi = self.extreme(districts, 'residential')
+        do_lo, do_hi = self.extreme(districts, 'office')
+        dr_lo, dr_hi = self.extreme(districts, 'retail')
+        r_lo = min(residences, key=lambda r: r['residential']['sale_tt_per_m2'])
+        s_lo = min(all_homes, key=lambda r: r['residential']['sale_tt_per_m2'])
+        for token in [
+            f"总代理权重{d01['sample_weight_gfa_m2']}平方米；住宅样本价{d01['sale_tt_per_m2']}，月租{d01['rent_tt_per_m2_month']}钛币/平方米",
+            f"办公{d01o['sale_tt_per_m2']}、商业{d01r['sale_tt_per_m2']}。",
+            f"L007 办公{l007['sale_tt_per_m2']}，日租{l007['rent_tt_per_m2_day']}钛币/平方米",
+            f"D 住宅样本价最低{dh_lo['residential']['sale_tt_per_m2']}（{self.label(dh_lo)}），最高{dh_hi['residential']['sale_tt_per_m2']}（{self.label(dh_hi)}）",
+            f"D 办公最低{do_lo['office']['sale_tt_per_m2']}（{self.label(do_lo)}）、最高{do_hi['office']['sale_tt_per_m2']}（{self.label(do_hi)}）",
+            f"D 商业最低{dr_lo['retail']['sale_tt_per_m2']}（{self.label(dr_lo)}）、最高{dr_hi['retail']['sale_tt_per_m2']}（{self.label(dr_hi)}）",
+            f"住宅全域低点是{s_lo['id']}{s_lo['name']}{s_lo['residential']['sale_tt_per_m2']}",
+            f"城区 R 低点是{r_lo['id']}{r_lo['name']}{r_lo['residential']['sale_tt_per_m2']}",
+        ]:
+            self.assertIn(token, self.note)
+
+        pull = sorted(((r['basis']['就业拉力系数'], r) for r in districts), key=lambda x: x[0])
+        self.assertIn(f"就业系数为{pull[0][0]:.2f}（{self.label(pull[0][1])}）", self.note)
+        self.assertIn(f"{pull[-1][0]:.2f}（{self.label(pull[-1][1])}）", self.note)
 
 
 class Idempotency(unittest.TestCase):

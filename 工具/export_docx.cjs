@@ -8,6 +8,13 @@ const {
 
 const root = path.resolve(__dirname, '..');
 const source = fs.readFileSync(path.join(root, '钛湖城城市设定集-完整合订本.md'), 'utf8');
+// 封面计数从名录现取，与 compile_book.py 的副标题同口径；名录扩容后不必手改这里。
+const registry = JSON.parse(fs.readFileSync(path.join(root, '数据', '城市空间名录.json'), 'utf8'));
+const countBy = {};
+for (const e of registry.entries) countBy[e.type] = (countBy[e.type] || 0) + 1;
+const settlementCount = countBy['产业小镇'] + countBy['特色村落'];
+const interiorCount = countBy['功能区'] + countBy['标志性建筑'];
+const totalEntries = registry.entries.length;
 const contentWidth = 9906;
 const columns = [2600, 7306];
 const body = [];
@@ -47,12 +54,12 @@ function metadataTable(lines) {
 
 body.push(new Paragraph({ spacing: { before: 1200, after: 280 }, children: [new TextRun({ text: '钛湖城', size: 72, bold: true, color: '243F3C' })] }));
 body.push(new Paragraph({ spacing: { after: 360 }, children: [new TextRun({ text: '城市设定集 · 完整合订本', size: 36, color: '344B4E' })] }));
-body.push(new Paragraph({ children: [new TextRun({ text: '24 个外围聚落  /  120 项城市空间  /  120 个著名居民区', size: 24 })] }));
+body.push(new Paragraph({ children: [new TextRun({ text: `${settlementCount} 个外围聚落  /  ${interiorCount} 项城市空间  /  ${countBy['居民区']} 个著名居民区`, size: 24 })] }));
 body.push(new Paragraph({ children: [new TextRun({ text: '2013 年原创虚构城市正典 · 版本 1.0', size: 22 })] }));
 body.push(new Paragraph({ spacing: { before: 500 }, children: runs('中心有湖，河流延伸，四面环山。以空间参数、可绘制外观和真实生活节奏，建立可持续创作的山水城市。') }));
 body.push(new Paragraph({ children: runs('使用本书前先阅读城市总纲的面积与人口口径。空间索引图、全域村镇图、可检索JSON与单卷文件随交付包提供。') }));
 body.push(new Paragraph({ pageBreakBefore: true, heading: HeadingLevel.HEADING_1, children: [new TextRun('卷目导航')] }));
-body.push(new Paragraph({ children: runs('可使用Word左侧导航窗格按地点ID查找。本文件已设置打开时自动更新域：Word会询问是否更新目录，选"是"即可刷新页码；若未弹出提示，全选后按F9。正文及全部264个地点已完整写入，不依赖目录刷新。') }));
+body.push(new Paragraph({ children: runs(`可使用Word左侧导航窗格按地点ID查找。本文件已设置打开时自动更新域：Word会询问是否更新目录，选"是"即可刷新页码；若未弹出提示，全选后按F9。正文及全部${totalEntries}个地点已完整写入，不依赖目录刷新。`) }));
 body.push(new TableOfContents('目录', { hyperlink: true, headingStyleRange: '1-1' }));
 
 const lines = source.split(/\r?\n/);
@@ -89,7 +96,7 @@ const document = new Document({
   creator: '钛湖城城市设定项目',
   title: '钛湖城城市设定集：完整合订本',
   subject: '原创虚构城市空间、产业、建筑、居住与AI创作正典',
-  description: '包含264个独立地点详档及城市总纲、AI创作手册。',
+  description: `包含${totalEntries}个独立地点详档及城市总纲、AI创作手册。`,
   styles: {
     default: { document: { run: { font: 'Microsoft YaHei', size: 21, color: '24312E' }, paragraph: { spacing: { after: 85, line: 300 } } } },
     paragraphStyles: [

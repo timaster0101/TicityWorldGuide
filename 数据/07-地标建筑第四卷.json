@@ -1,0 +1,416 @@
+[
+  {
+    "id": "L091",
+    "name": "青岚实验协作塔",
+    "type": "标志性建筑",
+    "parent": "D12",
+    "center_km": [
+      3.03,
+      5.58
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 152,
+    "floors": 39,
+    "focus": "基础科研、精密实验与人才生活",
+    "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
+    "neighbors": [
+      "L034",
+      "F023"
+    ],
+    "parent_name": "书岭科研片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 28.5
+  },
+  {
+    "id": "L092",
+    "name": "东门枢纽商务塔",
+    "type": "标志性建筑",
+    "parent": "D13",
+    "center_km": [
+      6.039,
+      1.962
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 272,
+    "floors": 68,
+    "focus": "铁路换乘、区域商务与物流调度",
+    "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+    "neighbors": [
+      "L037",
+      "F025"
+    ],
+    "parent_name": "东门枢纽片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 72.0
+  },
+  {
+    "id": "L093",
+    "name": "山门货运调度塔",
+    "type": "标志性建筑",
+    "parent": "D13",
+    "center_km": [
+      5.731,
+      2.734
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 251,
+    "floors": 63,
+    "focus": "铁路换乘、区域商务与物流调度",
+    "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+    "neighbors": [
+      "L037",
+      "F025"
+    ],
+    "parent_name": "东门枢纽片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 64.5
+  },
+  {
+    "id": "L094",
+    "name": "轨交换乘商业塔",
+    "type": "标志性建筑",
+    "parent": "D13",
+    "center_km": [
+      6.244,
+      1.157
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 226,
+    "floors": 56,
+    "focus": "铁路换乘、区域商务与物流调度",
+    "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+    "neighbors": [
+      "L037",
+      "F025"
+    ],
+    "parent_name": "东门枢纽片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 79.5
+  },
+  {
+    "id": "L095",
+    "name": "东门工友服务站",
+    "type": "标志性建筑",
+    "parent": "D13",
+    "center_km": [
+      5.326,
+      3.458
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 142,
+    "floors": 38,
+    "focus": "铁路换乘、区域商务与物流调度",
+    "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+    "neighbors": [
+      "L037",
+      "F025"
+    ],
+    "parent_name": "东门枢纽片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 57.01
+  },
+  {
+    "id": "L096",
+    "name": "东铸中试塔",
+    "type": "标志性建筑",
+    "parent": "D14",
+    "center_km": [
+      6.039,
+      -1.962
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 174,
+    "floors": 45,
+    "focus": "精密制造、工业设计与清洁装配",
+    "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
+    "neighbors": [
+      "L040",
+      "F027"
+    ],
+    "parent_name": "钛东智造片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 108.0
+  },
+  {
+    "id": "L097",
+    "name": "精工公共实训塔",
+    "type": "标志性建筑",
+    "parent": "D14",
+    "center_km": [
+      6.244,
+      -1.157
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 108,
+    "floors": 29,
+    "focus": "精密制造、工业设计与清洁装配",
+    "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
+    "neighbors": [
+      "L040",
+      "F027"
+    ],
+    "parent_name": "钛东智造片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 100.5
+  },
+  {
+    "id": "L098",
+    "name": "南溪应急物资塔",
+    "type": "标志性建筑",
+    "parent": "D15",
+    "center_km": [
+      3.732,
+      -5.137
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 116,
+    "floors": 31,
+    "focus": "城市应急、维修、回收与生活保障",
+    "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
+    "neighbors": [
+      "L043",
+      "F029"
+    ],
+    "parent_name": "南溪服务片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 144.0
+  },
+  {
+    "id": "L099",
+    "name": "南原综合服务塔",
+    "type": "标志性建筑",
+    "parent": "D16",
+    "center_km": [
+      0.0,
+      -6.35
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 181,
+    "floors": 47,
+    "focus": "大规模成熟居住与基础公共服务",
+    "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
+    "neighbors": [
+      "L046",
+      "F031"
+    ],
+    "parent_name": "南原居住片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 180.0
+  },
+  {
+    "id": "L100",
+    "name": "南原家庭服务中心",
+    "type": "标志性建筑",
+    "parent": "D16",
+    "center_km": [
+      0.829,
+      -6.296
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 146,
+    "floors": 39,
+    "focus": "大规模成熟居住与基础公共服务",
+    "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
+    "neighbors": [
+      "L046",
+      "F031"
+    ],
+    "parent_name": "南原居住片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 172.5
+  },
+  {
+    "id": "L101",
+    "name": "晨光邻里商业塔",
+    "type": "标志性建筑",
+    "parent": "D16",
+    "center_km": [
+      -0.829,
+      -6.296
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 122,
+    "floors": 33,
+    "focus": "大规模成熟居住与基础公共服务",
+    "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
+    "neighbors": [
+      "L046",
+      "F031"
+    ],
+    "parent_name": "南原居住片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 187.5
+  },
+  {
+    "id": "L102",
+    "name": "丰仓食品检测塔",
+    "type": "标志性建筑",
+    "parent": "D17",
+    "center_km": [
+      -3.732,
+      -5.137
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 124,
+    "floors": 34,
+    "focus": "食品研发、城市农业与生鲜供应",
+    "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
+    "neighbors": [
+      "L049",
+      "F033"
+    ],
+    "parent_name": "西麓农食片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 216.0
+  },
+  {
+    "id": "L103",
+    "name": "西门商贸结算塔",
+    "type": "标志性建筑",
+    "parent": "D18",
+    "center_km": [
+      -6.039,
+      -1.962
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 156,
+    "floors": 41,
+    "focus": "批零贸易、修配与区域商贸",
+    "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
+    "neighbors": [
+      "L052",
+      "F035"
+    ],
+    "parent_name": "西门商贸片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 252.0
+  },
+  {
+    "id": "L104",
+    "name": "西关货栈塔",
+    "type": "标志性建筑",
+    "parent": "D18",
+    "center_km": [
+      -5.731,
+      -2.734
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 134,
+    "floors": 36,
+    "focus": "批零贸易、修配与区域商贸",
+    "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
+    "neighbors": [
+      "L052",
+      "F035"
+    ],
+    "parent_name": "西门商贸片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 244.5
+  },
+  {
+    "id": "L105",
+    "name": "赤陶市集商厦",
+    "type": "标志性建筑",
+    "parent": "D18",
+    "center_km": [
+      -6.244,
+      -1.157
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 148,
+    "floors": 40,
+    "focus": "批零贸易、修配与区域商贸",
+    "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
+    "neighbors": [
+      "L052",
+      "F035"
+    ],
+    "parent_name": "西门商贸片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 259.5
+  },
+  {
+    "id": "L106",
+    "name": "西岭储能示范塔",
+    "type": "标志性建筑",
+    "parent": "D19",
+    "center_km": [
+      -6.039,
+      1.962
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 139,
+    "floors": 38,
+    "focus": "清洁能源调度、储能研发与绿色生活",
+    "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
+    "neighbors": [
+      "L055",
+      "F037"
+    ],
+    "parent_name": "西岭能源片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 288.0
+  },
+  {
+    "id": "L107",
+    "name": "光谷低碳商务塔",
+    "type": "标志性建筑",
+    "parent": "D19",
+    "center_km": [
+      -6.244,
+      1.157
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 121,
+    "floors": 33,
+    "focus": "清洁能源调度、储能研发与绿色生活",
+    "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
+    "neighbors": [
+      "L055",
+      "F037"
+    ],
+    "parent_name": "西岭能源片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 280.5
+  },
+  {
+    "id": "L108",
+    "name": "北港水质监测塔",
+    "type": "标志性建筑",
+    "parent": "D20",
+    "center_km": [
+      -3.732,
+      5.137
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 131,
+    "floors": 35,
+    "focus": "水资源管理、净水、监测与滨水教育",
+    "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
+    "neighbors": [
+      "L058",
+      "F039"
+    ],
+    "parent_name": "北港水务片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 324.0
+  }
+]

@@ -85,10 +85,14 @@ def main():
 
     remaining = [p for i in manifest['items'] for p in (i.get('image_file') or [])
                  if Path(p).suffix.lower() not in OK_EXT]
-    print('改名 %d 个文件，清单改写 %d 条，清单内非 jpg 扩展名剩 %d 条，真 PNG 保留 %d 个' % (
-        moved, changed, len(remaining), len(real_png)))
-    if moved + compliant != 1056 or changed != 264 or remaining:
-        sys.exit('判红：规模不符（应为 1056 格、264 条、零残留），请核对后再跑。')
+    # 规模不写死：格子总数按清单当前 image_file 现取，迁移只应「全部有归属、零残留」，条数随名录变化。
+    bound = sum(1 for i in manifest['items'] if i.get('image_file'))
+    cells = sum(len(i['image_file']) for i in manifest['items'] if i.get('image_file'))
+    print('改名 %d 个文件，清单改写 %d 条（有图 %d 条），清单内非 jpg 扩展名剩 %d 条，真 PNG 保留 %d 个，格数合计 %d' % (
+        moved, changed, bound, len(remaining), len(real_png), cells))
+    if moved + compliant != cells or remaining:
+        sys.exit('判红：规模不符（改名 %d＋已合规 %d ≠ 格数 %d，或有非 jpg 残留），请核对后再跑。' % (
+            moved, compliant, cells))
 
 
 if __name__ == '__main__':

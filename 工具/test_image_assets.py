@@ -29,8 +29,8 @@ class ReviewNoteHistory(unittest.TestCase):
             self.assertNotIn('图片对应的基准提示词已变化', rows[-1], f'{eid} 手工源里混入了派生原因')
 
     def test_history_survives_and_note_still_derives(self):
-        # 260 条没有人工长文本，历史是空数组：判"键在不在"而不是"值真不真"
-        self.assertEqual(sum(1 for i in self.items.values() if 'review_note_history' in i), 264)
+        # 308 条没有人工长文本，历史是空数组：判"键在不在"而不是"值真不真"；键随名录扩到312条
+        self.assertEqual(sum(1 for i in self.items.values() if 'review_note_history' in i), 312)
         self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 4)
         for eid in ('L007', 'L008', 'R043', 'D01'):
             hist = self.items[eid]['review_note_history']
@@ -39,7 +39,8 @@ class ReviewNoteHistory(unittest.TestCase):
         self.assertEqual(self.manifest['needs_review'], 264)
         self.assertEqual(self.manifest['accepted'], 0)
         self.assertEqual(self.manifest['generated'], 264)
-        self.assertEqual(self.manifest['pending'], 0)
+        # 阶段2 名录扩容的48条地标只进队列不出图：generated/needs_review 仍按有图的264条计，pending 单独承担新增。
+        self.assertEqual(self.manifest['pending'], 48)
 
 
 def jpeg(segments):
@@ -157,9 +158,24 @@ class AssetGate(unittest.TestCase):
 
     def test_recheck_worksheet_lists_every_id(self):
         md = (ROOT / '数据' / '图片复验清单.md').read_text(encoding='utf-8')
-        self.assertEqual(len(re.findall(r'^\| [DFLRS]\d+ \|', md, re.M)), 264)
+        items = json.loads((ROOT / '数据' / '开图清单.json').read_text(encoding='utf-8'))['items']
+        rows = len(re.findall(r'^\| [DFLRS]\d+ \|', md, re.M))
+        # 工作单由 verify_image_assets 逐条遍历清单派生，所以行数必须等于清单条目数（含「无图」占位行）。
+        # 2026-11-02 实测教训：2-A 扩到 312 条后没重跑这张下游表，它还停在 264 行旧禁则上，硬编码行数的旧断言反而看不见。
+        self.assertEqual(rows, len(items), '图片复验清单未随开图清单重跑，属过期生成物')
+        self.assertEqual(md.count('| 无图 |'), sum(1 for item in items if not item.get('image_file')))
+        self.assertNotIn('第二座超两百米', md)
         for token in ('结构合规不等于视觉验收', '待人工复验', '不得由脚本代签', '图集外扩展名体检', '只报不办、不改名'):
             self.assertIn(token, md)
+
+    def test_worksheet_missing_the_new_rows_would_fail_that_gate(self):
+        # 负测：2-A 那轮的故障是清单已扩到 312 条而工作单还是扩容前的行数。
+        # 用真渲染函数造一张 264 行的过期单，上面的行数判据必须判红，否则该闸门是假绿。
+        stale = self.manifest['items'][:264]
+        md = self.va.render_worksheet(self.va.check(stale), stale)
+        rows = len(re.findall(r'^\| [DFLRS]\d+ \|', md, re.M))
+        self.assertEqual(rows, 264)
+        self.assertNotEqual(rows, len(self.manifest['items']))
 
 
 class AssetRulings(unittest.TestCase):
@@ -171,8 +187,8 @@ class AssetRulings(unittest.TestCase):
         for cid in self.IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 85)
-        self.assertEqual(rows[-1]['编号'], 'C85')
+        self.assertEqual(len(rows), 92)
+        self.assertEqual(rows[-1]['编号'], 'C92')
         self.assertIn('rename_gallery_ext', by_id['C82']['裁定'])
         self.assertIn('不是交付判据', by_id['C83']['裁定'])
         self.assertIn('不判红、不改名', by_id['C84']['裁定'])

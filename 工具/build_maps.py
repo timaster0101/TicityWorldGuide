@@ -76,7 +76,10 @@ regional.text(1250,1274,'清岚河：西北 → 钛湖；澜川：钛湖 → 东
 regional.compass_scale(1140,190,10)
 regional.save('全域卫星聚落图.svg')
 
-urban=Map('钛湖城 / 主城区空间索引','20片区 + 40功能区 + 60地标 + 120著名居民区 · ID与详档、数据名录一一对应',54,665,745)
+def _n(*types):
+    return sum(1 for e in ENTRIES if e['type'] in types)
+
+urban=Map('钛湖城 / 主城区空间索引',f"{_n('城市片区')}片区 + {_n('功能区')}功能区 + {_n('标志性建筑')}地标 + {_n('居民区')}著名居民区 · ID与详档、数据名录一一对应",54,665,745)
 for i in range(20):
     e=next(e for e in ENTRIES if e['id']==f'D{i+1:02d}');s=e['sector'];a=s['angle_center_deg']
     r1,r2=s['inner_radius_km'],s['outer_radius_km']

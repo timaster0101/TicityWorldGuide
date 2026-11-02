@@ -27,7 +27,8 @@ class SettlementJobs(unittest.TestCase):
 
     def test_city_job_total_unchanged_by_settlement_jobs(self):
         f_total = sum(e['daily_workers'] for e in self.entries if e['id'].startswith('F'))
-        self.assertEqual(f_total, 280000)
+        # 方案 A 量级重推（设计/2026-11-02-城市量级与天际线重构-design.md）后功能区岗位锚为 700000；聚落 98140 另记，不并入。
+        self.assertEqual(f_total, 700000)
 
 
 SOURCE = ROOT / '数据' / '产业就业源表.json'
@@ -131,8 +132,8 @@ class WageBand(unittest.TestCase):
     def test_city_core_anchors_span_measured_band(self):
         d = anchors.district_anchors()
         values = [v for k, v in d.items() if k.startswith('D')]
-        self.assertAlmostEqual(min(values), 2104.5, places=1)
-        self.assertAlmostEqual(max(values), 3417.5, places=1)
+        self.assertAlmostEqual(min(values), 1723.0, places=1)
+        self.assertAlmostEqual(max(values), 3585.5, places=1)
 
     def test_lvl1_floor_equals_anchor_over_ratio(self):
         """§5 第4条红线：全域 LVL1 全职月薪 ≥ 住所锚 ÷ 0.40，带下限就取这条线。"""
@@ -159,9 +160,9 @@ class WageBand(unittest.TestCase):
 
     def test_measured_sample_magnitudes(self):
         a = anchors.district_anchors()
-        self.assertAlmostEqual(a['D10'] / 0.40, 8543, delta=6)
-        self.assertAlmostEqual(a['D03'] / 0.40, 8373, delta=6)
-        self.assertAlmostEqual(a['D17'] / 0.40, 5261, delta=6)
+        self.assertAlmostEqual(a['D10'] / 0.40, 6403.75, delta=6)
+        self.assertAlmostEqual(a['D03'] / 0.40, 8963.75, delta=6)
+        self.assertAlmostEqual(a['D17'] / 0.40, 4813.75, delta=6)
 
     def test_hourly_uses_174_hours(self):
         self.assertAlmostEqual(self.ns['hourly'](8540.0, 8540.0)[0], 8540.0 / 174, places=1)
@@ -219,10 +220,10 @@ class CompanySolver(unittest.TestCase):
         self.assertTrue(all(c['逐家具名'] is True for c in companies if c['档位'] != 'T1'))
 
     def test_named_company_count_lands_in_the_forecast_band(self):
-        """spec §4 预测 1200—1800 家 T2—T5 具名公司；T1 统计条不计入。"""
+        """spec §4 预测 1200—1800 家 T2—T5 具名公司（378140 岗口径）；按 C86 量级下的 798140 岗等比放大 2.11 倍为 2500—3800。T1 统计条不计入。"""
         named = [c for c in self.ns['expand_companies']() if c['逐家具名'] is True]
-        self.assertLessEqual(1200, len(named), len(named))
-        self.assertLessEqual(len(named), 1800, len(named))
+        self.assertLessEqual(2500, len(named), len(named))
+        self.assertLessEqual(len(named), 3800, len(named))
 
     def test_named_companies_stay_under_the_zone_quota(self):
         """门禁 3 的两种上限：任何具名公司 ≤ 所在区配额 45%，T1—T4 另受 1200 人天花板（T5 有自己 1201—3000 的档区间）。"""
@@ -328,8 +329,6 @@ class CanonOutput(unittest.TestCase):
         self.assertEqual(s['T5数'], sum(1 for c in cs if c['档位'] == 'T5'))
         self.assertEqual(s['岗位卡数'], sum(len(c['岗位卡']) for c in cs))
         self.assertEqual(s['具名公司数'], sum(1 for c in cs if c['逐家具名']))
-        self.assertLessEqual(1200, s['具名公司数'])
-        self.assertLessEqual(s['具名公司数'], 1800)
 
     def test_background_anchors_carry_no_recruitable_headcount(self):
         """C51：F001＋F002 的 8800 岗整标记为背景在册，可招聘=true 的公司一家都不许落在这两区。"""
@@ -444,7 +443,9 @@ class BookChannel(unittest.TestCase):
         doc = (ROOT / '产业与就业设定.md').read_text(encoding='utf-8')
         for n in (canon['汇总']['公司数'], canon['汇总']['岗位卡数'], canon['汇总']['雇员总数']):
             self.assertIn(f'{n:,}'.replace(',', ''), doc)
-        self.assertIn('8800', doc)
+        reg = json.loads(REGISTRY.read_text(encoding='utf-8'))['entries']
+        a01 = sum(e['daily_workers'] for e in reg if e['id'] in ('F001', 'F002'))
+        self.assertIn(f'{a01} 岗', doc)
 
     def test_occupation_doc_stays_at_framework_level(self):
         doc = (ROOT / '产业与就业设定.md').read_text(encoding='utf-8')
@@ -463,7 +464,7 @@ class Rulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 85)
+        self.assertEqual(len(rows), 92)
 
     def test_manual_chains_occupation_steps(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -481,7 +482,7 @@ class AdmissionRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 85)
+        self.assertEqual(len(rows), 92)
 
     def test_manual_chains_admission_before_occupations(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -615,7 +616,8 @@ class AdmissionWiring(unittest.TestCase):
         base = self.canon['setting_year']
         for card in self.cards:
             self.assertEqual(card['释放状态'], 'RLS-01' if card['起始城市年'] > base else 'RLS-02', card['id'])
-        self.assertEqual(sum(1 for x in self.cards if x['释放状态'] == 'RLS-01'), 626)
+        # 量级金标准（C86 口径 10541 张卡）：改人口或岗位量级要连带重定。
+        self.assertEqual(sum(1 for x in self.cards if x['释放状态'] == 'RLS-01'), 1518)
 
 
 class AdmissionGate(unittest.TestCase):

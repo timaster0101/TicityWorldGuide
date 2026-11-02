@@ -14,8 +14,8 @@ from collections import Counter
 ROOT = Path(__file__).resolve().parent.parent
 SCRIPT = ROOT / "工具" / "build_pricing.py"
 REGISTRY = ROOT / "数据" / "城市空间名录.json"
-OFFICE_IDS = {"L007", "L009", "L025", "L034", "L038", "L040", "L055"}
-SHOP_IDS = {"L010", "L011", "L012", "L016", "L017", "L023", "L052"}
+OFFICE_IDS = {"L007", "L009", "L025", "L034", "L038", "L040", "L055", "L061", "L063", "L066", "L067", "L068", "L069", "L070", "L071", "L072", "L073", "L076", "L080", "L082", "L083", "L084", "L085", "L086", "L091", "L092", "L093", "L096", "L102", "L103", "L107"}  # 31条：原7条＋阶段2新增24条，逐条点名，不靠名称推断
+SHOP_IDS = {"L010", "L011", "L012", "L016", "L017", "L023", "L052", "L065", "L074", "L075", "L079", "L081", "L089", "L094", "L101", "L104", "L105"}  # 17条：原7条＋阶段2新增10条
 PRICE_SCOPES = {
     "residential": "住宅", "office": "办公", "retail": "商业", "street_retail": "底商",
 }
@@ -133,7 +133,7 @@ class PricingTests(unittest.TestCase):
 
     def test_canonical_d01_sample_price_and_trace(self):
         home = self.rows["D01"]["residential"]
-        self.assertEqual(home["sale_tt_per_m2"], 12950)
+        self.assertEqual(home["sale_tt_per_m2"], 13950)
         self.assertEqual(home.get("sample_ids"), [f"R{i:03d}" for i in range(1, 7)])
         weights = [e["gross_floor_area_m2"] for e in self.registry["entries"]
                    if e["type"] == "居民区" and e["parent"] == "D01"]
@@ -149,13 +149,13 @@ class PricingTests(unittest.TestCase):
         self.assertNotIn("residential", district)
         self.assertNotIn("住宅", district["scope"])
 
-    def test_commercial_section_has_nine_unique_rows(self):
+    def test_commercial_section_rows_are_unique_and_match_shop_ids(self):
         section = next(s for s in self.table.split("\n## ") if s.startswith("商业区（"))
         ids = [line.split("|")[1].strip() for line in section.splitlines()
                if line.startswith("| ") and line.split("|")[1].strip() != "ID"]
         self.assertEqual(len(ids), len(set(ids)))
         self.assertEqual(set(ids), SHOP_IDS | {"F008", "F016"})
-        self.assertIn("（9条）", section.splitlines()[0])
+        self.assertIn(f"（{len(SHOP_IDS) + 2}条）", section.splitlines()[0])
 
     def test_scope_matches_only_present_price_classes(self):
         mismatches = []
@@ -180,11 +180,11 @@ class PricingTests(unittest.TestCase):
                     self.assertEqual(row["reference_only"], self.rows[row["id"]]["reference_only"])
 
     def test_all_canonical_ids_and_explicit_landmark_uses_are_preserved(self):
-        self.assertEqual(self.output["record_count"], 264)
-        self.assertEqual(len(self.rows), 264)
+        self.assertEqual(self.output["record_count"], 312)
+        self.assertEqual(len(self.rows), 312)
         self.assertEqual(set(self.rows), {e["id"] for e in self.registry["entries"]})
         landmarks = [r for r in self.rows.values() if r["type"] == "标志性建筑"]
-        self.assertEqual(Counter(r["asset_use"] for r in landmarks), {"办公": 7, "商业": 7, "公共自用": 46})
+        self.assertEqual(Counter(r["asset_use"] for r in landmarks), {"办公": 31, "商业": 17, "公共自用": 60})
         self.assertEqual({r["id"] for r in landmarks if r["asset_use"] == "办公"}, OFFICE_IDS)
         self.assertEqual({r["id"] for r in landmarks if r["asset_use"] == "商业"}, SHOP_IDS)
         for row in self.rows.values():
@@ -216,9 +216,10 @@ class PricingTests(unittest.TestCase):
                 high = source["type"] == "标志性建筑" and (source.get("height_m") or 0) >= 90
                 self.assertEqual(basis.get("办公高度系数"), 1.10 if high else 1.0)
                 self.assertEqual(basis.get("办公地标系数"), 1.25 if row["id"] == "L007" else 1.0)
-        # 原有分步取整应保留：19800 -> 21800 -> 27250，合并乘数会变价。
-        self.assertEqual(self.rows["L007"]["office"]["sale_tt_per_m2"], 27250)
-        self.assertEqual(self.rows["L007"]["office"]["rent_tt_per_m2_day"], 3.4)
+        # 原有分步取整应保留：22550 -> 24800 -> 31000，合并乘数会变价。
+        self.assertEqual(self.rows["L007"]["office"]["sale_tt_per_m2"], 31000)
+        # 日租金由取整后的售价派生：31000 × 0.045 ÷ 365 = 3.82 → 3.8。
+        self.assertEqual(self.rows["L007"]["office"]["rent_tt_per_m2_day"], 3.8)
 
 
 if __name__ == "__main__":

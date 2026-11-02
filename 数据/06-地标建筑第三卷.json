@@ -1,0 +1,692 @@
+[
+  {
+    "id": "L061",
+    "name": "北湖政务协同塔",
+    "type": "标志性建筑",
+    "parent": "D01",
+    "center_km": [
+      0.0,
+      3.45
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 186,
+    "floors": 48,
+    "focus": "公共治理、法务与市民服务",
+    "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
+    "neighbors": [
+      "L001",
+      "F001"
+    ],
+    "parent_name": "北湖政务片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 0.0
+  },
+  {
+    "id": "L062",
+    "name": "市民法务服务中心",
+    "type": "标志性建筑",
+    "parent": "D01",
+    "center_km": [
+      -0.45,
+      3.42
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 128,
+    "floors": 35,
+    "focus": "公共治理、法务与市民服务",
+    "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
+    "neighbors": [
+      "L001",
+      "F001"
+    ],
+    "parent_name": "北湖政务片区",
+    "distance_to_lake_center_km": 3.449,
+    "bearing_from_lake_center_deg": 352.5
+  },
+  {
+    "id": "L063",
+    "name": "北书学术交换塔",
+    "type": "标志性建筑",
+    "parent": "D02",
+    "center_km": [
+      2.028,
+      2.791
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 268,
+    "floors": 67,
+    "focus": "大学、人文教育与公共知识",
+    "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
+    "neighbors": [
+      "L004",
+      "F003"
+    ],
+    "parent_name": "东北文教片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 36.0
+  },
+  {
+    "id": "L064",
+    "name": "青年科创学院塔",
+    "type": "标志性建筑",
+    "parent": "D02",
+    "center_km": [
+      1.646,
+      3.032
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 244,
+    "floors": 61,
+    "focus": "大学、人文教育与公共知识",
+    "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
+    "neighbors": [
+      "L004",
+      "F003"
+    ],
+    "parent_name": "东北文教片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 28.5
+  },
+  {
+    "id": "L065",
+    "name": "校园书市商廊",
+    "type": "标志性建筑",
+    "parent": "D02",
+    "center_km": [
+      2.375,
+      2.503
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 112,
+    "floors": 30,
+    "focus": "大学、人文教育与公共知识",
+    "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
+    "neighbors": [
+      "L004",
+      "F003"
+    ],
+    "parent_name": "东北文教片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 43.5
+  },
+  {
+    "id": "L066",
+    "name": "钛心金融主塔",
+    "type": "标志性建筑",
+    "parent": "D03",
+    "center_km": [
+      3.281,
+      1.066
+    ],
+    "area_km2": 0.03,
+    "gross_floor_area_m2": 305000,
+    "height_m": 458,
+    "floors": 106,
+    "focus": "金融、专业服务与总部办公",
+    "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+    "neighbors": [
+      "L007",
+      "F005"
+    ],
+    "parent_name": "东湖金融片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 72.0
+  },
+  {
+    "id": "L067",
+    "name": "澄湖资本塔",
+    "type": "标志性建筑",
+    "parent": "D03",
+    "center_km": [
+      3.114,
+      1.485
+    ],
+    "area_km2": 0.03,
+    "gross_floor_area_m2": 250000,
+    "height_m": 352,
+    "floors": 82,
+    "focus": "金融、专业服务与总部办公",
+    "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+    "neighbors": [
+      "L007",
+      "F005"
+    ],
+    "parent_name": "东湖金融片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 64.5
+  },
+  {
+    "id": "L068",
+    "name": "湖东证券塔",
+    "type": "标志性建筑",
+    "parent": "D03",
+    "center_km": [
+      3.392,
+      0.629
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 292,
+    "floors": 73,
+    "focus": "金融、专业服务与总部办公",
+    "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+    "neighbors": [
+      "L007",
+      "F005"
+    ],
+    "parent_name": "东湖金融片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 79.49
+  },
+  {
+    "id": "L069",
+    "name": "云浦结算中心",
+    "type": "标志性建筑",
+    "parent": "D03",
+    "center_km": [
+      2.893,
+      1.879
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 276,
+    "floors": 69,
+    "focus": "金融、专业服务与总部办公",
+    "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+    "neighbors": [
+      "L007",
+      "F005"
+    ],
+    "parent_name": "东湖金融片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 57.0
+  },
+  {
+    "id": "L070",
+    "name": "东环企业总部塔",
+    "type": "标志性建筑",
+    "parent": "D03",
+    "center_km": [
+      4.202,
+      1.871
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 258,
+    "floors": 64,
+    "focus": "金融、专业服务与总部办公",
+    "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+    "neighbors": [
+      "L007",
+      "F005"
+    ],
+    "parent_name": "东湖金融片区",
+    "distance_to_lake_center_km": 4.6,
+    "bearing_from_lake_center_deg": 66.0
+  },
+  {
+    "id": "L071",
+    "name": "钛湖清算塔",
+    "type": "标志性建筑",
+    "parent": "D03",
+    "center_km": [
+      4.499,
+      0.956
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 231,
+    "floors": 58,
+    "focus": "金融、专业服务与总部办公",
+    "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+    "neighbors": [
+      "L007",
+      "F005"
+    ],
+    "parent_name": "东湖金融片区",
+    "distance_to_lake_center_km": 4.599,
+    "bearing_from_lake_center_deg": 78.0
+  },
+  {
+    "id": "L072",
+    "name": "东岸青年创业塔",
+    "type": "标志性建筑",
+    "parent": "D03",
+    "center_km": [
+      2.755,
+      1.527
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 172,
+    "floors": 45,
+    "focus": "金融、专业服务与总部办公",
+    "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+    "neighbors": [
+      "L007",
+      "F005"
+    ],
+    "parent_name": "东湖金融片区",
+    "distance_to_lake_center_km": 3.15,
+    "bearing_from_lake_center_deg": 61.0
+  },
+  {
+    "id": "L073",
+    "name": "潮湾国际商务塔",
+    "type": "标志性建筑",
+    "parent": "D04",
+    "center_km": [
+      3.392,
+      -0.629
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 283,
+    "floors": 71,
+    "focus": "会议、展览、旅游与商务接待",
+    "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
+    "neighbors": [
+      "L010",
+      "F007"
+    ],
+    "parent_name": "东南会展片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 100.51
+  },
+  {
+    "id": "L074",
+    "name": "水光旅店主塔",
+    "type": "标志性建筑",
+    "parent": "D04",
+    "center_km": [
+      2.893,
+      -1.879
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 262,
+    "floors": 66,
+    "focus": "会议、展览、旅游与商务接待",
+    "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
+    "neighbors": [
+      "L010",
+      "F007"
+    ],
+    "parent_name": "东南会展片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 123.0
+  },
+  {
+    "id": "L075",
+    "name": "金篷会议宴会塔",
+    "type": "标志性建筑",
+    "parent": "D04",
+    "center_km": [
+      4.443,
+      -1.191
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 240,
+    "floors": 60,
+    "focus": "会议、展览、旅游与商务接待",
+    "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
+    "neighbors": [
+      "L010",
+      "F007"
+    ],
+    "parent_name": "东南会展片区",
+    "distance_to_lake_center_km": 4.6,
+    "bearing_from_lake_center_deg": 105.01
+  },
+  {
+    "id": "L076",
+    "name": "青湾医学研究塔",
+    "type": "标志性建筑",
+    "parent": "D05",
+    "center_km": [
+      2.028,
+      -2.791
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 218,
+    "floors": 54,
+    "focus": "综合医疗、康复与健康研究",
+    "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
+    "neighbors": [
+      "L013",
+      "F009"
+    ],
+    "parent_name": "青湾医养片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 144.0
+  },
+  {
+    "id": "L077",
+    "name": "静溪健康驿站",
+    "type": "标志性建筑",
+    "parent": "D05",
+    "center_km": [
+      2.375,
+      -2.503
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 106,
+    "floors": 29,
+    "focus": "综合医疗、康复与健康研究",
+    "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
+    "neighbors": [
+      "L013",
+      "F009"
+    ],
+    "parent_name": "青湾医养片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 136.5
+  },
+  {
+    "id": "L078",
+    "name": "南湖社区生活塔",
+    "type": "标志性建筑",
+    "parent": "D06",
+    "center_km": [
+      0.0,
+      -3.45
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 164,
+    "floors": 43,
+    "focus": "大众消费、家庭生活与社区服务",
+    "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
+    "neighbors": [
+      "L016",
+      "F011"
+    ],
+    "parent_name": "南湖生活片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 180.0
+  },
+  {
+    "id": "L079",
+    "name": "月湾市集商厦",
+    "type": "标志性建筑",
+    "parent": "D06",
+    "center_km": [
+      0.45,
+      -3.42
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 138,
+    "floors": 37,
+    "focus": "大众消费、家庭生活与社区服务",
+    "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
+    "neighbors": [
+      "L016",
+      "F011"
+    ],
+    "parent_name": "南湖生活片区",
+    "distance_to_lake_center_km": 3.449,
+    "bearing_from_lake_center_deg": 172.5
+  },
+  {
+    "id": "L080",
+    "name": "西声演艺孵化塔",
+    "type": "标志性建筑",
+    "parent": "D07",
+    "center_km": [
+      -2.028,
+      -2.791
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 178,
+    "floors": 46,
+    "focus": "表演、电影、设计与夜间文化",
+    "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
+    "neighbors": [
+      "L019",
+      "F013"
+    ],
+    "parent_name": "西南文艺片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 216.0
+  },
+  {
+    "id": "L081",
+    "name": "旧炉夜间市集馆",
+    "type": "标志性建筑",
+    "parent": "D07",
+    "center_km": [
+      -1.646,
+      -3.032
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 118,
+    "floors": 32,
+    "focus": "表演、电影、设计与夜间文化",
+    "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
+    "neighbors": [
+      "L019",
+      "F013"
+    ],
+    "parent_name": "西南文艺片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 208.5
+  },
+  {
+    "id": "L082",
+    "name": "云栈智能塔",
+    "type": "标志性建筑",
+    "parent": "D09",
+    "center_km": [
+      -3.281,
+      1.066
+    ],
+    "area_km2": 0.03,
+    "gross_floor_area_m2": 250000,
+    "height_m": 344,
+    "floors": 80,
+    "focus": "软件、人工智能应用与数字内容",
+    "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+    "neighbors": [
+      "L025",
+      "F017"
+    ],
+    "parent_name": "云栈数创片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 288.0
+  },
+  {
+    "id": "L083",
+    "name": "数岸算力塔",
+    "type": "标志性建筑",
+    "parent": "D09",
+    "center_km": [
+      -3.392,
+      0.629
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 288,
+    "floors": 72,
+    "focus": "软件、人工智能应用与数字内容",
+    "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+    "neighbors": [
+      "L025",
+      "F017"
+    ],
+    "parent_name": "云栈数创片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 280.51
+  },
+  {
+    "id": "L084",
+    "name": "云栈算法塔",
+    "type": "标志性建筑",
+    "parent": "D09",
+    "center_km": [
+      -3.114,
+      1.485
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 264,
+    "floors": 66,
+    "focus": "软件、人工智能应用与数字内容",
+    "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+    "neighbors": [
+      "L025",
+      "F017"
+    ],
+    "parent_name": "云栈数创片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 295.5
+  },
+  {
+    "id": "L085",
+    "name": "数创内容工场",
+    "type": "标志性建筑",
+    "parent": "D09",
+    "center_km": [
+      -2.893,
+      1.879
+    ],
+    "area_km2": 0.024,
+    "gross_floor_area_m2": 152000,
+    "height_m": 249,
+    "floors": 62,
+    "focus": "软件、人工智能应用与数字内容",
+    "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+    "neighbors": [
+      "L025",
+      "F017"
+    ],
+    "parent_name": "云栈数创片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 303.0
+  },
+  {
+    "id": "L086",
+    "name": "星栈开发者塔",
+    "type": "标志性建筑",
+    "parent": "D09",
+    "center_km": [
+      -4.499,
+      0.956
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 196,
+    "floors": 51,
+    "focus": "软件、人工智能应用与数字内容",
+    "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+    "neighbors": [
+      "L025",
+      "F017"
+    ],
+    "parent_name": "云栈数创片区",
+    "distance_to_lake_center_km": 4.599,
+    "bearing_from_lake_center_deg": 282.0
+  },
+  {
+    "id": "L087",
+    "name": "蓝帆播送塔",
+    "type": "标志性建筑",
+    "parent": "D09",
+    "center_km": [
+      -4.202,
+      1.871
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 158,
+    "floors": 41,
+    "focus": "软件、人工智能应用与数字内容",
+    "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+    "neighbors": [
+      "L025",
+      "F017"
+    ],
+    "parent_name": "云栈数创片区",
+    "distance_to_lake_center_km": 4.6,
+    "bearing_from_lake_center_deg": 294.0
+  },
+  {
+    "id": "L088",
+    "name": "松岬运动员服务中心",
+    "type": "标志性建筑",
+    "parent": "D10",
+    "center_km": [
+      -2.028,
+      2.791
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 168,
+    "floors": 44,
+    "focus": "竞技体育、全民运动与户外休闲",
+    "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
+    "neighbors": [
+      "L028",
+      "F019"
+    ],
+    "parent_name": "松岬体育片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 324.0
+  },
+  {
+    "id": "L089",
+    "name": "环湖运动健康塔",
+    "type": "标志性建筑",
+    "parent": "D10",
+    "center_km": [
+      -2.375,
+      2.503
+    ],
+    "area_km2": 0.014,
+    "gross_floor_area_m2": 47000,
+    "height_m": 132,
+    "floors": 36,
+    "focus": "竞技体育、全民运动与户外休闲",
+    "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
+    "neighbors": [
+      "L028",
+      "F019"
+    ],
+    "parent_name": "松岬体育片区",
+    "distance_to_lake_center_km": 3.45,
+    "bearing_from_lake_center_deg": 316.5
+  },
+  {
+    "id": "L090",
+    "name": "书岭精密观测塔",
+    "type": "标志性建筑",
+    "parent": "D12",
+    "center_km": [
+      3.732,
+      5.137
+    ],
+    "area_km2": 0.018,
+    "gross_floor_area_m2": 86000,
+    "height_m": 189,
+    "floors": 49,
+    "focus": "基础科研、精密实验与人才生活",
+    "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
+    "neighbors": [
+      "L034",
+      "F023"
+    ],
+    "parent_name": "书岭科研片区",
+    "distance_to_lake_center_km": 6.35,
+    "bearing_from_lake_center_deg": 36.0
+  }
+]
