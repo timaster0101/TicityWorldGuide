@@ -31,6 +31,15 @@ class BuildPromptsTests(unittest.TestCase):
         "特色村落": "6—18人，以生产活动为主，不出现主城式人流",
     }
     CROWD_BANNED = ("人山人海", "热闹繁华", "繁华喧嚣", "摩肩接踵", "人流如织", "熙熙攘攘")
+    # C93：E1 换档＋D4 双层判据在闸门侧另抄一份，刻意不 import 生成器常量。
+    # 写实词与近未来词只许出现在负向段，所以判据是把 tail 按负向段起点切成两半分别断言。
+    NEG_OPEN = "not a photograph, no photorealistic pore detail"
+    STYLE_BANNED = ("photorealistic", "photorealism", "photograph", "hyperrealistic", "dslr", "hdr photo")
+    ERA_BANNED = ("flying cars", "flying car", "hologram", "cyberpunk", "humanoid robot",
+                  "near-future sci-fi", "autonomous vehicle fleet")
+    ERA_NEGATIVES = ("no flying cars", "no holograms", "no humanoid robots", "no cyberpunk",
+                     "no near-future sci-fi")
+    TAIL_GUARD_CALL = "    assert_affirmative_style(_label, _text)"
 
     def expected_portrait_ids(self):
         out = set()
@@ -278,6 +287,85 @@ class BuildPromptsTests(unittest.TestCase):
                 tail = text.split("English tail: ", 1)[1]
                 self.assertIn("no third-party or model-generated watermark", tail)
                 self.assertIn("preserve mandatory platform AIGC labels", tail)
+
+    def tail_split(self, eid):
+        """返回（正向段, 负向段）：正向段是画风与双层与痕迹与招牌句，负向段自 `not a photograph` 起。
+        禁词只许在负向段里以否定式出现，所以必须切开判，不能整串断言。"""
+        tail = self.prompt(eid).split("English tail: ", 1)[1]
+        affirmative, sep, negative = tail.partition(self.NEG_OPEN)
+        self.assertTrue(sep, "%s 的 tail 找不到负向段起点" % eid)
+        return affirmative, negative
+
+    def test_tail_is_painted_with_both_city_layers_and_an_era_lock(self):
+        """C93：312 条 tail 都要落进厚涂档，并同时给出科技层与老城层的实体、痕迹清单与招牌豁免句；
+        近未来词只能以否定式出现。旧六条 photorealistic 开头的 tail 必须整体消失。"""
+        for rec in self.kb:
+            eid = rec["id"]
+            with self.subTest(eid=eid):
+                affirmative, negative = self.tail_split(eid)
+                for word in self.STYLE_BANNED + self.ERA_BANNED:
+                    self.assertNotIn(word, affirmative, "%s 正向段含 %s" % (eid, word))
+                for word in self.ERA_NEGATIVES:
+                    self.assertIn(word, negative, "%s 负向段缺年代锁 %s" % (eid, word))
+                self.assertIn("semi-realistic digital painting", affirmative)
+                self.assertIn("modern layer (", affirmative)
+                self.assertIn("old layer (", affirmative)
+                self.assertIn("at least three of", affirmative)
+                self.assertIn("blurred non-readable strokes", affirmative)
+                self.assertNotIn("true material texture", self.prompt(eid))
+
+    def test_photorealism_or_near_future_word_injected_into_the_affirmative_tail_aborts(self):
+        """负测：往 TAIL_BY_TYPE 的正向段塞 photorealistic 或塞 flying cars，生成器必须退出而不是出图；
+        对照组证明未注入时仍出满 312 条。变异验证：删掉守卫调用后同样的注入必须变绿——
+        说明上一条的红来自守卫，不是别处恰好报错。只在临时副本的脚本里改，真实仓库不受影响。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = '    "标志性建筑": "painted landmark tower'
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在正向 tail 上")
+        for injection, expected in (("photorealistic architectural photography, ", "photorealistic"),
+                                    ("flying cars overhead, ", "flying cars")):
+            self.script.write_text(
+                pristine.replace(anchor, '    "标志性建筑": "%s%s' % (injection, anchor.split(': "', 1)[1]), 1),
+                encoding="utf-8")
+            result = self.run_raw()
+            with self.subTest(injection=injection):
+                self.assertNotEqual(result.returncode, 0, result.stdout)
+                output = result.stderr + result.stdout
+                self.assertIn("正向风格段含禁词", output)
+                self.assertIn(expected, output)
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(len(self.items), 312)
+        self.assertIn("modern layer (", self.tail_split("L007")[0])
+        self.assertEqual(pristine.count(self.TAIL_GUARD_CALL), 1)
+        self.script.write_text(pristine.replace(self.TAIL_GUARD_CALL, "    pass", 1), encoding="utf-8")
+        self.script.write_text(
+            self.script.read_text(encoding="utf-8").replace(
+                anchor, '    "标志性建筑": "photorealistic architectural photography, painted landmark tower', 1),
+            encoding="utf-8")
+        result = self.run_raw()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("photorealistic", self.tail_split("L007")[0])
+        self.script.write_text(pristine, encoding="utf-8")
+
+    def test_manual_and_charter_put_e1_inside_the_canon_lane(self):
+        """4.5：手册第11节那句「不进正典／不改 photorealistic 口径」与总纲的整句禁霓虹是三处反向压制，
+        改回旧措辞必须判红。断言取本轮真源句子，不凭印象。"""
+        manual = (ROOT / "AI创作使用手册.md").read_text(encoding="utf-8")
+        for gone in ("不改 English tail 的 photorealistic 口径", "不进入开图正典队列",
+                     "本节图片不得回填", "即退回正典写实档", "## 11. 非正典美术通道"):
+            self.assertNotIn(gone, manual, "反向压制措辞回来了：" + gone)
+        self.assertIn("C93 起为开图正典口径", manual)
+        self.assertIn("STYLE_CORE", manual)
+        self.assertIn("NEGATIVE_TAG", manual)
+        self.assertIn("era 2013", manual)
+        self.assertIn("legible signage glyphs", manual)
+        self.assertIn("科技层与老城层是否同框且有物理接触", manual)
+        charter = (ROOT / "00-城市总纲.md").read_text(encoding="utf-8")
+        self.assertNotIn("或用霓虹和飞行汽车代表现代性", charter)
+        self.assertIn("现代性必须有可画的实体", charter)
+        self.assertIn("不得用满屏霓虹替代街道生活", charter)
+        self.assertIn("天上现代、地上生活", charter)
+        self.assertIn("只有玻璃幕墙、只有仿古街", charter)
 
     def skyline_clause_ok(self, text):
         """C89 判据：旧「唯一超200米」措辞必须全清，新的分档句与「唯一形态」句必须在场。"""

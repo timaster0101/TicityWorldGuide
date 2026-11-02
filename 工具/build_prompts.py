@@ -65,16 +65,60 @@ HARD_LABEL = {
     "population": "常住人口", "households": "户数", "area_km2": "占地平方公里",
     "height_limit_m": "限高米", "daily_workers": "日常岗位", "distance_to_lake_center_km": "距湖心千米",
 }
+# 阶段 4 换档（C93）：D2 把开图正典整体切到 E1 半写实厚涂，D4 把「顶级科技 × 中国老城 × 烟火气」
+# 写成画面结构判据而不是形容词。六条 tail 逐条重写，每条必须同时给出科技层与老城层的实体词，
+# 且二者物理接触。写实词与近未来词只许写在 NEGATIVE_TAG 的否定式里，正向段出现即由生成器判红。
+STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed edges, painted surfaces, "
+              "soft airbrushed gradient sky, warm late-autumn palette, illustrated cityscape rather than a snapshot")
 TAIL_BY_TYPE = {
-    "标志性建筑": "photorealistic architectural photography, building form and composition true to the canon section",
-    "功能区": "photorealistic street-level urbanist photography, everyday public space",
-    "居民区": "photorealistic street-level residential photography, lived-in not staged",
-    "城市片区": "photorealistic high-angle district overview, readable sector edge and skyline",
-    "产业小镇": "photorealistic regional landscape photography, production land plus settlement, "
-                "no main-city skyline or lake visible through the mountains",
-    "特色村落": "photorealistic rural landscape photography, mountain village texture, "
-                "no main-city skyline or lake visible through the mountains",
+    "标志性建筑": "painted landmark tower true to the canon section, modern layer (curtain-wall grid, lit "
+                  "sky-lobby bands, rooftop telecom and HVAC plant, LED media panel on the podium) rising out of "
+                  "old layer (grey-tile roofs, timber eaves, stone steps and a narrow old street touching the tower base)",
+    "功能区": "painted street-level urbanist public space, modern layer (glass office fronts, station gates, "
+             "smart lamp posts, underground duct covers) meeting old layer (brick-and-tile shopfronts, arcades, "
+             "stone paving, an old gateway) on the same pavement",
+    "居民区": "painted street-level residential block, lived-in not staged, modern layer (external AC units, "
+             "rooftop PV panels, fibre cabinets, video intercom and EV charging posts) welded onto old layer "
+             "(grey-tile eaves, shared laundry rig, ground-floor shops with lit lampboxes, pocket courtyard)",
+    "城市片区": "painted high-angle district overview with a readable sector edge, modern layer (a cluster of "
+               "200-metre-class towers, transit viaduct, cranes on super-tall construction) behind old layer "
+               "(historic low-rise roof texture, old lanes and a riverside market street kept intact)",
+    "产业小镇": "painted regional town, production land plus settlement, modern layer (hangars, rooftop PV arrays, "
+                "test benches, freight sheds, clean-front workshops) beside old layer (self-built courtyard houses, "
+                "old tile roofs and village alleys); no main-city skyline or lake visible through the mountains",
+    "特色村落": "painted mountain village, old layer (ancestral hall, timber balconies, stone terraces, drying "
+                "racks) carrying a modest modern layer (satellite dish, solar water heater, electric tricycle, "
+                "fibre box, greenhouse film); no main-city skyline or lake visible through the mountains",
 }
+STREET_TRACES = ("street life must read as physical traces, at least three of: hanging laundry, potted plants and "
+                 "rooftop planting, market crates mid-unload, steam off a street food stall, lit shop lampboxes, "
+                 "parked bicycles and scooters, elders playing chess on backed stools, parents collecting children, "
+                 "construction hoarding with a tower crane, rubbish collection point and truck, a dog on a lead, "
+                 "puddle reflections after rain")
+SIGNAGE_RULE = ("shop signboards, banners, lampboxes and door plates must exist along the street, drawn as blurred "
+                "non-readable strokes; they must not spell legible characters or Latin words and must not invent a "
+                "readable slogan")
+NEGATIVE_TAG = ("not a photograph, no photorealistic pore detail, no lens grain as the look, not a 3D render, "
+                "no cel outline, no flat cel fills, not a cartoon, not an idol illustration; era 2013: no flying cars, "
+                "no holograms, no humanoid robots, no cyberpunk, no near-future sci-fi, no autonomous vehicle fleets, "
+                "no neon-drenched street replacing street life")
+# 正向风格段的禁词。写实档与近未来档只许以否定式出现在 NEGATIVE_TAG 里，
+# 所以这里禁的是「被改回正向」，负测通过改写正向常量来触发。
+STYLE_BANNED = ("photorealistic", "photorealism", "photograph", "hyperrealistic", "dslr", "hdr photo")
+ERA_BANNED = ("flying cars", "flying car", "hologram", "cyberpunk", "humanoid robot",
+              "near-future sci-fi", "autonomous vehicle fleet")
+
+
+def assert_affirmative_style(label, text):
+    hit = sorted({w for w in STYLE_BANNED + ERA_BANNED if w in text})
+    if hit:
+        raise SystemExit("%s 的正向风格段含禁词 %s；写实档与近未来档只许写进 NEGATIVE_TAG 的否定式"
+                         % (label, "、".join(hit)))
+
+
+for _label, _text in (("STYLE_CORE", STYLE_CORE), ("TAIL_BY_TYPE", " | ".join(TAIL_BY_TYPE.values())),
+                      ("STREET_TRACES", STREET_TRACES), ("SIGNAGE_RULE", SIGNAGE_RULE)):
+    assert_affirmative_style(_label, _text)
 
 
 # 阶段 3 人群接线（C92）：详档的「人群与生活节奏」段此前被整段丢弃，312 条提示词里关于人只剩
@@ -94,7 +138,9 @@ CROWD_PRIORITY = "本条人群段与锁定段的具体描写优先于该缺省�
 CROWD_BANNED = ("人山人海", "热闹繁华", "繁华喧嚣", "摩肩接踵", "人流如织", "熙熙攘攘")
 
 GLOBAL = [
-    "虚构城市钛湖城，2013年，当代现实技术，不是赛博朋克",
+    "虚构城市钛湖城，2013年，当代现实技术；「顶级现代化」按2010年代前沿读：玻璃塔群、LED媒体立面、地下环道与综合管廊、轻轨与机场专线、光纤到楼、洁净实验室与数据中心、自助闸机、电动大巴、塔吊与在建超高层；不得用飞行汽车、载人无人机、全息投影、机器人服务员、自动驾驶车队或赛博义体表达现代性，不是赛博朋克",
+    "城市定位：顶级现代化科技城市 × 保存完好的中国老城街巷 × 烟火气。同一画面里科技层与老城层必须有物理接触，天上现代、地上生活——高层与设备在画面上半，人流与生活痕迹在画面下半；只有玻璃幕墙或只有仿古街都算不合格",
+    "画风：半写实数字厚涂，笔触可辨、表面是画出来的，不是照片，也不是描边平涂的动画赛璐璐；人物保持真实比例与实际年龄特征",
     "本地坐标：湖心(0,0)，x向东、y向北，单位千米；方位北0°顺时针",
     "中心湖约6.4×4.2千米椭圆，四面环山；清岚河西北入湖，澜川东南外流",
     "默认光照：晚秋，太阳方位255°、高度6°，能见度12至18千米；清晨、夜景、雨后、阴天须显式标注为变体",
@@ -103,7 +149,7 @@ GLOBAL = [
     "机场只在S02山外，跑道东西向3.2千米；不得出现第二个机场",
     "禁止：湖中高楼、海港、大型人工岛、飞行汽车、把L007的斜削冠与针状天线安到别的塔楼上",
     "山体遮挡：外围村镇通常不能透山看到湖面或主城天际线",
-    "正文中的无水印禁则指第三方或模型生成的水印、台标、logo与签名；不得生成可读的凭空文字与招牌字样",
+    "正文中的无水印禁则指第三方或模型生成的水印、台标、logo与签名；招牌、店招、灯箱与门牌必须存在，但字形须是不可读的模糊笔画，不得形成可拼读的汉字或拉丁词，也不得凭空造出可读标语",
     "平台强制AIGC角标与XMP中的TC260元数据标识不属禁则，须原样保留，不得裁剪、遮盖或修补",
 ]
 
@@ -219,11 +265,12 @@ for rec in KB:
     lines.append("【锁定与禁则】%s" % 锁定)
     lines.append("【全局硬设定】%s" % "；".join(GLOBAL))
     lines.append("")
-    lines.append("English tail: %s, %s, natural light as the canon section states, true material texture, "
-                  "everyday people doing everyday things, no third-party or model-generated watermark, logo or signature, "
-                  "preserve mandatory platform AIGC labels and TC260 XMP metadata unchanged, no readable invented signage text, "
-                  "no invented landmark, everything above in the Chinese canon sections overrides this line."
-                  % (TAIL_BY_TYPE[typ], aspect.split("，")[0]))
+    lines.append("English tail: %s, %s, %s, natural light as the canon section states, painted material texture, "
+                  "everyday people doing everyday things, %s, %s, %s, no third-party or model-generated watermark, logo or signature, "
+                  "preserve mandatory platform AIGC labels and TC260 XMP metadata unchanged, no invented landmark, "
+                  "everything above in the Chinese canon sections overrides this line."
+                  % (STYLE_CORE, TAIL_BY_TYPE[typ], aspect.split("，")[0],
+                     STREET_TRACES, SIGNAGE_RULE, NEGATIVE_TAG))
     # UTF-8 / LF的完整生成输入：身份、硬参数、原文、价格、尺寸和中英文模板。
     # 状态、摘要自身、图片路径、批次与人工备注在计算后加入，避免自引用与回填漂移。
     prompt_sha256 = hashlib.sha256(("\n".join(lines) + "\n").encode("utf-8")).hexdigest()
@@ -263,7 +310,9 @@ for rec in KB:
         "status": status,
         "review_note": review_note,
         "review_note_history": list(MANUAL.get(eid) or []),
-        "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、把L007的斜削冠与针状天线安到别的塔楼上、可读凭空文字或第三方台标渠道logo即判废；"
+        "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、把L007的斜削冠与针状天线安到别的塔楼上、可读的招牌字形或凭空文字、第三方台标渠道logo即判废；"
+                      "出成照片质感（画面读不出笔触）或描边平涂动画档即判废重出；出现飞行汽车、全息投影、人形机器人等近未来符号即判废；"
+                      "画面只有科技层或只有老城层、或两层被广场绿地切断没有接触，即记待复验；生活痕迹实体不足三项即记待复验；"
                       "平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
     })
 
@@ -297,8 +346,9 @@ md.append("提示词 %d｜待开图 %d｜有图 %d｜已验收 %d｜待复验 %d
     out["prompt_count"], out["pending"], out["generated"], out["accepted"], out["needs_review"]))
 md.append("## 批次与验收\n")
 md.append("- 建议批次顺序：%s。地标先跑，按各自正典核验建筑形态与水体关系，不统一套用单塔；片区最后跑，因其视野最广、最容易把不该看见的湖面塞进背景。" % "→".join(BATCH_ORDER))
-md.append("- 验收以条目自身的【锁定与禁则】为准，通用否决项为：曲面扭转塔、湖中建塔、把L007的非对称直线斜削冠与细针状天线安到别的塔楼上、第二个机场、海港或大型人工岛、可读的凭空文字、第三方台标或渠道logo水印（模型侧带出的「LibTV」一类标记）、把湖面强塞进山外村镇背景。200米以上的塔楼在扩容后已成簇，按名录逐栋核对高度与冠部，不再以「第二座超过200米的塔」作否决。平台按AIGC强制标识加的「Qoder AI生成」角标与图片XMP里的TC260元数据标识不属否决项，须原样保留，不得裁剪、遮盖或修补。")
+md.append("- 验收以条目自身的【锁定与禁则】为准，通用否决项为：曲面扭转塔、湖中建塔、把L007的非对称直线斜削冠与细针状天线安到别的塔楼上、第二个机场、海港或大型人工岛、可读的招牌字形或凭空文字（招牌、灯箱、门牌必须存在，字形须是不可读的模糊笔画，这一项只否决「可读」）、出成照片质感而读不出笔触、描边加平涂色阶的动画档、飞行汽车或全息投影一类近未来符号、第三方台标或渠道logo水印（模型侧带出的「LibTV」一类标记）、把湖面强塞进山外村镇背景。200米以上的塔楼在扩容后已成簇，按名录逐栋核对高度与冠部，不再以「第二座超过200米的塔」作否决。平台按AIGC强制标识加的「Qoder AI生成」角标与图片XMP里的TC260元数据标识不属否决项，须原样保留，不得裁剪、遮盖或修补。")
 md.append("- 人群核验以条目自身的【人群与烟火气】为准：先看本条详档人群段的具体描写，再看该类型的缺省人数档，二者冲突按详档。画面人物明显低于档位下限（空街、空场）或反过来形成盛大庆典、统一着装团体，均记为待复验；俯瞰与鸟瞰条不逐个数人，但地面必须看得出有人在走动。")
+md.append("- 画风与双层核验：本批按半写实数字厚涂开图，画面要读得出笔触、表面是画出来的；出成照片质感（毛孔、镜头噪点当成质感）或描边平涂的动画档都不合格。同一张图必须同时读得出科技层与老城层且二者有物理接触——只有玻璃幕墙、只有仿古街、或两层各占一半却被广场绿地切断，一律记待复验。科技层按2010年代前沿的实体核对（幕墙、LED媒体立面、轻轨与站厅闸机、管廊盖板、光纤箱、屋顶设备、塔吊与在建超高层），飞行汽车、载人无人机、全息投影、机器人服务员、自动驾驶车队一类近未来符号出现即判废。生活痕迹实体（晾晒、盆栽、卸货筐、摊贩热气、灯箱、非机动车停放、下棋的老人、接送孩子的家长、围挡塔吊、垃圾收集点、遛狗、积水倒影）每条至少三项，不足三项记待复验。")
 md.append("- 光照默认晚秋255°方位、6°高度；清晨、夜景、雨后、阴天只有在提示词里显式标注为变体时才允许，清单的“光照判定”列已按每条的拍摄朝向算好太阳侧别。\n")
 for typ in BATCH_ORDER:
     rows = [m for m in manifest if m["type"] == typ]

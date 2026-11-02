@@ -251,12 +251,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_92(self):
+    def test_rulings_are_93(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 92)
-        self.assertEqual(rulings[-1]['编号'], 'C92')
+        self.assertEqual(len(rulings), 93)
+        self.assertEqual(rulings[-1]['编号'], 'C93')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C83', 'C84', 'C85', 'C86', 'C87', 'C88', 'C89', 'C90', 'C91', 'C92'])
+                         ['C84', 'C85', 'C86', 'C87', 'C88', 'C89', 'C90', 'C91', 'C92', 'C93'])
         by_id = {r['编号']: r for r in rulings}
         # C89 的「高度第一交给 L066、形态第一留在 L007」是本卷定价外溢的唯一出处，钉死措辞防止被改写后说明与价表脱钩。
         self.assertIn('458米/106层', by_id['C89']['裁定'])
@@ -275,8 +275,13 @@ class CanonConsistency(unittest.TestCase):
         self.assertIn('1280000→3200000', by_id['C86']['裁定'])
         self.assertIn('【已被C86取代】', by_id['C04']['裁定'])
         self.assertIn('不是已交付事实', by_id['C87']['影响'])
-        self.assertIn('尚未执行', by_id['C88']['影响'])
-        self.assertIn('【通道分工已被C88取代', by_id['C85']['裁定'])
+        # C93 把 C88 的「定档未执行」与 C85 的「通道分工」两句一起收掉：措辞钉随之前移，
+        # 否则裁定记录一旦回退到旧口径，这里的说明与价表、tail 生成器就各说各话。
+        self.assertIn('由 C93 于 2026-11-03 执行完毕', by_id['C88']['影响'])
+        self.assertIn('【通道分工已被C88定档、并由C93于2026-11-03执行作废', by_id['C85']['裁定'])
+        self.assertIn('只许以否定式出现在 NEGATIVE_TAG', by_id['C93']['裁定'])
+        self.assertIn('312/312', by_id['C93']['影响'])
+        self.assertIn('本条零出图、未花额度', by_id['C93']['影响'])
 
 
     def test_manual_chains_costs_before_occupations(self):
