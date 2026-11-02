@@ -114,12 +114,91 @@
     }
   ],
   "population": {
-    "city_core": 1280000,
+    "city_core": 3200000,
     "satellite_settlements": 332200,
     "dispersed_rural": 42000,
-    "regional_total": 1654200,
-    "featured_residences": 538760
+    "regional_total": 3574200,
+    "featured_residences": 1358300
   },
+  "volumes": [
+    [
+      "01",
+      "外围村镇",
+      "S",
+      1,
+      24
+    ],
+    [
+      "02",
+      "城市片区",
+      "D",
+      1,
+      20
+    ],
+    [
+      "03",
+      "城市功能区",
+      "F",
+      1,
+      40
+    ],
+    [
+      "04",
+      "地标建筑上卷",
+      "L",
+      1,
+      30
+    ],
+    [
+      "05",
+      "地标建筑下卷",
+      "L",
+      31,
+      60
+    ],
+    [
+      "06",
+      "地标建筑第三卷",
+      "L",
+      61,
+      90
+    ],
+    [
+      "07",
+      "地标建筑第四卷",
+      "L",
+      91,
+      108
+    ],
+    [
+      "08",
+      "居民区第1卷",
+      "R",
+      1,
+      30
+    ],
+    [
+      "09",
+      "居民区第2卷",
+      "R",
+      31,
+      60
+    ],
+    [
+      "10",
+      "居民区第3卷",
+      "R",
+      61,
+      90
+    ],
+    [
+      "11",
+      "居民区第4卷",
+      "R",
+      91,
+      120
+    ]
+  ],
   "entries": [
     {
       "id": "D01",
@@ -131,7 +210,7 @@
         4.65
       ],
       "area_km2": 9.1566,
-      "population": 48000,
+      "population": 100000,
       "focus": "公共治理、法务与市民服务",
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
       "sector": {
@@ -157,7 +236,7 @@
       "area_km2": 0.72,
       "focus": "公共治理、法务与市民服务",
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
-      "daily_workers": 4000,
+      "daily_workers": 25300,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "北湖政务片区",
       "distance_to_lake_center_km": 4.75,
@@ -175,7 +254,7 @@
       "area_km2": 0.88,
       "focus": "公共治理、法务与市民服务",
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
-      "daily_workers": 4800,
+      "daily_workers": 20700,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "北湖政务片区",
       "distance_to_lake_center_km": 4.75,
@@ -192,8 +271,8 @@
       ],
       "area_km2": 0.042,
       "gross_floor_area_m2": 68000,
-      "height_m": 32,
-      "floors": 6,
+      "height_m": 74,
+      "floors": 17,
       "focus": "公共治理、法务与市民服务",
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
       "neighbors": [
@@ -215,8 +294,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 24,
-      "floors": 4,
+      "height_m": 66,
+      "floors": 15,
       "focus": "公共治理、法务与市民服务",
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
       "neighbors": [
@@ -238,8 +317,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 46,
-      "floors": 10,
+      "height_m": 82,
+      "floors": 19,
       "focus": "公共治理、法务与市民服务",
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
       "neighbors": [
@@ -260,9 +339,9 @@
         4.172
       ],
       "area_km2": 0.11,
-      "gross_floor_area_m2": 78100,
-      "population": 1800,
-      "households": 735,
+      "gross_floor_area_m2": 162600,
+      "population": 3750,
+      "households": 1531,
       "height_limit_m": 33,
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
       "focus": "公共治理、法务与市民服务",
@@ -271,7 +350,7 @@
       "parent_name": "北湖政务片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 349.0,
-      "floor_area_ratio": 0.71,
+      "floor_area_ratio": 1.478,
       "building_coverage_max": 0.34
     },
     {
@@ -284,9 +363,9 @@
         4.25
       ],
       "area_km2": 0.145,
-      "gross_floor_area_m2": 100100,
-      "population": 2120,
-      "households": 866,
+      "gross_floor_area_m2": 207700,
+      "population": 4400,
+      "households": 1796,
       "height_limit_m": 45,
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
       "focus": "公共治理、法务与市民服务",
@@ -295,7 +374,7 @@
       "parent_name": "北湖政务片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 0.0,
-      "floor_area_ratio": 0.69,
+      "floor_area_ratio": 1.432,
       "building_coverage_max": 0.34
     },
     {
@@ -308,9 +387,9 @@
         4.172
       ],
       "area_km2": 0.18,
-      "gross_floor_area_m2": 124600,
-      "population": 2440,
-      "households": 996,
+      "gross_floor_area_m2": 257900,
+      "population": 5050,
+      "households": 2062,
       "height_limit_m": 57,
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
       "focus": "公共治理、法务与市民服务",
@@ -319,7 +398,7 @@
       "parent_name": "北湖政务片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 11.0,
-      "floor_area_ratio": 0.692,
+      "floor_area_ratio": 1.433,
       "building_coverage_max": 0.34
     },
     {
@@ -332,9 +411,9 @@
         5.281
       ],
       "area_km2": 0.11,
-      "gross_floor_area_m2": 119700,
-      "population": 2760,
-      "households": 1127,
+      "gross_floor_area_m2": 249300,
+      "population": 5750,
+      "households": 2347,
       "height_limit_m": 33,
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
       "focus": "公共治理、法务与市民服务",
@@ -343,7 +422,7 @@
       "parent_name": "北湖政务片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 349.0,
-      "floor_area_ratio": 1.088,
+      "floor_area_ratio": 2.266,
       "building_coverage_max": 0.34
     },
     {
@@ -356,9 +435,9 @@
         5.38
       ],
       "area_km2": 0.145,
-      "gross_floor_area_m2": 145500,
-      "population": 3080,
-      "households": 1258,
+      "gross_floor_area_m2": 302200,
+      "population": 6400,
+      "households": 2613,
       "height_limit_m": 45,
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
       "focus": "公共治理、法务与市民服务",
@@ -367,7 +446,7 @@
       "parent_name": "北湖政务片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 0.0,
-      "floor_area_ratio": 1.003,
+      "floor_area_ratio": 2.084,
       "building_coverage_max": 0.34
     },
     {
@@ -380,9 +459,9 @@
         5.281
       ],
       "area_km2": 0.18,
-      "gross_floor_area_m2": 173600,
-      "population": 3400,
-      "households": 1388,
+      "gross_floor_area_m2": 360000,
+      "population": 7050,
+      "households": 2878,
       "height_limit_m": 57,
       "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
       "focus": "公共治理、法务与市民服务",
@@ -391,7 +470,7 @@
       "parent_name": "北湖政务片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 11.0,
-      "floor_area_ratio": 0.964,
+      "floor_area_ratio": 2.0,
       "building_coverage_max": 0.34
     },
     {
@@ -404,7 +483,7 @@
         3.762
       ],
       "area_km2": 8.8059,
-      "population": 56000,
+      "population": 116000,
       "focus": "大学、人文教育与公共知识",
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
       "sector": {
@@ -430,7 +509,7 @@
       "area_km2": 0.72,
       "focus": "大学、人文教育与公共知识",
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
-      "daily_workers": 5300,
+      "daily_workers": 22000,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "东北文教片区",
       "distance_to_lake_center_km": 4.75,
@@ -448,7 +527,7 @@
       "area_km2": 0.88,
       "focus": "大学、人文教育与公共知识",
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
-      "daily_workers": 6100,
+      "daily_workers": 18000,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "东北文教片区",
       "distance_to_lake_center_km": 4.75,
@@ -465,8 +544,8 @@
       ],
       "area_km2": 0.042,
       "gross_floor_area_m2": 68000,
-      "height_m": 36,
-      "floors": 6,
+      "height_m": 68,
+      "floors": 16,
       "focus": "大学、人文教育与公共知识",
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
       "neighbors": [
@@ -488,8 +567,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 28,
-      "floors": 4,
+      "height_m": 62,
+      "floors": 14,
       "focus": "大学、人文教育与公共知识",
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
       "neighbors": [
@@ -511,8 +590,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 50,
-      "floors": 10,
+      "height_m": 70,
+      "floors": 16,
       "focus": "大学、人文教育与公共知识",
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
       "neighbors": [
@@ -533,9 +612,9 @@
         3.852
       ],
       "area_km2": 0.125,
-      "gross_floor_area_m2": 99700,
-      "population": 2300,
-      "households": 939,
+      "gross_floor_area_m2": 205900,
+      "population": 4750,
+      "households": 1939,
       "height_limit_m": 33,
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
       "focus": "大学、人文教育与公共知识",
@@ -544,7 +623,7 @@
       "parent_name": "东北文教片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 25.0,
-      "floor_area_ratio": 0.798,
+      "floor_area_ratio": 1.647,
       "building_coverage_max": 0.34
     },
     {
@@ -557,9 +636,9 @@
         3.438
       ],
       "area_km2": 0.16,
-      "gross_floor_area_m2": 123700,
-      "population": 2620,
-      "households": 1070,
+      "gross_floor_area_m2": 257300,
+      "population": 5450,
+      "households": 2225,
       "height_limit_m": 45,
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
       "focus": "大学、人文教育与公共知识",
@@ -568,7 +647,7 @@
       "parent_name": "东北文教片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 36.0,
-      "floor_area_ratio": 0.773,
+      "floor_area_ratio": 1.608,
       "building_coverage_max": 0.34
     },
     {
@@ -581,9 +660,9 @@
         2.898
       ],
       "area_km2": 0.195,
-      "gross_floor_area_m2": 150100,
-      "population": 2940,
-      "households": 1200,
+      "gross_floor_area_m2": 311400,
+      "population": 6100,
+      "households": 2490,
       "height_limit_m": 57,
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
       "focus": "大学、人文教育与公共知识",
@@ -592,7 +671,7 @@
       "parent_name": "东北文教片区",
       "distance_to_lake_center_km": 4.249,
       "bearing_from_lake_center_deg": 47.0,
-      "floor_area_ratio": 0.77,
+      "floor_area_ratio": 1.597,
       "building_coverage_max": 0.34
     },
     {
@@ -605,9 +684,9 @@
         4.876
       ],
       "area_km2": 0.125,
-      "gross_floor_area_m2": 141400,
-      "population": 3260,
-      "households": 1331,
+      "gross_floor_area_m2": 292700,
+      "population": 6750,
+      "households": 2756,
       "height_limit_m": 33,
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
       "focus": "大学、人文教育与公共知识",
@@ -616,7 +695,7 @@
       "parent_name": "东北文教片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 25.0,
-      "floor_area_ratio": 1.131,
+      "floor_area_ratio": 2.342,
       "building_coverage_max": 0.34
     },
     {
@@ -629,9 +708,9 @@
         4.353
       ],
       "area_km2": 0.16,
-      "gross_floor_area_m2": 169100,
-      "population": 3580,
-      "households": 1462,
+      "gross_floor_area_m2": 351700,
+      "population": 7450,
+      "households": 3041,
       "height_limit_m": 45,
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
       "focus": "大学、人文教育与公共知识",
@@ -640,7 +719,7 @@
       "parent_name": "东北文教片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 35.99,
-      "floor_area_ratio": 1.057,
+      "floor_area_ratio": 2.198,
       "building_coverage_max": 0.34
     },
     {
@@ -653,9 +732,9 @@
         3.669
       ],
       "area_km2": 0.195,
-      "gross_floor_area_m2": 199100,
-      "population": 3900,
-      "households": 1592,
+      "gross_floor_area_m2": 413600,
+      "population": 8100,
+      "households": 3307,
       "height_limit_m": 57,
       "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
       "focus": "大学、人文教育与公共知识",
@@ -664,7 +743,7 @@
       "parent_name": "东北文教片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 47.0,
-      "floor_area_ratio": 1.021,
+      "floor_area_ratio": 2.121,
       "building_coverage_max": 0.34
     },
     {
@@ -677,7 +756,7 @@
         1.437
       ],
       "area_km2": 7.7587,
-      "population": 38000,
+      "population": 79000,
       "focus": "金融、专业服务与总部办公",
       "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
       "sector": {
@@ -703,7 +782,7 @@
       "area_km2": 0.72,
       "focus": "金融、专业服务与总部办公",
       "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
-      "daily_workers": 6600,
+      "daily_workers": 37400,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "东湖金融片区",
       "distance_to_lake_center_km": 4.75,
@@ -721,7 +800,7 @@
       "area_km2": 0.88,
       "focus": "金融、专业服务与总部办公",
       "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
-      "daily_workers": 7400,
+      "daily_workers": 30600,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "东湖金融片区",
       "distance_to_lake_center_km": 4.75,
@@ -761,8 +840,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 32,
-      "floors": 4,
+      "height_m": 66,
+      "floors": 15,
       "focus": "金融、专业服务与总部办公",
       "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
       "neighbors": [
@@ -784,8 +863,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 54,
-      "floors": 10,
+      "height_m": 92,
+      "floors": 21,
       "focus": "金融、专业服务与总部办公",
       "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
       "neighbors": [
@@ -806,10 +885,10 @@
         2.06
       ],
       "area_km2": 0.14,
-      "gross_floor_area_m2": 121400,
-      "population": 2800,
-      "households": 1143,
-      "height_limit_m": 96,
+      "gross_floor_area_m2": 251500,
+      "population": 5800,
+      "households": 2368,
+      "height_limit_m": 180,
       "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
       "focus": "金融、专业服务与总部办公",
       "nearby_landmark": "L007",
@@ -817,7 +896,7 @@
       "parent_name": "东湖金融片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 61.0,
-      "floor_area_ratio": 0.867,
+      "floor_area_ratio": 1.796,
       "building_coverage_max": 0.34
     },
     {
@@ -830,9 +909,9 @@
         1.313
       ],
       "area_km2": 0.175,
-      "gross_floor_area_m2": 147300,
-      "population": 3120,
-      "households": 1274,
+      "gross_floor_area_m2": 304500,
+      "population": 6450,
+      "households": 2633,
       "height_limit_m": 45,
       "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
       "focus": "金融、专业服务与总部办公",
@@ -841,7 +920,7 @@
       "parent_name": "东湖金融片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 72.0,
-      "floor_area_ratio": 0.842,
+      "floor_area_ratio": 1.74,
       "building_coverage_max": 0.34
     },
     {
@@ -854,10 +933,10 @@
         0.518
       ],
       "area_km2": 0.21,
-      "gross_floor_area_m2": 175700,
-      "population": 3440,
-      "households": 1405,
-      "height_limit_m": 57,
+      "gross_floor_area_m2": 365100,
+      "population": 7150,
+      "households": 2919,
+      "height_limit_m": 150,
       "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
       "focus": "金融、专业服务与总部办公",
       "nearby_landmark": "L009",
@@ -865,7 +944,7 @@
       "parent_name": "东湖金融片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 83.0,
-      "floor_area_ratio": 0.837,
+      "floor_area_ratio": 1.739,
       "building_coverage_max": 0.34
     },
     {
@@ -878,9 +957,9 @@
         2.608
       ],
       "area_km2": 0.14,
-      "gross_floor_area_m2": 163000,
-      "population": 3760,
-      "households": 1535,
+      "gross_floor_area_m2": 338100,
+      "population": 7800,
+      "households": 3184,
       "height_limit_m": 33,
       "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
       "focus": "金融、专业服务与总部办公",
@@ -889,7 +968,7 @@
       "parent_name": "东湖金融片区",
       "distance_to_lake_center_km": 5.379,
       "bearing_from_lake_center_deg": 61.0,
-      "floor_area_ratio": 1.164,
+      "floor_area_ratio": 2.415,
       "building_coverage_max": 0.34
     },
     {
@@ -902,9 +981,9 @@
         1.663
       ],
       "area_km2": 0.175,
-      "gross_floor_area_m2": 192700,
-      "population": 4080,
-      "households": 1666,
+      "gross_floor_area_m2": 398800,
+      "population": 8450,
+      "households": 3449,
       "height_limit_m": 45,
       "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
       "focus": "金融、专业服务与总部办公",
@@ -913,7 +992,7 @@
       "parent_name": "东湖金融片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 72.0,
-      "floor_area_ratio": 1.101,
+      "floor_area_ratio": 2.279,
       "building_coverage_max": 0.34
     },
     {
@@ -926,10 +1005,10 @@
         0.656
       ],
       "area_km2": 0.21,
-      "gross_floor_area_m2": 224600,
-      "population": 4400,
-      "households": 1796,
-      "height_limit_m": 57,
+      "gross_floor_area_m2": 467200,
+      "population": 9150,
+      "households": 3735,
+      "height_limit_m": 120,
       "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
       "focus": "金融、专业服务与总部办公",
       "nearby_landmark": "L009",
@@ -937,7 +1016,7 @@
       "parent_name": "东湖金融片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 83.0,
-      "floor_area_ratio": 1.07,
+      "floor_area_ratio": 2.225,
       "building_coverage_max": 0.34
     },
     {
@@ -950,7 +1029,7 @@
         -1.437
       ],
       "area_km2": 7.7587,
-      "population": 42000,
+      "population": 87000,
       "focus": "会议、展览、旅游与商务接待",
       "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
       "sector": {
@@ -976,7 +1055,7 @@
       "area_km2": 0.72,
       "focus": "会议、展览、旅游与商务接待",
       "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
-      "daily_workers": 7900,
+      "daily_workers": 22000,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "东南会展片区",
       "distance_to_lake_center_km": 4.75,
@@ -994,7 +1073,7 @@
       "area_km2": 0.88,
       "focus": "会议、展览、旅游与商务接待",
       "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
-      "daily_workers": 8700,
+      "daily_workers": 18000,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "东南会展片区",
       "distance_to_lake_center_km": 4.75,
@@ -1057,8 +1136,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 46,
-      "floors": 10,
+      "height_m": 64,
+      "floors": 15,
       "focus": "会议、展览、旅游与商务接待",
       "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
       "neighbors": [
@@ -1079,9 +1158,9 @@
         -0.518
       ],
       "area_km2": 0.155,
-      "gross_floor_area_m2": 143100,
-      "population": 3300,
-      "households": 1347,
+      "gross_floor_area_m2": 296900,
+      "population": 6850,
+      "households": 2796,
       "height_limit_m": 33,
       "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
       "focus": "会议、展览、旅游与商务接待",
@@ -1090,7 +1169,7 @@
       "parent_name": "东南会展片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 97.0,
-      "floor_area_ratio": 0.923,
+      "floor_area_ratio": 1.915,
       "building_coverage_max": 0.34
     },
     {
@@ -1103,10 +1182,10 @@
         -1.313
       ],
       "area_km2": 0.19,
-      "gross_floor_area_m2": 170900,
-      "population": 3620,
-      "households": 1478,
-      "height_limit_m": 45,
+      "gross_floor_area_m2": 354100,
+      "population": 7500,
+      "households": 3062,
+      "height_limit_m": 120,
       "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
       "focus": "会议、展览、旅游与商务接待",
       "nearby_landmark": "L011",
@@ -1114,7 +1193,7 @@
       "parent_name": "东南会展片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 108.0,
-      "floor_area_ratio": 0.899,
+      "floor_area_ratio": 1.864,
       "building_coverage_max": 0.34
     },
     {
@@ -1127,9 +1206,9 @@
         -0.85
       ],
       "area_km2": 0.225,
-      "gross_floor_area_m2": 201300,
-      "population": 3940,
-      "households": 1609,
+      "gross_floor_area_m2": 418600,
+      "population": 8200,
+      "households": 3347,
       "height_limit_m": 57,
       "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
       "focus": "会议、展览、旅游与商务接待",
@@ -1139,7 +1218,7 @@
       "parent_name": "东南会展片区",
       "distance_to_lake_center_km": 4.776,
       "bearing_from_lake_center_deg": 100.25,
-      "floor_area_ratio": 0.895,
+      "floor_area_ratio": 1.86,
       "building_coverage_max": 0.34
     },
     {
@@ -1152,9 +1231,9 @@
         -0.656
       ],
       "area_km2": 0.155,
-      "gross_floor_area_m2": 184700,
-      "population": 4260,
-      "households": 1739,
+      "gross_floor_area_m2": 383700,
+      "population": 8850,
+      "households": 3613,
       "height_limit_m": 33,
       "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
       "focus": "会议、展览、旅游与商务接待",
@@ -1163,7 +1242,7 @@
       "parent_name": "东南会展片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 97.0,
-      "floor_area_ratio": 1.192,
+      "floor_area_ratio": 2.475,
       "building_coverage_max": 0.34
     },
     {
@@ -1176,9 +1255,9 @@
         -1.663
       ],
       "area_km2": 0.19,
-      "gross_floor_area_m2": 216200,
-      "population": 4580,
-      "households": 1870,
+      "gross_floor_area_m2": 448500,
+      "population": 9500,
+      "households": 3878,
       "height_limit_m": 45,
       "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
       "focus": "会议、展览、旅游与商务接待",
@@ -1187,7 +1266,7 @@
       "parent_name": "东南会展片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 108.0,
-      "floor_area_ratio": 1.138,
+      "floor_area_ratio": 2.361,
       "building_coverage_max": 0.34
     },
     {
@@ -1200,9 +1279,9 @@
         -2.3
       ],
       "area_km2": 0.225,
-      "gross_floor_area_m2": 250200,
-      "population": 4900,
-      "households": 2000,
+      "gross_floor_area_m2": 518200,
+      "population": 10150,
+      "households": 4143,
       "height_limit_m": 57,
       "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
       "focus": "会议、展览、旅游与商务接待",
@@ -1212,7 +1291,7 @@
       "parent_name": "东南会展片区",
       "distance_to_lake_center_km": 5.595,
       "bearing_from_lake_center_deg": 114.27,
-      "floor_area_ratio": 1.112,
+      "floor_area_ratio": 2.303,
       "building_coverage_max": 0.34
     },
     {
@@ -1225,7 +1304,7 @@
         -3.762
       ],
       "area_km2": 8.8059,
-      "population": 46000,
+      "population": 95000,
       "focus": "综合医疗、康复与健康研究",
       "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
       "sector": {
@@ -1251,7 +1330,7 @@
       "area_km2": 0.72,
       "focus": "综合医疗、康复与健康研究",
       "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
-      "daily_workers": 9200,
+      "daily_workers": 28600,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "青湾医养片区",
       "distance_to_lake_center_km": 4.75,
@@ -1269,7 +1348,7 @@
       "area_km2": 0.88,
       "focus": "综合医疗、康复与健康研究",
       "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
-      "daily_workers": 10000,
+      "daily_workers": 23400,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "青湾医养片区",
       "distance_to_lake_center_km": 4.75,
@@ -1309,8 +1388,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 28,
-      "floors": 4,
+      "height_m": 72,
+      "floors": 16,
       "focus": "综合医疗、康复与健康研究",
       "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
       "neighbors": [
@@ -1332,8 +1411,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 50,
-      "floors": 10,
+      "height_m": 66,
+      "floors": 15,
       "focus": "综合医疗、康复与健康研究",
       "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
       "neighbors": [
@@ -1354,9 +1433,9 @@
         -2.898
       ],
       "area_km2": 0.11,
-      "gross_floor_area_m2": 164800,
-      "population": 3800,
-      "households": 1552,
+      "gross_floor_area_m2": 342500,
+      "population": 7900,
+      "households": 3225,
       "height_limit_m": 33,
       "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
       "focus": "综合医疗、康复与健康研究",
@@ -1365,7 +1444,7 @@
       "parent_name": "青湾医养片区",
       "distance_to_lake_center_km": 4.249,
       "bearing_from_lake_center_deg": 133.0,
-      "floor_area_ratio": 1.498,
+      "floor_area_ratio": 3.114,
       "building_coverage_max": 0.34
     },
     {
@@ -1378,10 +1457,10 @@
         -3.438
       ],
       "area_km2": 0.145,
-      "gross_floor_area_m2": 194500,
-      "population": 4120,
-      "households": 1682,
-      "height_limit_m": 45,
+      "gross_floor_area_m2": 403600,
+      "population": 8550,
+      "households": 3490,
+      "height_limit_m": 132,
       "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
       "focus": "综合医疗、康复与健康研究",
       "nearby_landmark": "L014",
@@ -1389,7 +1468,7 @@
       "parent_name": "青湾医养片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 144.0,
-      "floor_area_ratio": 1.341,
+      "floor_area_ratio": 2.783,
       "building_coverage_max": 0.34
     },
     {
@@ -1402,9 +1481,9 @@
         -3.852
       ],
       "area_km2": 0.18,
-      "gross_floor_area_m2": 226800,
-      "population": 4440,
-      "households": 1813,
+      "gross_floor_area_m2": 469800,
+      "population": 9200,
+      "households": 3756,
       "height_limit_m": 57,
       "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
       "focus": "综合医疗、康复与健康研究",
@@ -1413,7 +1492,7 @@
       "parent_name": "青湾医养片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 155.0,
-      "floor_area_ratio": 1.26,
+      "floor_area_ratio": 2.61,
       "building_coverage_max": 0.34
     },
     {
@@ -1426,9 +1505,9 @@
         -3.669
       ],
       "area_km2": 0.11,
-      "gross_floor_area_m2": 206300,
-      "population": 4760,
-      "households": 1943,
+      "gross_floor_area_m2": 429200,
+      "population": 9900,
+      "households": 4041,
       "height_limit_m": 33,
       "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
       "focus": "综合医疗、康复与健康研究",
@@ -1437,7 +1516,7 @@
       "parent_name": "青湾医养片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 133.0,
-      "floor_area_ratio": 1.875,
+      "floor_area_ratio": 3.902,
       "building_coverage_max": 0.34
     },
     {
@@ -1450,10 +1529,10 @@
         -4.353
       ],
       "area_km2": 0.145,
-      "gross_floor_area_m2": 239800,
-      "population": 5080,
-      "households": 2074,
-      "height_limit_m": 45,
+      "gross_floor_area_m2": 498100,
+      "population": 10550,
+      "households": 4307,
+      "height_limit_m": 108,
       "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
       "focus": "综合医疗、康复与健康研究",
       "nearby_landmark": "L014",
@@ -1461,7 +1540,7 @@
       "parent_name": "青湾医养片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 144.01,
-      "floor_area_ratio": 1.654,
+      "floor_area_ratio": 3.435,
       "building_coverage_max": 0.34
     },
     {
@@ -1474,9 +1553,9 @@
         -4.876
       ],
       "area_km2": 0.18,
-      "gross_floor_area_m2": 275800,
-      "population": 5400,
-      "households": 2205,
+      "gross_floor_area_m2": 571900,
+      "population": 11200,
+      "households": 4572,
       "height_limit_m": 57,
       "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
       "focus": "综合医疗、康复与健康研究",
@@ -1485,7 +1564,7 @@
       "parent_name": "青湾医养片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 155.0,
-      "floor_area_ratio": 1.532,
+      "floor_area_ratio": 3.177,
       "building_coverage_max": 0.34
     },
     {
@@ -1498,7 +1577,7 @@
         -4.65
       ],
       "area_km2": 9.1566,
-      "population": 95000,
+      "population": 197000,
       "focus": "大众消费、家庭生活与社区服务",
       "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
       "sector": {
@@ -1524,7 +1603,7 @@
       "area_km2": 0.72,
       "focus": "大众消费、家庭生活与社区服务",
       "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
-      "daily_workers": 4000,
+      "daily_workers": 15400,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "南湖生活片区",
       "distance_to_lake_center_km": 4.75,
@@ -1542,7 +1621,7 @@
       "area_km2": 0.88,
       "focus": "大众消费、家庭生活与社区服务",
       "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
-      "daily_workers": 4800,
+      "daily_workers": 12600,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "南湖生活片区",
       "distance_to_lake_center_km": 4.75,
@@ -1559,8 +1638,8 @@
       ],
       "area_km2": 0.042,
       "gross_floor_area_m2": 68000,
-      "height_m": 40,
-      "floors": 6,
+      "height_m": 62,
+      "floors": 14,
       "focus": "大众消费、家庭生活与社区服务",
       "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
       "neighbors": [
@@ -1582,8 +1661,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 32,
-      "floors": 4,
+      "height_m": 60,
+      "floors": 14,
       "focus": "大众消费、家庭生活与社区服务",
       "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
       "neighbors": [
@@ -1627,9 +1706,9 @@
         -4.172
       ],
       "area_km2": 0.125,
-      "gross_floor_area_m2": 78100,
-      "population": 1800,
-      "households": 735,
+      "gross_floor_area_m2": 162600,
+      "population": 3750,
+      "households": 1531,
       "height_limit_m": 33,
       "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
       "focus": "大众消费、家庭生活与社区服务",
@@ -1638,7 +1717,7 @@
       "parent_name": "南湖生活片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 169.0,
-      "floor_area_ratio": 0.625,
+      "floor_area_ratio": 1.301,
       "building_coverage_max": 0.34
     },
     {
@@ -1651,9 +1730,9 @@
         -4.25
       ],
       "area_km2": 0.16,
-      "gross_floor_area_m2": 100100,
-      "population": 2120,
-      "households": 866,
+      "gross_floor_area_m2": 207700,
+      "population": 4400,
+      "households": 1796,
       "height_limit_m": 45,
       "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
       "focus": "大众消费、家庭生活与社区服务",
@@ -1662,7 +1741,7 @@
       "parent_name": "南湖生活片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 180.0,
-      "floor_area_ratio": 0.626,
+      "floor_area_ratio": 1.298,
       "building_coverage_max": 0.34
     },
     {
@@ -1675,9 +1754,9 @@
         -4.172
       ],
       "area_km2": 0.195,
-      "gross_floor_area_m2": 124600,
-      "population": 2440,
-      "households": 996,
+      "gross_floor_area_m2": 257900,
+      "population": 5050,
+      "households": 2062,
       "height_limit_m": 57,
       "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
       "focus": "大众消费、家庭生活与社区服务",
@@ -1686,7 +1765,7 @@
       "parent_name": "南湖生活片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 191.0,
-      "floor_area_ratio": 0.639,
+      "floor_area_ratio": 1.323,
       "building_coverage_max": 0.34
     },
     {
@@ -1699,9 +1778,9 @@
         -5.281
       ],
       "area_km2": 0.125,
-      "gross_floor_area_m2": 119700,
-      "population": 2760,
-      "households": 1127,
+      "gross_floor_area_m2": 249300,
+      "population": 5750,
+      "households": 2347,
       "height_limit_m": 33,
       "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
       "focus": "大众消费、家庭生活与社区服务",
@@ -1710,7 +1789,7 @@
       "parent_name": "南湖生活片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 169.0,
-      "floor_area_ratio": 0.958,
+      "floor_area_ratio": 1.994,
       "building_coverage_max": 0.34
     },
     {
@@ -1723,9 +1802,9 @@
         -5.38
       ],
       "area_km2": 0.16,
-      "gross_floor_area_m2": 145500,
-      "population": 3080,
-      "households": 1258,
+      "gross_floor_area_m2": 302200,
+      "population": 6400,
+      "households": 2613,
       "height_limit_m": 45,
       "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
       "focus": "大众消费、家庭生活与社区服务",
@@ -1734,7 +1813,7 @@
       "parent_name": "南湖生活片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 180.0,
-      "floor_area_ratio": 0.909,
+      "floor_area_ratio": 1.889,
       "building_coverage_max": 0.34
     },
     {
@@ -1747,9 +1826,9 @@
         -5.281
       ],
       "area_km2": 0.195,
-      "gross_floor_area_m2": 173600,
-      "population": 3400,
-      "households": 1388,
+      "gross_floor_area_m2": 360000,
+      "population": 7050,
+      "households": 2878,
       "height_limit_m": 57,
       "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
       "focus": "大众消费、家庭生活与社区服务",
@@ -1758,7 +1837,7 @@
       "parent_name": "南湖生活片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 191.0,
-      "floor_area_ratio": 0.89,
+      "floor_area_ratio": 1.846,
       "building_coverage_max": 0.34
     },
     {
@@ -1771,7 +1850,7 @@
         -3.762
       ],
       "area_km2": 8.8059,
-      "population": 52000,
+      "population": 108000,
       "focus": "表演、电影、设计与夜间文化",
       "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
       "sector": {
@@ -1797,7 +1876,7 @@
       "area_km2": 0.72,
       "focus": "表演、电影、设计与夜间文化",
       "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
-      "daily_workers": 5300,
+      "daily_workers": 18700,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "西南文艺片区",
       "distance_to_lake_center_km": 4.75,
@@ -1815,7 +1894,7 @@
       "area_km2": 0.88,
       "focus": "表演、电影、设计与夜间文化",
       "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
-      "daily_workers": 6100,
+      "daily_workers": 15300,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "西南文艺片区",
       "distance_to_lake_center_km": 4.75,
@@ -1878,8 +1957,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 46,
-      "floors": 10,
+      "height_m": 66,
+      "floors": 15,
       "focus": "表演、电影、设计与夜间文化",
       "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
       "neighbors": [
@@ -1900,9 +1979,9 @@
         -3.852
       ],
       "area_km2": 0.14,
-      "gross_floor_area_m2": 99700,
-      "population": 2300,
-      "households": 939,
+      "gross_floor_area_m2": 205900,
+      "population": 4750,
+      "households": 1939,
       "height_limit_m": 33,
       "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
       "focus": "表演、电影、设计与夜间文化",
@@ -1911,7 +1990,7 @@
       "parent_name": "西南文艺片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 205.0,
-      "floor_area_ratio": 0.712,
+      "floor_area_ratio": 1.471,
       "building_coverage_max": 0.34
     },
     {
@@ -1924,9 +2003,9 @@
         -3.438
       ],
       "area_km2": 0.175,
-      "gross_floor_area_m2": 123700,
-      "population": 2620,
-      "households": 1070,
+      "gross_floor_area_m2": 257300,
+      "population": 5450,
+      "households": 2225,
       "height_limit_m": 45,
       "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
       "focus": "表演、电影、设计与夜间文化",
@@ -1935,7 +2014,7 @@
       "parent_name": "西南文艺片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 216.0,
-      "floor_area_ratio": 0.707,
+      "floor_area_ratio": 1.47,
       "building_coverage_max": 0.34
     },
     {
@@ -1948,9 +2027,9 @@
         -2.898
       ],
       "area_km2": 0.21,
-      "gross_floor_area_m2": 150100,
-      "population": 2940,
-      "households": 1200,
+      "gross_floor_area_m2": 311400,
+      "population": 6100,
+      "households": 2490,
       "height_limit_m": 57,
       "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
       "focus": "表演、电影、设计与夜间文化",
@@ -1959,7 +2038,7 @@
       "parent_name": "西南文艺片区",
       "distance_to_lake_center_km": 4.249,
       "bearing_from_lake_center_deg": 227.0,
-      "floor_area_ratio": 0.715,
+      "floor_area_ratio": 1.483,
       "building_coverage_max": 0.34
     },
     {
@@ -1972,9 +2051,9 @@
         -4.876
       ],
       "area_km2": 0.14,
-      "gross_floor_area_m2": 141400,
-      "population": 3260,
-      "households": 1331,
+      "gross_floor_area_m2": 292700,
+      "population": 6750,
+      "households": 2756,
       "height_limit_m": 33,
       "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
       "focus": "表演、电影、设计与夜间文化",
@@ -1983,7 +2062,7 @@
       "parent_name": "西南文艺片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 205.0,
-      "floor_area_ratio": 1.01,
+      "floor_area_ratio": 2.091,
       "building_coverage_max": 0.34
     },
     {
@@ -1996,9 +2075,9 @@
         -4.353
       ],
       "area_km2": 0.175,
-      "gross_floor_area_m2": 169100,
-      "population": 3580,
-      "households": 1462,
+      "gross_floor_area_m2": 351700,
+      "population": 7450,
+      "households": 3041,
       "height_limit_m": 45,
       "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
       "focus": "表演、电影、设计与夜间文化",
@@ -2007,7 +2086,7 @@
       "parent_name": "西南文艺片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 215.99,
-      "floor_area_ratio": 0.966,
+      "floor_area_ratio": 2.01,
       "building_coverage_max": 0.34
     },
     {
@@ -2020,9 +2099,9 @@
         -3.669
       ],
       "area_km2": 0.21,
-      "gross_floor_area_m2": 199100,
-      "population": 3900,
-      "households": 1592,
+      "gross_floor_area_m2": 413600,
+      "population": 8100,
+      "households": 3307,
       "height_limit_m": 57,
       "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
       "focus": "表演、电影、设计与夜间文化",
@@ -2031,7 +2110,7 @@
       "parent_name": "西南文艺片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 227.0,
-      "floor_area_ratio": 0.948,
+      "floor_area_ratio": 1.97,
       "building_coverage_max": 0.34
     },
     {
@@ -2044,7 +2123,7 @@
         -1.437
       ],
       "area_km2": 7.7587,
-      "population": 60000,
+      "population": 125000,
       "focus": "地方历史、传统商业与手工艺",
       "visual": "灰瓦白墙、青石基座、木檐和贴水小巷",
       "sector": {
@@ -2070,7 +2149,7 @@
       "area_km2": 0.72,
       "focus": "地方历史、传统商业与手工艺",
       "visual": "灰瓦白墙、青石基座、木檐和贴水小巷",
-      "daily_workers": 6600,
+      "daily_workers": 12100,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "西湖古城片区",
       "distance_to_lake_center_km": 4.75,
@@ -2088,7 +2167,7 @@
       "area_km2": 0.88,
       "focus": "地方历史、传统商业与手工艺",
       "visual": "灰瓦白墙、青石基座、木檐和贴水小巷",
-      "daily_workers": 7400,
+      "daily_workers": 9900,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "西湖古城片区",
       "distance_to_lake_center_km": 4.75,
@@ -2173,9 +2252,9 @@
         -2.06
       ],
       "area_km2": 0.294,
-      "gross_floor_area_m2": 39800,
-      "population": 900,
-      "households": 375,
+      "gross_floor_area_m2": 81900,
+      "population": 1850,
+      "households": 771,
       "height_limit_m": 12,
       "visual": "灰瓦白墙、青石基座、木檐和贴水小巷",
       "focus": "地方历史、传统商业与手工艺",
@@ -2184,7 +2263,7 @@
       "parent_name": "西湖古城片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 241.0,
-      "floor_area_ratio": 0.135,
+      "floor_area_ratio": 0.279,
       "building_coverage_max": 0.44
     },
     {
@@ -2197,9 +2276,9 @@
         -1.313
       ],
       "area_km2": 0.361,
-      "gross_floor_area_m2": 52000,
-      "population": 1080,
-      "households": 450,
+      "gross_floor_area_m2": 108500,
+      "population": 2250,
+      "households": 938,
       "height_limit_m": 12,
       "visual": "灰瓦白墙、青石基座、木檐和贴水小巷",
       "focus": "地方历史、传统商业与手工艺",
@@ -2208,7 +2287,7 @@
       "parent_name": "西湖古城片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 252.0,
-      "floor_area_ratio": 0.144,
+      "floor_area_ratio": 0.301,
       "building_coverage_max": 0.44
     },
     {
@@ -2221,9 +2300,9 @@
         -0.518
       ],
       "area_km2": 0.427,
-      "gross_floor_area_m2": 65700,
-      "population": 1260,
-      "households": 525,
+      "gross_floor_area_m2": 135600,
+      "population": 2600,
+      "households": 1084,
       "height_limit_m": 12,
       "visual": "灰瓦白墙、青石基座、木檐和贴水小巷",
       "focus": "地方历史、传统商业与手工艺",
@@ -2232,7 +2311,7 @@
       "parent_name": "西湖古城片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 263.0,
-      "floor_area_ratio": 0.154,
+      "floor_area_ratio": 0.318,
       "building_coverage_max": 0.44
     },
     {
@@ -2245,9 +2324,9 @@
         -2.608
       ],
       "area_km2": 0.294,
-      "gross_floor_area_m2": 63700,
-      "population": 1440,
-      "households": 600,
+      "gross_floor_area_m2": 132800,
+      "population": 3000,
+      "households": 1250,
       "height_limit_m": 12,
       "visual": "灰瓦白墙、青石基座、木檐和贴水小巷",
       "focus": "地方历史、传统商业与手工艺",
@@ -2256,7 +2335,7 @@
       "parent_name": "西湖古城片区",
       "distance_to_lake_center_km": 5.379,
       "bearing_from_lake_center_deg": 241.0,
-      "floor_area_ratio": 0.217,
+      "floor_area_ratio": 0.452,
       "building_coverage_max": 0.44
     },
     {
@@ -2269,9 +2348,9 @@
         -1.663
       ],
       "area_km2": 0.19,
-      "gross_floor_area_m2": 192700,
-      "population": 4080,
-      "households": 1666,
+      "gross_floor_area_m2": 398800,
+      "population": 8450,
+      "households": 3449,
       "height_limit_m": 27,
       "visual": "灰瓦白墙、青石基座、木檐和贴水小巷",
       "focus": "地方历史、传统商业与手工艺",
@@ -2280,7 +2359,7 @@
       "parent_name": "西湖古城片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 252.0,
-      "floor_area_ratio": 1.014,
+      "floor_area_ratio": 2.099,
       "building_coverage_max": 0.34
     },
     {
@@ -2293,9 +2372,9 @@
         -0.656
       ],
       "area_km2": 0.225,
-      "gross_floor_area_m2": 224600,
-      "population": 4400,
-      "households": 1796,
+      "gross_floor_area_m2": 467200,
+      "population": 9150,
+      "households": 3735,
       "height_limit_m": 36,
       "visual": "灰瓦白墙、青石基座、木檐和贴水小巷",
       "focus": "地方历史、传统商业与手工艺",
@@ -2304,7 +2383,7 @@
       "parent_name": "西湖古城片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 263.0,
-      "floor_area_ratio": 0.998,
+      "floor_area_ratio": 2.076,
       "building_coverage_max": 0.34
     },
     {
@@ -2317,7 +2396,7 @@
         1.437
       ],
       "area_km2": 7.7587,
-      "population": 43000,
+      "population": 89000,
       "focus": "软件、人工智能应用与数字内容",
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
       "sector": {
@@ -2343,7 +2422,7 @@
       "area_km2": 0.72,
       "focus": "软件、人工智能应用与数字内容",
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
-      "daily_workers": 7900,
+      "daily_workers": 30800,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "云栈数创片区",
       "distance_to_lake_center_km": 4.75,
@@ -2361,7 +2440,7 @@
       "area_km2": 0.88,
       "focus": "软件、人工智能应用与数字内容",
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
-      "daily_workers": 8700,
+      "daily_workers": 25200,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "云栈数创片区",
       "distance_to_lake_center_km": 4.75,
@@ -2378,8 +2457,8 @@
       ],
       "area_km2": 0.042,
       "gross_floor_area_m2": 68000,
-      "height_m": 40,
-      "floors": 6,
+      "height_m": 96,
+      "floors": 22,
       "focus": "软件、人工智能应用与数字内容",
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
       "neighbors": [
@@ -2401,8 +2480,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 32,
-      "floors": 4,
+      "height_m": 72,
+      "floors": 17,
       "focus": "软件、人工智能应用与数字内容",
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
       "neighbors": [
@@ -2424,8 +2503,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 54,
-      "floors": 10,
+      "height_m": 80,
+      "floors": 18,
       "focus": "软件、人工智能应用与数字内容",
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
       "neighbors": [
@@ -2446,9 +2525,9 @@
         0.518
       ],
       "area_km2": 0.11,
-      "gross_floor_area_m2": 143100,
-      "population": 3300,
-      "households": 1347,
+      "gross_floor_area_m2": 296900,
+      "population": 6850,
+      "households": 2796,
       "height_limit_m": 33,
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
       "focus": "软件、人工智能应用与数字内容",
@@ -2457,7 +2536,7 @@
       "parent_name": "云栈数创片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 277.0,
-      "floor_area_ratio": 1.301,
+      "floor_area_ratio": 2.699,
       "building_coverage_max": 0.34
     },
     {
@@ -2470,10 +2549,10 @@
         1.313
       ],
       "area_km2": 0.145,
-      "gross_floor_area_m2": 170900,
-      "population": 3620,
-      "households": 1478,
-      "height_limit_m": 45,
+      "gross_floor_area_m2": 354100,
+      "population": 7500,
+      "households": 3062,
+      "height_limit_m": 168,
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
       "focus": "软件、人工智能应用与数字内容",
       "nearby_landmark": "L026",
@@ -2481,7 +2560,7 @@
       "parent_name": "云栈数创片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 288.0,
-      "floor_area_ratio": 1.179,
+      "floor_area_ratio": 2.442,
       "building_coverage_max": 0.34
     },
     {
@@ -2494,10 +2573,10 @@
         2.06
       ],
       "area_km2": 0.18,
-      "gross_floor_area_m2": 201300,
-      "population": 3940,
-      "households": 1609,
-      "height_limit_m": 57,
+      "gross_floor_area_m2": 418600,
+      "population": 8200,
+      "households": 3347,
+      "height_limit_m": 144,
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
       "focus": "软件、人工智能应用与数字内容",
       "nearby_landmark": "L027",
@@ -2505,7 +2584,7 @@
       "parent_name": "云栈数创片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 299.0,
-      "floor_area_ratio": 1.118,
+      "floor_area_ratio": 2.326,
       "building_coverage_max": 0.34
     },
     {
@@ -2518,9 +2597,9 @@
         0.656
       ],
       "area_km2": 0.11,
-      "gross_floor_area_m2": 184700,
-      "population": 4260,
-      "households": 1739,
+      "gross_floor_area_m2": 383700,
+      "population": 8850,
+      "households": 3613,
       "height_limit_m": 33,
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
       "focus": "软件、人工智能应用与数字内容",
@@ -2529,7 +2608,7 @@
       "parent_name": "云栈数创片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 277.0,
-      "floor_area_ratio": 1.679,
+      "floor_area_ratio": 3.488,
       "building_coverage_max": 0.34
     },
     {
@@ -2542,9 +2621,9 @@
         1.663
       ],
       "area_km2": 0.145,
-      "gross_floor_area_m2": 216200,
-      "population": 4580,
-      "households": 1870,
+      "gross_floor_area_m2": 448500,
+      "population": 9500,
+      "households": 3878,
       "height_limit_m": 45,
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
       "focus": "软件、人工智能应用与数字内容",
@@ -2553,7 +2632,7 @@
       "parent_name": "云栈数创片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 288.0,
-      "floor_area_ratio": 1.491,
+      "floor_area_ratio": 3.093,
       "building_coverage_max": 0.34
     },
     {
@@ -2566,10 +2645,10 @@
         2.608
       ],
       "area_km2": 0.18,
-      "gross_floor_area_m2": 250200,
-      "population": 4900,
-      "households": 2000,
-      "height_limit_m": 57,
+      "gross_floor_area_m2": 518200,
+      "population": 10150,
+      "households": 4143,
+      "height_limit_m": 120,
       "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
       "focus": "软件、人工智能应用与数字内容",
       "nearby_landmark": "L027",
@@ -2577,7 +2656,7 @@
       "parent_name": "云栈数创片区",
       "distance_to_lake_center_km": 5.379,
       "bearing_from_lake_center_deg": 299.0,
-      "floor_area_ratio": 1.39,
+      "floor_area_ratio": 2.879,
       "building_coverage_max": 0.34
     },
     {
@@ -2590,7 +2669,7 @@
         3.762
       ],
       "area_km2": 8.8059,
-      "population": 50000,
+      "population": 104000,
       "focus": "竞技体育、全民运动与户外休闲",
       "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
       "sector": {
@@ -2616,7 +2695,7 @@
       "area_km2": 0.72,
       "focus": "竞技体育、全民运动与户外休闲",
       "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
-      "daily_workers": 9200,
+      "daily_workers": 7700,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "松岬体育片区",
       "distance_to_lake_center_km": 4.75,
@@ -2634,7 +2713,7 @@
       "area_km2": 0.88,
       "focus": "竞技体育、全民运动与户外休闲",
       "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
-      "daily_workers": 10000,
+      "daily_workers": 6300,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "松岬体育片区",
       "distance_to_lake_center_km": 4.75,
@@ -2719,9 +2798,9 @@
         2.898
       ],
       "area_km2": 0.125,
-      "gross_floor_area_m2": 164800,
-      "population": 3800,
-      "households": 1552,
+      "gross_floor_area_m2": 342500,
+      "population": 7900,
+      "households": 3225,
       "height_limit_m": 33,
       "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
       "focus": "竞技体育、全民运动与户外休闲",
@@ -2730,7 +2809,7 @@
       "parent_name": "松岬体育片区",
       "distance_to_lake_center_km": 4.249,
       "bearing_from_lake_center_deg": 313.0,
-      "floor_area_ratio": 1.318,
+      "floor_area_ratio": 2.74,
       "building_coverage_max": 0.34
     },
     {
@@ -2743,9 +2822,9 @@
         3.438
       ],
       "area_km2": 0.16,
-      "gross_floor_area_m2": 194500,
-      "population": 4120,
-      "households": 1682,
+      "gross_floor_area_m2": 403600,
+      "population": 8550,
+      "households": 3490,
       "height_limit_m": 45,
       "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
       "focus": "竞技体育、全民运动与户外休闲",
@@ -2754,7 +2833,7 @@
       "parent_name": "松岬体育片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 324.0,
-      "floor_area_ratio": 1.216,
+      "floor_area_ratio": 2.522,
       "building_coverage_max": 0.34
     },
     {
@@ -2767,9 +2846,9 @@
         3.852
       ],
       "area_km2": 0.195,
-      "gross_floor_area_m2": 226800,
-      "population": 4440,
-      "households": 1813,
+      "gross_floor_area_m2": 469800,
+      "population": 9200,
+      "households": 3756,
       "height_limit_m": 57,
       "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
       "focus": "竞技体育、全民运动与户外休闲",
@@ -2778,7 +2857,7 @@
       "parent_name": "松岬体育片区",
       "distance_to_lake_center_km": 4.25,
       "bearing_from_lake_center_deg": 335.0,
-      "floor_area_ratio": 1.163,
+      "floor_area_ratio": 2.409,
       "building_coverage_max": 0.34
     },
     {
@@ -2791,9 +2870,9 @@
         3.669
       ],
       "area_km2": 0.125,
-      "gross_floor_area_m2": 206300,
-      "population": 4760,
-      "households": 1943,
+      "gross_floor_area_m2": 429200,
+      "population": 9900,
+      "households": 4041,
       "height_limit_m": 33,
       "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
       "focus": "竞技体育、全民运动与户外休闲",
@@ -2802,7 +2881,7 @@
       "parent_name": "松岬体育片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 313.0,
-      "floor_area_ratio": 1.65,
+      "floor_area_ratio": 3.434,
       "building_coverage_max": 0.34
     },
     {
@@ -2815,9 +2894,9 @@
         4.353
       ],
       "area_km2": 0.16,
-      "gross_floor_area_m2": 239800,
-      "population": 5080,
-      "households": 2074,
+      "gross_floor_area_m2": 498100,
+      "population": 10550,
+      "households": 4307,
       "height_limit_m": 45,
       "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
       "focus": "竞技体育、全民运动与户外休闲",
@@ -2826,7 +2905,7 @@
       "parent_name": "松岬体育片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 324.01,
-      "floor_area_ratio": 1.499,
+      "floor_area_ratio": 3.113,
       "building_coverage_max": 0.34
     },
     {
@@ -2839,9 +2918,9 @@
         4.876
       ],
       "area_km2": 0.195,
-      "gross_floor_area_m2": 275800,
-      "population": 5400,
-      "households": 2205,
+      "gross_floor_area_m2": 571900,
+      "population": 11200,
+      "households": 4572,
       "height_limit_m": 57,
       "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
       "focus": "竞技体育、全民运动与户外休闲",
@@ -2850,7 +2929,7 @@
       "parent_name": "松岬体育片区",
       "distance_to_lake_center_km": 5.38,
       "bearing_from_lake_center_deg": 335.0,
-      "floor_area_ratio": 1.414,
+      "floor_area_ratio": 2.933,
       "building_coverage_max": 0.34
     },
     {
@@ -2863,7 +2942,7 @@
         8.0
       ],
       "area_km2": 22.1168,
-      "population": 67000,
+      "population": 188000,
       "focus": "森林门户、自然教育与低密居住",
       "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
       "sector": {
@@ -2889,7 +2968,7 @@
       "area_km2": 2.1,
       "focus": "森林门户、自然教育与低密居住",
       "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
-      "daily_workers": 4000,
+      "daily_workers": 6600,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "北屏生态片区",
       "distance_to_lake_center_km": 7.6,
@@ -2907,7 +2986,7 @@
       "area_km2": 2.5500000000000003,
       "focus": "森林门户、自然教育与低密居住",
       "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
-      "daily_workers": 4800,
+      "daily_workers": 5400,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "北屏生态片区",
       "distance_to_lake_center_km": 7.6,
@@ -2992,9 +3071,9 @@
         8.197
       ],
       "area_km2": 0.224,
-      "gross_floor_area_m2": 143100,
-      "population": 3300,
-      "households": 1347,
+      "gross_floor_area_m2": 401000,
+      "population": 9250,
+      "households": 3776,
       "height_limit_m": 18,
       "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
       "focus": "森林门户、自然教育与低密居住",
@@ -3003,7 +3082,7 @@
       "parent_name": "北屏生态片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 349.0,
-      "floor_area_ratio": 0.639,
+      "floor_area_ratio": 1.79,
       "building_coverage_max": 0.44
     },
     {
@@ -3016,9 +3095,9 @@
         8.35
       ],
       "area_km2": 0.28,
-      "gross_floor_area_m2": 170900,
-      "population": 3620,
-      "households": 1478,
+      "gross_floor_area_m2": 479100,
+      "population": 10150,
+      "households": 4143,
       "height_limit_m": 27,
       "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
       "focus": "森林门户、自然教育与低密居住",
@@ -3027,7 +3106,7 @@
       "parent_name": "北屏生态片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 0.0,
-      "floor_area_ratio": 0.61,
+      "floor_area_ratio": 1.711,
       "building_coverage_max": 0.34
     },
     {
@@ -3040,9 +3119,9 @@
         8.197
       ],
       "area_km2": 0.336,
-      "gross_floor_area_m2": 201300,
-      "population": 3940,
-      "households": 1609,
+      "gross_floor_area_m2": 564200,
+      "population": 11050,
+      "households": 4511,
       "height_limit_m": 36,
       "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
       "focus": "森林门户、自然教育与低密居住",
@@ -3051,7 +3130,7 @@
       "parent_name": "北屏生态片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 11.0,
-      "floor_area_ratio": 0.599,
+      "floor_area_ratio": 1.679,
       "building_coverage_max": 0.34
     },
     {
@@ -3064,9 +3143,9 @@
         9.276
       ],
       "area_km2": 0.224,
-      "gross_floor_area_m2": 184700,
-      "population": 4260,
-      "households": 1739,
+      "gross_floor_area_m2": 518000,
+      "population": 11950,
+      "households": 4878,
       "height_limit_m": 18,
       "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
       "focus": "森林门户、自然教育与低密居住",
@@ -3075,7 +3154,7 @@
       "parent_name": "北屏生态片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 349.0,
-      "floor_area_ratio": 0.825,
+      "floor_area_ratio": 2.312,
       "building_coverage_max": 0.44
     },
     {
@@ -3088,9 +3167,9 @@
         9.45
       ],
       "area_km2": 0.28,
-      "gross_floor_area_m2": 216200,
-      "population": 4580,
-      "households": 1870,
+      "gross_floor_area_m2": 604200,
+      "population": 12800,
+      "households": 5225,
       "height_limit_m": 27,
       "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
       "focus": "森林门户、自然教育与低密居住",
@@ -3099,7 +3178,7 @@
       "parent_name": "北屏生态片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 0.0,
-      "floor_area_ratio": 0.772,
+      "floor_area_ratio": 2.158,
       "building_coverage_max": 0.34
     },
     {
@@ -3112,9 +3191,9 @@
         9.276
       ],
       "area_km2": 0.336,
-      "gross_floor_area_m2": 250200,
-      "population": 4900,
-      "households": 2000,
+      "gross_floor_area_m2": 699400,
+      "population": 13700,
+      "households": 5592,
       "height_limit_m": 36,
       "visual": "烟灰石、耐候木、深檐小体量和雨水花园",
       "focus": "森林门户、自然教育与低密居住",
@@ -3123,7 +3202,7 @@
       "parent_name": "北屏生态片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 11.0,
-      "floor_area_ratio": 0.745,
+      "floor_area_ratio": 2.082,
       "building_coverage_max": 0.34
     },
     {
@@ -3136,7 +3215,7 @@
         6.472
       ],
       "area_km2": 22.1168,
-      "population": 68000,
+      "population": 191000,
       "focus": "基础科研、精密实验与人才生活",
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
       "sector": {
@@ -3162,7 +3241,7 @@
       "area_km2": 2.1,
       "focus": "基础科研、精密实验与人才生活",
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
-      "daily_workers": 5300,
+      "daily_workers": 25300,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "书岭科研片区",
       "distance_to_lake_center_km": 7.6,
@@ -3180,7 +3259,7 @@
       "area_km2": 2.5500000000000003,
       "focus": "基础科研、精密实验与人才生活",
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
-      "daily_workers": 6100,
+      "daily_workers": 20700,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "书岭科研片区",
       "distance_to_lake_center_km": 7.6,
@@ -3197,8 +3276,8 @@
       ],
       "area_km2": 0.042,
       "gross_floor_area_m2": 68000,
-      "height_m": 40,
-      "floors": 6,
+      "height_m": 76,
+      "floors": 17,
       "focus": "基础科研、精密实验与人才生活",
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
       "neighbors": [
@@ -3220,8 +3299,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 32,
-      "floors": 4,
+      "height_m": 68,
+      "floors": 16,
       "focus": "基础科研、精密实验与人才生活",
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
       "neighbors": [
@@ -3243,8 +3322,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 54,
-      "floors": 10,
+      "height_m": 62,
+      "floors": 14,
       "focus": "基础科研、精密实验与人才生活",
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
       "neighbors": [
@@ -3265,9 +3344,9 @@
         7.568
       ],
       "area_km2": 0.248,
-      "gross_floor_area_m2": 164800,
-      "population": 3800,
-      "households": 1552,
+      "gross_floor_area_m2": 461700,
+      "population": 10650,
+      "households": 4347,
       "height_limit_m": 45,
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
       "focus": "基础科研、精密实验与人才生活",
@@ -3276,7 +3355,7 @@
       "parent_name": "书岭科研片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 25.0,
-      "floor_area_ratio": 0.665,
+      "floor_area_ratio": 1.862,
       "building_coverage_max": 0.34
     },
     {
@@ -3289,9 +3368,9 @@
         6.755
       ],
       "area_km2": 0.304,
-      "gross_floor_area_m2": 194500,
-      "population": 4120,
-      "households": 1682,
+      "gross_floor_area_m2": 545200,
+      "population": 11550,
+      "households": 4715,
       "height_limit_m": 57,
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
       "focus": "基础科研、精密实验与人才生活",
@@ -3300,7 +3379,7 @@
       "parent_name": "书岭科研片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 36.0,
-      "floor_area_ratio": 0.64,
+      "floor_area_ratio": 1.793,
       "building_coverage_max": 0.34
     },
     {
@@ -3313,9 +3392,9 @@
         5.695
       ],
       "area_km2": 0.36,
-      "gross_floor_area_m2": 226800,
-      "population": 4440,
-      "households": 1813,
+      "gross_floor_area_m2": 635700,
+      "population": 12450,
+      "households": 5082,
       "height_limit_m": 69,
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
       "focus": "基础科研、精密实验与人才生活",
@@ -3324,7 +3403,7 @@
       "parent_name": "书岭科研片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 47.0,
-      "floor_area_ratio": 0.63,
+      "floor_area_ratio": 1.766,
       "building_coverage_max": 0.34
     },
     {
@@ -3337,9 +3416,9 @@
         8.565
       ],
       "area_km2": 0.248,
-      "gross_floor_area_m2": 206300,
-      "population": 4760,
-      "households": 1943,
+      "gross_floor_area_m2": 578700,
+      "population": 13350,
+      "households": 5449,
       "height_limit_m": 45,
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
       "focus": "基础科研、精密实验与人才生活",
@@ -3348,7 +3427,7 @@
       "parent_name": "书岭科研片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 25.0,
-      "floor_area_ratio": 0.832,
+      "floor_area_ratio": 2.333,
       "building_coverage_max": 0.34
     },
     {
@@ -3361,9 +3440,9 @@
         7.645
       ],
       "area_km2": 0.304,
-      "gross_floor_area_m2": 239800,
-      "population": 5080,
-      "households": 2074,
+      "gross_floor_area_m2": 670200,
+      "population": 14200,
+      "households": 5796,
       "height_limit_m": 57,
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
       "focus": "基础科研、精密实验与人才生活",
@@ -3372,7 +3451,7 @@
       "parent_name": "书岭科研片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 36.0,
-      "floor_area_ratio": 0.789,
+      "floor_area_ratio": 2.205,
       "building_coverage_max": 0.34
     },
     {
@@ -3385,9 +3464,9 @@
         6.445
       ],
       "area_km2": 0.36,
-      "gross_floor_area_m2": 275800,
-      "population": 5400,
-      "households": 2205,
+      "gross_floor_area_m2": 771000,
+      "population": 15100,
+      "households": 6164,
       "height_limit_m": 69,
       "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
       "focus": "基础科研、精密实验与人才生活",
@@ -3396,7 +3475,7 @@
       "parent_name": "书岭科研片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 47.0,
-      "floor_area_ratio": 0.766,
+      "floor_area_ratio": 2.142,
       "building_coverage_max": 0.34
     },
     {
@@ -3409,7 +3488,7 @@
         2.472
       ],
       "area_km2": 22.1168,
-      "population": 74000,
+      "population": 207000,
       "focus": "铁路换乘、区域商务与物流调度",
       "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
       "sector": {
@@ -3435,7 +3514,7 @@
       "area_km2": 2.1,
       "focus": "铁路换乘、区域商务与物流调度",
       "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
-      "daily_workers": 6600,
+      "daily_workers": 22000,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "东门枢纽片区",
       "distance_to_lake_center_km": 7.6,
@@ -3453,7 +3532,7 @@
       "area_km2": 2.5500000000000003,
       "focus": "铁路换乘、区域商务与物流调度",
       "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
-      "daily_workers": 7400,
+      "daily_workers": 18000,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "东门枢纽片区",
       "distance_to_lake_center_km": 7.6,
@@ -3493,8 +3572,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 24,
-      "floors": 4,
+      "height_m": 78,
+      "floors": 18,
       "focus": "铁路换乘、区域商务与物流调度",
       "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
       "neighbors": [
@@ -3516,8 +3595,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 46,
-      "floors": 10,
+      "height_m": 64,
+      "floors": 15,
       "focus": "铁路换乘、区域商务与物流调度",
       "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
       "neighbors": [
@@ -3538,9 +3617,9 @@
         4.048
       ],
       "area_km2": 0.176,
-      "gross_floor_area_m2": 186500,
-      "population": 4300,
-      "households": 1756,
+      "gross_floor_area_m2": 522400,
+      "population": 12050,
+      "households": 4919,
       "height_limit_m": 45,
       "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
       "focus": "铁路换乘、区域商务与物流调度",
@@ -3549,7 +3628,7 @@
       "parent_name": "东门枢纽片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 61.0,
-      "floor_area_ratio": 1.06,
+      "floor_area_ratio": 2.968,
       "building_coverage_max": 0.34
     },
     {
@@ -3562,9 +3641,9 @@
         2.58
       ],
       "area_km2": 0.232,
-      "gross_floor_area_m2": 218100,
-      "population": 4620,
-      "households": 1886,
+      "gross_floor_area_m2": 611300,
+      "population": 12950,
+      "households": 5286,
       "height_limit_m": 57,
       "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
       "focus": "铁路换乘、区域商务与物流调度",
@@ -3573,7 +3652,7 @@
       "parent_name": "东门枢纽片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 72.0,
-      "floor_area_ratio": 0.94,
+      "floor_area_ratio": 2.635,
       "building_coverage_max": 0.34
     },
     {
@@ -3586,9 +3665,9 @@
         1.018
       ],
       "area_km2": 0.288,
-      "gross_floor_area_m2": 252300,
-      "population": 4940,
-      "households": 2017,
+      "gross_floor_area_m2": 707200,
+      "population": 13850,
+      "households": 5654,
       "height_limit_m": 69,
       "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
       "focus": "铁路换乘、区域商务与物流调度",
@@ -3597,7 +3676,7 @@
       "parent_name": "东门枢纽片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 83.0,
-      "floor_area_ratio": 0.876,
+      "floor_area_ratio": 2.456,
       "building_coverage_max": 0.34
     },
     {
@@ -3610,9 +3689,9 @@
         4.581
       ],
       "area_km2": 0.176,
-      "gross_floor_area_m2": 228000,
-      "population": 5260,
-      "households": 2147,
+      "gross_floor_area_m2": 639400,
+      "population": 14750,
+      "households": 6021,
       "height_limit_m": 45,
       "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
       "focus": "铁路换乘、区域商务与物流调度",
@@ -3621,7 +3700,7 @@
       "parent_name": "东门枢纽片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 61.0,
-      "floor_area_ratio": 1.295,
+      "floor_area_ratio": 3.633,
       "building_coverage_max": 0.34
     },
     {
@@ -3634,9 +3713,9 @@
         2.92
       ],
       "area_km2": 0.232,
-      "gross_floor_area_m2": 263400,
-      "population": 5580,
-      "households": 2278,
+      "gross_floor_area_m2": 736400,
+      "population": 15600,
+      "households": 6368,
       "height_limit_m": 57,
       "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
       "focus": "铁路换乘、区域商务与物流调度",
@@ -3645,7 +3724,7 @@
       "parent_name": "东门枢纽片区",
       "distance_to_lake_center_km": 9.449,
       "bearing_from_lake_center_deg": 72.0,
-      "floor_area_ratio": 1.135,
+      "floor_area_ratio": 3.174,
       "building_coverage_max": 0.34
     },
     {
@@ -3658,9 +3737,9 @@
         1.152
       ],
       "area_km2": 0.288,
-      "gross_floor_area_m2": 301300,
-      "population": 5900,
-      "households": 2409,
+      "gross_floor_area_m2": 842400,
+      "population": 16500,
+      "households": 6735,
       "height_limit_m": 69,
       "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
       "focus": "铁路换乘、区域商务与物流调度",
@@ -3669,7 +3748,7 @@
       "parent_name": "东门枢纽片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 83.0,
-      "floor_area_ratio": 1.046,
+      "floor_area_ratio": 2.925,
       "building_coverage_max": 0.34
     },
     {
@@ -3682,7 +3761,7 @@
         -2.472
       ],
       "area_km2": 22.1168,
-      "population": 78000,
+      "population": 218000,
       "focus": "精密制造、工业设计与清洁装配",
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
       "sector": {
@@ -3708,7 +3787,7 @@
       "area_km2": 2.1,
       "focus": "精密制造、工业设计与清洁装配",
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
-      "daily_workers": 7900,
+      "daily_workers": 28600,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "钛东智造片区",
       "distance_to_lake_center_km": 7.6,
@@ -3726,7 +3805,7 @@
       "area_km2": 2.5500000000000003,
       "focus": "精密制造、工业设计与清洁装配",
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
-      "daily_workers": 8700,
+      "daily_workers": 23400,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "钛东智造片区",
       "distance_to_lake_center_km": 7.6,
@@ -3743,8 +3822,8 @@
       ],
       "area_km2": 0.042,
       "gross_floor_area_m2": 68000,
-      "height_m": 36,
-      "floors": 6,
+      "height_m": 90,
+      "floors": 21,
       "focus": "精密制造、工业设计与清洁装配",
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
       "neighbors": [
@@ -3766,8 +3845,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 28,
-      "floors": 4,
+      "height_m": 66,
+      "floors": 15,
       "focus": "精密制造、工业设计与清洁装配",
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
       "neighbors": [
@@ -3789,8 +3868,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 50,
-      "floors": 10,
+      "height_m": 72,
+      "floors": 17,
       "focus": "精密制造、工业设计与清洁装配",
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
       "neighbors": [
@@ -3811,9 +3890,9 @@
         -1.018
       ],
       "area_km2": 0.2,
-      "gross_floor_area_m2": 208200,
-      "population": 4800,
-      "households": 1960,
+      "gross_floor_area_m2": 583000,
+      "population": 13450,
+      "households": 5490,
       "height_limit_m": 45,
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
       "focus": "精密制造、工业设计与清洁装配",
@@ -3822,7 +3901,7 @@
       "parent_name": "钛东智造片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 97.0,
-      "floor_area_ratio": 1.041,
+      "floor_area_ratio": 2.915,
       "building_coverage_max": 0.34
     },
     {
@@ -3835,9 +3914,9 @@
         -2.58
       ],
       "area_km2": 0.256,
-      "gross_floor_area_m2": 241700,
-      "population": 5120,
-      "households": 2090,
+      "gross_floor_area_m2": 677400,
+      "population": 14350,
+      "households": 5858,
       "height_limit_m": 57,
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
       "focus": "精密制造、工业设计与清洁装配",
@@ -3846,7 +3925,7 @@
       "parent_name": "钛东智造片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 108.0,
-      "floor_area_ratio": 0.944,
+      "floor_area_ratio": 2.646,
       "building_coverage_max": 0.34
     },
     {
@@ -3859,9 +3938,9 @@
         -4.048
       ],
       "area_km2": 0.312,
-      "gross_floor_area_m2": 277800,
-      "population": 5440,
-      "households": 2221,
+      "gross_floor_area_m2": 778600,
+      "population": 15250,
+      "households": 6225,
       "height_limit_m": 69,
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
       "focus": "精密制造、工业设计与清洁装配",
@@ -3870,7 +3949,7 @@
       "parent_name": "钛东智造片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 119.0,
-      "floor_area_ratio": 0.89,
+      "floor_area_ratio": 2.496,
       "building_coverage_max": 0.34
     },
     {
@@ -3883,9 +3962,9 @@
         -1.152
       ],
       "area_km2": 0.2,
-      "gross_floor_area_m2": 249800,
-      "population": 5760,
-      "households": 2352,
+      "gross_floor_area_m2": 700100,
+      "population": 16150,
+      "households": 6592,
       "height_limit_m": 45,
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
       "focus": "精密制造、工业设计与清洁装配",
@@ -3894,7 +3973,7 @@
       "parent_name": "钛东智造片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 97.0,
-      "floor_area_ratio": 1.249,
+      "floor_area_ratio": 3.501,
       "building_coverage_max": 0.34
     },
     {
@@ -3907,9 +3986,9 @@
         -2.92
       ],
       "area_km2": 0.256,
-      "gross_floor_area_m2": 287000,
-      "population": 6080,
-      "households": 2482,
+      "gross_floor_area_m2": 802400,
+      "population": 17000,
+      "households": 6939,
       "height_limit_m": 57,
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
       "focus": "精密制造、工业设计与清洁装配",
@@ -3918,7 +3997,7 @@
       "parent_name": "钛东智造片区",
       "distance_to_lake_center_km": 9.449,
       "bearing_from_lake_center_deg": 108.0,
-      "floor_area_ratio": 1.121,
+      "floor_area_ratio": 3.134,
       "building_coverage_max": 0.34
     },
     {
@@ -3931,9 +4010,9 @@
         -4.581
       ],
       "area_km2": 0.312,
-      "gross_floor_area_m2": 326800,
-      "population": 6400,
-      "households": 2613,
+      "gross_floor_area_m2": 914000,
+      "population": 17900,
+      "households": 7307,
       "height_limit_m": 69,
       "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
       "focus": "精密制造、工业设计与清洁装配",
@@ -3942,7 +4021,7 @@
       "parent_name": "钛东智造片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 119.0,
-      "floor_area_ratio": 1.047,
+      "floor_area_ratio": 2.929,
       "building_coverage_max": 0.34
     },
     {
@@ -3955,7 +4034,7 @@
         -6.472
       ],
       "area_km2": 22.1168,
-      "population": 71000,
+      "population": 199000,
       "focus": "城市应急、维修、回收与生活保障",
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
       "sector": {
@@ -3981,7 +4060,7 @@
       "area_km2": 2.1,
       "focus": "城市应急、维修、回收与生活保障",
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
-      "daily_workers": 9200,
+      "daily_workers": 14300,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "南溪服务片区",
       "distance_to_lake_center_km": 7.6,
@@ -3999,7 +4078,7 @@
       "area_km2": 2.5500000000000003,
       "focus": "城市应急、维修、回收与生活保障",
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
-      "daily_workers": 10000,
+      "daily_workers": 11700,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "南溪服务片区",
       "distance_to_lake_center_km": 7.6,
@@ -4016,8 +4095,8 @@
       ],
       "area_km2": 0.042,
       "gross_floor_area_m2": 68000,
-      "height_m": 40,
-      "floors": 6,
+      "height_m": 92,
+      "floors": 21,
       "focus": "城市应急、维修、回收与生活保障",
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
       "neighbors": [
@@ -4039,8 +4118,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 32,
-      "floors": 4,
+      "height_m": 60,
+      "floors": 14,
       "focus": "城市应急、维修、回收与生活保障",
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
       "neighbors": [
@@ -4062,8 +4141,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 54,
-      "floors": 10,
+      "height_m": 66,
+      "floors": 15,
       "focus": "城市应急、维修、回收与生活保障",
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
       "neighbors": [
@@ -4084,9 +4163,9 @@
         -5.853
       ],
       "area_km2": 0.224,
-      "gross_floor_area_m2": 229800,
-      "population": 5300,
-      "households": 2164,
+      "gross_floor_area_m2": 643800,
+      "population": 14850,
+      "households": 6062,
       "height_limit_m": 45,
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
       "focus": "城市应急、维修、回收与生活保障",
@@ -4096,7 +4175,7 @@
       "parent_name": "南溪服务片区",
       "distance_to_lake_center_km": 8.351,
       "bearing_from_lake_center_deg": 134.5,
-      "floor_area_ratio": 1.026,
+      "floor_area_ratio": 2.874,
       "building_coverage_max": 0.34
     },
     {
@@ -4109,9 +4188,9 @@
         -6.755
       ],
       "area_km2": 0.28,
-      "gross_floor_area_m2": 265300,
-      "population": 5620,
-      "households": 2294,
+      "gross_floor_area_m2": 743400,
+      "population": 15750,
+      "households": 6429,
       "height_limit_m": 57,
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
       "focus": "城市应急、维修、回收与生活保障",
@@ -4120,7 +4199,7 @@
       "parent_name": "南溪服务片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 144.0,
-      "floor_area_ratio": 0.948,
+      "floor_area_ratio": 2.655,
       "building_coverage_max": 0.34
     },
     {
@@ -4133,9 +4212,9 @@
         -7.568
       ],
       "area_km2": 0.336,
-      "gross_floor_area_m2": 303300,
-      "population": 5940,
-      "households": 2425,
+      "gross_floor_area_m2": 850000,
+      "population": 16650,
+      "households": 6796,
       "height_limit_m": 69,
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
       "focus": "城市应急、维修、回收与生活保障",
@@ -4144,7 +4223,7 @@
       "parent_name": "南溪服务片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 155.0,
-      "floor_area_ratio": 0.903,
+      "floor_area_ratio": 2.53,
       "building_coverage_max": 0.34
     },
     {
@@ -4157,9 +4236,9 @@
         -7.023
       ],
       "area_km2": 0.224,
-      "gross_floor_area_m2": 271400,
-      "population": 6260,
-      "households": 2556,
+      "gross_floor_area_m2": 760800,
+      "population": 17550,
+      "households": 7164,
       "height_limit_m": 45,
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
       "focus": "城市应急、维修、回收与生活保障",
@@ -4169,7 +4248,7 @@
       "parent_name": "南溪服务片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 138.0,
-      "floor_area_ratio": 1.212,
+      "floor_area_ratio": 3.396,
       "building_coverage_max": 0.34
     },
     {
@@ -4182,9 +4261,9 @@
         -7.645
       ],
       "area_km2": 0.28,
-      "gross_floor_area_m2": 310600,
-      "population": 6580,
-      "households": 2686,
+      "gross_floor_area_m2": 868600,
+      "population": 18400,
+      "households": 7511,
       "height_limit_m": 57,
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
       "focus": "城市应急、维修、回收与生活保障",
@@ -4193,7 +4272,7 @@
       "parent_name": "南溪服务片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 144.0,
-      "floor_area_ratio": 1.109,
+      "floor_area_ratio": 3.102,
       "building_coverage_max": 0.34
     },
     {
@@ -4206,9 +4285,9 @@
         -8.565
       ],
       "area_km2": 0.336,
-      "gross_floor_area_m2": 352400,
-      "population": 6900,
-      "households": 2817,
+      "gross_floor_area_m2": 985400,
+      "population": 19300,
+      "households": 7878,
       "height_limit_m": 69,
       "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
       "focus": "城市应急、维修、回收与生活保障",
@@ -4217,7 +4296,7 @@
       "parent_name": "南溪服务片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 155.0,
-      "floor_area_ratio": 1.049,
+      "floor_area_ratio": 2.933,
       "building_coverage_max": 0.34
     },
     {
@@ -4230,7 +4309,7 @@
         -8.0
       ],
       "area_km2": 22.1168,
-      "population": 132000,
+      "population": 370000,
       "focus": "大规模成熟居住与基础公共服务",
       "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
       "sector": {
@@ -4256,7 +4335,7 @@
       "area_km2": 2.1,
       "focus": "大规模成熟居住与基础公共服务",
       "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
-      "daily_workers": 4000,
+      "daily_workers": 9900,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "南原居住片区",
       "distance_to_lake_center_km": 7.6,
@@ -4274,7 +4353,7 @@
       "area_km2": 2.5500000000000003,
       "focus": "大规模成熟居住与基础公共服务",
       "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
-      "daily_workers": 4800,
+      "daily_workers": 8100,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "南原居住片区",
       "distance_to_lake_center_km": 7.6,
@@ -4337,8 +4416,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 46,
-      "floors": 10,
+      "height_m": 62,
+      "floors": 14,
       "focus": "大规模成熟居住与基础公共服务",
       "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
       "neighbors": [
@@ -4359,9 +4438,9 @@
         -8.197
       ],
       "area_km2": 0.322,
-      "gross_floor_area_m2": 295000,
-      "population": 7500,
-      "households": 2778,
+      "gross_floor_area_m2": 826000,
+      "population": 21000,
+      "households": 7778,
       "height_limit_m": 72,
       "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
       "focus": "大规模成熟居住与基础公共服务",
@@ -4370,7 +4449,7 @@
       "parent_name": "南原居住片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 169.0,
-      "floor_area_ratio": 0.916,
+      "floor_area_ratio": 2.565,
       "building_coverage_max": 0.34
     },
     {
@@ -4383,9 +4462,9 @@
         -8.35
       ],
       "area_km2": 0.395,
-      "gross_floor_area_m2": 335000,
-      "population": 7820,
-      "households": 2897,
+      "gross_floor_area_m2": 938100,
+      "population": 21900,
+      "households": 8112,
       "height_limit_m": 81,
       "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
       "focus": "大规模成熟居住与基础公共服务",
@@ -4394,7 +4473,7 @@
       "parent_name": "南原居住片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 180.0,
-      "floor_area_ratio": 0.848,
+      "floor_area_ratio": 2.375,
       "building_coverage_max": 0.34
     },
     {
@@ -4407,9 +4486,9 @@
         -8.197
       ],
       "area_km2": 0.468,
-      "gross_floor_area_m2": 377100,
-      "population": 8140,
-      "households": 3015,
+      "gross_floor_area_m2": 1056300,
+      "population": 22800,
+      "households": 8445,
       "height_limit_m": 90,
       "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
       "focus": "大规模成熟居住与基础公共服务",
@@ -4418,7 +4497,7 @@
       "parent_name": "南原居住片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 191.0,
-      "floor_area_ratio": 0.806,
+      "floor_area_ratio": 2.257,
       "building_coverage_max": 0.34
     },
     {
@@ -4431,9 +4510,9 @@
         -9.276
       ],
       "area_km2": 0.322,
-      "gross_floor_area_m2": 332800,
-      "population": 8460,
-      "households": 3134,
+      "gross_floor_area_m2": 932200,
+      "population": 23700,
+      "households": 8778,
       "height_limit_m": 72,
       "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
       "focus": "大规模成熟居住与基础公共服务",
@@ -4442,7 +4521,7 @@
       "parent_name": "南原居住片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 169.0,
-      "floor_area_ratio": 1.034,
+      "floor_area_ratio": 2.895,
       "building_coverage_max": 0.34
     },
     {
@@ -4455,9 +4534,9 @@
         -9.45
       ],
       "area_km2": 0.395,
-      "gross_floor_area_m2": 376100,
-      "population": 8780,
-      "households": 3252,
+      "gross_floor_area_m2": 1051500,
+      "population": 24550,
+      "households": 9093,
       "height_limit_m": 81,
       "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
       "focus": "大规模成熟居住与基础公共服务",
@@ -4466,7 +4545,7 @@
       "parent_name": "南原居住片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 180.0,
-      "floor_area_ratio": 0.952,
+      "floor_area_ratio": 2.662,
       "building_coverage_max": 0.34
     },
     {
@@ -4479,9 +4558,9 @@
         -9.276
       ],
       "area_km2": 0.468,
-      "gross_floor_area_m2": 421600,
-      "population": 9100,
-      "households": 3371,
+      "gross_floor_area_m2": 1179000,
+      "population": 25450,
+      "households": 9426,
       "height_limit_m": 90,
       "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
       "focus": "大规模成熟居住与基础公共服务",
@@ -4490,7 +4569,7 @@
       "parent_name": "南原居住片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 191.0,
-      "floor_area_ratio": 0.901,
+      "floor_area_ratio": 2.519,
       "building_coverage_max": 0.34
     },
     {
@@ -4503,7 +4582,7 @@
         -6.472
       ],
       "area_km2": 22.1168,
-      "population": 73000,
+      "population": 204000,
       "focus": "食品研发、城市农业与生鲜供应",
       "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
       "sector": {
@@ -4529,7 +4608,7 @@
       "area_km2": 2.1,
       "focus": "食品研发、城市农业与生鲜供应",
       "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
-      "daily_workers": 5300,
+      "daily_workers": 13200,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "西麓农食片区",
       "distance_to_lake_center_km": 7.6,
@@ -4547,7 +4626,7 @@
       "area_km2": 2.5500000000000003,
       "focus": "食品研发、城市农业与生鲜供应",
       "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
-      "daily_workers": 6100,
+      "daily_workers": 10800,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "西麓农食片区",
       "distance_to_lake_center_km": 7.6,
@@ -4564,8 +4643,8 @@
       ],
       "area_km2": 0.042,
       "gross_floor_area_m2": 68000,
-      "height_m": 36,
-      "floors": 6,
+      "height_m": 60,
+      "floors": 14,
       "focus": "食品研发、城市农业与生鲜供应",
       "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
       "neighbors": [
@@ -4587,8 +4666,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 28,
-      "floors": 4,
+      "height_m": 66,
+      "floors": 15,
       "focus": "食品研发、城市农业与生鲜供应",
       "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
       "neighbors": [
@@ -4632,9 +4711,9 @@
         -7.568
       ],
       "area_km2": 0.176,
-      "gross_floor_area_m2": 164800,
-      "population": 3800,
-      "households": 1552,
+      "gross_floor_area_m2": 461700,
+      "population": 10650,
+      "households": 4347,
       "height_limit_m": 45,
       "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
       "focus": "食品研发、城市农业与生鲜供应",
@@ -4643,7 +4722,7 @@
       "parent_name": "西麓农食片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 205.0,
-      "floor_area_ratio": 0.936,
+      "floor_area_ratio": 2.623,
       "building_coverage_max": 0.34
     },
     {
@@ -4656,9 +4735,9 @@
         -6.755
       ],
       "area_km2": 0.232,
-      "gross_floor_area_m2": 194500,
-      "population": 4120,
-      "households": 1682,
+      "gross_floor_area_m2": 545200,
+      "population": 11550,
+      "households": 4715,
       "height_limit_m": 57,
       "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
       "focus": "食品研发、城市农业与生鲜供应",
@@ -4667,7 +4746,7 @@
       "parent_name": "西麓农食片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 216.0,
-      "floor_area_ratio": 0.838,
+      "floor_area_ratio": 2.35,
       "building_coverage_max": 0.34
     },
     {
@@ -4680,9 +4759,9 @@
         -5.695
       ],
       "area_km2": 0.288,
-      "gross_floor_area_m2": 226800,
-      "population": 4440,
-      "households": 1813,
+      "gross_floor_area_m2": 635700,
+      "population": 12450,
+      "households": 5082,
       "height_limit_m": 69,
       "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
       "focus": "食品研发、城市农业与生鲜供应",
@@ -4691,7 +4770,7 @@
       "parent_name": "西麓农食片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 227.0,
-      "floor_area_ratio": 0.787,
+      "floor_area_ratio": 2.207,
       "building_coverage_max": 0.34
     },
     {
@@ -4704,9 +4783,9 @@
         -8.565
       ],
       "area_km2": 0.176,
-      "gross_floor_area_m2": 206300,
-      "population": 4760,
-      "households": 1943,
+      "gross_floor_area_m2": 578700,
+      "population": 13350,
+      "households": 5449,
       "height_limit_m": 45,
       "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
       "focus": "食品研发、城市农业与生鲜供应",
@@ -4715,7 +4794,7 @@
       "parent_name": "西麓农食片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 205.0,
-      "floor_area_ratio": 1.172,
+      "floor_area_ratio": 3.288,
       "building_coverage_max": 0.34
     },
     {
@@ -4728,9 +4807,9 @@
         -7.645
       ],
       "area_km2": 0.232,
-      "gross_floor_area_m2": 239800,
-      "population": 5080,
-      "households": 2074,
+      "gross_floor_area_m2": 670200,
+      "population": 14200,
+      "households": 5796,
       "height_limit_m": 57,
       "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
       "focus": "食品研发、城市农业与生鲜供应",
@@ -4739,7 +4818,7 @@
       "parent_name": "西麓农食片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 216.0,
-      "floor_area_ratio": 1.034,
+      "floor_area_ratio": 2.889,
       "building_coverage_max": 0.34
     },
     {
@@ -4752,9 +4831,9 @@
         -6.445
       ],
       "area_km2": 0.288,
-      "gross_floor_area_m2": 275800,
-      "population": 5400,
-      "households": 2205,
+      "gross_floor_area_m2": 771000,
+      "population": 15100,
+      "households": 6164,
       "height_limit_m": 69,
       "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
       "focus": "食品研发、城市农业与生鲜供应",
@@ -4763,7 +4842,7 @@
       "parent_name": "西麓农食片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 227.0,
-      "floor_area_ratio": 0.958,
+      "floor_area_ratio": 2.677,
       "building_coverage_max": 0.34
     },
     {
@@ -4776,7 +4855,7 @@
         -2.472
       ],
       "area_km2": 22.1168,
-      "population": 79000,
+      "population": 221000,
       "focus": "批零贸易、修配与区域商贸",
       "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
       "sector": {
@@ -4802,7 +4881,7 @@
       "area_km2": 2.1,
       "focus": "批零贸易、修配与区域商贸",
       "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
-      "daily_workers": 6600,
+      "daily_workers": 20900,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "西门商贸片区",
       "distance_to_lake_center_km": 7.6,
@@ -4820,7 +4899,7 @@
       "area_km2": 2.5500000000000003,
       "focus": "批零贸易、修配与区域商贸",
       "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
-      "daily_workers": 7400,
+      "daily_workers": 17100,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "西门商贸片区",
       "distance_to_lake_center_km": 7.6,
@@ -4837,8 +4916,8 @@
       ],
       "area_km2": 0.042,
       "gross_floor_area_m2": 68000,
-      "height_m": 40,
-      "floors": 6,
+      "height_m": 94,
+      "floors": 21,
       "focus": "批零贸易、修配与区域商贸",
       "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
       "neighbors": [
@@ -4883,8 +4962,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 54,
-      "floors": 10,
+      "height_m": 64,
+      "floors": 15,
       "focus": "批零贸易、修配与区域商贸",
       "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
       "neighbors": [
@@ -4905,9 +4984,9 @@
         -4.048
       ],
       "area_km2": 0.2,
-      "gross_floor_area_m2": 186500,
-      "population": 4300,
-      "households": 1756,
+      "gross_floor_area_m2": 522400,
+      "population": 12050,
+      "households": 4919,
       "height_limit_m": 45,
       "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
       "focus": "批零贸易、修配与区域商贸",
@@ -4916,7 +4995,7 @@
       "parent_name": "西门商贸片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 241.0,
-      "floor_area_ratio": 0.932,
+      "floor_area_ratio": 2.612,
       "building_coverage_max": 0.34
     },
     {
@@ -4929,9 +5008,9 @@
         -2.58
       ],
       "area_km2": 0.256,
-      "gross_floor_area_m2": 218100,
-      "population": 4620,
-      "households": 1886,
+      "gross_floor_area_m2": 611300,
+      "population": 12950,
+      "households": 5286,
       "height_limit_m": 57,
       "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
       "focus": "批零贸易、修配与区域商贸",
@@ -4940,7 +5019,7 @@
       "parent_name": "西门商贸片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 252.0,
-      "floor_area_ratio": 0.852,
+      "floor_area_ratio": 2.388,
       "building_coverage_max": 0.34
     },
     {
@@ -4953,9 +5032,9 @@
         -1.018
       ],
       "area_km2": 0.312,
-      "gross_floor_area_m2": 252300,
-      "population": 4940,
-      "households": 2017,
+      "gross_floor_area_m2": 707200,
+      "population": 13850,
+      "households": 5654,
       "height_limit_m": 69,
       "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
       "focus": "批零贸易、修配与区域商贸",
@@ -4964,7 +5043,7 @@
       "parent_name": "西门商贸片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 263.0,
-      "floor_area_ratio": 0.809,
+      "floor_area_ratio": 2.267,
       "building_coverage_max": 0.34
     },
     {
@@ -4977,9 +5056,9 @@
         -4.581
       ],
       "area_km2": 0.2,
-      "gross_floor_area_m2": 228000,
-      "population": 5260,
-      "households": 2147,
+      "gross_floor_area_m2": 639400,
+      "population": 14750,
+      "households": 6021,
       "height_limit_m": 45,
       "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
       "focus": "批零贸易、修配与区域商贸",
@@ -4988,7 +5067,7 @@
       "parent_name": "西门商贸片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 241.0,
-      "floor_area_ratio": 1.14,
+      "floor_area_ratio": 3.197,
       "building_coverage_max": 0.34
     },
     {
@@ -5001,9 +5080,9 @@
         -2.92
       ],
       "area_km2": 0.256,
-      "gross_floor_area_m2": 263400,
-      "population": 5580,
-      "households": 2278,
+      "gross_floor_area_m2": 736400,
+      "population": 15600,
+      "households": 6368,
       "height_limit_m": 57,
       "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
       "focus": "批零贸易、修配与区域商贸",
@@ -5012,7 +5091,7 @@
       "parent_name": "西门商贸片区",
       "distance_to_lake_center_km": 9.449,
       "bearing_from_lake_center_deg": 252.0,
-      "floor_area_ratio": 1.029,
+      "floor_area_ratio": 2.877,
       "building_coverage_max": 0.34
     },
     {
@@ -5025,9 +5104,9 @@
         -1.152
       ],
       "area_km2": 0.312,
-      "gross_floor_area_m2": 301300,
-      "population": 5900,
-      "households": 2409,
+      "gross_floor_area_m2": 842400,
+      "population": 16500,
+      "households": 6735,
       "height_limit_m": 69,
       "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
       "focus": "批零贸易、修配与区域商贸",
@@ -5036,7 +5115,7 @@
       "parent_name": "西门商贸片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 263.0,
-      "floor_area_ratio": 0.966,
+      "floor_area_ratio": 2.7,
       "building_coverage_max": 0.34
     },
     {
@@ -5049,7 +5128,7 @@
         2.472
       ],
       "area_km2": 22.1168,
-      "population": 53000,
+      "population": 148000,
       "focus": "清洁能源调度、储能研发与绿色生活",
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
       "sector": {
@@ -5075,7 +5154,7 @@
       "area_km2": 2.1,
       "focus": "清洁能源调度、储能研发与绿色生活",
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
-      "daily_workers": 7900,
+      "daily_workers": 16500,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "西岭能源片区",
       "distance_to_lake_center_km": 7.6,
@@ -5093,7 +5172,7 @@
       "area_km2": 2.5500000000000003,
       "focus": "清洁能源调度、储能研发与绿色生活",
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
-      "daily_workers": 8700,
+      "daily_workers": 13500,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "西岭能源片区",
       "distance_to_lake_center_km": 7.6,
@@ -5110,8 +5189,8 @@
       ],
       "area_km2": 0.042,
       "gross_floor_area_m2": 68000,
-      "height_m": 32,
-      "floors": 6,
+      "height_m": 76,
+      "floors": 17,
       "focus": "清洁能源调度、储能研发与绿色生活",
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
       "neighbors": [
@@ -5133,8 +5212,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 24,
-      "floors": 4,
+      "height_m": 62,
+      "floors": 14,
       "focus": "清洁能源调度、储能研发与绿色生活",
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
       "neighbors": [
@@ -5156,8 +5235,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 46,
-      "floors": 10,
+      "height_m": 60,
+      "floors": 14,
       "focus": "清洁能源调度、储能研发与绿色生活",
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
       "neighbors": [
@@ -5178,9 +5257,9 @@
         1.018
       ],
       "area_km2": 0.224,
-      "gross_floor_area_m2": 208200,
-      "population": 4800,
-      "households": 1960,
+      "gross_floor_area_m2": 583000,
+      "population": 13450,
+      "households": 5490,
       "height_limit_m": 45,
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
       "focus": "清洁能源调度、储能研发与绿色生活",
@@ -5189,7 +5268,7 @@
       "parent_name": "西岭能源片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 277.0,
-      "floor_area_ratio": 0.929,
+      "floor_area_ratio": 2.603,
       "building_coverage_max": 0.34
     },
     {
@@ -5202,9 +5281,9 @@
         2.58
       ],
       "area_km2": 0.28,
-      "gross_floor_area_m2": 241700,
-      "population": 5120,
-      "households": 2090,
+      "gross_floor_area_m2": 677400,
+      "population": 14350,
+      "households": 5858,
       "height_limit_m": 57,
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
       "focus": "清洁能源调度、储能研发与绿色生活",
@@ -5213,7 +5292,7 @@
       "parent_name": "西岭能源片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 288.0,
-      "floor_area_ratio": 0.863,
+      "floor_area_ratio": 2.419,
       "building_coverage_max": 0.34
     },
     {
@@ -5226,9 +5305,9 @@
         4.048
       ],
       "area_km2": 0.336,
-      "gross_floor_area_m2": 277800,
-      "population": 5440,
-      "households": 2221,
+      "gross_floor_area_m2": 778600,
+      "population": 15250,
+      "households": 6225,
       "height_limit_m": 69,
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
       "focus": "清洁能源调度、储能研发与绿色生活",
@@ -5237,7 +5316,7 @@
       "parent_name": "西岭能源片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 299.0,
-      "floor_area_ratio": 0.827,
+      "floor_area_ratio": 2.317,
       "building_coverage_max": 0.34
     },
     {
@@ -5250,9 +5329,9 @@
         1.152
       ],
       "area_km2": 0.224,
-      "gross_floor_area_m2": 249800,
-      "population": 5760,
-      "households": 2352,
+      "gross_floor_area_m2": 700100,
+      "population": 16150,
+      "households": 6592,
       "height_limit_m": 45,
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
       "focus": "清洁能源调度、储能研发与绿色生活",
@@ -5261,7 +5340,7 @@
       "parent_name": "西岭能源片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 277.0,
-      "floor_area_ratio": 1.115,
+      "floor_area_ratio": 3.125,
       "building_coverage_max": 0.34
     },
     {
@@ -5274,9 +5353,9 @@
         2.92
       ],
       "area_km2": 0.28,
-      "gross_floor_area_m2": 287000,
-      "population": 6080,
-      "households": 2482,
+      "gross_floor_area_m2": 802400,
+      "population": 17000,
+      "households": 6939,
       "height_limit_m": 57,
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
       "focus": "清洁能源调度、储能研发与绿色生活",
@@ -5285,7 +5364,7 @@
       "parent_name": "西岭能源片区",
       "distance_to_lake_center_km": 9.449,
       "bearing_from_lake_center_deg": 288.0,
-      "floor_area_ratio": 1.025,
+      "floor_area_ratio": 2.866,
       "building_coverage_max": 0.34
     },
     {
@@ -5298,9 +5377,9 @@
         4.581
       ],
       "area_km2": 0.336,
-      "gross_floor_area_m2": 326800,
-      "population": 6400,
-      "households": 2613,
+      "gross_floor_area_m2": 914000,
+      "population": 17900,
+      "households": 7307,
       "height_limit_m": 69,
       "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
       "focus": "清洁能源调度、储能研发与绿色生活",
@@ -5309,7 +5388,7 @@
       "parent_name": "西岭能源片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 299.0,
-      "floor_area_ratio": 0.973,
+      "floor_area_ratio": 2.72,
       "building_coverage_max": 0.34
     },
     {
@@ -5322,7 +5401,7 @@
         6.472
       ],
       "area_km2": 22.1168,
-      "population": 55000,
+      "population": 154000,
       "focus": "水资源管理、净水、监测与滨水教育",
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
       "sector": {
@@ -5348,7 +5427,7 @@
       "area_km2": 2.1,
       "focus": "水资源管理、净水、监测与滨水教育",
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
-      "daily_workers": 9200,
+      "daily_workers": 7700,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "parent_name": "北港水务片区",
       "distance_to_lake_center_km": 7.6,
@@ -5366,7 +5445,7 @@
       "area_km2": 2.5500000000000003,
       "focus": "水资源管理、净水、监测与滨水教育",
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
-      "daily_workers": 10000,
+      "daily_workers": 6300,
       "definition": "跨地块功能覆盖范围，含道路绿地，可包含下属地标或住宅，不能与其占地再次加总",
       "spatial_note": "河口生态主题教育园，不在真实入湖口；中心距清岚河主槽约1.85千米，园内是人工示范湿地，不得把主河移入园内。",
       "parent_name": "北港水务片区",
@@ -5384,8 +5463,8 @@
       ],
       "area_km2": 0.042,
       "gross_floor_area_m2": 68000,
-      "height_m": 36,
-      "floors": 6,
+      "height_m": 64,
+      "floors": 15,
       "focus": "水资源管理、净水、监测与滨水教育",
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
       "neighbors": [
@@ -5407,8 +5486,8 @@
       ],
       "area_km2": 0.036,
       "gross_floor_area_m2": 41000,
-      "height_m": 28,
-      "floors": 4,
+      "height_m": 60,
+      "floors": 14,
       "focus": "水资源管理、净水、监测与滨水教育",
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
       "neighbors": [
@@ -5430,8 +5509,8 @@
       ],
       "area_km2": 0.018,
       "gross_floor_area_m2": 39000,
-      "height_m": 50,
-      "floors": 10,
+      "height_m": 66,
+      "floors": 15,
       "focus": "水资源管理、净水、监测与滨水教育",
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
       "neighbors": [
@@ -5453,9 +5532,9 @@
         5.695
       ],
       "area_km2": 0.248,
-      "gross_floor_area_m2": 229800,
-      "population": 5300,
-      "households": 2164,
+      "gross_floor_area_m2": 643800,
+      "population": 14850,
+      "households": 6062,
       "height_limit_m": 45,
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
       "focus": "水资源管理、净水、监测与滨水教育",
@@ -5464,7 +5543,7 @@
       "parent_name": "北港水务片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 313.0,
-      "floor_area_ratio": 0.927,
+      "floor_area_ratio": 2.596,
       "building_coverage_max": 0.34
     },
     {
@@ -5477,9 +5556,9 @@
         6.755
       ],
       "area_km2": 0.304,
-      "gross_floor_area_m2": 265300,
-      "population": 5620,
-      "households": 2294,
+      "gross_floor_area_m2": 743400,
+      "population": 15750,
+      "households": 6429,
       "height_limit_m": 57,
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
       "focus": "水资源管理、净水、监测与滨水教育",
@@ -5488,7 +5567,7 @@
       "parent_name": "北港水务片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 324.0,
-      "floor_area_ratio": 0.873,
+      "floor_area_ratio": 2.445,
       "building_coverage_max": 0.34
     },
     {
@@ -5501,9 +5580,9 @@
         7.568
       ],
       "area_km2": 0.36,
-      "gross_floor_area_m2": 303300,
-      "population": 5940,
-      "households": 2425,
+      "gross_floor_area_m2": 850000,
+      "population": 16650,
+      "households": 6796,
       "height_limit_m": 69,
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
       "focus": "水资源管理、净水、监测与滨水教育",
@@ -5512,7 +5591,7 @@
       "parent_name": "北港水务片区",
       "distance_to_lake_center_km": 8.35,
       "bearing_from_lake_center_deg": 335.0,
-      "floor_area_ratio": 0.843,
+      "floor_area_ratio": 2.361,
       "building_coverage_max": 0.34
     },
     {
@@ -5525,9 +5604,9 @@
         6.445
       ],
       "area_km2": 0.248,
-      "gross_floor_area_m2": 271400,
-      "population": 6260,
-      "households": 2556,
+      "gross_floor_area_m2": 760800,
+      "population": 17550,
+      "households": 7164,
       "height_limit_m": 45,
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
       "focus": "水资源管理、净水、监测与滨水教育",
@@ -5536,7 +5615,7 @@
       "parent_name": "北港水务片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 313.0,
-      "floor_area_ratio": 1.094,
+      "floor_area_ratio": 3.068,
       "building_coverage_max": 0.34
     },
     {
@@ -5549,9 +5628,9 @@
         7.645
       ],
       "area_km2": 0.304,
-      "gross_floor_area_m2": 310600,
-      "population": 6580,
-      "households": 2686,
+      "gross_floor_area_m2": 868600,
+      "population": 18400,
+      "households": 7511,
       "height_limit_m": 57,
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
       "focus": "水资源管理、净水、监测与滨水教育",
@@ -5560,7 +5639,7 @@
       "parent_name": "北港水务片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 324.0,
-      "floor_area_ratio": 1.022,
+      "floor_area_ratio": 2.857,
       "building_coverage_max": 0.34
     },
     {
@@ -5573,9 +5652,9 @@
         8.565
       ],
       "area_km2": 0.36,
-      "gross_floor_area_m2": 352400,
-      "population": 6900,
-      "households": 2817,
+      "gross_floor_area_m2": 985400,
+      "population": 19300,
+      "households": 7878,
       "height_limit_m": 69,
       "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
       "focus": "水资源管理、净水、监测与滨水教育",
@@ -5584,8 +5663,1112 @@
       "parent_name": "北港水务片区",
       "distance_to_lake_center_km": 9.45,
       "bearing_from_lake_center_deg": 335.0,
-      "floor_area_ratio": 0.979,
+      "floor_area_ratio": 2.737,
       "building_coverage_max": 0.34
+    },
+    {
+      "id": "L061",
+      "name": "北湖政务协同塔",
+      "type": "标志性建筑",
+      "parent": "D01",
+      "center_km": [
+        0.0,
+        3.45
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 186,
+      "floors": 48,
+      "focus": "公共治理、法务与市民服务",
+      "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
+      "neighbors": [
+        "L001",
+        "F001"
+      ],
+      "parent_name": "北湖政务片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 0.0
+    },
+    {
+      "id": "L062",
+      "name": "市民法务服务中心",
+      "type": "标志性建筑",
+      "parent": "D01",
+      "center_km": [
+        -0.45,
+        3.42
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 128,
+      "floors": 35,
+      "focus": "公共治理、法务与市民服务",
+      "visual": "暖灰石材、深铜竖框、低台阶和疏朗银杏广场",
+      "neighbors": [
+        "L001",
+        "F001"
+      ],
+      "parent_name": "北湖政务片区",
+      "distance_to_lake_center_km": 3.449,
+      "bearing_from_lake_center_deg": 352.5
+    },
+    {
+      "id": "L063",
+      "name": "北书学术交换塔",
+      "type": "标志性建筑",
+      "parent": "D02",
+      "center_km": [
+        2.028,
+        2.791
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 268,
+      "floors": 67,
+      "focus": "大学、人文教育与公共知识",
+      "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
+      "neighbors": [
+        "L004",
+        "F003"
+      ],
+      "parent_name": "东北文教片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 36.0
+    },
+    {
+      "id": "L064",
+      "name": "青年科创学院塔",
+      "type": "标志性建筑",
+      "parent": "D02",
+      "center_km": [
+        1.646,
+        3.032
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 244,
+      "floors": 61,
+      "focus": "大学、人文教育与公共知识",
+      "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
+      "neighbors": [
+        "L004",
+        "F003"
+      ],
+      "parent_name": "东北文教片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 28.5
+    },
+    {
+      "id": "L065",
+      "name": "校园书市商廊",
+      "type": "标志性建筑",
+      "parent": "D02",
+      "center_km": [
+        2.375,
+        2.503
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 112,
+      "floors": 30,
+      "focus": "大学、人文教育与公共知识",
+      "visual": "红褐砖、浅灰预制混凝土、内院和高树冠步道",
+      "neighbors": [
+        "L004",
+        "F003"
+      ],
+      "parent_name": "东北文教片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 43.5
+    },
+    {
+      "id": "L066",
+      "name": "钛心金融主塔",
+      "type": "标志性建筑",
+      "parent": "D03",
+      "center_km": [
+        3.281,
+        1.066
+      ],
+      "area_km2": 0.03,
+      "gross_floor_area_m2": 305000,
+      "height_m": 458,
+      "floors": 106,
+      "focus": "金融、专业服务与总部办公",
+      "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+      "neighbors": [
+        "L007",
+        "F005"
+      ],
+      "parent_name": "东湖金融片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 72.0
+    },
+    {
+      "id": "L067",
+      "name": "澄湖资本塔",
+      "type": "标志性建筑",
+      "parent": "D03",
+      "center_km": [
+        3.114,
+        1.485
+      ],
+      "area_km2": 0.03,
+      "gross_floor_area_m2": 250000,
+      "height_m": 352,
+      "floors": 82,
+      "focus": "金融、专业服务与总部办公",
+      "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+      "neighbors": [
+        "L007",
+        "F005"
+      ],
+      "parent_name": "东湖金融片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 64.5
+    },
+    {
+      "id": "L068",
+      "name": "湖东证券塔",
+      "type": "标志性建筑",
+      "parent": "D03",
+      "center_km": [
+        3.392,
+        0.629
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 292,
+      "floors": 73,
+      "focus": "金融、专业服务与总部办公",
+      "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+      "neighbors": [
+        "L007",
+        "F005"
+      ],
+      "parent_name": "东湖金融片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 79.49
+    },
+    {
+      "id": "L069",
+      "name": "云浦结算中心",
+      "type": "标志性建筑",
+      "parent": "D03",
+      "center_km": [
+        2.893,
+        1.879
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 276,
+      "floors": 69,
+      "focus": "金融、专业服务与总部办公",
+      "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+      "neighbors": [
+        "L007",
+        "F005"
+      ],
+      "parent_name": "东湖金融片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 57.0
+    },
+    {
+      "id": "L070",
+      "name": "东环企业总部塔",
+      "type": "标志性建筑",
+      "parent": "D03",
+      "center_km": [
+        4.202,
+        1.871
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 258,
+      "floors": 64,
+      "focus": "金融、专业服务与总部办公",
+      "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+      "neighbors": [
+        "L007",
+        "F005"
+      ],
+      "parent_name": "东湖金融片区",
+      "distance_to_lake_center_km": 4.6,
+      "bearing_from_lake_center_deg": 66.0
+    },
+    {
+      "id": "L071",
+      "name": "钛湖清算塔",
+      "type": "标志性建筑",
+      "parent": "D03",
+      "center_km": [
+        4.499,
+        0.956
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 231,
+      "floors": 58,
+      "focus": "金融、专业服务与总部办公",
+      "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+      "neighbors": [
+        "L007",
+        "F005"
+      ],
+      "parent_name": "东湖金融片区",
+      "distance_to_lake_center_km": 4.599,
+      "bearing_from_lake_center_deg": 78.0
+    },
+    {
+      "id": "L072",
+      "name": "东岸青年创业塔",
+      "type": "标志性建筑",
+      "parent": "D03",
+      "center_km": [
+        2.755,
+        1.527
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 172,
+      "floors": 45,
+      "focus": "金融、专业服务与总部办公",
+      "visual": "冷灰玻璃、银钛窄竖肋、深色裙房和连续有檐步道",
+      "neighbors": [
+        "L007",
+        "F005"
+      ],
+      "parent_name": "东湖金融片区",
+      "distance_to_lake_center_km": 3.15,
+      "bearing_from_lake_center_deg": 61.0
+    },
+    {
+      "id": "L073",
+      "name": "潮湾国际商务塔",
+      "type": "标志性建筑",
+      "parent": "D04",
+      "center_km": [
+        3.392,
+        -0.629
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 283,
+      "floors": 71,
+      "focus": "会议、展览、旅游与商务接待",
+      "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
+      "neighbors": [
+        "L010",
+        "F007"
+      ],
+      "parent_name": "东南会展片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 100.51
+    },
+    {
+      "id": "L074",
+      "name": "水光旅店主塔",
+      "type": "标志性建筑",
+      "parent": "D04",
+      "center_km": [
+        2.893,
+        -1.879
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 262,
+      "floors": 66,
+      "focus": "会议、展览、旅游与商务接待",
+      "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
+      "neighbors": [
+        "L010",
+        "F007"
+      ],
+      "parent_name": "东南会展片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 123.0
+    },
+    {
+      "id": "L075",
+      "name": "金篷会议宴会塔",
+      "type": "标志性建筑",
+      "parent": "D04",
+      "center_km": [
+        4.443,
+        -1.191
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 240,
+      "floors": 60,
+      "focus": "会议、展览、旅游与商务接待",
+      "visual": "浅香槟金属、折板大屋顶、通透门厅和疏林广场",
+      "neighbors": [
+        "L010",
+        "F007"
+      ],
+      "parent_name": "东南会展片区",
+      "distance_to_lake_center_km": 4.6,
+      "bearing_from_lake_center_deg": 105.01
+    },
+    {
+      "id": "L076",
+      "name": "青湾医学研究塔",
+      "type": "标志性建筑",
+      "parent": "D05",
+      "center_km": [
+        2.028,
+        -2.791
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 218,
+      "floors": 54,
+      "focus": "综合医疗、康复与健康研究",
+      "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
+      "neighbors": [
+        "L013",
+        "F009"
+      ],
+      "parent_name": "青湾医养片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 144.0
+    },
+    {
+      "id": "L077",
+      "name": "静溪健康驿站",
+      "type": "标志性建筑",
+      "parent": "D05",
+      "center_km": [
+        2.375,
+        -2.503
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 106,
+      "floors": 29,
+      "focus": "综合医疗、康复与健康研究",
+      "visual": "米白陶板、雾绿玻璃、层层退台和封闭疗愈庭院",
+      "neighbors": [
+        "L013",
+        "F009"
+      ],
+      "parent_name": "青湾医养片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 136.5
+    },
+    {
+      "id": "L078",
+      "name": "南湖社区生活塔",
+      "type": "标志性建筑",
+      "parent": "D06",
+      "center_km": [
+        0.0,
+        -3.45
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 164,
+      "floors": 43,
+      "focus": "大众消费、家庭生活与社区服务",
+      "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
+      "neighbors": [
+        "L016",
+        "F011"
+      ],
+      "parent_name": "南湖生活片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 180.0
+    },
+    {
+      "id": "L079",
+      "name": "月湾市集商厦",
+      "type": "标志性建筑",
+      "parent": "D06",
+      "center_km": [
+        0.45,
+        -3.42
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 138,
+      "floors": 37,
+      "focus": "大众消费、家庭生活与社区服务",
+      "visual": "暖米色涂层、深棕窗框、窄街底商和遮雨连廊",
+      "neighbors": [
+        "L016",
+        "F011"
+      ],
+      "parent_name": "南湖生活片区",
+      "distance_to_lake_center_km": 3.449,
+      "bearing_from_lake_center_deg": 172.5
+    },
+    {
+      "id": "L080",
+      "name": "西声演艺孵化塔",
+      "type": "标志性建筑",
+      "parent": "D07",
+      "center_km": [
+        -2.028,
+        -2.791
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 178,
+      "floors": 46,
+      "focus": "表演、电影、设计与夜间文化",
+      "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
+      "neighbors": [
+        "L019",
+        "F013"
+      ],
+      "parent_name": "西南文艺片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 216.0
+    },
+    {
+      "id": "L081",
+      "name": "旧炉夜间市集馆",
+      "type": "标志性建筑",
+      "parent": "D07",
+      "center_km": [
+        -1.646,
+        -3.032
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 118,
+      "floors": 32,
+      "focus": "表演、电影、设计与夜间文化",
+      "visual": "深红砖、黑钢窗、旧厂锯齿屋顶和可开合舞台",
+      "neighbors": [
+        "L019",
+        "F013"
+      ],
+      "parent_name": "西南文艺片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 208.5
+    },
+    {
+      "id": "L082",
+      "name": "云栈智能塔",
+      "type": "标志性建筑",
+      "parent": "D09",
+      "center_km": [
+        -3.281,
+        1.066
+      ],
+      "area_km2": 0.03,
+      "gross_floor_area_m2": 250000,
+      "height_m": 344,
+      "floors": 80,
+      "focus": "软件、人工智能应用与数字内容",
+      "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+      "neighbors": [
+        "L025",
+        "F017"
+      ],
+      "parent_name": "云栈数创片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 288.0
+    },
+    {
+      "id": "L083",
+      "name": "数岸算力塔",
+      "type": "标志性建筑",
+      "parent": "D09",
+      "center_km": [
+        -3.392,
+        0.629
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 288,
+      "floors": 72,
+      "focus": "软件、人工智能应用与数字内容",
+      "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+      "neighbors": [
+        "L025",
+        "F017"
+      ],
+      "parent_name": "云栈数创片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 280.51
+    },
+    {
+      "id": "L084",
+      "name": "云栈算法塔",
+      "type": "标志性建筑",
+      "parent": "D09",
+      "center_km": [
+        -3.114,
+        1.485
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 264,
+      "floors": 66,
+      "focus": "软件、人工智能应用与数字内容",
+      "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+      "neighbors": [
+        "L025",
+        "F017"
+      ],
+      "parent_name": "云栈数创片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 295.5
+    },
+    {
+      "id": "L085",
+      "name": "数创内容工场",
+      "type": "标志性建筑",
+      "parent": "D09",
+      "center_km": [
+        -2.893,
+        1.879
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 249,
+      "floors": 62,
+      "focus": "软件、人工智能应用与数字内容",
+      "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+      "neighbors": [
+        "L025",
+        "F017"
+      ],
+      "parent_name": "云栈数创片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 303.0
+    },
+    {
+      "id": "L086",
+      "name": "星栈开发者塔",
+      "type": "标志性建筑",
+      "parent": "D09",
+      "center_km": [
+        -4.499,
+        0.956
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 196,
+      "floors": 51,
+      "focus": "软件、人工智能应用与数字内容",
+      "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+      "neighbors": [
+        "L025",
+        "F017"
+      ],
+      "parent_name": "云栈数创片区",
+      "distance_to_lake_center_km": 4.599,
+      "bearing_from_lake_center_deg": 282.0
+    },
+    {
+      "id": "L087",
+      "name": "蓝帆播送塔",
+      "type": "标志性建筑",
+      "parent": "D09",
+      "center_km": [
+        -4.202,
+        1.871
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 158,
+      "floors": 41,
+      "focus": "软件、人工智能应用与数字内容",
+      "visual": "浅银铝板、低反射玻璃、屋顶绿化和开放工作台阶",
+      "neighbors": [
+        "L025",
+        "F017"
+      ],
+      "parent_name": "云栈数创片区",
+      "distance_to_lake_center_km": 4.6,
+      "bearing_from_lake_center_deg": 294.0
+    },
+    {
+      "id": "L088",
+      "name": "松岬运动员服务中心",
+      "type": "标志性建筑",
+      "parent": "D10",
+      "center_km": [
+        -2.028,
+        2.791
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 168,
+      "floors": 44,
+      "focus": "竞技体育、全民运动与户外休闲",
+      "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
+      "neighbors": [
+        "L028",
+        "F019"
+      ],
+      "parent_name": "松岬体育片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 324.0
+    },
+    {
+      "id": "L089",
+      "name": "环湖运动健康塔",
+      "type": "标志性建筑",
+      "parent": "D10",
+      "center_km": [
+        -2.375,
+        2.503
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 132,
+      "floors": 36,
+      "focus": "竞技体育、全民运动与户外休闲",
+      "visual": "钛灰拉索、木色座椅、草坡看台和连续运动步道",
+      "neighbors": [
+        "L028",
+        "F019"
+      ],
+      "parent_name": "松岬体育片区",
+      "distance_to_lake_center_km": 3.45,
+      "bearing_from_lake_center_deg": 316.5
+    },
+    {
+      "id": "L090",
+      "name": "书岭精密观测塔",
+      "type": "标志性建筑",
+      "parent": "D12",
+      "center_km": [
+        3.732,
+        5.137
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 189,
+      "floors": 49,
+      "focus": "基础科研、精密实验与人才生活",
+      "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
+      "neighbors": [
+        "L034",
+        "F023"
+      ],
+      "parent_name": "书岭科研片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 36.0
+    },
+    {
+      "id": "L091",
+      "name": "青岚实验协作塔",
+      "type": "标志性建筑",
+      "parent": "D12",
+      "center_km": [
+        3.03,
+        5.58
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 152,
+      "floors": 39,
+      "focus": "基础科研、精密实验与人才生活",
+      "visual": "浅灰砖、蓝灰遮阳板、连桥和有边界的安静院落",
+      "neighbors": [
+        "L034",
+        "F023"
+      ],
+      "parent_name": "书岭科研片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 28.5
+    },
+    {
+      "id": "L092",
+      "name": "东门枢纽商务塔",
+      "type": "标志性建筑",
+      "parent": "D13",
+      "center_km": [
+        6.039,
+        1.962
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 272,
+      "floors": 68,
+      "focus": "铁路换乘、区域商务与物流调度",
+      "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+      "neighbors": [
+        "L037",
+        "F025"
+      ],
+      "parent_name": "东门枢纽片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 72.0
+    },
+    {
+      "id": "L093",
+      "name": "山门货运调度塔",
+      "type": "标志性建筑",
+      "parent": "D13",
+      "center_km": [
+        5.731,
+        2.734
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 251,
+      "floors": 63,
+      "focus": "铁路换乘、区域商务与物流调度",
+      "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+      "neighbors": [
+        "L037",
+        "F025"
+      ],
+      "parent_name": "东门枢纽片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 64.5
+    },
+    {
+      "id": "L094",
+      "name": "轨交换乘商业塔",
+      "type": "标志性建筑",
+      "parent": "D13",
+      "center_km": [
+        6.244,
+        1.157
+      ],
+      "area_km2": 0.024,
+      "gross_floor_area_m2": 152000,
+      "height_m": 226,
+      "floors": 56,
+      "focus": "铁路换乘、区域商务与物流调度",
+      "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+      "neighbors": [
+        "L037",
+        "F025"
+      ],
+      "parent_name": "东门枢纽片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 79.5
+    },
+    {
+      "id": "L095",
+      "name": "东门工友服务站",
+      "type": "标志性建筑",
+      "parent": "D13",
+      "center_km": [
+        5.326,
+        3.458
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 142,
+      "floors": 38,
+      "focus": "铁路换乘、区域商务与物流调度",
+      "visual": "浅钛金属长屋盖、透明侧厅和明确的步行导向",
+      "neighbors": [
+        "L037",
+        "F025"
+      ],
+      "parent_name": "东门枢纽片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 57.01
+    },
+    {
+      "id": "L096",
+      "name": "东铸中试塔",
+      "type": "标志性建筑",
+      "parent": "D14",
+      "center_km": [
+        6.039,
+        -1.962
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 174,
+      "floors": 45,
+      "focus": "精密制造、工业设计与清洁装配",
+      "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
+      "neighbors": [
+        "L040",
+        "F027"
+      ],
+      "parent_name": "钛东智造片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 108.0
+    },
+    {
+      "id": "L097",
+      "name": "精工公共实训塔",
+      "type": "标志性建筑",
+      "parent": "D14",
+      "center_km": [
+        6.244,
+        -1.157
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 108,
+      "floors": 29,
+      "focus": "精密制造、工业设计与清洁装配",
+      "visual": "石墨灰厂房、银色设备廊道、北向天窗和规则货运院",
+      "neighbors": [
+        "L040",
+        "F027"
+      ],
+      "parent_name": "钛东智造片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 100.5
+    },
+    {
+      "id": "L098",
+      "name": "南溪应急物资塔",
+      "type": "标志性建筑",
+      "parent": "D15",
+      "center_km": [
+        3.732,
+        -5.137
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 116,
+      "floors": 31,
+      "focus": "城市应急、维修、回收与生活保障",
+      "visual": "土黄清水砖、灰钢架、分隔式院落和防雨卸货棚",
+      "neighbors": [
+        "L043",
+        "F029"
+      ],
+      "parent_name": "南溪服务片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 144.0
+    },
+    {
+      "id": "L099",
+      "name": "南原综合服务塔",
+      "type": "标志性建筑",
+      "parent": "D16",
+      "center_km": [
+        0.0,
+        -6.35
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 181,
+      "floors": 47,
+      "focus": "大规模成熟居住与基础公共服务",
+      "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
+      "neighbors": [
+        "L046",
+        "F031"
+      ],
+      "parent_name": "南原居住片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 180.0
+    },
+    {
+      "id": "L100",
+      "name": "南原家庭服务中心",
+      "type": "标志性建筑",
+      "parent": "D16",
+      "center_km": [
+        0.829,
+        -6.296
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 146,
+      "floors": 39,
+      "focus": "大规模成熟居住与基础公共服务",
+      "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
+      "neighbors": [
+        "L046",
+        "F031"
+      ],
+      "parent_name": "南原居住片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 172.5
+    },
+    {
+      "id": "L101",
+      "name": "晨光邻里商业塔",
+      "type": "标志性建筑",
+      "parent": "D16",
+      "center_km": [
+        -0.829,
+        -6.296
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 122,
+      "floors": 33,
+      "focus": "大规模成熟居住与基础公共服务",
+      "visual": "浅沙色板楼、酒红阳台、宽树荫街和社区球场",
+      "neighbors": [
+        "L046",
+        "F031"
+      ],
+      "parent_name": "南原居住片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 187.5
+    },
+    {
+      "id": "L102",
+      "name": "丰仓食品检测塔",
+      "type": "标志性建筑",
+      "parent": "D17",
+      "center_km": [
+        -3.732,
+        -5.137
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 124,
+      "floors": 34,
+      "focus": "食品研发、城市农业与生鲜供应",
+      "visual": "浅褐砖、温室玻璃、低平坡顶和食用景观带",
+      "neighbors": [
+        "L049",
+        "F033"
+      ],
+      "parent_name": "西麓农食片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 216.0
+    },
+    {
+      "id": "L103",
+      "name": "西门商贸结算塔",
+      "type": "标志性建筑",
+      "parent": "D18",
+      "center_km": [
+        -6.039,
+        -1.962
+      ],
+      "area_km2": 0.018,
+      "gross_floor_area_m2": 86000,
+      "height_m": 156,
+      "floors": 41,
+      "focus": "批零贸易、修配与区域商贸",
+      "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
+      "neighbors": [
+        "L052",
+        "F035"
+      ],
+      "parent_name": "西门商贸片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 252.0
+    },
+    {
+      "id": "L104",
+      "name": "西关货栈塔",
+      "type": "标志性建筑",
+      "parent": "D18",
+      "center_km": [
+        -5.731,
+        -2.734
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 134,
+      "floors": 36,
+      "focus": "批零贸易、修配与区域商贸",
+      "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
+      "neighbors": [
+        "L052",
+        "F035"
+      ],
+      "parent_name": "西门商贸片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 244.5
+    },
+    {
+      "id": "L105",
+      "name": "赤陶市集商厦",
+      "type": "标志性建筑",
+      "parent": "D18",
+      "center_km": [
+        -6.244,
+        -1.157
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 148,
+      "floors": 40,
+      "focus": "批零贸易、修配与区域商贸",
+      "visual": "赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷",
+      "neighbors": [
+        "L052",
+        "F035"
+      ],
+      "parent_name": "西门商贸片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 259.5
+    },
+    {
+      "id": "L106",
+      "name": "西岭储能示范塔",
+      "type": "标志性建筑",
+      "parent": "D19",
+      "center_km": [
+        -6.039,
+        1.962
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 139,
+      "floors": 38,
+      "focus": "清洁能源调度、储能研发与绿色生活",
+      "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
+      "neighbors": [
+        "L055",
+        "F037"
+      ],
+      "parent_name": "西岭能源片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 288.0
+    },
+    {
+      "id": "L107",
+      "name": "光谷低碳商务塔",
+      "type": "标志性建筑",
+      "parent": "D19",
+      "center_km": [
+        -6.244,
+        1.157
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 121,
+      "floors": 33,
+      "focus": "清洁能源调度、储能研发与绿色生活",
+      "visual": "石墨灰金属、蓝黑光伏面、下沉设备场和厚绿化缓冲",
+      "neighbors": [
+        "L055",
+        "F037"
+      ],
+      "parent_name": "西岭能源片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 280.5
+    },
+    {
+      "id": "L108",
+      "name": "北港水质监测塔",
+      "type": "标志性建筑",
+      "parent": "D20",
+      "center_km": [
+        -3.732,
+        5.137
+      ],
+      "area_km2": 0.014,
+      "gross_floor_area_m2": 47000,
+      "height_m": 131,
+      "floors": 35,
+      "focus": "水资源管理、净水、监测与滨水教育",
+      "visual": "浅蓝灰混凝土、深绿栏杆、阶梯湿地和水平长窗",
+      "neighbors": [
+        "L058",
+        "F039"
+      ],
+      "parent_name": "北港水务片区",
+      "distance_to_lake_center_km": 6.35,
+      "bearing_from_lake_center_deg": 324.0
     },
     {
       "id": "S01",

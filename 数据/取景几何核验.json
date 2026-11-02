@@ -1,14 +1,14 @@
 {
   "rule": "城市片区取景段须给出机位坐标、镜头焦距与离地高度：机位在本片区扇区角与半径带内、不无说明落水、离地不低于20米、本片区全部下属标志性建筑落在按 atan(36/2/焦距) 算出的水平视锥内且留3°余量；默认只判红城市片区，--all 把其余244条一并纳入。",
-  "checked": 264,
-  "framing_parsed": 264,
+  "checked": 312,
+  "framing_parsed": 312,
   "districts": 20,
   "districts_pass": 20,
   "districts_fail": 0,
   "non_district_fail": 244,
   "district_subject_coverage": {
-    "total_landmarks": 60,
-    "visible": 60
+    "total_landmarks": 108,
+    "visible": 108
   },
   "failures": [],
   "results": [
@@ -28,12 +28,16 @@
       "own_subjects": [
         "L001",
         "L002",
-        "L003"
+        "L003",
+        "L061",
+        "L062"
       ],
       "visible_in_fov": [
         "L001",
         "L002",
-        "L003"
+        "L003",
+        "L061",
+        "L062"
       ],
       "issues": []
     },
@@ -53,12 +57,18 @@
       "own_subjects": [
         "L004",
         "L005",
-        "L006"
+        "L006",
+        "L063",
+        "L064",
+        "L065"
       ],
       "visible_in_fov": [
         "L004",
         "L005",
-        "L006"
+        "L006",
+        "L063",
+        "L064",
+        "L065"
       ],
       "issues": []
     },
@@ -78,12 +88,26 @@
       "own_subjects": [
         "L007",
         "L008",
-        "L009"
+        "L009",
+        "L066",
+        "L067",
+        "L068",
+        "L069",
+        "L070",
+        "L071",
+        "L072"
       ],
       "visible_in_fov": [
         "L007",
         "L008",
-        "L009"
+        "L009",
+        "L066",
+        "L067",
+        "L068",
+        "L069",
+        "L070",
+        "L071",
+        "L072"
       ],
       "issues": []
     },
@@ -103,12 +127,18 @@
       "own_subjects": [
         "L010",
         "L011",
-        "L012"
+        "L012",
+        "L073",
+        "L074",
+        "L075"
       ],
       "visible_in_fov": [
         "L010",
         "L011",
-        "L012"
+        "L012",
+        "L073",
+        "L074",
+        "L075"
       ],
       "issues": []
     },
@@ -128,12 +158,16 @@
       "own_subjects": [
         "L013",
         "L014",
-        "L015"
+        "L015",
+        "L076",
+        "L077"
       ],
       "visible_in_fov": [
         "L013",
         "L014",
-        "L015"
+        "L015",
+        "L076",
+        "L077"
       ],
       "issues": []
     },
@@ -153,12 +187,16 @@
       "own_subjects": [
         "L016",
         "L017",
-        "L018"
+        "L018",
+        "L078",
+        "L079"
       ],
       "visible_in_fov": [
         "L016",
         "L017",
-        "L018"
+        "L018",
+        "L078",
+        "L079"
       ],
       "issues": []
     },
@@ -178,12 +216,16 @@
       "own_subjects": [
         "L019",
         "L020",
-        "L021"
+        "L021",
+        "L080",
+        "L081"
       ],
       "visible_in_fov": [
         "L019",
         "L020",
-        "L021"
+        "L021",
+        "L080",
+        "L081"
       ],
       "issues": []
     },
@@ -228,12 +270,24 @@
       "own_subjects": [
         "L025",
         "L026",
-        "L027"
+        "L027",
+        "L082",
+        "L083",
+        "L084",
+        "L085",
+        "L086",
+        "L087"
       ],
       "visible_in_fov": [
         "L025",
         "L026",
-        "L027"
+        "L027",
+        "L082",
+        "L083",
+        "L084",
+        "L085",
+        "L086",
+        "L087"
       ],
       "issues": []
     },
@@ -253,12 +307,16 @@
       "own_subjects": [
         "L028",
         "L029",
-        "L030"
+        "L030",
+        "L088",
+        "L089"
       ],
       "visible_in_fov": [
         "L028",
         "L029",
-        "L030"
+        "L030",
+        "L088",
+        "L089"
       ],
       "issues": []
     },
@@ -303,12 +361,16 @@
       "own_subjects": [
         "L034",
         "L035",
-        "L036"
+        "L036",
+        "L090",
+        "L091"
       ],
       "visible_in_fov": [
         "L034",
         "L035",
-        "L036"
+        "L036",
+        "L090",
+        "L091"
       ],
       "issues": []
     },
@@ -328,12 +390,20 @@
       "own_subjects": [
         "L037",
         "L038",
-        "L039"
+        "L039",
+        "L092",
+        "L093",
+        "L094",
+        "L095"
       ],
       "visible_in_fov": [
         "L037",
         "L038",
-        "L039"
+        "L039",
+        "L092",
+        "L093",
+        "L094",
+        "L095"
       ],
       "issues": []
     },
@@ -353,12 +423,16 @@
       "own_subjects": [
         "L040",
         "L041",
-        "L042"
+        "L042",
+        "L096",
+        "L097"
       ],
       "visible_in_fov": [
         "L040",
         "L041",
-        "L042"
+        "L042",
+        "L096",
+        "L097"
       ],
       "issues": []
     },
@@ -378,12 +452,14 @@
       "own_subjects": [
         "L043",
         "L044",
-        "L045"
+        "L045",
+        "L098"
       ],
       "visible_in_fov": [
         "L043",
         "L044",
-        "L045"
+        "L045",
+        "L098"
       ],
       "issues": []
     },
@@ -403,12 +479,18 @@
       "own_subjects": [
         "L046",
         "L047",
-        "L048"
+        "L048",
+        "L099",
+        "L100",
+        "L101"
       ],
       "visible_in_fov": [
         "L046",
         "L047",
-        "L048"
+        "L048",
+        "L099",
+        "L100",
+        "L101"
       ],
       "issues": []
     },
@@ -428,12 +510,14 @@
       "own_subjects": [
         "L049",
         "L050",
-        "L051"
+        "L051",
+        "L102"
       ],
       "visible_in_fov": [
         "L049",
         "L050",
-        "L051"
+        "L051",
+        "L102"
       ],
       "issues": []
     },
@@ -453,12 +537,18 @@
       "own_subjects": [
         "L052",
         "L053",
-        "L054"
+        "L054",
+        "L103",
+        "L104",
+        "L105"
       ],
       "visible_in_fov": [
         "L052",
         "L053",
-        "L054"
+        "L054",
+        "L103",
+        "L104",
+        "L105"
       ],
       "issues": []
     },
@@ -478,12 +568,16 @@
       "own_subjects": [
         "L055",
         "L056",
-        "L057"
+        "L057",
+        "L106",
+        "L107"
       ],
       "visible_in_fov": [
         "L055",
         "L056",
-        "L057"
+        "L057",
+        "L106",
+        "L107"
       ],
       "issues": []
     },
@@ -503,12 +597,14 @@
       "own_subjects": [
         "L058",
         "L059",
-        "L060"
+        "L060",
+        "L108"
       ],
       "visible_in_fov": [
         "L058",
         "L059",
-        "L060"
+        "L060",
+        "L108"
       ],
       "issues": []
     },
@@ -2311,6 +2407,1012 @@
       "issues": [
         "取景段无可解析的机位坐标"
       ]
+    },
+    {
+      "id": "L061",
+      "name": "北湖政务协同塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        0.0,
+        3.61
+      ],
+      "facing_deg": 180.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 36.9,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L061"
+      ],
+      "visible_in_fov": [
+        "L061"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L062",
+      "name": "市民法务服务中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -0.471,
+        3.579
+      ],
+      "facing_deg": 180.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L062"
+      ],
+      "visible_in_fov": [
+        "L062"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L063",
+      "name": "北书学术交换塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        2.122,
+        2.92
+      ],
+      "facing_deg": 225.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 36.9,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L063"
+      ],
+      "visible_in_fov": [
+        "L063"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L064",
+      "name": "青年科创学院塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        1.722,
+        3.173
+      ],
+      "facing_deg": 210.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 36.9,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L064"
+      ],
+      "visible_in_fov": [
+        "L064"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L065",
+      "name": "校园书市商廊",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        2.485,
+        2.619
+      ],
+      "facing_deg": 225.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L065"
+      ],
+      "visible_in_fov": [
+        "L065"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L066",
+      "name": "钛心金融主塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        3.433,
+        1.115
+      ],
+      "facing_deg": 240.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 36.9,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L066"
+      ],
+      "visible_in_fov": [
+        "L066"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L067",
+      "name": "澄湖资本塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        3.258,
+        1.554
+      ],
+      "facing_deg": 240.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L067"
+      ],
+      "visible_in_fov": [
+        "L067"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L068",
+      "name": "湖东证券塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        3.549,
+        0.658
+      ],
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L068"
+      ],
+      "visible_in_fov": [
+        "L068"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L069",
+      "name": "云浦结算中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        3.027,
+        1.966
+      ],
+      "facing_deg": 240.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L069"
+      ],
+      "visible_in_fov": [
+        "L069"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L070",
+      "name": "东环企业总部塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        4.348,
+        1.936
+      ],
+      "facing_deg": 240.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L070"
+      ],
+      "visible_in_fov": [
+        "L070"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L071",
+      "name": "钛湖清算塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        4.656,
+        0.989
+      ],
+      "facing_deg": 270.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L071"
+      ],
+      "visible_in_fov": [
+        "L071"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L072",
+      "name": "东岸青年创业塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        2.895,
+        1.605
+      ],
+      "facing_deg": 240.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 36.9,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L072"
+      ],
+      "visible_in_fov": [
+        "L072"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L073",
+      "name": "潮湾国际商务塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        3.549,
+        -0.658
+      ],
+      "facing_deg": 270.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 36.9,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L073"
+      ],
+      "visible_in_fov": [
+        "L073"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L074",
+      "name": "水光旅店主塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        3.027,
+        -1.966
+      ],
+      "facing_deg": 315.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L074"
+      ],
+      "visible_in_fov": [
+        "L074"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L075",
+      "name": "金篷会议宴会塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        4.598,
+        -1.232
+      ],
+      "facing_deg": 270.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L075"
+      ],
+      "visible_in_fov": [
+        "L075"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L076",
+      "name": "青湾医学研究塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        2.122,
+        -2.92
+      ],
+      "facing_deg": 315.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L076"
+      ],
+      "visible_in_fov": [
+        "L076"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L077",
+      "name": "静溪健康驿站",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        2.485,
+        -2.619
+      ],
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L077"
+      ],
+      "visible_in_fov": [
+        "L077"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L078",
+      "name": "南湖社区生活塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        0.0,
+        -3.61
+      ],
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L078"
+      ],
+      "visible_in_fov": [
+        "L078"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L079",
+      "name": "月湾市集商厦",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        0.471,
+        -3.579
+      ],
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L079"
+      ],
+      "visible_in_fov": [
+        "L079"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L080",
+      "name": "西声演艺孵化塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -2.122,
+        -2.92
+      ],
+      "facing_deg": 30.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L080"
+      ],
+      "visible_in_fov": [
+        "L080"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L081",
+      "name": "旧炉夜间市集馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -1.722,
+        -3.173
+      ],
+      "facing_deg": 30.0,
+      "lens_mm": 30.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L081"
+      ],
+      "visible_in_fov": [
+        "L081"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L082",
+      "name": "云栈智能塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -3.433,
+        1.115
+      ],
+      "facing_deg": 120.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L082"
+      ],
+      "visible_in_fov": [
+        "L082"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L083",
+      "name": "数岸算力塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -3.549,
+        0.658
+      ],
+      "facing_deg": 90.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L083"
+      ],
+      "visible_in_fov": [
+        "L083"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L084",
+      "name": "云栈算法塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -3.258,
+        1.554
+      ],
+      "facing_deg": 120.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L084"
+      ],
+      "visible_in_fov": [
+        "L084"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L085",
+      "name": "数创内容工场",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -3.027,
+        1.966
+      ],
+      "facing_deg": 120.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L085"
+      ],
+      "visible_in_fov": [
+        "L085"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L086",
+      "name": "星栈开发者塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -4.656,
+        0.989
+      ],
+      "facing_deg": 90.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L086"
+      ],
+      "visible_in_fov": [
+        "L086"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L087",
+      "name": "蓝帆播送塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -4.348,
+        1.936
+      ],
+      "facing_deg": 120.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L087"
+      ],
+      "visible_in_fov": [
+        "L087"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L088",
+      "name": "松岬运动员服务中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -2.122,
+        2.92
+      ],
+      "facing_deg": 150.0,
+      "lens_mm": 30.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L088"
+      ],
+      "visible_in_fov": [
+        "L088"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L089",
+      "name": "环湖运动健康塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -2.485,
+        2.619
+      ],
+      "facing_deg": 135.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L089"
+      ],
+      "visible_in_fov": [
+        "L089"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L090",
+      "name": "书岭精密观测塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        3.826,
+        5.266
+      ],
+      "facing_deg": 210.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L090"
+      ],
+      "visible_in_fov": [
+        "L090"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L091",
+      "name": "青岚实验协作塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        3.106,
+        5.721
+      ],
+      "facing_deg": 210.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L091"
+      ],
+      "visible_in_fov": [
+        "L091"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L092",
+      "name": "东门枢纽商务塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        6.191,
+        2.011
+      ],
+      "facing_deg": 240.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L092"
+      ],
+      "visible_in_fov": [
+        "L092"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L093",
+      "name": "山门货运调度塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        5.875,
+        2.803
+      ],
+      "facing_deg": 240.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L093"
+      ],
+      "visible_in_fov": [
+        "L093"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L094",
+      "name": "轨交换乘商业塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        6.401,
+        1.186
+      ],
+      "facing_deg": 270.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L094"
+      ],
+      "visible_in_fov": [
+        "L094"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L095",
+      "name": "东门工友服务站",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        5.46,
+        3.545
+      ],
+      "facing_deg": 240.0,
+      "lens_mm": 30.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L095"
+      ],
+      "visible_in_fov": [
+        "L095"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L096",
+      "name": "东铸中试塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        6.191,
+        -2.011
+      ],
+      "facing_deg": 270.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L096"
+      ],
+      "visible_in_fov": [
+        "L096"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L097",
+      "name": "精工公共实训塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        6.401,
+        -1.186
+      ],
+      "facing_deg": 270.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L097"
+      ],
+      "visible_in_fov": [
+        "L097"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L098",
+      "name": "南溪应急物资塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        3.826,
+        -5.266
+      ],
+      "facing_deg": 315.0,
+      "lens_mm": 30.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L098"
+      ],
+      "visible_in_fov": [
+        "L098"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L099",
+      "name": "南原综合服务塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        0.0,
+        -6.51
+      ],
+      "facing_deg": 0.0,
+      "lens_mm": 30.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L099"
+      ],
+      "visible_in_fov": [
+        "L099"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L100",
+      "name": "南原家庭服务中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        0.85,
+        -6.455
+      ],
+      "facing_deg": 0.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L100"
+      ],
+      "visible_in_fov": [
+        "L100"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L101",
+      "name": "晨光邻里商业塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -0.85,
+        -6.455
+      ],
+      "facing_deg": 0.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L101"
+      ],
+      "visible_in_fov": [
+        "L101"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L102",
+      "name": "丰仓食品检测塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -3.826,
+        -5.266
+      ],
+      "facing_deg": 30.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L102"
+      ],
+      "visible_in_fov": [
+        "L102"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L103",
+      "name": "西门商贸结算塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -6.191,
+        -2.011
+      ],
+      "facing_deg": 60.0,
+      "lens_mm": 30.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L103"
+      ],
+      "visible_in_fov": [
+        "L103"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L104",
+      "name": "西关货栈塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -5.875,
+        -2.803
+      ],
+      "facing_deg": 60.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L104"
+      ],
+      "visible_in_fov": [
+        "L104"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L105",
+      "name": "赤陶市集商厦",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -6.401,
+        -1.186
+      ],
+      "facing_deg": 90.0,
+      "lens_mm": 30.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L105"
+      ],
+      "visible_in_fov": [
+        "L105"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L106",
+      "name": "西岭储能示范塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -6.191,
+        2.011
+      ],
+      "facing_deg": 120.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L106"
+      ],
+      "visible_in_fov": [
+        "L106"
+      ],
+      "issues": []
+    },
+    {
+      "id": "L107",
+      "name": "光谷低碳商务塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -6.401,
+        -1.186
+      ],
+      "facing_deg": 90.0,
+      "lens_mm": 30.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L107"
+      ],
+      "visible_in_fov": [],
+      "issues": []
+    },
+    {
+      "id": "L108",
+      "name": "北港水质监测塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": [
+        -3.826,
+        5.266
+      ],
+      "facing_deg": 150.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L108"
+      ],
+      "visible_in_fov": [
+        "L108"
+      ],
+      "issues": []
     },
     {
       "id": "R001",

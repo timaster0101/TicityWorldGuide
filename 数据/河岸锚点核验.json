@@ -1,5 +1,5 @@
 {
-  "checked": 180,
+  "checked": 228,
   "rule": "锚点距离河流折线>=最大水宽/2+30米；不替代完整地块缓冲审查",
   "failures": [],
   "results": [
@@ -3778,6 +3778,1014 @@
         {
           "river": "W02",
           "distance_to_centerline_m": 11699.69,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L061",
+      "center_km": [
+        0.0,
+        3.45
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 868.12,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 5217.9,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L062",
+      "center_km": [
+        -0.45,
+        3.42
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 421.35,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 5457.07,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L063",
+      "center_km": [
+        2.028,
+        2.791
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 2720.96,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 3780.73,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L064",
+      "center_km": [
+        1.646,
+        3.032
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 2395.59,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 4115.5,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L065",
+      "center_km": [
+        2.375,
+        2.503
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 3007.39,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 3431.2,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L066",
+      "center_km": [
+        3.281,
+        1.066
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 4006.97,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 1990.6,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L067",
+      "center_km": [
+        3.114,
+        1.485
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 3758.68,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 2382.43,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L068",
+      "center_km": [
+        3.392,
+        0.629
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 4241.68,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 1594.6,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L069",
+      "center_km": [
+        2.893,
+        1.879
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 3497.83,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 2766.81,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L070",
+      "center_km": [
+        4.202,
+        1.871
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 4805.83,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 3050.6,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L071",
+      "center_km": [
+        4.499,
+        0.956
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 5217.74,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 2440.57,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L072",
+      "center_km": [
+        2.755,
+        1.527
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 3397.51,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 2419.15,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L073",
+      "center_km": [
+        3.392,
+        -0.629
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 4814.75,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 531.8,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L074",
+      "center_km": [
+        2.893,
+        -1.879
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 5266.77,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 701.99,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L075",
+      "center_km": [
+        4.443,
+        -1.191
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 6001.59,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 883.86,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L076",
+      "center_km": [
+        2.028,
+        -2.791
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 5519.58,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 1958.31,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L077",
+      "center_km": [
+        2.375,
+        -2.503
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 5449.51,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 1509.08,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L078",
+      "center_km": [
+        0.0,
+        -3.45
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 5545.36,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 3869.74,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L079",
+      "center_km": [
+        0.45,
+        -3.42
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 5582.44,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 3522.57,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L080",
+      "center_km": [
+        -2.028,
+        -2.791
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 5059.5,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 5282.74,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L081",
+      "center_km": [
+        -1.646,
+        -3.032
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 5201.07,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 5026.3,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L082",
+      "center_km": [
+        -3.281,
+        1.066
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 2860.31,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 6482.45,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L083",
+      "center_km": [
+        -3.392,
+        0.629
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 3138.64,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 6472.24,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L084",
+      "center_km": [
+        -3.114,
+        1.485
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 2579.54,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 6465.17,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L085",
+      "center_km": [
+        -2.893,
+        1.879
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 2282.8,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 6419.82,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L086",
+      "center_km": [
+        -4.499,
+        0.956
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 4053.05,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 7625.27,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L087",
+      "center_km": [
+        -4.202,
+        1.871
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 3566.37,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 7619.01,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L088",
+      "center_km": [
+        -2.028,
+        2.791
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 1251.24,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 6149.7,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L089",
+      "center_km": [
+        -2.375,
+        2.503
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 1649.31,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 6270.82,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L090",
+      "center_km": [
+        3.732,
+        5.137
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 4866.68,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 6081.98,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L091",
+      "center_km": [
+        3.03,
+        5.58
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 4309.0,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 6469.11,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L092",
+      "center_km": [
+        6.039,
+        1.962
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 6639.77,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 4235.78,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L093",
+      "center_km": [
+        5.731,
+        2.734
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 6366.48,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 4596.96,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L094",
+      "center_km": [
+        6.244,
+        1.157
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 6903.68,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 3815.47,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L095",
+      "center_km": [
+        5.326,
+        3.458
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 6085.71,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 4977.09,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L096",
+      "center_km": [
+        6.039,
+        -1.962
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 7763.72,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 1654.0,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L097",
+      "center_km": [
+        6.244,
+        -1.157
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 7563.56,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 2301.0,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L098",
+      "center_km": [
+        3.732,
+        -5.137
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 8402.58,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 2096.6,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L099",
+      "center_km": [
+        0.0,
+        -6.35
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 8434.17,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 5810.0,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L100",
+      "center_km": [
+        0.829,
+        -6.296
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 8480.07,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 5114.4,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L101",
+      "center_km": [
+        -0.829,
+        -6.296
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 8361.94,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 6440.8,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L102",
+      "center_km": [
+        -3.732,
+        -5.137
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 7851.53,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 7876.49,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L103",
+      "center_km": [
+        -6.039,
+        -1.962
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 6766.22,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 9003.31,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L104",
+      "center_km": [
+        -5.731,
+        -2.734
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 7023.99,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 8826.25,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L105",
+      "center_km": [
+        -6.244,
+        -1.157
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 6497.83,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 9147.96,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L106",
+      "center_km": [
+        -6.039,
+        1.962
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 5347.02,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 9382.27,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L107",
+      "center_km": [
+        -6.244,
+        1.157
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 5710.57,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 9369.84,
+          "required_m": 250.0,
+          "passes_anchor_buffer": true
+        }
+      ]
+    },
+    {
+      "id": "L108",
+      "center_km": [
+        -3.732,
+        5.137
+      ],
+      "constraints": [
+        {
+          "river": "W01",
+          "distance_to_centerline_m": 2314.53,
+          "required_m": 160.0,
+          "passes_anchor_buffer": true
+        },
+        {
+          "river": "W02",
+          "distance_to_centerline_m": 8960.0,
           "required_m": 250.0,
           "passes_anchor_buffer": true
         }

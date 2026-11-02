@@ -1,0 +1,2294 @@
+{
+  "meta": {
+    "rule": "全部标志性建筑须满足：扇区归属、岸距≥0.30千米、河流缓冲再留0.05千米、锚点间距≥0.30千米、并按所属片区取景段机位与镜头落在水平视锥内且留3°余量。",
+    "landmarks": 108,
+    "registry_entries": 312,
+    "districts": 20,
+    "framing_checked": 312,
+    "height_tiers": {
+      "400+": 1,
+      "300-399": 3,
+      "200-299": 16,
+      "150-199": 12,
+      "100-149": 18,
+      "60-99": 40,
+      "<60": 18
+    },
+    "min_shore_gap_km": 0.311,
+    "min_anchor_spacing_km": 0.35,
+    "min_river_slack_km": 0.005,
+    "max_fov_offset_deg": 23.41,
+    "failures": []
+  },
+  "stale_or_wrong": [],
+  "results": [
+    {
+      "id": "L001",
+      "name": "钛湖市民议事厅",
+      "parent": "D01",
+      "height_m": 74,
+      "floors": 17,
+      "sector_delta_deg": -11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.67,
+      "river_slack_km": {
+        "W01": 0.005,
+        "W02": 5.571
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.456
+      },
+      "issues": []
+    },
+    {
+      "id": "L002",
+      "name": "钛湖司法服务馆",
+      "parent": "D01",
+      "height_m": 66,
+      "floors": 15,
+      "sector_delta_deg": 0.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.7,
+      "river_slack_km": {
+        "W01": 0.729,
+        "W02": 5.212
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L003",
+      "name": "城市记忆档案塔",
+      "parent": "D01",
+      "height_m": 82,
+      "floors": 19,
+      "sector_delta_deg": 11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.67,
+      "river_slack_km": {
+        "W01": 1.425,
+        "W02": 4.804
+      },
+      "nearest_anchor_km": 0.45,
+      "fov": {
+        "offset_deg": -19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.456
+      },
+      "issues": []
+    },
+    {
+      "id": "L004",
+      "name": "钛湖大学中央图书馆",
+      "parent": "D02",
+      "height_m": 68,
+      "floors": 16,
+      "sector_delta_deg": -11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.551,
+      "river_slack_km": {
+        "W01": 2.23,
+        "W02": 4.221
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 19.75,
+        "limit_deg": 24.2,
+        "slack_deg": 4.453
+      },
+      "issues": []
+    },
+    {
+      "id": "L005",
+      "name": "北书科学博物馆",
+      "parent": "D02",
+      "height_m": 62,
+      "floors": 14,
+      "sector_delta_deg": 0.01,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.401,
+      "river_slack_km": {
+        "W01": 2.77,
+        "W02": 3.717
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": -0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.188
+      },
+      "issues": []
+    },
+    {
+      "id": "L006",
+      "name": "湖畔青年交流馆",
+      "parent": "D02",
+      "height_m": 70,
+      "floors": 16,
+      "sector_delta_deg": 10.99,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.212,
+      "river_slack_km": {
+        "W01": 3.21,
+        "W02": 3.182
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": -19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.464
+      },
+      "issues": []
+    },
+    {
+      "id": "L007",
+      "name": "钛湖之脊",
+      "parent": "D03",
+      "height_m": 368,
+      "floors": 78,
+      "sector_delta_deg": -10.99,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.947,
+      "river_slack_km": {
+        "W01": 3.72,
+        "W02": 2.463
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.464
+      },
+      "issues": []
+    },
+    {
+      "id": "L008",
+      "name": "金融秩序博物馆",
+      "parent": "D03",
+      "height_m": 66,
+      "floors": 15,
+      "sector_delta_deg": 0.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.754,
+      "river_slack_km": {
+        "W01": 4.097,
+        "W02": 1.882
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": -0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.192
+      },
+      "issues": []
+    },
+    {
+      "id": "L009",
+      "name": "东岸企业会客厅",
+      "parent": "D03",
+      "height_m": 92,
+      "floors": 21,
+      "sector_delta_deg": 11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.626,
+      "river_slack_km": {
+        "W01": 4.446,
+        "W02": 1.308
+      },
+      "nearest_anchor_km": 0.415,
+      "fov": {
+        "offset_deg": -19.75,
+        "limit_deg": 24.2,
+        "slack_deg": 4.449
+      },
+      "issues": []
+    },
+    {
+      "id": "L010",
+      "name": "钛湖国际会展中心",
+      "parent": "D04",
+      "height_m": 38,
+      "floors": 3,
+      "sector_delta_deg": -11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.626,
+      "river_slack_km": {
+        "W01": 4.839,
+        "W02": 0.619
+      },
+      "nearest_anchor_km": 0.415,
+      "fov": {
+        "offset_deg": 19.75,
+        "limit_deg": 24.2,
+        "slack_deg": 4.449
+      },
+      "issues": []
+    },
+    {
+      "id": "L011",
+      "name": "潮湾会议酒店",
+      "parent": "D04",
+      "height_m": 112,
+      "floors": 28,
+      "sector_delta_deg": -0.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.754,
+      "river_slack_km": {
+        "W01": 5.104,
+        "W02": 0.006
+      },
+      "nearest_anchor_km": 0.45,
+      "fov": {
+        "offset_deg": 0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.192
+      },
+      "issues": []
+    },
+    {
+      "id": "L012",
+      "name": "水光游客中心",
+      "parent": "D04",
+      "height_m": 64,
+      "floors": 15,
+      "sector_delta_deg": 10.99,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.947,
+      "river_slack_km": {
+        "W01": 5.326,
+        "W02": 0.07
+      },
+      "nearest_anchor_km": 0.433,
+      "fov": {
+        "offset_deg": -19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.464
+      },
+      "issues": []
+    },
+    {
+      "id": "L013",
+      "name": "青湾中央医院",
+      "parent": "D05",
+      "height_m": 78,
+      "floors": 18,
+      "sector_delta_deg": -10.99,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.212,
+      "river_slack_km": {
+        "W01": 5.542,
+        "W02": 0.984
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.464
+      },
+      "issues": []
+    },
+    {
+      "id": "L014",
+      "name": "静溪康复中心",
+      "parent": "D05",
+      "height_m": 72,
+      "floors": 16,
+      "sector_delta_deg": -0.01,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.401,
+      "river_slack_km": {
+        "W01": 5.657,
+        "W02": 1.711
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": 0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.188
+      },
+      "issues": []
+    },
+    {
+      "id": "L015",
+      "name": "生命之窗医学馆",
+      "parent": "D05",
+      "height_m": 66,
+      "floors": 15,
+      "sector_delta_deg": 11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.551,
+      "river_slack_km": {
+        "W01": 5.722,
+        "W02": 2.418
+      },
+      "nearest_anchor_km": 0.45,
+      "fov": {
+        "offset_deg": -19.75,
+        "limit_deg": 24.2,
+        "slack_deg": 4.453
+      },
+      "issues": []
+    },
+    {
+      "id": "L016",
+      "name": "南湖百业市场",
+      "parent": "D06",
+      "height_m": 62,
+      "floors": 14,
+      "sector_delta_deg": -11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.67,
+      "river_slack_km": {
+        "W01": 5.732,
+        "W02": 3.245
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.456
+      },
+      "issues": []
+    },
+    {
+      "id": "L017",
+      "name": "湖湾邻里中心",
+      "parent": "D06",
+      "height_m": 60,
+      "floors": 14,
+      "sector_delta_deg": 0.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.7,
+      "river_slack_km": {
+        "W01": 5.683,
+        "W02": 3.81
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L018",
+      "name": "南湖公共儿童馆",
+      "parent": "D06",
+      "height_m": 54,
+      "floors": 10,
+      "sector_delta_deg": 11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.67,
+      "river_slack_km": {
+        "W01": 5.584,
+        "W02": 4.306
+      },
+      "nearest_anchor_km": 0.45,
+      "fov": {
+        "offset_deg": -19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.456
+      },
+      "issues": []
+    },
+    {
+      "id": "L019",
+      "name": "西声大剧院",
+      "parent": "D07",
+      "height_m": 32,
+      "floors": 6,
+      "sector_delta_deg": -11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.551,
+      "river_slack_km": {
+        "W01": 5.388,
+        "W02": 4.881
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 19.75,
+        "limit_deg": 24.2,
+        "slack_deg": 4.453
+      },
+      "issues": []
+    },
+    {
+      "id": "L020",
+      "name": "旧炉影像馆",
+      "parent": "D07",
+      "height_m": 24,
+      "floors": 4,
+      "sector_delta_deg": 0.01,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.401,
+      "river_slack_km": {
+        "W01": 5.18,
+        "W02": 5.28
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": -0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.188
+      },
+      "issues": []
+    },
+    {
+      "id": "L021",
+      "name": "风帆设计工坊",
+      "parent": "D07",
+      "height_m": 66,
+      "floors": 15,
+      "sector_delta_deg": 10.99,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.212,
+      "river_slack_km": {
+        "W01": 4.93,
+        "W02": 5.629
+      },
+      "nearest_anchor_km": 0.449,
+      "fov": {
+        "offset_deg": -19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.464
+      },
+      "issues": []
+    },
+    {
+      "id": "L022",
+      "name": "白石钟楼",
+      "parent": "D08",
+      "height_m": 28,
+      "floors": 5,
+      "sector_delta_deg": -10.99,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.947,
+      "river_slack_km": {
+        "W01": 4.551,
+        "W02": 5.997
+      },
+      "nearest_anchor_km": 0.449,
+      "fov": {
+        "offset_deg": 19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.464
+      },
+      "issues": []
+    },
+    {
+      "id": "L023",
+      "name": "西湖商埠会馆",
+      "parent": "D08",
+      "height_m": 28,
+      "floors": 4,
+      "sector_delta_deg": 0.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.754,
+      "river_slack_km": {
+        "W01": 4.213,
+        "W02": 6.22
+      },
+      "nearest_anchor_km": 0.45,
+      "fov": {
+        "offset_deg": -0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.192
+      },
+      "issues": []
+    },
+    {
+      "id": "L024",
+      "name": "青瓦地方民俗馆",
+      "parent": "D08",
+      "height_m": 50,
+      "floors": 10,
+      "sector_delta_deg": 11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.626,
+      "river_slack_km": {
+        "W01": 3.845,
+        "W02": 6.386
+      },
+      "nearest_anchor_km": 0.449,
+      "fov": {
+        "offset_deg": -19.75,
+        "limit_deg": 24.2,
+        "slack_deg": 4.449
+      },
+      "issues": []
+    },
+    {
+      "id": "L025",
+      "name": "云栈协作中心",
+      "parent": "D09",
+      "height_m": 96,
+      "floors": 22,
+      "sector_delta_deg": -11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.626,
+      "river_slack_km": {
+        "W01": 3.343,
+        "W02": 6.507
+      },
+      "nearest_anchor_km": 0.415,
+      "fov": {
+        "offset_deg": 19.75,
+        "limit_deg": 24.2,
+        "slack_deg": 4.449
+      },
+      "issues": []
+    },
+    {
+      "id": "L026",
+      "name": "数岸交互艺术馆",
+      "parent": "D09",
+      "height_m": 72,
+      "floors": 17,
+      "sector_delta_deg": -0.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.754,
+      "river_slack_km": {
+        "W01": 2.932,
+        "W02": 6.533
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": 0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.192
+      },
+      "issues": []
+    },
+    {
+      "id": "L027",
+      "name": "城市计算展示馆",
+      "parent": "D09",
+      "height_m": 80,
+      "floors": 18,
+      "sector_delta_deg": 10.99,
+      "radius_km": 3.8,
+      "shore_gap_km": 0.947,
+      "river_slack_km": {
+        "W01": 2.502,
+        "W02": 6.496
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": -19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.464
+      },
+      "issues": []
+    },
+    {
+      "id": "L028",
+      "name": "松岬体育场",
+      "parent": "D10",
+      "height_m": 46,
+      "floors": 6,
+      "sector_delta_deg": -10.99,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.212,
+      "river_slack_km": {
+        "W01": 1.817,
+        "W02": 6.36
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 19.74,
+        "limit_deg": 24.2,
+        "slack_deg": 4.464
+      },
+      "issues": []
+    },
+    {
+      "id": "L029",
+      "name": "钛湖游泳馆",
+      "parent": "D10",
+      "height_m": 24,
+      "floors": 4,
+      "sector_delta_deg": -0.01,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.401,
+      "river_slack_km": {
+        "W01": 1.186,
+        "W02": 6.185
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": 0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.188
+      },
+      "issues": []
+    },
+    {
+      "id": "L030",
+      "name": "山湖户外运动中心",
+      "parent": "D10",
+      "height_m": 46,
+      "floors": 10,
+      "sector_delta_deg": 11.0,
+      "radius_km": 3.8,
+      "shore_gap_km": 1.551,
+      "river_slack_km": {
+        "W01": 0.496,
+        "W02": 5.95
+      },
+      "nearest_anchor_km": 0.45,
+      "fov": {
+        "offset_deg": -19.75,
+        "limit_deg": 24.2,
+        "slack_deg": 4.453
+      },
+      "issues": []
+    },
+    {
+      "id": "L031",
+      "name": "北屏自然学校",
+      "parent": "D11",
+      "height_m": 36,
+      "floors": 6,
+      "sector_delta_deg": -11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.964,
+      "river_slack_km": {
+        "W01": 0.265,
+        "W02": 8.636
+      },
+      "nearest_anchor_km": 1.25,
+      "fov": {
+        "offset_deg": 23.41,
+        "limit_deg": 24.2,
+        "slack_deg": 0.792
+      },
+      "issues": []
+    },
+    {
+      "id": "L032",
+      "name": "森林访客中心",
+      "parent": "D11",
+      "height_m": 28,
+      "floors": 4,
+      "sector_delta_deg": 0.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 5.0,
+      "river_slack_km": {
+        "W01": 1.603,
+        "W02": 8.198
+      },
+      "nearest_anchor_km": 1.25,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L033",
+      "name": "杉谷观鸟塔",
+      "parent": "D11",
+      "height_m": 22,
+      "floors": 5,
+      "sector_delta_deg": 11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.964,
+      "river_slack_km": {
+        "W01": 2.87,
+        "W02": 7.708
+      },
+      "nearest_anchor_km": 1.25,
+      "fov": {
+        "offset_deg": -23.41,
+        "limit_deg": 24.2,
+        "slack_deg": 0.792
+      },
+      "issues": []
+    },
+    {
+      "id": "L034",
+      "name": "书岭联合实验楼",
+      "parent": "D12",
+      "height_m": 76,
+      "floors": 17,
+      "sector_delta_deg": -11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.819,
+      "river_slack_km": {
+        "W01": 4.306,
+        "W02": 7.023
+      },
+      "nearest_anchor_km": 0.855,
+      "fov": {
+        "offset_deg": 23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.795
+      },
+      "issues": []
+    },
+    {
+      "id": "L035",
+      "name": "青岚仪器共享中心",
+      "parent": "D12",
+      "height_m": 68,
+      "floors": 16,
+      "sector_delta_deg": -0.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.644,
+      "river_slack_km": {
+        "W01": 5.243,
+        "W02": 6.453
+      },
+      "nearest_anchor_km": 0.75,
+      "fov": {
+        "offset_deg": 0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.189
+      },
+      "issues": []
+    },
+    {
+      "id": "L036",
+      "name": "科研伦理与公众交流馆",
+      "parent": "D12",
+      "height_m": 62,
+      "floors": 14,
+      "sector_delta_deg": 11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.44,
+      "river_slack_km": {
+        "W01": 6.025,
+        "W02": 5.872
+      },
+      "nearest_anchor_km": 1.25,
+      "fov": {
+        "offset_deg": -23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.798
+      },
+      "issues": []
+    },
+    {
+      "id": "L037",
+      "name": "钛湖东站",
+      "parent": "D13",
+      "height_m": 39,
+      "floors": 3,
+      "sector_delta_deg": -11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.18,
+      "river_slack_km": {
+        "W01": 6.738,
+        "W02": 5.15
+      },
+      "nearest_anchor_km": 0.855,
+      "fov": {
+        "offset_deg": 23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.8
+      },
+      "issues": []
+    },
+    {
+      "id": "L038",
+      "name": "东站城市接待塔",
+      "parent": "D13",
+      "height_m": 78,
+      "floors": 18,
+      "sector_delta_deg": 0.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.016,
+      "river_slack_km": {
+        "W01": 7.144,
+        "W02": 4.607
+      },
+      "nearest_anchor_km": 0.751,
+      "fov": {
+        "offset_deg": -0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L039",
+      "name": "山湖交通博物馆",
+      "parent": "D13",
+      "height_m": 64,
+      "floors": 15,
+      "sector_delta_deg": 11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 3.918,
+      "river_slack_km": {
+        "W01": 7.53,
+        "W02": 3.882
+      },
+      "nearest_anchor_km": 0.854,
+      "fov": {
+        "offset_deg": -23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.801
+      },
+      "issues": []
+    },
+    {
+      "id": "L040",
+      "name": "钛东工业设计中心",
+      "parent": "D14",
+      "height_m": 90,
+      "floors": 21,
+      "sector_delta_deg": -11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 3.918,
+      "river_slack_km": {
+        "W01": 7.978,
+        "W02": 2.819
+      },
+      "nearest_anchor_km": 0.854,
+      "fov": {
+        "offset_deg": 23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.801
+      },
+      "issues": []
+    },
+    {
+      "id": "L041",
+      "name": "精工制造展示馆",
+      "parent": "D14",
+      "height_m": 66,
+      "floors": 15,
+      "sector_delta_deg": -0.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.016,
+      "river_slack_km": {
+        "W01": 8.286,
+        "W02": 1.786
+      },
+      "nearest_anchor_km": 0.751,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L042",
+      "name": "新铸工匠学院",
+      "parent": "D14",
+      "height_m": 72,
+      "floors": 17,
+      "sector_delta_deg": 11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.18,
+      "river_slack_km": {
+        "W01": 8.547,
+        "W02": 0.603
+      },
+      "nearest_anchor_km": 1.25,
+      "fov": {
+        "offset_deg": -23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.8
+      },
+      "issues": []
+    },
+    {
+      "id": "L043",
+      "name": "南溪城市应急指挥馆",
+      "parent": "D15",
+      "height_m": 92,
+      "floors": 21,
+      "sector_delta_deg": -11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.44,
+      "river_slack_km": {
+        "W01": 8.803,
+        "W02": 0.422
+      },
+      "nearest_anchor_km": 1.267,
+      "fov": {
+        "offset_deg": 23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.798
+      },
+      "issues": []
+    },
+    {
+      "id": "L044",
+      "name": "循环材料展示馆",
+      "parent": "D15",
+      "height_m": 60,
+      "floors": 14,
+      "sector_delta_deg": 0.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.644,
+      "river_slack_km": {
+        "W01": 8.94,
+        "W02": 1.772
+      },
+      "nearest_anchor_km": 0.75,
+      "fov": {
+        "offset_deg": -0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.189
+      },
+      "issues": []
+    },
+    {
+      "id": "L045",
+      "name": "城市维修技能中心",
+      "parent": "D15",
+      "height_m": 66,
+      "floors": 15,
+      "sector_delta_deg": 11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.819,
+      "river_slack_km": {
+        "W01": 9.019,
+        "W02": 3.13
+      },
+      "nearest_anchor_km": 1.25,
+      "fov": {
+        "offset_deg": -23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.795
+      },
+      "issues": []
+    },
+    {
+      "id": "L046",
+      "name": "南原中央图书分馆",
+      "parent": "D16",
+      "height_m": 32,
+      "floors": 6,
+      "sector_delta_deg": -11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.964,
+      "river_slack_km": {
+        "W01": 9.032,
+        "W02": 4.796
+      },
+      "nearest_anchor_km": 0.855,
+      "fov": {
+        "offset_deg": 23.41,
+        "limit_deg": 24.2,
+        "slack_deg": 0.792
+      },
+      "issues": []
+    },
+    {
+      "id": "L047",
+      "name": "晨光综合体育馆",
+      "parent": "D16",
+      "height_m": 24,
+      "floors": 4,
+      "sector_delta_deg": 0.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 5.0,
+      "river_slack_km": {
+        "W01": 8.972,
+        "W02": 5.96
+      },
+      "nearest_anchor_km": 0.75,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L048",
+      "name": "南原妇幼社区中心",
+      "parent": "D16",
+      "height_m": 62,
+      "floors": 14,
+      "sector_delta_deg": 11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.964,
+      "river_slack_km": {
+        "W01": 8.854,
+        "W02": 6.966
+      },
+      "nearest_anchor_km": 0.855,
+      "fov": {
+        "offset_deg": -23.41,
+        "limit_deg": 24.2,
+        "slack_deg": 0.792
+      },
+      "issues": []
+    },
+    {
+      "id": "L049",
+      "name": "西麓种子与食品馆",
+      "parent": "D17",
+      "height_m": 60,
+      "floors": 14,
+      "sector_delta_deg": -11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.819,
+      "river_slack_km": {
+        "W01": 8.62,
+        "W02": 7.799
+      },
+      "nearest_anchor_km": 1.25,
+      "fov": {
+        "offset_deg": 23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.795
+      },
+      "issues": []
+    },
+    {
+      "id": "L050",
+      "name": "丰仓城市食物馆",
+      "parent": "D17",
+      "height_m": 66,
+      "floors": 15,
+      "sector_delta_deg": -0.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.644,
+      "river_slack_km": {
+        "W01": 8.376,
+        "W02": 8.28
+      },
+      "nearest_anchor_km": 0.75,
+      "fov": {
+        "offset_deg": 0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.189
+      },
+      "issues": []
+    },
+    {
+      "id": "L051",
+      "name": "农时试验温室",
+      "parent": "D17",
+      "height_m": 12,
+      "floors": 1,
+      "sector_delta_deg": 11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.44,
+      "river_slack_km": {
+        "W01": 8.083,
+        "W02": 8.707
+      },
+      "nearest_anchor_km": 1.25,
+      "fov": {
+        "offset_deg": -23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.798
+      },
+      "issues": []
+    },
+    {
+      "id": "L052",
+      "name": "西门贸易交易馆",
+      "parent": "D18",
+      "height_m": 94,
+      "floors": 21,
+      "sector_delta_deg": -11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.18,
+      "river_slack_km": {
+        "W01": 7.65,
+        "W02": 9.161
+      },
+      "nearest_anchor_km": 0.855,
+      "fov": {
+        "offset_deg": 23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.8
+      },
+      "issues": []
+    },
+    {
+      "id": "L053",
+      "name": "古道修配博物馆",
+      "parent": "D18",
+      "height_m": 32,
+      "floors": 4,
+      "sector_delta_deg": 0.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.016,
+      "river_slack_km": {
+        "W01": 7.272,
+        "W02": 9.441
+      },
+      "nearest_anchor_km": 0.751,
+      "fov": {
+        "offset_deg": -0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L054",
+      "name": "西门工友服务站",
+      "parent": "D18",
+      "height_m": 64,
+      "floors": 15,
+      "sector_delta_deg": 11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 3.918,
+      "river_slack_km": {
+        "W01": 6.871,
+        "W02": 9.647
+      },
+      "nearest_anchor_km": 0.854,
+      "fov": {
+        "offset_deg": -23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.801
+      },
+      "issues": []
+    },
+    {
+      "id": "L055",
+      "name": "西岭能源调度馆",
+      "parent": "D19",
+      "height_m": 76,
+      "floors": 17,
+      "sector_delta_deg": -11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 3.918,
+      "river_slack_km": {
+        "W01": 6.346,
+        "W02": 9.8
+      },
+      "nearest_anchor_km": 0.854,
+      "fov": {
+        "offset_deg": 23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.801
+      },
+      "issues": []
+    },
+    {
+      "id": "L056",
+      "name": "光谷低碳体验馆",
+      "parent": "D19",
+      "height_m": 62,
+      "floors": 14,
+      "sector_delta_deg": -0.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.016,
+      "river_slack_km": {
+        "W01": 5.789,
+        "W02": 9.833
+      },
+      "nearest_anchor_km": 0.751,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L057",
+      "name": "山城能源史馆",
+      "parent": "D19",
+      "height_m": 60,
+      "floors": 14,
+      "sector_delta_deg": 11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.18,
+      "river_slack_km": {
+        "W01": 4.953,
+        "W02": 9.787
+      },
+      "nearest_anchor_km": 1.25,
+      "fov": {
+        "offset_deg": -23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.8
+      },
+      "issues": []
+    },
+    {
+      "id": "L058",
+      "name": "北港水文博物馆",
+      "parent": "D20",
+      "height_m": 64,
+      "floors": 15,
+      "sector_delta_deg": -11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.44,
+      "river_slack_km": {
+        "W01": 3.59,
+        "W02": 9.616
+      },
+      "nearest_anchor_km": 1.25,
+      "fov": {
+        "offset_deg": 23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.798
+      },
+      "issues": []
+    },
+    {
+      "id": "L059",
+      "name": "清流水质公开实验馆",
+      "parent": "D20",
+      "height_m": 60,
+      "floors": 14,
+      "sector_delta_deg": 0.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.644,
+      "river_slack_km": {
+        "W01": 2.362,
+        "W02": 9.396
+      },
+      "nearest_anchor_km": 0.75,
+      "fov": {
+        "offset_deg": -0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.189
+      },
+      "issues": []
+    },
+    {
+      "id": "L060",
+      "name": "河口生态观察馆",
+      "parent": "D20",
+      "height_m": 66,
+      "floors": 15,
+      "sector_delta_deg": 11.0,
+      "radius_km": 7.1,
+      "shore_gap_km": 4.819,
+      "river_slack_km": {
+        "W01": 1.045,
+        "W02": 9.105
+      },
+      "nearest_anchor_km": 1.25,
+      "fov": {
+        "offset_deg": -23.4,
+        "limit_deg": 24.2,
+        "slack_deg": 0.795
+      },
+      "issues": []
+    },
+    {
+      "id": "L061",
+      "name": "北湖政务协同塔",
+      "parent": "D01",
+      "height_m": 186,
+      "floors": 48,
+      "sector_delta_deg": 0.0,
+      "radius_km": 3.45,
+      "shore_gap_km": 1.35,
+      "river_slack_km": {
+        "W01": 0.658,
+        "W02": 4.918
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L062",
+      "name": "市民法务服务中心",
+      "parent": "D01",
+      "height_m": 128,
+      "floors": 35,
+      "sector_delta_deg": -7.5,
+      "radius_km": 3.449,
+      "shore_gap_km": 1.336,
+      "river_slack_km": {
+        "W01": 0.211,
+        "W02": 5.157
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 10.93,
+        "limit_deg": 24.2,
+        "slack_deg": 13.269
+      },
+      "issues": []
+    },
+    {
+      "id": "L063",
+      "name": "北书学术交换塔",
+      "parent": "D02",
+      "height_m": 268,
+      "floors": 67,
+      "sector_delta_deg": 0.0,
+      "radius_km": 3.45,
+      "shore_gap_km": 1.061,
+      "river_slack_km": {
+        "W01": 2.511,
+        "W02": 3.481
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": -0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.198
+      },
+      "issues": []
+    },
+    {
+      "id": "L064",
+      "name": "青年科创学院塔",
+      "parent": "D02",
+      "height_m": 244,
+      "floors": 61,
+      "sector_delta_deg": -7.5,
+      "radius_km": 3.45,
+      "shore_gap_km": 1.165,
+      "river_slack_km": {
+        "W01": 2.186,
+        "W02": 3.816
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 10.95,
+        "limit_deg": 24.2,
+        "slack_deg": 13.253
+      },
+      "issues": []
+    },
+    {
+      "id": "L065",
+      "name": "校园书市商廊",
+      "parent": "D02",
+      "height_m": 112,
+      "floors": 30,
+      "sector_delta_deg": 7.5,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.94,
+      "river_slack_km": {
+        "W01": 2.797,
+        "W02": 3.131
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": -10.94,
+        "limit_deg": 24.2,
+        "slack_deg": 13.264
+      },
+      "issues": []
+    },
+    {
+      "id": "L066",
+      "name": "钛心金融主塔",
+      "parent": "D03",
+      "height_m": 458,
+      "floors": 106,
+      "sector_delta_deg": 0.0,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.415,
+      "river_slack_km": {
+        "W01": 3.797,
+        "W02": 1.691
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": -0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.198
+      },
+      "issues": []
+    },
+    {
+      "id": "L067",
+      "name": "澄湖资本塔",
+      "parent": "D03",
+      "height_m": 352,
+      "floors": 82,
+      "sector_delta_deg": -7.5,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.547,
+      "river_slack_km": {
+        "W01": 3.549,
+        "W02": 2.082
+      },
+      "nearest_anchor_km": 0.361,
+      "fov": {
+        "offset_deg": 10.93,
+        "limit_deg": 24.2,
+        "slack_deg": 13.268
+      },
+      "issues": []
+    },
+    {
+      "id": "L068",
+      "name": "湖东证券塔",
+      "parent": "D03",
+      "height_m": 292,
+      "floors": 73,
+      "sector_delta_deg": 7.49,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.311,
+      "river_slack_km": {
+        "W01": 4.032,
+        "W02": 1.295
+      },
+      "nearest_anchor_km": 0.415,
+      "fov": {
+        "offset_deg": -10.93,
+        "limit_deg": 24.2,
+        "slack_deg": 13.27
+      },
+      "issues": []
+    },
+    {
+      "id": "L069",
+      "name": "云浦结算中心",
+      "parent": "D03",
+      "height_m": 276,
+      "floors": 69,
+      "sector_delta_deg": -15.0,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.689,
+      "river_slack_km": {
+        "W01": 3.288,
+        "W02": 2.467
+      },
+      "nearest_anchor_km": 0.378,
+      "fov": {
+        "offset_deg": 20.27,
+        "limit_deg": 24.2,
+        "slack_deg": 3.932
+      },
+      "issues": []
+    },
+    {
+      "id": "L070",
+      "name": "东环企业总部塔",
+      "parent": "D03",
+      "height_m": 258,
+      "floors": 64,
+      "sector_delta_deg": -6.0,
+      "radius_km": 4.6,
+      "shore_gap_km": 1.631,
+      "river_slack_km": {
+        "W01": 4.596,
+        "W02": 2.751
+      },
+      "nearest_anchor_km": 0.521,
+      "fov": {
+        "offset_deg": 22.24,
+        "limit_deg": 24.2,
+        "slack_deg": 1.957
+      },
+      "issues": []
+    },
+    {
+      "id": "L071",
+      "name": "钛湖清算塔",
+      "parent": "D03",
+      "height_m": 231,
+      "floors": 58,
+      "sector_delta_deg": 6.0,
+      "radius_km": 4.599,
+      "shore_gap_km": 1.463,
+      "river_slack_km": {
+        "W01": 5.008,
+        "W02": 2.141
+      },
+      "nearest_anchor_km": 0.52,
+      "fov": {
+        "offset_deg": -22.24,
+        "limit_deg": 24.2,
+        "slack_deg": 1.956
+      },
+      "issues": []
+    },
+    {
+      "id": "L072",
+      "name": "东岸青年创业塔",
+      "parent": "D03",
+      "height_m": 172,
+      "floors": 45,
+      "sector_delta_deg": -11.0,
+      "radius_km": 3.15,
+      "shore_gap_km": 0.329,
+      "river_slack_km": {
+        "W01": 3.188,
+        "W02": 2.119
+      },
+      "nearest_anchor_km": 0.361,
+      "fov": {
+        "offset_deg": 12.74,
+        "limit_deg": 24.2,
+        "slack_deg": 11.463
+      },
+      "issues": []
+    },
+    {
+      "id": "L073",
+      "name": "潮湾国际商务塔",
+      "parent": "D04",
+      "height_m": 283,
+      "floors": 71,
+      "sector_delta_deg": -7.49,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.311,
+      "river_slack_km": {
+        "W01": 4.605,
+        "W02": 0.232
+      },
+      "nearest_anchor_km": 0.415,
+      "fov": {
+        "offset_deg": 10.93,
+        "limit_deg": 24.2,
+        "slack_deg": 13.27
+      },
+      "issues": []
+    },
+    {
+      "id": "L074",
+      "name": "水光旅店主塔",
+      "parent": "D04",
+      "height_m": 262,
+      "floors": 66,
+      "sector_delta_deg": 15.0,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.689,
+      "river_slack_km": {
+        "W01": 5.057,
+        "W02": 0.402
+      },
+      "nearest_anchor_km": 0.433,
+      "fov": {
+        "offset_deg": -20.27,
+        "limit_deg": 24.2,
+        "slack_deg": 3.932
+      },
+      "issues": []
+    },
+    {
+      "id": "L075",
+      "name": "金篷会议宴会塔",
+      "parent": "D04",
+      "height_m": 240,
+      "floors": 60,
+      "sector_delta_deg": -2.99,
+      "radius_km": 4.6,
+      "shore_gap_km": 1.498,
+      "river_slack_km": {
+        "W01": 5.792,
+        "W02": 0.584
+      },
+      "nearest_anchor_km": 0.419,
+      "fov": {
+        "offset_deg": 11.73,
+        "limit_deg": 24.2,
+        "slack_deg": 12.467
+      },
+      "issues": []
+    },
+    {
+      "id": "L076",
+      "name": "青湾医学研究塔",
+      "parent": "D05",
+      "height_m": 218,
+      "floors": 54,
+      "sector_delta_deg": -0.0,
+      "radius_km": 3.45,
+      "shore_gap_km": 1.061,
+      "river_slack_km": {
+        "W01": 5.31,
+        "W02": 1.658
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.198
+      },
+      "issues": []
+    },
+    {
+      "id": "L077",
+      "name": "静溪健康驿站",
+      "parent": "D05",
+      "height_m": 106,
+      "floors": 29,
+      "sector_delta_deg": -7.5,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.94,
+      "river_slack_km": {
+        "W01": 5.24,
+        "W02": 1.209
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 10.94,
+        "limit_deg": 24.2,
+        "slack_deg": 13.264
+      },
+      "issues": []
+    },
+    {
+      "id": "L078",
+      "name": "南湖社区生活塔",
+      "parent": "D06",
+      "height_m": 164,
+      "floors": 43,
+      "sector_delta_deg": 0.0,
+      "radius_km": 3.45,
+      "shore_gap_km": 1.35,
+      "river_slack_km": {
+        "W01": 5.335,
+        "W02": 3.57
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L079",
+      "name": "月湾市集商厦",
+      "parent": "D06",
+      "height_m": 138,
+      "floors": 37,
+      "sector_delta_deg": -7.5,
+      "radius_km": 3.449,
+      "shore_gap_km": 1.336,
+      "river_slack_km": {
+        "W01": 5.372,
+        "W02": 3.223
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 10.93,
+        "limit_deg": 24.2,
+        "slack_deg": 13.269
+      },
+      "issues": []
+    },
+    {
+      "id": "L080",
+      "name": "西声演艺孵化塔",
+      "parent": "D07",
+      "height_m": 178,
+      "floors": 46,
+      "sector_delta_deg": 0.0,
+      "radius_km": 3.45,
+      "shore_gap_km": 1.061,
+      "river_slack_km": {
+        "W01": 4.85,
+        "W02": 4.983
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": -0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.198
+      },
+      "issues": []
+    },
+    {
+      "id": "L081",
+      "name": "旧炉夜间市集馆",
+      "parent": "D07",
+      "height_m": 118,
+      "floors": 32,
+      "sector_delta_deg": -7.5,
+      "radius_km": 3.45,
+      "shore_gap_km": 1.165,
+      "river_slack_km": {
+        "W01": 4.991,
+        "W02": 4.726
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 10.95,
+        "limit_deg": 24.2,
+        "slack_deg": 13.253
+      },
+      "issues": []
+    },
+    {
+      "id": "L082",
+      "name": "云栈智能塔",
+      "parent": "D09",
+      "height_m": 344,
+      "floors": 80,
+      "sector_delta_deg": -0.0,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.415,
+      "river_slack_km": {
+        "W01": 2.65,
+        "W02": 6.182
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.198
+      },
+      "issues": []
+    },
+    {
+      "id": "L083",
+      "name": "数岸算力塔",
+      "parent": "D09",
+      "height_m": 288,
+      "floors": 72,
+      "sector_delta_deg": -7.49,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.311,
+      "river_slack_km": {
+        "W01": 2.929,
+        "W02": 6.172
+      },
+      "nearest_anchor_km": 0.415,
+      "fov": {
+        "offset_deg": 10.93,
+        "limit_deg": 24.2,
+        "slack_deg": 13.27
+      },
+      "issues": []
+    },
+    {
+      "id": "L084",
+      "name": "云栈算法塔",
+      "parent": "D09",
+      "height_m": 264,
+      "floors": 66,
+      "sector_delta_deg": 7.5,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.547,
+      "river_slack_km": {
+        "W01": 2.37,
+        "W02": 6.165
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": -10.93,
+        "limit_deg": 24.2,
+        "slack_deg": 13.268
+      },
+      "issues": []
+    },
+    {
+      "id": "L085",
+      "name": "数创内容工场",
+      "parent": "D09",
+      "height_m": 249,
+      "floors": 62,
+      "sector_delta_deg": 15.0,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.689,
+      "river_slack_km": {
+        "W01": 2.073,
+        "W02": 6.12
+      },
+      "nearest_anchor_km": 0.433,
+      "fov": {
+        "offset_deg": -20.27,
+        "limit_deg": 24.2,
+        "slack_deg": 3.932
+      },
+      "issues": []
+    },
+    {
+      "id": "L086",
+      "name": "星栈开发者塔",
+      "parent": "D09",
+      "height_m": 196,
+      "floors": 51,
+      "sector_delta_deg": -6.0,
+      "radius_km": 4.599,
+      "shore_gap_km": 1.463,
+      "river_slack_km": {
+        "W01": 3.843,
+        "W02": 7.325
+      },
+      "nearest_anchor_km": 0.52,
+      "fov": {
+        "offset_deg": 22.24,
+        "limit_deg": 24.2,
+        "slack_deg": 1.956
+      },
+      "issues": []
+    },
+    {
+      "id": "L087",
+      "name": "蓝帆播送塔",
+      "parent": "D09",
+      "height_m": 158,
+      "floors": 41,
+      "sector_delta_deg": 6.0,
+      "radius_km": 4.6,
+      "shore_gap_km": 1.631,
+      "river_slack_km": {
+        "W01": 3.356,
+        "W02": 7.319
+      },
+      "nearest_anchor_km": 0.521,
+      "fov": {
+        "offset_deg": -22.24,
+        "limit_deg": 24.2,
+        "slack_deg": 1.957
+      },
+      "issues": []
+    },
+    {
+      "id": "L088",
+      "name": "松岬运动员服务中心",
+      "parent": "D10",
+      "height_m": 168,
+      "floors": 44,
+      "sector_delta_deg": -0.0,
+      "radius_km": 3.45,
+      "shore_gap_km": 1.061,
+      "river_slack_km": {
+        "W01": 1.041,
+        "W02": 5.85
+      },
+      "nearest_anchor_km": 0.35,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.198
+      },
+      "issues": []
+    },
+    {
+      "id": "L089",
+      "name": "环湖运动健康塔",
+      "parent": "D10",
+      "height_m": 132,
+      "floors": 36,
+      "sector_delta_deg": -7.5,
+      "radius_km": 3.45,
+      "shore_gap_km": 0.94,
+      "river_slack_km": {
+        "W01": 1.439,
+        "W02": 5.971
+      },
+      "nearest_anchor_km": 0.414,
+      "fov": {
+        "offset_deg": 10.94,
+        "limit_deg": 24.2,
+        "slack_deg": 13.264
+      },
+      "issues": []
+    },
+    {
+      "id": "L090",
+      "name": "书岭精密观测塔",
+      "parent": "D12",
+      "height_m": 189,
+      "floors": 49,
+      "sector_delta_deg": -0.0,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.903,
+      "river_slack_km": {
+        "W01": 4.657,
+        "W02": 5.782
+      },
+      "nearest_anchor_km": 0.75,
+      "fov": {
+        "offset_deg": 0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.192
+      },
+      "issues": []
+    },
+    {
+      "id": "L091",
+      "name": "青岚实验协作塔",
+      "parent": "D12",
+      "height_m": 152,
+      "floors": 39,
+      "sector_delta_deg": -7.5,
+      "radius_km": 6.35,
+      "shore_gap_km": 4.024,
+      "river_slack_km": {
+        "W01": 4.099,
+        "W02": 6.169
+      },
+      "nearest_anchor_km": 0.83,
+      "fov": {
+        "offset_deg": 12.29,
+        "limit_deg": 24.2,
+        "slack_deg": 11.911
+      },
+      "issues": []
+    },
+    {
+      "id": "L092",
+      "name": "东门枢纽商务塔",
+      "parent": "D13",
+      "height_m": 272,
+      "floors": 68,
+      "sector_delta_deg": 0.0,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.27,
+      "river_slack_km": {
+        "W01": 6.43,
+        "W02": 3.936
+      },
+      "nearest_anchor_km": 0.751,
+      "fov": {
+        "offset_deg": -0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L093",
+      "name": "山门货运调度塔",
+      "parent": "D13",
+      "height_m": 251,
+      "floors": 63,
+      "sector_delta_deg": -7.5,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.379,
+      "river_slack_km": {
+        "W01": 6.156,
+        "W02": 4.297
+      },
+      "nearest_anchor_km": 0.83,
+      "fov": {
+        "offset_deg": 12.3,
+        "limit_deg": 24.2,
+        "slack_deg": 11.903
+      },
+      "issues": []
+    },
+    {
+      "id": "L094",
+      "name": "轨交换乘商业塔",
+      "parent": "D13",
+      "height_m": 226,
+      "floors": 56,
+      "sector_delta_deg": 7.5,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.192,
+      "river_slack_km": {
+        "W01": 6.694,
+        "W02": 3.515
+      },
+      "nearest_anchor_km": 0.831,
+      "fov": {
+        "offset_deg": -12.29,
+        "limit_deg": 24.2,
+        "slack_deg": 11.908
+      },
+      "issues": []
+    },
+    {
+      "id": "L095",
+      "name": "东门工友服务站",
+      "parent": "D13",
+      "height_m": 142,
+      "floors": 38,
+      "sector_delta_deg": -14.99,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.51,
+      "river_slack_km": {
+        "W01": 5.876,
+        "W02": 4.677
+      },
+      "nearest_anchor_km": 0.83,
+      "fov": {
+        "offset_deg": 22.5,
+        "limit_deg": 24.2,
+        "slack_deg": 1.698
+      },
+      "issues": []
+    },
+    {
+      "id": "L096",
+      "name": "东铸中试塔",
+      "parent": "D14",
+      "height_m": 174,
+      "floors": 45,
+      "sector_delta_deg": -0.0,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.27,
+      "river_slack_km": {
+        "W01": 7.554,
+        "W02": 1.354
+      },
+      "nearest_anchor_km": 0.751,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L097",
+      "name": "精工公共实训塔",
+      "parent": "D14",
+      "height_m": 108,
+      "floors": 29,
+      "sector_delta_deg": -7.5,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.192,
+      "river_slack_km": {
+        "W01": 7.354,
+        "W02": 2.001
+      },
+      "nearest_anchor_km": 0.831,
+      "fov": {
+        "offset_deg": 12.29,
+        "limit_deg": 24.2,
+        "slack_deg": 11.908
+      },
+      "issues": []
+    },
+    {
+      "id": "L098",
+      "name": "南溪应急物资塔",
+      "parent": "D15",
+      "height_m": 116,
+      "floors": 31,
+      "sector_delta_deg": 0.0,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.903,
+      "river_slack_km": {
+        "W01": 8.193,
+        "W02": 1.797
+      },
+      "nearest_anchor_km": 0.75,
+      "fov": {
+        "offset_deg": -0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.192
+      },
+      "issues": []
+    },
+    {
+      "id": "L099",
+      "name": "南原综合服务塔",
+      "parent": "D16",
+      "height_m": 181,
+      "floors": 47,
+      "sector_delta_deg": 0.0,
+      "radius_km": 6.35,
+      "shore_gap_km": 4.25,
+      "river_slack_km": {
+        "W01": 8.224,
+        "W02": 5.51
+      },
+      "nearest_anchor_km": 0.75,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L100",
+      "name": "南原家庭服务中心",
+      "parent": "D16",
+      "height_m": 146,
+      "floors": 39,
+      "sector_delta_deg": -7.5,
+      "radius_km": 6.35,
+      "shore_gap_km": 4.234,
+      "river_slack_km": {
+        "W01": 8.27,
+        "W02": 4.814
+      },
+      "nearest_anchor_km": 0.831,
+      "fov": {
+        "offset_deg": 12.29,
+        "limit_deg": 24.2,
+        "slack_deg": 11.906
+      },
+      "issues": []
+    },
+    {
+      "id": "L101",
+      "name": "晨光邻里商业塔",
+      "parent": "D16",
+      "height_m": 122,
+      "floors": 33,
+      "sector_delta_deg": 7.5,
+      "radius_km": 6.35,
+      "shore_gap_km": 4.234,
+      "river_slack_km": {
+        "W01": 8.152,
+        "W02": 6.141
+      },
+      "nearest_anchor_km": 0.831,
+      "fov": {
+        "offset_deg": -12.29,
+        "limit_deg": 24.2,
+        "slack_deg": 11.906
+      },
+      "issues": []
+    },
+    {
+      "id": "L102",
+      "name": "丰仓食品检测塔",
+      "parent": "D17",
+      "height_m": 124,
+      "floors": 34,
+      "sector_delta_deg": -0.0,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.903,
+      "river_slack_km": {
+        "W01": 7.642,
+        "W02": 7.576
+      },
+      "nearest_anchor_km": 0.75,
+      "fov": {
+        "offset_deg": 0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.192
+      },
+      "issues": []
+    },
+    {
+      "id": "L103",
+      "name": "西门商贸结算塔",
+      "parent": "D18",
+      "height_m": 156,
+      "floors": 41,
+      "sector_delta_deg": 0.0,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.27,
+      "river_slack_km": {
+        "W01": 6.556,
+        "W02": 8.703
+      },
+      "nearest_anchor_km": 0.751,
+      "fov": {
+        "offset_deg": -0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L104",
+      "name": "西关货栈塔",
+      "parent": "D18",
+      "height_m": 134,
+      "floors": 36,
+      "sector_delta_deg": -7.5,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.379,
+      "river_slack_km": {
+        "W01": 6.814,
+        "W02": 8.526
+      },
+      "nearest_anchor_km": 0.831,
+      "fov": {
+        "offset_deg": 12.3,
+        "limit_deg": 24.2,
+        "slack_deg": 11.903
+      },
+      "issues": []
+    },
+    {
+      "id": "L105",
+      "name": "赤陶市集商厦",
+      "parent": "D18",
+      "height_m": 148,
+      "floors": 40,
+      "sector_delta_deg": 7.5,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.192,
+      "river_slack_km": {
+        "W01": 6.288,
+        "W02": 8.848
+      },
+      "nearest_anchor_km": 0.831,
+      "fov": {
+        "offset_deg": -12.29,
+        "limit_deg": 24.2,
+        "slack_deg": 11.908
+      },
+      "issues": []
+    },
+    {
+      "id": "L106",
+      "name": "西岭储能示范塔",
+      "parent": "D19",
+      "height_m": 139,
+      "floors": 38,
+      "sector_delta_deg": -0.0,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.27,
+      "river_slack_km": {
+        "W01": 5.137,
+        "W02": 9.082
+      },
+      "nearest_anchor_km": 0.751,
+      "fov": {
+        "offset_deg": 0.0,
+        "limit_deg": 24.2,
+        "slack_deg": 24.2
+      },
+      "issues": []
+    },
+    {
+      "id": "L107",
+      "name": "光谷低碳商务塔",
+      "parent": "D19",
+      "height_m": 121,
+      "floors": 33,
+      "sector_delta_deg": -7.5,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.192,
+      "river_slack_km": {
+        "W01": 5.501,
+        "W02": 9.07
+      },
+      "nearest_anchor_km": 0.831,
+      "fov": {
+        "offset_deg": 12.29,
+        "limit_deg": 24.2,
+        "slack_deg": 11.908
+      },
+      "issues": []
+    },
+    {
+      "id": "L108",
+      "name": "北港水质监测塔",
+      "parent": "D20",
+      "height_m": 131,
+      "floors": 35,
+      "sector_delta_deg": 0.0,
+      "radius_km": 6.35,
+      "shore_gap_km": 3.903,
+      "river_slack_km": {
+        "W01": 2.105,
+        "W02": 8.66
+      },
+      "nearest_anchor_km": 0.75,
+      "fov": {
+        "offset_deg": -0.01,
+        "limit_deg": 24.2,
+        "slack_deg": 24.192
+      },
+      "issues": []
+    }
+  ]
+}

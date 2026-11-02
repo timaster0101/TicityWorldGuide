@@ -1,15 +1,15 @@
 {
-  "entry_count": 264,
+  "entry_count": 312,
   "category_counts": {
     "S": 24,
     "D": 20,
     "F": 40,
-    "L": 60,
+    "L": 108,
     "R": 120
   },
-  "total_cjk": 233790,
-  "min_cjk": 807,
-  "max_cjk": 964,
+  "total_cjk": 270830,
+  "min_cjk": 665,
+  "max_cjk": 997,
   "errors": [],
   "warnings": [],
   "entries": [
@@ -145,7 +145,7 @@
     },
     {
       "id": "D03",
-      "cjk_count": 901,
+      "cjk_count": 997,
       "source": "02-D01-D10.md"
     },
     {
@@ -170,7 +170,7 @@
     },
     {
       "id": "D08",
-      "cjk_count": 879,
+      "cjk_count": 962,
       "source": "02-D01-D10.md"
     },
     {
@@ -255,7 +255,7 @@
     },
     {
       "id": "F005",
-      "cjk_count": 882,
+      "cjk_count": 900,
       "source": "03-F001-F010.md"
     },
     {
@@ -465,7 +465,7 @@
     },
     {
       "id": "L007",
-      "cjk_count": 899,
+      "cjk_count": 978,
       "source": "04-L001-L010.md"
     },
     {
@@ -485,7 +485,7 @@
     },
     {
       "id": "L011",
-      "cjk_count": 891,
+      "cjk_count": 895,
       "source": "04-L011-L020.md"
     },
     {
@@ -620,12 +620,12 @@
     },
     {
       "id": "L038",
-      "cjk_count": 877,
+      "cjk_count": 875,
       "source": "05-L031-L040.md"
     },
     {
       "id": "L039",
-      "cjk_count": 866,
+      "cjk_count": 867,
       "source": "05-L031-L040.md"
     },
     {
@@ -635,22 +635,22 @@
     },
     {
       "id": "L041",
-      "cjk_count": 894,
+      "cjk_count": 893,
       "source": "05-L041-L050.md"
     },
     {
       "id": "L042",
-      "cjk_count": 897,
+      "cjk_count": 899,
       "source": "05-L041-L050.md"
     },
     {
       "id": "L043",
-      "cjk_count": 892,
+      "cjk_count": 894,
       "source": "05-L041-L050.md"
     },
     {
       "id": "L044",
-      "cjk_count": 897,
+      "cjk_count": 898,
       "source": "05-L041-L050.md"
     },
     {
@@ -670,12 +670,12 @@
     },
     {
       "id": "L048",
-      "cjk_count": 895,
+      "cjk_count": 897,
       "source": "05-L041-L050.md"
     },
     {
       "id": "L049",
-      "cjk_count": 897,
+      "cjk_count": 898,
       "source": "05-L041-L050.md"
     },
     {
@@ -690,7 +690,7 @@
     },
     {
       "id": "L052",
-      "cjk_count": 878,
+      "cjk_count": 880,
       "source": "05-L051-L060.md"
     },
     {
@@ -700,7 +700,7 @@
     },
     {
       "id": "L054",
-      "cjk_count": 885,
+      "cjk_count": 886,
       "source": "05-L051-L060.md"
     },
     {
@@ -710,12 +710,12 @@
     },
     {
       "id": "L056",
-      "cjk_count": 895,
+      "cjk_count": 896,
       "source": "05-L051-L060.md"
     },
     {
       "id": "L057",
-      "cjk_count": 887,
+      "cjk_count": 889,
       "source": "05-L051-L060.md"
     },
     {
@@ -725,7 +725,7 @@
     },
     {
       "id": "L059",
-      "cjk_count": 899,
+      "cjk_count": 900,
       "source": "05-L051-L060.md"
     },
     {
@@ -734,632 +734,872 @@
       "source": "05-L051-L060.md"
     },
     {
+      "id": "L061",
+      "cjk_count": 816,
+      "source": "06-L061-L070.md"
+    },
+    {
+      "id": "L062",
+      "cjk_count": 723,
+      "source": "06-L061-L070.md"
+    },
+    {
+      "id": "L063",
+      "cjk_count": 709,
+      "source": "06-L061-L070.md"
+    },
+    {
+      "id": "L064",
+      "cjk_count": 691,
+      "source": "06-L061-L070.md"
+    },
+    {
+      "id": "L065",
+      "cjk_count": 715,
+      "source": "06-L061-L070.md"
+    },
+    {
+      "id": "L066",
+      "cjk_count": 848,
+      "source": "06-L061-L070.md"
+    },
+    {
+      "id": "L067",
+      "cjk_count": 675,
+      "source": "06-L061-L070.md"
+    },
+    {
+      "id": "L068",
+      "cjk_count": 665,
+      "source": "06-L061-L070.md"
+    },
+    {
+      "id": "L069",
+      "cjk_count": 701,
+      "source": "06-L061-L070.md"
+    },
+    {
+      "id": "L070",
+      "cjk_count": 690,
+      "source": "06-L061-L070.md"
+    },
+    {
+      "id": "L071",
+      "cjk_count": 706,
+      "source": "06-L071-L080.md"
+    },
+    {
+      "id": "L072",
+      "cjk_count": 727,
+      "source": "06-L071-L080.md"
+    },
+    {
+      "id": "L073",
+      "cjk_count": 709,
+      "source": "06-L071-L080.md"
+    },
+    {
+      "id": "L074",
+      "cjk_count": 719,
+      "source": "06-L071-L080.md"
+    },
+    {
+      "id": "L075",
+      "cjk_count": 712,
+      "source": "06-L071-L080.md"
+    },
+    {
+      "id": "L076",
+      "cjk_count": 733,
+      "source": "06-L071-L080.md"
+    },
+    {
+      "id": "L077",
+      "cjk_count": 708,
+      "source": "06-L071-L080.md"
+    },
+    {
+      "id": "L078",
+      "cjk_count": 707,
+      "source": "06-L071-L080.md"
+    },
+    {
+      "id": "L079",
+      "cjk_count": 745,
+      "source": "06-L071-L080.md"
+    },
+    {
+      "id": "L080",
+      "cjk_count": 741,
+      "source": "06-L071-L080.md"
+    },
+    {
+      "id": "L081",
+      "cjk_count": 742,
+      "source": "06-L081-L090.md"
+    },
+    {
+      "id": "L082",
+      "cjk_count": 787,
+      "source": "06-L081-L090.md"
+    },
+    {
+      "id": "L083",
+      "cjk_count": 793,
+      "source": "06-L081-L090.md"
+    },
+    {
+      "id": "L084",
+      "cjk_count": 766,
+      "source": "06-L081-L090.md"
+    },
+    {
+      "id": "L085",
+      "cjk_count": 780,
+      "source": "06-L081-L090.md"
+    },
+    {
+      "id": "L086",
+      "cjk_count": 797,
+      "source": "06-L081-L090.md"
+    },
+    {
+      "id": "L087",
+      "cjk_count": 781,
+      "source": "06-L081-L090.md"
+    },
+    {
+      "id": "L088",
+      "cjk_count": 768,
+      "source": "06-L081-L090.md"
+    },
+    {
+      "id": "L089",
+      "cjk_count": 775,
+      "source": "06-L081-L090.md"
+    },
+    {
+      "id": "L090",
+      "cjk_count": 797,
+      "source": "06-L081-L090.md"
+    },
+    {
+      "id": "L091",
+      "cjk_count": 783,
+      "source": "07-L091-L100.md"
+    },
+    {
+      "id": "L092",
+      "cjk_count": 789,
+      "source": "07-L091-L100.md"
+    },
+    {
+      "id": "L093",
+      "cjk_count": 795,
+      "source": "07-L091-L100.md"
+    },
+    {
+      "id": "L094",
+      "cjk_count": 796,
+      "source": "07-L091-L100.md"
+    },
+    {
+      "id": "L095",
+      "cjk_count": 775,
+      "source": "07-L091-L100.md"
+    },
+    {
+      "id": "L096",
+      "cjk_count": 816,
+      "source": "07-L091-L100.md"
+    },
+    {
+      "id": "L097",
+      "cjk_count": 800,
+      "source": "07-L091-L100.md"
+    },
+    {
+      "id": "L098",
+      "cjk_count": 802,
+      "source": "07-L091-L100.md"
+    },
+    {
+      "id": "L099",
+      "cjk_count": 798,
+      "source": "07-L091-L100.md"
+    },
+    {
+      "id": "L100",
+      "cjk_count": 774,
+      "source": "07-L091-L100.md"
+    },
+    {
+      "id": "L101",
+      "cjk_count": 816,
+      "source": "07-L101-L108.md"
+    },
+    {
+      "id": "L102",
+      "cjk_count": 804,
+      "source": "07-L101-L108.md"
+    },
+    {
+      "id": "L103",
+      "cjk_count": 799,
+      "source": "07-L101-L108.md"
+    },
+    {
+      "id": "L104",
+      "cjk_count": 789,
+      "source": "07-L101-L108.md"
+    },
+    {
+      "id": "L105",
+      "cjk_count": 824,
+      "source": "07-L101-L108.md"
+    },
+    {
+      "id": "L106",
+      "cjk_count": 841,
+      "source": "07-L101-L108.md"
+    },
+    {
+      "id": "L107",
+      "cjk_count": 818,
+      "source": "07-L101-L108.md"
+    },
+    {
+      "id": "L108",
+      "cjk_count": 827,
+      "source": "07-L101-L108.md"
+    },
+    {
       "id": "R001",
       "cjk_count": 851,
-      "source": "06-R001-R010.md"
+      "source": "08-R001-R010.md"
     },
     {
       "id": "R002",
       "cjk_count": 841,
-      "source": "06-R001-R010.md"
+      "source": "08-R001-R010.md"
     },
     {
       "id": "R003",
       "cjk_count": 841,
-      "source": "06-R001-R010.md"
+      "source": "08-R001-R010.md"
     },
     {
       "id": "R004",
       "cjk_count": 864,
-      "source": "06-R001-R010.md"
+      "source": "08-R001-R010.md"
     },
     {
       "id": "R005",
       "cjk_count": 867,
-      "source": "06-R001-R010.md"
+      "source": "08-R001-R010.md"
     },
     {
       "id": "R006",
       "cjk_count": 861,
-      "source": "06-R001-R010.md"
+      "source": "08-R001-R010.md"
     },
     {
       "id": "R007",
       "cjk_count": 856,
-      "source": "06-R001-R010.md"
+      "source": "08-R001-R010.md"
     },
     {
       "id": "R008",
       "cjk_count": 853,
-      "source": "06-R001-R010.md"
+      "source": "08-R001-R010.md"
     },
     {
       "id": "R009",
       "cjk_count": 857,
-      "source": "06-R001-R010.md"
+      "source": "08-R001-R010.md"
     },
     {
       "id": "R010",
       "cjk_count": 852,
-      "source": "06-R001-R010.md"
+      "source": "08-R001-R010.md"
     },
     {
       "id": "R011",
       "cjk_count": 856,
-      "source": "06-R011-R020.md"
+      "source": "08-R011-R020.md"
     },
     {
       "id": "R012",
       "cjk_count": 877,
-      "source": "06-R011-R020.md"
+      "source": "08-R011-R020.md"
     },
     {
       "id": "R013",
-      "cjk_count": 841,
-      "source": "06-R011-R020.md"
+      "cjk_count": 850,
+      "source": "08-R011-R020.md"
     },
     {
       "id": "R014",
       "cjk_count": 852,
-      "source": "06-R011-R020.md"
+      "source": "08-R011-R020.md"
     },
     {
       "id": "R015",
       "cjk_count": 863,
-      "source": "06-R011-R020.md"
+      "source": "08-R011-R020.md"
     },
     {
       "id": "R016",
-      "cjk_count": 845,
-      "source": "06-R011-R020.md"
+      "cjk_count": 861,
+      "source": "08-R011-R020.md"
     },
     {
       "id": "R017",
       "cjk_count": 863,
-      "source": "06-R011-R020.md"
+      "source": "08-R011-R020.md"
     },
     {
       "id": "R018",
       "cjk_count": 875,
-      "source": "06-R011-R020.md"
+      "source": "08-R011-R020.md"
     },
     {
       "id": "R019",
       "cjk_count": 847,
-      "source": "06-R011-R020.md"
+      "source": "08-R011-R020.md"
     },
     {
       "id": "R020",
       "cjk_count": 860,
-      "source": "06-R011-R020.md"
+      "source": "08-R011-R020.md"
     },
     {
       "id": "R021",
       "cjk_count": 886,
-      "source": "06-R021-R030.md"
+      "source": "08-R021-R030.md"
     },
     {
       "id": "R022",
       "cjk_count": 847,
-      "source": "06-R021-R030.md"
+      "source": "08-R021-R030.md"
     },
     {
       "id": "R023",
       "cjk_count": 849,
-      "source": "06-R021-R030.md"
+      "source": "08-R021-R030.md"
     },
     {
       "id": "R024",
       "cjk_count": 888,
-      "source": "06-R021-R030.md"
+      "source": "08-R021-R030.md"
     },
     {
       "id": "R025",
       "cjk_count": 860,
-      "source": "06-R021-R030.md"
+      "source": "08-R021-R030.md"
     },
     {
       "id": "R026",
       "cjk_count": 851,
-      "source": "06-R021-R030.md"
+      "source": "08-R021-R030.md"
     },
     {
       "id": "R027",
       "cjk_count": 873,
-      "source": "06-R021-R030.md"
+      "source": "08-R021-R030.md"
     },
     {
       "id": "R028",
       "cjk_count": 881,
-      "source": "06-R021-R030.md"
+      "source": "08-R021-R030.md"
     },
     {
       "id": "R029",
       "cjk_count": 867,
-      "source": "06-R021-R030.md"
+      "source": "08-R021-R030.md"
     },
     {
       "id": "R030",
       "cjk_count": 898,
-      "source": "06-R021-R030.md"
+      "source": "08-R021-R030.md"
     },
     {
       "id": "R031",
       "cjk_count": 820,
-      "source": "07-R031-R040.md"
+      "source": "09-R031-R040.md"
     },
     {
       "id": "R032",
       "cjk_count": 807,
-      "source": "07-R031-R040.md"
+      "source": "09-R031-R040.md"
     },
     {
       "id": "R033",
       "cjk_count": 824,
-      "source": "07-R031-R040.md"
+      "source": "09-R031-R040.md"
     },
     {
       "id": "R034",
       "cjk_count": 857,
-      "source": "07-R031-R040.md"
+      "source": "09-R031-R040.md"
     },
     {
       "id": "R035",
       "cjk_count": 829,
-      "source": "07-R031-R040.md"
+      "source": "09-R031-R040.md"
     },
     {
       "id": "R036",
       "cjk_count": 828,
-      "source": "07-R031-R040.md"
+      "source": "09-R031-R040.md"
     },
     {
       "id": "R037",
       "cjk_count": 812,
-      "source": "07-R031-R040.md"
+      "source": "09-R031-R040.md"
     },
     {
       "id": "R038",
       "cjk_count": 812,
-      "source": "07-R031-R040.md"
+      "source": "09-R031-R040.md"
     },
     {
       "id": "R039",
       "cjk_count": 836,
-      "source": "07-R031-R040.md"
+      "source": "09-R031-R040.md"
     },
     {
       "id": "R040",
       "cjk_count": 822,
-      "source": "07-R031-R040.md"
+      "source": "09-R031-R040.md"
     },
     {
       "id": "R041",
       "cjk_count": 854,
-      "source": "07-R041-R050.md"
+      "source": "09-R041-R050.md"
     },
     {
       "id": "R042",
       "cjk_count": 850,
-      "source": "07-R041-R050.md"
+      "source": "09-R041-R050.md"
     },
     {
       "id": "R043",
-      "cjk_count": 828,
-      "source": "07-R041-R050.md"
+      "cjk_count": 878,
+      "source": "09-R041-R050.md"
     },
     {
       "id": "R044",
       "cjk_count": 835,
-      "source": "07-R041-R050.md"
+      "source": "09-R041-R050.md"
     },
     {
       "id": "R045",
       "cjk_count": 833,
-      "source": "07-R041-R050.md"
+      "source": "09-R041-R050.md"
     },
     {
       "id": "R046",
       "cjk_count": 820,
-      "source": "07-R041-R050.md"
+      "source": "09-R041-R050.md"
     },
     {
       "id": "R047",
       "cjk_count": 837,
-      "source": "07-R041-R050.md"
+      "source": "09-R041-R050.md"
     },
     {
       "id": "R048",
       "cjk_count": 830,
-      "source": "07-R041-R050.md"
+      "source": "09-R041-R050.md"
     },
     {
       "id": "R049",
       "cjk_count": 855,
-      "source": "07-R041-R050.md"
+      "source": "09-R041-R050.md"
     },
     {
       "id": "R050",
       "cjk_count": 854,
-      "source": "07-R041-R050.md"
+      "source": "09-R041-R050.md"
     },
     {
       "id": "R051",
       "cjk_count": 876,
-      "source": "07-R051-R060.md"
+      "source": "09-R051-R060.md"
     },
     {
       "id": "R052",
       "cjk_count": 836,
-      "source": "07-R051-R060.md"
+      "source": "09-R051-R060.md"
     },
     {
       "id": "R053",
       "cjk_count": 860,
-      "source": "07-R051-R060.md"
+      "source": "09-R051-R060.md"
     },
     {
       "id": "R054",
       "cjk_count": 871,
-      "source": "07-R051-R060.md"
+      "source": "09-R051-R060.md"
     },
     {
       "id": "R055",
       "cjk_count": 854,
-      "source": "07-R051-R060.md"
+      "source": "09-R051-R060.md"
     },
     {
       "id": "R056",
       "cjk_count": 850,
-      "source": "07-R051-R060.md"
+      "source": "09-R051-R060.md"
     },
     {
       "id": "R057",
       "cjk_count": 837,
-      "source": "07-R051-R060.md"
+      "source": "09-R051-R060.md"
     },
     {
       "id": "R058",
       "cjk_count": 849,
-      "source": "07-R051-R060.md"
+      "source": "09-R051-R060.md"
     },
     {
       "id": "R059",
       "cjk_count": 864,
-      "source": "07-R051-R060.md"
+      "source": "09-R051-R060.md"
     },
     {
       "id": "R060",
       "cjk_count": 876,
-      "source": "07-R051-R060.md"
+      "source": "09-R051-R060.md"
     },
     {
       "id": "R061",
       "cjk_count": 900,
-      "source": "08-R061-R070.md"
+      "source": "10-R061-R070.md"
     },
     {
       "id": "R062",
       "cjk_count": 888,
-      "source": "08-R061-R070.md"
+      "source": "10-R061-R070.md"
     },
     {
       "id": "R063",
       "cjk_count": 911,
-      "source": "08-R061-R070.md"
+      "source": "10-R061-R070.md"
     },
     {
       "id": "R064",
       "cjk_count": 900,
-      "source": "08-R061-R070.md"
+      "source": "10-R061-R070.md"
     },
     {
       "id": "R065",
       "cjk_count": 897,
-      "source": "08-R061-R070.md"
+      "source": "10-R061-R070.md"
     },
     {
       "id": "R066",
       "cjk_count": 898,
-      "source": "08-R061-R070.md"
+      "source": "10-R061-R070.md"
     },
     {
       "id": "R067",
       "cjk_count": 886,
-      "source": "08-R061-R070.md"
+      "source": "10-R061-R070.md"
     },
     {
       "id": "R068",
       "cjk_count": 898,
-      "source": "08-R061-R070.md"
+      "source": "10-R061-R070.md"
     },
     {
       "id": "R069",
       "cjk_count": 894,
-      "source": "08-R061-R070.md"
+      "source": "10-R061-R070.md"
     },
     {
       "id": "R070",
       "cjk_count": 896,
-      "source": "08-R061-R070.md"
+      "source": "10-R061-R070.md"
     },
     {
       "id": "R071",
       "cjk_count": 898,
-      "source": "08-R071-R080.md"
+      "source": "10-R071-R080.md"
     },
     {
       "id": "R072",
       "cjk_count": 901,
-      "source": "08-R071-R080.md"
+      "source": "10-R071-R080.md"
     },
     {
       "id": "R073",
       "cjk_count": 894,
-      "source": "08-R071-R080.md"
+      "source": "10-R071-R080.md"
     },
     {
       "id": "R074",
       "cjk_count": 893,
-      "source": "08-R071-R080.md"
+      "source": "10-R071-R080.md"
     },
     {
       "id": "R075",
       "cjk_count": 890,
-      "source": "08-R071-R080.md"
+      "source": "10-R071-R080.md"
     },
     {
       "id": "R076",
       "cjk_count": 899,
-      "source": "08-R071-R080.md"
+      "source": "10-R071-R080.md"
     },
     {
       "id": "R077",
       "cjk_count": 881,
-      "source": "08-R071-R080.md"
+      "source": "10-R071-R080.md"
     },
     {
       "id": "R078",
       "cjk_count": 885,
-      "source": "08-R071-R080.md"
+      "source": "10-R071-R080.md"
     },
     {
       "id": "R079",
       "cjk_count": 898,
-      "source": "08-R071-R080.md"
+      "source": "10-R071-R080.md"
     },
     {
       "id": "R080",
       "cjk_count": 898,
-      "source": "08-R071-R080.md"
+      "source": "10-R071-R080.md"
     },
     {
       "id": "R081",
       "cjk_count": 896,
-      "source": "08-R081-R090.md"
+      "source": "10-R081-R090.md"
     },
     {
       "id": "R082",
       "cjk_count": 900,
-      "source": "08-R081-R090.md"
+      "source": "10-R081-R090.md"
     },
     {
       "id": "R083",
       "cjk_count": 896,
-      "source": "08-R081-R090.md"
+      "source": "10-R081-R090.md"
     },
     {
       "id": "R084",
       "cjk_count": 899,
-      "source": "08-R081-R090.md"
+      "source": "10-R081-R090.md"
     },
     {
       "id": "R085",
       "cjk_count": 895,
-      "source": "08-R081-R090.md"
+      "source": "10-R081-R090.md"
     },
     {
       "id": "R086",
       "cjk_count": 896,
-      "source": "08-R081-R090.md"
+      "source": "10-R081-R090.md"
     },
     {
       "id": "R087",
       "cjk_count": 898,
-      "source": "08-R081-R090.md"
+      "source": "10-R081-R090.md"
     },
     {
       "id": "R088",
       "cjk_count": 888,
-      "source": "08-R081-R090.md"
+      "source": "10-R081-R090.md"
     },
     {
       "id": "R089",
       "cjk_count": 889,
-      "source": "08-R081-R090.md"
+      "source": "10-R081-R090.md"
     },
     {
       "id": "R090",
       "cjk_count": 899,
-      "source": "08-R081-R090.md"
+      "source": "10-R081-R090.md"
     },
     {
       "id": "R091",
       "cjk_count": 876,
-      "source": "09-R091-R100.md"
+      "source": "11-R091-R100.md"
     },
     {
       "id": "R092",
       "cjk_count": 910,
-      "source": "09-R091-R100.md"
+      "source": "11-R091-R100.md"
     },
     {
       "id": "R093",
       "cjk_count": 871,
-      "source": "09-R091-R100.md"
+      "source": "11-R091-R100.md"
     },
     {
       "id": "R094",
       "cjk_count": 885,
-      "source": "09-R091-R100.md"
+      "source": "11-R091-R100.md"
     },
     {
       "id": "R095",
       "cjk_count": 884,
-      "source": "09-R091-R100.md"
+      "source": "11-R091-R100.md"
     },
     {
       "id": "R096",
       "cjk_count": 894,
-      "source": "09-R091-R100.md"
+      "source": "11-R091-R100.md"
     },
     {
       "id": "R097",
       "cjk_count": 889,
-      "source": "09-R091-R100.md"
+      "source": "11-R091-R100.md"
     },
     {
       "id": "R098",
       "cjk_count": 887,
-      "source": "09-R091-R100.md"
+      "source": "11-R091-R100.md"
     },
     {
       "id": "R099",
       "cjk_count": 896,
-      "source": "09-R091-R100.md"
+      "source": "11-R091-R100.md"
     },
     {
       "id": "R100",
       "cjk_count": 886,
-      "source": "09-R091-R100.md"
+      "source": "11-R091-R100.md"
     },
     {
       "id": "R101",
       "cjk_count": 890,
-      "source": "09-R101-R110.md"
+      "source": "11-R101-R110.md"
     },
     {
       "id": "R102",
       "cjk_count": 893,
-      "source": "09-R101-R110.md"
+      "source": "11-R101-R110.md"
     },
     {
       "id": "R103",
       "cjk_count": 882,
-      "source": "09-R101-R110.md"
+      "source": "11-R101-R110.md"
     },
     {
       "id": "R104",
       "cjk_count": 889,
-      "source": "09-R101-R110.md"
+      "source": "11-R101-R110.md"
     },
     {
       "id": "R105",
       "cjk_count": 899,
-      "source": "09-R101-R110.md"
+      "source": "11-R101-R110.md"
     },
     {
       "id": "R106",
       "cjk_count": 892,
-      "source": "09-R101-R110.md"
+      "source": "11-R101-R110.md"
     },
     {
       "id": "R107",
       "cjk_count": 894,
-      "source": "09-R101-R110.md"
+      "source": "11-R101-R110.md"
     },
     {
       "id": "R108",
       "cjk_count": 896,
-      "source": "09-R101-R110.md"
+      "source": "11-R101-R110.md"
     },
     {
       "id": "R109",
       "cjk_count": 899,
-      "source": "09-R101-R110.md"
+      "source": "11-R101-R110.md"
     },
     {
       "id": "R110",
       "cjk_count": 888,
-      "source": "09-R101-R110.md"
+      "source": "11-R101-R110.md"
     },
     {
       "id": "R111",
       "cjk_count": 886,
-      "source": "09-R111-R120.md"
+      "source": "11-R111-R120.md"
     },
     {
       "id": "R112",
       "cjk_count": 888,
-      "source": "09-R111-R120.md"
+      "source": "11-R111-R120.md"
     },
     {
       "id": "R113",
       "cjk_count": 885,
-      "source": "09-R111-R120.md"
+      "source": "11-R111-R120.md"
     },
     {
       "id": "R114",
       "cjk_count": 886,
-      "source": "09-R111-R120.md"
+      "source": "11-R111-R120.md"
     },
     {
       "id": "R115",
       "cjk_count": 879,
-      "source": "09-R111-R120.md"
+      "source": "11-R111-R120.md"
     },
     {
       "id": "R116",
       "cjk_count": 884,
-      "source": "09-R111-R120.md"
+      "source": "11-R111-R120.md"
     },
     {
       "id": "R117",
       "cjk_count": 890,
-      "source": "09-R111-R120.md"
+      "source": "11-R111-R120.md"
     },
     {
       "id": "R118",
       "cjk_count": 889,
-      "source": "09-R111-R120.md"
+      "source": "11-R111-R120.md"
     },
     {
       "id": "R119",
       "cjk_count": 895,
-      "source": "09-R111-R120.md"
+      "source": "11-R111-R120.md"
     },
     {
       "id": "R120",
       "cjk_count": 892,
-      "source": "09-R111-R120.md"
+      "source": "11-R111-R120.md"
     }
   ],
-  "referenced_id_count": 920,
+  "referenced_id_count": 1104,
   "numeric_distance_claims": 32,
-  "light_direction_checked": 248,
+  "light_direction_checked": 296,
   "light_variant_entries": 16,
   "occupation_summary": {
     "岗位锚点数": 64,
-    "公司数": 1403,
-    "具名公司数": 1339,
+    "公司数": 2889,
+    "具名公司数": 2825,
     "T5数": 20,
-    "岗位卡数": 5151,
-    "雇员总数": 378140,
-    "名录岗位总数": 378140,
-    "被顶起卡数": 562,
-    "被顶起名额数": 30869,
+    "岗位卡数": 10541,
+    "雇员总数": 798140,
+    "名录岗位总数": 798140,
+    "被顶起卡数": 770,
+    "被顶起名额数": 39412,
     "被顶起按圈层": {
       "产业小镇": [
-        492,
-        28579
+        551,
+        29563
       ],
       "内湖环": [
         0,
         0
       ],
       "外城环": [
-        0,
-        0
+        149,
+        7559
       ],
       "特色村落": [
         70,
