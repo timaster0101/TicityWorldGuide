@@ -246,12 +246,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_84(self):
+    def test_rulings_are_85(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 84)
-        self.assertEqual(rulings[-1]['编号'], 'C84')
+        self.assertEqual(len(rulings), 85)
+        self.assertEqual(rulings[-1]['编号'], 'C85')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C75', 'C76', 'C77', 'C78', 'C79', 'C80', 'C81', 'C82', 'C83', 'C84'])
+                         ['C76', 'C77', 'C78', 'C79', 'C80', 'C81', 'C82', 'C83', 'C84', 'C85'])
 
 
     def test_manual_chains_costs_before_occupations(self):

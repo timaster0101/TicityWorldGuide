@@ -1,9 +1,9 @@
 {
   "passed": true,
   "errors": [],
-  "source_sha256": "d7e2029d45ddeeefb1b9e3691d8e93d1ef537c83c5a694c3f7e6533ce9069187",
-  "docx_sha256": "c646bd2ce906306f864b3cec5a66144d90f99cf24354b79a0742028abc99c70f",
-  "paragraph_count": 7209,
+  "source_sha256": "f156b0aaec3722d015f03d8ef1237171cd51bd1321f0a4fac6595659b29572bf",
+  "docx_sha256": "8efc65bf814aa4bce6b89dbe174b4273738b2ac7a5f42e07e89366416f196573",
+  "paragraph_count": 7220,
   "table_count": 273,
   "cell_count": 4320,
   "h1_count": 16,
@@ -38,8 +38,8 @@
   "crc_verified": true,
   "update_fields": true,
   "rendering_verified": false,
-  "source_block_count": 2864,
-  "docx_body_block_count": 2864,
+  "source_block_count": 2875,
+  "docx_body_block_count": 2875,
   "body_anchor": {
     "source_line": 3,
     "docx_location": "word/document.xml/body/p[10]",
