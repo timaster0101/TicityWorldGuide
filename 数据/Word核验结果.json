@@ -1,9 +1,9 @@
 {
   "passed": true,
   "errors": [],
-  "source_sha256": "b0091cc8f706f08165060d6a0fba5071b710729567c7d49d132656a0dbf599d0",
-  "docx_sha256": "31d4513d3cef9defec17189bff53bbea947e68a6b919d3f8ea0588864c5737e8",
-  "paragraph_count": 8237,
+  "source_sha256": "48112974cf85c944261e638f3b75f3154a38061e3f90c65aafe9b35d89528477",
+  "docx_sha256": "807fd3b2712826f465706cf7d100cf1676617f944e441abfc94105b31737c299",
+  "paragraph_count": 8239,
   "table_count": 321,
   "cell_count": 4896,
   "h1_count": 18,
@@ -37,13 +37,14 @@
   ],
   "crc_verified": true,
   "update_fields": true,
-  "rendering_verified": false,
-  "source_block_count": 3314,
-  "docx_body_block_count": 3314,
+  "rendering_verified": true,
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签）」按「本机 Microsoft Word 2007（COM 12.0）打开当前 docx → 更新目录域 → ComputeStatistics → ExportAsFixedFormat 导 PDF 410 页 → 逐页文本／字体／越界扫描 → 第1／2／24／378／382／410页按 110dpi 位图目视」目视，绑定当前 DOCX 摘要",
+  "source_block_count": 3316,
+  "docx_body_block_count": 3316,
   "body_anchor": {
     "source_line": 3,
     "docx_location": "word/document.xml/body/p[10]",
-    "text": "2013年原创虚构城市正典 · 24个村镇 · 148项内部空间 · 120个著名居民区",
+    "text": "2013年原创虚构城市正典 · 24个村镇 · 20个片区 · 148项功能区与地标 · 120个著名居民区",
     "prefix_block_count": 8
   },
   "differences": []

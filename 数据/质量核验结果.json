@@ -7,11 +7,14 @@
     "L": 108,
     "R": 120
   },
-  "total_cjk": 270830,
+  "total_cjk": 271430,
   "min_cjk": 665,
-  "max_cjk": 997,
+  "max_cjk": 1233,
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "D03: 1233 CJK characters exceeds planned 1000; retained for detail",
+    "D08: 1152 CJK characters exceeds planned 1000; retained for detail"
+  ],
   "entries": [
     {
       "id": "S01",
@@ -145,7 +148,7 @@
     },
     {
       "id": "D03",
-      "cjk_count": 997,
+      "cjk_count": 1233,
       "source": "02-D01-D10.md"
     },
     {
@@ -170,7 +173,7 @@
     },
     {
       "id": "D08",
-      "cjk_count": 962,
+      "cjk_count": 1152,
       "source": "02-D01-D10.md"
     },
     {
@@ -760,7 +763,7 @@
     },
     {
       "id": "L066",
-      "cjk_count": 848,
+      "cjk_count": 947,
       "source": "06-L061-L070.md"
     },
     {
@@ -845,7 +848,7 @@
     },
     {
       "id": "L083",
-      "cjk_count": 793,
+      "cjk_count": 868,
       "source": "06-L081-L090.md"
     },
     {
@@ -1574,7 +1577,7 @@
       "source": "11-R111-R120.md"
     }
   ],
-  "referenced_id_count": 1104,
+  "referenced_id_count": 1107,
   "numeric_distance_claims": 32,
   "light_direction_checked": 296,
   "light_variant_entries": 16,
