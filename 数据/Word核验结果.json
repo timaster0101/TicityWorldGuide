@@ -1,8 +1,8 @@
 {
   "passed": true,
   "errors": [],
-  "source_sha256": "4a792a2c040f86db42b5fbf55aa6e16e9fcaa0449c0b2fefff17aec7f7125105",
-  "docx_sha256": "b8f1eeb3f9691bf2d6796c08f8807763ccbce45687dd04ca11c631af699b5b40",
+  "source_sha256": "573d75d962a36780ec3d9d59e21ab05343894a955463ccaf201f48e9f7b1c248",
+  "docx_sha256": "9e1d955c50acd45c147a073e1fd568d04a811b3122210f04575dca89ae662b0e",
   "paragraph_count": 8239,
   "table_count": 321,
   "cell_count": 4896,
@@ -38,7 +38,7 @@
   "crc_verified": true,
   "update_fields": true,
   "rendering_verified": true,
-  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签）」按「本机 Microsoft Word（COM）以只读打开当前 docx → 更新目录域与全部域 → ComputeStatistics → ExportAsFixedFormat 导 PDF 411 页 → 逐页文本／字体／越界扫描 → 第1／2／24／375／376／377／378／379／411 页按 110dpi 位图目视」目视，绑定当前 DOCX 摘要",
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签）」按「本机 Microsoft Word（comtypes 驱动 Word.Application）以只读打开当前 docx → 逐域 Update 后 TablesOfContents.Update + UpdatePageNumbers + Repaginate → ComputeStatistics（枚举 0/1/2/3/4/5 逐项取）→ ExportAsFixedFormat 导 PDF（Range=wdExportAllDocument）411 页 → pymupdf 逐页文本／字体／越界扫描 → 第1／4／24／375／376／377／378／379／380／411 页按 110dpi 位图逐张目视」目视，绑定当前 DOCX 摘要",
   "source_block_count": 3316,
   "docx_body_block_count": 3316,
   "body_anchor": {
