@@ -1,4 +1,6 @@
+import collections
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -165,6 +167,48 @@ class NumericFidelityTests(unittest.TestCase):
             self.assertTrue(any('R018: population' in error for error in report['errors']))
             self.assertNotEqual(result.returncode, 0)
             self.assertFalse((root / '钛湖城城市设定集-完整合订本.md').exists())
+
+
+class CoverCountTests(unittest.TestCase):
+    """封面那行计数是读者唯一会当成全书面包络的数字：四档必须把名录分完，加总等于条目总数。
+
+    来由：2026-11-03 的 Word 渲染目视发现原串写「24 个外围聚落 / 148 项城市空间 / 120 个著名居民区」，
+    而 148 只是功能区＋地标，20 个城市片区没进封面；24+148+120=292 与全书 312 条对不上。
+    """
+
+    @staticmethod
+    def numbers(line):
+        return [int(n) for n in re.findall(r'·\s*(\d+)(?:个|项)', line)]
+
+    def setUp(self):
+        data = json.loads((ROOT / '数据/城市空间名录.json').read_text(encoding='utf-8'))['entries']
+        self.counts = collections.Counter(entry['type'] for entry in data)
+        self.total = len(data)
+        head = (ROOT / '钛湖城城市设定集-完整合订本.md').read_text(encoding='utf-8').splitlines()[:6]
+        self.cover = next(line for line in head if '原创虚构城市正典' in line)
+
+    def test_cover_buckets_partition_the_registry(self):
+        expected = [self.counts['产业小镇'] + self.counts['特色村落'], self.counts['城市片区'],
+                    self.counts['功能区'] + self.counts['标志性建筑'], self.counts['居民区']]
+        got = self.numbers(self.cover)
+        self.assertEqual(len(got), 4, self.cover)
+        self.assertEqual(got, expected, self.cover)
+        self.assertEqual(sum(got), self.total, '封面四档没把名录分完')
+        for label in ('村镇', '片区', '功能区与地标', '著名居民区'):
+            self.assertIn(label, self.cover)
+
+    def test_docx_cover_enumerates_the_same_four_buckets(self):
+        cjs = (ROOT / '工具/export_docx.cjs').read_text(encoding='utf-8')
+        line = next(l for l in cjs.splitlines() if '个外围聚落' in l)
+        self.assertEqual(line.count('  /  '), 3, line)
+        for key in ('产业小镇', '特色村落', '城市片区', '功能区', '标志性建筑', '居民区'):
+            self.assertIn("countBy['%s']" % key, cjs, 'docx 封面少了这一类的取数')
+
+    def test_dropping_a_bucket_is_caught(self):
+        """违例负测：把片区那一档删回旧写法，加总判据必须落空。"""
+        stale = self.cover.replace(' · %d个片区' % self.counts['城市片区'], '')
+        self.assertNotEqual(sum(self.numbers(stale)), self.total)
+        self.assertEqual(self.numbers(stale), self.numbers(self.cover)[:1] + self.numbers(self.cover)[2:])
 
 
 if __name__ == '__main__':

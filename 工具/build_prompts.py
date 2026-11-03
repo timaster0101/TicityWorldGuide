@@ -2,6 +2,8 @@
 """从AI地点知识库为名录全部正典地点逐条生成开图提示词，并建立图片与地点的对应关系清单。条数不写死在本文件，以 AI地点知识库 的记录数为准。"""
 import hashlib
 import json
+import math
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -60,6 +62,91 @@ def sun_side(rel):
     return "正后方顺光（%d°相对），立面材质与色彩最清楚" % round(rel)
 
 
+# C99：日面可纳性。第8节与第10节的目视打表里，D08／D11／D14／F012／L083 五张成图都把太阳画进了画面，
+# 而按 35mm 全幅的水平半视锥（atan(18/焦距)）算，这几条的太阳相对方位都在画框之外——只有 D03（3°）在框内。
+# 原文只写 natural light as the canon section states，等于把「侧别」交给模型自由发挥，模型于是把
+# 「暖色夕光」理解成「画面里要有落日」。这里按本条的 rel 与焦距算一次，把结论写成 tail 的硬约束。
+def focal_mm(取景):
+    m = re.search(r"(\d+(?:\.\d+)?)\s*毫米", 取景 or "")
+    return float(m.group(1)) if m else None
+
+
+def sun_frame_phrase(rel, focal, variant=False):
+    # 时段变体条（C96／B6）的 255°侧别只作对照，光照以正文变体描述为准，因此不套默认光的可纳性算式，
+    # 否则会给「清晨」条写进「落日不得入画」这种与本体矛盾的字。
+    if variant or rel is None or not focal:
+        return "natural light as the canon section states"
+    half = math.degrees(math.atan(18.0 / focal))
+    side = "right" if rel > 0 else "left"
+    if abs(rel) <= half:
+        # 可纳分支也必须写侧别：L066 v02 的日面落在画面左侧，而该条 rel=+15°、正文写「右前侧掠入」，
+        # 旧写法只给「off the camera axis」不带左右，等于让模型自己猜一侧，猜错就与正文相反。
+        return ("the sun sits inside this frame as the canon section states (%.0f degrees to the %s of the camera axis, "
+                "inside the %.0f degree half-angle), low and backlit with rims lit and shadows running toward the lens"
+                % (abs(rel), side, half))
+    return ("the sun is %.0f degrees to the %s of the camera axis and outside this frame's %.0f degree half-angle, "
+            "so keep the sun disc, the setting-sun glow and any lens flare out of the picture entirely; paint only "
+            "the light direction, the lit surfaces and the shadows the canon section describes"
+            % (abs(rel), side, half))
+
+
+# C101：远景可纳性。B3 的 F039（机位朝北）与 R009（取景段「远景止于凸出的砖楼梯间」）都在远景画出了整片
+# 主城天际线，其中还有一根扭转曲面超高层；L066 的 v01／v02 两版把 L007 的斜削冠＋细针天线安到了背景塔上。
+# 按方位算，这两根超高层在 F039／R009 的机位背后或侧后，根本进不了画框。
+# 第一版实现改成「逐条点名全部框内塔」，实测不可用：24 毫米街景的水平半视锥有 36.9°，按纯角度算，
+# L066 本条会列出 38 根塔（它们角度在框内，但被 160 米外的 458 米主塔本身挡住），等于把禁则放开。
+# 正典里被逐根命名、且因冠部形态专属而反复穿帮的只有两根超高层，于是只按几何管这两根，
+# 其余远景一律交还给本条取景段点名的内容；取景段没给可解析机位的条目不硬算角度，只写不得凭空造天际线。
+CAMERA_COORD = re.compile(r'[\(\（]\s*(-?\d+(?:\.\d+)?)\s*[,，、]\s*(-?\d+(?:\.\d+)?)\s*[\)\）]')
+
+# 全城只有这两根超高层在正典里以冠部形态互相区分，穿帮也集中在这里（D03 v03、L066 v01／v02、R009 v01）。
+NAMED_SUPERTALLS = ("L007", "L066")
+
+
+def camera_km(取景):
+    m = CAMERA_COORD.search(取景 or "")
+    return [float(m.group(1)), float(m.group(2))] if m else None
+
+
+def bearing(src, dst):
+    return math.degrees(math.atan2(dst[0] - src[0], dst[1] - src[1])) % 360
+
+
+def offset(b, facing):
+    return (b - facing + 540) % 360 - 180
+
+
+FAR_VIEW_RULE = ("the far view must contain only what the Chinese framing section names as 远景; do not add a distant "
+                 "downtown skyline, a supertall cluster or a tower crane that the framing section does not name")
+
+
+def background_phrase(eid, 取景, facing):
+    cam, focal = camera_km(取景), focal_mm(取景)
+    parts = [FAR_VIEW_RULE]
+    for sid in NAMED_SUPERTALLS:
+        if sid == eid:
+            continue
+        sup = REG[sid]
+        if cam is None or facing is None or not focal:
+            # 静态句刻意不写高度：这 244 条并没有几何依据，把名录高度串进来只会让 L007／L066 一改高度
+            # 就连带翻掉它们的摘要，使「改硬参数只动该动的条」这条隔离判据失效。
+            parts.append("%s %s may appear only if the Chinese framing section names it, and its crown "
+                         "must not be reused on any other tower" % (sid, sup["name"]))
+            continue
+        rel = offset(bearing(cam, sup["center_km"]), facing)
+        half = math.degrees(math.atan(18.0 / focal))
+        side = "right" if rel > 0 else "left"
+        if abs(rel) <= half:
+            parts.append("%s %s (%d metres) sits %.0f degrees to the %s of this camera, inside the %.0f degree "
+                         "half-angle, so it may read in the far view" % (sid, sup["name"], sup["height_m"],
+                                                                         abs(rel), side, half))
+        else:
+            parts.append("%s %s (%d metres) is %.0f degrees to the %s of this camera and outside this frame's %.0f "
+                         "degree half-angle, so neither its silhouette nor its crown may be painted here"
+                         % (sid, sup["name"], sup["height_m"], abs(rel), side, half))
+    return "; ".join(parts)
+
+
 HARD_LABEL = {
     "height_m": "建筑高度米", "floors": "使用楼层", "gross_floor_area_m2": "建筑面积平方米",
     "population": "常住人口", "households": "户数", "area_km2": "占地平方公里",
@@ -70,6 +157,13 @@ HARD_LABEL = {
 # 且二者物理接触。写实词与近未来词只许写在 NEGATIVE_TAG 的否定式里，正向段出现即由生成器判红。
 STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed edges, painted surfaces, "
               "soft airbrushed gradient sky, warm late-autumn palette, illustrated cityscape rather than a snapshot")
+# C100：B3 七张跨类型样本 5 张出成照片质感（L066／L083／F012／F039／R009），只有 S02／S18 保住厚涂；
+# 与已定档的 R043 同尺度裁前景人物对比，判废项里最先失效的就是笔触。画风词此前只写在最末的 English tail，
+# 而投喂串从【画面定位】开始就是一长串写实题材描述（玻璃幕墙、闸机、街面材质），模型按题材定档、不按尾串改档。
+# 锚点提到投喂串首句，材质与人物都点名要笔触，并把「中文段写的是题材不是媒介」写死。
+STYLE_ANCHOR = ("【画风锚点】medium is a semi-realistic digital painting: visible brushwork and hand-mixed edges on "
+                "every surface, including faces, glass, stone, fabric and foliage; painted illustration rather than "
+                "a snapshot; the Chinese sections below describe the subject, not the medium")
 TAIL_BY_TYPE = {
     "标志性建筑": "painted landmark tower true to the canon section, modern layer (curtain-wall grid, lit "
                   "sky-lobby bands, rooftop telecom and HVAC plant, LED media panel on the podium) rising out of "
@@ -80,9 +174,15 @@ TAIL_BY_TYPE = {
     "居民区": "painted street-level residential block, lived-in not staged, modern layer (external AC units, "
              "rooftop PV panels, fibre cabinets, video intercom and EV charging posts) welded onto old layer "
              "(grey-tile eaves, shared laundry rig, ground-floor shops with lit lampboxes, pocket courtyard)",
+    # C98：原写法把科技层锁成「behind old layer」，等于替每一个片区预先决定纵深次序。D03 实测穿帮
+    # 即由此而来——真源取景段要求本片区塔群在中景、灰瓦老城在湖对岸作远景，固定词把塔群推去了对岸。
+    # 双层实体词与接触点保留，纵深次序交还给本条中文取景段。
     "城市片区": "painted high-angle district overview with a readable sector edge, modern layer (a cluster of "
-               "200-metre-class towers, transit viaduct, cranes on super-tall construction) behind old layer "
-               "(historic low-rise roof texture, old lanes and a riverside market street kept intact)",
+               "200-metre-class towers, transit viaduct, cranes on super-tall construction) and old layer "
+               "(historic low-rise roof texture, old lanes and a riverside market street kept intact) sharing one "
+               "frame with a visible contact edge where the two layers meet; which layer reads near and which reads "
+               "far follows the Chinese framing section above, so do not default the tower cluster to the far side "
+               "of the water",
     "产业小镇": "painted regional town, production land plus settlement, modern layer (hangars, rooftop PV arrays, "
                 "test benches, freight sheds, clean-front workshops) beside old layer (self-built courtyard houses, "
                 "old tile roofs and village alleys); no main-city skyline or lake visible through the mountains",
@@ -116,7 +216,8 @@ def assert_affirmative_style(label, text):
                          % (label, "、".join(hit)))
 
 
-for _label, _text in (("STYLE_CORE", STYLE_CORE), ("TAIL_BY_TYPE", " | ".join(TAIL_BY_TYPE.values())),
+for _label, _text in (("STYLE_CORE", STYLE_CORE), ("STYLE_ANCHOR", STYLE_ANCHOR),
+                      ("TAIL_BY_TYPE", " | ".join(TAIL_BY_TYPE.values())),
                       ("STREET_TRACES", STREET_TRACES), ("SIGNAGE_RULE", SIGNAGE_RULE)):
     assert_affirmative_style(_label, _text)
 
@@ -257,6 +358,7 @@ for rec in KB:
     lines.append("")
     lines.append("## 提示词正文")
     lines.append("")
+    lines.append(STYLE_ANCHOR)
     lines.append("【画面定位】%s" % 位置.split("。")[0] + "。")
     lines.append("【取景指令】%s" % 取景)
     lines.append("【外观辨识】%s" % 外观)
@@ -265,11 +367,14 @@ for rec in KB:
     lines.append("【锁定与禁则】%s" % 锁定)
     lines.append("【全局硬设定】%s" % "；".join(GLOBAL))
     lines.append("")
-    lines.append("English tail: %s, %s, %s, natural light as the canon section states, painted material texture, "
+    lines.append("English tail: %s, %s, %s, %s, %s, painted material texture, "
                   "everyday people doing everyday things, %s, %s, %s, no third-party or model-generated watermark, logo or signature, "
                   "preserve mandatory platform AIGC labels and TC260 XMP metadata unchanged, no invented landmark, "
                   "everything above in the Chinese canon sections overrides this line."
                   % (STYLE_CORE, TAIL_BY_TYPE[typ], aspect.split("，")[0],
+                     sun_frame_phrase(rel, focal_mm(取景),
+                                      rec.get("lighting_baseline") == "labeled variant"),
+                     background_phrase(eid, 取景, facing),
                      STREET_TRACES, SIGNAGE_RULE, NEGATIVE_TAG))
     # UTF-8 / LF的完整生成输入：身份、硬参数、原文、价格、尺寸和中英文模板。
     # 状态、摘要自身、图片路径、批次与人工备注在计算后加入，避免自引用与回填漂移。

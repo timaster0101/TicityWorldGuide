@@ -4,6 +4,7 @@
 跑法：python 工具/test_image_assets.py（工作目录＝设定集根）
 """
 import json
+import os
 import re
 import sys
 import unittest
@@ -19,20 +20,41 @@ class ReviewNoteHistory(unittest.TestCase):
         self.items = {i['id']: i for i in self.manifest['items']}
         self.notes = json.loads((ROOT / '数据' / '开图验收备注.json').read_text(encoding='utf-8'))['备注']
 
+    # 第3期从 git 809ed08 找回的 4 条长文本；本轮 C97 后又追加 4 条回填备注（D03／D08／S02／S18）。
+    RECOVERED = ('D01', 'L007', 'L008', 'R043')
+    BACKFILLED = ('D03', 'D08', 'S02', 'S18')
+
     def test_four_long_notes_recovered(self):
-        self.assertEqual(sorted(self.notes), ['D01', 'L007', 'L008', 'R043'])
+        self.assertEqual(sorted(self.notes), sorted(self.RECOVERED + self.BACKFILLED))
         # 本轮实测：809ed08 的原始长度 518/226/231/151，各带一条同文派生原因，剥净后如下
-        self.assertEqual({k: len(v[0]) for k, v in self.notes.items()},
+        self.assertEqual({k: len(v[0]) for k, v in self.notes.items() if k in self.RECOVERED},
                          {'D01': 204, 'L007': 491, 'L008': 199, 'R043': 124})
         for eid, rows in self.notes.items():
             self.assertTrue(all(r.strip() for r in rows), eid)
             self.assertNotIn('图片对应的基准提示词已变化', rows[-1], f'{eid} 手工源里混入了派生原因')
 
+    def test_backfill_notes_name_the_appended_cell_and_refuse_to_sign(self):
+        """回填批次必须自带出处：文件名、容器口径、目视判读与「不代签」四要素缺一，
+        下一轮就查不到这格图是哪一批、按哪条裁定计进来的。"""
+        for eid in self.BACKFILLED:
+            with self.subTest(eid=eid):
+                row = self.notes[eid][-1]
+                self.assertIn('vibe_images/', row)
+                self.assertIn('C97', row)
+                self.assertIn('待复验', row)
+                self.assertIn('不代签验收', row)
+                item = self.items[eid]
+                self.assertEqual(len(item['image_file']), 5, eid)
+                self.assertTrue(item['image_file'][-1].startswith('vibe_images/'), eid)
+                self.assertIn(item['image_file'][-1], row)
+                self.assertEqual(item['status'], '待复验', eid)
+                self.assertFalse(item.get('image_prompt_sha256'), '%s 已绑定摘要，不该再追加格' % eid)
+
     def test_history_survives_and_note_still_derives(self):
         # 308 条没有人工长文本，历史是空数组：判"键在不在"而不是"值真不真"；键随名录扩到312条
         self.assertEqual(sum(1 for i in self.items.values() if 'review_note_history' in i), 312)
-        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 4)
-        for eid in ('L007', 'L008', 'R043', 'D01'):
+        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 8)
+        for eid in self.RECOVERED + self.BACKFILLED:
             hist = self.items[eid]['review_note_history']
             self.assertEqual(hist, self.notes[eid], eid)
             self.assertIn(self.notes[eid][-1], self.items[eid]['review_note'])
@@ -63,6 +85,31 @@ def write_jpeg(name, segments):
 XMP_NS = b'http://ns.adobe.com/xap/1.0/\x00'
 
 
+def png(caBX_payload=None, ihdr=True):
+    """拼一个真 PNG 外壳：IHDR＋可选 caBX＋IEND。块长度字段必须实算，
+    写死常数会让核验器在长度不符时提前退出，测的就不是 caBX 那条判据了。"""
+    out = b'\x89PNG\r\n\x1a\n'
+    if ihdr:
+        out += _chunk(b'IHDR', bytes(13))
+    if caBX_payload is not None:
+        out += _chunk(b'caBX', caBX_payload)
+    return out + _chunk(b'IEND', b'')
+
+
+def _chunk(kind, payload):
+    body = kind + payload
+    import zlib
+    return len(payload).to_bytes(4, 'big') + body + \
+        zlib.crc32(body).to_bytes(4, 'big')
+
+
+def write_png(name, caBX_payload=None):
+    import tempfile
+    tmp = Path(tempfile.mkdtemp())
+    (tmp / name).write_bytes(png(caBX_payload))
+    return tmp
+
+
 class AssetGate(unittest.TestCase):
     def setUp(self):
         import verify_image_assets as va
@@ -72,25 +119,33 @@ class AssetGate(unittest.TestCase):
 
     def test_paths_are_authoritative_and_unique(self):
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
-        self.assertEqual(len(paths), 1056)
-        self.assertEqual(len(set(paths)), 1056)
+        self.assertEqual(len(paths), 1060)
+        self.assertEqual(len(set(paths)), 1060)
         self.assertEqual(sum(1 for i in self.manifest['items'] if i.get('image_file')), 264)
 
     def test_report_all_green_and_disclaims(self):
-        self.assertEqual(self.report['文件格数'], 1056)
+        self.assertEqual(self.report['文件格数'], 1060)
         self.assertEqual(self.report['失败格数'], 0)
-        self.assertEqual(self.report['通过格数'], 1056)
+        self.assertEqual(self.report['通过格数'], 1060)
+        # 回填的 E1 批次 4 格必须真按 C2PA 容器计入，否则「认容器是识别」只写在裁定里、查不到证据。
+        self.assertEqual(self.report['C2PA在位格数'], 4)
         self.assertNotIn('已验收', json.dumps(self.report, ensure_ascii=False))
         self.assertIn('结构合规不等于视觉验收', self.report['声明'])
 
-    def test_c2pa_absent_is_expected_not_failure(self):
-        self.assertEqual(self.report['C2PA在位格数'], 0)
-        self.assertIn('C2PA', self.report['判据'])
+    def test_c2pa_absent_on_gallery_is_expected_not_failure(self):
+        # 图集那批只写 XMP·TC260，C2PA 缺位不判红也不催办；容器计数要与逐格结论对得上，不能各报各的。
+        self.assertEqual(self.report['C2PA在位格数'], self.report['容器计数']['C2PA(caBX)'])
+        self.assertEqual(self.report['容器计数']['XMP·TC260'] + self.report['容器计数']['C2PA(caBX)'],
+                         self.report['通过格数'])
 
-    def test_c2pa_is_recorded_not_a_delivery_criterion(self):
-        # 缺位既不是判红也不是待办，口径要写死，否则每轮都要有人重新问一遍
-        for token in ('不是交付判据', '不列待办'):
+    def test_two_containers_are_the_delivery_criterion(self):
+        # C97 口径：JPEG 走 XMP·TC260，PNG 走 caBX·C2PA；C83 的「不属交付判据」只对 JPEG 侧成立，
+        # 这句必须在核验产物里写清，否则下一轮又会把 PNG 判成不合规或把 JPEG 放松。
+        for token in ('两条被接受的标识容器（C97）', '不放松原 JPEG 路径'):
             self.assertIn(token, self.report['判据'])
+        for token in ('C83', 'C97', '不得由脚本给图片补写元数据过闸'):
+            self.assertIn(token, self.report['C2PA口径'])
+        self.assertIn('只记提示、不判红', self.report['提示口径'])
         self.assertNotIn('本期不改名', self.report['提示口径'])
         self.assertIn('rename_gallery_ext', self.report['提示口径'])
 
@@ -105,9 +160,18 @@ class AssetGate(unittest.TestCase):
         self.assertEqual(self.report['提示格数'], 0)
         self.assertEqual(self.report['失败格数'], 0)
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
-        self.assertEqual(len(paths), 1056)
-        for p in paths:
+        self.assertEqual(len(paths), 1060)
+        # C82 的归一只管 数据/图集/ 那批；E1 放量批次（C97 起认 caBX·C2PA 容器）是真 PNG，
+        # 按字节与容器引用，不改名也不要求它变成 .jpg。
+        gallery = [p for p in paths if p.startswith('数据/图集/')]
+        out_of_gallery = [p for p in paths if not p.startswith('数据/图集/')]
+        self.assertEqual(len(gallery), 1056)
+        self.assertEqual(len(out_of_gallery), 4)
+        for p in gallery:
             self.assertTrue(p.lower().endswith(('.jpg', '.jpeg')), p)
+            self.assertTrue((ROOT / p).is_file(), p)
+        for p in out_of_gallery:
+            self.assertTrue(p.lower().endswith('.png'), p)
             self.assertTrue((ROOT / p).is_file(), p)
 
     def test_out_of_gallery_extension_sweep_is_advisory(self):
@@ -143,12 +207,51 @@ class AssetGate(unittest.TestCase):
         bad = self.va.check([{'id': 'X004', 'image_file': ['有TC260无AIGC.jpg']}], root=tmp)
         self.assertEqual(bad['失败明细'][0]['原因'], 'XMP缺AIGC标识')
 
-    def test_non_jpeg_magic_fixture_red(self):
+    def test_bare_png_without_caBX_fixture_red(self):
+        # C97 后 PNG 是被接受的容器，所以「PNG 但没标识块」必须从「非JPEG字节头」改判为容器缺位，
+        # 而不是被旧口径误当成 JPEG 缺 XMP——两种原因对应的修法完全不同。
+        tmp = write_png('无标识块.png')
+        bad = self.va.check([{'id': 'X005', 'image_file': ['无标识块.png']}], root=tmp)
+        self.assertEqual(bad['失败明细'][0]['原因'], 'PNG缺caBX标识块')
+
+    def test_neither_jpeg_nor_png_magic_fixture_red(self):
         import tempfile
         tmp = Path(tempfile.mkdtemp())
-        (tmp / '假png.png').write_bytes(b'\x89PNG\r\n\x1a\n' + bytes(24))
-        bad = self.va.check([{'id': 'X005', 'image_file': ['假png.png']}], root=tmp)
-        self.assertEqual(bad['失败明细'][0]['原因'], '非JPEG字节头')
+        (tmp / '假图.jpg').write_bytes(b'GIF89a' + bytes(24))
+        bad = self.va.check([{'id': 'X011', 'image_file': ['假图.jpg']}], root=tmp)
+        self.assertEqual(bad['失败明细'][0]['原因'], '字节头既非JPEG亦非PNG')
+
+    def test_png_caBX_with_c2pa_declaration_passes(self):
+        tmp = write_png('带C2PA.png', b'urn:c2pa:abcd jumb '
+                        b'http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia')
+        ok = self.va.check([{'id': 'X012', 'image_file': ['带C2PA.png']}], root=tmp)
+        self.assertEqual((ok['通过格数'], ok['失败格数'], ok['提示格数'], ok['C2PA在位格数']), (1, 0, 0, 1))
+        self.assertEqual(ok['逐格'][0]['标识容器'], 'C2PA(caBX)')
+
+    def test_png_caBX_missing_generative_declaration_fixture_red(self):
+        # 有 C2PA 清单但没有生成式来源声明＝容器在、标识不在，必须判红；
+        # 这条就是「不得由脚本补写元数据过闸」的反面：判据认的是平台写进去的声明。
+        tmp = write_png('有清单无声明.png', b'urn:c2pa:abcd jumb c2pa.actions.v2')
+        bad = self.va.check([{'id': 'X013', 'image_file': ['有清单无声明.png']}], root=tmp)
+        self.assertEqual(bad['失败明细'][0]['原因'], 'caBX缺生成式AI标识')
+
+    def test_png_caBX_without_c2pa_manifest_fixture_red(self):
+        tmp = write_png('有块无清单.png', b'trainedAlgorithmicMedia Generated with AI')
+        bad = self.va.check([{'id': 'X014', 'image_file': ['有块无清单.png']}], root=tmp)
+        self.assertEqual(bad['失败明细'][0]['原因'], 'caBX缺C2PA清单')
+
+    def test_archived_e1_pngs_carry_the_accepted_container(self):
+        # 真实夹具：归档的 E1 定档与重出图必须被新判据认下，不能只靠合成字节自证。
+        import glob
+        paths = sorted(glob.glob(str(ROOT / '数据' / '视觉控制资产' / 'E1定档-20261103' / '*.png')))
+        self.assertEqual(len(paths), 12)
+        for p in paths:
+            with self.subTest(path=os.path.relpath(p, ROOT)):
+                info = self.va.sniff(Path(p))
+                self.assertEqual((info['PNG'], info['caBX'], info['C2PA'], info['AIGC声明']),
+                                 (True, True, True, True))
+                self.assertEqual(info['标识容器'], 'C2PA(caBX)')
+                self.assertIsNone(self.va.verdict(info))
 
     def test_c2pa_box_fixture_does_not_turn_xmp_green(self):
         tmp = write_jpeg('带jumb.jpg', [(b'\xff\xeb', b'jumb' + bytes(20)),
@@ -187,12 +290,22 @@ class AssetRulings(unittest.TestCase):
         for cid in self.IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 93)
-        self.assertEqual(rows[-1]['编号'], 'C93')
+        self.assertEqual(len(rows), 103)
+        self.assertEqual(rows[-1]['编号'], 'C103')
         self.assertIn('rename_gallery_ext', by_id['C82']['裁定'])
         self.assertIn('不是交付判据', by_id['C83']['裁定'])
         self.assertIn('不判红、不改名', by_id['C84']['裁定'])
         self.assertIn('按文件名引用', by_id['C84']['原因'])
+
+    def test_c97_records_the_two_accepted_containers(self):
+        """C97 是双容器交付判据的唯一出处：裁定措辞一旦被回退，核验脚本的判据文本与裁定记录就各说各话，
+        所以把容器名单、判红边界与「补写即伪造」一起钉在这里。"""
+        rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
+        by_id = {r['编号']: r for r in rows}
+        self.assertEqual(set(by_id['C97']), {'编号', '裁定', '原因', '影响'})
+        for token in ('caBX', 'trainedAlgorithmicMedia', '字节头既非 JPEG 也非 PNG 直接判红', '补写是伪造'):
+            self.assertIn(token, by_id['C97']['裁定'])
+        self.assertIn('通过 1056/1056', by_id['C97']['影响'])
 
 
 if __name__ == '__main__':

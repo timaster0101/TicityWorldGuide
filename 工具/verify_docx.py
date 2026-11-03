@@ -1,4 +1,9 @@
-"""Verify ordered Markdown/DOCX content and XML structure, not rendering or XSD validity."""
+"""Verify ordered Markdown/DOCX content and XML structure, not rendering or XSD validity.
+
+渲染一栏不在本脚本的判定权内：它只回显人工维护的 `数据/Word渲染目视.json`，并核对该记录绑定的
+DOCX 摘要是否就是当前这份。docx 重导后摘要变化，目视结论自动失效，须重看——与图片的
+`image_prompt_sha256` 同一口径。脚本不得把 `rendering_verified` 自行置真。
+"""
 import argparse
 from collections import Counter
 from difflib import SequenceMatcher
@@ -15,7 +20,39 @@ import zlib
 DEFAULT_ROOT = Path(__file__).resolve().parent.parent
 BOOK = '钛湖城城市设定集-完整合订本'
 REPORT = Path('数据') / 'Word核验结果.json'
+RECORD = Path('数据') / 'Word渲染目视.json'
 W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
+# 目视记录必须自带的字段与必须覆盖的范围：缺任何一项都不算看过，脚本只核对不补写。
+RECORD_FIELDS = ('docx_sha256', '渲染方式', '目视范围', '结论', '核验人', '日期')
+RECORD_SCOPE = ('封面计数', '目录页码', '分卷首页', '表格页', '末页截断')
+
+
+def rendering_state(root, docx_sha256):
+    """Return (verified, note) from the human record only; never infer a verdict from structure."""
+    if not docx_sha256:
+        return False, 'DOCX 未能读取，无摘要可绑定'
+    try:
+        record = json.loads((Path(root) / RECORD).read_text(encoding='utf-8'))['目视记录']
+    except FileNotFoundError:
+        return False, '缺少人工目视记录 %s，未做渲染级目视' % RECORD.as_posix()
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        return False, '人工目视记录读取失败：%s' % error
+    missing = [name for name in RECORD_FIELDS if not str(record.get(name) or '').strip()]
+    if missing:
+        return False, '人工目视记录缺字段：%s' % '、'.join(missing)
+    scope = record['目视范围'] if isinstance(record['目视范围'], list) else [record['目视范围']]
+    gaps = [name for name in RECORD_SCOPE if name not in scope]
+    if gaps:
+        return False, '目视范围未覆盖：%s' % '、'.join(gaps)
+    if record['docx_sha256'] != docx_sha256:
+        return False, ('目视记录绑定的是另一份 DOCX（记录 %s…，当前 %s…）：重导即失效，须重看'
+                       % (record['docx_sha256'][:8], docx_sha256[:8]))
+    if record['结论'].strip() != '通过':
+        return False, '人工结论为「%s」，不是通过' % record['结论'].strip()
+    if record.get('问题'):
+        return False, '仍有未收口问题：%s' % '；'.join(str(item) for item in record['问题'][:3])
+    return True, '结论来自 %s：由「%s」按「%s」目视，绑定当前 DOCX 摘要' % (
+        RECORD.as_posix(), record['核验人'], record['渲染方式'])
 
 
 def _inline(text):
@@ -216,6 +253,7 @@ def verify(root=DEFAULT_ROOT):
         'page_break_count': 0, 'page_break_before_count': 0, 'explicit_page_break_count': 0,
         'toc_field_count': 0, 'xml_parts': 0, 'xml_part_names': [],
         'crc_verified': False, 'update_fields': False, 'rendering_verified': False,
+        'rendering_note': '未执行渲染级目视',
         'source_block_count': 0, 'docx_body_block_count': 0,
         'body_anchor': None, 'differences': [],
     }
@@ -324,6 +362,7 @@ def verify(root=DEFAULT_ROOT):
             result['differences'] = _differences(source_blocks, actual)
             if result['differences']:
                 result['errors'].append('正文有序块不一致: %d 处差异（完整内容见 differences）' % len(result['differences']))
+    result['rendering_verified'], result['rendering_note'] = rendering_state(root, result['docx_sha256'])
     result['passed'] = not result['errors']
     return result
 

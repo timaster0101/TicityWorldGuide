@@ -9,6 +9,7 @@ const {
 const root = path.resolve(__dirname, '..');
 const source = fs.readFileSync(path.join(root, '钛湖城城市设定集-完整合订本.md'), 'utf8');
 // 封面计数从名录现取，与 compile_book.py 的副标题同口径；名录扩容后不必手改这里。
+// 四档必须把 312 条分完（村镇＋片区＋功能区与地标＋居民区），少列一类就会让读者把 148 当成全书面包络。
 const registry = JSON.parse(fs.readFileSync(path.join(root, '数据', '城市空间名录.json'), 'utf8'));
 const countBy = {};
 for (const e of registry.entries) countBy[e.type] = (countBy[e.type] || 0) + 1;
@@ -54,7 +55,7 @@ function metadataTable(lines) {
 
 body.push(new Paragraph({ spacing: { before: 1200, after: 280 }, children: [new TextRun({ text: '钛湖城', size: 72, bold: true, color: '243F3C' })] }));
 body.push(new Paragraph({ spacing: { after: 360 }, children: [new TextRun({ text: '城市设定集 · 完整合订本', size: 36, color: '344B4E' })] }));
-body.push(new Paragraph({ children: [new TextRun({ text: `${settlementCount} 个外围聚落  /  ${interiorCount} 项城市空间  /  ${countBy['居民区']} 个著名居民区`, size: 24 })] }));
+body.push(new Paragraph({ children: [new TextRun({ text: `${settlementCount} 个外围聚落  /  ${countBy['城市片区']} 个城市片区  /  ${interiorCount} 项功能区与地标  /  ${countBy['居民区']} 个著名居民区`, size: 24 })] }));
 body.push(new Paragraph({ children: [new TextRun({ text: '2013 年原创虚构城市正典 · 版本 1.0', size: 22 })] }));
 body.push(new Paragraph({ spacing: { before: 500 }, children: runs('中心有湖，河流延伸，四面环山。以空间参数、可绘制外观和真实生活节奏，建立可持续创作的山水城市。') }));
 body.push(new Paragraph({ children: runs('使用本书前先阅读城市总纲的面积与人口口径。空间索引图、全域村镇图、可检索JSON与单卷文件随交付包提供。') }));

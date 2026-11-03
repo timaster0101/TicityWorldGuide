@@ -13,8 +13,10 @@ import zipfile
 
 sys.dont_write_bytecode = True
 VERIFY_PATH = Path(__file__).with_name('verify_docx.py')
+ROOT = Path(__file__).resolve().parents[1]
 BOOK = '钛湖城城市设定集-完整合订本'
 REPORT = Path('数据') / 'Word核验结果.json'
+_OMIT = object()  # 负测里用它表示「这个字段干脆不写」
 W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
 SOURCE = '''# 合订本
 
@@ -334,6 +336,89 @@ class DocxVerificationTests(unittest.TestCase):
         missing = subprocess.run(command, capture_output=True, encoding='utf-8')
         self.assertNotEqual(missing.returncode, 0)
         self.assert_failed(json.loads(missing.stdout))
+
+
+class RenderingRecordTests(unittest.TestCase):
+    """rendering_verified 只能由人工记录置真：verify_docx.py 不许从结构、页数或 passed 反推目视结论。
+
+    违例负测逐条注入（缺档、串摘要、范围不足、结论非通过、问题未收口、字段为空），
+    每条都必须落回 False 且给出可执行的 note；唯一为真的形态是「绑定当前摘要的通过结论」。
+    """
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        spec = importlib.util.spec_from_file_location('verify_docx_for_rendering', VERIFY_PATH)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        self.state = module.rendering_state
+        self.sha = hashlib.sha256(b'current docx').hexdigest()
+        (self.root / '数据').mkdir()
+
+    def write_record(self, **overrides):
+        record = {'docx_sha256': self.sha, '渲染方式': 'Word 2007 COM 导 PDF 后逐页目视',
+                  '目视范围': ['封面计数', '目录页码', '分卷首页', '表格页', '末页截断'],
+                  '结论': '通过', '问题': [], '核验人': '人工', '日期': '2026-11-03'}
+        for key, value in overrides.items():
+            if value is _OMIT:
+                record.pop(key, None)
+            else:
+                record[key] = value
+        path = self.root / '数据' / 'Word渲染目视.json'
+        path.write_text(json.dumps({'目视记录': record}, ensure_ascii=False), encoding='utf-8')
+        return record
+
+    def test_matching_human_record_is_the_only_true_case(self):
+        self.write_record()
+        verified, note = self.state(self.root, self.sha)
+        self.assertTrue(verified, note)
+        self.assertIn('数据/Word渲染目视.json', note)
+
+    def test_absent_or_unreadable_record_stays_false(self):
+        verified, note = self.state(self.root, self.sha)
+        self.assertFalse(verified)
+        self.assertIn('缺少人工目视记录', note)
+        (self.root / '数据' / 'Word渲染目视.json').write_text('{不是 JSON', encoding='utf-8')
+        self.assertFalse(self.state(self.root, self.sha)[0])
+
+    def test_stale_hash_rejects_after_reexport(self):
+        self.write_record()
+        verified, note = self.state(self.root, hashlib.sha256(b'reexported docx').hexdigest())
+        self.assertFalse(verified)
+        self.assertIn('重导即失效', note)
+
+    def test_incomplete_scope_blank_field_nonpass_or_open_issue_rejects(self):
+        variants = {
+            '目视范围少一项': {'目视范围': ['封面计数', '目录页码', '分卷首页', '表格页']},
+            '结论非通过': {'结论': '有问题'},
+            '结论为空': {'结论': '  '},
+            '问题未收口': {'问题': ['第 24 页表格裁切']},
+            '缺核验人': {'核验人': _OMIT},
+            '缺渲染方式': {'渲染方式': ''},
+            '缺日期': {'日期': _OMIT},
+        }
+        for label, overrides in variants.items():
+            with self.subTest(case=label):
+                self.write_record(**overrides)
+                verified, note = self.state(self.root, self.sha)
+                self.assertFalse(verified, label)
+                self.assertTrue(note.strip(), label)
+
+    def test_delivered_record_binds_the_delivered_docx(self):
+        """真实交付态：本轮目视记录必须绑在当前合订本 docx 上，且 verify() 读得出 true。
+        重导 docx 后这条会判红——那正是「重导须重看」的口径，不许靠改测试消掉。"""
+        real_record = ROOT / '数据' / 'Word渲染目视.json'
+        self.assertTrue(real_record.is_file(), '缺少人工目视记录，A5 未收口')
+        docx_sha = hashlib.sha256((ROOT / (BOOK + '.docx')).read_bytes()).hexdigest()
+        record = json.loads(real_record.read_text(encoding='utf-8'))['目视记录']
+        self.assertEqual(record['docx_sha256'], docx_sha, '目视记录绑的是另一份 docx，须重新目视')
+        spec = importlib.util.spec_from_file_location('verify_docx_real', VERIFY_PATH)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        result = module.verify(ROOT)
+        self.assertTrue(result['passed'], result['errors'])
+        self.assertTrue(result['rendering_verified'], result['rendering_note'])
 
 
 if __name__ == '__main__':

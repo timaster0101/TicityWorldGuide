@@ -251,12 +251,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_93(self):
+    def test_rulings_are_103(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 93)
-        self.assertEqual(rulings[-1]['编号'], 'C93')
+        self.assertEqual(len(rulings), 103)
+        self.assertEqual(rulings[-1]['编号'], 'C103')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C84', 'C85', 'C86', 'C87', 'C88', 'C89', 'C90', 'C91', 'C92', 'C93'])
+                         ['C94', 'C95', 'C96', 'C97', 'C98', 'C99', 'C100', 'C101', 'C102', 'C103'])
         by_id = {r['编号']: r for r in rulings}
         # C89 的「高度第一交给 L066、形态第一留在 L007」是本卷定价外溢的唯一出处，钉死措辞防止被改写后说明与价表脱钩。
         self.assertIn('458米/106层', by_id['C89']['裁定'])
@@ -281,7 +281,71 @@ class CanonConsistency(unittest.TestCase):
         self.assertIn('【通道分工已被C88定档、并由C93于2026-11-03执行作废', by_id['C85']['裁定'])
         self.assertIn('只许以否定式出现在 NEGATIVE_TAG', by_id['C93']['裁定'])
         self.assertIn('312/312', by_id['C93']['影响'])
-        self.assertIn('本条零出图、未花额度', by_id['C93']['影响'])
+        # C93 原尾句「本条零出图、未花额度」与「四张片区定档属未做」由 C94 执行后订正；
+        # 措辞钉随之前移，否则裁定记录回退到旧口径时这里仍会空转判绿。
+        self.assertIn('四张片区定档与放量前探针已由 C94 于 2026-11-03 执行完毕', by_id['C93']['影响'])
+        # C94 的两条唯一出处：L007 塔冠按画风分档、E1 通道标识格式与交付判据不兼容。
+        self.assertIn('写实档失效、E1 档已兑现', by_id['C94']['裁定'])
+        self.assertIn('19492 字节的 C2PA 清单', by_id['C94']['影响'])
+        self.assertIn('不回填 image_file', by_id['C94']['影响'])
+        # C95 的画框可纳性算式与 23/5 分档是 A6 结论的唯一出处；少了算式，下一轮高度档再抬时无人知道 need/vFOV 怎么算。
+        self.assertIn('vFOV = 2·arctan(18/焦距毫米)', by_id['C95']['裁定'])
+        self.assertIn('23 条 need ≤ vFOV', by_id['C95']['裁定'])
+        self.assertIn('唯一点名屋顶物件的是 L083', by_id['C95']['裁定'])
+        # 摘要覆盖范围的订正是放量口径的前提：这句一旦被回退成「本就不含文件头」，投喂与摘要的关系又会各说各话。
+        self.assertIn('投喂时剥文件头属操作口径，与摘要范围不是一回事', by_id['C95']['裁定'])
+        self.assertIn('改机位 0 条，取景段措辞改 1 条（L083）', by_id['C95']['影响'])
+        self.assertIn('prompt_sha256 变更 1/312', by_id['C95']['影响'])
+        # C95 的口径落成一条新判据，配同轮违例注入负测；这句在，闸门与裁定的对应关系才有唯一出处。
+        self.assertIn('本轮新增判据进 工具/test_prompts.py', by_id['C95']['影响'])
+        self.assertIn('注入 L083 订正前的旧写法判红', by_id['C95']['影响'])
+        # C96 的分诊读数与批次编排是 B4 不判红、B6 单独成批的唯一出处。
+        self.assertIn('B4 的触发条件「出图普遍空街」不成立', by_id['C96']['裁定'])
+        self.assertIn('夜光批 4 条、清晨批 4 条、雨后批 7 条、晴日批 1 条', by_id['C96']['裁定'])
+        self.assertIn('验收不互相覆盖', by_id['C96']['裁定'])
+        self.assertIn('B4 缺席类命中 3/118', by_id['C96']['影响'])
+        self.assertIn('两项均为零额度、零出图', by_id['C96']['影响'])
+        # C97 双容器与 C98 纵深次序交还的措辞钉：两句分别是对应闸门与对应 tail 的唯一出处。
+        self.assertIn('接受 C2PA 容器', by_id['C97']['裁定'])
+        self.assertIn('补写是伪造，认容器是识别', by_id['C97']['裁定'])
+        self.assertIn('工具/test_image_assets.py 同轮配违例负测四条', by_id['C97']['影响'])
+        self.assertIn('"behind old layer"', by_id['C98']['裁定'])
+        self.assertIn('其余五类 tail 的接触动词', by_id['C98']['裁定'])
+        self.assertIn('prompt_sha256 变更 20/312', by_id['C98']['影响'])
+        self.assertIn('模块实跑 30/30', by_id['C98']['影响'])
+        # C99 的日面可纳性算式与「侧别≠可见」两句是本轮 tail 改动和判据的唯一出处；
+        # 少了算式，下一轮焦距或方位档再动时无人知道 in/out 分支怎么判，也容易退回静态句。
+        self.assertIn('atan(18/焦距)', by_id['C99']['裁定'])
+        self.assertIn('「在哪个侧别」与「日面可不可见」是两件事', by_id['C99']['裁定'])
+        self.assertIn('keep the sun disc, the setting-sun glow and any lens flare out of the picture entirely',
+                      by_id['C99']['裁定'])
+        self.assertIn('可入画 59／须画外 237／变体静态句 16', by_id['C99']['影响'])
+        self.assertIn('模块实跑 32/32', by_id['C99']['影响'])
+        # C100 的「锚点提到首句」与 C101 的「远景按机位算可纳性」是本轮两处 tail 改动的唯一出处；
+        # 前者若不钉住，下一轮容易又退回「往尾串叠画风词」，后者若不钉住 38/47 根塔那个失败方案会被重捡。
+        self.assertIn('模型按题材定档、不按尾串改档', by_id['C100']['裁定'])
+        self.assertIn('只写 rather than a snapshot', by_id['C100']['裁定'])
+        self.assertIn('5 张出成照片质感', by_id['C100']['裁定'])
+        self.assertIn('ANCHOR_MARKS 五个短语', by_id['C100']['影响'])
+        self.assertIn('实测不可用', by_id['C101']['裁定'])
+        self.assertIn('静态分支不写高度是为了不把名录的 L007／L066 高度串进 244 条', by_id['C101']['原因'])
+        self.assertIn('computed 68／static 244', by_id['C101']['影响'])
+        self.assertIn('偏右111.5°', by_id['C101']['影响'])
+        self.assertIn('大面积误判红 188 项', by_id['C101']['影响'])
+        # C102 的「人工记录＋摘要绑定」与 C103 的「套件不进链、不写结论」是本轮两处收口的唯一出处：
+        # 这两句一旦从裁定里被删，rendering_verified 的失效条件与复看套件的边界就重新变成口头承诺。
+        self.assertIn('重导即失效，须重看', by_id['C102']['裁定'])
+        self.assertIn('`rendering_verified` 不进 `passed`', by_id['C102']['裁定'])
+        self.assertIn('24+148+120=292 与全书 312 条对不上', by_id['C102']['裁定'])
+        self.assertIn('常量 false，没有任何人工入口', by_id['C102']['原因'])
+        self.assertIn('18/18 与书签实际页逐一相等', by_id['C102']['影响'])
+        self.assertIn('先因摘要不匹配自动回落 false', by_id['C102']['影响'])
+        self.assertIn('套件不进闸门链、不写结论', by_id['C103']['裁定'])
+        self.assertIn('`atan(18/焦距)` 独立复算一遍', by_id['C103']['裁定'])
+        self.assertIn('唯一可编辑源仍是 `数据/开图验收备注.json`', by_id['C103']['裁定'])
+        self.assertIn('suite items 264 cells 1060 pages 33 notes 8', by_id['C103']['影响'])
+        self.assertIn('C2PA 在位 4 格', by_id['C103']['影响'])
+        self.assertIn('`git ls-files -i -c` 为 0', by_id['C103']['影响'])
 
 
     def test_manual_chains_costs_before_occupations(self):
