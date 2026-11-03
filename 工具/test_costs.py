@@ -251,12 +251,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_108(self):
+    def test_rulings_are_110(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 108)
-        self.assertEqual(rulings[-1]['编号'], 'C108')
+        self.assertEqual(len(rulings), 110)
+        self.assertEqual(rulings[-1]['编号'], 'C110')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C99', 'C100', 'C101', 'C102', 'C103', 'C104', 'C105', 'C106', 'C107', 'C108'])
+                         ['C101', 'C102', 'C103', 'C104', 'C105', 'C106', 'C107', 'C108', 'C109', 'C110'])
         by_id = {r['编号']: r for r in rulings}
         # C89 的「高度第一交给 L066、形态第一留在 L007」是本卷定价外溢的唯一出处，钉死措辞防止被改写后说明与价表脱钩。
         self.assertIn('458米/106层', by_id['C89']['裁定'])
@@ -404,6 +404,23 @@ class CanonConsistency(unittest.TestCase):
         self.assertIn('换串不洗白任何一张图', by_id['C108']['影响'])
         self.assertIn('`test_prompts` 47→50', by_id['C108']['影响'])
         self.assertIn('计数钉 107→108', by_id['C108']['影响'])
+        # C109 的硬话是「框外分支一律不给形制」和「生成器不代改正稿」：
+        # 前者一旦丢，下一轮就会给框外塔也写上形制，等于把「不许出现」的塔画进画面；
+        # 后者一旦丢，改原稿冠部措辞后形制串会带着旧形制继续出图，正典与画面各说一套。
+        self.assertIn('框外分支一律不给形制', by_id['C109']['裁定'])
+        self.assertIn('SUPERTALL_FORM', by_id['C109']['裁定'])
+        self.assertIn('生成器不代改正稿', by_id['C109']['裁定'])
+        self.assertIn('未落「非对称直线斜削冠＋细针状天线」', by_id['C109']['原因'])
+        self.assertIn('换串不洗白任何一张图', by_id['C109']['影响'])
+        self.assertIn('`工具/test_prompts.py` 镜像重抄形制串（刻意不 import）', by_id['C109']['影响'])
+        # C110 的硬话是「不在名录里登记新条目」和「按画面材质核对、不要求名录承载体」：
+        # 前者一旦丢，收口就会变成凭空造一个轻轨站写进正典；后者一旦丢，材质词会被当成设施去索要承载体。
+        self.assertIn('不在名录里登记新条目', by_id['C110']['裁定'])
+        self.assertIn('TECH_CARRIER_WORDS', by_id['C110']['裁定'])
+        self.assertIn('按画面材质核对、不要求名录承载体', by_id['C110']['裁定'])
+        self.assertIn('不擅自宣布新增轨道站位', by_id['C110']['原因'])
+        self.assertIn('本轮是第三回改写', by_id['C110']['影响'])
+        self.assertIn('计数钉 108→110', by_id['C110']['影响'])
 
 
     def test_manual_chains_costs_before_occupations(self):

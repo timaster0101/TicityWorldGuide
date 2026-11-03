@@ -102,6 +102,35 @@ CAMERA_COORD = re.compile(r'[\(\（]\s*(-?\d+(?:\.\d+)?)\s*[,，、]\s*(-?\d+(?:
 # 全城只有这两根超高层在正典里以冠部形态互相区分，穿帮也集中在这里（D03 v03、L066 v01／v02、R009 v01）。
 NAMED_SUPERTALLS = ("L007", "L066")
 
+# C109：C106 钉住了「形体来源」，L083 的两版仍各塌一处（v06 塌侧别、v07 把 L007 画成平顶＋居中细针，塌冠部形制）。
+# 「按本正典自己的几何画」是泛指——模型读得到 straight shafts／flat or stepped crowns，读不到「这一根具体是什么冠」。
+# 于是点名句必须带该塔自己的形制。形制串逐字取自各地标自己的【外观与辨识细节】与【锁定项与禁则】，
+# 由下面的守卫逐字核回：原稿改了冠部措辞而这里没跟着改，生成器直接退出，不允许带着旧形制继续出图。
+# 没被点名的远景塔一律只画体量不画冠部（剪影兜底写在 SKYLINE_SOURCE_RULE 末句）。
+SUPERTALL_FORM = {
+    "L007": (("非对称直线斜削冠", "细针状天线"),
+             "a deep blue-grey straight shaft closed by an asymmetric straight-cut sloped crown whose high side "
+             "carries a slender needle antenna (非对称直线斜削冠＋细针状天线), and this crown belongs to L007 alone"),
+    "L066": (("四角小切角", "禁止加塔冠天线"),
+             "a straight shaft whose section has small cut corners at the four corners and whose roof carries no "
+             "crown antenna at all (四角小切角轮廓、禁止加塔冠天线)"),
+}
+
+_SECTIONS_BY_ID = {rec["id"]: (rec.get("sections") or {}) for rec in KB}
+
+
+def check_supertall_form():
+    drift = []
+    for sid, (pins, _phrase) in SUPERTALL_FORM.items():
+        body = "".join(_SECTIONS_BY_ID.get(sid, {}).values())
+        drift += [sid + "「" + pin + "」" for pin in pins if pin not in body]
+    if drift:
+        raise SystemExit("远景形制点名的正典出处对不上：%s——原稿改了冠部措辞就跟着改 SUPERTALL_FORM，生成器不代改正稿"
+                         % "、".join(drift))
+
+
+check_supertall_form()
+
 
 def camera_km(取景):
     m = CAMERA_COORD.search(取景 or "")
@@ -122,7 +151,9 @@ FAR_VIEW_RULE = ("the far view must contain only what the Chinese framing sectio
 # 把远景侧别画对了（两座超高层落在左侧，与 tail 的偏左10°／偏左3° 一致），轮廓却是上海陆家嘴三件套的
 # 现成剪影——模型在「允许画远景」时默认去抄现实天际线。本条把形体来源也钉住：背景塔按本正典自己的几何画。
 SKYLINE_SOURCE_RULE = ("background towers are composed from this canon's own geometry (straight shafts, louver "
-                       "bands and the flat or stepped crowns the Chinese sections name); do not trace a real "
+                       "bands and the flat or stepped crowns the Chinese sections name); any far tower this line "
+                       "does not name a crown form for stays a plain mass with a flat or stepped top and no invented "
+                       "crown, antenna or aperture; do not trace a real "
                        "city's skyline and do not borrow a real supertall's crown, twist or aperture")
 
 
@@ -133,19 +164,20 @@ def background_phrase(eid, 取景, facing):
         if sid == eid:
             continue
         sup = REG[sid]
+        form = SUPERTALL_FORM[sid][1]
         if cam is None or facing is None or not focal:
             # 静态句刻意不写高度：这 244 条并没有几何依据，把名录高度串进来只会让 L007／L066 一改高度
             # 就连带翻掉它们的摘要，使「改硬参数只动该动的条」这条隔离判据失效。
-            parts.append("%s %s may appear only if the Chinese framing section names it, and its crown "
-                         "must not be reused on any other tower" % (sid, sup["name"]))
+            parts.append("%s %s may appear only if the Chinese framing section names it, and then painted as %s; "
+                         "its crown must not be reused on any other tower" % (sid, sup["name"], form))
             continue
         rel = offset(bearing(cam, sup["center_km"]), facing)
         half = math.degrees(math.atan(18.0 / focal))
         side = "right" if rel > 0 else "left"
         if abs(rel) <= half:
             parts.append("%s %s (%d metres) sits %.0f degrees to the %s of this camera, inside the %.0f degree "
-                         "half-angle, so it may read in the far view" % (sid, sup["name"], sup["height_m"],
-                                                                         abs(rel), side, half))
+                         "half-angle, so it may read in the far view, painted as %s"
+                         % (sid, sup["name"], sup["height_m"], abs(rel), side, half, form))
         else:
             parts.append("%s %s (%d metres) is %.0f degrees to the %s of this camera and outside this frame's %.0f "
                          "degree half-angle, so neither its silhouette nor its crown may be painted here"
@@ -272,7 +304,7 @@ VARIANT_LOCK_CLAUSE = ("本条是显式标注的时段变体：门牌、店招�
                        "星点疏密须与人物曝光相容")
 
 GLOBAL = [
-    "虚构城市钛湖城，2013年，当代现实技术；「顶级现代化」按2010年代前沿读：玻璃塔群、LED媒体立面、地下环道与综合管廊、轻轨与机场专线、光纤到楼、洁净实验室与数据中心、自助闸机、电动大巴、塔吊与在建超高层；不得用飞行汽车、载人无人机、全息投影、机器人服务员、自动驾驶车队或赛博义体表达现代性，不是赛博朋克",
+    "虚构城市钛湖城，2013年，当代现实技术；「顶级现代化」按2010年代前沿读：玻璃塔群、LED媒体立面、地下环道与综合管廊、城市轨道与枢纽换乘、光纤到楼、洁净实验室与数据中心、自助闸机、电动大巴、施工围挡与吊装作业；不得用飞行汽车、载人无人机、全息投影、机器人服务员、自动驾驶车队或赛博义体表达现代性，不是赛博朋克",
     "城市定位：顶级现代化科技城市 × 保存完好的中国老城街巷 × 烟火气。同一画面里科技层与老城层必须有物理接触，天上现代、地上生活——高层与设备在画面上半，人流与生活痕迹在画面下半；只有玻璃幕墙或只有仿古街都算不合格",
     "画风：半写实数字厚涂，笔触可辨、表面是画出来的，不是照片，也不是描边平涂的动画赛璐璐；人物保持真实比例与实际年龄特征",
     "本地坐标：湖心(0,0)，x向东、y向北，单位千米；方位北0°顺时针",
@@ -286,6 +318,26 @@ GLOBAL = [
     "正文中的无水印禁则指第三方或模型生成的水印、台标、logo与签名；招牌、店招、灯箱与门牌必须存在，但字形须是不可读的模糊笔画，不得形成可拼读的汉字或拉丁词，也不得凭空造出可读标语",
     "平台强制AIGC角标与XMP中的TC260元数据标识不属禁则，须原样保留，不得裁剪、遮盖或修补",
 ]
+
+# C110：科技层核对串里的词分两类——「具名设施词」指向需要落位的地方（站厅、管廊、数据中心、枢纽…），
+# 「表层材质词」只是画面质感（LED媒体立面、光纤到楼箱、屋顶通信设备）。核对项只许列有承载体的具名设施词，
+# 否则判据就是在要求画一个正典里不存在的地点。实测：原核对串写「轻轨」时 312 条正文 0 命中——正典的说法是
+# L037 钛湖东站的「城市轨道的东侧南北走廊向此接入」；「机场专线」「塔吊与在建超高层」同样 0 命中
+# （第5期前提复核已确认城内无机场承载体），本条把它们换成正典实有的词，并让下面的守卫逐词核回名录。
+TECH_CARRIER_WORDS = ("玻璃幕墙", "城市轨道", "站厅", "闸机", "地下环道", "管廊", "数据中心", "实验室",
+                      "光伏", "大巴", "充电", "围挡", "吊装", "换乘", "枢纽")
+TECH_SURFACE_WORDS = ("LED媒体立面", "光纤到楼箱", "屋顶通信设备")
+
+
+def check_tech_carriers():
+    bodies = ["".join(_SECTIONS_BY_ID.get(rec["id"], {}).values()) for rec in KB]
+    homeless = [word for word in TECH_CARRIER_WORDS if not any(word in body for body in bodies)]
+    if homeless:
+        raise SystemExit("科技层核对项在 312 条正文里无承载体：%s——先登记承载体或把核对串改回正典实有的词，"
+                         "生成器不代改正典" % "、".join(homeless))
+
+
+check_tech_carriers()
 
 manifest = []
 
@@ -488,7 +540,7 @@ md.append("## 批次与验收\n")
 md.append("- 建议批次顺序：%s。地标先跑，按各自正典核验建筑形态与水体关系，不统一套用单塔；片区最后跑，因其视野最广、最容易把不该看见的湖面塞进背景。" % "→".join(BATCH_ORDER))
 md.append("- 验收以条目自身的【锁定与禁则】为准，通用否决项为：曲面扭转塔、湖中建塔、把L007的非对称直线斜削冠与细针状天线安到别的塔楼上、第二个机场、海港或大型人工岛、可读的招牌字形或凭空文字（招牌、灯箱、门牌必须存在，字形须是不可读的模糊笔画，这一项只否决「可读」）、出成照片质感而读不出笔触、描边加平涂色阶的动画档、飞行汽车或全息投影一类近未来符号、第三方台标或渠道logo水印（模型侧带出的「LibTV」一类标记）、把湖面强塞进山外村镇背景。200米以上的塔楼在扩容后已成簇，按名录逐栋核对高度与冠部，不再以「第二座超过200米的塔」作否决。平台按AIGC强制标识加的「Qoder AI生成」角标与图片XMP里的TC260元数据标识不属否决项，须原样保留，不得裁剪、遮盖或修补。")
 md.append("- 人群核验以条目自身的【人群与烟火气】为准：先看本条详档人群段的具体描写，再看该类型的缺省人数档，二者冲突按详档。画面人物明显低于档位下限（空街、空场）或反过来形成盛大庆典、统一着装团体，均记为待复验；俯瞰与鸟瞰条不逐个数人，但地面必须看得出有人在走动。")
-md.append("- 画风与双层核验：本批按半写实数字厚涂开图，画面要读得出笔触、表面是画出来的；出成照片质感（毛孔、镜头噪点当成质感）或描边平涂的动画档都不合格。同一张图必须同时读得出科技层与老城层且二者有物理接触——只有玻璃幕墙、只有仿古街、或两层各占一半却被广场绿地切断，一律记待复验。科技层按2010年代前沿的实体核对（幕墙、LED媒体立面、轻轨与站厅闸机、管廊盖板、光纤箱、屋顶设备、塔吊与在建超高层），飞行汽车、载人无人机、全息投影、机器人服务员、自动驾驶车队一类近未来符号出现即判废。生活痕迹实体（晾晒、盆栽、卸货筐、摊贩热气、灯箱、非机动车停放、下棋的老人、接送孩子的家长、围挡塔吊、垃圾收集点、遛狗、积水倒影）每条至少三项，不足三项记待复验。")
+md.append("- 画风与双层核验：本批按半写实数字厚涂开图，画面要读得出笔触、表面是画出来的；出成照片质感（毛孔、镜头噪点当成质感）或描边平涂的动画档都不合格。同一张图必须同时读得出科技层与老城层且二者有物理接触——只有玻璃幕墙、只有仿古街、或两层各占一半却被广场绿地切断，一律记待复验。科技层按2010年代前沿的具名设施核对（%s），这些词逐条由生成器核回 312 条正文的承载体；LED媒体立面、光纤到楼箱与屋顶通信设备一类属表层材质词，按画面材质核对、不要求名录承载体。飞行汽车、载人无人机、全息投影、机器人服务员、自动驾驶车队一类近未来符号出现即判废。生活痕迹实体（晾晒、盆栽、卸货筐、摊贩热气、灯箱、非机动车停放、下棋的老人、接送孩子的家长、施工围挡与吊装、垃圾收集点、遛狗、积水倒影）每条至少三项，不足三项记待复验。" % ("、".join(TECH_CARRIER_WORDS),))
 md.append("- 光照默认晚秋255°方位、6°高度；清晨、夜景、雨后、阴天只有在提示词里显式标注为变体时才允许，清单的“光照判定”列已按每条的拍摄朝向算好太阳侧别。\n")
 for typ in BATCH_ORDER:
     rows = [m for m in manifest if m["type"] == typ]

@@ -124,7 +124,7 @@ prompt_sha256是身份、硬参数、取景与外观及锁定原文、价格、�
 
 负向tag：`photograph, photorealistic pores, 3D render, cel outline, flat cel fills, big anime eyes, cartoon, idol portrait, airbrushed youth on old faces, uniform face shape, film grain, readable text, legible signage glyphs, logo; era 2013: flying cars, holograms, humanoid robots, cyberpunk, near-future sci-fi, autonomous vehicle fleets, neon-drenched street replacing street life`
 
-负向里的 signage 自 C93 起改成 legible signage glyphs：招牌与灯箱本身是画面必须有的东西，负向只否决「字形可读」，整串写 `signage` 会把沿街商业层一起否掉。年代锁（`era 2013` 起的那一组）是本轮新增的硬约束——「顶级现代化」在本设定里读作2010年代前沿（幕墙与LED媒体立面、轻轨与站厅闸机、地下管廊盖板、光纤到楼、洁净实验室与数据中心、电动大巴、塔吊与在建超高层），不读作近未来。
+负向里的 signage 自 C93 起改成 legible signage glyphs：招牌与灯箱本身是画面必须有的东西，负向只否决「字形可读」，整串写 `signage` 会把沿街商业层一起否掉。年代锁（`era 2013` 起的那一组）是本轮新增的硬约束——「顶级现代化」在本设定里读作2010年代前沿（幕墙与LED媒体立面、城市轨道与站厅闸机、地下管廊盖板、光纤到楼、洁净实验室与数据中心、电动大巴、施工围挡与吊装），不读作近未来。科技层核对只按名录里有承载体的具名设施词逐项核对——C110 起核对串由生成器逐词核回 312 条正文，LED媒体立面、光纤到楼箱与屋顶通信设备这类表层材质词按画面材质核对、不要求名录承载体。
 
 年龄保真子句（必带，不得省略）：按实际年龄保留结构特征——皱纹、眼袋、发际线、体态与手部关节只许弱化不许抹平；禁止把任何40岁以上角色画成青年皮肤，禁止统一瓜子脸与双眼皮大眼。这条是实测逼出来的：泛化测试里老年男性未翻车（年龄特征本身盖过了美化倾向），而两张女性脸都被往漂亮里画，用母图做图生图的那一张比母图又滑一档。不带这句，城市居民群像会全员同脸、全年龄段好看，与第4节示例B「记录日常生活的普通人」相反。
 

@@ -784,10 +784,12 @@ class BuildPromptsTests(unittest.TestCase):
 
     # C106：远景「有没有资格出现」由 C101 管，「出现的那几栋长什么样」是另一条。L083 的 C105 换档重出 v05
     # 侧别算对（两座超高层落在左侧），轮廓却是陆家嘴三件套的现成剪影——模型被允许画远景时默认去抄现实天际线。
-    # 两侧刻意镜像重抄，不 import 生成器常量。
+    # 两侧刻意镜像重抄，不 import 生成器常量。C109 给这条补了剪影兜底：没点名形制的远景塔只许画体量。
     SKYLINE_SOURCE_RULE = ("background towers are composed from this canon's own geometry (straight shafts, louver "
-                           "bands and the flat or stepped crowns the Chinese sections name); do not trace a real "
-                           "city's skyline and do not borrow a real supertall's crown, twist or aperture")
+                           "bands and the flat or stepped crowns the Chinese sections name); any far tower this line "
+                           "does not name a crown form for stays a plain mass with a flat or stepped top and no "
+                           "invented crown, antenna or aperture; do not trace a real city's skyline and do not "
+                           "borrow a real supertall's crown, twist or aperture")
     SKYLINE_NEGATIVE = ("no recognizable real-world skyline (Lujiazui, Hong Kong, Shenzhen Bay, Manhattan, Dubai, "
                         "Chicago) and no crown, twist or aperture copied from a real supertall")
 
@@ -989,6 +991,191 @@ class BuildPromptsTests(unittest.TestCase):
         self.script.write_text(pristine, encoding="utf-8")
         self.run_generator()
         self.assertEqual(self.ground_mark_violations(), [])
+
+    # C109：C106 只管到「形体从哪来」，L083 的 v06／v07 仍各塌一处——v07 把 L007 画成平顶＋居中细针。
+    # 「按本正典自己的几何画」是泛指，读不出「这一根具体是什么冠」，所以点名句要带上该塔自己的形制串。
+    # 形制串在闸门侧镜像重抄，中文括注取自各地标自己的【外观与辨识细节】与【锁定项与禁则】。
+    SUPERTALL_FORM = {
+        "L007": ("a deep blue-grey straight shaft closed by an asymmetric straight-cut sloped crown whose high "
+                 "side carries a slender needle antenna (非对称直线斜削冠＋细针状天线), and this crown belongs to "
+                 "L007 alone"),
+        "L066": ("a straight shaft whose section has small cut corners at the four corners and whose roof carries "
+                 "no crown antenna at all (四角小切角轮廓、禁止加塔冠天线)"),
+    }
+    # 注入锚点另存一份「源码版式」：形制串在生成器里是跨行隐式拼接，拼好的整串在源文件中并不连续，
+    # count 只能按源文件的字面行来数——与 CORE_C105 同一手法。
+    SUPERTALL_FORM_SRC = {
+        "L007": ('             "a deep blue-grey straight shaft closed by an asymmetric straight-cut sloped crown whose high side "\n'
+                 '             "carries a slender needle antenna (非对称直线斜削冠＋细针状天线), and this crown belongs to L007 alone"'),
+        "L066": ('             "a straight shaft whose section has small cut corners at the four corners and whose roof carries no "\n'
+                 '             "crown antenna at all (四角小切角轮廓、禁止加塔冠天线)"'),
+    }
+    FORM_PLACEHOLDER = '             "a plain shaft with a top the framing section never names"'
+    # C110：科技层核对串分两类词——具名设施词要有承载体，表层材质词不作核对项。
+    TECH_CARRIER_WORDS = ("玻璃幕墙", "城市轨道", "站厅", "闸机", "地下环道", "管廊", "数据中心", "实验室",
+                          "光伏", "大巴", "充电", "围挡", "吊装", "换乘", "枢纽")
+    TECH_SURFACE_WORDS = ("LED媒体立面", "光纤到楼箱", "屋顶通信设备")
+
+    def form_expectation(self, eid, sid):
+        """独立重算可纳性：static＝取景段没给可解析机位，inside＝落在半视锥内，outside＝在框外。
+        只有前两种该给形制；框外那条给了形制反而是在邀请画它。"""
+        entry = next(e for e in self.load("城市空间名录.json")["entries"] if e["id"] == sid)
+        cam, focal = self.camera_of(eid), self.focal_of(eid)
+        facing = self.items[eid]["camera_facing_deg"]
+        if cam is None or facing is None or not focal:
+            return "static"
+        bearing = math.degrees(math.atan2(entry["center_km"][0] - cam[0], entry["center_km"][1] - cam[1])) % 360
+        rel = (bearing - facing + 540) % 360 - 180
+        return "inside" if abs(rel) <= math.degrees(math.atan(18.0 / focal)) else "outside"
+
+    def supertall_chunk(self, eid, sid):
+        for chunk in self.far_view_fragment(eid).split("; "):
+            if chunk.startswith(sid + " "):
+                return chunk
+        return ""
+
+    def form_violations(self):
+        out = []
+        for eid in sorted(self.items):
+            for sid in self.NAMED_SUPERTALLS:
+                if sid == eid:
+                    continue
+                state = self.form_expectation(eid, sid)
+                chunk = self.supertall_chunk(eid, sid)
+                if state == "outside":
+                    if self.SUPERTALL_FORM[sid] in chunk:
+                        out.append((eid, sid, "框外条给了形制"))
+                elif self.SUPERTALL_FORM[sid] not in chunk:
+                    out.append((eid, sid, "%s分支缺该塔形制点名" % state))
+        return out
+
+    def test_named_far_view_supertalls_are_painted_with_their_own_canon_form(self):
+        """C109：静态分支与框内分支的点名句都要带该塔自己的形制，框外分支一律不给；两条同时点名时形制不许互换
+        （L007 的斜削冠＋细针全城唯一，安到 L066 上就是穿帮）；未点名形制的远景塔走剪影兜底句。"""
+        self.assertEqual(self.form_violations(), [])
+        states = {self.form_expectation(eid, sid)
+                  for eid in self.items for sid in self.NAMED_SUPERTALLS if sid != eid}
+        self.assertEqual(states, {"static", "inside", "outside"})
+        for eid, sid in (("L083", "L007"), ("L083", "L066"), ("D03", "L066"),
+                         ("R009", "L007"), ("S02", "L066")):
+            with self.subTest(eid=eid, sid=sid):
+                self.assertIn(self.SUPERTALL_FORM[sid], self.supertall_chunk(eid, sid))
+        self.assertNotIn(self.SUPERTALL_FORM["L007"], self.supertall_chunk("L066", "L007"))
+        self.assertNotIn(self.SUPERTALL_FORM["L066"], self.supertall_chunk("L083", "L007"))
+        self.assertNotIn(self.SUPERTALL_FORM["L007"], self.supertall_chunk("L083", "L066"))
+        self.assertIn("stays a plain mass with a flat or stepped top", self.far_view_fragment("L083"))
+
+    def test_dropping_the_l007_form_is_caught_only_where_l007_is_nameable(self):
+        """违例负测：只把 L007 的形制串换成中性占位词，判据必须恰好报「该条本该给 L007 形制」的那些条目；
+        L066 的形制、C106 来源句与 C101 可纳性都不受牵连，证明形制是逐塔各钉、不是整段兜住。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        self.assertEqual(pristine.count(self.SUPERTALL_FORM_SRC["L007"]), 1, "注入锚点没落在 L007 的形制串上")
+        self.script.write_text(pristine.replace(self.SUPERTALL_FORM_SRC["L007"], self.FORM_PLACEHOLDER, 1),
+                               encoding="utf-8")
+        self.run_generator()
+        violations = self.form_violations()
+        expected = sorted(eid for eid in self.items
+                          if eid != "L007" and self.form_expectation(eid, "L007") != "outside")
+        self.assertEqual(sorted(set(eid for eid, _, _ in violations)), expected)
+        self.assertEqual(sorted(set(sid for _, sid, _ in violations)), ["L007"])
+        self.assertEqual(self.skyline_violations(), [])
+        self.assertEqual(self.bg_violations(), [])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.form_violations(), [])
+
+    def test_swapping_the_two_crown_forms_is_caught_by_the_per_tower_pin(self):
+        """违例负测（交叉侧）：把 L007 与 L066 的形制串整段互换——两句都在，逐条「有没有形制」判不出红，
+        必须靠「该塔的点名句里带该塔的形制」这条邻接判据抓住，且 L083（两根同时框内）首当其冲。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        for sid in self.NAMED_SUPERTALLS:
+            self.assertEqual(pristine.count(self.SUPERTALL_FORM_SRC[sid]), 1, sid + " 的形制串源码锚点不唯一")
+        swapped = (pristine.replace(self.SUPERTALL_FORM_SRC["L007"], "@@SENTINEL@@", 1)
+                   .replace(self.SUPERTALL_FORM_SRC["L066"], self.SUPERTALL_FORM_SRC["L007"], 1)
+                   .replace("@@SENTINEL@@", self.SUPERTALL_FORM_SRC["L066"], 1))
+        self.script.write_text(swapped, encoding="utf-8")
+        self.run_generator()
+        violations = self.form_violations()
+        self.assertIn(("L083", "L007", "inside分支缺该塔形制点名"), violations)
+        self.assertIn(("L083", "L066", "inside分支缺该塔形制点名"), violations)
+        self.assertTrue(violations)
+        self.assertEqual(self.skyline_violations(), [])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.form_violations(), [])
+
+    def test_a_crown_form_that_no_longer_matches_the_canon_aborts_the_generator(self):
+        """守卫负测：把 L007 正文里所有「非对称直线斜削冠」改成「平顶冠」，SUPERTALL_FORM 的中文出处就对不上原稿，
+        生成器必须非零退出并点名 L007——原稿改了形制而形制串没跟着改，不许带着旧形制继续出图；
+        对照组证明恢复后仍出满 312 条。出处按整条正文判（真改原稿时两处措辞会一起变），所以违例也整条抹。"""
+        pristine = (self.data / "AI地点知识库.json").read_text(encoding="utf-8")
+        kb = self.load("AI地点知识库.json")
+        rec = next(r for r in kb if r["id"] == "L007")
+        holders = sorted(k for k, v in rec["sections"].items() if "非对称直线斜削冠" in v)
+        self.assertEqual(holders, ["关联与地方性", "锁定项与禁则"])
+        for key in holders:
+            rec["sections"][key] = rec["sections"][key].replace("非对称直线斜削冠", "平顶冠")
+        self.save("AI地点知识库.json", kb)
+        result = self.run_raw()
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("远景形制点名的正典出处对不上", result.stderr + result.stdout)
+        self.assertIn("L007", result.stderr + result.stdout)
+        (self.data / "AI地点知识库.json").write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(len(self.items), 312)
+
+    def test_the_tech_checklist_only_names_facility_words_with_a_canon_carrier(self):
+        """C110：开图清单的核对句只列有承载体的具名设施词，逐词能在 312 条正文里找到具名条目；
+        表层材质词写明不作核对项；「轻轨」「机场专线」「塔吊与在建超高层」这三个 0 承载体的旧词
+        不得再出现在核对串或任何一条【全局硬设定】里。"""
+        md = (self.data / "开图清单.md").read_text(encoding="utf-8")
+        bodies = ["".join((rec.get("sections") or {}).values()) for rec in self.kb]
+        for word in self.TECH_CARRIER_WORDS:
+            with self.subTest(word=word):
+                self.assertIn(word, md)
+                self.assertTrue(any(word in body for body in bodies), word + " 在 312 条正文里无承载体")
+        for word in self.TECH_SURFACE_WORDS:
+            self.assertIn(word, md)
+        self.assertIn("不要求名录承载体", md)
+        for gone in ("轻轨", "机场专线", "塔吊与在建超高层"):
+            self.assertNotIn(gone, md)
+            hits = [eid for eid in sorted(self.items) if gone in self.prompt(eid).split("English tail:")[0]]
+            self.assertEqual(hits, [], gone + " 仍挂在【全局硬设定】里")
+
+    def test_a_carrierless_facility_word_in_the_checklist_aborts_the_generator(self):
+        """守卫负测：把「轻轨」塞回核对词表，312 条正文 0 命中，生成器必须非零退出并点名「轻轨」——
+        判据要求画一个正典里不存在的地点时，宁可不出图。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = 'TECH_CARRIER_WORDS = ("玻璃幕墙", "城市轨道",'
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在核对词表中")
+        self.script.write_text(pristine.replace(anchor, 'TECH_CARRIER_WORDS = ("玻璃幕墙", "轻轨", "城市轨道",', 1),
+                               encoding="utf-8")
+        result = self.run_raw()
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("无承载体", result.stderr + result.stdout)
+        self.assertIn("轻轨", result.stderr + result.stdout)
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(len(self.items), 312)
+
+    def test_erasing_a_carrier_from_the_canon_aborts_the_generator(self):
+        """守卫负测（承载侧）：把 L037 正文里的「城市轨道」抹掉——它是该词在全名录的唯一承载体，
+        抹掉后核对词表就悬空，生成器必须非零退出并点名「城市轨道」；恢复后归零。
+        这条与上一条各管一侧：一条改词表，一条改正典。"""
+        pristine = (self.data / "AI地点知识库.json").read_text(encoding="utf-8")
+        carriers = [r for r in self.kb if "城市轨道" in "".join((r.get("sections") or {}).values())]
+        self.assertEqual([r["id"] for r in carriers], ["L037"], "承载体唯一性前提变了，先重数再改这条")
+        kb = self.load("AI地点知识库.json")
+        rec = next(r for r in kb if r["id"] == "L037")
+        rec["sections"] = {k: v.replace("城市轨道", "铁路") for k, v in rec["sections"].items()}
+        self.save("AI地点知识库.json", kb)
+        result = self.run_raw()
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("城市轨道", result.stderr + result.stdout)
+        self.assertIn("无承载体", result.stderr + result.stdout)
+        (self.data / "AI地点知识库.json").write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.form_violations(), [])
 
     def test_photorealism_or_near_future_word_injected_into_the_affirmative_tail_aborts(self):
         """负测：往 TAIL_BY_TYPE 的正向段塞 photorealistic 或塞 flying cars，生成器必须退出而不是出图；
