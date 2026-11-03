@@ -52,7 +52,9 @@ class SourceShape(unittest.TestCase):
     def test_seven_sections_present(self):
         self.assertEqual([k for k in self.SECTIONS if k not in self.src['参数']], [])
         self.assertEqual(len(self.src['参数']['交通']['方式']), 5)
-        self.assertEqual(len(self.src['参数']['交通']['延后方式']), 3)
+        self.assertEqual([m['码'] for m in self.src['参数']['交通']['延后方式']], ['TR-AIR'])
+        self.assertEqual([m['码'] for m in self.src['参数']['交通']['矩阵外方式']],
+                         ['TR-FERRY', 'TR-SHUTTLE'])
         self.assertEqual(len(self.src['参数']['圈层对']), 10)
         self.assertEqual(len(self.src['参数']['天气']['态']), 6)
         self.assertEqual(len(self.src['参数']['天气']['逐月游程']), 12)
@@ -116,6 +118,14 @@ class CanonDerived(unittest.TestCase):
                           '6': 'SEA-2', '7': 'SEA-2', '8': 'SEA-2', '9': 'SEA-3', '10': 'SEA-3',
                           '11': 'SEA-3', '12': 'SEA-4'})
 
+    def test_matrix_outside_modes_are_carried_not_deferred(self):
+        """轮渡与山外接驳在第4期矩阵外单列查表，不进 50 格，也不再算「延后」。"""
+        self.assertEqual([m['码'] for m in self.canon['矩阵外方式']], ['TR-FERRY', 'TR-SHUTTLE'])
+        self.assertEqual(self.canon['汇总']['延后方式数'], 1)
+        self.assertEqual(self.canon['汇总']['矩阵外方式数'], 2)
+        matrix_codes = {c['方式'] for c in self.canon['交通矩阵']}
+        self.assertEqual(matrix_codes & {'TR-FERRY', 'TR-SHUTTLE', 'TR-AIR'}, set())
+
     def test_deriver_is_byte_idempotent(self):
         import hashlib
         import subprocess
@@ -138,7 +148,7 @@ class RenderedTable(unittest.TestCase):
         self.assertEqual(len(re.findall(r'^\| 内湖环 \||^\| 外城环 \||^\| 产业小镇 \||^\| 特色村落 \|',
                                         table, re.M)), 10)
         self.assertEqual(len(re.findall(r'^\| SEA-[1-4] \|', table, re.M)), 4)
-        for token in ('禁止手改', '中位直线 km', '最大偏差 km', '延后方式', '用户自助回档'):
+        for token in ('禁止手改', '中位直线 km', '最大偏差 km', '延后方式', '矩阵外方式', '用户自助回档'):
             self.assertIn(token, table)
         # 圈层对键名里的竖线必须转义，否则 markdown 表格会把一格拆成两列
         self.assertNotIn('内湖环|内湖环', table)
@@ -217,8 +227,8 @@ class RulingsEightyEight(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 111)
-        self.assertEqual(rows[-1]['编号'], 'C111')
+        self.assertEqual(len(rows), 113)
+        self.assertEqual(rows[-1]['编号'], 'C113')
 
 
 if __name__ == '__main__':

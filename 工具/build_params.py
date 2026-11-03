@@ -67,10 +67,11 @@ def build_matrix(stats):
                           '耗时分钟': mins, '路线km': route, '换乘分钟': transfer,
                           '中位直线km': got['中位直线km'], '最大偏差km': got['最大偏差km'],
                           '最小km': got['最小km'], '最大km': got['最大km']})
-    deferred = {m['码'] for m in SP['延后方式']}
+    deferred = {m['码'] for m in SP['延后方式']} | {m['码'] for m in SP['矩阵外方式']}
     stray = deferred & {c['方式'] for c in cells}
     if stray:
-        raise SystemExit(f'延后方式进了矩阵：{sorted(stray)}——轮渡／机场／山外接驳的耗时待第5期清单落定')
+        raise SystemExit(f'矩阵外方式进了矩阵：{sorted(stray)}——轮渡／山外接驳的逐构件耗时由第5期空间通行清单给出，'
+                         f'机场班机无承载体')
     return cells
 
 
@@ -116,6 +117,7 @@ def build_canon():
     canon['参数'] = P
     canon['交通矩阵'] = cells
     canon['延后方式'] = SP['延后方式']
+    canon['矩阵外方式'] = SP['矩阵外方式']
     canon['技能等级阈值'] = P['技能']['等级阈值月']
     canon['月季节'] = sea_of
     canon['天气年历'] = year
@@ -125,6 +127,7 @@ def build_canon():
                     '可用格数': sum(1 for c in cells if c['耗时分钟'] is not None),
                     '不可用格数': sum(1 for c in cells if c['耗时分钟'] is None),
                     '方式数': len(SP['方式']), '延后方式数': len(SP['延后方式']),
+                    '矩阵外方式数': len(SP['矩阵外方式']),
                     '天气态数': len(WEATHER['态']), '年历格数': len(year),
                     '月数': len(WEATHER['逐月游程']), '季节数': len(P['季节月份']),
                     '等级阈值档数': len(P['技能']['等级阈值月']),
@@ -205,6 +208,12 @@ def render_table(canon):
               '| --- | --- | --- |']
     for m in canon['延后方式']:
         lines.append(f'| {m["名"]} | {m["码"]} | {m["待"]} |')
+    lines += ['', '### 3.5 矩阵外方式（第5期落定，逐构件查表）', '',
+              '| 名 | 码 | 真源 | 读数 |', '| --- | --- | --- | --- |']
+    for m in canon['矩阵外方式']:
+        lines.append(f'| {m["名"]} | {m["码"]} | {m["真源"]} | {m["读数"]} |')
+    for m in canon['矩阵外方式']:
+        lines.append(f'- {m["码"]} 口径：{m["口径"]}')
 
     lines += ['', '## 四、天气年历（2013 公共日历，零随机）', '',
               '| 年内第几天 | 月 | 日 | SEA | 态 | 名 |', '| --- | --- | --- | --- | --- | --- |']
