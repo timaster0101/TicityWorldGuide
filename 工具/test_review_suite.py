@@ -72,7 +72,7 @@ class ReviewSuiteTests(unittest.TestCase):
         with_images = [it for it in self.manifest if it.get("image_file")]
         self.assertEqual(len(with_images), 264)
         cells = [p for it in with_images for p in it["image_file"]]
-        self.assertEqual(len(cells), 1073)
+        self.assertEqual(len(cells), 1076)
         blocks = self.item_blocks()
         self.assertEqual(sorted(blocks), sorted(it["id"] for it in with_images))
         for path in cells:
@@ -119,9 +119,9 @@ class ReviewSuiteTests(unittest.TestCase):
                 self.assertTrue(src.startswith("../../../"), src)
                 linked.append(unquote(src)[len("../../../"):])
         # 链接只按字符串还原：图片文件不版本化，临时副本里本来就没有图。这里判的是「src 解码后
-        # 正好落回清单里的某一格、且一格不漏不多」；格子在不在盘上由 verify_image_assets 的 1073 格负责。
+        # 正好落回清单里的某一格、且一格不漏不多」；格子在不在盘上由 verify_image_assets 的 1076 格负责。
         self.assertEqual(sorted(linked), sorted(cells))
-        self.assertEqual(len(linked), 1073)
+        self.assertEqual(len(linked), 1076)
 
     def test_rerun_is_byte_identical(self):
         snapshot = {p.relative_to(self.out).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
