@@ -210,12 +210,20 @@ STREET_TRACES = ("street life must read as physical traces, at least three of: h
 SIGNAGE_RULE = ("shop signboards, banners, lampboxes and door plates must exist along the street, drawn as blurred "
                 "non-readable strokes; they must not spell legible characters or Latin words and must not invent a "
                 "readable slogan")
+# C108：雨后批四条失手都在同一处——右下角地面浮出淡色字母形笔画簇（R015 v01 落点约(1250,1009)、
+# R034 v02 再现、R054 v01 同型，夜光批 R086 v01 也是这一落点）。tail 原有的
+# "no third-party or model-generated watermark, logo or signature" 管的是画外水印与台标，
+# 模型不把它读成「地面不许有字形」。R015 的单变量实验：同一条串只加一句
+# nothing written on the ground or pavement in any corner，v01 的签名在 v02 同一落点消失，
+# 只剩湿石高光与笔触。位置只限地面与画面四角，不写墙面与店招——D3／C93 要求招牌实体在位。
+GROUND_MARKS_NEG = ("nothing written on the ground or pavement in any corner; no letter-shaped signature cluster, "
+                    "monogram or floating glyph strokes on street surfaces, kerbs or in the four corners of the frame")
 NEGATIVE_TAG = ("not a photograph, no photorealistic pore detail, no lens grain as the look, not a 3D render, "
                 "no cel outline, no flat cel fills, not a cartoon, not an idol illustration; era 2013: no flying cars, "
                 "no holograms, no humanoid robots, no cyberpunk, no near-future sci-fi, no autonomous vehicle fleets, "
                 "no neon-drenched street replacing street life; no recognizable real-world skyline (Lujiazui, "
                 "Hong Kong, Shenzhen Bay, Manhattan, Dubai, Chicago) and no crown, twist or aperture copied from "
-                "a real supertall")
+                "a real supertall; " + GROUND_MARKS_NEG)
 # 正向风格段的禁词。写实档与近未来档只许以否定式出现在 NEGATIVE_TAG 里，
 # 所以这里禁的是「被改回正向」，负测通过改写正向常量来触发。
 STYLE_BANNED = ("photorealistic", "photorealism", "photograph", "hyperrealistic", "dslr", "hdr photo")

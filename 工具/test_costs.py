@@ -251,12 +251,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_107(self):
+    def test_rulings_are_108(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 107)
-        self.assertEqual(rulings[-1]['编号'], 'C107')
+        self.assertEqual(len(rulings), 108)
+        self.assertEqual(rulings[-1]['编号'], 'C108')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C98', 'C99', 'C100', 'C101', 'C102', 'C103', 'C104', 'C105', 'C106', 'C107'])
+                         ['C99', 'C100', 'C101', 'C102', 'C103', 'C104', 'C105', 'C106', 'C107', 'C108'])
         by_id = {r['编号']: r for r in rulings}
         # C89 的「高度第一交给 L066、形态第一留在 L007」是本卷定价外溢的唯一出处，钉死措辞防止被改写后说明与价表脱钩。
         self.assertIn('458米/106层', by_id['C89']['裁定'])
@@ -392,6 +392,18 @@ class CanonConsistency(unittest.TestCase):
         self.assertIn('R053 v02／R086 v02 判达标但不回填', by_id['C107']['影响'])
         self.assertIn('回填即把未经该串复验的图洗成该串产物', by_id['C107']['影响'])
         self.assertIn('计数钉 106→107', by_id['C107']['影响'])
+        # C108 的硬话是「位置只限地面与四角，不写墙面与店招」和「换串不洗白任何一张图」：
+        # 前者一旦丢，下一轮就会把负向扩到墙面、连 D3／C93 要求的招牌实体一起否掉；
+        # 后者一旦丢，就会有人把新串摘要补到旧串图上，把未经该串复验的图洗成该串产物。
+        self.assertIn('位置只限地面、路缘石与画面四角', by_id['C108']['裁定'])
+        self.assertIn('GROUND_MARKS_NEG', by_id['C108']['裁定'])
+        self.assertIn('不进【全局硬设定】的正向中文段', by_id['C108']['裁定'])
+        self.assertIn('不改分卷原稿、不改使用手册', by_id['C108']['裁定'])
+        self.assertIn('段内已有该句仍失手', by_id['C108']['原因'])
+        self.assertIn('单变量证据来自 R015', by_id['C108']['原因'])
+        self.assertIn('换串不洗白任何一张图', by_id['C108']['影响'])
+        self.assertIn('`test_prompts` 47→50', by_id['C108']['影响'])
+        self.assertIn('计数钉 107→108', by_id['C108']['影响'])
 
 
     def test_manual_chains_costs_before_occupations(self):

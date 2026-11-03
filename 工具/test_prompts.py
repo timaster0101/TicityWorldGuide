@@ -913,6 +913,83 @@ class BuildPromptsTests(unittest.TestCase):
         self.run_generator()
         self.assertEqual(self.variant_lock_violations(), [])
 
+    # C108：雨后批三条（R015 v01 落点约(1250,1009)、R034 v02、R054 v01）与夜光批 R086 v01 都塌在右下角
+    # 地面的字母形笔画簇，而 tail 原有的 no third-party or model-generated watermark, logo or signature
+    # 管的是画外水印与台标。R015 的单变量实验：同一条串只加一句 nothing written on the ground or pavement
+    # in any corner，v02 同一落点只剩湿石高光——故把该句落进 NEGATIVE_TAG，312 条全带。镜像重抄，不 import。
+    GROUND_MARKS_NEG = ("nothing written on the ground or pavement in any corner; no letter-shaped signature "
+                        "cluster, monogram or floating glyph strokes on street surfaces, kerbs or in the four "
+                        "corners of the frame")
+
+    def ground_mark_violations(self):
+        out = []
+        for eid in sorted(self.items):
+            affirmative, negative = self.tail_split(eid)
+            missing = []
+            if self.GROUND_MARKS_NEG not in negative:
+                missing.append("负向段缺地面字形否定式")
+            if self.GROUND_MARKS_NEG in affirmative:
+                missing.append("正向段混入地面否定式")
+            if missing:
+                out.append((eid, tuple(missing)))
+        return out
+
+    def test_ground_and_four_corners_get_an_explicit_letterform_negative(self):
+        """C108：312 条的负向段都要带地面与四角的字母形否定式，且只许出现在负向段；
+        招牌实体句必须照旧落在正向段——负向扩到墙面或店招会把 D3／C93 要求的商业层一起否掉。"""
+        self.assertEqual(self.ground_mark_violations(), [])
+        for eid in ("R015", "R034", "R054", "R086", "S23", "L007", "D03", "S02"):
+            with self.subTest(eid=eid):
+                affirmative, negative = self.tail_split(eid)
+                self.assertIn(self.GROUND_MARKS_NEG, negative)
+                self.assertNotIn(self.GROUND_MARKS_NEG, affirmative)
+                self.assertIn("shop signboards, banners, lampboxes and door plates must exist along the street",
+                              affirmative)
+                self.assertNotIn("kerbs", affirmative)
+
+    def test_dropping_the_ground_mark_negative_is_caught_on_all_312(self):
+        """违例负测：把 NEGATIVE_TAG 末尾的地面否定式摘掉，312 条必须全报且只报负向缺失——
+        C106 的天际线否定式、C107 的变体段内复述与 C101 的远景判据都不受牵连，
+        证明这三条各管一处，删任一处不会被另一处兜住。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = '                "a real supertall; " + GROUND_MARKS_NEG)'
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在 NEGATIVE_TAG 的地面否定式拼接处")
+        self.script.write_text(pristine.replace(anchor, '                "a real supertall")', 1), encoding="utf-8")
+        self.run_generator()
+        violations = self.ground_mark_violations()
+        self.assertEqual([eid for eid, _ in violations], sorted(self.items))
+        self.assertEqual({v[1] for v in violations}, {("负向段缺地面字形否定式",)})
+        self.assertEqual(self.skyline_violations(), [])
+        self.assertEqual(self.variant_lock_violations(), [])
+        self.assertEqual(self.bg_violations(), [])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.ground_mark_violations(), [])
+
+    def test_the_ground_mark_negative_must_stay_out_of_the_affirmative_tail(self):
+        """违例负测（位置侧）：把该句从负向段挪到正向段（tail 模板里排在 NEGATIVE_TAG 之前），
+        必须同时报「正向段混入」与「负向段缺」——位置与存在是两件事，只钉存在会放过挪位。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        drop = '                "a real supertall; " + GROUND_MARKS_NEG)'
+        move = 'STREET_TRACES, SIGNAGE_RULE, NEGATIVE_TAG))'
+        self.assertEqual(pristine.count(drop), 1, "注入锚点没落在 NEGATIVE_TAG 的地面否定式拼接处")
+        self.assertEqual(pristine.count(move), 1, "注入锚点没落在 tail 模板的正向装配处")
+        # 挪位走 STREET_TRACES 那个 %s 的拼接，不新增参数——多塞一个参数会让 tail 模板
+        # 格式化直接 TypeError、生成器退出，测出的是「串长不对」而不是「位置不对」。
+        self.script.write_text(
+            pristine.replace(drop, '                "a real supertall")', 1)
+            .replace(move, 'STREET_TRACES + GROUND_MARKS_NEG, SIGNAGE_RULE, NEGATIVE_TAG))', 1),
+            encoding="utf-8")
+        self.run_generator()
+        violations = self.ground_mark_violations()
+        self.assertEqual([eid for eid, _ in violations], sorted(self.items))
+        self.assertEqual({v[1] for v in violations},
+                         {("负向段缺地面字形否定式", "正向段混入地面否定式")})
+        self.assertEqual(self.skyline_violations(), [])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.ground_mark_violations(), [])
+
     def test_photorealism_or_near_future_word_injected_into_the_affirmative_tail_aborts(self):
         """负测：往 TAIL_BY_TYPE 的正向段塞 photorealistic 或塞 flying cars，生成器必须退出而不是出图；
         对照组证明未注入时仍出满 312 条。变异验证：删掉守卫调用后同样的注入必须变绿——
