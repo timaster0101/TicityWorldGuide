@@ -22,9 +22,10 @@ class ReviewNoteHistory(unittest.TestCase):
 
     # 第3期从 git 809ed08 找回的 4 条长文本；C97 后追加 4 条回填备注（D03／D08／S02／S18）；
     # C105／C106 换档后子批①②的 7 张重出各记一条打表（L066／L083／F012／F039／R009，S02／S18 是第二条）。
+    # C109 新串的竖幅建筑小批把 L061 也记进这一组：首投读的是当前串，但远景塔形有违例，只打表不占格。
     RECOVERED = ('D01', 'L007', 'L008', 'R043')
     BACKFILLED = ('D03', 'D08', 'S02', 'S18')
-    RESHOT = ('L066', 'L083', 'F012', 'F039', 'R009')
+    RESHOT = ('L066', 'L083', 'F012', 'F039', 'R009', 'L061')
     # 子批③夜光批四条：R038 用真源串出图并回填，R053／R086 的达标图出自串外试投、只记打表，
     # S23 旧串两赌用尽判废（C109／C110 新串 v03 达标后回填第 5 格，见待办清单 §18）。
     VARIANT = ('S23', 'R038', 'R053', 'R086')
@@ -78,8 +79,12 @@ class ReviewNoteHistory(unittest.TestCase):
         图是串外试投出的，回填等于把未经当前真源串复验的图洗成该串产物。
         C109／C110 新串重出的 R054 也进过这一组：判达标与否只看人工读数，判废就不占格，换串不改变这条。
         C111 把日面禁令复述进锁定段末后重投，读数达标，它才从这一组移进 APPENDED 占第 5 格——进出都由读数定。
+        C109 新串的竖幅建筑小批两条（L083 v01、L061 v02）都进这一组：九条判据有达标读数，
+        但两条都在「未点名远景塔不得有冠部／桅杆／开洞」上失手（L083 是 L066 屋顶短桅、L061 是两栋背景楼的细桅），
+        2/2 命中同一条款，说明这句只写在 tail 里压不住模型——要不要按 C111 的路子段内复述，属新裁定候选。
         一旦让这类图也追加格，「有图＝生成过」的口径就会把废图混进交付面。"""
-        expect = {'L066': ('待开图', 0), 'L083': ('待开图', 0), 'F012': ('待复验', 4), 'F039': ('待复验', 4),
+        expect = {'L066': ('待开图', 0), 'L083': ('待开图', 0), 'L061': ('待开图', 0),
+                  'F012': ('待复验', 4), 'F039': ('待复验', 4),
                   'R053': ('待复验', 4), 'R086': ('待复验', 4)}
         for eid, (status, cells) in expect.items():
             with self.subTest(eid=eid):
@@ -95,7 +100,7 @@ class ReviewNoteHistory(unittest.TestCase):
     def test_history_survives_and_note_still_derives(self):
         # 308 条没有人工长文本，历史是空数组：判"键在不在"而不是"值真不真"；键随名录扩到312条
         self.assertEqual(sum(1 for i in self.items.values() if 'review_note_history' in i), 312)
-        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 29)
+        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 30)
         for eid in self.RECOVERED + self.BACKFILLED + self.RESHOT + self.VARIANT + self.MORNING \
                 + self.RAIN + self.SUNNY:
             hist = self.items[eid]['review_note_history']
