@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""产业与就业层闸门：二十五条判红全部落在数据层（十条产业＋六条字典＋四条物价＋五条运行参数），任一失败即非零退出。跑法：python 工具/verify_occupations.py"""
+"""产业与就业层闸门：三十二条判红全部落在数据层（十条产业＋六条字典＋四条物价＋五条运行参数＋四条具名命名＋一条零消费者对账＋一条产业图层对账＋一条职业条目对账），任一失败即非零退出。跑法：python 工具/verify_occupations.py"""
 import json, math, re
 from pathlib import Path
 
@@ -33,7 +33,7 @@ def sea_of(params):
     return out
 
 
-def issues(canon, source, registry, adm, costs, params, psource):
+def issues(canon, source, registry, adm, costs, params, psource, layer, occ_source):
     out, p = [], canon['参数']
     by_id = {e['id']: e for e in registry}
     bands = {t['档']: tuple(t['雇员数']) for t in source['公司档']}
@@ -147,7 +147,197 @@ def issues(canon, source, registry, adm, costs, params, psource):
     out += adm_issues(canon, adm)
     out += cost_issues(canon, costs, registry)
     out += param_issues(params, psource, costs, canon)
+    out += naming_issues(canon, source)
+    out += zero_consumer_issues(canon, adm, source)
+    out += layer_issues(canon, registry, layer)
+    out += occupation_issues(canon, source, occ_source)
     return out
+
+
+def count_groups(companies):
+    """（锚点，档位）组内的具名家数——字号池容量须不小于它的最大值，否则组内会绕回。"""
+    g = {}
+    for c in companies:
+        if c['逐家具名']:
+            key = (c['锚点'], c['档位'])
+            g[key] = g.get(key, 0) + 1
+    return g
+
+
+def naming_issues(canon, source):
+    """第 26 至 29 条：具名命名完整、名称逐段回查、命名池齐套、名称禁则与长度。
+
+    五段池一律取自手填源表的「命名」块，不取正典自带的同一份——与交通矩阵同源口径一致，
+    派生器改写了拼接规则或池内容即在门禁炸出。
+    """
+    out = []
+    pool = source.get('命名') or {}
+    zi, short = pool.get('字号池', []), pool.get('锚点简称', {})
+    root, suffix, apex = pool.get('小类词根', {}), pool.get('档位后缀', {}), pool.get('顶端名称', {})
+    band = pool.get('名称长度区间', [0, 0])
+    named = [c for c in canon['公司'] if c['逐家具名']]
+    by_id = {s['id'] for s in canon['行业']['小类']}
+
+    # 26 具名命名完整：逐家具名与名称非空一一对应、全城逐字唯一、汇总读数与逐行数一致
+    for c in canon['公司']:
+        if c['逐家具名'] and not c['名称']:
+            out.append(f'具名命名: {c["id"]} 逐家具名但名称为空')
+        if not c['逐家具名'] and c['名称']:
+            out.append(f'具名命名: {c["id"]} T1 统计口径带了名称')
+    holder = {}
+    for c in named:
+        if c['名称'] in holder:
+            out.append(f'具名命名: 名称重复「{c["名称"]}」（{holder[c["名称"]]} 与 {c["id"]}）')
+        holder.setdefault(c['名称'], c['id'])
+    got = sum(1 for c in canon['公司'] if c['名称'])
+    if canon['汇总'].get('具名命名数') != got:
+        out.append(f'具名命名: 汇总读数 {canon["汇总"].get("具名命名数")} != 非空名称 {got}')
+    if canon['汇总'].get('具名公司数') != len(named):
+        out.append(f'具名命名: 汇总具名数 {canon["汇总"].get("具名公司数")} != 逐家具名行数 {len(named)}')
+
+    # 27 名称逐段回查：按正典数组顺序给（锚点，档位）组内编号，非顶端名称逐段等于简称＋字号[序]＋词根＋后缀
+    seq = {}
+    for c in named:
+        key = (c['锚点'], c['档位'])
+        i = seq.get(key, 0)
+        seq[key] = i + 1
+        if c['档位'] == 'T5':
+            if c['名称'] != apex.get(c['大类']):
+                out.append(f'顶端名称: {c["id"]} 名称「{c["名称"]}」不等于源表顶端名称「{apex.get(c["大类"])}」')
+            continue
+        parts = [short.get(c['锚点']), zi[i] if i < len(zi) else None,
+                 root.get(c['行业小类']), suffix.get(c['档位'])]
+        want = ''.join(parts) if all(parts) else None
+        if c['名称'] != want:
+            out.append(f'名称回查: {c["id"]} 名称「{c["名称"]}」不等于 简称＋字号[{i}]＋词根＋后缀＝「{want}」')
+
+    # 28 命名池齐套：字号池不重复且不短于最大组、简称对齐具名锚点且不重复、词根不漏不多、后缀与顶端键对齐
+    if len(set(zi)) != len(zi):
+        dup = [w for w in set(zi) if zi.count(w) > 1][:3]
+        out.append(f'命名池: 字号池有重词 {dup}')
+    group_max = max(seq.values()) if seq else 0
+    if len(zi) < group_max:
+        out.append(f'命名池: 字号池 {len(zi)} 短于最大（锚点，档位）组 {group_max}，组内会绕回')
+    anchors_named = {c['锚点'] for c in named}
+    if set(short) != anchors_named:
+        out.append(f'命名池: 锚点简称与具名锚点不齐 {sorted(set(short) ^ anchors_named)[:6]}')
+    if len(set(short.values())) != len(short):
+        dup = [w for w in set(short.values()) if list(short.values()).count(w) > 1][:3]
+        out.append(f'命名池: 锚点简称有重复，跨锚点无法靠简称区分')
+    if set(root) != by_id:
+        out.append(f'命名池: 小类词根与 163 小类不齐 {sorted(set(root) ^ by_id)[:6]}')
+    tiers_named = {c['档位'] for c in named}
+    tiers_flag = {t['档'] for t in source['公司档'] if t['逐家具名']}
+    if set(suffix) != tiers_flag:
+        out.append(f'命名池: 档位后缀与逐家具名档位不齐 {sorted(set(suffix) ^ tiers_flag)}')
+    if set(apex) != {c['大类'] for c in named if c['档位'] == 'T5'}:
+        out.append(f"命名池: 顶端名称与 T5 大类不齐 {sorted(set(apex) ^ {c['大类'] for c in named if c['档位'] == 'T5'})}")
+    for label, values in (('字号池', zi), ('锚点简称', list(short.values())),
+                          ('小类词根', list(root.values())), ('档位后缀', list(suffix.values())),
+                          ('顶端名称', list(apex.values()))):
+        for v in values:
+            if not isinstance(v, str) or not v.strip():
+                out.append(f'命名池: {label} 有空词')
+            if any(ch in v for ch in (' ', '　', '\u3000')):
+                out.append(f'命名池: {label}「{v}」含空白字符')
+
+    # 29 名称禁则与长度：全城名称不命中现实品牌与禁则词、长度落进源表区间、顶端名称以 T5 后缀收尾
+    banned = set(source['禁则'].get('名称禁词', [])) | set(source['禁则']['字段黑名单'])
+    for words in source['禁则']['职责关键词'].values():
+        banned |= set(words)
+    banned |= set(source['禁则']['无人机关键词'])
+    for c in named:
+        if not c['名称']:
+            continue  # 空名称由第 26 条报，此处不得对 None 取子串
+        for w in sorted(banned):
+            if w in c['名称']:
+                out.append(f'名称禁则: {c["id"]}「{c["名称"]}」含禁词「{w}」')
+        lo, hi = band
+        if not lo <= len(c['名称']) <= hi:
+            out.append(f'名称禁则: {c["id"]}「{c["名称"]}」长度 {len(c["名称"])} 越出 {lo}—{hi}')
+        if c['档位'] == 'T5' and not c['名称'].endswith(suffix.get('T5', '')):
+            out.append(f"名称禁则: {c['id']} 顶端名称未以 {suffix.get('T5')} 收尾")
+    return out
+
+
+ZERO_KEYS = ('口径', '背景小类', '背景小类专属标签', '通用技能标签', '通用场景',
+             '上限截断大类', '上限截断连带标签', '上限截断连带场景')
+
+
+def zero_counts(canon, adm):
+    """实测三个零消费集合的规模：(无引用标签数, 无引用场景数, 无卡小类数)。"""
+    cards = [x for comp in canon['公司'] for x in comp['岗位卡']]
+    used_tags = {t for c in cards for t, _ in c['准入标签']}
+    used_scenes = {s for c in cards for s in c['关键场景']}
+    nocard = {s['id'] for s in canon['行业']['小类']} - {c['行业小类'] for c in cards}
+    return (len({t['id'] for t in adm['标签']} - used_tags),
+            len({s['id'] for s in adm['场景']} - used_scenes), len(nocard))
+
+
+def zero_consumer_issues(canon, adm, source):
+    """第 30 条：零消费者对账——字典里允许无岗位卡引用的条目必须与手填声明逐字相等。
+
+    声明块只认手填源表 产业就业源表.json 的「零消费者」，正典自带的同一份不作数。
+    无卡小类、无引用标签、无引用场景三个集合双向比差：多一个判红（有暗桩没登记），
+    少一个也判红（登记口径已经漂了），缺块更判红——门禁不得因无声明可查而空转判绿。
+    """
+    out = []
+    block = source.get('零消费者') or {}
+    missing = [k for k in ZERO_KEYS if k not in block]
+    if missing:
+        return [f'零消费者对账: 产业就业源表.json 的「零消费者」缺 {missing}，须逐类点名，不得留空']
+    cards = [x for comp in canon['公司'] for x in comp['岗位卡']]
+    subs = {s['id']: s for s in canon['行业']['小类']}
+    classes = {c['id']: c for c in canon['行业']['大类']}
+    tags = {t['id'] for t in adm['标签']}
+    scenes = {s['id'] for s in adm['场景']}
+
+    for label, ids, known in (('标签', block['背景小类专属标签'] + block['通用技能标签']
+                               + block['上限截断连带标签'], tags),
+                              ('场景', block['通用场景'] + block['上限截断连带场景'], scenes)):
+        if len(set(ids)) != len(ids):
+            out.append(f'零消费者对账: 声明的{label}清单有重复条目')
+        for i in sorted(set(ids) - known):
+            out.append(f'零消费者对账: 声明的{label} {i} 在字典中不存在')
+    for i in block['背景小类']:
+        if i not in subs:
+            out.append(f'零消费者对账: 登记的背景小类 {i} 不在行业小类中')
+        elif subs[i]['生成岗位卡'] is not False:
+            out.append(f'零消费者对账: {i} 登记为背景小类却声明可生成岗位卡')
+
+    nocard = set(subs) - {c['行业小类'] for c in cards}
+    for i in sorted(nocard - set(block['背景小类'])):
+        out.append(f'零消费者对账: 小类 {i} 声明可生成岗位卡却无一张岗位卡落它')
+
+    used_tags = {t for c in cards for t, _ in c['准入标签']}
+    want_tags = set(block['背景小类专属标签']) | set(block['通用技能标签']) | set(block['上限截断连带标签'])
+    for i in sorted((tags - used_tags) - want_tags):
+        out.append(f'零消费者对账: 标签 {i} 无卡片引用却未登记为零消费者')
+    for i in sorted(used_tags & want_tags):
+        out.append(f'零消费者对账: 标签 {i} 登记为零消费者却已被卡片引用')
+
+    used_scenes = {s for c in cards for s in c['关键场景']}
+    want_scenes = set(block['通用场景']) | set(block['上限截断连带场景'])
+    for i in sorted((scenes - used_scenes) - want_scenes):
+        out.append(f'零消费者对账: 场景 {i} 无卡片引用却未登记为零消费者')
+    for i in sorted(used_scenes & want_scenes):
+        out.append(f'零消费者对账: 场景 {i} 登记为零消费者却已被卡片引用')
+
+    caps = {cid for cid, c in classes.items() if c.get('可设岗位层上限')}
+    if caps != set(block['上限截断大类']):
+        out.append(f'零消费者对账: 声明的截断大类与源表设了可设岗位层上限的大类不对账 '
+                   f'{sorted(caps ^ set(block["上限截断大类"]))}')
+    levels = [l['层'] for l in canon['岗位层']]
+    for cid, cut in block['上限截断大类'].items():
+        ceiling = classes.get(cid, {}).get('可设岗位层上限')
+        for l in cut:
+            if ceiling is None or l not in levels or levels.index(l) <= levels.index(ceiling):
+                out.append(f'零消费者对账: {cid} 声明截断层 {l} 不在上限 {ceiling} 之上')
+        have = {c['岗位层'] for comp in canon['公司'] if comp['大类'] == cid for c in comp['岗位卡']}
+        for l in sorted(set(cut) & have):
+            out.append(f'零消费者对账: {cid} 声明截断 {l} 却仍有该层岗位卡')
+    return out
+
 
 def adm_issues(canon, adm):
     """第 11 至 16 条：引用完整性、标签体系、关键场景、合同矩阵、卡牌边界、释放流程。"""
@@ -281,11 +471,241 @@ def adm_issues(canon, adm):
 
 
 
+LAYER_KEYS = ('来源', '图幅', '口径', '投影', '汇总', '大类', '圈层', '锚点')
+
+
+def layer_issues(canon, registry, layer):
+    """第 31 条：产业图层对账——图层里的每一个计数都必须能从产业正典独立重算出来。
+
+    图层是派生件，闸门不 import build_maps，而是拿 公司 逐锚点重算一遍公司数、岗位卡数、雇员数、
+    大类分布、主导大类与气泡半径，再和逐圈层、逐大类、汇总三层加总双向比差。
+    锚点坐标另与名录 center_km 逐字相等：图上不许自带一份没人维护的坐标。
+    """
+    out = []
+    missing = [k for k in LAYER_KEYS if k not in layer]
+    if missing:
+        return [f'产业图层对账: 产业空间图层.json 缺 {missing}，缺件即判红，不得以空图层放行']
+    by_id = {e['id']: e for e in registry}
+    want = {}
+    for c in canon['公司']:
+        a = want.setdefault(c['锚点'], {'公司数': 0, '岗位卡数': 0, '雇员数': 0, '分布': {}})
+        a['公司数'] += 1
+        a['岗位卡数'] += len(c['岗位卡'])
+        a['雇员数'] += c['雇员数']
+        d = a['分布'].setdefault(c['大类'], {'公司数': 0, '雇员数': 0, '岗位卡数': 0})
+        d['公司数'] += 1
+        d['雇员数'] += c['雇员数']
+        d['岗位卡数'] += len(c['岗位卡'])
+    got = {r['锚点']: r for r in layer['锚点']}
+    if set(got) != set(want):
+        out.append(f"产业图层对账: 锚点集合与正典不一致 {sorted(set(got) ^ set(want))[:6]}")
+    max_emp = max(a['雇员数'] for a in want.values())
+    for zid in sorted(set(got) & set(want)):
+        g, w = got[zid], want[zid]
+        for k in ('公司数', '岗位卡数', '雇员数'):
+            if g[k] != w[k]:
+                out.append(f'产业图层对账: {zid} {k} 图层 {g[k]} != 正典 {w[k]}')
+        if g['center_km'] != by_id[zid]['center_km']:
+            out.append(f"产业图层对账: {zid} 坐标与名录不符 图层 {g['center_km']} 名录 {by_id[zid]['center_km']}")
+        if g['圈层'] != entry_ring(by_id[zid], by_id):
+            out.append(f"产业图层对账: {zid} 圈层 {g['圈层']} 与名录推导不符")
+        if set(g['大类分布']) != set(w['分布']):
+            out.append(f'产业图层对账: {zid} 大类分布键不一致 {sorted(set(g["大类分布"]) ^ set(w["分布"]))}')
+        else:
+            for cid, wd in sorted(w['分布'].items()):
+                gd = g['大类分布'][cid]
+                if any(gd[k] != wd[k] for k in ('公司数', '雇员数', '岗位卡数')):
+                    out.append(f'产业图层对账: {zid}/{cid} 分布 图层 {gd} != 正典 {wd}')
+        wdom = max(w['分布'].items(), key=lambda kv: (kv[1]['雇员数'], kv[1]['公司数'], kv[0]))[0]
+        if g['主导大类'] != wdom:
+            out.append(f"产业图层对账: {zid} 主导大类 {g['主导大类']} != 实测 {wdom}")
+        if g['主导大类名称'] != next(c['名称'] for c in canon['行业']['大类'] if c['id'] == wdom):
+            out.append(f"产业图层对账: {zid} 主导大类名称与正典大类名不符")
+        if abs(g['气泡半径km'] - round(0.28 + 1.05 * math.sqrt(w['雇员数'] / max_emp), 3)) > 1e-9:
+            out.append(f"产业图层对账: {zid} 气泡半径 {g['气泡半径km']} 不符面积公式")
+    for row in layer['大类']:
+        cid = row['id']
+        hits = [z for z, a in want.items() if cid in a['分布']]
+        agg = {k: sum(want[z]['分布'][cid][k] for z in hits) for k in ('公司数', '雇员数', '岗位卡数')}
+        for k, v in agg.items():
+            if row[k] != v:
+                out.append(f'产业图层对账: 大类 {cid} {k} 图层 {row[k]} != 逐锚点加总 {v}')
+        if row['落点数'] != len(hits):
+            out.append(f"产业图层对账: 大类 {cid} 落点数 {row['落点数']} != {len(hits)}")
+        if sorted(row['落点']) != sorted(hits):
+            out.append(f'产业图层对账: 大类 {cid} 落点清单与逐锚点分布不符')
+    if {r['id'] for r in layer['大类']} != {c['id'] for c in canon['行业']['大类']}:
+        out.append('产业图层对账: 图层大类集合与正典不齐')
+    for row in layer['圈层']:
+        hits = [z for z, a in want.items() if entry_ring(by_id[z], by_id) == row['圈层']]
+        if [row['锚点数'], row['公司数'], row['雇员数']] != [
+                len(hits), sum(want[z]['公司数'] for z in hits), sum(want[z]['雇员数'] for z in hits)]:
+            out.append(f"产业图层对账: 圈层 {row['圈层']} 小计与逐锚点加总不符")
+    if {r['圈层'] for r in layer['圈层']} != set(RINGS):
+        out.append(f"产业图层对账: 圈层行不齐 {sorted(r['圈层'] for r in layer['圈层'])}")
+    s = canon['汇总']
+    for k in ('岗位锚点数', '公司数', '岗位卡数', '雇员总数'):
+        if layer['汇总'][k] != s[k]:
+            out.append(f"产业图层对账: 汇总 {k} 图层 {layer['汇总'][k]} != 正典汇总 {s[k]}")
+    if layer['汇总']['最大单锚雇员数'] != max_emp:
+        out.append(f"产业图层对账: 汇总 最大单锚雇员数 {layer['汇总']['最大单锚雇员数']} != 实测 {max_emp}")
+    return out
+
+
+OCC_SOURCE_KEYS = ('口径', '规格', '小类')
+
+
+def occupation_issues(canon, source, occ_source):
+    """第 32 条：职业条目对账——手填正文逐条重扫，派生字段逐条重算，两边都不得漂。
+
+    长度带与条数带取自手填的 职业条目源表.json「规格」块，禁则词与低空白名单仍取自 产业就业源表.json「禁则」块，
+    两处各管各的口径，谁也不复制谁。派生的 id、适用层、关联岗位卡数与覆盖名额一律按正典岗位卡独立重算，
+    生成器若改了挂接规则就在这里炸出来。
+    """
+    out = []
+    missing = [k for k in OCC_SOURCE_KEYS if k not in occ_source]
+    if missing:
+        return [f'职业条目对账: 职业条目源表.json 缺 {missing}，缺件即判红，不得以空条目放行']
+    if '职业条目' not in canon:
+        return ['职业条目对账: 正典没有 职业条目 一节，派生件缺件不得空转判绿']
+    spec = occ_source['规格']
+    for k in ('每类条数', '总条数区间', '字段', '名称长度', '职责长度', '日常循环条数', '日常循环长度',
+              '交付物长度', '协作对象条数', '协作对象长度', '常见异常长度', '禁用字符'):
+        if k not in spec:
+            out.append(f'职业条目对账: 规格缺 {k}')
+    if out:
+        return out
+    J = source['禁则']
+    banned = set(J['字段黑名单']) | set(J['名称禁词']) | set(J['无人机关键词'])
+    for words in J['职责关键词'].values():
+        banned |= set(words)
+    a08_words = set(J['职责关键词']['A08'])
+    drone_ok = set(J['低空作业小类'])
+    band = {'名称': tuple(spec['名称长度']), '职责': tuple(spec['职责长度']),
+            '交付物': tuple(spec['交付物长度']), '常见异常': tuple(spec['常见异常长度'])}
+    loop_band, partner_band = tuple(spec['日常循环长度']), tuple(spec['协作对象长度'])
+    fields, loop_n = spec['字段'], spec['日常循环条数']
+    sub_lo, sub_hi = spec['每类条数']
+    total_lo, total_hi = spec['总条数区间']
+    quote_chars = set(spec['禁用字符'])
+
+    subs = {s['id']: s for s in canon['行业']['小类']}
+    classes = {c['id']: c for c in canon['行业']['大类']}
+    writable = {i for i, s in subs.items() if s['生成岗位卡']}
+    by_sub = {}
+    for comp in canon['公司']:
+        for card in comp['岗位卡']:
+            b = by_sub.setdefault(card['行业小类'], {'卡数': 0, '名额': 0, '层': set()})
+            b['卡数'] += 1
+            b['名额'] += card['名额']
+            b['层'].add(card['岗位层'])
+
+    rows = occ_source['小类']
+    covered = [r['小类'] for r in rows]
+    if len(covered) != len(set(covered)):
+        out.append(f"职业条目对账: 源表小类行重复 {sorted({c for c in covered if covered.count(c) > 1})}")
+    for sid in sorted(set(covered) - writable):
+        out.append(f'职业条目对账: {sid} 不在可出卡小类内却出了条目（背景在册小类不得有职业条目）')
+    for sid in sorted(writable - set(covered)):
+        out.append(f'职业条目对账: {sid} 可出卡却没有任何职业条目')
+    if len(rows) != len(writable):
+        out.append(f'职业条目对账: 源表 {len(rows)} 个小类 != 可出卡小类 {len(writable)} 个')
+
+    counts = {}
+    for r in rows:
+        counts[r['小类']] = len(r['职业'])
+        if not sub_lo <= len(r['职业']) <= sub_hi:
+            out.append(f"职业条目对账: {r['小类']} 有 {len(r['职业'])} 条，越出每类 {sub_lo}—{sub_hi}")
+
+    entries = canon['职业条目']
+    if len(entries) != sum(counts.values()):
+        out.append(f'职业条目对账: 正典 {len(entries)} 条 != 源表展开 {sum(counts.values())} 条')
+    if not total_lo <= len(entries) <= total_hi:
+        out.append(f'职业条目对账: 总数 {len(entries)} 越出总量带 {total_lo}—{total_hi}')
+    if canon['汇总'].get('职业条目数') != len(entries):
+        out.append(f"职业条目对账: 汇总 职业条目数 {canon['汇总'].get('职业条目数')} != 实际 {len(entries)}")
+    if canon['汇总'].get('职业条目覆盖小类数') != len({e['小类'] for e in entries}):
+        out.append('职业条目对账: 汇总 职业条目覆盖小类数 与实际小类集合不符')
+
+    names, ids = {}, {}
+    want = {}
+    for r in sorted(rows, key=lambda x: x['小类']):
+        sid = r['小类']
+        if sid not in subs:
+            continue
+        agg = by_sub.get(sid, {'卡数': 0, '名额': 0, '层': set()})
+        for i, o in enumerate(r['职业'], start=1):
+            sub, cls = subs[sid], classes[subs[sid]['父大类']]
+            want[f'OCC-{sid}-{i:02d}'] = dict(
+                {'id': f'OCC-{sid}-{i:02d}', '小类': sid, '小类名称': sub['名称'], '大类': cls['id'],
+                 '大类名称': cls['名称'], '起始城市年': sub['起始城市年'],
+                 '公共部门': cls.get('公共部门', False), '可招聘': cls['可招聘'],
+                 '适用层': sorted(agg['层']), '关联岗位卡数': agg['卡数'], '覆盖名额': agg['名额']},
+                **{f: o[f] for f in fields if f in o})
+
+    for e in entries:
+        eid = e.get('id')
+        if eid in ids:
+            out.append(f'职业条目对账: 条目 id 重复 {eid}')
+            continue
+        ids[eid] = True
+        if e['名称'] in names:
+            out.append(f"职业条目对账: 名称重复 {e['名称']}（{names[e['名称']]} 与 {eid}）")
+        else:
+            names[e['名称']] = eid
+        if eid not in want:
+            out.append(f'职业条目对账: {eid} 与源表展开不符（小类或组内序对不上）')
+            continue
+        w = want[eid]
+        for k in list(fields) + ['小类', '小类名称', '大类', '大类名称', '起始城市年', '公共部门',
+                                  '可招聘', '适用层', '关联岗位卡数', '覆盖名额']:
+            if k not in w:
+                out.append(f'职业条目对账: 源表条目 {eid} 缺字段 {k}')
+            elif e.get(k) != w[k]:
+                out.append(f'职业条目对账: {eid} 字段 {k} 与重算值不符（{e.get(k)!r} != {w[k]!r}）')
+        absent = [f for f in fields if f not in e]
+        if absent:
+            out.append(f'职业条目对账: {eid} 缺字段 {absent}')
+            continue
+        for f, (lo, hi) in band.items():
+            if not lo <= len(e[f]) <= hi:
+                out.append(f"职业条目对账: {eid}「{e['名称']}」{f}长度 {len(e[f])} 不在 {lo}—{hi}")
+        loop = e['日常循环']
+        if len(loop) != loop_n or len(set(loop)) != loop_n:
+            out.append(f"职业条目对账: {eid} 日常循环须 {loop_n} 条且不重复")
+        if any(not loop_band[0] <= len(x) <= loop_band[1] for x in loop):
+            out.append(f"职业条目对账: {eid} 日常循环单条长度越出 {loop_band[0]}—{loop_band[1]}")
+        partner = e['协作对象']
+        p_lo, p_hi = spec['协作对象条数']
+        if not p_lo <= len(partner) <= p_hi:
+            out.append(f"职业条目对账: {eid} 协作对象 {len(partner)} 条越出 {p_lo}—{p_hi}")
+        if any(not partner_band[0] <= len(x) <= partner_band[1] for x in partner):
+            out.append(f"职业条目对账: {eid} 协作对象单条长度越出 {partner_band[0]}—{partner_band[1]}")
+        blob = e['名称'] + e['职责'] + ''.join(loop) + e['交付物'] + ''.join(partner) + e['常见异常']
+        sid = e['小类']
+        # 低空作业白名单小类可以出现四个无人机词，其余小类一律不得出现——豁免的是词，不是小类 ID。
+        allow = set(J['无人机关键词']) if sid in drone_ok else set()
+        for w in sorted(banned - allow):
+            if w in blob:
+                out.append(f"职业条目对账: {eid}「{e['名称']}」出现禁词「{w}」")
+        if sid.startswith('A08'):
+            for w in sorted(a08_words):
+                if w in blob:
+                    out.append(f"职业条目对账: A08 口径 {eid}「{e['名称']}」出现职责禁词「{w}」")
+        for ch in sorted(quote_chars):
+            if ch in blob:
+                out.append(f'职业条目对账: {eid} 含禁用字符 {ch}')
+    for eid in sorted(set(want) - set(ids)):
+        out.append(f'职业条目对账: 源表条目 {eid} 未进正典')
+    return out
+
+
 CHECKS = ['分区守恒', 'T5每大类一家', '档位区间与占比', '住所覆盖红线', '层系数单调',
           '起始年窗口', 'A08职责禁则', '公职不可申请边界', '字段黑名单', '无人机禁区',
           '引用完整性', '标签体系', '关键场景', '合同矩阵', '卡牌边界', '释放流程',
           '篮子完整性', '硬下限钳', '价物表自洽', '库存与配额',
-          '参数完整性', '交通矩阵可复算', '天气年历闭合', '技能阈值同源', '事件与检查点自洽']
+          '参数完整性', '交通矩阵可复算', '天气年历闭合', '技能阈值同源', '事件与检查点自洽',
+          '具名命名完整', '名称逐段回查', '命名池齐套', '名称禁则与长度', '零消费者对账', '产业图层对账', '职业条目对账']
 
 
 def cost_issues(canon, costs, registry):
@@ -573,7 +993,18 @@ def main():
         raise SystemExit('缺少 数据/运行参数源表.json：门禁须按源表声明的覆盖清单复核矩阵，不得只信正典自证')
     params = json.loads(pp.read_text(encoding='utf-8'))
     psource = json.loads(ps.read_text(encoding='utf-8'))['参数']
-    bad = issues(canon, SOURCE, REGISTRY, adm, costs, params, psource)
+    lp = ROOT / '数据' / '产业空间图层.json'
+    if not lp.exists():
+        raise SystemExit('缺少 数据/产业空间图层.json：先运行 python 工具/build_maps.py，图层门禁不得因无图层可查而空转判绿')
+    layer = json.loads(lp.read_text(encoding='utf-8'))
+    op = ROOT / '数据' / '职业条目源表.json'
+    if not op.exists():
+        raise SystemExit('缺少 数据/职业条目源表.json：职业条目正文只住在这份手填真源里，先补源表再过闸，'
+                         '条目门禁不得因无条目可查而空转判绿')
+    occ_source = json.loads(op.read_text(encoding='utf-8'))
+    naming_pool = SOURCE.get('命名') or {}
+    zc = zero_counts(canon, adm)
+    bad = issues(canon, SOURCE, REGISTRY, adm, costs, params, psource, layer, occ_source)
     report = {'检查项': CHECKS, '检查项数': len(CHECKS), '失败数': len(bad), '失败明细': bad[:40],
               '字典汇总': {k: adm['汇总'][k] for k in ('标签数', '场景数', '合同类型数', '卡牌族数', '释放状态数')},
               '物价汇总': {'篮子': costs['篮子'], '品类数': costs['汇总']['品类数'],
@@ -585,16 +1016,42 @@ def main():
               '参数汇总': {'矩阵格数': params['汇总']['矩阵格数'], '可用格数': params['汇总']['可用格数'],
                         '年历格数': params['汇总']['年历格数'], '季节数': params['汇总']['季节数'],
                         '等级阈值': params['技能等级阈值']},
-              '判据': '二十五条判红（十条产业＋六条字典＋四条物价＋五条运行参数）；任一失败即非零退出，不允许空转判绿'}
+              '命名汇总': {'具名命名数': canon['汇总'].get('具名命名数'),
+                        '字号池': len(naming_pool.get('字号池', [])), '锚点简称': len(naming_pool.get('锚点简称', {})),
+                        '小类词根': len(naming_pool.get('小类词根', {})), '档位后缀': len(naming_pool.get('档位后缀', {})),
+                        '顶端名称': len(naming_pool.get('顶端名称', {})),
+                        '最大具名组': max(count_groups(canon['公司']).values(), default=0),
+                        '名称长度区间': naming_pool.get('名称长度区间', [])},
+              '零消费者汇总': {'背景小类': len(SOURCE.get('零消费者', {}).get('背景小类', [])),
+                          '通用技能数': len(SOURCE.get('零消费者', {}).get('通用技能标签', [])),
+                          '通用场景数': len(SOURCE.get('零消费者', {}).get('通用场景', [])),
+                          '截断大类': sorted(SOURCE.get('零消费者', {}).get('上限截断大类', {})),
+                          '无引用标签数': zc[0],
+                          '无引用场景数': zc[1],
+                          '无卡小类数': zc[2]},
+              '图层汇总': {'锚点数': layer['汇总']['岗位锚点数'], '公司数': layer['汇总']['公司数'],
+                        '岗位卡数': layer['汇总']['岗位卡数'], '雇员总数': layer['汇总']['雇员总数'],
+                        '大类数': layer['汇总']['大类数'], '最大单锚雇员数': layer['汇总']['最大单锚雇员数'],
+                        '气泡半径km': layer['汇总']['气泡半径km'], '逐圈层': layer['汇总']['逐圈层']},
+              '职业条目汇总': {'源表小类行数': len(occ_source.get('小类', [])),
+                          '正典条目数': len(canon.get('职业条目', [])),
+                          '名称唯一数': len({e['名称'] for e in canon.get('职业条目', [])}),
+                          '每类条数': occ_source.get('规格', {}).get('每类条数', []),
+                          '总条数区间': occ_source.get('规格', {}).get('总条数区间', [])},
+              '判据': '三十二条判红（十条产业＋六条字典＋四条物价＋五条运行参数＋四条具名命名＋一条零消费者对账＋一条产业图层对账＋一条职业条目对账）；任一失败即非零退出，不允许空转判绿'}
     (ROOT / '数据' / '产业就业核验.json').write_text(json.dumps(report, ensure_ascii=False, indent=2),
                                                     encoding='utf-8')
     if bad:
-        for b in bad[:20]:
+        # 打印窗口与报告里的 失败明细 同宽（40 行）：具名判据排在最后，窗口过窄会把它的措辞挤出 stdout。
+        for b in bad[:40]:
             print('FAIL', b)
+        print(f'共 {len(bad)} 条判红，前 40 条已打印')
         raise SystemExit(1)
-    print(f'全绿：二十五条判红，0 失败；公司 {canon["汇总"]["公司数"]} 家（具名 {canon["汇总"]["具名公司数"]}）'
+    print(f'全绿：三十二条判红，0 失败；公司 {canon["汇总"]["公司数"]} 家（具名 {canon["汇总"]["具名公司数"]}）'
           f'，岗位卡 {canon["汇总"]["岗位卡数"]} 张，雇员 {canon["汇总"]["雇员总数"]} 人'
-          f'，被顶起 {canon["汇总"]["被顶起卡数"]} 张／{canon["汇总"]["被顶起名额数"]} 名额')
+          f'，被顶起 {canon["汇总"]["被顶起卡数"]} 张／{canon["汇总"]["被顶起名额数"]} 名额'
+          f'，职业条目 {canon["汇总"]["职业条目数"]} 条／{canon["汇总"]["职业条目覆盖小类数"]} 小类'
+          f'，图层 {layer["汇总"]["岗位锚点数"]} 锚点／{layer["汇总"]["大类数"]} 大类')
 
 
 if __name__ == '__main__':

@@ -1,11 +1,15 @@
+import colorsys
 import html
 import json
 import math
 from pathlib import Path
 
+from anchors import RINGS, entry_ring
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT/'数据'/'城市空间名录.json').read_text(encoding='utf-8'))
 ENTRIES = DATA['entries']
+ECON = json.loads((ROOT/'数据'/'产业就业正典.json').read_text(encoding='utf-8'))
 COLORS = ['#d8e5df','#e3e9cf','#d7e2eb','#ede0cd','#d8e8e5','#eee6d5','#e9d9d3','#e2ded4','#d7e5e6','#dfebd7']
 
 class Map:
@@ -114,4 +118,129 @@ urban.text(1285,1252,'圆形规划边界与道路是概念基准，需地形落�
 urban.text(1285,1277,'湖内不布置建筑；建筑锚点并非精确建筑基底。',14)
 urban.compass_scale(1190,170,2)
 urban.save('主城区空间索引图.svg')
-print('Generated 2 SVG maps from the canonical registry.')
+
+# ——— 产业空间图层 ———
+# 一份图层，三个出口：SVG 示意、机器可读 数据/产业空间图层.json、人读 数据/产业空间图层总表.md。
+# 数字只从 数据/产业就业正典.json 现算，不在这里留任何手填常量；闸门第 31 条按同一口径独立重算并对账。
+BY_ID={e['id']:e for e in ENTRIES}
+CLASSES=ECON['行业']['大类']
+CLASS_NAME={c['id']:c['名称'] for c in CLASSES}
+CLASS_ATTR={c['id']:c['经济属性'] for c in CLASSES}
+CLASS_COLOR={c['id']:'#%02x%02x%02x'%tuple(round(255*v) for v in colorsys.hls_to_rgb(i/len(CLASSES),.60,.42))
+             for i,c in enumerate(CLASSES)}
+SCALE,CX,CY=15.5,640,735
+
+per_anchor={}
+for comp in ECON['公司']:
+    a=per_anchor.setdefault(comp['锚点'],{'公司数':0,'岗位卡数':0,'雇员数':0,'分布':{}})
+    a['公司数']+=1
+    a['岗位卡数']+=len(comp['岗位卡'])
+    a['雇员数']+=comp['雇员数']
+    d=a['分布'].setdefault(comp['大类'],{'公司数':0,'雇员数':0,'岗位卡数':0})
+    d['公司数']+=1
+    d['雇员数']+=comp['雇员数']
+    d['岗位卡数']+=len(comp['岗位卡'])
+
+def dominant(a):
+    return max(a['分布'].items(),key=lambda kv:(kv[1]['雇员数'],kv[1]['公司数'],kv[0]))[0]
+
+max_emp=max(a['雇员数'] for a in per_anchor.values())
+anchor_rows=[]
+for zid in sorted(per_anchor):
+    a=per_anchor[zid];e=BY_ID[zid];ring=entry_ring(e,BY_ID)
+    dom=dominant(a)
+    anchor_rows.append({'锚点':zid,'名称':e['name'],'类型':e['type'],'圈层':ring,
+        'center_km':e['center_km'],'公司数':a['公司数'],'岗位卡数':a['岗位卡数'],'雇员数':a['雇员数'],
+        '气泡半径km':round(.28+1.05*math.sqrt(a['雇员数']/max_emp),3),
+        '主导大类':dom,'主导大类名称':CLASS_NAME[dom],'主导大类色':CLASS_COLOR[dom],
+        '主导雇员占比':round(a['分布'][dom]['雇员数']/a['雇员数'],3),
+        '大类分布':{k:dict(v) for k,v in sorted(a['分布'].items())},
+        '落大类数':len(a['分布'])})
+
+class_rows=[]
+for c in CLASSES:
+    hits=[r for r in anchor_rows if c['id'] in r['大类分布']]
+    class_rows.append({'id':c['id'],'名称':c['名称'],'经济属性':c['经济属性'],'色':CLASS_COLOR[c['id']],
+        '公司数':sum(r['大类分布'][c['id']]['公司数'] for r in hits),
+        '岗位卡数':sum(r['大类分布'][c['id']]['岗位卡数'] for r in hits),
+        '雇员数':sum(r['大类分布'][c['id']]['雇员数'] for r in hits),
+        '落点数':len(hits),'主导落点数':sum(1 for r in anchor_rows if r['主导大类']==c['id']),
+        '落点':[r['锚点'] for r in hits]})
+
+ring_rows=[]
+for ring in RINGS:
+    hits=[r for r in anchor_rows if r['圈层']==ring]
+    ring_rows.append({'圈层':ring,'锚点数':len(hits),'公司数':sum(r['公司数'] for r in hits),
+        '岗位卡数':sum(r['岗位卡数'] for r in hits),'雇员数':sum(r['雇员数'] for r in hits)})
+
+LAYER={'version':1,'fictional':True,'来源':'数据/产业就业正典.json + 数据/城市空间名录.json',
+    '图幅':'产业空间图层图.svg',
+    '口径':'按岗位锚点聚合正典里的公司与岗位卡：气泡面积正比于该锚点雇员数（半径＝0.28＋1.05×√(雇员数/最大锚点雇员数) 千米），'
+           '颜色取该锚点雇员最多的主导大类，平局依次比公司数与大类 ID。锚点坐标直接引用名录 center_km，不是新增坐标。'
+           '逐大类与逐圈层的小计由同一批锚点行加总而来。本图只表达规模与行业主导，不表达用地边界、楼宇体量或通勤流向；'
+           '逐锚点数字看 数据/产业空间图层总表.md，机器可读看本文件。门禁第 31 条按正典独立重算本文件的全部计数。',
+    '投影':{'px_per_km':SCALE,'cx':CX,'cy':CY,'原点':'湖心','轴向':'x 东 / y 北','单位':'千米'},
+    '汇总':{'岗位锚点数':len(anchor_rows),'公司数':sum(r['公司数'] for r in anchor_rows),
+        '岗位卡数':sum(r['岗位卡数'] for r in anchor_rows),'雇员总数':sum(r['雇员数'] for r in anchor_rows),
+        '大类数':len(class_rows),'最大单锚雇员数':max_emp,
+        '气泡半径km':[round(.28,3),round(.28+1.05,3)],
+        '逐圈层':{r['圈层']:[r['锚点数'],r['公司数'],r['雇员数']] for r in ring_rows}},
+    '大类':class_rows,'圈层':ring_rows,'锚点':anchor_rows}
+(ROOT/'数据'/'产业空间图层.json').write_text(json.dumps(LAYER,ensure_ascii=False,indent=2),encoding='utf-8')
+
+industry=Map('钛湖城 / 产业空间图层',
+    f"{LAYER['汇总']['岗位锚点数']} 个岗位锚点 · {LAYER['汇总']['公司数']} 家公司 · {LAYER['汇总']['雇员总数']} 个岗位 · "
+    f"气泡面积正比雇员数，颜色取主导大类 · 落点坐标引用名录",SCALE,CX,CY)
+for x in range(-35,36,5): industry.line([[x,-32],[x,32]],'#e9ebe2',.6)
+for y in range(-30,31,5): industry.line([[-36,y],[36,y]],'#e9ebe2',.6)
+for i in range(20):
+    e=next(x for x in ENTRIES if x['id']==f'D{i+1:02d}');s=e['sector']
+    a=s['angle_center_deg'];r1,r2=s['inner_radius_km'],s['outer_radius_km']
+    pts=[polar(r2,a-18+j*.6) for j in range(61)]+([polar(r1,a+18-j*.6) for j in range(61)] if r1 else [[0,0]])
+    industry.polygon(pts,'#f2efe4','#e2ddcd',.8)
+industry.circle([0,0],10.2,'none','#ae9e7c',1.6)
+industry.water()
+for r in anchor_rows:
+    color=r['主导大类色'];rad=r['气泡半径km']
+    industry.circle(r['center_km'],rad,color,'#ffffff',1.1)
+    x,y=industry.xy(r['center_km'])
+    industry.text(x,y-rad*SCALE-2,r['锚点'],8.5 if r['锚点'][0]=='F' else 11,'#33555c',anchor='middle',cls='label')
+industry.text(1250,200,'主导大类图例',23)
+for i,c in enumerate(class_rows):
+    y=243+i*44
+    industry.parts.append(f'<rect x="1250" y="{y-13}" width="20" height="13" fill="{c["色"]}" stroke="#8c9a92" stroke-width=".6"/>')
+    industry.text(1278,y,f"{c['id']}  {c['名称']}",16)
+    industry.text(1278,y+17,f"{c['经济属性']} · {c['公司数']} 家 / {c['雇员数']:,} 岗 · 落 {c['落点数']} 锚点（主导 {c['主导落点数']}）",12,'#617475')
+industry.text(1250,1215,'圈层小计（锚点／公司／岗位）',17)
+for i,r in enumerate(ring_rows):
+    industry.text(1250,1244+i*22,f"{r['圈层']}：{r['锚点数']} ／ {r['公司数']} ／ {r['雇员数']:,}",14,'#617475')
+industry.text(1250,1350,'气泡只比面积，不比对用地范围；锚点坐标引用名录 center_km。',14)
+industry.text(1250,1374,'逐锚点与逐大类明细见 数据/产业空间图层总表.md。',14)
+industry.text(1250,1398,'颜色由大类序号均分色相派生，与正典无独立色值真源。',14)
+industry.compass_scale(1140,190,10)
+industry.save('产业空间图层图.svg')
+
+tbl=['# 钛湖城 / 产业空间图层总表','',
+     '本表由 `python 工具/build_maps.py` 从 `数据/产业就业正典.json` 与 `数据/城市空间名录.json` 现算展开，不可手改。',
+     '图幅：`产业空间图层图.svg`；机器可读：`数据/产业空间图层.json`。门禁第 31 条按同一口径独立重算本表全部计数。','',
+     f"口径：{LAYER['口径']}",'',
+     f"汇总：岗位锚点 {LAYER['汇总']['岗位锚点数']} 个 · 公司 {LAYER['汇总']['公司数']} 家 · 岗位卡 {LAYER['汇总']['岗位卡数']} 张 · 雇员 {LAYER['汇总']['雇员总数']} 人 · 大类 {LAYER['汇总']['大类数']} 个；最大单锚雇员 {max_emp:,} 人，气泡半径 {LAYER['汇总']['气泡半径km'][0]}—{LAYER['汇总']['气泡半径km'][1]} 千米。",
+     f"投影：{LAYER['投影']['px_per_km']} 像素／千米，原点湖心，x 东 / y 北。",'',
+     '## 逐圈层小计','','| 圈层 | 锚点数 | 公司数 | 岗位卡数 | 雇员数 |','|---|---|---|---|---|']
+for r in ring_rows:
+    tbl.append(f"| {r['圈层']} | {r['锚点数']} | {r['公司数']} | {r['岗位卡数']} | {r['雇员数']:,} |")
+tbl+=['','## 逐大类汇总','','| 大类 | 名称 | 经济属性 | 公司数 | 岗位卡数 | 雇员数 | 落点数 | 作为主导的锚点数 |','|---|---|---|---|---|---|---|---|']
+for c in class_rows:
+    tbl.append(f"| {c['id']} | {c['名称']} | {c['经济属性']} | {c['公司数']} | {c['岗位卡数']} | {c['雇员数']:,} | {c['落点数']} | {c['主导落点数']} |")
+tbl+=['','## 逐锚点明细','','| 锚点 | 名称 | 类型 | 圈层 | x,y (km) | 公司数 | 岗位卡数 | 雇员数 | 主导大类 | 落大类数 | 主导雇员占比 | 大类分布（公司数/雇员数） |','|---|---|---|---|---|---|---|---|---|---|---|---|']
+for r in anchor_rows:
+    dist='、'.join(f"{k} {v['公司数']}/{v['雇员数']:,}" for k,v in r['大类分布'].items())
+    tbl.append(f"| {r['锚点']} | {r['名称']} | {r['类型']} | {r['圈层']} | {r['center_km'][0]}, {r['center_km'][1]} | {r['公司数']} | {r['岗位卡数']} | {r['雇员数']:,} | {r['主导大类']} {r['主导大类名称']} | {r['落大类数']} | {r['主导雇员占比']} | {dist} |")
+tbl+=['','## 说明','',
+      '- 气泡与颜色是同一批正典计数的两种编码，图上不做用地边界推断。',
+      '- A01 全类为公共部门背景在册，岗位卡不可申请，但雇员数仍守恒进锚点规模，因此图层里会出现且只按同一口径计数。',
+      '- T1 个体户统计口径的公司无名称，仍计入公司数与雇员数。',
+      '- 聚落岗位数不等于常住人口。','']
+(ROOT/'数据'/'产业空间图层总表.md').write_text('\n'.join(tbl),encoding='utf-8')
+print(f"Generated 3 SVG maps and the industry layer from the canonical registry: "
+      f"{len(anchor_rows)} 锚点 / {len(class_rows)} 大类 / {LAYER['汇总']['公司数']} 公司 / {LAYER['汇总']['雇员总数']} 雇员")

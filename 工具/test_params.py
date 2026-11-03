@@ -166,18 +166,18 @@ class GateExtended(unittest.TestCase):
         import verify_occupations as vo
         self.vo = vo
 
-    def test_twenty_five_checks_registered(self):
-        self.assertEqual(len(self.vo.CHECKS), 25)
-        self.assertEqual(self.vo.CHECKS[20:],
+    def test_thirty_two_checks_registered(self):
+        self.assertEqual(len(self.vo.CHECKS), 32)
+        self.assertEqual(self.vo.CHECKS[20:25],
                          ['参数完整性', '交通矩阵可复算', '天气年历闭合', '技能阈值同源', '事件与检查点自洽'])
 
     def test_gate_green_and_report_records_params(self):
         import subprocess
         r = subprocess.run([sys.executable, str(ROOT / '工具' / 'verify_occupations.py')],
                            check=True, capture_output=True, text=True)
-        self.assertIn('二十五条判红', r.stdout)
+        self.assertIn('三十二条判红', r.stdout)
         rep = json.loads((ROOT / '数据' / '产业就业核验.json').read_text(encoding='utf-8'))
-        self.assertEqual(rep['检查项数'], 25)
+        self.assertEqual(rep['检查项数'], 32)
         self.assertEqual(rep['参数汇总']['矩阵格数'], 50)
         self.assertEqual(rep['参数汇总']['年历格数'], 365)
 
@@ -207,8 +207,8 @@ class DocsSynced(unittest.TestCase):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
         self.assertIn('运行参数源表.json', manual)
         self.assertIn('build_params.py', manual)
-        self.assertIn('二十五条判据', manual)
-        self.assertIn('四十五类改坏', manual)
+        self.assertIn('三十二条判据', manual)
+        self.assertIn('八十九类改坏', manual)
         self.assertLess(manual.index('build_occupations.py'), manual.index('build_params.py'))
         entry = (ROOT / '阅读入口.md').read_text(encoding='utf-8')
         self.assertIn('运行参数设定.md', entry)
@@ -227,8 +227,8 @@ class RulingsEightyEight(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 113)
-        self.assertEqual(rows[-1]['编号'], 'C113')
+        self.assertEqual(len(rows), 117)
+        self.assertEqual(rows[-1]['编号'], 'C117')
 
 
 if __name__ == '__main__':

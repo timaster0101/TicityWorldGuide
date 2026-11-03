@@ -251,12 +251,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_113(self):
+    def test_rulings_are_117(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 113)
-        self.assertEqual(rulings[-1]['编号'], 'C113')
+        self.assertEqual(len(rulings), 117)
+        self.assertEqual(rulings[-1]['编号'], 'C117')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C104', 'C105', 'C106', 'C107', 'C108', 'C109', 'C110', 'C111', 'C112', 'C113'])
+                         ['C108', 'C109', 'C110', 'C111', 'C112', 'C113', 'C114', 'C115', 'C116', 'C117'])
         by_id = {r['编号']: r for r in rulings}
         # C112 的硬话是「判据一律跨源写死、不由本表自证」与「任一行口径出现中断类许可词而同行无否定式即判红」；
         # C113 的硬话是「名称字段 0 条非空」——两条各钉一句，防止过度申报与跨源对账被静默改回话术。
@@ -267,6 +267,17 @@ class CanonConsistency(unittest.TestCase):
         self.assertIn('2889 家公司的 名称 字段 0 条非空', by_id['C113']['裁定'])
         self.assertIn('不属第1—5期口径、仍未登记', by_id['C113']['裁定'])
         self.assertIn('计数钉 111→113', by_id['C113']['影响'])
+        # 第6期四条各钉一句判据措辞与一句实测读数：这四条都是「产物已落地」型裁定，
+        # 若措辞被改回未来式，文档就会重新出现申报通道；读数被改则量级位移失去唯一出处。
+        self.assertIn('双向对账', by_id['C114']['裁定'])
+        self.assertIn('1518 张变为 1496 张', by_id['C114']['影响'])
+        self.assertIn('锚点简称 ＋ 字号池', by_id['C115']['裁定'])
+        self.assertIn('64 条 T1 统计口径名称恒为 null', by_id['C115']['裁定'])
+        self.assertIn('不表达用地归属', by_id['C116']['裁定'])
+        self.assertIn('面积正比雇员数', by_id['C116']['裁定'])
+        self.assertIn('10541 张岗位卡不因此新增任何字段', by_id['C117']['裁定'])
+        self.assertIn('豁免的是词、不是小类 ID', by_id['C117']['裁定'])
+        self.assertIn('计数钉 116→117', by_id['C117']['影响'])
         # C89 的「高度第一交给 L066、形态第一留在 L007」是本卷定价外溢的唯一出处，钉死措辞防止被改写后说明与价表脱钩。
         self.assertIn('458米/106层', by_id['C89']['裁定'])
         self.assertIn('唯一形态', by_id['C89']['裁定'])

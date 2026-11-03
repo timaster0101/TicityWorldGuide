@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-"""产业与就业层闸门的违例自检：把闸门与十份数据整批复制到临时目录，逐条改坏正典，断言闸门必须判红并给出该条自己的措辞。
+"""产业与就业层闸门的违例自检：把闸门与十二份数据整批复制到临时目录，逐条改坏正典，断言闸门必须判红并给出该条自己的措辞。
 
-闸门只会打印"全绿"，无法自证它抓得住违例；本脚本按二十五条判据反向注入，只操作临时副本，
+闸门只会打印"全绿"，无法自证它抓得住违例；本脚本按三十二条判据反向注入，只操作临时副本，
 绝不改动被守护的仓库文件。闸门只读落盘 JSON，因此临时目录里不需要 build_admission.py 与 build_costs.py，
 但必须带上 anchors.py——闸门的圈层归属与住所锚都从它取。
+第 30 条的对账清单住在手填源表里，所以注入范围除四份正典外还含 产业就业源表.json；其余两份源表与名录仍只读。
+第 31 条对账的是产业图层派生件，因此注入范围再加 产业空间图层.json；第 32 条对账职业条目，注入范围再加手填的
+职业条目源表.json。两份的「文件被删除」用例都直接删夹具里的那一份，用来证闸门在缺件时判红而不是空转放行。
 跑法：python 工具/negtest_occupations.py
 """
 import json
@@ -18,7 +21,7 @@ TOOLS = ['verify_occupations.py', 'anchors.py']
 DATA = ['产业就业正典.json', '产业就业源表.json', '城市空间名录.json',
         '岗位准入正典.json', '岗位准入源表.json',
         '物价与生活正典.json', '物价生活源表.json', '参考房价租金.json',
-        '运行参数正典.json', '运行参数源表.json']
+        '运行参数正典.json', '运行参数源表.json', '产业空间图层.json', '职业条目源表.json']
 TMP_PREFIX = 'occneg-'
 
 
@@ -42,10 +45,27 @@ def params_of(tmp):
     return json.loads((tmp / '数据' / '运行参数正典.json').read_text(encoding='utf-8'))
 
 
-# 用例改动函数的形参顺序即正典写入顺序：1 参改产业、2 参加字典、3 参加物价、4 参加运行参数
-OBJ_NAMES = ['canon', 'adm', 'costs', 'params']
+def source_of(tmp):
+    return json.loads((tmp / '数据' / '产业就业源表.json').read_text(encoding='utf-8'))
+
+
+def layer_of(tmp):
+    return json.loads((tmp / '数据' / '产业空间图层.json').read_text(encoding='utf-8'))
+
+
+def occ_source_of(tmp):
+    return json.loads((tmp / '数据' / '职业条目源表.json').read_text(encoding='utf-8'))
+
+
+# 用例改动函数的形参顺序即写入顺序：1 参改产业、2 参加字典、3 参加物价、4 参加运行参数、5 参加手填源表、
+# 6 参加产业图层派生件，7 参加职业条目手填源表；改动函数往对象里塞 DELETE_MARK 即表示「夹具里这一份要删掉」，
+# 用来证闸门在缺件时判红而不是空转放行（第 31 条的文件缺失分支）。
+OBJ_NAMES = ['canon', 'adm', 'costs', 'params', 'source', 'layer', 'osrc']
+DELETE_MARK = '__删除此文件__'
 FILES = {'canon': '产业就业正典.json', 'adm': '岗位准入正典.json',
-         'costs': '物价与生活正典.json', 'params': '运行参数正典.json'}
+         'costs': '物价与生活正典.json', 'params': '运行参数正典.json',
+         'source': '产业就业源表.json', 'layer': '产业空间图层.json',
+         'osrc': '职业条目源表.json'}
 
 
 def cards(canon):
@@ -53,10 +73,15 @@ def cards(canon):
 
 
 def cases():
-    """返回 (用例名, 改动函数, 期望出现的判红字样)；改动只动四份正典，三份源表与名录保持原样。
+    """返回 (用例名, 改动函数, 期望出现的判红字样)；改动只动四份正典与手填的产业就业源表，
+    其余两份源表与名录保持原样。
 
     形参个数就是注入范围：1 个改产业就业正典，2 个再加岗位准入正典，3 个再加物价正典，
-    4 个再加运行参数正典；main 按 OBJ_NAMES 的前缀取对象，写完只回写被改的那几份。
+    4 个再加运行参数正典，5 个再加产业就业源表（第 30 条的零消费者声明块只住在源表里，
+    要证它抓得住漏登记与空声明，夹具必须能改源表），6 个再加产业空间图层派生件
+    （第 31 条对账的是图层与正典，要证它抓得住手改计数与缺件放行，夹具必须能改图层），
+    7 个再加职业条目手填源表（第 32 条一半判手填正文、一半判正典派生，两边都得能改）；
+    main 按 OBJ_NAMES 的前缀取对象，写完只回写被改的那几份。
     """
 
     def conservation(c):
@@ -234,6 +259,199 @@ def cases():
     def round_quota_below_month(c, a, s, p):
         p['参数']['事件']['负面配额']['每轮'] = 1
 
+    # —— 第 26 至 29 条（具名命名）——
+    def named_without_name(c):
+        first(c, lambda x: x['逐家具名'] and x['档位'] == 'T3')['名称'] = None
+
+    def statistic_row_named(c):
+        first(c, lambda x: not x['逐家具名'])['名称'] = '湖政恒茂政务社'
+
+    def duplicated_name(c):
+        rows = [x for x in c['公司'] if x['逐家具名'] and x['档位'] == 'T3']
+        rows[1]['名称'] = rows[0]['名称']
+
+    def hand_edited_segment(c):
+        row = first(c, lambda x: x['逐家具名'] and x['档位'] == 'T3')
+        row['名称'] = row['名称'][:-1] + '行'
+
+    def apex_off_source(c):
+        row = first(c, lambda x: x['档位'] == 'T5')
+        row['名称'] = row['名称'].replace('集团', '公司')
+
+    def subclass_row_dropped(c):
+        # 卡片一并删掉，否则 adm 侧按小类取准入形态会 KeyError，判红措辞就变成崩溃而非门禁。
+        counts = {}
+        for comp in c['公司']:
+            for card in comp['岗位卡']:
+                counts[card['行业小类']] = counts.get(card['行业小类'], 0) + 1
+        victim = min(counts, key=counts.get)
+        c['行业']['小类'] = [s for s in c['行业']['小类'] if s['id'] != victim]
+        for comp in c['公司']:
+            comp['岗位卡'] = [x for x in comp['岗位卡'] if x['行业小类'] != victim]
+
+    def group_over_pool(c):
+        # 把 F005 的 T2 组挤到 81 家：字号池只有 80 个词，组内必然绕回，两家的名称即撞车。
+        donors = [x for x in c['公司'] if x['锚点'] == 'F005' and x['档位'] == 'T2']
+        for k in range(10):
+            c['公司'].append(dict(donors[0], id=f'CORP-F005-X{k:02d}'))
+
+    def banned_word_in_name(c):
+        row = first(c, lambda x: x['逐家具名'] and x['档位'] == 'T3')
+        row['名称'] = row['名称'][:4] + '股权' + row['名称'][6:]
+
+    def name_out_of_length_band(c):
+        row = first(c, lambda x: x['逐家具名'] and x['档位'] == 'T3')
+        row['名称'] = row['名称'][:4]
+
+    def apex_without_tier_suffix(c):
+        row = first(c, lambda x: x['档位'] == 'T5')
+        row['名称'] = row['名称'][:-2] + '公司'
+
+    # —— 第 30 条（零消费者对账）——
+    def background_flag_drifted(c):
+        row = next(s for s in c['行业']['小类'] if s['id'] == 'A08-B03')
+        row['生成岗位卡'] = True
+
+    def subclass_left_without_company(c):
+        # 把卡片最少的那个小类整体并进同大类、同起始年、同准入形态的兄弟小类：
+        # 其余判据的取值都不受影响，只有第 30 条会报「声明可生成岗位卡却无一家公司落它」。
+        counts = {}
+        for comp in c['公司']:
+            for card in comp['岗位卡']:
+                counts[card['行业小类']] = counts.get(card['行业小类'], 0) + 1
+        victim = min(counts, key=counts.get)
+        row = next(s for s in c['行业']['小类'] if s['id'] == victim)
+        sibling = next(s for s in c['行业']['小类']
+                       if s['父大类'] == row['父大类'] and s['id'] != victim and s['生成岗位卡']
+                       and s['起始城市年'] == row['起始城市年'] and s['准入形态'] == row['准入形态'])
+        for comp in c['公司']:
+            for card in comp['岗位卡']:
+                if card['行业小类'] == victim:
+                    card['行业小类'] = sibling['id']
+                    card['id'] = card['id'].replace(victim, sibling['id'])
+                    card['准入标签'] = [[t.replace(victim, sibling['id']), lv] for t, lv in card['准入标签']]
+
+    def declared_skill_absent_from_dictionary(c, a, s, p, src):
+        src['零消费者']['上限截断连带标签'].append('SKL-Q-A99')
+
+    def declared_general_skill_unregistered(c, a, s, p, src):
+        src['零消费者']['通用技能标签'].remove('SKL-C07')
+
+    def declared_scene_already_used(c, a, s, p, src):
+        src['零消费者']['通用场景'].append(next(x['关键场景'][0]
+                                                for comp in c['公司'] for x in comp['岗位卡'] if x['关键场景']))
+
+    def cap_class_not_declared(c, a, s, p, src):
+        src['零消费者']['上限截断大类'] = {}
+
+    def zero_block_dropped(c, a, s, p, src):
+        src.pop('零消费者')
+
+    # —— 第 31 条（产业图层对账）——
+    # 六个形参＝再注入图层派生件；七个形参＝最后那个只读参数是夹具目录本身，用于删文件。
+    def layer_anchor_dropped(c, a, s, p, src, lay):
+        lay['锚点'] = [r for r in lay['锚点'] if r['锚点'] != c['公司'][0]['锚点']]
+
+    def layer_anchor_invented(c, a, s, p, src, lay):
+        extra = dict(lay['锚点'][0])
+        extra['锚点'] = 'F099'
+        lay['锚点'].append(extra)
+
+    def layer_employees_drifted(c, a, s, p, src, lay):
+        lay['锚点'][0]['雇员数'] += 1
+
+    def layer_center_drifted(c, a, s, p, src, lay):
+        lay['锚点'][0]['center_km'][1] += 0.5
+
+    def layer_dominant_class_drifted(c, a, s, p, src, lay):
+        row = next(r for r in lay['锚点'] if len(r['大类分布']) > 1)
+        row['主导大类'] = next(i for i in sorted(row['大类分布']) if i != row['主导大类'])
+
+    def layer_class_count_drifted(c, a, s, p, src, lay):
+        lay['大类'][0]['公司数'] += 1
+
+    def layer_class_landing_drifted(c, a, s, p, src, lay):
+        row = next(r for r in lay['大类'] if r['落点数'] > 1)
+        row['落点'] = row['落点'][:-1]
+
+    def layer_ring_total_drifted(c, a, s, p, src, lay):
+        lay['圈层'][0]['雇员数'] += 10
+
+    def layer_summary_drifted(c, a, s, p, src, lay):
+        lay['汇总']['雇员总数'] += 1
+
+    def layer_radius_formula_drifted(c, a, s, p, src, lay):
+        lay['锚点'][0]['气泡半径km'] = round(lay['锚点'][0]['气泡半径km'] + 0.1, 3)
+
+    def layer_distribution_drifted(c, a, s, p, src, lay):
+        row = next(r for r in lay['锚点'] if len(r['大类分布']) > 1)
+        cid = sorted(row['大类分布'])[0]
+        row['大类分布'][cid]['岗位卡数'] += 1
+
+    def layer_block_dropped(c, a, s, p, src, lay):
+        lay.pop('锚点')
+
+    # —— 第 32 条（职业条目对账）——
+    def occ_name_duplicated(c):
+        c['职业条目'][1]['名称'] = c['职业条目'][0]['名称']
+
+    def occ_entry_missing_from_canon(c):
+        c['职业条目'].pop(0)
+
+    def occ_id_sequence_drifted(c):
+        c['职业条目'][1]['id'] = c['职业条目'][1]['id'][:-2] + '99'
+
+    def occ_levels_drifted(c):
+        row = next(e for e in c['职业条目'] if len(e['适用层']) > 1)
+        row['适用层'] = row['适用层'][:1]
+
+    def occ_quota_drifted(c):
+        c['职业条目'][0]['覆盖名额'] += 1
+
+    def occ_summary_drifted(c):
+        c['汇总']['职业条目数'] += 1
+
+    def occ_banned_word_in_text(c):
+        row = next(e for e in c['职业条目'] if not e['小类'].startswith('A08'))
+        row['职责'] = row['职责'] + '并做估值'
+
+    def occ_drone_word_outside_whitelist(c):
+        row = next(e for e in c['职业条目'] if e['小类'] not in ('A15-B03', 'A15-B05', 'A17-B05', 'A17-B08'))
+        row['职责'] = row['职责'] + '含无人机作业'
+
+    def occ_responsibility_too_short(c):
+        c['职业条目'][0]['职责'] = '收货'
+
+    def occ_subclass_row_dropped(c, a, s, p, src, lay, o):
+        o['小类'] = o['小类'][1:]
+
+    def occ_background_row_added(c, a, s, p, src, lay, o):
+        o['小类'].append({'小类': 'A08-B03', '职业': [dict(x) for x in o['小类'][0]['职业']]})
+
+    def occ_per_class_count_drifted(c, a, s, p, src, lay, o):
+        # 正典同步长出第 6 条，让总量与展开数仍然对齐，判红只剩「越出每类」这一条变量。
+        row = next(r for r in o['小类'] if len(r['职业']) == 5)
+        extra = dict(row['职业'][0])
+        extra['名称'] = '负测追加条目'
+        row['职业'].append(extra)
+        sid = row['小类']
+        ref = next(e for e in c['职业条目'] if e['小类'] == sid)
+        grown = dict(ref, id=f'OCC-{sid}-06', 名称=extra['名称'])
+        c['职业条目'].append(grown)
+        c['汇总']['职业条目数'] = len(c['职业条目'])
+
+    def occ_spec_key_dropped(c, a, s, p, src, lay, o):
+        o['规格'].pop('每类条数')
+
+    def occ_source_file_removed(c, a, s, p, src, lay, o):
+        o.clear()
+        o[DELETE_MARK] = True
+
+    def layer_file_removed(c, a, s, p, src, lay):
+        # 打上删除标记，由 main 在回写阶段把夹具里的那一份 unlink 掉，而不是把内存对象再写回去。
+        lay.clear()
+        lay[DELETE_MARK] = True
+
     return [
         ('逐区守恒人数被改', conservation, '守恒'),
         ('整区公司缺失', missing_anchor, '守恒'),
@@ -280,6 +498,50 @@ def cases():
         ('删掉年历一格使其不等于游程展开', year_table_missing_day, '天气年历: 正典'),
         ('个人冷却改成大于城市冷却', personal_cooldown_above_city, '冷却天须随级别单调不减'),
         ('每轮负面配额改成小于每自然月配额', round_quota_below_month, '每轮负面配额不得小于每自然月配额'),
+        ('具名公司的名称被清空', named_without_name, '具名命名'),
+        ('T1 统计条带上名称', statistic_row_named, '具名命名'),
+        ('两家非顶端公司同名', duplicated_name, '具名命名'),
+        ('非顶端名称的某一段被手改', hand_edited_segment, '名称回查'),
+        ('顶端名称偏离源表', apex_off_source, '顶端名称'),
+        ('正典少一条小类使词根池不齐', subclass_row_dropped, '命名池'),
+        ('同组挤进十家使字号绕回', group_over_pool, '短于最大'),
+        ('名称里出现禁词', banned_word_in_name, '名称禁则'),
+        ('名称短于源表长度区间', name_out_of_length_band, '名称禁则'),
+        ('顶端名称未以档位后缀收尾', apex_without_tier_suffix, '名称禁则'),
+        ('背景小类被改成可生成岗位卡', background_flag_drifted, '登记为背景小类却声明可生成岗位卡'),
+        ('可生成岗位卡的小类被挪空', subclass_left_without_company, '无一张岗位卡落它'),
+        ('声明的连带标签不在字典里', declared_skill_absent_from_dictionary, '在字典中不存在'),
+        ('一条通用技能没登记为零消费者', declared_general_skill_unregistered, '无卡片引用却未登记为零消费者'),
+        ('登记的零消费者场景其实已被引用', declared_scene_already_used, '登记为零消费者却已被卡片引用'),
+        ('设了上限的大类没登记截断', cap_class_not_declared, '截断大类与源表'),
+        ('零消费者声明块被删空', zero_block_dropped, '不得留空'),
+        ('图层少了正典有的锚点', layer_anchor_dropped, '产业图层对账: 锚点集合与正典不一致'),
+        ('图层多出正典没有的锚点', layer_anchor_invented, '产业图层对账: 锚点集合与正典不一致'),
+        ('图层雇员数被手改', layer_employees_drifted, '产业图层对账:'),
+        ('图层坐标偏离名录', layer_center_drifted, '坐标与名录不符'),
+        ('图层主导大类改上次大类', layer_dominant_class_drifted, '主导大类'),
+        ('图层大类公司数被手改', layer_class_count_drifted, '公司数 图层'),
+        ('图层大类落点清单被截短', layer_class_landing_drifted, '落点'),
+        ('图层圈层小计被手改', layer_ring_total_drifted, '圈层'),
+        ('图层汇总雇员总数被手改', layer_summary_drifted, '汇总 雇员总数'),
+        ('图层气泡半径偏离面积公式', layer_radius_formula_drifted, '不符面积公式'),
+        ('图层锚点内大类分布被手改', layer_distribution_drifted, '分布 图层'),
+        ('图层缺锚点一节', layer_block_dropped, "['锚点']"),
+        ('图层数据文件被删除', layer_file_removed, '不得因无图层可查而空转判绿'),
+        ('两条职业条目同名', occ_name_duplicated, '名称重复'),
+        ('正典少一条职业条目', occ_entry_missing_from_canon, '未进正典'),
+        ('职业条目组内序被改', occ_id_sequence_drifted, '与源表展开不符'),
+        ('职业条目适用层被改窄', occ_levels_drifted, '字段 适用层 与重算值不符'),
+        ('职业条目覆盖名额被改', occ_quota_drifted, '字段 覆盖名额 与重算值不符'),
+        ('汇总职业条目数被改', occ_summary_drifted, '汇总 职业条目数'),
+        ('职业条目正文混进估值口径', occ_banned_word_in_text, '出现禁词「估值」'),
+        ('非低空小类的条目出现无人机', occ_drone_word_outside_whitelist, '出现禁词「无人机」'),
+        ('职业条目职责短于长度带', occ_responsibility_too_short, '职责长度'),
+        ('一个可出卡小类的条目行被删', occ_subclass_row_dropped, '没有任何职业条目'),
+        ('背景在册小类出了条目行', occ_background_row_added, '不在可出卡小类内却出了条目'),
+        ('某小类条目数超出每类上限', occ_per_class_count_drifted, '越出每类'),
+        ('规格块少了每类条数', occ_spec_key_dropped, '规格缺'),
+        ('职业条目源表文件被删除', occ_source_file_removed, '不得因无条目可查而空转判绿'),
     ]
 
 
@@ -296,6 +558,9 @@ def run_gate(tmp):
 
 def main():
     results, failures = [], []
+    absent = [f for f in DATA if not (ROOT / '数据' / f).exists()]
+    if absent:
+        raise SystemExit(f'仓库缺少 {absent}：违例夹具按当前仓库文件搭造，先跑全链派生器再自检')
     for name, mutate, expected in cases():
         tmp = Path(tempfile.mkdtemp(prefix=TMP_PREFIX))
         try:
@@ -307,11 +572,15 @@ def main():
                 shutil.copy2(ROOT / '数据' / f, tmp / '数据' / f)
             rc0, _ = run_gate(tmp)
             objs = {'canon': canon_of(tmp), 'adm': adm_of(tmp),
-                    'costs': costs_of(tmp), 'params': params_of(tmp)}
+                    'costs': costs_of(tmp), 'params': params_of(tmp), 'source': source_of(tmp),
+                    'layer': layer_of(tmp), 'osrc': occ_source_of(tmp)}
             names = OBJ_NAMES[:_arity(mutate)]
             mutate(*[objs[k] for k in names])
             payload = [(tmp / '数据' / FILES[k], objs[k]) for k in names]
             for path, obj in payload:
+                if obj.get(DELETE_MARK):
+                    path.unlink()
+                    continue
                 path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding='utf-8')
             rc, out = run_gate(tmp)
             red = rc != 0 and expected in out
