@@ -15,7 +15,7 @@ from urllib.parse import unquote
 ROOT = Path(__file__).resolve().parent.parent
 INPUT_FILES = ("开图清单.json", "开图验收备注.json")
 CHECK_LABELS = ("画风", "双层接触", "生活痕迹", "招牌与文字", "年代锁", "日面可纳性",
-                "远景可纳性", "形体与硬参数", "人数落档")
+                "远景可纳性", "远景塔形来源", "形体与硬参数", "人数落档")
 
 
 class ReviewSuiteTests(unittest.TestCase):
@@ -56,7 +56,7 @@ class ReviewSuiteTests(unittest.TestCase):
         return blocks
 
     def signed_verdict_ids(self):
-        """判据纯函数：凡是「结论／九条打表栏」被脚本填成非空（不是 ＿＿）的条，就是代签。"""
+        """判据纯函数：凡是「结论／十条打表栏」被脚本填成非空（不是 ＿＿）的条，就是代签。"""
         out = []
         for eid, lines in self.item_blocks().items():
             for line in lines:
@@ -81,7 +81,7 @@ class ReviewSuiteTests(unittest.TestCase):
             block = "\n".join(blocks[it["id"]])
             self.assertEqual(block.count("- 图格："), len(it["image_file"]), it["id"])
 
-    def test_lists_the_nine_criteria_and_the_rule_sources(self):
+    def test_lists_the_ten_criteria_and_the_rule_sources(self):
         for eid, lines in self.item_blocks().items():
             block = "\n".join(lines)
             with self.subTest(eid=eid):
@@ -89,7 +89,7 @@ class ReviewSuiteTests(unittest.TestCase):
                     self.assertEqual(block.count("  - %s：" % label), 1, eid)
                 self.assertIn("  - 结论：", block)
         header = self.work.split("### ")[0]
-        for token in ("C100", "C101", "C99", "C92", "C97", "不写结论", "本单每次重跑会被覆盖"):
+        for token in ("C100", "C101", "C99", "C92", "C97", "C106", "判据十条", "不写结论", "本单每次重跑会被覆盖"):
             self.assertIn(token, header)
 
     def test_verdict_columns_are_blank_and_no_acceptance_language(self):
@@ -134,7 +134,7 @@ class ReviewSuiteTests(unittest.TestCase):
 
     def test_script_signed_verdict_is_caught_by_the_new_gate(self):
         """违例负测：让脚本替 L001 把「结论」栏直接填成 通过（等于代签验收），
-        新判据必须只给出这一条；九条判据与图格数等既有断言仍为绿，证明该缺陷要靠新判据才抓得住。
+        新判据必须只给出这一条；十条判据与图格数等既有断言仍为绿，证明该缺陷要靠新判据才抓得住。
         变异对照：恢复原文后同一判据归零。注入只改临时副本，真实仓库不受影响。"""
         pristine = self.script.read_text(encoding="utf-8")
         anchor = '        lines.append("  - 结论：%s（通过／判废重出／待重出）｜备注：%s" % (BLANK, BLANK))'

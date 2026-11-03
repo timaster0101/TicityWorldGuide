@@ -118,11 +118,17 @@ def offset(b, facing):
 
 FAR_VIEW_RULE = ("the far view must contain only what the Chinese framing section names as 远景; do not add a distant "
                  "downtown skyline, a supertall cluster or a tower crane that the framing section does not name")
+# C106：远景「有没有资格出现」归 C101 管，但 C101 不管「出现的那几栋长什么样」。L083 的 C105 换档重出 v05
+# 把远景侧别画对了（两座超高层落在左侧，与 tail 的偏左10°／偏左3° 一致），轮廓却是上海陆家嘴三件套的
+# 现成剪影——模型在「允许画远景」时默认去抄现实天际线。本条把形体来源也钉住：背景塔按本正典自己的几何画。
+SKYLINE_SOURCE_RULE = ("background towers are composed from this canon's own geometry (straight shafts, louver "
+                       "bands and the flat or stepped crowns the Chinese sections name); do not trace a real "
+                       "city's skyline and do not borrow a real supertall's crown, twist or aperture")
 
 
 def background_phrase(eid, 取景, facing):
     cam, focal = camera_km(取景), focal_mm(取景)
-    parts = [FAR_VIEW_RULE]
+    parts = [FAR_VIEW_RULE, SKYLINE_SOURCE_RULE]
     for sid in NAMED_SUPERTALLS:
         if sid == eid:
             continue
@@ -155,15 +161,21 @@ HARD_LABEL = {
 # 阶段 4 换档（C93）：D2 把开图正典整体切到 E1 半写实厚涂，D4 把「顶级科技 × 中国老城 × 烟火气」
 # 写成画面结构判据而不是形容词。六条 tail 逐条重写，每条必须同时给出科技层与老城层的实体词，
 # 且二者物理接触。写实词与近未来词只许写在 NEGATIVE_TAG 的否定式里，正向段出现即由生成器判红。
-STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed edges, painted surfaces, "
-              "soft airbrushed gradient sky, warm late-autumn palette, illustrated cityscape rather than a snapshot")
+STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed edges, opaque impasto paint layers "
+              "with dry-brush edges, painted surfaces, sky laid in with visible cloud strokes rather than a smooth "
+              "blended gradient, warm late-autumn palette, illustrated cityscape rather than a snapshot")
 # C100：B3 七张跨类型样本 5 张出成照片质感（L066／L083／F012／F039／R009），只有 S02／S18 保住厚涂；
 # 与已定档的 R043 同尺度裁前景人物对比，判废项里最先失效的就是笔触。画风词此前只写在最末的 English tail，
 # 而投喂串从【画面定位】开始就是一长串写实题材描述（玻璃幕墙、闸机、街面材质），模型按题材定档、不按尾串改档。
 # 锚点提到投喂串首句，材质与人物都点名要笔触，并把「中文段写的是题材不是媒介」写死。
-STYLE_ANCHOR = ("【画风锚点】medium is a semi-realistic digital painting: visible brushwork and hand-mixed edges on "
-                "every surface, including faces, glass, stone, fabric and foliage; painted illustration rather than "
-                "a snapshot; the Chinese sections below describe the subject, not the medium")
+# C105：C100 的锚点仍不足以在竖幅近景压住题材写实度（L083 v04 判废）。同串换 1792×1024 横幅的诊断A 让天空、
+# 树叶与金属板读出笔触，但人脸仍是照片质感且五官糊块；同画幅只把首句换成 gouache／oil impasto 强媒介串的诊断B
+# 全幅落地。归因是措辞管媒介感、画幅管远景可纳性，两个变量各管一件事，故本条只加媒介强度、不动画幅档位：
+# 首句补 opaque impasto 与 dry-brush 两个可画的媒介词，并把 tail 里与 B 冲突的 smooth airbrushed gradient sky 换掉。
+STYLE_ANCHOR = ("【画风锚点】medium is a semi-realistic digital painting: opaque impasto brush strokes and dry-brush "
+                "edges build every surface, with visible brushwork and hand-mixed edges on faces, glass, stone, "
+                "fabric and foliage, and the paint kept readable instead of smoothly blended; painted illustration "
+                "rather than a snapshot; the Chinese sections below describe the subject, not the medium")
 TAIL_BY_TYPE = {
     "标志性建筑": "painted landmark tower true to the canon section, modern layer (curtain-wall grid, lit "
                   "sky-lobby bands, rooftop telecom and HVAC plant, LED media panel on the podium) rising out of "
@@ -201,7 +213,9 @@ SIGNAGE_RULE = ("shop signboards, banners, lampboxes and door plates must exist 
 NEGATIVE_TAG = ("not a photograph, no photorealistic pore detail, no lens grain as the look, not a 3D render, "
                 "no cel outline, no flat cel fills, not a cartoon, not an idol illustration; era 2013: no flying cars, "
                 "no holograms, no humanoid robots, no cyberpunk, no near-future sci-fi, no autonomous vehicle fleets, "
-                "no neon-drenched street replacing street life")
+                "no neon-drenched street replacing street life; no recognizable real-world skyline (Lujiazui, "
+                "Hong Kong, Shenzhen Bay, Manhattan, Dubai, Chicago) and no crown, twist or aperture copied from "
+                "a real supertall")
 # 正向风格段的禁词。写实档与近未来档只许以否定式出现在 NEGATIVE_TAG 里，
 # 所以这里禁的是「被改回正向」，负测通过改写正向常量来触发。
 STYLE_BANNED = ("photorealistic", "photorealism", "photograph", "hyperrealistic", "dslr", "hdr photo")
@@ -218,7 +232,8 @@ def assert_affirmative_style(label, text):
 
 for _label, _text in (("STYLE_CORE", STYLE_CORE), ("STYLE_ANCHOR", STYLE_ANCHOR),
                       ("TAIL_BY_TYPE", " | ".join(TAIL_BY_TYPE.values())),
-                      ("STREET_TRACES", STREET_TRACES), ("SIGNAGE_RULE", SIGNAGE_RULE)):
+                      ("STREET_TRACES", STREET_TRACES), ("SIGNAGE_RULE", SIGNAGE_RULE),
+                      ("SKYLINE_SOURCE_RULE", SKYLINE_SOURCE_RULE)):
     assert_affirmative_style(_label, _text)
 
 

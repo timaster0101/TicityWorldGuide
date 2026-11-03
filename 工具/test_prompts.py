@@ -255,6 +255,57 @@ class BuildPromptsTests(unittest.TestCase):
                     self.assertIn("7:4 横幅", item["aspect"])
                     self.assertNotIn("16:9", self.prompt(item["id"]))
 
+    def test_manual_states_the_three_aspect_tiers_and_hands_the_card_ratio_to_the_spec(self):
+        """C104：手册写「为什么是这三档」而不抄第二份尺寸表，卡面比例的唯一出处在《卡面标准样式规范》第七节。
+        反向压制：手册重新长出卡面像素数字、或被否决的「统一改 16:9／3:5」措辞回来，都必须判红。
+        断言取本轮真源句子，不凭印象。"""
+        manual = (ROOT / "AI创作使用手册.md").read_text(encoding="utf-8")
+        spec = (ROOT / "设计" / "2026-10-31-卡面标准样式规范.md").read_text(encoding="utf-8")
+        for keep in ("三档画幅的分工是一条判据而不是审美偏好",
+                     "三档的像素数字只写在`工具/build_prompts.py`的`SIZE_BY_TYPE`与地标竖幅覆盖处，本手册不抄第二份表",
+                     "出图通道既不提供16:9也不提供3:5",
+                     "卡牌的画幅不在这三档里，唯一出处是《卡面标准样式规范》第七节",
+                     "卡牌的画幅与像素档不在本节，比例的唯一出处是《卡面标准样式规范》第七节"):
+            self.assertIn(keep, manual, "手册第9／11节的画幅口径丢了：" + keep[:24])
+        self.assertNotIn("1020×1360", manual, "手册抄了卡面像素，第二份数字表回来了")
+        for gone in ("统一改为16:9", "全部改用16:9", "卡牌改为3:5", "场景图统一16:9"):
+            self.assertNotIn(gone, manual, "被 C104 否决的统一画幅措辞回来了：" + gone)
+        for keep in ("## 七、卡面尺寸与比例", "3:4 竖版（宽:高＝0.7500），1020×1360 像素",
+                     "共 124 张，尺寸全部 1020×1360，无一例偏离", "不提供 16:9 也不提供 3:5",
+                     "两套数字各管各的载体，不互相换算"):
+            self.assertIn(keep, spec, "卡面规范第七节的口径丢了：" + keep[:24])
+
+    def test_manual_states_the_c105_medium_words_and_the_two_variable_attribution(self):
+        """C105：手册第11节的画风段必须把「厚涂怎么画」写成可执行的媒介句，并把诊断A／B 的
+        单变量归因（措辞管媒介感、画幅管远景可纳性）留在选型依据里——否则下一轮又会拿换画幅当改画风。
+        反向压制：旧的那句「整幅按半写实数字厚涂出。人物保持…」一出现就说明媒介句被抹掉了。"""
+        manual = (ROOT / "AI创作使用手册.md").read_text(encoding="utf-8")
+        for keep in ("用不透明颜料的堆叠笔触与干笔边缘铺每一个面",
+                     "颜料保持可读而不是被抹平",
+                     "天空按可见的云朵笔触铺，不画成平滑渐变",
+                     "中文段写的是题材不是媒介，媒介感得靠这一句撑住",
+                     "措辞管媒介感、画幅管远景可纳性",
+                     "C105只加媒介强度、不动画幅档位",
+                     "人物通道与开图正典用同一组媒介词"):
+            self.assertIn(keep, manual, "手册第11节的 C105 口径丢了：" + keep[:24])
+        self.assertNotIn("厚涂出。人物", manual, "手册画风段退回旧写法，媒介句没了")
+        # 人物特写英文 tag 的旧串：喷枪磨皮一旦回到 tag 里，人物批次就会重新出成照片质感。
+        self.assertNotIn("realistic proportions, smooth airbrushed skin", manual,
+                         "人物特写 tag 退回 C100 的喷枪磨皮写法")
+        self.assertIn("opaque impasto brush strokes and dry-brush edges on skin and fabric", manual,
+                      "人物特写 tag 没有跟上 C105 的媒介词")
+
+    def test_manual_checks_skyline_source_as_a_tenth_item(self):
+        """C106：手册第10节的交付清单必须有「背景塔形来源」这一项，且第10节后面的复看段把判据数改成十条——
+        判据加在真源与 tail 里却不进交付清单，就等于人工复看时没人去看这一项。"""
+        manual = (ROOT / "AI创作使用手册.md").read_text(encoding="utf-8")
+        for keep in ("背景塔群的形体是否按本正典自己的几何画",
+                     "陆家嘴、香港、深圳湾、曼哈顿、迪拜、芝加哥这类可辨认轮廓",
+                     "C101 只管远景有没有资格出现，形体来源是另一条",
+                     "把既有图的十项判据"):
+            self.assertIn(keep, manual, "手册第10节的 C106 判据丢了：" + keep[:20])
+        self.assertNotIn("九项判据", manual, "手册还在说九项判据，第十条没进交付清单")
+
     def test_60_public_assets_are_reference_only_without_invented_residential_prices(self):
         public = [price for price in self.prices if price.get("asset_use") == "公共自用"]
         self.assertEqual(len(public), 60)
@@ -549,6 +600,89 @@ class BuildPromptsTests(unittest.TestCase):
         self.run_generator()
         self.assertEqual(self.anchor_violations(), [])
 
+    # C105：媒介强度词。C100 的首句锚点在竖幅近景仍压不住题材写实度（L083 v04 判废）：
+    # 同串只把画幅换成 1792×1024 横幅（诊断A），天空、树叶与金属板读出笔触但人脸仍是照片质感、五官糊块；
+    # 同画幅只把首句换成不透明厚涂强媒介串（诊断B）全幅落地。归因是措辞管媒介感、画幅管远景可纳性，
+    # 两个变量各管一件事，所以本条只把媒介强度钉进锚点与 tail 核心，画幅三档归 C104 管。
+    # 判据两侧都要钉：首句（媒介感唯一的实际生效位）与 English tail 正向段（模型读的第二遍）。
+    MEDIUM_ANCHOR_MARKS = ("opaque impasto", "dry-brush", "kept readable instead of smoothly blended")
+    MEDIUM_CORE_MARKS = ("opaque impasto paint layers", "with dry-brush edges",
+                         "sky laid in with visible cloud strokes")
+    # 与诊断B 直接冲突的旧措辞：C100 的 tail 用它把天空画成平滑喷枪渐变，B 判废的正是这种「无笔触的干净过渡」。
+    MEDIUM_ROLLBACK_PHRASES = ("soft airbrushed gradient sky",)
+    # C100 时代的锚点原文，只用于违例负测（把 D11 降回旧措辞）。
+    ANCHOR_C100 = ("【画风锚点】medium is a semi-realistic digital painting: visible brushwork and hand-mixed edges on "
+                   "every surface, including faces, glass, stone, fabric and foliage; painted illustration rather than "
+                   "a snapshot; the Chinese sections below describe the subject, not the medium")
+    CORE_C100 = ('STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed edges, painted surfaces, "\n'
+                 '              "soft airbrushed gradient sky, warm late-autumn palette, illustrated cityscape rather than a snapshot")')
+    CORE_C105 = ('STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed edges, opaque impasto paint layers "\n'
+                 '              "with dry-brush edges, painted surfaces, sky laid in with visible cloud strokes rather than a smooth "\n'
+                 '              "blended gradient, warm late-autumn palette, illustrated cityscape rather than a snapshot")')
+
+    def medium_violations(self):
+        out = []
+        for eid in sorted(self.items):
+            first = self.fed_body(eid).splitlines()[0]
+            affirm, _ = self.tail_split(eid)
+            missing = [m for m in self.MEDIUM_ANCHOR_MARKS if m not in first]
+            missing += [m for m in self.MEDIUM_CORE_MARKS if m not in affirm]
+            missing += ["旧措辞回来了:" + r for r in self.MEDIUM_ROLLBACK_PHRASES if r in affirm]
+            if missing:
+                out.append((eid, tuple(missing)))
+        return out
+
+    def test_every_prompt_carries_the_impasto_medium_words(self):
+        """C105：312 条的首句与 tail 正向段都要带可画的媒介词（不透明厚涂／干笔／云笔触铺天），
+        且被诊断B 否证的平滑喷枪渐变天空不得在 tail 里以任何形式回来。"""
+        self.assertEqual(self.medium_violations(), [])
+        for eid in ("L083", "L066", "F039", "R009", "S02", "S18", "D03"):
+            with self.subTest(eid=eid):
+                first = self.fed_body(eid).splitlines()[0]
+                for mark in self.MEDIUM_ANCHOR_MARKS:
+                    self.assertIn(mark, first)
+        for word in self.STYLE_BANNED + self.ERA_BANNED:
+            with self.subTest(word=word):
+                self.assertNotIn(word, self.fed_body("L083").splitlines()[0])
+
+    def test_downgrading_one_anchor_to_the_c100_wording_is_caught(self):
+        """违例负测（首句侧）：只把 D11 的首句降回 C100 锚点。旧锚点仍满足 C100 的五条标记，
+        所以既有锚点判据必须全绿、新判据必须只报 D11 且报的是三个媒介词缺失——
+        证明新判据严格强于 C100，而不是同一件事重复一遍。恢复后归零。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = "    lines.append(STYLE_ANCHOR)"
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在正文首句那一行")
+        downgrade = ('    lines.append(STYLE_ANCHOR if eid != "D11" else %r)' % self.ANCHOR_C100)
+        self.script.write_text(pristine.replace(anchor, downgrade, 1), encoding="utf-8")
+        self.run_generator()
+        violations = self.medium_violations()
+        self.assertEqual([eid for eid, _ in violations], ["D11"])
+        self.assertEqual(violations[0][1], tuple(self.MEDIUM_ANCHOR_MARKS))
+        self.assertEqual(self.anchor_violations(), [])
+        affirm, _ = self.tail_split("D11")
+        for mark in self.MEDIUM_CORE_MARKS:
+            self.assertIn(mark, affirm)
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.medium_violations(), [])
+
+    def test_rolling_the_tail_core_back_to_the_c100_phrase_is_caught(self):
+        """违例负测（tail 侧）：把 STYLE_CORE 整体降回 C100 的一行写法（含 soft airbrushed gradient sky）。
+        312 条必须全报，缺失项只有 tail 侧三个媒介词与「旧措辞回来了」，首句侧不许被牵连——
+        证明这一判据管的是 tail，不与首句判据混成一个变量。恢复后归零。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        self.assertEqual(pristine.count(self.CORE_C105), 1, "注入用的 STYLE_CORE 原文与生成器不一致")
+        self.script.write_text(pristine.replace(self.CORE_C105, self.CORE_C100, 1), encoding="utf-8")
+        self.run_generator()
+        violations = self.medium_violations()
+        self.assertEqual([eid for eid, _ in violations], sorted(self.items))
+        expected = tuple(self.MEDIUM_CORE_MARKS) + ("旧措辞回来了:soft airbrushed gradient sky",)
+        self.assertEqual({v[1] for v in violations}, {expected})
+        self.assertEqual(self.anchor_violations(), [])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.medium_violations(), [])
+
     # C101：远景可纳性。B3 的 F039（机位朝北）与 R009（取景段「远景止于凸出的砖楼梯间」）都在远景画出整片
     # 主城天际线，L066 的 v01／v02 把 L007 的斜削冠＋细针天线安到了背景塔上。几何在闸门侧独立重抄一份，
     # 刻意不 import 生成器的 background_phrase——两边一起改错才判不出红。
@@ -647,6 +781,79 @@ class BuildPromptsTests(unittest.TestCase):
         self.script.write_text(pristine, encoding="utf-8")
         self.run_generator()
         self.assertEqual(self.bg_violations(), [])
+
+    # C106：远景「有没有资格出现」由 C101 管，「出现的那几栋长什么样」是另一条。L083 的 C105 换档重出 v05
+    # 侧别算对（两座超高层落在左侧），轮廓却是陆家嘴三件套的现成剪影——模型被允许画远景时默认去抄现实天际线。
+    # 两侧刻意镜像重抄，不 import 生成器常量。
+    SKYLINE_SOURCE_RULE = ("background towers are composed from this canon's own geometry (straight shafts, louver "
+                           "bands and the flat or stepped crowns the Chinese sections name); do not trace a real "
+                           "city's skyline and do not borrow a real supertall's crown, twist or aperture")
+    SKYLINE_NEGATIVE = ("no recognizable real-world skyline (Lujiazui, Hong Kong, Shenzhen Bay, Manhattan, Dubai, "
+                        "Chicago) and no crown, twist or aperture copied from a real supertall")
+
+    def skyline_violations(self):
+        out = []
+        for eid in sorted(self.items):
+            text = self.prompt(eid)
+            affirmative, negative = self.tail_split(eid)
+            missing = []
+            if self.SKYLINE_SOURCE_RULE not in affirmative:
+                missing.append("正向段缺形体来源句")
+            if self.SKYLINE_NEGATIVE not in negative:
+                missing.append("负向段缺现实天际线否定式")
+            if missing:
+                out.append((eid, tuple(missing)))
+        return out
+
+    def test_far_view_towers_are_told_to_come_from_the_canon_not_a_real_skyline(self):
+        """C106：312 条都要给出「背景塔按本正典自己的几何画」的正向句（且落在远景片段内，
+        与 C101 的总则同段），并在负向段给出现实天际线否定式；正向段不许出现现实城市名的肯定式。"""
+        self.assertEqual(self.skyline_violations(), [])
+        for eid in ("L083", "L066", "D03", "F012", "R009", "S02", "S18"):
+            with self.subTest(eid=eid):
+                self.assertIn(self.SKYLINE_SOURCE_RULE, self.far_view_fragment(eid))
+        for city in ("Lujiazui", "Manhattan", "Dubai"):
+            with self.subTest(city=city):
+                affirmative, negative = self.tail_split("L083")
+                self.assertNotIn(city, affirmative)
+                self.assertIn(city, negative)
+
+    def test_dropping_the_skyline_source_rule_from_one_prompt_is_caught(self):
+        """违例负测：只让 D11 的远景片段丢掉形体来源句（负向段的否定式仍在），
+        新判据必须只给出 D11 且报的是正向段缺失；C101 的远景判据不受牵连，证明两条管的是不同的事。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = "    parts = [FAR_VIEW_RULE, SKYLINE_SOURCE_RULE]"
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在远景句装配处")
+        self.script.write_text(
+            pristine.replace(anchor,
+                             "    parts = [FAR_VIEW_RULE] if eid == \"D11\" else [FAR_VIEW_RULE, SKYLINE_SOURCE_RULE]", 1),
+            encoding="utf-8")
+        self.run_generator()
+        violations = self.skyline_violations()
+        self.assertEqual([eid for eid, _ in violations], ["D11"])
+        self.assertEqual(violations[0][1], ("正向段缺形体来源句",))
+        self.assertEqual(self.bg_violations(), [])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.skyline_violations(), [])
+
+    def test_losing_the_real_skyline_negative_is_caught_on_all_312(self):
+        """违例负测（负向侧）：把 NEGATIVE_TAG 里的现实天际线否定式抹掉，312 条必须全报且只报负向缺失——
+        正向句不受牵连，证明这一判据的正向与负向是两处独立钉。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = '"no neon-drenched street replacing street life; no recognizable real-world skyline (Lujiazui, "'
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在 NEGATIVE_TAG 的天际线否定式上")
+        self.script.write_text(
+            pristine.replace(anchor, '"no neon-drenched street replacing street life; not a skyline (Lujiazui, "', 1),
+            encoding="utf-8")
+        self.run_generator()
+        violations = self.skyline_violations()
+        self.assertEqual([eid for eid, _ in violations], sorted(self.items))
+        self.assertEqual({v[1] for v in violations}, {("负向段缺现实天际线否定式",)})
+        self.assertEqual(self.bg_violations(), [])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.skyline_violations(), [])
 
     def test_photorealism_or_near_future_word_injected_into_the_affirmative_tail_aborts(self):
         """负测：往 TAIL_BY_TYPE 的正向段塞 photorealistic 或塞 flying cars，生成器必须退出而不是出图；

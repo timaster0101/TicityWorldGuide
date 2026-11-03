@@ -251,12 +251,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_103(self):
+    def test_rulings_are_106(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 103)
-        self.assertEqual(rulings[-1]['编号'], 'C103')
+        self.assertEqual(len(rulings), 106)
+        self.assertEqual(rulings[-1]['编号'], 'C106')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C94', 'C95', 'C96', 'C97', 'C98', 'C99', 'C100', 'C101', 'C102', 'C103'])
+                         ['C97', 'C98', 'C99', 'C100', 'C101', 'C102', 'C103', 'C104', 'C105', 'C106'])
         by_id = {r['编号']: r for r in rulings}
         # C89 的「高度第一交给 L066、形态第一留在 L007」是本卷定价外溢的唯一出处，钉死措辞防止被改写后说明与价表脱钩。
         self.assertIn('458米/106层', by_id['C89']['裁定'])
@@ -346,6 +346,42 @@ class CanonConsistency(unittest.TestCase):
         self.assertIn('suite items 264 cells 1060 pages 33 notes 8', by_id['C103']['影响'])
         self.assertIn('C2PA 在位 4 格', by_id['C103']['影响'])
         self.assertIn('`git ls-files -i -c` 为 0', by_id['C103']['影响'])
+        # C104 的「唯一出处归位」与「不可生产档否决」是本轮画幅口径的两条硬话，一旦从裁定里被删，
+        # 手册与卡面规范就重新变成两份互不指向的数字来源，统一画幅的提议也会每轮重问一次。
+        self.assertIn('画幅口径归位并锁死三档，否决统一改幅', by_id['C104']['裁定'])
+        self.assertIn('唯一出处移到《卡面标准样式规范》第七节', by_id['C104']['裁定'])
+        self.assertIn('出图通道可选尺寸不含 16:9 与 3:5', by_id['C104']['裁定'])
+        self.assertIn('124 张尺寸全部 1020×1360', by_id['C104']['裁定'])
+        self.assertIn('数字有出处，但出处不在真源层', by_id['C104']['原因'])
+        self.assertIn('没有脚本会再生成这两个数字', by_id['C104']['影响'])
+        self.assertIn('绑定 docx `6b82dfcb…`', by_id['C104']['影响'])
+        self.assertIn('本轮零出图、未花额度', by_id['C104']['影响'])
+        # C105 的硬话是「只加媒介强度、不动画幅」与「soft airbrushed gradient sky 被换掉」这两条边界：
+        # 前者挡住下一轮拿换画幅当改画风（画幅归 C104），后者挡住 tail 退回与诊断B 冲突的平滑渐变天空。
+        self.assertIn('E1 档内加媒介强度，只改措辞不改画幅', by_id['C105']['裁定'])
+        self.assertIn('soft airbrushed gradient sky 换成 sky laid in with visible cloud strokes', by_id['C105']['裁定'])
+        self.assertIn('SIZE_BY_TYPE 三档画幅与 150 米级竖幅覆盖', by_id['C105']['裁定'])
+        self.assertIn('人物特写英文 tag 一并换掉 smooth airbrushed skin', by_id['C105']['裁定'])
+        self.assertIn('312 条 prompt_sha256 全部更换（312/312）', by_id['C105']['裁定'])
+        self.assertIn('由 37 条增至 40 条', by_id['C105']['裁定'])
+        self.assertIn('判废主因是媒介措辞的强度，不是画幅', by_id['C105']['原因'])
+        self.assertIn('B 只换首句媒介串、画幅不动，结果全幅落地', by_id['C105']['原因'])
+        self.assertIn('而不是再加一遍「不是照片」这类否定式', by_id['C105']['原因'])
+        self.assertIn('新判据只报 D11 且缺失项恰为三个媒介词', by_id['C105']['影响'])
+        self.assertIn('312 条全报且首句判据不被牵连', by_id['C105']['影响'])
+        self.assertIn('每个子批先按 B1 探针放行', by_id['C105']['影响'])
+        # C106 的硬话是「形体来源与远景可纳性是两条判据」与「城市名只许以否定式出现」；
+        # 一旦这两句从裁定里被删，下一轮又会把「远景画了三栋楼」当成已经管住了轮廓来源。
+        self.assertIn('远景塔形不得取自现实城市天际线，形体来源单立一条判据', by_id['C106']['裁定'])
+        self.assertIn('接在 `background_phrase` 的 `FAR_VIEW_RULE` 之后，312 条全部带上', by_id['C106']['裁定'])
+        self.assertIn('城市名只许以否定式出现', by_id['C106']['裁定'])
+        self.assertIn('复看套件 `CHECKS` 由九条增至十条', by_id['C106']['裁定'])
+        self.assertIn('`test_prompts` 41→44、`test_review_suite` 6/6 OK', by_id['C106']['裁定'])
+        self.assertIn('C101 的判据只问「点名了没有」，问不出「像不像别的城市」', by_id['C106']['原因'])
+        self.assertIn('必须同时钉进 English tail 的正向与负向', by_id['C106']['原因'])
+        self.assertIn('打表栏由九列增至十列', by_id['C106']['影响'])
+        self.assertIn('证明正向与负向是两处独立钉', by_id['C106']['影响'])
+        self.assertIn('L083 v05 依本条判废', by_id['C106']['影响'])
 
 
     def test_manual_chains_costs_before_occupations(self):
