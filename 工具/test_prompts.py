@@ -462,22 +462,57 @@ class BuildPromptsTests(unittest.TestCase):
     SUN_IN_MARK = "the sun sits inside this frame"
     SUN_OUT_MARK = "outside this frame's"
     SUN_FALLBACK = "natural light as the canon section states"
-    # 本轮实测分档：59 条太阳可入画、237 条必须留在画外、16 条时段变体不套默认光算式。
-    SUN_BRANCH_COUNTS = {"in": 59, "out": 237, "fallback": 16}
+    # C111：变体豁免按「取景段是否自己把太阳换掉」分档，闸门侧从正典措辞独立推导，
+    # 再与生成器手写分档表的结果对拍——分档表漏了一条或某条取景段改了光照，两边就对不上。
+    SUN_KEPT_VARIANTS = {"R006", "R015", "R034", "R054", "R063", "R066"}
+    SUN_REPLACED_TOKENS = ("不沿用", "不套用", "不套入", "不调用", "而非", "不额外放入")
+    SUN_ABSENT_BASELINE_TOKENS = ("夜景", "夜间", "入夜", "清晨", "阴天")
+    SUN_LOCK_PREFIX = "本条沿用255°黄昏太阳"
+    # C111 后的实测分档：62 条太阳可入画、240 条必须留在画外、10 条取景段自换太阳故仍走静态句。
+    SUN_BRANCH_COUNTS = {"in": 62, "out": 240, "fallback": 10}
 
     def focal_of(self, eid):
         rec = [r for r in self.kb if r["id"] == eid][0]
         m = re.search(r"(\d+(?:\.\d+)?)\s*毫米", rec["sections"]["图像与视频取景"])
         return float(m.group(1)) if m else None
 
+    def is_labeled_variant(self, eid):
+        return self.items[eid].get("lighting_baseline") == "labeled variant"
+
+    def variant_replaces_the_sun(self, eid):
+        """C111 分档的推导侧：只看取景段有没有写明换掉太阳或本就无日面的基线，不看生成器的分档表。"""
+        rec = [r for r in self.kb if r["id"] == eid][0]
+        取景 = rec["sections"]["图像与视频取景"]
+        return any(t in 取景 for t in self.SUN_REPLACED_TOKENS + self.SUN_ABSENT_BASELINE_TOKENS)
+
     def expected_sun_branch(self, eid):
         item = self.items[eid]
-        if item.get("lighting_baseline") == "labeled variant":
+        if self.is_labeled_variant(eid) and self.variant_replaces_the_sun(eid):
             return "fallback"
         rel, focal = item.get("sun_relative_deg"), self.focal_of(eid)
         if rel is None or not focal:
             return "fallback"
         return "in" if abs(rel) <= math.degrees(math.atan(18.0 / focal)) else "out"
+
+    def expected_sun_lock(self, eid):
+        """C111 段内复述句的镜像重抄：侧别、度数与半视锥都由闸门侧从名录另算一遍。"""
+        rel, focal = self.items[eid]["sun_relative_deg"], self.focal_of(eid)
+        half = math.degrees(math.atan(18.0 / focal))
+        return ("太阳相对本条机位偏%s%d°，在%g毫米镜头的±%.1f°水平半视锥之外，"
+                "日面、落日辉光与镜头光斑一律不入画，只画取景段所述的光向、受光面与投影"
+                % ("左" if rel < 0 else "右", round(abs(rel)), focal, half))
+
+    def sun_lock_violations(self):
+        """须画外的沿用255°变体条必须带段内复述句，其余 309 条必须不带。"""
+        out = []
+        for eid in sorted(self.items):
+            want = (self.is_labeled_variant(eid) and self.expected_sun_branch(eid) == "out")
+            has = self.SUN_LOCK_PREFIX in self.prompt(eid)
+            if want != has:
+                out.append((eid, "want" if want else "have"))
+            elif want and self.expected_sun_lock(eid) not in self.prompt(eid):
+                out.append((eid, "wording"))
+        return out
 
     def actual_sun_branch(self, eid):
         text = self.prompt(eid)
@@ -508,6 +543,19 @@ class BuildPromptsTests(unittest.TestCase):
                             ("D14", "out"), ("F012", "out"), ("L083", "out")):
             with self.subTest(eid=eid):
                 self.assertEqual(self.actual_sun_branch(eid), branch)
+        # C111：分档表与取景段推导必须完全一致，且 R054 这条两版都画日面的串必须有算句
+        derived = {eid for eid in self.items
+                   if self.is_labeled_variant(eid) and not self.variant_replaces_the_sun(eid)}
+        self.assertEqual(derived, self.SUN_KEPT_VARIANTS, "沿用255°的变体分档与取景段措辞对不上")
+        for eid in ("R054", "R063", "R066"):
+            with self.subTest(eid=eid):
+                self.assertEqual(self.actual_sun_branch(eid), "out", eid)
+        for eid in ("R006", "R015", "R034"):
+            with self.subTest(eid=eid):
+                self.assertEqual(self.actual_sun_branch(eid), "in", eid)
+        for eid in ("S23", "R092", "L033", "R116"):
+            with self.subTest(eid=eid):
+                self.assertEqual(self.actual_sun_branch(eid), "fallback", eid)
         # 画外条必须同时禁掉日面、落日辉光与镜头眩光，缺一即等于没修
         for eid in sorted(self.items):
             if self.expected_sun_branch(eid) == "out":
@@ -523,6 +571,11 @@ class BuildPromptsTests(unittest.TestCase):
                 with self.subTest(eid=eid):
                     self.assertIn("degrees to the %s of the camera axis" % ("right" if rel > 0 else "left"),
                                   self.prompt(eid), eid)
+        # C111：沿用255°却算得须画外的变体条，禁令必须复述进本条【锁定与禁则】段末，
+        # 且侧别与度数按闸门侧另算的半视锥逐字对上；其余条一律不带这句（可纳的条被套上禁句等于画不出来）。
+        self.assertEqual(self.sun_lock_violations(), [])
+        self.assertEqual(sorted(eid for eid in self.items if self.SUN_LOCK_PREFIX in self.prompt(eid)),
+                         ["R054", "R063", "R066"])
 
     def test_dropping_the_sun_admissibility_phrase_is_caught_by_the_new_gate(self):
         """违例负测：把 D11（rel 75°、半视锥 27.2°）的算式结果退回 C99 之前的静态句，
@@ -547,6 +600,59 @@ class BuildPromptsTests(unittest.TestCase):
         self.script.write_text(pristine, encoding="utf-8")
         self.run_generator()
         self.assertEqual(self.sun_phrase_violations(), [])
+
+    def test_erasing_the_in_body_sun_clause_is_caught_by_the_new_gate(self):
+        """违例负测（C111 段内侧）：只把 R054 的段内复述句抹掉——tail 的算句逐字不动，
+        所以 C99 那条判据仍然全绿。这证明「日面禁令只写在尾部」这一类缺陷必须靠新判据才抓得住。
+        变异对照：恢复原文后两条判据同时归零。注入只改临时副本，真实仓库不受影响。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = "if abs(_rel) > sun_half_angle(_focal):"
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在 C111 的段内复述上")
+        self.script.write_text(
+            pristine.replace(anchor, 'if eid != "R054" and abs(_rel) > sun_half_angle(_focal):', 1), encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.sun_lock_violations(), [("R054", "want")])
+        # 旧的尾部判据看不见这个缺陷：R054 的 tail 仍是算出来的画外句，311 条逐字未动。
+        self.assertEqual(self.actual_sun_branch("R054"), "out")
+        self.assertEqual(self.sun_phrase_violations(), [])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.sun_lock_violations(), [])
+
+    def test_a_canon_sun_replacement_moves_the_item_out_of_the_computed_branch(self):
+        """守卫负测（分档侧·改正典）：给 R034 的取景段补一句「不沿用255°黄昏基准」——
+        它就不再沿用默认太阳，而分档表还把它留在算式里，生成器必须非零退出并点名 R034，
+        而不是带着与正典矛盾的光照句继续出图。恢复后归零。只改临时副本的正典。"""
+        pristine = (self.data / "AI地点知识库.json").read_text(encoding="utf-8")
+        rec = [r for r in self.kb if r["id"] == "R034"][0]
+        self.assertIn("255°黄昏基准光在此变体里只作对照", rec["sections"]["图像与视频取景"])
+        rec["sections"]["图像与视频取景"] = rec["sections"]["图像与视频取景"] + "本变体不沿用255°黄昏基准。"
+        self.save("AI地点知识库.json", self.kb)
+        result = self.run_raw()
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("R034", result.stderr + result.stdout)
+        self.assertIn("换光凭据", result.stderr + result.stdout)
+        (self.data / "AI地点知识库.json").write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.sun_lock_violations(), [])
+
+    def test_an_unlisted_variant_without_a_replacement_marker_aborts_the_generator(self):
+        """守卫负测（分档侧·漏条）：把 S23 的「夜景变体」改成「晴夜变体」，它就既不在分档表里、
+        取景段又没有换光凭据——255° 那句「若改拍黄昏」于是可能被读成实际光照，
+        生成器必须拒绝自动判定并要求人工补表，而不是静默给它套上或摘掉算句。"""
+        pristine = (self.data / "AI地点知识库.json").read_text(encoding="utf-8")
+        rec = [r for r in self.kb if r["id"] == "S23"][0]
+        self.assertIn("夜景变体，相机在公共讲解院南侧", rec["sections"]["图像与视频取景"])
+        rec["sections"]["图像与视频取景"] = rec["sections"]["图像与视频取景"].replace(
+            "夜景变体，相机在公共讲解院南侧", "晴夜变体，相机在公共讲解院南侧", 1)
+        self.save("AI地点知识库.json", self.kb)
+        result = self.run_raw()
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("S23", result.stderr + result.stdout)
+        self.assertIn("没有换光凭据", result.stderr + result.stdout)
+        (self.data / "AI地点知识库.json").write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.actual_sun_branch("S23"), "fallback")
         self.assertEqual(self.actual_sun_branch("D11"), "out")
 
     # C100：画风锚点必须在投喂串首句。B3 七张跨类型样本 5 张出成照片质感（L066／L083／F012／F039／R009），

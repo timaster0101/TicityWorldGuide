@@ -73,7 +73,8 @@ def focal_mm(取景):
 
 def sun_frame_phrase(rel, focal, variant=False):
     # 时段变体条（C96／B6）的 255°侧别只作对照，光照以正文变体描述为准，因此不套默认光的可纳性算式，
-    # 否则会给「清晨」条写进「落日不得入画」这种与本体矛盾的字。
+    # 否则会给「清晨」条写进「落日不得入画」这种与本体矛盾的字。C111 把这一刀收窄到「取景段自己换掉了太阳」的条：
+    # variant 实参由 variant_exempt_from_sun_math() 给，沿用255°基准的 6 条照样实算。
     if variant or rel is None or not focal:
         return "natural light as the canon section states"
     half = math.degrees(math.atan(18.0 / focal))
@@ -88,6 +89,39 @@ def sun_frame_phrase(rel, focal, variant=False):
             "so keep the sun disc, the setting-sun glow and any lens flare out of the picture entirely; paint only "
             "the light direction, the lit surfaces and the shadows the canon section describes"
             % (abs(rel), side, half))
+
+
+# C111：R054 连两版都在画面左画出日面圆盘（旧串 v02 与 C109／C110 新串首投同一落点），逐字查下来不是
+# 「句子埋在尾部被题材压倒」，而是它的串里根本没有日面可纳性这句话——C99 以「变体的光照以正文变体描述为准」
+# 把 16 条时段变体整体豁免了算式，可其中 6 条的取景段明写「255°…照入／进入／落在／擦亮／掠入」，
+# 实际光照仍是默认黄昏太阳，豁免对它们不成立；R054 的取景段只给「从画面左侧掠入」，既没写日面可纳与否，
+# 模型于是把「雨后晴日、左侧来光」读成画面里该有一个太阳。
+# 于是按「取景段有没有自己把太阳换掉」重新分档：换掉了的（清晨／入夜／阴天／漫射／西南偏西的低阳，以及
+# S23 那种 255° 只出现在「若改拍黄昏」假设句里的）继续走静态句；沿用 255° 基准的按 C99 算式实算 tail；
+# 算得须画外的三条再按 C105／C107 口径把禁令连侧别与度数复述进本条【锁定与禁则】段末。
+# 默认光的 237 条一律不动：F012／S02／S18／L083 按 tail 算句重出的读数都是「日面不入画」通过，
+# 把段内复述一次性铺到 237 条属无证据扩大；若它们之中再出现按 C99 尾部句重出仍画日面的，届时另立裁定。
+# 分档表逐条由 check_variant_sun_keeps() 核回取景段措辞——原稿给某条换了太阳而表没跟着改，生成器直接退出。
+VARIANT_KEEPS_DEFAULT_SUN = ("R006", "R015", "R034", "R054", "R063", "R066")
+# 取景段把太阳换成别的光源的说法，与「夜景／清晨／阴天」这类本就没有日面的基线一起作豁免凭据。
+SUN_REPLACED_TOKENS = ("不沿用", "不套用", "不套入", "不调用", "而非", "不额外放入")
+SUN_ABSENT_BASELINE_TOKENS = ("夜景", "夜间", "入夜", "清晨", "阴天")
+
+
+def sun_half_angle(focal):
+    return math.degrees(math.atan(18.0 / focal))
+
+
+def variant_exempt_from_sun_math(eid, lighting_baseline):
+    """C111 的分档唯一入口：只有「标了变体且取景段自己换掉了太阳」的条才跳过 C99 算式。"""
+    return lighting_baseline == "labeled variant" and eid not in VARIANT_KEEPS_DEFAULT_SUN
+
+
+def sun_out_lock_clause(rel, focal):
+    half = sun_half_angle(focal)
+    return ("本条沿用255°黄昏太阳：太阳相对本条机位偏%s%d°，在%g毫米镜头的±%.1f°水平半视锥之外，"
+            "日面、落日辉光与镜头光斑一律不入画，只画取景段所述的光向、受光面与投影"
+            % ("左" if rel < 0 else "右", round(abs(rel)), focal, half))
 
 
 # C101：远景可纳性。B3 的 F039（机位朝北）与 R009（取景段「远景止于凸出的砖楼梯间」）都在远景画出了整片
@@ -130,6 +164,41 @@ def check_supertall_form():
 
 
 check_supertall_form()
+
+
+def check_variant_sun_keeps():
+    """C111 的载入守卫：分档表必须与取景段的光照措辞逐条对得上，两个方向都核。"""
+    drift = []
+    keeps = set(VARIANT_KEEPS_DEFAULT_SUN)
+    seen = set()
+    for rec in KB:
+        eid = rec["id"]
+        seen.add(eid)
+        取景 = (rec.get("sections") or {}).get("图像与视频取景") or ""
+        is_variant = rec.get("lighting_baseline") == "labeled variant"
+        replaced = [t for t in SUN_REPLACED_TOKENS if t in 取景]
+        absent = [t for t in SUN_ABSENT_BASELINE_TOKENS if t in 取景]
+        if eid in keeps:
+            if not is_variant:
+                drift.append("%s 不是时段变体却进了沿用255°的分档表" % eid)
+            if "255°" not in 取景:
+                drift.append("%s 取景段已不写255°" % eid)
+            if replaced or absent:
+                drift.append("%s 取景段出现换光凭据%s，应从 VARIANT_KEEPS_DEFAULT_SUN 移出"
+                             % (eid, "、".join(replaced + absent)))
+            if focal_mm(取景) is None or rec.get("sun_relative_deg") is None:
+                drift.append("%s 取景段解析不出焦距或名录没有太阳相对方位，算式落不了地" % eid)
+        elif is_variant and not (replaced or absent):
+            drift.append("%s 是时段变体、取景段又没有换光凭据，需人工判定后补进分档表" % eid)
+    missing = sorted(keeps - seen)
+    if missing:
+        drift.append("、".join(missing) + " 已不在知识库里")
+    if drift:
+        raise SystemExit("时段变体的日面可纳性分档对不上正典：%s——取景段改了光照措辞就跟着改 "
+                         "VARIANT_KEEPS_DEFAULT_SUN，生成器不代改正稿" % "；".join(drift))
+
+
+check_variant_sun_keeps()
 
 
 def camera_km(取景):
@@ -403,6 +472,12 @@ for rec in KB:
     锁定 = sec["锁定项与禁则"]
     if rec.get("lighting_baseline") == "labeled variant":
         锁定 = "%s。%s。" % (锁定.rstrip("。"), VARIANT_LOCK_CLAUSE)
+        if eid in VARIANT_KEEPS_DEFAULT_SUN:
+            # C111：沿用255°基准的变体条按本条几何实算，算得须画外的再把禁令复述进段末（可纳的条不写禁句，
+            # 否则等于给 D03／R009 这类该画日面的条也套上「不入画」）。守卫已保证这两项都解析得出。
+            _rel, _focal = rec.get("sun_relative_deg"), focal_mm(取景)
+            if abs(_rel) > sun_half_angle(_focal):
+                锁定 = "%s。%s。" % (锁定.rstrip("。"), sun_out_lock_clause(_rel, _focal))
     位置 = sec["位置与规模"]
     外观 = sec["外观与辨识细节"]
     人群 = sec["人群与生活节奏"]
@@ -460,7 +535,7 @@ for rec in KB:
                   "everything above in the Chinese canon sections overrides this line."
                   % (STYLE_CORE, TAIL_BY_TYPE[typ], aspect.split("，")[0],
                      sun_frame_phrase(rel, focal_mm(取景),
-                                      rec.get("lighting_baseline") == "labeled variant"),
+                                      variant_exempt_from_sun_math(eid, rec.get("lighting_baseline"))),
                      background_phrase(eid, 取景, facing),
                      STREET_TRACES, SIGNAGE_RULE, NEGATIVE_TAG))
     # UTF-8 / LF的完整生成输入：身份、硬参数、原文、价格、尺寸和中英文模板。

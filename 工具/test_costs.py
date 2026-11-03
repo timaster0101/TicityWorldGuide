@@ -251,12 +251,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_110(self):
+    def test_rulings_are_111(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 110)
-        self.assertEqual(rulings[-1]['编号'], 'C110')
+        self.assertEqual(len(rulings), 111)
+        self.assertEqual(rulings[-1]['编号'], 'C111')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C101', 'C102', 'C103', 'C104', 'C105', 'C106', 'C107', 'C108', 'C109', 'C110'])
+                         ['C102', 'C103', 'C104', 'C105', 'C106', 'C107', 'C108', 'C109', 'C110', 'C111'])
         by_id = {r['编号']: r for r in rulings}
         # C89 的「高度第一交给 L066、形态第一留在 L007」是本卷定价外溢的唯一出处，钉死措辞防止被改写后说明与价表脱钩。
         self.assertIn('458米/106层', by_id['C89']['裁定'])
@@ -421,6 +421,18 @@ class CanonConsistency(unittest.TestCase):
         self.assertIn('不擅自宣布新增轨道站位', by_id['C110']['原因'])
         self.assertIn('本轮是第三回改写', by_id['C110']['影响'])
         self.assertIn('计数钉 108→110', by_id['C110']['影响'])
+        # C111 的硬话是「分档表由守卫逐条核回取景段措辞」和「默认光的 237 条一律不动」：
+        # 前者一旦丢，原稿给某条换了太阳而分档表没跟着改，生成器会带着与正典矛盾的光照句继续出图；
+        # 后者一旦丢，段内复述会被无证据铺到 237 条，一次改动掀掉全部既有出图的对照基线。
+        self.assertIn('VARIANT_KEEPS_DEFAULT_SUN', by_id['C111']['裁定'])
+        self.assertIn('逐条核回取景段措辞', by_id['C111']['裁定'])
+        self.assertIn('默认光的 237 条一律不动', by_id['C111']['裁定'])
+        self.assertIn('不改分卷原稿、不改使用手册', by_id['C111']['裁定'])
+        self.assertIn('从头到尾没有一句日面可纳性', by_id['C111']['原因'])
+        self.assertIn('无证据扩大', by_id['C111']['原因'])
+        self.assertIn('换串不洗白任何一张图', by_id['C111']['影响'])
+        self.assertIn('62／240／10', by_id['C111']['影响'])
+        self.assertIn('计数钉 110→111', by_id['C111']['影响'])
 
 
     def test_manual_chains_costs_before_occupations(self):
