@@ -855,6 +855,64 @@ class BuildPromptsTests(unittest.TestCase):
         self.run_generator()
         self.assertEqual(self.skyline_violations(), [])
 
+    # C107：时段变体条的三条失手（R053 v01 无招牌实体、R086 v01 右下角悬浮字母形笔画、
+    # S23 v01／v02 连续两版画出银河带）都在同一处——判据写在 GLOBAL 尾部，被题材压倒。
+    # 复述进本条【锁定与禁则】段末的串外试投把 R053 v02／R086 v02 救回，故落进生成器，只挂 16 条变体。
+    # 镜像重抄，不 import 生成器常量。
+    VARIANT_LOCK_MARKS = ("本条是显式标注的时段变体", "门牌、店招或公告灯箱须有实体在画面中可见",
+                          "无字母形签名、台标或悬浮笔画", "夜景不得画出银河带、密集星场或长曝光星轨")
+
+    def variant_ids(self):
+        return sorted(eid for eid in self.items if self.items[eid].get("lighting_baseline") == "labeled variant")
+
+    def variant_lock_violations(self):
+        out = []
+        for eid in sorted(self.items):
+            body = self.prompt(eid).split("【全局硬设定】", 1)[0]
+            lock = body.split("【锁定与禁则】", 1)
+            lock = lock[1] if len(lock) == 2 else ""
+            missing = [m for m in self.VARIANT_LOCK_MARKS if m not in lock]
+            want = eid in self.variant_ids()
+            if want and missing:
+                out.append((eid, tuple(missing)))
+            if not want and not missing:
+                out.append((eid, ("默认光条不该带变体复述句",)))
+        return out
+
+    def test_time_variant_lock_restates_the_three_clauses_global_tail_loses(self):
+        """C107：16 条时段变体的锁定段末必须复述三条易失手判据，296 条默认光条必须逐字不带——
+        带错范围等于把 296 条的摘要绑定一起洗掉。"""
+        self.assertEqual(len(self.variant_ids()), 16)
+        self.assertEqual(self.variant_lock_violations(), [])
+        for eid in ("R038", "R053", "R086", "S23", "L033", "R092"):
+            with self.subTest(eid=eid):
+                self.assertEqual([v for v, _ in self.variant_lock_violations()], [])
+                self.assertIn("本条是显式标注的时段变体", self.prompt(eid))
+        for eid in ("L007", "D03", "F012"):
+            with self.subTest(untouched=eid):
+                self.assertNotIn("本条是显式标注的时段变体", self.prompt(eid))
+
+    def test_dropping_the_variant_restatement_from_one_entry_is_caught(self):
+        """违例负测：只让 R053 一条退回未复述状态，判据必须只报 R053 且报的是三条全缺；
+        C99 的太阳分支与 C106 的天际线判据不受牵连，证明本轮补的是段内位置而非新判据。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = '    if rec.get("lighting_baseline") == "labeled variant":\n        锁定 ='
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在变体锁定段复述处")
+        self.script.write_text(
+            pristine.replace(anchor,
+                             '    if rec.get("lighting_baseline") == "labeled variant" and eid != "R053":\n        锁定 =',
+                             1),
+            encoding="utf-8")
+        self.run_generator()
+        violations = self.variant_lock_violations()
+        self.assertEqual([eid for eid, _ in violations], ["R053"])
+        self.assertEqual(len(violations[0][1]), len(self.VARIANT_LOCK_MARKS))
+        self.assertEqual(self.sun_phrase_violations(), [])
+        self.assertEqual(self.skyline_violations(), [])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.variant_lock_violations(), [])
+
     def test_photorealism_or_near_future_word_injected_into_the_affirmative_tail_aborts(self):
         """负测：往 TAIL_BY_TYPE 的正向段塞 photorealistic 或塞 flying cars，生成器必须退出而不是出图；
         对照组证明未注入时仍出满 312 条。变异验证：删掉守卫调用后同样的注入必须变绿——

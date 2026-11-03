@@ -20,12 +20,32 @@ class ReviewNoteHistory(unittest.TestCase):
         self.items = {i['id']: i for i in self.manifest['items']}
         self.notes = json.loads((ROOT / '数据' / '开图验收备注.json').read_text(encoding='utf-8'))['备注']
 
-    # 第3期从 git 809ed08 找回的 4 条长文本；本轮 C97 后又追加 4 条回填备注（D03／D08／S02／S18）。
+    # 第3期从 git 809ed08 找回的 4 条长文本；C97 后追加 4 条回填备注（D03／D08／S02／S18）；
+    # C105／C106 换档后子批①②的 7 张重出各记一条打表（L066／L083／F012／F039／R009，S02／S18 是第二条）。
     RECOVERED = ('D01', 'L007', 'L008', 'R043')
     BACKFILLED = ('D03', 'D08', 'S02', 'S18')
+    RESHOT = ('L066', 'L083', 'F012', 'F039', 'R009')
+    # 子批③夜光批四条：R038 用真源串出图并回填，R053／R086 的达标图出自串外试投、只记打表，
+    # S23 两赌用尽判废。三条不占格的共同点是「图在 vibe_images，格不在清单」。
+    VARIANT = ('S23', 'R038', 'R053', 'R086')
+    # 子批③清晨批四条：全部出在 C107 换串之后，输入即当前真源串，故四张都允许回填第 5 格。
+    # 夜光批只有 R038 一张回填（另三条串外或判废），清晨批四条一起进——这正是 C107 落进生成器的兑现。
+    MORNING = ('L033', 'R076', 'R090', 'R098')
+    # 子批③雨后批七条：R006／R063／R066／R116 四张在真源串上达标并回填；R015 的 v02 达标但串外
+    # （tail 多了一句），R034 与 R054 两赌用尽（右下角地面字母形签名、日面不可纳）——五条不占格。
+    RAIN = ('R006', 'R015', 'R034', 'R054', 'R063', 'R066', 'R116')
+    # 子批③晴日批一条：v01 因投放时把「人群段」误写成「人群档」属串外，达标不回填；
+    # v02 按当前真源串逐字重出后达标回填。同一条ID的两版只有一版能占格，这是串绑定的本意。
+    SUNNY = ('R092',)
+    # 只有目视十项达标的才允许追加图格；判废与待复验的只记打表，不占 image_file。
+    APPENDED = {'D03': 5, 'D08': 5, 'S02': 6, 'S18': 6, 'R009': 5, 'R038': 5,
+                'L033': 5, 'R076': 5, 'R090': 5, 'R098': 5,
+                'R006': 5, 'R063': 5, 'R066': 5, 'R116': 5, 'R092': 5}
 
     def test_four_long_notes_recovered(self):
-        self.assertEqual(sorted(self.notes), sorted(self.RECOVERED + self.BACKFILLED))
+        self.assertEqual(sorted(self.notes),
+                         sorted(self.RECOVERED + self.BACKFILLED + self.RESHOT + self.VARIANT
+                                + self.MORNING + self.RAIN + self.SUNNY))
         # 本轮实测：809ed08 的原始长度 518/226/231/151，各带一条同文派生原因，剥净后如下
         self.assertEqual({k: len(v[0]) for k, v in self.notes.items() if k in self.RECOVERED},
                          {'D01': 204, 'L007': 491, 'L008': 199, 'R043': 124})
@@ -36,7 +56,7 @@ class ReviewNoteHistory(unittest.TestCase):
     def test_backfill_notes_name_the_appended_cell_and_refuse_to_sign(self):
         """回填批次必须自带出处：文件名、容器口径、目视判读与「不代签」四要素缺一，
         下一轮就查不到这格图是哪一批、按哪条裁定计进来的。"""
-        for eid in self.BACKFILLED:
+        for eid, cells in self.APPENDED.items():
             with self.subTest(eid=eid):
                 row = self.notes[eid][-1]
                 self.assertIn('vibe_images/', row)
@@ -44,17 +64,35 @@ class ReviewNoteHistory(unittest.TestCase):
                 self.assertIn('待复验', row)
                 self.assertIn('不代签验收', row)
                 item = self.items[eid]
-                self.assertEqual(len(item['image_file']), 5, eid)
+                self.assertEqual(len(item['image_file']), cells, eid)
                 self.assertTrue(item['image_file'][-1].startswith('vibe_images/'), eid)
-                self.assertIn(item['image_file'][-1], row)
+                self.assertIn(item['image_file'][-1], row, eid)
                 self.assertEqual(item['status'], '待复验', eid)
                 self.assertFalse(item.get('image_prompt_sha256'), '%s 已绑定摘要，不该再追加格' % eid)
+
+    def test_rejected_and_borderline_rereads_name_the_file_but_take_no_cell(self):
+        """子批①里判废与待复验的四条只留打表、不占 image_file；子批③的 R053／R086 同口径——
+        图是串外试投出的，回填等于把未经当前真源串复验的图洗成该串产物。
+        一旦让这类图也追加格，「有图＝生成过」的口径就会把废图混进交付面。"""
+        expect = {'L066': ('待开图', 0), 'L083': ('待开图', 0), 'F012': ('待复验', 4), 'F039': ('待复验', 4),
+                  'S23': ('待复验', 4), 'R053': ('待复验', 4), 'R086': ('待复验', 4)}
+        for eid, (status, cells) in expect.items():
+            with self.subTest(eid=eid):
+                row = self.notes[eid][-1]
+                self.assertIn('vibe_images/', row)
+                self.assertIn('不回填', row)
+                item = self.items[eid]
+                self.assertNotIn('vibe_images/', json.dumps(item['image_file'], ensure_ascii=False), eid)
+                self.assertEqual(item['status'], status, eid)
+                got = item['image_file']
+                self.assertEqual(len(got) if isinstance(got, list) else (1 if got else 0), cells, eid)
 
     def test_history_survives_and_note_still_derives(self):
         # 308 条没有人工长文本，历史是空数组：判"键在不在"而不是"值真不真"；键随名录扩到312条
         self.assertEqual(sum(1 for i in self.items.values() if 'review_note_history' in i), 312)
-        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 8)
-        for eid in self.RECOVERED + self.BACKFILLED:
+        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 29)
+        for eid in self.RECOVERED + self.BACKFILLED + self.RESHOT + self.VARIANT + self.MORNING \
+                + self.RAIN + self.SUNNY:
             hist = self.items[eid]['review_note_history']
             self.assertEqual(hist, self.notes[eid], eid)
             self.assertIn(self.notes[eid][-1], self.items[eid]['review_note'])
@@ -119,16 +157,17 @@ class AssetGate(unittest.TestCase):
 
     def test_paths_are_authoritative_and_unique(self):
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
-        self.assertEqual(len(paths), 1060)
-        self.assertEqual(len(set(paths)), 1060)
+        self.assertEqual(len(paths), 1073)
+        self.assertEqual(len(set(paths)), 1073)
         self.assertEqual(sum(1 for i in self.manifest['items'] if i.get('image_file')), 264)
 
     def test_report_all_green_and_disclaims(self):
-        self.assertEqual(self.report['文件格数'], 1060)
+        self.assertEqual(self.report['文件格数'], 1073)
         self.assertEqual(self.report['失败格数'], 0)
-        self.assertEqual(self.report['通过格数'], 1060)
-        # 回填的 E1 批次 4 格必须真按 C2PA 容器计入，否则「认容器是识别」只写在裁定里、查不到证据。
-        self.assertEqual(self.report['C2PA在位格数'], 4)
+        self.assertEqual(self.report['通过格数'], 1073)
+        # 回填的 E1 批次格必须真按 C2PA 容器计入，否则「认容器是识别」只写在裁定里、查不到证据。
+        # 17 格 = 阶段6首批 4 格（D03／D08／S02／S18）＋子批①②的 R009＋夜光批 R038＋清晨批四条＋雨后批 R006／R063／R066／R116＋晴日批 R092。
+        self.assertEqual(self.report['C2PA在位格数'], 17)
         self.assertNotIn('已验收', json.dumps(self.report, ensure_ascii=False))
         self.assertIn('结构合规不等于视觉验收', self.report['声明'])
 
@@ -160,13 +199,13 @@ class AssetGate(unittest.TestCase):
         self.assertEqual(self.report['提示格数'], 0)
         self.assertEqual(self.report['失败格数'], 0)
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
-        self.assertEqual(len(paths), 1060)
-        # C82 的归一只管 数据/图集/ 那批；E1 放量批次（C97 起认 caBX·C2PA 容器）是真 PNG，
-        # 按字节与容器引用，不改名也不要求它变成 .jpg。
+        self.assertEqual(len(paths), 1073)
+        # C82 的归一只管 数据/图集/ 那批；E1 放量批次与 C105／C106 重出批次（C97 起认 caBX·C2PA 容器）
+        # 是真 PNG，按字节与容器引用，不改名也不要求它变成 .jpg。图集外 17 格全部是 caBX·C2PA 容器。
         gallery = [p for p in paths if p.startswith('数据/图集/')]
         out_of_gallery = [p for p in paths if not p.startswith('数据/图集/')]
         self.assertEqual(len(gallery), 1056)
-        self.assertEqual(len(out_of_gallery), 4)
+        self.assertEqual(len(out_of_gallery), 17)
         for p in gallery:
             self.assertTrue(p.lower().endswith(('.jpg', '.jpeg')), p)
             self.assertTrue((ROOT / p).is_file(), p)
@@ -290,8 +329,8 @@ class AssetRulings(unittest.TestCase):
         for cid in self.IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 106)
-        self.assertEqual(rows[-1]['编号'], 'C106')
+        self.assertEqual(len(rows), 107)
+        self.assertEqual(rows[-1]['编号'], 'C107')
         self.assertIn('rename_gallery_ext', by_id['C82']['裁定'])
         self.assertIn('不是交付判据', by_id['C83']['裁定'])
         self.assertIn('不判红、不改名', by_id['C84']['裁定'])

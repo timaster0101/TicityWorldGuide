@@ -251,12 +251,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_106(self):
+    def test_rulings_are_107(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 106)
-        self.assertEqual(rulings[-1]['编号'], 'C106')
+        self.assertEqual(len(rulings), 107)
+        self.assertEqual(rulings[-1]['编号'], 'C107')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C97', 'C98', 'C99', 'C100', 'C101', 'C102', 'C103', 'C104', 'C105', 'C106'])
+                         ['C98', 'C99', 'C100', 'C101', 'C102', 'C103', 'C104', 'C105', 'C106', 'C107'])
         by_id = {r['编号']: r for r in rulings}
         # C89 的「高度第一交给 L066、形态第一留在 L007」是本卷定价外溢的唯一出处，钉死措辞防止被改写后说明与价表脱钩。
         self.assertIn('458米/106层', by_id['C89']['裁定'])
@@ -382,6 +382,16 @@ class CanonConsistency(unittest.TestCase):
         self.assertIn('打表栏由九列增至十列', by_id['C106']['影响'])
         self.assertIn('证明正向与负向是两处独立钉', by_id['C106']['影响'])
         self.assertIn('L083 v05 依本条判废', by_id['C106']['影响'])
+        # C107 的硬话是「只挂 16 条、296 条逐字不动」的范围隔离与「串外试投不回填」的口径；
+        # 这两句一旦丢，下一轮就会把复述句挂到全部 312 条、或把换串前/换串外的图一并回填洗白。
+        self.assertIn('只挂 16 条 labeled variant、296 条默认光条逐字不动', by_id['C107']['裁定'])
+        self.assertIn('VARIANT_LOCK_CLAUSE', by_id['C107']['裁定'])
+        self.assertIn('不改分卷原稿、不改使用手册', by_id['C107']['裁定'])
+        self.assertIn('埋在长串尾部的全局句被题材压倒', by_id['C107']['原因'])
+        self.assertIn('S23 两赌用尽、第三赌不投', by_id['C107']['原因'])
+        self.assertIn('R053 v02／R086 v02 判达标但不回填', by_id['C107']['影响'])
+        self.assertIn('回填即把未经该串复验的图洗成该串产物', by_id['C107']['影响'])
+        self.assertIn('计数钉 106→107', by_id['C107']['影响'])
 
 
     def test_manual_chains_costs_before_occupations(self):
