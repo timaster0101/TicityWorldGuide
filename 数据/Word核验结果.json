@@ -1,8 +1,8 @@
 {
   "passed": true,
   "errors": [],
-  "source_sha256": "48112974cf85c944261e638f3b75f3154a38061e3f90c65aafe9b35d89528477",
-  "docx_sha256": "807fd3b2712826f465706cf7d100cf1676617f944e441abfc94105b31737c299",
+  "source_sha256": "4a792a2c040f86db42b5fbf55aa6e16e9fcaa0449c0b2fefff17aec7f7125105",
+  "docx_sha256": "b8f1eeb3f9691bf2d6796c08f8807763ccbce45687dd04ca11c631af699b5b40",
   "paragraph_count": 8239,
   "table_count": 321,
   "cell_count": 4896,
@@ -38,7 +38,7 @@
   "crc_verified": true,
   "update_fields": true,
   "rendering_verified": true,
-  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签）」按「本机 Microsoft Word 2007（COM 12.0）打开当前 docx → 更新目录域 → ComputeStatistics → ExportAsFixedFormat 导 PDF 410 页 → 逐页文本／字体／越界扫描 → 第1／2／24／378／382／410页按 110dpi 位图目视」目视，绑定当前 DOCX 摘要",
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签）」按「本机 Microsoft Word（COM）以只读打开当前 docx → 更新目录域与全部域 → ComputeStatistics → ExportAsFixedFormat 导 PDF 411 页 → 逐页文本／字体／越界扫描 → 第1／2／24／375／376／377／378／379／411 页按 110dpi 位图目视」目视，绑定当前 DOCX 摘要",
   "source_block_count": 3316,
   "docx_body_block_count": 3316,
   "body_anchor": {
