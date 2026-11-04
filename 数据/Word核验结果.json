@@ -37,8 +37,8 @@
   ],
   "crc_verified": true,
   "update_fields": true,
-  "rendering_verified": false,
-  "rendering_note": "目视记录绑定的是另一份 DOCX（记录 068c12c5…，当前 dde356e2…）：重导即失效，须重看",
+  "rendering_verified": true,
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签）」按「本机 Microsoft Word（comtypes.client.CreateObject 驱动 Word.Application）以只读打开当前 docx → Documents.Open(ReadOnly=True, AddToRecentFiles=False, Visible=False) → Fields.Update → TablesOfContents.Update → Repaginate → ComputeStatistics（枚举 0/1/2/3/4/5 逐项取）→ ExportAsFixedFormat 导 PDF（17＝wdExportFormatPDF）415 页 → pymupdf 逐页文本、字体、空白页、异常字符与越界扫描 → 第1／2／4／5／6／8／24／250／330／379／384／385／390／393／395／404／406／411／412／413／414／415 页按 110dpi 位图逐张目视，另把第1／2／4／11／40／64／108／142／176／207／227／263／298／334／370／384／399／403／409／415 页拼成 2869×3226 单张位图整体复看 18 个分卷首页与末页」目视，绑定当前 DOCX 摘要",
   "source_block_count": 3343,
   "docx_body_block_count": 3343,
   "body_anchor": {
