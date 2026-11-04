@@ -275,25 +275,36 @@ class BuildPromptsTests(unittest.TestCase):
                      "两套数字各管各的载体，不互相换算"):
             self.assertIn(keep, spec, "卡面规范第七节的口径丢了：" + keep[:24])
 
-    def test_manual_states_the_c105_medium_words_and_the_two_variable_attribution(self):
-        """C105：手册第11节的画风段必须把「厚涂怎么画」写成可执行的媒介句，并把诊断A／B 的
-        单变量归因（措辞管媒介感、画幅管远景可纳性）留在选型依据里——否则下一轮又会拿换画幅当改画风。
-        反向压制：旧的那句「整幅按半写实数字厚涂出。人物保持…」一出现就说明媒介句被抹掉了。"""
+    def test_manual_states_the_c122_medium_words_and_the_two_variable_attribution(self):
+        """C122：手册第11节的画风段必须把「颜料怎么铺」写成可执行的媒介句（非金属层平滑过渡、无厚涂无干笔、
+        皮肤豁免笔触、天空平滑渐变），并把 C105 的单变量归因（措辞管媒介感、画幅管远景可纳性）留在选型依据里——
+        否则下一轮又会拿换画幅当改画风。英文tag 单独取代码段判：C105 那两句作为「被撤掉的旧串」允许出现在
+        注释里引用，但不许再出现在实际投放的 tag 里。反向压制：厚涂句一回到 tag 或画风段就说明档位被人改回去了。"""
         manual = (ROOT / "AI创作使用手册.md").read_text(encoding="utf-8")
-        for keep in ("用不透明颜料的堆叠笔触与干笔边缘铺每一个面",
-                     "颜料保持可读而不是被抹平",
-                     "天空按可见的云朵笔触铺，不画成平滑渐变",
-                     "中文段写的是题材不是媒介，媒介感得靠这一句撑住",
+        for keep in ("玻璃、石材、布料、树叶与天空都画成柔和过渡的色面，不做厚涂堆叠、不做干笔边缘",
+                     "皮肤干净平滑，既不带笔触也不带毛孔",
+                     "天空画成平滑渐变，不铺云朵笔触",
+                     "中文段写的是题材不是媒介，媒介感得靠首句的声明撑住",
                      "措辞管媒介感、画幅管远景可纳性",
                      "C105只加媒介强度、不动画幅档位",
-                     "人物通道与开图正典用同一组媒介词"):
-            self.assertIn(keep, manual, "手册第11节的 C105 口径丢了：" + keep[:24])
+                     "人物通道与开图正典仍用同一组媒介词",
+                     "C122 起这一问不再看笔触",
+                     "尚未裁定」自 C122 起作废"):
+            self.assertIn(keep, manual, "手册第11节的 C122 口径丢了：" + keep[:24])
         self.assertNotIn("厚涂出。人物", manual, "手册画风段退回旧写法，媒介句没了")
-        # 人物特写英文 tag 的旧串：喷枪磨皮一旦回到 tag 里，人物批次就会重新出成照片质感。
-        self.assertNotIn("realistic proportions, smooth airbrushed skin", manual,
+        for gone in ("用不透明颜料的堆叠笔触与干笔边缘铺每一个面", "颜料保持可读而不是被抹平"):
+            self.assertNotIn(gone, manual, "C105 的厚涂媒介句回到手册画风段：" + gone[:24])
+        tag_line = [line for line in manual.splitlines() if line.startswith("英文tag：")][0]
+        tag = tag_line.split("`")[1]
+        self.assertNotIn("realistic proportions, smooth airbrushed skin", tag,
                          "人物特写 tag 退回 C100 的喷枪磨皮写法")
-        self.assertIn("opaque impasto brush strokes and dry-brush edges on skin and fabric", manual,
-                      "人物特写 tag 没有跟上 C105 的媒介词")
+        for keep in ("smoothly blended paint on glass, stone, fabric and foliage with no impasto texture",
+                     "clean blended skin", "sky as a smooth blended gradient",
+                     "hair in clean clumps with one stylized highlight streak"):
+            self.assertIn(keep, tag, "人物特写 tag 没有跟上 C122 的媒介词：" + keep[:32])
+        for gone in ("opaque impasto brush strokes and dry-brush edges on skin and fabric",
+                     "paint kept readable instead of smoothly blended", "visible brushwork"):
+            self.assertNotIn(gone, tag, "人物特写 tag 里 C105 的厚涂句回来了：" + gone[:40])
 
     def test_manual_checks_skyline_source_as_a_tenth_item(self):
         """C106：手册第10节的交付清单必须有「背景塔形来源」这一项，且第10节后面的复看段把判据数改成十条——
@@ -400,8 +411,9 @@ class BuildPromptsTests(unittest.TestCase):
         return affirmative, negative
 
     def test_tail_is_painted_with_both_city_layers_and_an_era_lock(self):
-        """C93：312 条 tail 都要落进厚涂档，并同时给出科技层与老城层的实体、痕迹清单与招牌豁免句；
-        近未来词只能以否定式出现。旧六条 photorealistic 开头的 tail 必须整体消失。"""
+        """C93：312 条 tail 都要落进半写实数字绘画档（媒介词的具体档位自 C122 起由 MEDIUM_* 判据管），
+        并同时给出科技层与老城层的实体、痕迹清单与招牌豁免句；近未来词只能以否定式出现。
+        旧六条 photorealistic 开头的 tail 必须整体消失。"""
         for rec in self.kb:
             eid = rec["id"]
             with self.subTest(eid=eid):
@@ -626,7 +638,7 @@ class BuildPromptsTests(unittest.TestCase):
         affirmative, _ = self.tail_split("D11")
         self.assertIn("modern layer (", affirmative)
         self.assertIn("old layer (", affirmative)
-        self.assertIn("visible brushwork", affirmative)
+        self.assertIn("illustrated cityscape rather than a snapshot", affirmative)
         self.script.write_text(pristine, encoding="utf-8")
         self.run_generator()
         self.assertEqual(self.sun_phrase_violations(towers), [])
@@ -690,7 +702,10 @@ class BuildPromptsTests(unittest.TestCase):
     # C100：画风锚点必须在投喂串首句。B3 七张跨类型样本 5 张出成照片质感（L066／L083／F012／F039／R009），
     # 只有 7:4 横幅的 S02／S18 保住厚涂；与已定档的 R043 同尺度裁前景人物对比，最先失效的就是笔触。
     # 画风词此前只写在最末的 English tail，而投喂串从【画面定位】起就是一长串写实题材描述，模型按题材定档。
-    ANCHOR_MARKS = ("【画风锚点】", "semi-realistic digital painting", "visible brushwork and hand-mixed edges",
+    # C122：本层只钉「锚点在不在首句、有没有声明媒介与题材分工」这四条结构标记。原第五条
+    # visible brushwork and hand-mixed edges 是措辞层的厚涂要求，随皮肤豁免一并撤销，改由下面
+    # MEDIUM_ANCHOR_MARKS 按档钉——分层不变，只是措辞层换档时不必再动结构层。
+    ANCHOR_MARKS = ("【画风锚点】", "semi-realistic digital painting",
                     "painted illustration rather than a snapshot", "describe the subject, not the medium")
 
     def fed_body(self, eid):
@@ -733,30 +748,38 @@ class BuildPromptsTests(unittest.TestCase):
         self.run_generator()
         self.assertEqual([eid for eid, _ in self.anchor_violations()], ["D11"])
         affirmative, _ = self.tail_split("D11")
-        self.assertIn("visible brushwork", affirmative)
+        self.assertIn("illustrated cityscape rather than a snapshot", affirmative)
         self.script.write_text(pristine, encoding="utf-8")
         self.run_generator()
         self.assertEqual(self.anchor_violations(), [])
 
-    # C105：媒介强度词。C100 的首句锚点在竖幅近景仍压不住题材写实度（L083 v04 判废）：
-    # 同串只把画幅换成 1792×1024 横幅（诊断A），天空、树叶与金属板读出笔触但人脸仍是照片质感、五官糊块；
-    # 同画幅只把首句换成不透明厚涂强媒介串（诊断B）全幅落地。归因是措辞管媒介感、画幅管远景可纳性，
-    # 两个变量各管一件事，所以本条只把媒介强度钉进锚点与 tail 核心，画幅三档归 C104 管。
-    # 判据两侧都要钉：首句（媒介感唯一的实际生效位）与 English tail 正向段（模型读的第二遍）。
-    MEDIUM_ANCHOR_MARKS = ("opaque impasto", "dry-brush", "kept readable instead of smoothly blended")
-    MEDIUM_CORE_MARKS = ("opaque impasto paint layers", "with dry-brush edges",
-                         "sky laid in with visible cloud strokes")
-    # 与诊断B 直接冲突的旧措辞：C100 的 tail 用它把天空画成平滑喷枪渐变，B 判废的正是这种「无笔触的干净过渡」。
-    MEDIUM_ROLLBACK_PHRASES = ("soft airbrushed gradient sky",)
-    # C100 时代的锚点原文，只用于违例负测（把 D11 降回旧措辞）。
+    # C105 曾把媒介强度钉成「不透明厚涂铺每个面」；C122（2026-11-04）按三轮单变量诊断把它翻到另一头：
+    # 皮肤豁免笔触、非金属层降到探底档。诊断链与归因见 工具/build_prompts.py 的 C122 注释块与本节手册第11节。
+    # 判据仍两侧钉：首句（媒介感唯一的实际生效位）与 English tail 正向段（模型读的第二遍）。
+    # 分层要点：结构层 ANCHOR_MARKS 管「有没有声明媒介」，本层管「声明的是哪一档媒介」，换档只动本层。
+    MEDIUM_ANCHOR_MARKS = ("smoothly blended painted areas", "no visible impasto", "skin is clean and blended")
+    MEDIUM_CORE_MARKS = ("smoothly blended paint on glass", "no impasto texture",
+                         "sky as a smooth blended gradient")
+    # 被 C122 否证的上一档措辞：厚涂铺每个面、颜料保持可读、云笔触铺天——这三句一旦回到 tail，
+    # 说明有人把油画感加回来了；本档的画面里不许再出现「颜料可读优先于平滑过渡」这句话。
+    MEDIUM_ROLLBACK_PHRASES = ("opaque impasto paint layers", "kept readable instead of smoothly blended",
+                               "sky laid in with visible cloud strokes")
+    # C100／C105 时代的锚点原文，只用于违例负测（把 D11 降回旧措辞）。
     ANCHOR_C100 = ("【画风锚点】medium is a semi-realistic digital painting: visible brushwork and hand-mixed edges on "
                    "every surface, including faces, glass, stone, fabric and foliage; painted illustration rather than "
                    "a snapshot; the Chinese sections below describe the subject, not the medium")
+    ANCHOR_C105 = ("【画风锚点】medium is a semi-realistic digital painting: opaque impasto brush strokes and dry-brush "
+                   "edges build every surface, with visible brushwork and hand-mixed edges on faces, glass, stone, "
+                   "fabric and foliage, and the paint kept readable instead of smoothly blended; painted illustration "
+                   "rather than a snapshot; the Chinese sections below describe the subject, not the medium")
     CORE_C100 = ('STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed edges, painted surfaces, "\n'
                  '              "soft airbrushed gradient sky, warm late-autumn palette, illustrated cityscape rather than a snapshot")')
     CORE_C105 = ('STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed edges, opaque impasto paint layers "\n'
                  '              "with dry-brush edges, painted surfaces, sky laid in with visible cloud strokes rather than a smooth "\n'
                  '              "blended gradient, warm late-autumn palette, illustrated cityscape rather than a snapshot")')
+    CORE_C122 = ('STYLE_CORE = ("semi-realistic digital painting, smoothly blended paint on glass, stone, fabric and foliage "\n'
+                 '              "with no impasto texture and no dry-brush edges, clean blended skin, sky as a smooth blended gradient, "\n'
+                 '              "warm late-autumn palette, illustrated cityscape rather than a snapshot")')
 
     def medium_violations(self):
         out = []
@@ -770,9 +793,9 @@ class BuildPromptsTests(unittest.TestCase):
                 out.append((eid, tuple(missing)))
         return out
 
-    def test_every_prompt_carries_the_impasto_medium_words(self):
-        """C105：312 条的首句与 tail 正向段都要带可画的媒介词（不透明厚涂／干笔／云笔触铺天），
-        且被诊断B 否证的平滑喷枪渐变天空不得在 tail 里以任何形式回来。"""
+    def test_every_prompt_carries_the_c122_medium_words(self):
+        """C122：312 条的首句与 tail 正向段都要带本档的媒介词（非金属层平滑过渡／无厚涂／皮肤不带笔触／天空平滑渐变），
+        且被本档否证的上一档措辞（厚涂铺每个面、颜料可读优先、云笔触铺天）不得在 tail 里以任何形式回来。"""
         self.assertEqual(self.medium_violations(), [])
         for eid in ("L083", "L066", "F039", "R009", "S02", "S18", "D03"):
             with self.subTest(eid=eid):
@@ -783,14 +806,14 @@ class BuildPromptsTests(unittest.TestCase):
             with self.subTest(word=word):
                 self.assertNotIn(word, self.fed_body("L083").splitlines()[0])
 
-    def test_downgrading_one_anchor_to_the_c100_wording_is_caught(self):
-        """违例负测（首句侧）：只把 D11 的首句降回 C100 锚点。旧锚点仍满足 C100 的五条标记，
-        所以既有锚点判据必须全绿、新判据必须只报 D11 且报的是三个媒介词缺失——
-        证明新判据严格强于 C100，而不是同一件事重复一遍。恢复后归零。"""
+    def test_downgrading_one_anchor_to_the_c105_wording_is_caught(self):
+        """违例负测（首句侧）：只把 D11 的首句降回 C105 锚点（厚涂铺每个面、皮肤须带笔触那一档）。
+        旧锚点仍满足 C122 结构层的四条标记，所以锚点判据必须全绿、媒介判据必须只报 D11 且报的是三个媒介词缺失——
+        证明媒介层判据严格强于结构层，而不是同一件事重复一遍。恢复后归零。"""
         pristine = self.script.read_text(encoding="utf-8")
         anchor = "    lines.append(STYLE_ANCHOR)"
         self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在正文首句那一行")
-        downgrade = ('    lines.append(STYLE_ANCHOR if eid != "D11" else %r)' % self.ANCHOR_C100)
+        downgrade = ('    lines.append(STYLE_ANCHOR if eid != "D11" else %r)' % self.ANCHOR_C105)
         self.script.write_text(pristine.replace(anchor, downgrade, 1), encoding="utf-8")
         self.run_generator()
         violations = self.medium_violations()
@@ -804,17 +827,19 @@ class BuildPromptsTests(unittest.TestCase):
         self.run_generator()
         self.assertEqual(self.medium_violations(), [])
 
-    def test_rolling_the_tail_core_back_to_the_c100_phrase_is_caught(self):
-        """违例负测（tail 侧）：把 STYLE_CORE 整体降回 C100 的一行写法（含 soft airbrushed gradient sky）。
-        312 条必须全报，缺失项只有 tail 侧三个媒介词与「旧措辞回来了」，首句侧不许被牵连——
-        证明这一判据管的是 tail，不与首句判据混成一个变量。恢复后归零。"""
+    def test_rolling_the_tail_core_back_to_the_c105_phrase_is_caught(self):
+        """违例负测（tail 侧）：把 STYLE_CORE 整体降回 C105 的三行写法（含 opaque impasto paint layers 与
+        sky laid in with visible cloud strokes）。312 条必须全报，缺失项只有 tail 侧三个媒介词与两句「旧措辞回来了」，
+        首句侧不许被牵连——证明这一判据管的是 tail，不与首句判据混成一个变量。恢复后归零。"""
         pristine = self.script.read_text(encoding="utf-8")
-        self.assertEqual(pristine.count(self.CORE_C105), 1, "注入用的 STYLE_CORE 原文与生成器不一致")
-        self.script.write_text(pristine.replace(self.CORE_C105, self.CORE_C100, 1), encoding="utf-8")
+        self.assertEqual(pristine.count(self.CORE_C122), 1, "注入用的 STYLE_CORE 原文与生成器不一致")
+        self.script.write_text(pristine.replace(self.CORE_C122, self.CORE_C105, 1), encoding="utf-8")
         self.run_generator()
         violations = self.medium_violations()
         self.assertEqual([eid for eid, _ in violations], sorted(self.items))
-        expected = tuple(self.MEDIUM_CORE_MARKS) + ("旧措辞回来了:soft airbrushed gradient sky",)
+        expected = tuple(self.MEDIUM_CORE_MARKS) + tuple(
+            "旧措辞回来了:" + r for r in self.MEDIUM_ROLLBACK_PHRASES
+            if r in self.CORE_C105 and r not in self.CORE_C122)
         self.assertEqual({v[1] for v in violations}, {expected})
         self.assertEqual(self.anchor_violations(), [])
         self.script.write_text(pristine, encoding="utf-8")
@@ -1683,6 +1708,32 @@ class BuildPromptsTests(unittest.TestCase):
             with self.subTest(eid=eid):
                 self.assertNotEqual(self.items[eid]["prompt_sha256"], baseline[eid])
         self.assertEqual(self.items["F001"]["prompt_sha256"], baseline["F001"])
+
+
+class RulingC122MediumGrade(unittest.TestCase):
+    """C122 的裁定文本是这一档唯一的完整出处：换档理由、五臂地板读数、干净CG的新判废地位与回退口径都在里面。
+    只改 build_prompts 的三处媒介串而不在裁定记录留痕，下一轮就没人知道为什么皮肤不带笔触、也不知道旧串还在闸门里。
+    这里钉的是话术与读数本身——档位数字被改回旧读数就说明记录没跟着本轮换档重写。"""
+
+    def test_c122_records_the_glide_to_smooth_blend(self):
+        rows = json.loads((ROOT / "数据" / "设定裁定记录.json").read_text(encoding="utf-8"))
+        by_id = {r["编号"]: r for r in rows}
+        self.assertIn("C122", by_id)
+        self.assertEqual(set(by_id["C122"]), {"编号", "裁定", "原因", "影响"})
+        for keep in ("皮肤豁免笔触，非金属表面降到探底档（极轻档）",
+                     "画感由柔和的手调过渡、勾形与理想化五官承担",
+                     "结构层 ANCHOR_MARKS",
+                     "MEDIUM_ROLLBACK_PHRASES 三条",
+                     "prompts 312／files 312",
+                     "干净CG渲染从C122起是新的判废项",
+                     "已交付的 264 张图按旧厚涂串出",
+                     "计数钉 121→122"):
+            self.assertIn(keep, by_id["C122"]["裁定"] + by_id["C122"]["原因"] + by_id["C122"]["影响"],
+                          "C122 裁定丢了关键句：" + keep[:24])
+        # 极轻档的两条地板读数（塔整图与人物脸部窗口）是「这是措辞地板」的唯一证据，钉死数字防止记录被改软。
+        for reading in ("0.000414", "0.000346"):
+            self.assertIn(reading, by_id["C122"]["原因"], "C122 原因里的极轻档地板读数丢了：" + reading)
+        self.assertIn("脚本不得代签", by_id["C122"]["影响"])
 
 
 if __name__ == "__main__":

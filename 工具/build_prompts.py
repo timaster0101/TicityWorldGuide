@@ -313,9 +313,17 @@ HARD_LABEL = {
 # 阶段 4 换档（C93）：D2 把开图正典整体切到 E1 半写实厚涂，D4 把「顶级科技 × 中国老城 × 烟火气」
 # 写成画面结构判据而不是形容词。六条 tail 逐条重写，每条必须同时给出科技层与老城层的实体词，
 # 且二者物理接触。写实词与近未来词只许写在 NEGATIVE_TAG 的否定式里，正向段出现即由生成器判红。
-STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed edges, opaque impasto paint layers "
-              "with dry-brush edges, painted surfaces, sky laid in with visible cloud strokes rather than a smooth "
-              "blended gradient, warm late-autumn palette, illustrated cityscape rather than a snapshot")
+# C122：2026-11-04 三轮单变量诊断把「油画感重」定位到两处，随后裁定皮肤豁免笔触、非金属层降到探底档。
+# 第1轮文本生图不同机位，只算旁证；第2轮图生图锁机位（人脸框263→276→255，模板峰0.906/0.850且峰值在(0,0)）
+# 证明皮肤媒介子句单独就能复现差值；第3轮把非金属层分五档拉梯（现／中／轻／极轻），极轻档是全串媒介词的地板：
+# 人物臂靠「皮肤带笔触」这根柱子没塌成照片，把皮肤一并豁免后就是本档；塔臂则证明无人物时全靠两句媒介声明撑着。
+# 风险写明并留在册：极轻档以下再无笔触可撤，画面读作画而非照片，只剩 semi-realistic digital painting 与
+# painted illustration rather than a snapshot 两句声明加 NEGATIVE_TAG 的 photograph／3D render／film grain 三禁。
+# 因此本档一旦某批出成照片质感或干净CG，处置不是换措辞（措辞已到底），而是按 C105 的强媒介串回退整条锚点与核心，
+# 回退串与违例负测都钉在 工具/test_prompts.py 的 MEDIUM_ROLLBACK_PHRASES 上。
+STYLE_CORE = ("semi-realistic digital painting, smoothly blended paint on glass, stone, fabric and foliage "
+              "with no impasto texture and no dry-brush edges, clean blended skin, sky as a smooth blended gradient, "
+              "warm late-autumn palette, illustrated cityscape rather than a snapshot")
 # C100：B3 七张跨类型样本 5 张出成照片质感（L066／L083／F012／F039／R009），只有 S02／S18 保住厚涂；
 # 与已定档的 R043 同尺度裁前景人物对比，判废项里最先失效的就是笔触。画风词此前只写在最末的 English tail，
 # 而投喂串从【画面定位】开始就是一长串写实题材描述（玻璃幕墙、闸机、街面材质），模型按题材定档、不按尾串改档。
@@ -324,10 +332,15 @@ STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed
 # 树叶与金属板读出笔触，但人脸仍是照片质感且五官糊块；同画幅只把首句换成 gouache／oil impasto 强媒介串的诊断B
 # 全幅落地。归因是措辞管媒介感、画幅管远景可纳性，两个变量各管一件事，故本条只加媒介强度、不动画幅档位：
 # 首句补 opaque impasto 与 dry-brush 两个可画的媒介词，并把 tail 里与 B 冲突的 smooth airbrushed gradient sky 换掉。
-STYLE_ANCHOR = ("【画风锚点】medium is a semi-realistic digital painting: opaque impasto brush strokes and dry-brush "
-                "edges build every surface, with visible brushwork and hand-mixed edges on faces, glass, stone, "
-                "fabric and foliage, and the paint kept readable instead of smoothly blended; painted illustration "
-                "rather than a snapshot; the Chinese sections below describe the subject, not the medium")
+# C122：同一锚点里的皮肤媒介子句于 2026-11-04 被撤销。锁机位对照（母图皮肤无笔触、A 皮肤须带笔触在颊鼻额读出成块厚涂、
+# B 皮肤豁免后回到平滑）证明油画感差值由皮肤子句单独复现；五档梯又证明非金属层降到极轻档时人物不塌成照片。
+# 两条并起来就是本档：皮肤与石材玻璃布料树叶一律平滑过渡，画感由 soft hand-mixed transitions 与勾形而不是厚涂承担。
+STYLE_ANCHOR = ("【画风锚点】medium is a semi-realistic digital painting: glass, stone, fabric, foliage and sky are "
+                "smoothly blended painted areas with no visible impasto and no dry-brush edges, and skin is clean and "
+                "blended with no brush strokes on it; the picture still reads as a painting because of its soft "
+                "hand-mixed transitions, its drawn edges and its idealized features, not because of thick paint; "
+                "painted illustration rather than a snapshot; the Chinese sections below describe the subject, "
+                "not the medium")
 TAIL_BY_TYPE = {
     "标志性建筑": "painted landmark tower true to the canon section, modern layer (curtain-wall grid, lit "
                   "sky-lobby bands, rooftop telecom and HVAC plant, LED media panel on the podium) rising out of "
@@ -420,13 +433,14 @@ CROWD_BANNED = ("人山人海", "热闹繁华", "繁华喧嚣", "摩肩接踵", 
 # 只挂变体条：296 条默认光条的提示词逐字不变，摘要绑定不受本轮影响。
 VARIANT_LOCK_CLAUSE = ("本条是显式标注的时段变体：门牌、店招或公告灯箱须有实体在画面中可见，"
                        "字形为不可读模糊笔画；画面四角、地面与墙面无字母形签名、台标或悬浮笔画；"
-                       "夜景不得画出银河带、密集星场或长曝光星轨，天空以可见笔触铺成深色，"
+                       "夜景不得画出银河带、密集星场或长曝光星轨，天空以平滑过渡铺成深色，"
                        "星点疏密须与人物曝光相容")
 
 GLOBAL = [
     "虚构城市钛湖城，2013年，当代现实技术；「顶级现代化」按2010年代前沿读：玻璃塔群、LED媒体立面、地下环道与综合管廊、城市轨道与枢纽换乘、光纤到楼、洁净实验室与数据中心、自助闸机、电动大巴、施工围挡与吊装作业；不得用飞行汽车、载人无人机、全息投影、机器人服务员、自动驾驶车队或赛博义体表达现代性，不是赛博朋克",
     "城市定位：顶级现代化科技城市 × 保存完好的中国老城街巷 × 烟火气。同一画面里科技层与老城层必须有物理接触，天上现代、地上生活——高层与设备在画面上半，人流与生活痕迹在画面下半；只有玻璃幕墙或只有仿古街都算不合格",
-    "画风：半写实数字厚涂，笔触可辨、表面是画出来的，不是照片，也不是描边平涂的动画赛璐璐；人物保持真实比例与实际年龄特征",
+    "画风：半写实数字绘画，颜料一律铺成平滑过渡、不做厚涂堆叠与干笔边缘，皮肤不带笔触也不画毛孔，表面是画出来的，"
+    "不是照片，也不是描边平涂的动画赛璐璐；画感由柔和过渡、勾形与轻微理想化的五官承担；人物保持真实比例与实际年龄特征",
     "本地坐标：湖心(0,0)，x向东、y向北，单位千米；方位北0°顺时针",
     "中心湖约6.4×4.2千米椭圆，四面环山；清岚河西北入湖，澜川东南外流",
     "默认光照：晚秋，太阳方位255°、高度6°，能见度12至18千米；清晨、夜景、雨后、阴天须显式标注为变体",
@@ -635,7 +649,7 @@ for rec in KB:
         "review_note": review_note,
         "review_note_history": list(MANUAL.get(eid) or []),
         "acceptance": "对照【锁定与禁则】逐条核验；出现扭转曲面、湖面穿帮、把L007的斜削冠与针状天线安到别的塔楼上、可读的招牌字形或凭空文字、第三方台标渠道logo即判废；"
-                      "出成照片质感（画面读不出笔触）或描边平涂动画档即判废重出；出现飞行汽车、全息投影、人形机器人等近未来符号即判废；"
+                      "出成照片质感（毛孔、镜头噪点、景深颗粒）或干净CG渲染（表面无过渡层次、高光呈均匀塑料感）即判废重出；出现飞行汽车、全息投影、人形机器人等近未来符号即判废；"
                       "画面只有科技层或只有老城层、或两层被广场绿地切断没有接触，即记待复验；生活痕迹实体不足三项即记待复验；"
                       "平台按AIGC强制标识加的角标与XMP里的TC260元数据标识不属判废项，须原样保留",
     })
@@ -670,9 +684,9 @@ md.append("提示词 %d｜待开图 %d｜有图 %d｜已验收 %d｜待复验 %d
     out["prompt_count"], out["pending"], out["generated"], out["accepted"], out["needs_review"]))
 md.append("## 批次与验收\n")
 md.append("- 建议批次顺序：%s。地标先跑，按各自正典核验建筑形态与水体关系，不统一套用单塔；片区最后跑，因其视野最广、最容易把不该看见的湖面塞进背景。" % "→".join(BATCH_ORDER))
-md.append("- 验收以条目自身的【锁定与禁则】为准，通用否决项为：曲面扭转塔、湖中建塔、把L007的非对称直线斜削冠与细针状天线安到别的塔楼上、第二个机场、海港或大型人工岛、可读的招牌字形或凭空文字（招牌、灯箱、门牌必须存在，字形须是不可读的模糊笔画，这一项只否决「可读」）、出成照片质感而读不出笔触、描边加平涂色阶的动画档、飞行汽车或全息投影一类近未来符号、第三方台标或渠道logo水印（模型侧带出的「LibTV」一类标记）、把湖面强塞进山外村镇背景。200米以上的塔楼在扩容后已成簇，按名录逐栋核对高度与冠部，不再以「第二座超过200米的塔」作否决。平台按AIGC强制标识加的「Qoder AI生成」角标与图片XMP里的TC260元数据标识不属否决项，须原样保留，不得裁剪、遮盖或修补。")
+md.append("- 验收以条目自身的【锁定与禁则】为准，通用否决项为：曲面扭转塔、湖中建塔、把L007的非对称直线斜削冠与细针状天线安到别的塔楼上、第二个机场、海港或大型人工岛、可读的招牌字形或凭空文字（招牌、灯箱、门牌必须存在，字形须是不可读的模糊笔画，这一项只否决「可读」）、出成照片质感（毛孔、镜头噪点、景深颗粒）或干净CG渲染（表面无过渡层次、高光呈均匀塑料感）、描边加平涂色阶的动画档、飞行汽车或全息投影一类近未来符号、第三方台标或渠道logo水印（模型侧带出的「LibTV」一类标记）、把湖面强塞进山外村镇背景。200米以上的塔楼在扩容后已成簇，按名录逐栋核对高度与冠部，不再以「第二座超过200米的塔」作否决。平台按AIGC强制标识加的「Qoder AI生成」角标与图片XMP里的TC260元数据标识不属否决项，须原样保留，不得裁剪、遮盖或修补。")
 md.append("- 人群核验以条目自身的【人群与烟火气】为准：先看本条详档人群段的具体描写，再看该类型的缺省人数档，二者冲突按详档。画面人物明显低于档位下限（空街、空场）或反过来形成盛大庆典、统一着装团体，均记为待复验；俯瞰与鸟瞰条不逐个数人，但地面必须看得出有人在走动。")
-md.append("- 画风与双层核验：本批按半写实数字厚涂开图，画面要读得出笔触、表面是画出来的；出成照片质感（毛孔、镜头噪点当成质感）或描边平涂的动画档都不合格。同一张图必须同时读得出科技层与老城层且二者有物理接触——只有玻璃幕墙、只有仿古街、或两层各占一半却被广场绿地切断，一律记待复验。科技层按2010年代前沿的具名设施核对（%s），这些词逐条由生成器核回 312 条正文的承载体；LED媒体立面、光纤到楼箱与屋顶通信设备一类属表层材质词，按画面材质核对、不要求名录承载体。飞行汽车、载人无人机、全息投影、机器人服务员、自动驾驶车队一类近未来符号出现即判废。生活痕迹实体（晾晒、盆栽、卸货筐、摊贩热气、灯箱、非机动车停放、下棋的老人、接送孩子的家长、施工围挡与吊装、垃圾收集点、遛狗、积水倒影）每条至少三项，不足三项记待复验。" % ("、".join(TECH_CARRIER_WORDS),))
+md.append("- 画风与双层核验：本批按半写实数字绘画开图，颜料铺成平滑过渡、表面是画出来的（C122 起不再以笔触为准，皮肤豁免笔触、非金属层平滑过渡）；出成照片质感（毛孔、镜头噪点、景深颗粒）或干净CG渲染（表面无过渡层次、高光呈均匀塑料感、边缘像布尔运算）都不合格。同一张图必须同时读得出科技层与老城层且二者有物理接触——只有玻璃幕墙、只有仿古街、或两层各占一半却被广场绿地切断，一律记待复验。科技层按2010年代前沿的具名设施核对（%s），这些词逐条由生成器核回 312 条正文的承载体；LED媒体立面、光纤到楼箱与屋顶通信设备一类属表层材质词，按画面材质核对、不要求名录承载体。飞行汽车、载人无人机、全息投影、机器人服务员、自动驾驶车队一类近未来符号出现即判废。生活痕迹实体（晾晒、盆栽、卸货筐、摊贩热气、灯箱、非机动车停放、下棋的老人、接送孩子的家长、施工围挡与吊装、垃圾收集点、遛狗、积水倒影）每条至少三项，不足三项记待复验。" % ("、".join(TECH_CARRIER_WORDS),))
 md.append("- 光照默认晚秋255°方位、6°高度；清晨、夜景、雨后、阴天只有在提示词里显式标注为变体时才允许，清单的“光照判定”列已按每条的拍摄朝向算好太阳侧别。\n")
 for typ in BATCH_ORDER:
     rows = [m for m in manifest if m["type"] == typ]
