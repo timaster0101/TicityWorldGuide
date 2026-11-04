@@ -402,14 +402,27 @@ class Gate(unittest.TestCase):
         card['月薪带_钛币'][0] = 1
         self.assertTrue(any('住所覆盖红线' in i for i in self.issues(canon)))
 
-    def test_gate_writes_thirty_two_check_report(self):
+    def test_gate_writes_thirty_four_check_report(self):
         report = json.loads((ROOT / '数据' / '产业就业核验.json').read_text(encoding='utf-8'))
-        self.assertEqual(report['检查项数'], 32)
+        self.assertEqual(report['检查项数'], 34)
         self.assertEqual(report['失败数'], 0)
         self.assertEqual(report['图层汇总']['锚点数'], 64)
         self.assertEqual(report['图层汇总']['大类数'], 20)
         self.assertEqual(report['职业条目汇总']['正典条目数'], 684)
         self.assertEqual(report['职业条目汇总']['源表小类行数'], 162)
+        relief = report['救助汇总']
+        self.assertEqual([relief['全额月数'], relief['递减月数'], relief['最长连发月数']], [2, 4, 6])
+        self.assertEqual(relief['逐圈层全额月'], {'内湖环': 1516.3, '外城环': 1395.0,
+                                                 '产业小镇': 1288.9, '特色村落': 1197.9})
+        self.assertEqual(relief['逐圈层递减月'], {'内湖环': 1061.4, '外城环': 976.5,
+                                                '产业小镇': 902.2, '特色村落': 838.5})
+        self.assertEqual(relief['逐圈层连发总额'], {'内湖环': 7278.2, '外城环': 6696.0,
+                                                 '产业小镇': 6186.6, '特色村落': 5749.8})
+        opening = report['开局汇总']
+        self.assertEqual([opening['中位'], opening['满值罕见线'], opening['开局区间']], [50, 90, [30, 70]])
+        self.assertEqual([opening['单类影响上限'], opening['同维度累计影响上限'], opening['候选组合数']],
+                         [10, 20, 2400])
+        self.assertEqual(opening['权重和'], 100)
 
 
 NEGTEST = ROOT / '工具' / 'negtest_occupations.py'
@@ -417,8 +430,9 @@ NEGTEST = ROOT / '工具' / 'negtest_occupations.py'
 
 class Negtest(unittest.TestCase):
     def test_every_injection_turns_the_gate_red(self):
-        """违例自检必须 94 条全判红、夹具零残留，且被守护的四份正典字节不变。
-        94 = 第 1 至 32 条判据各向注入 + C119 五例（刻度改而点数不改、卡牌点数手改、退化下限脱钩、比例块缺键、下界为负）。"""
+        """违例自检必须 132 条全判红、夹具零残留，且被守护的四份正典字节不变。
+        132 = 第 1 至 32 条判据各向注入 + C119 五例（刻度改而点数不改、卡牌点数手改、退化下限脱钩、比例块缺键、下界为负）
+        + 第 33 条失业救助 17 例 + 第 34 条五维开局与背景卡权重 21 例。"""
         before = (ROOT / '数据' / '产业就业正典.json').read_bytes()
         adm_before = (ROOT / '数据' / '岗位准入正典.json').read_bytes()
         cost_before = (ROOT / '数据' / '物价与生活正典.json').read_bytes()
@@ -426,7 +440,7 @@ class Negtest(unittest.TestCase):
         r = subprocess.run([sys.executable, str(NEGTEST)], cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         summary = json.loads(next(l for l in r.stdout.splitlines() if l.startswith('{')))
-        self.assertEqual(summary['cases'], 94)
+        self.assertEqual(summary['cases'], 132)
         self.assertEqual(summary['not_red'], 0)
         self.assertEqual(summary['fixture_leftover'], 0)
         self.assertEqual((ROOT / '数据' / '产业就业正典.json').read_bytes(), before)
@@ -476,7 +490,7 @@ class Rulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 120)
+        self.assertEqual(len(rows), 121)
 
     def test_manual_chains_occupation_steps(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -494,7 +508,7 @@ class AdmissionRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 120)
+        self.assertEqual(len(rows), 121)
 
     def test_manual_chains_admission_before_occupations(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -512,7 +526,7 @@ class PhaseSixRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 120)
+        self.assertEqual(len(rows), 121)
 
     def test_phase_six_rulings_keep_the_hard_wording(self):
         """四条第6期裁定各钉一句只有真源侧才说得出的硬话：
@@ -529,10 +543,10 @@ class PhaseSixRulings(unittest.TestCase):
         self.assertIn('条数带、总条数区间 500—900 与全部长度带只住在该表「规格」块', by_id['C117']['裁定'])
 
     def test_gate_check_names_are_written_in_the_setting_doc(self):
-        """第26至32条的名称在叙事文档第6节逐条在位，闸门报告改了名字而文档没跟，就等于申报通过。"""
+        """第26至34条的名称在叙事文档第6节逐条在位，闸门报告改了名字而文档没跟，就等于申报通过。"""
         doc = (ROOT / '产业与就业设定.md').read_text(encoding='utf-8')
         for name in ('具名命名完整', '名称逐段回查', '命名池齐套', '名称禁则与长度',
-                     '零消费者对账', '产业图层对账', '职业条目对账'):
+                     '零消费者对账', '产业图层对账', '职业条目对账', '失业救助对账', '五维开局对账'):
             self.assertIn(name, doc)
 
 
@@ -545,7 +559,7 @@ class PhaseSevenRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 120)
+        self.assertEqual(len(rows), 121)
 
     def test_island_ruling_keeps_the_hard_wording(self):
         """第7期裁定钉四句只有真源侧才说得出的硬话：无桥是用户给的硬约束、岛不进名录是三层落法的代价账、
@@ -570,6 +584,42 @@ class PhaseSevenRulings(unittest.TestCase):
         self.assertEqual((parts['桥梁'], parts['渡位'], parts['航线'], parts['山口']), (8, 13, 7, 7))
         self.assertEqual((parts['岛上场地'], parts['湖底隧道'], parts['高空缆车']), (3, 1, 1))
         self.assertEqual(len(negtest_spatial.cases()), 59)
+
+
+class PhaseEightRulings(unittest.TestCase):
+    PHASE_IDS = ['C121']
+
+    def test_phase_eight_ruling_recorded(self):
+        rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
+        by_id = {r['编号']: r for r in rows}
+        for cid in self.PHASE_IDS:
+            self.assertIn(cid, by_id)
+            self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
+        self.assertEqual(len(rows), 121)
+
+    def test_phase_eight_ruling_keeps_the_hard_wording(self):
+        """第8期裁定钉四句只有真源侧才说得出的硬话：救助金额一律派生不手填、按本人发放不乘户均规模、
+        开局只给区间不给种子、分布不属正典——改回话术就查不出「顺手加一档绝对金额」那种倒退。"""
+        rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
+        by_id = {r['编号']: r for r in rows}
+        self.assertIn('金额一个都不手填', by_id['C121']['裁定'])
+        self.assertIn('发放主体是登记失业者本人，不乘户均规模', by_id['C121']['裁定'])
+        self.assertIn('开局只给区间与中位', by_id['C121']['裁定'])
+        self.assertIn('分布属运行时生成，不属正典', by_id['C121']['裁定'])
+        self.assertIn('违例注入 94→132（救助侧 17 例、开局侧 21 例）', by_id['C121']['影响'])
+        self.assertIn('注入实测 132/132 判红、夹具零残留', by_id['C121']['影响'])
+        self.assertIn('脚本不得代签', by_id['C121']['影响'])
+
+    def test_phase_eight_gates_are_written_in_the_setting_doc(self):
+        """第 33／34 两条判据的口径要在叙事文档第6节各自成段：闸门加了判据而文档没写，
+        读文档的人就会以为只有三十二条，申报覆盖面时按旧的算。"""
+        doc = (ROOT / '产业与就业设定.md').read_text(encoding='utf-8')
+        self.assertIn('三十四条门禁', doc)
+        self.assertIn('132 条注入', doc)
+        self.assertIn('失业救助对账', doc)
+        self.assertIn('五维开局对账', doc)
+        for needle in ('不乘户均规模', '递减月须低于本圈层住所锚中位', '候选组合数'):
+            self.assertIn(needle, doc)
 
 
 class AdmissionSource(unittest.TestCase):
@@ -720,11 +770,11 @@ class AdmissionGate(unittest.TestCase):
         return self.vo.issues(self.canon, self.vo.SOURCE, self.vo.REGISTRY, self.adm,
                               self.costs, self.params, self.psource, self.layer, self.osource)
 
-    def test_thirty_two_checks_and_clean_canon_passes(self):
-        self.assertEqual(len(self.vo.CHECKS), 32)
+    def test_thirty_four_checks_and_clean_canon_passes(self):
+        self.assertEqual(len(self.vo.CHECKS), 34)
         self.assertEqual(self.vo.CHECKS[25:],
                          ['具名命名完整', '名称逐段回查', '命名池齐套', '名称禁则与长度',
-                          '零消费者对账', '产业图层对账', '职业条目对账'])
+                          '零消费者对账', '产业图层对账', '职业条目对账', '失业救助对账', '五维开局对账'])
         self.assertEqual(self.bad(), [])
 
     def test_gate_detects_dangling_tag_and_empty_scene(self):
@@ -751,7 +801,7 @@ class AdmissionDoc(unittest.TestCase):
     def test_gate_wording_matches_check_count_in_generated_report(self):
         n = json.loads((ROOT / '数据' / '产业就业核验.json').read_text(encoding='utf-8'))['检查项数']
         report = (ROOT / '质量核验报告.md').read_text(encoding='utf-8')
-        self.assertEqual(n, 32)
+        self.assertEqual(n, 34)
         self.assertIn(f'{n}条判据实测0失败', report)
 
 

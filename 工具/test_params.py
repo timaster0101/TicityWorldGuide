@@ -167,8 +167,8 @@ class GateExtended(unittest.TestCase):
         import verify_occupations as vo
         self.vo = vo
 
-    def test_thirty_two_checks_registered(self):
-        self.assertEqual(len(self.vo.CHECKS), 32)
+    def test_thirty_four_checks_registered(self):
+        self.assertEqual(len(self.vo.CHECKS), 34)
         self.assertEqual(self.vo.CHECKS[20:25],
                          ['参数完整性', '交通矩阵可复算', '天气年历闭合', '技能阈值同源', '事件与检查点自洽'])
 
@@ -176,9 +176,9 @@ class GateExtended(unittest.TestCase):
         import subprocess
         r = subprocess.run([sys.executable, str(ROOT / '工具' / 'verify_occupations.py')],
                            check=True, capture_output=True, text=True)
-        self.assertIn('三十二条判红', r.stdout)
+        self.assertIn('三十四条判红', r.stdout)
         rep = json.loads((ROOT / '数据' / '产业就业核验.json').read_text(encoding='utf-8'))
-        self.assertEqual(rep['检查项数'], 32)
+        self.assertEqual(rep['检查项数'], 34)
         self.assertEqual(rep['参数汇总']['矩阵格数'], 50)
         self.assertEqual(rep['参数汇总']['年历格数'], 365)
 
@@ -208,8 +208,8 @@ class DocsSynced(unittest.TestCase):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
         self.assertIn('运行参数源表.json', manual)
         self.assertIn('build_params.py', manual)
-        self.assertIn('三十二条判据', manual)
-        self.assertIn('九十四类改坏', manual)
+        self.assertIn('三十四条判据', manual)
+        self.assertIn('一百三十二类改坏', manual)
         self.assertLess(manual.index('build_occupations.py'), manual.index('build_params.py'))
         entry = (ROOT / '阅读入口.md').read_text(encoding='utf-8')
         self.assertIn('运行参数设定.md', entry)
@@ -228,8 +228,8 @@ class RulingsEightyEight(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 120)
-        self.assertEqual(rows[-1]['编号'], 'C120')
+        self.assertEqual(len(rows), 121)
+        self.assertEqual(rows[-1]['编号'], 'C121')
 
 
 class FiveStatScaleC119(unittest.TestCase):
@@ -271,6 +271,53 @@ class FiveStatScaleC119(unittest.TestCase):
         self.assertIn('94/94 判红', by_id['C119']['影响'])
         self.assertIn('分卷/原稿/*.md 零改动', by_id['C119']['影响'])
         self.assertIn('计数钉 118→119', by_id['C119']['影响'])
+
+
+class PhaseEightOpening(unittest.TestCase):
+    """第8期三组开局等式（C121）：中位、上下界、影响上限、组合数、权重和全部从源表反推，
+    正典只许复述反推值——任何一处被写成第二个字面量，这里与门禁第 34 条会各红一次。"""
+
+    def test_opening_band_is_reverse_derived_from_the_source(self):
+        skill = json.loads((ROOT / '数据' / '运行参数源表.json').read_text(encoding='utf-8'))['参数']['技能']
+        lo, hi = skill['五维刻度']
+        span = hi - lo
+        opening = skill['五维开局']
+        weight = skill['背景卡权重']
+        canon = json.loads((ROOT / '数据' / '运行参数正典.json').read_text(encoding='utf-8'))['五维开局']
+        mid = round(span * opening['中位占跨度'])
+        per_dim = round(span * skill['五维微调比例']['同维度累计占跨度上限'])
+        per_card = round(span * skill['五维微调比例']['单卡占跨度上限'])
+        self.assertEqual(opening['中位'], mid)
+        self.assertEqual(canon['中位'], mid)
+        self.assertEqual(canon['开局区间'], [mid - per_dim, mid + per_dim])
+        self.assertEqual(canon['刻度跨度'], span)
+        self.assertEqual(canon['半宽'], per_dim)
+        self.assertEqual([canon['单类影响上限'], canon['同维度累计影响上限']], [per_card, per_dim])
+        self.assertEqual([canon['微调单卡点数'], canon['微调累计点数']], [per_card, per_dim])
+        self.assertEqual([weight['单类影响占跨度'], weight['同维度累计影响占跨度']],
+                         [skill['五维微调比例']['单卡占跨度上限'],
+                          skill['五维微调比例']['同维度累计占跨度上限']])
+        combos = 1
+        for cat in weight['类别']:
+            combos *= cat['候选数']
+        self.assertEqual(canon['候选组合数'], combos)
+        self.assertEqual(canon['权重和'], sum(c['权重'] for c in weight['类别']))
+        self.assertGreater(opening['满值罕见线'], canon['开局区间'][1] + per_card)
+        self.assertLess(canon['开局区间'][0], lo + span)
+        self.assertGreaterEqual(canon['开局区间'][0], lo)
+
+    def test_background_cards_stay_out_of_the_card_dictionary(self):
+        adm = json.loads((ROOT / '数据' / '岗位准入源表.json').read_text(encoding='utf-8'))
+        self.assertTrue(all(not f['id'].startswith('BG-') for f in adm['卡牌族']))
+        self.assertTrue(all(not str(k).startswith('BG-') for k in adm['持有上限']))
+
+    def test_c121_records_the_hard_wording(self):
+        rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
+        by_id = {r['编号']: r for r in rows}
+        self.assertEqual(set(by_id['C121']), {'编号', '裁定', '原因', '影响'})
+        self.assertIn('三十四条判红', by_id['C121']['影响'])
+        self.assertIn('132/132 判红', by_id['C121']['影响'])
+        self.assertIn('计数钉 120→121', by_id['C121']['影响'])
 
 
 if __name__ == '__main__':

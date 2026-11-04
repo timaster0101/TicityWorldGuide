@@ -109,11 +109,19 @@ def build_welfare(baskets):
     missing = [r for r in P['圈层顺序'] if r not in medians]
     if missing:
         raise SystemExit(f'圈层缺住所锚中位数：{missing}——锚点圈层归属由 anchors.entry_ring 推导，不得手填')
-    return {ring: {'生活保障标准_钛币': baskets[ring],
-                   '押金_钛币': medians[ring],
-                   '初始资金_钛币': unit_round(3 * baskets[ring] + medians[ring]),
-                   '欠费宽限_月': P['欠费宽限月数']}
-            for ring in P['圈层顺序']}, medians
+    relief = P['失业救助']
+    out = {}
+    for ring in P['圈层顺序']:
+        full = unit_round(baskets[ring] * relief['全额比例'])
+        decline = unit_round(baskets[ring] * relief['递减比例'])
+        out[ring] = {'生活保障标准_钛币': baskets[ring],
+                     '押金_钛币': medians[ring],
+                     '初始资金_钛币': unit_round(3 * baskets[ring] + medians[ring]),
+                     '欠费宽限_月': P['欠费宽限月数'],
+                     '失业救助_全额月_钛币': full,
+                     '失业救助_递减月_钛币': decline,
+                     '失业救助_连发总额_钛币': unit_round(full * relief['全额月数'] + decline * relief['递减月数'])}
+    return out, medians
 
 
 UNITS = [e for e in REGISTRY if e['type'] in ('城市片区', '产业小镇', '特色村落')]
@@ -188,9 +196,13 @@ def build_canon():
             '禁挂牌品类数': len(categories) - len(listing),
             '单元数': units, '库存行数': len(inventory), '住房类型数': len(SOURCE['住房类型']),
             '全城户数': city_households, '全城人口': city_pop, '散居挂靠余数': rest,
+            '救助发放条件数': len(P['失业救助']['发放条件']),
+            '救助停发情形数': len(P['失业救助']['停发情形']),
+            '救助禁则数': len(P['失业救助']['禁则']),
             '口径': '改善价＝必需×{0}，奢侈价＝必需×{1}，两档不手填；篮子只按必需档与标准月消耗量复算，'
                     '季节与二手挂牌价为展示与判定用的派生值，不参与薪酬红线。'
-                    '库存 176 行是统计口径而非空间条目，散居农村不单设单元，按聚落人口比例挂靠。'.format(
+                    '库存 176 行是统计口径而非空间条目，散居农村不单设单元，按聚落人口比例挂靠。'
+                    '失业救助三列由本圈层篮子×手填比例得出，月数与条数全部取自源表，不另填金额。'.format(
                         P['改善乘数'], P['奢侈乘数']),
         },
     }
@@ -199,10 +211,19 @@ def build_canon():
 def render_table(canon):
     """总表：八节全部从正典对象取数，脚本里不写第二个字面量。"""
     p, dom_rows, cats, svcs = canon['参数'], canon['域表'], canon['品类'], canon['服务']
+    relief = p['失业救助']
     house_names = {h['id']: h['名称'] for h in SOURCE['住房类型']}
     ratios = SOURCE['类型配比']
     L = ['', '## 一、参数与面额', '', '| 参数 | 值 |', '|---|---|']
+    relief_short = (f"全额比例 {relief['全额比例']}、递减比例 {relief['递减比例']}；"
+                    f"全额 {relief['全额月数']} 月＋递减 {relief['递减月数']} 月＝最长连发 {relief['最长连发月数']} 月，"
+                    f"再申请间隔 {relief['再申请间隔月数']} 月，复核每 {relief['复核月数']} 月一次；"
+                    f"发放条件 {len(relief['发放条件'])} 条、停发情形 {len(relief['停发情形'])} 条、"
+                    f"禁则 {len(relief['禁则'])} 条，三段全文见第六节")
     for k, v in p.items():
+        if k == '失业救助':
+            L.append(f'| {k} | {relief_short} |')
+            continue
         L.append(f'| {k} | {"、".join(str(x) for x in v) if isinstance(v, (list, tuple)) else json.dumps(v, ensure_ascii=False)} |')
     L += ['', f"面额表（钛币）：{'、'.join(str(x) for x in canon['面额表'])}。"
           f"最小计价单位 {canon['最小计价单位']}；交易用途 {'、'.join(canon['交易用途'])}。", '',
@@ -240,14 +261,24 @@ def render_table(canon):
                  f"| {canon['住所锚中位_按圈层'][ring]} |")
     L += ['', '季节展示（整篮，钛币/月）：'
           + '、'.join(f"{k} {v}" for k, v in canon['季节展示'].items()) + '。', '',
-          '## 六、公共保障与初始资金', '',
+          '## 六、公共保障、失业救助与初始资金', '',
           f"生活保障标准直接取本圈层篮子；初始资金＝3×生活保障标准＋押金，"
           f"欠费宽限 {p['欠费宽限月数']} 个月。", '',
-          '| 圈层 | 生活保障标准 | 押金（月租中位） | 初始资金 | 宽限月 |', '|---|---|---|---|---|']
+          f"失业救助按本圈层篮子折算，三列全为派生值：全额月＝篮子×{relief['全额比例']}，"
+          f"递减月＝篮子×{relief['递减比例']}，连发总额＝全额月×{relief['全额月数']}＋递减月×{relief['递减月数']}。"
+          f"全额连发 {relief['全额月数']} 个月（与欠费宽限 {p['欠费宽限月数']} 个月同值）后转递减 {relief['递减月数']} 个月，"
+          f"最长连发 {relief['最长连发月数']} 个月，用满后隔 {relief['再申请间隔月数']} 个月才可再申请，"
+          f"连发期间每 {relief['复核月数']} 个月复核一次。救助按登记失业者本人发放，不乘户均规模 {p['户均规模']}。", '',
+          '| 圈层 | 生活保障标准 | 押金（月租中位） | 初始资金 | 宽限月 | 救助全额月 | 救助递减月 | 连发总额 |', '|---|---|---|---|---|---|---|---|']
     for ring in p['圈层顺序']:
         w = canon['保障'][ring]
         L.append(f"| {ring} | {w['生活保障标准_钛币']} | {w['押金_钛币']} "
-                 f"| {w['初始资金_钛币']} | {w['欠费宽限_月']} |")
+                 f"| {w['初始资金_钛币']} | {w['欠费宽限_月']} | {w['失业救助_全额月_钛币']} "
+                 f"| {w['失业救助_递减月_钛币']} | {w['失业救助_连发总额_钛币']} |")
+    L += ['', f"发放条件 {len(relief['发放条件'])} 条：{'；'.join(relief['发放条件'])}。", '',
+          f"停发情形 {len(relief['停发情形'])} 条：{'；'.join(relief['停发情形'])}。", '',
+          f"禁则 {len(relief['禁则'])} 条：{'；'.join(relief['禁则'])}。", '',
+          f"口径：{relief['口径']}", '']
     L += ['', '## 七、二手折价与维修回收', '',
           f"可挂牌 {canon['汇总']['可挂牌品类数']} 条、可维修 {canon['汇总']['可维修品类数']} 条、"
           f"禁挂牌 {canon['汇总']['禁挂牌品类数']} 条；回收价＝挂牌价×{p['回收系数']}，"

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""产业与就业层闸门：三十二条判红全部落在数据层（十条产业＋六条字典＋四条物价＋五条运行参数＋四条具名命名＋一条零消费者对账＋一条产业图层对账＋一条职业条目对账），任一失败即非零退出。跑法：python 工具/verify_occupations.py"""
+"""产业与就业层闸门：三十四条判红全部落在数据层（十条产业＋六条字典＋四条物价＋五条运行参数＋四条具名命名＋一条零消费者对账＋一条产业图层对账＋一条职业条目对账＋一条失业救助对账＋一条五维开局对账），任一失败即非零退出。跑法：python 工具/verify_occupations.py"""
 import json, math, re
 from pathlib import Path
 
@@ -8,6 +8,24 @@ from anchors import entry_ring, RINGS, pair_key, ring_pair_stats
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = json.loads((ROOT / '数据' / '产业就业源表.json').read_text(encoding='utf-8'))
 REGISTRY = json.loads((ROOT / '数据' / '城市空间名录.json').read_text(encoding='utf-8'))['entries']
+# 失业救助的比例与月数只住在这份手填真源里；正典的 参数 块是它的副本，拿副本对副本等于本表自证，故直接读源表。
+COST_SRC_PATH = ROOT / '数据' / '物价生活源表.json'
+if not COST_SRC_PATH.exists():
+    raise SystemExit('缺少 数据/物价生活源表.json：失业救助三列金额由它派生，'
+                     '救助门禁不得因无源表可查而空转判绿')
+COST_SOURCE = json.loads(COST_SRC_PATH.read_text(encoding='utf-8'))['参数']
+# 第 34 条的三条等式要拿长期习惯卡的幅度上限做对照，那句中文措辞住在手填的岗位准入源表里。
+ADM_SRC_PATH = ROOT / '数据' / '岗位准入源表.json'
+if not ADM_SRC_PATH.exists():
+    raise SystemExit('缺少 数据/岗位准入源表.json：CRD-A3 的幅度上限与效果对象只住在这份手填真源里，'
+                     '开局等式门禁不得因无源表可查而空转判绿')
+ADM_SOURCE = json.loads(ADM_SRC_PATH.read_text(encoding='utf-8'))
+
+
+def num(x):
+    """与 build_params.num 同式：0.1×100 的浮点尾巴会咬死跨源等式，点数一律先收敛到整数。"""
+    r = round(x, 6)
+    return int(r) if r == int(r) else r
 
 MONTH_DAYS = dict(zip(range(1, 13), [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]))
 INNER = ('内湖环', '外城环')
@@ -151,6 +169,8 @@ def issues(canon, source, registry, adm, costs, params, psource, layer, occ_sour
     out += zero_consumer_issues(canon, adm, source)
     out += layer_issues(canon, registry, layer)
     out += occupation_issues(canon, source, occ_source)
+    out += relief_issues(costs, canon, registry, COST_SOURCE)
+    out += dim_issues(params, psource, ADM_SOURCE, canon)
     return out
 
 
@@ -709,12 +729,203 @@ def occupation_issues(canon, source, occ_source):
     return out
 
 
+RELIEF_GROUPS = (('岗位', '公职'), ('减免',), ('叙述',))
+
+
+HALT_WORDS = ('仍未', '待登记', '待确认', '待定', '暂不', '后续细化')
+
+
+def relief_issues(costs, canon, registry, csource):
+    """第 33 条：失业救助对账。金额由源表比例×派生篮子现算，月数关系、两条红线与三段文本全部跨源核对。"""
+    if '失业救助' not in csource:
+        raise SystemExit('缺少 数据/物价生活源表.json 的 参数.失业救助：救助三列金额与三段文本只住在这份手填真源里，'
+                         '缺块时门禁不得空转判绿')
+    r = csource['失业救助']
+    out = []
+    rings = csource['圈层顺序']
+    if '失业救助' not in costs['参数']:
+        out.append('失业救助对账: 正典参数未带失业救助块——源表已改但产物未重跑，先跑 python 工具/build_costs.py')
+        return out
+    cr = costs['参数']['失业救助']
+    if cr != r:
+        out.append('失业救助对账: 正典参数块与源表不一致——参数块须整块由源表带入，不得在生成器里另填')
+
+    # 月数与比例的六条结构关系：全额月数被钉在欠费宽限上，是本条唯一一条「改一边不改另一边就红」的硬耦合
+    if not (0 < r['递减比例'] < r['全额比例'] < 1):
+        out.append(f"失业救助对账: 比例档序须 0<递减{r['递减比例']}<全额{r['全额比例']}<1")
+    if r['全额月数'] + r['递减月数'] != r['最长连发月数']:
+        out.append(f"失业救助对账: 全额{r['全额月数']}月＋递减{r['递减月数']}月 != 最长连发{r['最长连发月数']}月")
+    if r['全额月数'] != csource['欠费宽限月数']:
+        out.append(f"失业救助对账: 全额月数 {r['全额月数']} != 欠费宽限月数 {csource['欠费宽限月数']}"
+                   "——宽限期与全额期必须同期，否则失住者仍在领全额")
+    if r['最长连发月数'] % r['复核月数']:
+        out.append(f"失业救助对账: 最长连发 {r['最长连发月数']} 月不能被复核 {r['复核月数']} 月整除")
+    if r['再申请间隔月数'] != r['最长连发月数']:
+        out.append(f"失业救助对账: 再申请间隔 {r['再申请间隔月数']} 月 != 最长连发 {r['最长连发月数']} 月")
+
+    # 逐圈层三列复算 + 两条红线：递减月须低于住所锚中位，全额月须低于本圈层最低 LVL1 生效线
+    by_id = {e['id']: e for e in registry}
+    floor_line = {}
+    for comp in canon['公司']:
+        if comp['锚点'] not in by_id:
+            continue
+        ring = entry_ring(by_id[comp['锚点']], by_id)
+        for card in comp['岗位卡']:
+            if card['岗位层'] != 'LVL1':
+                continue
+            line = card['红线_钛币']['住所加篮子线']
+            if ring not in floor_line or line < floor_line[ring]:
+                floor_line[ring] = line
+    for ring in rings:
+        w = costs['保障'].get(ring)
+        if not w:
+            out.append(f'失业救助对账: {ring} 缺保障行')
+            continue
+        basket = costs['篮子'][ring]
+        full = round(basket * r['全额比例'], 1)
+        decline = round(basket * r['递减比例'], 1)
+        total = round(full * r['全额月数'] + decline * r['递减月数'], 1)
+        for key, want in (('失业救助_全额月_钛币', full), ('失业救助_递减月_钛币', decline),
+                          ('失业救助_连发总额_钛币', total)):
+            if w.get(key) != want:
+                out.append(f'失业救助对账: {ring} {key} {w.get(key)} != 复算 {want}（篮子 {basket}×比例，不得乘户均规模）')
+        med = costs['住所锚中位_按圈层'][ring]
+        if decline >= med:
+            out.append(f'失业救助对账: {ring} 递减月 {decline} ≥ 住所锚中位 {med}——救助须付不起市场租金，才逼出 5% 兜底配额')
+        if ring not in floor_line:
+            out.append(f'失业救助对账: {ring} 没有 LVL1 卡可取生效线，红线无从比对')
+        elif full >= floor_line[ring]:
+            out.append(f'失业救助对账: {ring} 全额月 {full} ≥ 本圈层最低 LVL1 生效线 {floor_line[ring]}——不工作比最低档上班挣得多')
+
+    # 三段文本：条数、非空、不重复、覆盖三组禁则关键词，且不得出现中断类许可词
+    for key, sum_key in (('发放条件', '救助发放条件数'), ('停发情形', '救助停发情形数'), ('禁则', '救助禁则数')):
+        items = r[key]
+        if costs['汇总'].get(sum_key) != len(items):
+            out.append(f"失业救助对账: 汇总 {sum_key} {costs['汇总'].get(sum_key)} != 源表 {len(items)} 条")
+        if len(set(items)) != len(items):
+            out.append(f'失业救助对账: {key} 出现重复条目')
+        for s in items:
+            if len(s) < 12:
+                out.append(f'失业救助对账: {key}「{s}」短于 12 字，读不出可执行口径')
+            for word in HALT_WORDS:
+                if word in s:
+                    out.append(f'失业救助对账: {key}「{s}」出现中断类许可词「{word}」——救助口径不得写成待办')
+    blob = '｜'.join(r['禁则'])
+    for group in RELIEF_GROUPS:
+        if not all(g in blob for g in group):
+            out.append(f'失业救助对账: 禁则三段未覆盖关键词组 {group}——岗位、价物减免、叙述追加三条禁令须逐条在场')
+    if '不乘户均规模' not in r['口径'] + ''.join(r['发放条件']):
+        out.append('失业救助对账: 口径与发放条件均无「不乘户均规模」否定式——救助按本人发放这条须写死在文本里')
+    for word in HALT_WORDS:
+        if word in r['口径']:
+            out.append(f'失业救助对账: 口径出现中断类许可词「{word}」')
+    return out
+
+
+DIM_GROUPS = (('不重抽五维',), ('卡牌族',), ('企业', '资产'))
+
+
+def dim_issues(params, psource, adm_src, canon):
+    """第 34 条：五维开局对账。区间与上限由运行参数源表反推，再与长期习惯卡的幅度上限绑成三条等式。"""
+    s = psource['技能']
+    if '五维开局' not in s or '背景卡权重' not in s:
+        raise SystemExit('缺少 数据/运行参数源表.json 的 参数.技能.五维开局 或 背景卡权重：'
+                         '开局区间、影响上限与候选组合数只能由这两块反推，缺块时门禁不得空转判绿')
+    o, bg = s['五维开局'], s['背景卡权重']
+    out = []
+    cs = params['参数']['技能']
+    if cs.get('五维开局') != o or cs.get('背景卡权重') != bg:
+        out.append('五维开局对账: 正典参数块与运行参数源表不一致——两块须整块由源表带入，重跑 python 工具/build_params.py')
+    op = params.get('五维开局')
+    if not op:
+        out.append('五维开局对账: 正典缺派生块 五维开局——产物未重跑，区间与上限无处比对')
+        return out
+    lo, hi = s['五维刻度']
+    span = hi - lo
+    per_card = num(span * bg['单类影响占跨度'])
+    per_dim = num(span * bg['同维度累计影响占跨度'])
+
+    # 等式一／二：CRD-A3 的中文幅度上限、微调比例反推的点数、背景卡两档占比必须读成同一对数字
+    a3 = next((c for c in adm_src['卡牌族'] if c['id'] == 'CRD-A3'), None)
+    if not a3:
+        out.append('五维开局对账: 岗位准入源表没有 CRD-A3 长期习惯卡，幅度上限无从跨源对账')
+    else:
+        pts = [int(x) for x in re.findall(r'(\d+)\s*点', a3['幅度上限'])]
+        if pts != [per_card, per_dim]:
+            out.append(f"五维开局对账: CRD-A3 幅度上限「{a3['幅度上限']}」读作 {pts}，"
+                       f"与反推的单卡 {per_card}／同维度累计 {per_dim} 不符")
+        if [x.strip() for x in a3['效果对象'].split('、')] != o['维度']:
+            out.append(f"五维开局对账: CRD-A3 效果对象与源表 维度 五档不齐（{a3['效果对象']}）")
+    if bg['单类影响占跨度'] != s['五维微调比例']['单卡占跨度上限']:
+        out.append('五维开局对账: 背景卡单类影响占跨度与 五维微调比例.单卡占跨度上限 脱钩')
+    if bg['同维度累计影响占跨度'] != s['五维微调比例']['同维度累计占跨度上限']:
+        out.append('五维开局对账: 背景卡同维度累计影响占跨度与 五维微调比例.同维度累计占跨度上限 脱钩')
+
+    # 派生块逐值复算：中位、区间、上限、组合数、权重和
+    if num(span * o['中位占跨度']) + lo != o['中位']:
+        out.append(f"五维开局对账: 中位 {o['中位']} != 刻度下界 {lo}＋跨度×中位占跨度 {o['中位占跨度']}")
+    band = [num(o['中位'] - per_dim), num(o['中位'] + per_dim)]
+    if op['开局区间'] != band:
+        out.append(f"五维开局对账: 正典开局区间 {op['开局区间']} != 复算 {band}（中位±跨度×同维度累计影响占跨度）")
+    if op['单类影响上限'] != per_card or op['同维度累计影响上限'] != per_dim:
+        out.append(f"五维开局对账: 正典影响上限 {op['单类影响上限']}／{op['同维度累计影响上限']} "
+                   f"!= 复算 {per_card}／{per_dim}")
+    combo = 1
+    for c in bg['类别']:
+        combo *= c['候选数']
+    if op['候选组合数'] != combo:
+        out.append(f"五维开局对账: 候选组合数 {op['候选组合数']} != 五类候选数连乘 {combo}")
+    if sum(c['权重'] for c in bg['类别']) != 100:
+        out.append(f"五维开局对账: 权重和 {sum(c['权重'] for c in bg['类别'])} != 100")
+    if op['权重和'] != sum(c['权重'] for c in bg['类别']):
+        out.append('五维开局对账: 正典 权重和 与源表逐类相加不符')
+    ids = [c['id'] for c in bg['类别']]
+    if len(set(ids)) != len(ids) or not all(i.startswith('BG-') for i in ids):
+        out.append(f'五维开局对账: 类别 id 须唯一且全部 BG- 前缀，实得 {ids}')
+    if len(bg['类别']) != op['类别数'] or len(o['维度']) != op['维度数']:
+        out.append('五维开局对账: 正典的 类别数／维度数 与源表条数不符')
+
+    # 满值罕见线与刻度边界：开局最好一档加一张满额长期习惯也碰不到满值
+    if not lo <= band[0] < band[1] <= hi:
+        out.append(f'五维开局对账: 开局区间 {band} 越出刻度 [{lo}, {hi}]')
+    if o['满值罕见线'] <= band[1]:
+        out.append(f"五维开局对账: 满值罕见线 {o['满值罕见线']} ≤ 开局上界 {band[1]}——开局就给到罕见线，「单项很难达到满值」失效")
+    if band[1] + per_card > hi:
+        out.append(f'五维开局对账: 开局上界 {band[1]}＋单类影响上限 {per_card} 越过刻度上界 {hi}')
+
+    # 背景卡不得挤进卡牌字典：既不进卡牌族 id，也不进持有上限的键
+    if any(i.startswith('BG-') for i in (c['id'] for c in adm_src['卡牌族'])):
+        out.append('五维开局对账: BG- 前缀出现在卡牌族 id 里——背景卡不是第 13 个卡牌族')
+    if any(i.startswith('BG-') for i in adm_src['持有上限']):
+        out.append('五维开局对账: BG- 前缀出现在持有上限的键里——背景卡不占卡牌字典名额')
+    banned = {k for card in (x for comp in canon['公司'] for x in comp['岗位卡']) for k in card
+              if '开局' in k or '背景卡' in k}
+    if banned:
+        out.append(f'五维开局对账: 岗位卡里出现开局侧字段 {sorted(banned)}——分布与权重只住参数源表，不写进 10541 张卡')
+
+    # 三段文本与禁则关键词组，外加中断类许可词扫描
+    if len(bg['禁则']) != op['禁则数']:
+        out.append(f"五维开局对账: 正典 禁则数 {op['禁则数']} != 源表 {len(bg['禁则'])} 条")
+    blob = '｜'.join(bg['禁则'])
+    for group in DIM_GROUPS:
+        if not all(g in blob for g in group):
+            out.append(f'五维开局对账: 背景卡禁则未覆盖关键词组 {group}——更换不重抽、不进卡牌族、不送资产三条须逐条在场')
+    for text in (o['口径'], bg['口径'], *bg['禁则']):
+        for word in HALT_WORDS:
+            if word in text:
+                out.append(f'五维开局对账: 开局文本「{text[:24]}…」出现中断类许可词「{word}」')
+    if not isinstance(bg['更换次数'], int) or bg['更换次数'] < 0:
+        out.append(f"五维开局对账: 更换次数 {bg['更换次数']} 须为非负整数")
+    return out
+
+
 CHECKS = ['分区守恒', 'T5每大类一家', '档位区间与占比', '住所覆盖红线', '层系数单调',
           '起始年窗口', 'A08职责禁则', '公职不可申请边界', '字段黑名单', '无人机禁区',
           '引用完整性', '标签体系', '关键场景', '合同矩阵', '卡牌边界', '释放流程',
           '篮子完整性', '硬下限钳', '价物表自洽', '库存与配额',
           '参数完整性', '交通矩阵可复算', '天气年历闭合', '技能阈值同源', '事件与检查点自洽',
-          '具名命名完整', '名称逐段回查', '命名池齐套', '名称禁则与长度', '零消费者对账', '产业图层对账', '职业条目对账']
+          '具名命名完整', '名称逐段回查', '命名池齐套', '名称禁则与长度', '零消费者对账', '产业图层对账', '职业条目对账',
+          '失业救助对账', '五维开局对账']
 
 
 def cost_issues(canon, costs, registry):
@@ -1057,7 +1268,25 @@ def main():
                           '名称唯一数': len({e['名称'] for e in canon.get('职业条目', [])}),
                           '每类条数': occ_source.get('规格', {}).get('每类条数', []),
                           '总条数区间': occ_source.get('规格', {}).get('总条数区间', [])},
-              '判据': '三十二条判红（十条产业＋六条字典＋四条物价＋五条运行参数＋四条具名命名＋一条零消费者对账＋一条产业图层对账＋一条职业条目对账）；任一失败即非零退出，不允许空转判绿'}
+              '救助汇总': {'全额比例': COST_SOURCE['失业救助']['全额比例'],
+                        '递减比例': COST_SOURCE['失业救助']['递减比例'],
+                        '全额月数': COST_SOURCE['失业救助']['全额月数'],
+                        '递减月数': COST_SOURCE['失业救助']['递减月数'],
+                        '最长连发月数': COST_SOURCE['失业救助']['最长连发月数'],
+                        '逐圈层全额月': {r: costs['保障'][r]['失业救助_全额月_钛币'] for r in COST_SOURCE['圈层顺序']},
+                        '逐圈层递减月': {r: costs['保障'][r]['失业救助_递减月_钛币'] for r in COST_SOURCE['圈层顺序']},
+                        '逐圈层连发总额': {r: costs['保障'][r]['失业救助_连发总额_钛币'] for r in COST_SOURCE['圈层顺序']}},
+              '开局汇总': {'刻度': params['参数']['技能'].get('五维刻度'),
+                        '五档': params['参数']['技能'].get('五维开局', {}).get('维度'),
+                        '中位': params['参数']['技能'].get('五维开局', {}).get('中位'),
+                        '满值罕见线': params['参数']['技能'].get('五维开局', {}).get('满值罕见线'),
+                        '开局区间': params.get('五维开局', {}).get('开局区间'),
+                        '单类影响上限': params.get('五维开局', {}).get('单类影响上限'),
+                        '同维度累计影响上限': params.get('五维开局', {}).get('同维度累计影响上限'),
+                        '候选组合数': params.get('五维开局', {}).get('候选组合数'),
+                        '权重和': params.get('五维开局', {}).get('权重和'),
+                        'CRD-A3幅度上限': next((c['幅度上限'] for c in ADM_SOURCE['卡牌族'] if c['id'] == 'CRD-A3'), None)},
+              '判据': '三十四条判红（十条产业＋六条字典＋四条物价＋五条运行参数＋四条具名命名＋一条零消费者对账＋一条产业图层对账＋一条职业条目对账＋一条失业救助对账＋一条五维开局对账）；任一失败即非零退出，不允许空转判绿'}
     (ROOT / '数据' / '产业就业核验.json').write_text(json.dumps(report, ensure_ascii=False, indent=2),
                                                     encoding='utf-8')
     if bad:
@@ -1066,7 +1295,7 @@ def main():
             print('FAIL', b)
         print(f'共 {len(bad)} 条判红，前 40 条已打印')
         raise SystemExit(1)
-    print(f'全绿：三十二条判红，0 失败；公司 {canon["汇总"]["公司数"]} 家（具名 {canon["汇总"]["具名公司数"]}）'
+    print(f'全绿：三十四条判红，0 失败；公司 {canon["汇总"]["公司数"]} 家（具名 {canon["汇总"]["具名公司数"]}）'
           f'，岗位卡 {canon["汇总"]["岗位卡数"]} 张，雇员 {canon["汇总"]["雇员总数"]} 人'
           f'，被顶起 {canon["汇总"]["被顶起卡数"]} 张／{canon["汇总"]["被顶起名额数"]} 名额'
           f'，职业条目 {canon["汇总"]["职业条目数"]} 条／{canon["汇总"]["职业条目覆盖小类数"]} 小类'

@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
-"""产业与就业层闸门的违例自检：把闸门与十二份数据整批复制到临时目录，逐条改坏正典，断言闸门必须判红并给出该条自己的措辞。
+"""产业与就业层闸门的违例自检：把闸门与十三份数据整批复制到临时目录，逐条改坏正典，断言闸门必须判红并给出该条自己的措辞。
 
-闸门只会打印"全绿"，无法自证它抓得住违例；本脚本按三十二条判据反向注入，只操作临时副本，
+闸门只会打印"全绿"，无法自证它抓得住违例；本脚本按三十四条判据反向注入，只操作临时副本，
 绝不改动被守护的仓库文件。闸门只读落盘 JSON，因此临时目录里不需要 build_admission.py 与 build_costs.py，
 但必须带上 anchors.py——闸门的圈层归属与住所锚都从它取。
 第 30 条的对账清单住在手填源表里，所以注入范围除四份正典外还含 产业就业源表.json；其余两份源表与名录仍只读。
 第 31 条对账的是产业图层派生件，因此注入范围再加 产业空间图层.json；第 32 条对账职业条目，注入范围再加手填的
-职业条目源表.json。两份的「文件被删除」用例都直接删夹具里的那一份，用来证闸门在缺件时判红而不是空转放行。
+职业条目源表.json；第 33 条的救助比例与月数住在手填的 物价生活源表.json，注入范围再加这一份——它的「文件被删除」
+用例同样直接删夹具里那一份，用来证救助门禁在缺件时判红而不是空转放行。
+第 34 条的三条等式要拿长期习惯卡的中文幅度上限做对照，所以注入范围再加 运行参数源表.json 与 岗位准入源表.json；
+它的「文件被删除」用例删的是岗位准入源表那一份，用来证开局等式门禁在缺件时判红。
 跑法：python 工具/negtest_occupations.py
 """
 import json
@@ -57,15 +60,29 @@ def occ_source_of(tmp):
     return json.loads((tmp / '数据' / '职业条目源表.json').read_text(encoding='utf-8'))
 
 
+def cost_source_of(tmp):
+    return json.loads((tmp / '数据' / '物价生活源表.json').read_text(encoding='utf-8'))
+
+
+def param_source_of(tmp):
+    return json.loads((tmp / '数据' / '运行参数源表.json').read_text(encoding='utf-8'))
+
+
+def adm_source_of(tmp):
+    return json.loads((tmp / '数据' / '岗位准入源表.json').read_text(encoding='utf-8'))
+
+
 # 用例改动函数的形参顺序即写入顺序：1 参改产业、2 参加字典、3 参加物价、4 参加运行参数、5 参加手填源表、
-# 6 参加产业图层派生件，7 参加职业条目手填源表；改动函数往对象里塞 DELETE_MARK 即表示「夹具里这一份要删掉」，
-# 用来证闸门在缺件时判红而不是空转放行（第 31 条的文件缺失分支）。
-OBJ_NAMES = ['canon', 'adm', 'costs', 'params', 'source', 'layer', 'osrc']
+# 6 参加产业图层派生件，7 参加职业条目手填源表，8 参加物价生活手填源表，9 参加运行参数手填源表，
+# 10 参加岗位准入手填源表；改动函数往对象里塞 DELETE_MARK 即表示「夹具里这一份要删掉」，
+# 用来证闸门在缺件时判红而不是空转放行（第 31、33、34 条的文件缺失分支）。
+OBJ_NAMES = ['canon', 'adm', 'costs', 'params', 'source', 'layer', 'osrc', 'csrc', 'prsrc', 'asrc']
 DELETE_MARK = '__删除此文件__'
 FILES = {'canon': '产业就业正典.json', 'adm': '岗位准入正典.json',
          'costs': '物价与生活正典.json', 'params': '运行参数正典.json',
          'source': '产业就业源表.json', 'layer': '产业空间图层.json',
-         'osrc': '职业条目源表.json'}
+         'osrc': '职业条目源表.json', 'csrc': '物价生活源表.json',
+         'prsrc': '运行参数源表.json', 'asrc': '岗位准入源表.json'}
 
 
 def cards(canon):
@@ -468,6 +485,149 @@ def cases():
         lay.clear()
         lay[DELETE_MARK] = True
 
+    # ---- 第 33 条 失业救助对账 ----
+    # 三列金额的复算公式同时住在源表与正典里，只改源表会让「!= 复算」顺带判红，看不出被测的那一条。
+    # rederive 把正典三列与参数副本按源表重算一遍，让每条注入只剩它自己要证的那一处红。
+    def rederive(costs_obj, cs):
+        r = cs['参数']['失业救助']
+        costs_obj['参数']['失业救助'] = json.loads(json.dumps(r, ensure_ascii=False))
+        for ring, basket in costs_obj['篮子'].items():
+            full = round(basket * r['全额比例'], 1)
+            dec = round(basket * r['递减比例'], 1)
+            w = costs_obj['保障'][ring]
+            w['失业救助_全额月_钛币'] = full
+            w['失业救助_递减月_钛币'] = dec
+            w['失业救助_连发总额_钛币'] = round(full * r['全额月数'] + dec * r['递减月数'], 1)
+
+    def relief_block_removed(c, a, s, p, src, lay, o, cs):
+        del cs['参数']['失业救助']
+
+    def relief_source_file_removed(c, a, s, p, src, lay, o, cs):
+        cs.clear()
+        cs[DELETE_MARK] = True
+
+    def relief_ratio_flat(c, a, s, p, src, lay, o, cs):
+        cs['参数']['失业救助']['全额比例'] = cs['参数']['失业救助']['递减比例']
+
+    def relief_months_break(c, a, s, p, src, lay, o, cs):
+        cs['参数']['失业救助']['递减月数'] = 3
+
+    def relief_grace_decoupled(c, a, s, p, src, lay, o, cs):
+        r = cs['参数']['失业救助']
+        r['全额月数'], r['递减月数'] = 3, 3
+
+    def relief_recheck_unaligned(c, a, s, p, src, lay, o, cs):
+        cs['参数']['失业救助']['复核月数'] = 4
+
+    def relief_reapply_gap_zero(c, a, s, p, src, lay, o, cs):
+        cs['参数']['失业救助']['再申请间隔月数'] = 0
+
+    def relief_multiplied_by_household(c, a, s, p, src, lay, o, cs):
+        ring = cs['参数']['圈层顺序'][0]
+        scale = cs['参数']['户均规模']
+        w = s['保障'][ring]
+        w['失业救助_全额月_钛币'] = round(s['篮子'][ring] * cs['参数']['失业救助']['全额比例'] * scale, 1)
+
+    def relief_decline_over_median(c, a, s, p, src, lay, o, cs):
+        cs['参数']['失业救助']['全额比例'], cs['参数']['失业救助']['递减比例'] = 0.9, 0.8
+        rederive(s, cs)
+
+    def relief_full_over_lvl1(c, a, s, p, src, lay, o, cs):
+        # 只把全城最低的那一条 LVL1 生效线压到 1 钛币：改一张卡，救助侧与「硬下限钳」各出一行，
+        # 落在闸门 40 行的打印窗口内；改全部 LVL1 会把窗口占满，反证不了救助这条。
+        card = min((x for comp in c['公司'] for x in comp['岗位卡'] if x['岗位层'] == 'LVL1'),
+                   key=lambda x: x['红线_钛币']['住所加篮子线'])
+        card['红线_钛币']['住所加篮子线'] = 1
+
+    def relief_halt_word_in_text(c, a, s, p, src, lay, o, cs):
+        cs['参数']['失业救助']['发放条件'][0] += '，金额仍待确认'
+
+    def relief_text_too_short(c, a, s, p, src, lay, o, cs):
+        cs['参数']['失业救助']['禁则'][2] = '不许漫天要价'
+
+    def relief_summary_count_drift(c, a, s, p, src, lay, o, cs):
+        s['汇总']['救助停发情形数'] = 3
+
+    def relief_negation_missing(c, a, s, p, src, lay, o, cs):
+        r = cs['参数']['失业救助']
+        r['口径'] = '失业救助是按圈层折算的现金发放，逐月一次入账并记流水，按户内就业人数分摊到户。'
+        r['发放条件'][2] = '按户内就业人数分摊，救助金额随户数上调，不逐笔留痕'
+
+    def relief_group_missing(c, a, s, p, src, lay, o, cs):
+        cs['参数']['失业救助']['禁则'][1] = '救助不得改动品类价、服务价与交易用途，与价物表互不写回'
+
+    def relief_canon_not_rebuilt(c, a, s, p, src, lay, o, cs):
+        del s['参数']['失业救助']
+
+    def relief_canon_param_drift(c, a, s, p, src, lay, o, cs):
+        s['参数']['失业救助']['全额比例'] = 0.45
+
+    # ---- 第 34 条 五维开局对账 ----
+    # 三条等式横跨运行参数源表、岗位准入源表与两份正典，所以注入位把第九、第十个对象（两份源表）也用上了。
+    def dim_block_missing(c, a, s, p, src, lay, o, cs, pr, asrc):
+        del pr['参数']['技能']['五维开局']
+
+    def dim_admission_file_removed(c, a, s, p, src, lay, o, cs, pr, asrc):
+        asrc.clear()
+        asrc[DELETE_MARK] = True
+
+    def dim_crd_amount_drift(c, a, s, p, src, lay, o, cs, pr, asrc):
+        next(x for x in asrc['卡牌族'] if x['id'] == 'CRD-A3')['幅度上限'] = '单卡 12 点，同维度累计 24 点'
+
+    def dim_crd_dims_drift(c, a, s, p, src, lay, o, cs, pr, asrc):
+        next(x for x in asrc['卡牌族'] if x['id'] == 'CRD-A3')['效果对象'] = '智力、情商、体力、韧性、领导力'
+
+    def dim_crd_missing(c, a, s, p, src, lay, o, cs, pr, asrc):
+        asrc['卡牌族'] = [x for x in asrc['卡牌族'] if x['id'] != 'CRD-A3']
+
+    def dim_single_ratio_drift(c, a, s, p, src, lay, o, cs, pr, asrc):
+        pr['参数']['技能']['背景卡权重']['单类影响占跨度'] = 0.15
+
+    def dim_cum_ratio_drift(c, a, s, p, src, lay, o, cs, pr, asrc):
+        pr['参数']['技能']['背景卡权重']['同维度累计影响占跨度'] = 0.25
+
+    def dim_weight_sum_drift(c, a, s, p, src, lay, o, cs, pr, asrc):
+        pr['参数']['技能']['背景卡权重']['类别'][4]['权重'] = 5
+
+    def dim_combo_drift(c, a, s, p, src, lay, o, cs, pr, asrc):
+        pr['参数']['技能']['背景卡权重']['类别'][0]['候选数'] = 7
+
+    def dim_prefix_collision(c, a, s, p, src, lay, o, cs, pr, asrc):
+        asrc['卡牌族'].append({'id': 'BG-FAM', '名称': '家庭结构', '类别': 'A', '效果类型': '五维微调'})
+
+    def dim_holding_prefix(c, a, s, p, src, lay, o, cs, pr, asrc):
+        asrc['持有上限']['BG-FAM'] = 2
+
+    def dim_card_field_leak(c, a, s, p, src, lay, o, cs, pr, asrc):
+        c['公司'][0]['岗位卡'][0]['开局区间'] = [30, 70]
+
+    def dim_median_offscale(c, a, s, p, src, lay, o, cs, pr, asrc):
+        pr['参数']['技能']['五维开局']['中位'] = 55
+
+    def dim_rare_line_below(c, a, s, p, src, lay, o, cs, pr, asrc):
+        pr['参数']['技能']['五维开局']['满值罕见线'] = 60
+
+    def dim_id_prefix_bad(c, a, s, p, src, lay, o, cs, pr, asrc):
+        pr['参数']['技能']['背景卡权重']['类别'][0]['id'] = 'FAM'
+
+    def dim_halt_word(c, a, s, p, src, lay, o, cs, pr, asrc):
+        pr['参数']['技能']['背景卡权重']['口径'] += '，候选池细则仍待确认'
+
+    def dim_group_missing(c, a, s, p, src, lay, o, cs, pr, asrc):
+        pr['参数']['技能']['背景卡权重']['禁则'][0] = '更换候选时按新一轮重新随机五个维度，逐维重新落点'
+
+    def dim_canon_band_drift(c, a, s, p, src, lay, o, cs, pr, asrc):
+        p['五维开局']['开局区间'] = [25, 75]
+
+    def dim_canon_block_missing(c, a, s, p, src, lay, o, cs, pr, asrc):
+        del p['五维开局']
+
+    def dim_canon_param_drift(c, a, s, p, src, lay, o, cs, pr, asrc):
+        del p['参数']['技能']['背景卡权重']
+
+    def dim_canon_prohibition_count(c, a, s, p, src, lay, o, cs, pr, asrc):
+        p['五维开局']['禁则数'] = 2
+
     return [
         ('逐区守恒人数被改', conservation, '守恒'),
         ('整区公司缺失', missing_anchor, '守恒'),
@@ -563,6 +723,44 @@ def cases():
         ('某小类条目数超出每类上限', occ_per_class_count_drifted, '越出每类'),
         ('规格块少了每类条数', occ_spec_key_dropped, '规格缺'),
         ('职业条目源表文件被删除', occ_source_file_removed, '不得因无条目可查而空转判绿'),
+        ('失业救助源表缺块', relief_block_removed, '缺块时门禁不得空转判绿'),
+        ('失业救助源表文件被删除', relief_source_file_removed, '救助门禁不得因无源表可查而空转判绿'),
+        ('全额与递减比例同档', relief_ratio_flat, '比例档序须'),
+        ('全额月加递减月不等于最长连发', relief_months_break, '!= 最长连发'),
+        ('全额月数脱离欠费宽限', relief_grace_decoupled, '!= 欠费宽限月数'),
+        ('复核月数不能整除连发', relief_recheck_unaligned, '不能被复核'),
+        ('再申请间隔归零', relief_reapply_gap_zero, '再申请间隔'),
+        ('救助额乘了户均规模', relief_multiplied_by_household, '不得乘户均规模'),
+        ('递减月高过住所锚中位', relief_decline_over_median, '≥ 住所锚中位'),
+        ('全额月高过最低生效线', relief_full_over_lvl1, '≥ 本圈层最低 LVL1 生效线'),
+        ('发放条件写成待确认', relief_halt_word_in_text, '出现中断类许可词'),
+        ('禁则短到读不出口径', relief_text_too_short, '短于 12 字'),
+        ('汇总救助条数与源表不符', relief_summary_count_drift, '!= 源表'),
+        ('口径丢了不乘户均的否定式', relief_negation_missing, '「不乘户均规模」否定式'),
+        ('禁则少了价物减免一条', relief_group_missing, '未覆盖关键词组'),
+        ('正典没带上救助参数块', relief_canon_not_rebuilt, '正典参数未带失业救助块'),
+        ('正典救助比例被手改', relief_canon_param_drift, '正典参数块与源表不一致'),
+        ('五维开局源表缺块', dim_block_missing, '五维开局 或 背景卡权重'),
+        ('岗位准入源表被删除', dim_admission_file_removed, '开局等式门禁不得因无源表可查而空转判绿'),
+        ('长期习惯卡幅度上限被手改', dim_crd_amount_drift, 'CRD-A3 幅度上限'),
+        ('长期习惯卡效果对象少一维', dim_crd_dims_drift, '效果对象与源表 维度 五档不齐'),
+        ('长期习惯卡整条删除', dim_crd_missing, '岗位准入源表没有 CRD-A3'),
+        ('背景卡单类占比脱离微调比例', dim_single_ratio_drift, '单类影响占跨度与 五维微调比例'),
+        ('背景卡累计占比脱离微调比例', dim_cum_ratio_drift, '同维度累计影响占跨度与 五维微调比例'),
+        ('背景卡权重和不为 100', dim_weight_sum_drift, '!= 100'),
+        ('候选数改动使组合数不符', dim_combo_drift, '候选组合数'),
+        ('背景卡前缀挤进卡牌族', dim_prefix_collision, '背景卡不是第 13 个卡牌族'),
+        ('背景卡前缀挤进持有上限', dim_holding_prefix, 'BG- 前缀出现在持有上限的键里'),
+        ('开局区间写进岗位卡', dim_card_field_leak, '岗位卡里出现开局侧字段'),
+        ('中位脱离刻度反推', dim_median_offscale, '中位 55'),
+        ('满值罕见线低过开局上界', dim_rare_line_below, '满值罕见线 60'),
+        ('类别 id 丢了 BG- 前缀', dim_id_prefix_bad, '须唯一且全部 BG- 前缀'),
+        ('开局文本写成待确认', dim_halt_word, '开局文本'),
+        ('背景卡禁则少了不重抽一条', dim_group_missing, '背景卡禁则未覆盖关键词组'),
+        ('正典开局区间被手改', dim_canon_band_drift, '正典开局区间'),
+        ('正典缺开局派生块', dim_canon_block_missing, '正典缺派生块 五维开局'),
+        ('正典参数块与源表脱节', dim_canon_param_drift, '正典参数块与运行参数源表不一致'),
+        ('正典禁则数与源表不符', dim_canon_prohibition_count, '禁则数 2'),
     ]
 
 
@@ -594,7 +792,9 @@ def main():
             rc0, _ = run_gate(tmp)
             objs = {'canon': canon_of(tmp), 'adm': adm_of(tmp),
                     'costs': costs_of(tmp), 'params': params_of(tmp), 'source': source_of(tmp),
-                    'layer': layer_of(tmp), 'osrc': occ_source_of(tmp)}
+                    'layer': layer_of(tmp), 'osrc': occ_source_of(tmp),
+                    'csrc': cost_source_of(tmp), 'prsrc': param_source_of(tmp),
+                    'asrc': adm_source_of(tmp)}
             names = OBJ_NAMES[:_arity(mutate)]
             mutate(*[objs[k] for k in names])
             payload = [(tmp / '数据' / FILES[k], objs[k]) for k in names]

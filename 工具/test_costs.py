@@ -243,6 +243,19 @@ class CanonConsistency(unittest.TestCase):
         for phrase in self.DOC_PHRASES:
             self.assertIn(phrase, doc, f'叙事层缺规模口径：{phrase}')
 
+    def test_narrative_doc_pins_every_welfare_amount_verbatim(self):
+        """押金中位换档时只改了正典、叙事层留着 2907.8／12005.9 活过了全链——C121 起的口径是
+        保障与救助的每一个金额都在叙事层逐字出现，缺一个数即判红，不再只钉规模口径。"""
+        doc = (ROOT / '物价与生活设定.md').read_text(encoding='utf-8')
+        keys = ('押金_钛币', '初始资金_钛币', '失业救助_全额月_钛币', '失业救助_递减月_钛币',
+                '失业救助_连发总额_钛币')
+        for ring in self.canon['保障']:
+            for key in keys:
+                amount = str(self.canon['保障'][ring][key])
+                self.assertIn(amount, doc, f'叙事层缺 {ring} 的 {key} {amount}')
+        for stale in ('2907.8', '12005.9'):
+            self.assertNotIn(stale, doc, f'叙事层仍留着换档前的旧金额 {stale}')
+
     def test_generated_table_row_counts_match_canon(self):
         table = (ROOT / '数据' / '物价与生活总表.md').read_text(encoding='utf-8')
         self.assertEqual(len(re.findall(r'^\| PRD-[A-Z]+-\d+ \|', table, re.M)), self.EXPECTED['品类数'])
@@ -251,12 +264,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_120(self):
+    def test_rulings_are_121(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 120)
-        self.assertEqual(rulings[-1]['编号'], 'C120')
+        self.assertEqual(len(rulings), 121)
+        self.assertEqual(rulings[-1]['编号'], 'C121')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C111', 'C112', 'C113', 'C114', 'C115', 'C116', 'C117', 'C118', 'C119', 'C120'])
+                         ['C112', 'C113', 'C114', 'C115', 'C116', 'C117', 'C118', 'C119', 'C120', 'C121'])
         by_id = {r['编号']: r for r in rulings}
         # C112 的硬话是「判据一律跨源写死、不由本表自证」与「任一行口径出现中断类许可词而同行无否定式即判红」；
         # C113 的硬话是「名称字段 0 条非空」——两条各钉一句，防止过度申报与跨源对账被静默改回话术。
