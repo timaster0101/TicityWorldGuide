@@ -144,7 +144,7 @@ def issues(canon, source, registry, adm, costs, params, psource, layer, occ_sour
                 out.append(f'无人机禁空: {c["id"]} 低空作业小类 {c["行业小类"]} 落在 {zid}')
             if c['名称'] and any(k in c['名称'] for k in source['禁则']['无人机关键词']):
                 out.append(f'无人机禁空: {c["id"]} 具名含无人机字样，落在 {zid}')
-    out += adm_issues(canon, adm)
+    out += adm_issues(canon, adm, params)
     out += cost_issues(canon, costs, registry)
     out += param_issues(params, psource, costs, canon)
     out += naming_issues(canon, source)
@@ -339,7 +339,7 @@ def zero_consumer_issues(canon, adm, source):
     return out
 
 
-def adm_issues(canon, adm):
+def adm_issues(canon, adm, params):
     """第 11 至 16 条：引用完整性、标签体系、关键场景、合同矩阵、卡牌边界、释放流程。"""
     out = []
     tags = {t['id']: t for t in adm['标签']}
@@ -443,9 +443,18 @@ def adm_issues(canon, adm):
             if not m or int(m.group(1)) > 1 or '权威' not in f['幅度上限']:
                 out.append(f'卡牌边界: {f["id"]} 阶推进幅度越界或未禁止权威')
         if f['效果类型'] == '五维微调':
+            skill = params['参数']['技能']
+            fine = skill.get('五维微调比例') or {}
+            keys = ('单卡占跨度上限', '同维度累计占跨度上限')
             nums = [int(x) for x in re.findall(r'(\d+)\s*点', f['幅度上限'])]
-            if not nums or max(nums) > 4 or any(n > 2 for n in nums[:1]):
-                out.append(f'卡牌边界: {f["id"]} 五维点数越界')
+            absent = [k for k in keys if k not in fine]
+            if absent:
+                out.append(f'卡牌边界: {f["id"]} 反推五维点数缺比例键 {absent}——该键须登记在运行参数技能块')
+            else:
+                span = skill['五维刻度'][1] - skill['五维刻度'][0]
+                want = [round(span * fine[k]) for k in keys]
+                if not nums or nums != want:
+                    out.append(f'卡牌边界: {f["id"]} 五维点数 {nums} 不等于刻度跨度 {span} 反推的 {want}——刻度与点数脱钩')
     lim = p['持有上限']
     if not all(isinstance(v, int) and v > 0 for v in lim.values()):
         out.append('卡牌边界: 持有上限须为正整数')
@@ -942,7 +951,7 @@ def param_issues(params, psource, costs, occ):
     if sorted(sea) != sorted(costs['参数']['季节系数']):
         out.append(f'天气年历: SEA 键与物价季节系数不齐 物价 {sorted(costs["参数"]["季节系数"])}')
 
-    # 24 技能阈值与五层同源：五档递增且首档 0、键与岗位卡 LVL 码一一对应、退化比例在 (0,1)、五维刻度正且下界小于上界
+    # 24 技能阈值与五层同源：五档递增且首档 0、键与岗位卡 LVL 码一一对应、退化比例在 (0,1)、五维刻度下界非负且上界大于下界、微调比例块三键齐套且退化下限等于跨度反推
     if list(th.values())[0] != 0:
         out.append('技能阈值: 首档不为 0')
     lvl_codes = {card['岗位层'] for comp in occ['公司'] for card in comp['岗位卡']}
@@ -952,8 +961,18 @@ def param_issues(params, psource, costs, occ):
     if not 0.0 < ratio < 1.0:
         out.append(f'技能阈值: 退化下限比例 {ratio} 越出 (0,1)')
     lo, hi = p['技能']['五维刻度']
-    if not (lo > 0 and hi > lo):
-        out.append(f'技能阈值: 五维刻度 {p["技能"]["五维刻度"]} 不正或倒挂')
+    if not (lo >= 0 and hi > lo):
+        out.append(f'技能阈值: 五维刻度 {p["技能"]["五维刻度"]} 下界为负或倒挂')
+    fine_keys = ('单卡占跨度上限', '同维度累计占跨度上限', '退化下限占跨度')
+    fine = p['技能'].get('五维微调比例') or {}
+    missing = [k for k in fine_keys if k not in fine]
+    if missing:
+        out.append(f'技能阈值: 五维微调比例 缺键 {missing}')
+    else:
+        span = hi - lo
+        want_floor = round(span * fine['退化下限占跨度'])
+        if p['技能']['五维退化下限'] != want_floor:
+            out.append(f'技能阈值: 五维退化下限 {p["技能"]["五维退化下限"]} 不等于刻度跨度 {span} 反推的 {want_floor}——刻度与下限脱钩')
 
     # 25 事件与检查点自洽：冷却与预告随级别单调、每轮配额不小于每自然月、保留数≥1、时刻 HH:MM、不得自助回档
     cd = p['事件']['冷却天']

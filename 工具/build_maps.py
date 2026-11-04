@@ -36,8 +36,19 @@ class Map:
         for r in DATA['rivers']: self.line(r['centerline_km'],'#75a9bd',max(3,self.scale*(.19 if r['id']=='W01' else .36)))
         if clip_radius:
             self.parts.append('</g>')
-        x,y=self.xy([0,0]);self.parts.append(f'<ellipse cx="{x}" cy="{y}" rx="{3.2*self.scale}" ry="{2.1*self.scale}" fill="#bedbe3" stroke="#568b9c" stroke-width="1.8"/>')
-        self.text(x,y-4,'钛 湖',25,anchor='middle');self.text(x,y+22,'21.1115 km²',13,anchor='middle')
+        lk=DATA['lake']
+        x,y=self.xy([0,0]);self.parts.append(f'<ellipse cx="{x}" cy="{y}" rx="{lk["east_west_semiaxis_km"]*self.scale}" ry="{lk["north_south_semiaxis_km"]*self.scale}" fill="#bedbe3" stroke="#568b9c" stroke-width="1.8"/>')
+        self.text(x,y-4,'钛 湖',25,anchor='middle')
+        self.text(x,y+22,f'总面积{lk["area_km2"]} km²',13,anchor='middle')
+        isl=lk.get('island')
+        if isl:
+            ix,iy=self.xy(isl['center_km'])
+            self.parts.append(f'<ellipse cx="{ix:.2f}" cy="{iy:.2f}" rx="{isl["east_west_semiaxis_km"]*self.scale}" '
+                              f'ry="{isl["north_south_semiaxis_km"]*self.scale}" fill="#e6dcc0" stroke="#8c7a4f" stroke-width="1.4"/>')
+            if self.scale>=40:
+                self.text(ix,iy-3,isl['name'],12,'#4c4226',anchor='middle')
+                self.text(ix,iy+12,f'{isl["area_km2"]} km²',10,'#617475',anchor='middle')
+                self.text(x,y+40,f'净水面{lk["open_water_km2"]} km²',13,anchor='middle')
     def compass_scale(self,x,y,length):
         self.text(x,y-23,'N',18,anchor='middle');self.parts.append(f'<path d="M{x},{y-15} l-8,27 l8,-7 l8,7 Z" fill="#284b50"/>')
         pixels=length*self.scale
@@ -76,7 +87,7 @@ for i,e in enumerate(e for e in ENTRIES if e['id'].startswith('S')):
     regional.text(1250,y+17,f"({e['center_km'][0]}, {e['center_km'][1]}) km · {e['area_km2']} km²",12,'#617475')
 regional.text(1250,1220,'棕点：产业小镇（16）  绿点：村落（8）',14)
 regional.text(1250,1247,'坐标锚点不等于聚落的完整用地边界。',14)
-regional.text(1250,1274,'清岚河：西北 → 钛湖；澜川：钛湖 → 东南。',14)
+regional.text(1250,1274,'清岚河：西北 → 钛湖；澜川：钛湖 → 东南。湖心钛马岛无桥。',14)
 regional.compass_scale(1140,190,10)
 regional.save('全域卫星聚落图.svg')
 
@@ -115,7 +126,7 @@ urban.text(1285,1170,'F  功能区   L  地标建筑   R  居民区',16)
 urban.text(1285,1202,'D01—D10：内湖环；D11—D20：外城环。',14)
 urban.text(1285,1227,'所有坐标以湖心为原点，不是真实经纬度。',14)
 urban.text(1285,1252,'圆形规划边界与道路是概念基准，需地形落图。',14)
-urban.text(1285,1277,'湖内不布置建筑；建筑锚点并非精确建筑基底。',14)
+urban.text(1285,1277,'湖内不布置建筑锚点；湖心钛马岛无桥，进出只走客渡／湖底隧道／高空缆车。',14)
 urban.compass_scale(1190,170,2)
 urban.save('主城区空间索引图.svg')
 

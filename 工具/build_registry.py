@@ -271,16 +271,36 @@ for e in entries:
         e['building_coverage_max']=.34 if e['height_limit_m']>18 else .44
 
 population_city=sum(e['population'] for e in entries if e['type']=='城市片区')
+# 钛马岛：湖内唯一岛屿。手填的只有中心与半轴，含于湖、岸距、净水面全部现算——不接受手填读数。
+IS='钛马岛';I_C=[-1.28,1.10];I_AB=(0.55,0.42);I_ELEV=318.5
+def _lake_f(p):return (p[0]/3.2)**2+(p[1]/2.1)**2
+def _isl_f(p):return ((p[0]-I_C[0])/I_AB[0])**2+((p[1]-I_C[1])/I_AB[1])**2
+def _lake_edge(n):return [(3.2*math.sin(math.radians(j*360/n)),2.1*math.cos(math.radians(j*360/n))) for j in range(n)]
+I_EDGE=[(I_C[0]+I_AB[0]*math.cos(math.radians(j*360/720)),I_C[1]+I_AB[1]*math.sin(math.radians(j*360/720))) for j in range(720)]
+I_OUT=max(_lake_f(p) for p in I_EDGE)
+if I_OUT>=1:raise SystemExit(f'{IS} 岛岸落到湖岸之外（湖椭圆归一化最大 {I_OUT:.4f}）：岛必须完全在钛湖内')
+I_GAP=min(math.dist(p,q) for p in I_EDGE for q in _lake_edge(360))
+if I_GAP<0.30:raise SystemExit(f'{IS} 岛岸到湖岸最小 {I_GAP*1000:.0f} 米，不足300米：水道太窄就不再是独立的岛')
+on_water_entries=[e['id'] for e in entries if _lake_f(e['center_km'])<=1 and not _isl_f(e['center_km'])<1]
+if on_water_entries:raise SystemExit(f'锚点落进湖面而非岛上：{on_water_entries}')
+lake_area=round(math.pi*3.2*2.1,4)
+island=dict(id='IS-01',name=IS,kind='天然湖岛',center_km=I_C,east_west_semiaxis_km=I_AB[0],
+            north_south_semiaxis_km=I_AB[1],area_km2=round(math.pi*I_AB[0]*I_AB[1],4),surface_elevation_m=I_ELEV,
+            bearing_from_lake_center_deg=round(math.degrees(math.atan2(I_C[0],I_C[1]))%360,2),
+            lake_f_at_boundary_max=round(I_OUT,4),shore_gap_to_lakeline_km=round(I_GAP,3),
+            access='岛与城市无桥：进出只走客渡、湖底隧道与高空缆车三条通路，构件见 数据/空间通行源表.json 的湖岛／湖底隧道／高空缆车三块',
+            definition='湖内唯一岛屿的示意椭圆，用于面积台账与视线判断，不代表岛岸实测折线；岛上场地与构件不在名录内登记')
+open_water_km2=round(lake_area-island['area_km2'],4)
 satellite_pop=sum(e['population'] for e in entries if e['id'].startswith('S'))
 # 分卷表是唯一真源：build_registry 用它写 数据/0X-*.json，compile_book 读名录里的同一份用它出 分卷/0X-*.md。
 # 新增类别或调整每卷条目区间只改这里，两处产物不可能再各说各话。
 volumes=[('01','外围村镇','S',1,24),('02','城市片区','D',1,20),('03','城市功能区','F',1,40),('04','地标建筑上卷','L',1,30),('05','地标建筑下卷','L',31,60),('06','地标建筑第三卷','L',61,90),('07','地标建筑第四卷','L',91,108),('08','居民区第1卷','R',1,30),('09','居民区第2卷','R',31,60),('10','居民区第3卷','R',61,90),('11','居民区第4卷','R',91,120)]
 covered=[e['id'] for p,_,kind,lo,hi in volumes for e in entries if e['id'][0]==kind and lo<=int(e['id'][1:])<=hi]
 assert len(covered)==len(entries)==len(set(covered)), (len(covered),len(entries))
-registry=dict(version='1.0',fictional=True,setting_year=2013,coordinate_system='THC-LOCAL-2013：千米；湖心(0,0)；x东正、y北正；方位角北0度顺时针；高程米',region_boundary_km=[-36,-32,36,32],region_area_km2=4608,urban_radius_km=10.2,urban_gross_area_km2=round(math.pi*10.2**2,4),lake=dict(name='钛湖',center_km=[0,0],east_west_semiaxis_km=3.2,north_south_semiaxis_km=2.1,normal_surface_elevation_m=312,area_km2=round(math.pi*3.2*2.1,4),max_depth_m=38,mean_depth_m=16),rivers=[dict(id='W01',name='清岚河',flow='由西北向湖内',centerline_km=[[-15,32],[-12,28],[-9,23],[-7,16],[-3,11],[-2,7.5],[-1,4],[-.6,round(2.1*math.sqrt(1-(-.6/3.2)**2),4)]],width_m=[120,260]),dict(id='W02',name='澜川',flow='由钛湖向东南外流',centerline_km=[[2.9,round(-2.1*math.sqrt(1-(2.9/3.2)**2),4)],[4,-2],[5.5,-4],[7.5,-7],[10,-11],[14,-16],[22,-25],[28,-32]],width_m=[280,440])],population=dict(city_core=population_city,satellite_settlements=satellite_pop,dispersed_rural=42000,regional_total=population_city+satellite_pop+42000,featured_residences=sum(e['population'] for e in entries if e['type']=='居民区')),volumes=volumes,entries=entries)
+registry=dict(version='1.0',fictional=True,setting_year=2013,coordinate_system='THC-LOCAL-2013：千米；湖心(0,0)；x东正、y北正；方位角北0度顺时针；高程米',region_boundary_km=[-36,-32,36,32],region_area_km2=4608,urban_radius_km=10.2,urban_gross_area_km2=round(math.pi*10.2**2,4),lake=dict(name='钛湖',center_km=[0,0],east_west_semiaxis_km=3.2,north_south_semiaxis_km=2.1,normal_surface_elevation_m=312,area_km2=lake_area,max_depth_m=38,mean_depth_m=16,island=island,open_water_km2=open_water_km2,area_note='area_km2 是湖椭圆总面积，含岛占位；open_water_km2 是扣除钛马岛后的净水面。片区面积台账按椭圆总面积闭合，不按净水面。'),rivers=[dict(id='W01',name='清岚河',flow='由西北向湖内',centerline_km=[[-15,32],[-12,28],[-9,23],[-7,16],[-3,11],[-2,7.5],[-1,4],[-.6,round(2.1*math.sqrt(1-(-.6/3.2)**2),4)]],width_m=[120,260]),dict(id='W02',name='澜川',flow='由钛湖向东南外流',centerline_km=[[2.9,round(-2.1*math.sqrt(1-(2.9/3.2)**2),4)],[4,-2],[5.5,-4],[7.5,-7],[10,-11],[14,-16],[22,-25],[28,-32]],width_m=[280,440])],population=dict(city_core=population_city,satellite_settlements=satellite_pop,dispersed_rural=42000,regional_total=population_city+satellite_pop+42000,featured_residences=sum(e['population'] for e in entries if e['type']=='居民区')),volumes=volumes,entries=entries)
 (ROOT/'数据'/'城市空间名录.json').write_text(json.dumps(registry,ensure_ascii=False,indent=2),encoding='utf-8')
 
 for p,title,kind,lo,hi in volumes:
     items=[e for e in entries if e['id'][0]==kind and lo<=int(e['id'][1:])<=hi]
     (ROOT/'数据'/f'{p}-{title}.json').write_text(json.dumps(items,ensure_ascii=False,indent=2),encoding='utf-8')
-print(json.dumps(dict(count=len(entries),counts={p:sum(e['id'].startswith(p) for e in entries) for p in 'SDFLR'},population=registry['population'],city_area=registry['urban_gross_area_km2'],lake_area=registry['lake']['area_km2']),ensure_ascii=False,indent=2))
+print(json.dumps(dict(count=len(entries),counts={p:sum(e['id'].startswith(p) for e in entries) for p in 'SDFLR'},population=registry['population'],city_area=registry['urban_gross_area_km2'],lake_area=registry['lake']['area_km2'],lake_open_water_km2=registry['lake']['open_water_km2'],island=dict(id=registry['lake']['island']['id'],name=registry['lake']['island']['name'],area_km2=registry['lake']['island']['area_km2'],湖岸f最大=registry['lake']['island']['lake_f_at_boundary_max'],岛岸到湖岸km=registry['lake']['island']['shore_gap_to_lakeline_km'])),ensure_ascii=False,indent=2))

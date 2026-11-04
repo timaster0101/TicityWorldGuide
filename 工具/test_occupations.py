@@ -417,7 +417,8 @@ NEGTEST = ROOT / '工具' / 'negtest_occupations.py'
 
 class Negtest(unittest.TestCase):
     def test_every_injection_turns_the_gate_red(self):
-        """违例自检必须 89 条全判红、夹具零残留，且被守护的四份正典字节不变。"""
+        """违例自检必须 94 条全判红、夹具零残留，且被守护的四份正典字节不变。
+        94 = 第 1 至 32 条判据各向注入 + C119 五例（刻度改而点数不改、卡牌点数手改、退化下限脱钩、比例块缺键、下界为负）。"""
         before = (ROOT / '数据' / '产业就业正典.json').read_bytes()
         adm_before = (ROOT / '数据' / '岗位准入正典.json').read_bytes()
         cost_before = (ROOT / '数据' / '物价与生活正典.json').read_bytes()
@@ -425,7 +426,7 @@ class Negtest(unittest.TestCase):
         r = subprocess.run([sys.executable, str(NEGTEST)], cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         summary = json.loads(next(l for l in r.stdout.splitlines() if l.startswith('{')))
-        self.assertEqual(summary['cases'], 89)
+        self.assertEqual(summary['cases'], 94)
         self.assertEqual(summary['not_red'], 0)
         self.assertEqual(summary['fixture_leftover'], 0)
         self.assertEqual((ROOT / '数据' / '产业就业正典.json').read_bytes(), before)
@@ -475,7 +476,7 @@ class Rulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 118)
+        self.assertEqual(len(rows), 120)
 
     def test_manual_chains_occupation_steps(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -493,7 +494,7 @@ class AdmissionRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 118)
+        self.assertEqual(len(rows), 120)
 
     def test_manual_chains_admission_before_occupations(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -511,7 +512,7 @@ class PhaseSixRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 118)
+        self.assertEqual(len(rows), 120)
 
     def test_phase_six_rulings_keep_the_hard_wording(self):
         """四条第6期裁定各钉一句只有真源侧才说得出的硬话：
@@ -533,6 +534,42 @@ class PhaseSixRulings(unittest.TestCase):
         for name in ('具名命名完整', '名称逐段回查', '命名池齐套', '名称禁则与长度',
                      '零消费者对账', '产业图层对账', '职业条目对账'):
             self.assertIn(name, doc)
+
+
+class PhaseSevenRulings(unittest.TestCase):
+    PHASE_IDS = ['C120']
+
+    def test_island_ruling_recorded(self):
+        rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
+        by_id = {r['编号']: r for r in rows}
+        for cid in self.PHASE_IDS:
+            self.assertIn(cid, by_id)
+            self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
+        self.assertEqual(len(rows), 120)
+
+    def test_island_ruling_keeps_the_hard_wording(self):
+        """第7期裁定钉四句只有真源侧才说得出的硬话：无桥是用户给的硬约束、岛不进名录是三层落法的代价账、
+        峰值与性质两条新判据各带变异验证——改回话术就查不出「顺手补第四通路」那种倒退。"""
+        rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
+        by_id = {r['编号']: r for r in rows}
+        self.assertIn('岛与城市之间没有任何桥', by_id['C120']['裁定'])
+        self.assertIn('名录 entries 恒 312 条不变', by_id['C120']['裁定'])
+        self.assertIn('进出岛只认三条通路', by_id['C120']['裁定'])
+        self.assertIn('把它塞进 312 条名录就会连带触发', by_id['C120']['原因'])
+        self.assertIn('59/59 判红', by_id['C120']['影响'])
+        self.assertIn('28/28 判红', by_id['C120']['影响'])
+        self.assertIn('计数钉 119→120', by_id['C120']['影响'])
+
+    def test_island_gates_are_pinned(self):
+        """第7期的通行闸门条数与构件数只写在闸机自己的输出里，单测此前一条没钉——
+        删掉判据或把构件数改小都不会被单测抓到，所以在这里把盘上读数钉住。"""
+        import negtest_spatial
+        parts = json.loads((ROOT / '数据' / '河岸锚点核验.json').read_text(encoding='utf-8'))['构件']
+        self.assertEqual(parts['判据数'], 25)
+        self.assertEqual(parts['失败'], 0)
+        self.assertEqual((parts['桥梁'], parts['渡位'], parts['航线'], parts['山口']), (8, 13, 7, 7))
+        self.assertEqual((parts['岛上场地'], parts['湖底隧道'], parts['高空缆车']), (3, 1, 1))
+        self.assertEqual(len(negtest_spatial.cases()), 59)
 
 
 class AdmissionSource(unittest.TestCase):

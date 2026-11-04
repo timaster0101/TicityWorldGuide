@@ -54,7 +54,7 @@ class SourceShape(unittest.TestCase):
         self.assertEqual(len(self.src['参数']['交通']['方式']), 5)
         self.assertEqual([m['码'] for m in self.src['参数']['交通']['延后方式']], ['TR-AIR'])
         self.assertEqual([m['码'] for m in self.src['参数']['交通']['矩阵外方式']],
-                         ['TR-FERRY', 'TR-SHUTTLE'])
+                         ['TR-FERRY', 'TR-SHUTTLE', 'TR-TUNNEL', 'TR-CABLE'])
         self.assertEqual(len(self.src['参数']['圈层对']), 10)
         self.assertEqual(len(self.src['参数']['天气']['态']), 6)
         self.assertEqual(len(self.src['参数']['天气']['逐月游程']), 12)
@@ -119,12 +119,13 @@ class CanonDerived(unittest.TestCase):
                           '11': 'SEA-3', '12': 'SEA-4'})
 
     def test_matrix_outside_modes_are_carried_not_deferred(self):
-        """轮渡与山外接驳在第4期矩阵外单列查表，不进 50 格，也不再算「延后」。"""
-        self.assertEqual([m['码'] for m in self.canon['矩阵外方式']], ['TR-FERRY', 'TR-SHUTTLE'])
+        """轮渡、山外接驳与进岛的隧道／缆车在第4期矩阵外单列查表，不进 50 格，也不再算「延后」。"""
+        self.assertEqual([m['码'] for m in self.canon['矩阵外方式']],
+                         ['TR-FERRY', 'TR-SHUTTLE', 'TR-TUNNEL', 'TR-CABLE'])
         self.assertEqual(self.canon['汇总']['延后方式数'], 1)
-        self.assertEqual(self.canon['汇总']['矩阵外方式数'], 2)
+        self.assertEqual(self.canon['汇总']['矩阵外方式数'], 4)
         matrix_codes = {c['方式'] for c in self.canon['交通矩阵']}
-        self.assertEqual(matrix_codes & {'TR-FERRY', 'TR-SHUTTLE', 'TR-AIR'}, set())
+        self.assertEqual(matrix_codes & {'TR-FERRY', 'TR-SHUTTLE', 'TR-AIR', 'TR-TUNNEL', 'TR-CABLE'}, set())
 
     def test_deriver_is_byte_idempotent(self):
         import hashlib
@@ -208,7 +209,7 @@ class DocsSynced(unittest.TestCase):
         self.assertIn('运行参数源表.json', manual)
         self.assertIn('build_params.py', manual)
         self.assertIn('三十二条判据', manual)
-        self.assertIn('八十九类改坏', manual)
+        self.assertIn('九十四类改坏', manual)
         self.assertLess(manual.index('build_occupations.py'), manual.index('build_params.py'))
         entry = (ROOT / '阅读入口.md').read_text(encoding='utf-8')
         self.assertIn('运行参数设定.md', entry)
@@ -227,8 +228,49 @@ class RulingsEightyEight(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 118)
-        self.assertEqual(rows[-1]['编号'], 'C118')
+        self.assertEqual(len(rows), 120)
+        self.assertEqual(rows[-1]['编号'], 'C120')
+
+
+class FiveStatScaleC119(unittest.TestCase):
+    """刻度一换，卡牌点数与三份正文必须同时跟着重算：这条纪律以前只住在「有人记得改」里，
+    现在由跨度反推一次、再拿反推值去比对真源与正文，刻度改了而点数没改就红。"""
+
+    def test_points_and_prose_follow_the_scale(self):
+        skill = json.loads((ROOT / '数据' / '运行参数源表.json').read_text(encoding='utf-8'))['参数']['技能']
+        lo, hi = skill['五维刻度']
+        span = hi - lo
+        ratio = skill['五维微调比例']
+        per_card = round(span * ratio['单卡占跨度上限'])
+        per_dim = round(span * ratio['同维度累计占跨度上限'])
+        step = round(span * ratio['退化下限占跨度'])
+        self.assertEqual(skill['五维退化下限'], step)
+        adm = json.loads((ROOT / '数据' / '岗位准入源表.json').read_text(encoding='utf-8'))
+        family = next(f for f in adm['卡牌族'] if f['id'] == 'CRD-A3')
+        self.assertEqual(family['幅度上限'], f'单卡 {per_card} 点，同维度累计 {per_dim} 点')
+        prose = {
+            '运行参数设定.md': [f'{lo}—{hi} 的整数刻度', f'单卡微调 ≤{per_card} 点、同维度累计 ≤{per_dim} 点',
+                                f'每 12 个训练月 +{step} 点（上限 {hi}）', f'−{step} 点（下限 {step}'],
+            '产业与就业设定.md': [f'五维单卡不超过 {per_card} 点、同维度累计不超过 {per_dim} 点',
+                                  f'{lo}—{hi} 刻度下为 {per_card}／{per_dim} 点'],
+            '城市运行与居民生活模拟-待确认大纲.md': [f'单卡五维微调不超过 {per_card} 点、同维度累计不超过 {per_dim} 点'],
+        }
+        for doc, needles in prose.items():
+            text = (ROOT / doc).read_text(encoding='utf-8')
+            for needle in needles:
+                self.assertIn(needle, text)
+
+    def test_c119_records_the_hard_wording(self):
+        rows = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
+        by_id = {r['编号']: r for r in rows}
+        self.assertEqual(set(by_id['C119']), {'编号', '裁定', '原因', '影响'})
+        self.assertIn('三处数值一律改为按跨度反推', by_id['C119']['裁定'])
+        self.assertIn('下界非负且上界大于下界', by_id['C119']['裁定'])
+        self.assertIn('单卡 10 点，同维度累计 20 点', by_id['C119']['裁定'])
+        self.assertIn('旧校验把 2 与 4 两个点数直接写进', by_id['C119']['原因'])
+        self.assertIn('94/94 判红', by_id['C119']['影响'])
+        self.assertIn('分卷/原稿/*.md 零改动', by_id['C119']['影响'])
+        self.assertIn('计数钉 118→119', by_id['C119']['影响'])
 
 
 if __name__ == '__main__':

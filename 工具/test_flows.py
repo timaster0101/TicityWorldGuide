@@ -24,8 +24,8 @@ REGISTRY = json.loads((ROOT / '数据' / '城市空间名录.json').read_text(en
 
 class SummaryPins(unittest.TestCase):
     EXPECTED = {
-        '节庆条数': 18, '节庆占天次': 23, '机构数': 12, '公职条目数': 24,
-        '公职编制合计': 7453, '机构编制合计': 31960, '登记对象数': 5, '门禁项数': 12,
+        '节庆条数': 21, '节庆占天次': 29, '机构数': 14, '公职条目数': 24,
+        '公职编制合计': 7453, '机构编制合计': 32360, '登记对象数': 5, '门禁项数': 12,
         '共创步骤数': 7, '删除步骤数': 6, '删除字段数': 10, '调解主体数': 5,
         '争议类别数': 6, '拉黑动作数': 5, '合同存续数': 9, '事件模板数': 20,
         '负面模板数': 6, '随机触发数': 2, '税种数': 6, '采购档数': 4,
@@ -38,7 +38,7 @@ class SummaryPins(unittest.TestCase):
         self.assertEqual(got, self.EXPECTED)
 
     def test_season_day_split(self):
-        self.assertEqual(CANON['汇总']['节庆逐季占天'], {'SEA-1': 8, 'SEA-2': 4, 'SEA-3': 6, 'SEA-4': 5})
+        self.assertEqual(CANON['汇总']['节庆逐季占天'], {'SEA-1': 8, 'SEA-2': 6, 'SEA-3': 10, 'SEA-4': 5})
         self.assertEqual(sum(CANON['汇总']['节庆逐季占天'].values()), CANON['汇总']['节庆占天次'])
 
     def test_level_counts_add_up(self):
@@ -62,7 +62,7 @@ class FestivalCalendar(unittest.TestCase):
         self.assertEqual(CANON['setting_year'], 2013)
         days = [f['年内第几天'] for f in CANON['节庆年历']]
         self.assertEqual(days, sorted(days))
-        self.assertEqual(len({f['编号'] for f in CANON['节庆年历']}), 18)
+        self.assertEqual(len({f['编号'] for f in CANON['节庆年历']}), 21)
 
     def test_no_anchor_is_double_booked_on_the_same_day(self):
         seen = set()
@@ -74,12 +74,12 @@ class FestivalCalendar(unittest.TestCase):
                     self.assertNotIn((day.toordinal(), a), seen, f'{a} 在 {day} 撞档')
                     seen.add((day.toordinal(), a))
         self.assertEqual(len(seen), sum(f['日期跨度天'] * len(f['范围锚点']) for f in CANON['节庆年历']))
-        self.assertEqual(len(seen), 41)
+        self.assertEqual(len(seen), 54)
 
     def test_city_level_festivals_span_at_least_two_districts(self):
         types = {e['id']: e['type'] for e in REGISTRY['entries']}
         city = [f for f in CANON['节庆年历'] if f['级别'] == '城市']
-        self.assertEqual([f['编号'] for f in city], ['FE-02', 'FE-01', 'FE-06', 'FE-17'])
+        self.assertEqual([f['编号'] for f in city], ['FE-02', 'FE-01', 'FE-19', 'FE-06', 'FE-20', 'FE-17'])
         for f in city:
             self.assertIn('城市片区', {types.get(a, '构件') for a in f['范围锚点']}, f['编号'])
             self.assertGreaterEqual(len(f['范围锚点']), 2, f['编号'])
@@ -101,13 +101,14 @@ class GovernmentAndPosts(unittest.TestCase):
             if o['锚点岗位规模'] is not None:
                 self.assertLessEqual(o['同锚点编制合计'], o['锚点岗位规模'], o['编号'])
             else:
-                # D/R 类锚点在公司名录里没有岗位规模读数，机构编制只能靠自身编制封顶，缺读数以 None 明写
-                self.assertTrue(o['驻地锚点'][0] in 'DLR', o['编号'])
+                # D/R/P 类锚点在公司名录里没有岗位规模读数，机构编制只能靠自身编制封顶，缺读数以 None 明写
+                self.assertTrue(o['驻地锚点'][0] in 'DLRP', o['编号'])
             self.assertEqual({p['层级'] for p in CANON['公职'] if p['机构'] == o['编号']} - {o['层级']}, set())
 
-    def test_anchors_resolve_to_registry_or_period5_components(self):
-        component_codes = {r['码'] for key in ('桥梁', '渡位', '山口通道', '轮渡航线')
-                           for r in json.loads((ROOT / '数据' / '空间通行正典.json').read_text(encoding='utf-8'))[key]}
+    def test_anchors_resolve_to_registry_or_component_tables(self):
+        spatial = json.loads((ROOT / '数据' / '空间通行正典.json').read_text(encoding='utf-8'))
+        component_codes = {r['码'] for key in ('桥梁', '渡位', '山口通道', '轮渡航线',
+                                               '岛上场地', '湖底隧道', '高空缆车') for r in spatial[key]}
         ids = {e['id'] for e in REGISTRY['entries']} | component_codes
         for f in CANON['节庆年历']:
             for a in f['范围锚点']:
@@ -189,8 +190,8 @@ class RenderedTable(unittest.TestCase):
     def test_section_and_row_counts(self):
         import re
         self.assertEqual(len(re.findall(r'^## ', self.table, re.M)), 15)
-        self.assertEqual(len(re.findall(r'^\| FE-\d\d ', self.table, re.M)), 18)
-        self.assertEqual(len(re.findall(r'^\| ORG-\d\d ', self.table, re.M)), 12)
+        self.assertEqual(len(re.findall(r'^\| FE-\d\d ', self.table, re.M)), 21)
+        self.assertEqual(len(re.findall(r'^\| ORG-\d\d ', self.table, re.M)), 14)
         self.assertEqual(len(re.findall(r'^\| GOV-\d\d ', self.table, re.M)), 24)
         self.assertEqual(len(re.findall(r'^\| GT-\d\d ', self.table, re.M)), 12)
         self.assertEqual(len(re.findall(r'^\| EVT-\d\d ', self.table, re.M)), 20)
@@ -198,10 +199,10 @@ class RenderedTable(unittest.TestCase):
         self.assertEqual(len(re.findall(r'^\| (BR-|WH-|PA-|FR-|EXP-|TAX-|CUL-|UI-|STP-|COR-|MED-|DSP-|OBJ-)',
                                         self.table, re.M)), 57)
 
-    def test_festival_rows_have_twelve_columns(self):
+    def test_festival_rows_have_thirteen_columns(self):
         for line in self.table.splitlines():
             if line.startswith('| FE-'):
-                self.assertEqual(line.count('|'), 13, line[:40])
+                self.assertEqual(line.count('|'), 14, line[:40])
 
     def test_no_transport_damage_and_markdown_pipes_are_escaped(self):
         for token in ('禁止手改', '锚点岗位规模', '不适用，一律拒绝', '占天次', '第4期'):
@@ -225,9 +226,9 @@ class RenderedTable(unittest.TestCase):
 
 
 class GateReport(unittest.TestCase):
-    def test_gate_has_twenty_three_checks_and_is_green(self):
+    def test_gate_has_twenty_five_checks_and_is_green(self):
         report = json.loads((ROOT / '数据' / '流程制度核验.json').read_text(encoding='utf-8'))
-        self.assertEqual(report['检查项数'], 23)
+        self.assertEqual(report['检查项数'], 25)
         self.assertEqual(report['失败数'], 0)
         self.assertEqual(report['失败明细'], [])
         self.assertEqual(report['检查项'], CANON_CHECKS)
@@ -236,7 +237,7 @@ class GateReport(unittest.TestCase):
         import negtest_flows
         injected = {expected for _, _, expected in negtest_flows.cases()}
         self.assertEqual(injected, set(CANON_CHECKS))
-        self.assertEqual(len(negtest_flows.cases()), 24)
+        self.assertEqual(len(negtest_flows.cases()), 28)
 
 
 CANON_CHECKS = json.loads((ROOT / '数据' / '流程制度核验.json').read_text(encoding='utf-8'))['检查项']

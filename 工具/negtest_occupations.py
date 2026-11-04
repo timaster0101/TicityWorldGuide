@@ -259,6 +259,22 @@ def cases():
     def round_quota_below_month(c, a, s, p):
         p['参数']['事件']['负面配额']['每轮'] = 1
 
+    # —— 第 15 与 24 条的五维刻度换档（C119：点数一律按跨度反推，不许脱钩）——
+    def five_stat_scale_raised_without_points(c, a, s, p):
+        p['参数']['技能']['五维刻度'] = [0, 200]
+
+    def card_five_stat_points_inflated(c, a, s, p):
+        next(f for f in a['卡牌族'] if f['id'] == 'CRD-A3')['幅度上限'] = '单卡 12 点，同维度累计 20 点'
+
+    def five_stat_floor_decoupled(c, a, s, p):
+        p['参数']['技能']['五维退化下限'] = 1
+
+    def five_stat_ratio_key_missing(c, a, s, p):
+        p['参数']['技能']['五维微调比例'].pop('同维度累计占跨度上限')
+
+    def five_stat_lower_bound_negative(c, a, s, p):
+        p['参数']['技能']['五维刻度'] = [-20, 80]
+
     # —— 第 26 至 29 条（具名命名）——
     def named_without_name(c):
         first(c, lambda x: x['逐家具名'] and x['档位'] == 'T3')['名称'] = None
@@ -498,6 +514,11 @@ def cases():
         ('删掉年历一格使其不等于游程展开', year_table_missing_day, '天气年历: 正典'),
         ('个人冷却改成大于城市冷却', personal_cooldown_above_city, '冷却天须随级别单调不减'),
         ('每轮负面配额改成小于每自然月配额', round_quota_below_month, '每轮负面配额不得小于每自然月配额'),
+        ('五维刻度改成 0—200 但卡牌点数没跟着重算', five_stat_scale_raised_without_points, '卡牌边界: CRD-A3 五维点数'),
+        ('长期习惯卡的五维点数被手改大', card_five_stat_points_inflated, '不等于刻度跨度 100 反推的 [10, 20]'),
+        ('五维退化下限与跨度反推值脱钩', five_stat_floor_decoupled, '技能阈值: 五维退化下限'),
+        ('五维微调比例块少一个键', five_stat_ratio_key_missing, '五维微调比例 缺键'),
+        ('五维刻度下界改成负数', five_stat_lower_bound_negative, '下界为负或倒挂'),
         ('具名公司的名称被清空', named_without_name, '具名命名'),
         ('T1 统计条带上名称', statistic_row_named, '具名命名'),
         ('两家非顶端公司同名', duplicated_name, '具名命名'),

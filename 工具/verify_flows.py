@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-"""第5期流程与制度闸门：把 23 条判据独立复算一遍，不依赖派生器的守卫。
+"""第5期流程与制度闸门：把 25 条判据独立复算一遍，不依赖派生器的守卫。
 
-读 数据/流程制度正典.json 与 数据/流程制度源表.json，再用第1—5期各正典重算一遍应当得到的值。
+读 数据/流程制度正典.json 与 数据/流程制度源表.json，再用第1—7期各正典重算一遍应当得到的值。
 凡「有人改了第4期冷却」「改了合同类型字典而不补存续表」「改了名录坐标或岗位规模」「手改了正典」，
+「改了机构性质字典却不动机构表」「把岛上观众人数写得超过草地广场容量」，
 都在此判红而不是静默通过。跑法：python 工具/verify_flows.py
 """
 import datetime
@@ -21,7 +22,7 @@ CHECKS = [
     '调解受理闭合', '合同存续与字典一一对应', '事件冷却与第4期同源',
     '事件目录分级计数一致', '税率与采购分档自洽', '关系与文化阈值单调',
     '界面分级全覆盖且导出有产物', 'AI自由层引用闭合', '版本兼容逐行等于盘上',
-    '汇总与逐表行数一致',
+    '汇总与逐表行数一致', '机构性质与公职资格同源', '岛上峰值人数不越广场容量',
 ]
 
 WEEKDAYS = ('周一', '周二', '周三', '周四', '周五', '周六', '周日')
@@ -67,7 +68,8 @@ def check_flows(flows, src, run, adm, occ, reg, sp):
     year = flows['setting_year']
     by_id = {e['id']: e for e in reg['entries']}
     components = {}
-    for kind, label in (('桥梁', '桥'), ('渡位', '渡位'), ('山口通道', '山口'), ('轮渡航线', '航线')):
+    for kind, label in (('桥梁', '桥'), ('渡位', '渡位'), ('山口通道', '山口'), ('轮渡航线', '航线'),
+                        ('岛上场地', '岛上场地'), ('湖底隧道', '湖底隧道'), ('高空缆车', '高空缆车')):
         for r in sp[kind]:
             components[r['码']] = (r['名'], label)
     sea_of_month = run['月季节']
@@ -386,6 +388,31 @@ def check_flows(flows, src, run, adm, occ, reg, sp):
                 if w in text and not any(n in text for n in NEGATIONS)]
     issues.append(('汇总与逐表行数一致', sum_bad + text_bad))
 
+    # 24 机构性质与公职资格同源（性质字典只登记在源表，正典里的性质必须认得它）
+    nature = src['参数']['机构与公职'].get('性质字典', {})
+    nature_bad = []
+    for o in flows['机构']:
+        if o.get('性质') not in nature:
+            nature_bad.append(f'{o["编号"]} 性质 {o.get("性质")} 不在字典 {sorted(nature)} 里')
+        elif posts_by_org.get(o['编号']) and not nature[o['性质']]['可挂公职']:
+            nature_bad.append(f'{o["编号"]} 性质 {o["性质"]} 登记为不可挂公职却有公职')
+    issues.append(('机构性质与公职资格同源', nature_bad))
+
+    # 25 岛上峰值人数不越草地广场容量（广场容量只认第7期场地表，不在流程里重抄一遍）
+    grass = next((r for r in sp['岛上场地'] if r['类'] == '草地广场'), None)
+    island_codes = {r['码'] for r in sp['岛上场地']}
+    peak_bad = []
+    for f in flows['节庆年历']:
+        on_island = [a for a in f['范围锚点'] if a in island_codes]
+        peak = f.get('峰值人数')
+        if peak is not None and not on_island:
+            peak_bad.append(f'{f["编号"]} 峰值 {peak} 却没有任何岛上场地锚点')
+        if on_island and peak is None:
+            peak_bad.append(f'{f["编号"]} 挂岛上场地 {on_island} 却未登记峰值人数')
+        if peak is not None and grass and peak > grass['容量人']:
+            peak_bad.append(f'{f["编号"]} 峰值 {peak} 超{grass["名"]}容量 {grass["容量人"]}')
+    issues.append(('岛上峰值人数不越广场容量', peak_bad))
+
     return [(name, bad) for name, bad in issues]
 
 
@@ -409,7 +436,9 @@ def main():
                   details={name: bad for name, bad in results},
                   rule='第5期流程与制度：节庆按 2013 公共日历复算且不冲突，公职只作背景登记且不进岗位名录，'
                        '事件冷却与预告天逐条与第4期同源，合同存续与合同类型字典一一对应，'
-                       '版本兼容逐行等于盘上实际 version，汇总与逐表行数一致。')
+                       '版本兼容逐行等于盘上实际 version，汇总与逐表行数一致；'
+                       '第7期补两条：机构性质只能取自源表的性质字典且登记为不可挂公职的机构不得有公职，'
+                       '挂了钛马岛场地的节庆必须登记峰值人数，峰值不得越过草地广场的观演容量。')
     (ROOT / '数据' / '流程制度核验.json').write_bytes(
         (json.dumps(output, ensure_ascii=False, indent=2) + '\n').encode('utf-8'))
     print(json.dumps(dict(检查项数=len(results), 失败数=len(failures), failures=failures), ensure_ascii=False, indent=2))

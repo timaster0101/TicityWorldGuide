@@ -28,6 +28,7 @@ FACNUM = re.compile(r'(?:朝|向)\s*(\d{2,3})\s*°')
 FACE = re.compile(r'(?:朝|向|面向)\s*(' + DIRECTION + r')(?:偏(' + DIRECTION + '))?')
 WATER = re.compile(r'(?:机位|相机|架机|设机|镜头)[^。；]{0,14}(?:湖面|水面|水上|船上|浮台)'
                    r'|(?:湖面|水面|水上|船上|浮台)[^。；]{0,10}(?:架机|设机|机位)')
+ISLAND_WORD = re.compile(r'钛马岛|岛上')
 
 
 def sections_of(body):
@@ -55,6 +56,16 @@ def offset(b, facing):
 
 def in_lake(p):
     return (p[0] / LAKE['east_west_semiaxis_km']) ** 2 + (p[1] / LAKE['north_south_semiaxis_km']) ** 2 <= 1
+
+
+def on_island(p):
+    """钛马岛在湖椭圆之内却是干地：机位落进岛椭圆时不得按「落水」要求水面措辞，改按岛上措辞判。"""
+    isl = LAKE.get('island')
+    if isl is None:
+        return False
+    cx, cy = isl['center_km']
+    return (((p[0] - cx) / isl['east_west_semiaxis_km']) ** 2
+            + ((p[1] - cy) / isl['north_south_semiaxis_km']) ** 2) <= 1
 
 
 def in_sector(p, sector):
@@ -112,8 +123,10 @@ for eid, entry in sorted(BYID.items()):
         issues.append('取景段无可解析的拍摄朝向')
     if lens is None:
         issues.append('取景段未给镜头焦距，无法算水平视锥')
-    if cam is not None and in_lake(cam) and not WATER.search(seg):
+    if cam is not None and in_lake(cam) and not on_island(cam) and not WATER.search(seg):
         issues.append('机坐标落在钛湖水面内，但取景段未说明是水面或船上机位')
+    if cam is not None and on_island(cam) and not ISLAND_WORD.search(seg):
+        issues.append('机坐标落在钛马岛上，但取景段未写明岛上的位置：岛与城没有桥，机位要说清是怎么到岛上的')
     if cam is not None and entry['type'] == '城市片区':
         if not in_sector(cam, entry['sector']):
             issues.append('机位不在本片区扇区内')
@@ -142,7 +155,8 @@ other_fail = [r for r in others if r['issues']]
 gated = district_fail + other_fail if args.all else district_fail
 
 output = dict(
-    rule='城市片区取景段须给出机位坐标、镜头焦距与离地高度：机位在本片区扇区角与半径带内、不无说明落水、'
+    rule='城市片区取景段须给出机位坐标、镜头焦距与离地高度：机位在本片区扇区角与半径带内、不无说明落水（落进钛马岛'
+         '椭圆算干地，改按「须写明岛上位置」判，湖水面措辞不顶账）、'
          '离地不低于20米、本片区全部下属标志性建筑落在按 atan(36/2/焦距) 算出的水平视锥内且留3°余量；'
          '默认只判红城市片区，--all 把其余244条一并纳入。',
     checked=len(results),

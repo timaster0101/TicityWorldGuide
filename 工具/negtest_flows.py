@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """第5期流程与制度闸门的违例自检：把闸门与七份数据复制到临时目录，逐条改坏正典或源表，断言闸门必须判红且给出该条自己的措辞。
 
-闸门只会打印「全绿」，无法自证它抓得住违例；本脚本按 23 条判据反向注入 24 例，只操作临时副本，
+闸门只会打印「全绿」，无法自证它抓得住违例；本脚本按 25 条判据反向注入 28 例，只操作临时副本，
 绝不改动被守护的仓库文件。跑完复核夹具零残留。
 跑法：python 工具/negtest_flows.py
 """
@@ -183,6 +183,26 @@ def cases():
     def disruption_allowed(c):
         c['参数']['调解与争议']['争议类别'][0]['跳过结算'] = '可直接封闭路线并临时调价结算'
 
+    def org_nature_unknown(c):
+        row(c['机构'], '编号', 'ORG-03')['性质'] = '商业公司'
+
+    def org_edu_with_posts(c):
+        """性质换成「不可挂公职」这一档，公职表一行不动——公共教育组织只该有成员与教员。"""
+        row(c['机构'], '编号', 'ORG-01')['性质'] = '公共教育组织'
+
+    def island_peak_over_grass(c):
+        f = row(c['节庆年历'], '编号', 'FE-19')
+        f['峰值人数'] = next(r['容量人'] for r in sp_sites() if r['类'] == '草地广场') + 800
+
+    def island_peak_off_island(c):
+        f = c['节庆年历'][0]
+        assert all(a not in ('PL-01', 'PL-02', 'PL-03') for a in f['范围锚点']), f['编号']
+        f['峰值人数'] = 1200
+
+    def sp_sites():
+        sp = json.loads((ROOT / '数据' / '空间通行正典.json').read_text(encoding='utf-8'))
+        return sp['岛上场地']
+
     return [
         ('节庆星期手改', fest_weekday, '节庆日期可复算'),
         ('档期拉长撞同一锚点同一天', fest_clash, '节庆排期无冲突'),
@@ -208,6 +228,10 @@ def cases():
         ('版本兼容声明与盘上脱钩', compat_version, '版本兼容逐行等于盘上'),
         ('汇总计数手改', summary_count, '汇总与逐表行数一致'),
         ('流程里写出无否定式的封闭许可', disruption_allowed, '汇总与逐表行数一致'),
+        ('机构性质写出字典外', org_nature_unknown, '机构性质与公职资格同源'),
+        ('带公职的机构改成不可挂公职', org_edu_with_posts, '机构性质与公职资格同源'),
+        ('岛上演唱会峰值超广场容量', island_peak_over_grass, '岛上峰值人数不越广场容量'),
+        ('陆地节庆登记了峰值人数', island_peak_off_island, '岛上峰值人数不越广场容量'),
     ]
 
 

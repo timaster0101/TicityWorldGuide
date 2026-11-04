@@ -49,6 +49,8 @@ def cases():
 
     d11 = cam('D11')
     d11_low = '(%s,%.3f)' % (COORD_RE.search(seg['D11']).group(1), sectors['D11']['inner_radius_km'] - 0.9)
+    isl = inner['lake']['island']['center_km']
+    on_isl = '(%.3f,%.3f)' % (isl[0], isl[1])
     return [
         ('整段退回1.6米平视旧口径', 'D01', ('whole', EYELEVEL), '未全部入画'),
         ('外环片区机位落入内湖环半径带', 'D11', ('replace', d11, d11_low), '机位不在本片区扇区内'),
@@ -56,6 +58,10 @@ def cases():
         ('机位无说明落进钛湖水面', 'D03', ('replace', cam('D03'), '(0.000,1.000)'), '落在钛湖水面内'),
         ('俯瞰机位降到人眼高度', 'D05', ('replace', '机位离地55米', '机位离地1.6米'), '离地不低于20米'),
         ('删掉镜头焦距', 'D01', ('replace', '35毫米朝南拍摄', '朝南拍摄'), '未给镜头焦距'),
+        ('机位挪到钛马岛上不写明', 'D10', ('replace', cam('D10'), on_isl), '落在钛马岛上'),
+        ('岛上机位只写湖面措辞', 'D10', ('replace', cam('D10'), on_isl + '千米，湖面架机'), '落在钛马岛上'),
+        ('岛上机位写明钛马岛后不得再按落水判', 'D10',
+         ('replace', cam('D10'), on_isl + '千米，钛马岛上机位'), '不含:落在钛湖水面内'),
     ]
 
 
@@ -96,6 +102,13 @@ def run_gate(fix):
     return proc.returncode, (proc.stdout or '') + (proc.stderr or '')
 
 
+def judge(expected, rc, out):
+    """「不含:xxx」是反向断言：注入后闸门不得再报出 xxx——用来钉住「岛椭圆算干地、不按落水判」这条排除。"""
+    if expected.startswith('不含:'):
+        return rc == 1 and expected.split(':', 1)[1] not in out
+    return rc == 1 and expected in out
+
+
 results = []
 for name, did, how, expected in cases():
     fix = fixture()
@@ -109,7 +122,7 @@ for name, did, how, expected in cases():
                 hit += 1
         assert hit == 1, '夹具命中 %d 处，应为 1 处' % hit
         rc, out = run_gate(fix)
-        red = rc == 1 and expected in out
+        red = judge(expected, rc, out)
         results.append(dict(case=name, entry=did, expected=expected, rc=rc, red=red))
         if red:
             print('OK %s（%s）判红 rc=%s，命中「%s」' % (name, did, rc, expected))

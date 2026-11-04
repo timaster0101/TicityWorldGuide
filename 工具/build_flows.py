@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""第5期流程与制度派生器：读 流程制度源表.json ＋ 第1—5期各正典，产出节庆年历、公职名录、事件目录与六张查表。
+"""第5期流程与制度派生器（第7期补钛马岛）：读 流程制度源表.json ＋ 第1—7期各正典，产出节庆年历、公职名录、事件目录与六张查表。
 
 手填只有十三组登记值；星期与季节、编制小计与锚点规模、事件冷却与预告天、合同存续名称、门禁项承载脚本
 与版本号一律是本文件的生成物。跑法：python 工具/build_flows.py [--out-dir DIR] [--print-summary]
@@ -42,9 +42,14 @@ SEASON_NAME = {sea: info['名'] for sea, info in RUN['参数']['季节月份'].i
 
 ANCHOR_BY_ID = {e['id']: e for e in REGISTRY['entries']}
 COMPONENT_BY_ID = {}
-for _rows, _label in (('桥梁', '桥'), ('渡位', '渡位'), ('山口通道', '山口'), ('轮渡航线', '航线')):
+for _rows, _label, _phase in (('桥梁', '桥', '第5期'), ('渡位', '渡位', '第5期'),
+                              ('山口通道', '山口', '第5期'), ('轮渡航线', '航线', '第5期'),
+                              ('岛上场地', '岛上场地', '第7期'), ('湖底隧道', '湖底隧道', '第7期'),
+                              ('高空缆车', '高空缆车', '第7期')):
     for _r in SPATIAL[_rows]:
-        COMPONENT_BY_ID[_r['码']] = {'name': _r['名'], 'type': _label}
+        COMPONENT_BY_ID[_r['码']] = {'name': _r['名'], 'type': _label, 'phase': _phase}
+ISLAND_SITES = {r['码']: r for r in SPATIAL['岛上场地']}
+GRASS_SQUARE = next(r for r in SPATIAL['岛上场地'] if r['类'] == '草地广场')
 ANCHOR_EMPLOYEES = {}
 for _corp in OCCUPATION['公司']:
     ANCHOR_EMPLOYEES[_corp['锚点']] = ANCHOR_EMPLOYEES.get(_corp['锚点'], 0) + _corp['雇员数']
@@ -55,14 +60,14 @@ MONTH_OF_SEA = RUN['月季节']
 
 
 def resolve_anchor(a_id, where):
-    """锚点可以是名录条目，也可以是第5期构件；两处都查不到即退出。"""
+    """锚点可以是名录条目，也可以是第5期/第7期构件表里的承载体；两处都查不到即退出。"""
     if a_id in ANCHOR_BY_ID:
         e = ANCHOR_BY_ID[a_id]
         return {'码': a_id, '名': e['name'], '层级': e['type'], '种类': '名录'}
     if a_id in COMPONENT_BY_ID:
         c = COMPONENT_BY_ID[a_id]
-        return {'码': a_id, '名': c['name'], '层级': f'第5期{c["type"]}', '种类': '构件'}
-    raise SystemExit(f'{where} 的锚点 {a_id} 既不在名录也不在第5期构件里：节庆与机构只能落在有承载体的位置')
+        return {'码': a_id, '名': c['name'], '层级': f'{c["phase"]}{c["type"]}', '种类': '构件'}
+    raise SystemExit(f'{where} 的锚点 {a_id} 既不在名录也不在构件表里：节庆与机构只能落在有承载体的位置')
 
 
 def build_festivals():
@@ -107,6 +112,18 @@ def build_festivals():
             raise SystemExit(f'节庆 {r["编号"]} 记为片区级却只有聚落或居民区锚点：聚落级活动应记为社区级')
         if r['级别'] == '城市' and ('城市片区' not in kinds or len(r['范围锚点']) < 2):
             raise SystemExit(f'节庆 {r["编号"]} 记为城市级却不足两个锚点或未含城市片区：跨片区才算城市级')
+    for r in rows:
+        on_island = [a for a in r['范围锚点'] if a in ISLAND_SITES]
+        peak = r.get('峰值人数')
+        if peak is not None and not on_island:
+            raise SystemExit(f'节庆 {r["编号"]} 登记峰值 {peak} 人却没有岛上场地锚点：'
+                             f'峰值人数只用于钛马岛的观演承载，城里的人数另按第5期锚点算')
+        if on_island and peak is None:
+            raise SystemExit(f'节庆 {r["编号"]} 挂了岛上场地 {on_island} 却没登记峰值人数：'
+                             f'进岛的观众要有承载力判定，不能空着')
+        if peak is not None and peak > GRASS_SQUARE['容量人']:
+            raise SystemExit(f'节庆 {r["编号"]} 峰值 {peak} 人超过{GRASS_SQUARE["名"]}容量 '
+                             f'{GRASS_SQUARE["容量人"]} 人：岛上只装得下草地广场的承载力')
     return rows, days_of_sea
 
 
@@ -120,6 +137,7 @@ def _each_day(start, end):
 def build_orgs():
     posts = P['机构与公职']['公职']
     orgs = P['机构与公职']['机构']
+    nature = P['机构与公职']['性质字典']
     org_ids = {o['编号'] for o in orgs}
     post_ids = {p['编号'] for p in posts}
     if len(post_ids) != len(posts) or len(org_ids) != len(orgs):
@@ -133,8 +151,14 @@ def build_orgs():
     for o in orgs:
         if o['层级'] not in GOV_LEVELS:
             raise SystemExit(f'机构 {o["编号"]} 的层级 {o["层级"]} 不属城市—片区—社区三级')
+        if o.get('性质') not in nature:
+            raise SystemExit(f'机构 {o["编号"]} 的性质「{o.get("性质")}」不在性质字典里：'
+                             f'只有 {sorted(nature)} 两种，别自造第三种')
         anchor = resolve_anchor(o['驻地锚点'], f'机构 {o["编号"]}')
         listed = by_org.get(o['编号'], [])
+        if listed and not nature[o['性质']]['可挂公职']:
+            raise SystemExit(f'机构 {o["编号"]} 的性质「{o["性质"]}」登记为不可挂公职，'
+                             f'却挂了公职 {sorted(p["编号"] for p in listed)}：公共教育组织只有成员与教员')
         sub_total = sum(p['编制'] for p in listed)
         if sub_total > o['编制']:
             raise SystemExit(f'机构 {o["编号"]} 登记公职 {sub_total} 人超过编制 {o["编制"]}：只能少不能多')
@@ -449,21 +473,21 @@ def render_table(canon):
          f'事件模板 {canon["汇总"]["事件模板数"]} 条、合同存续 {canon["汇总"]["合同存续数"]} 条。', '']
 
     L += ['## 一、节庆与纪念日年历（2013 公共日历，零随机）', '',
-          '| 编号 | 名称 | 类型 | 级别 | 起 | 止 | 星期 | 年内第几天 | SEA | 季节 | 天数 | 锚点 |',
-          '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |']
+          '| 编号 | 名称 | 类型 | 级别 | 起 | 止 | 星期 | 年内第几天 | SEA | 季节 | 天数 | 峰值人数 | 锚点 |',
+          '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |']
     for f in canon['节庆年历']:
         L.append(f'| {f["编号"]} | {f["名称"]} | {f["类型"]} | {f["级别"]} | {f["月"]}-{f["日"]:02d} | '
                  f'{f["结束月"]}-{f["结束日"]:02d} | {f["星期"]} | {f["年内第几天"]} | {f["SEA"]} | {f["季节名"]} | '
-                 f'{f["日期跨度天"]} | {_md([a["码"] + " " + a["名"] for a in f["锚点明细"]])} |')
+                 f'{f["日期跨度天"]} | {_cell(f.get("峰值人数"))} | {_md([a["码"] + " " + a["名"] for a in f["锚点明细"]])} |')
     L += ['', '| 季 | 占天次 |', '| --- | --- |']
     for sea, n in canon['汇总']['节庆逐季占天'].items():
         L.append(f'| {sea}（{SEASON_NAME[sea]}） | {n} |')
 
     L += ['', '## 二、公共机构与背景公职（不进岗位名录）', '',
-          '| 编号 | 名称 | 层级 | 驻地 | 驻地类型 | 编制 | 登记公职数 | 登记编制小计 | 锚点岗位规模 | 公开信息 |',
-          '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |']
+          '| 编号 | 名称 | 性质 | 层级 | 驻地 | 驻地类型 | 编制 | 登记公职数 | 登记编制小计 | 锚点岗位规模 | 公开信息 |',
+          '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |']
     for o in canon['机构']:
-        L.append(f'| {o["编号"]} | {o["名称"]} | {o["层级"]} | {o["驻地"]["码"]} {o["驻地"]["名"]} | '
+        L.append(f'| {o["编号"]} | {o["名称"]} | {o["性质"]} | {o["层级"]} | {o["驻地"]["码"]} {o["驻地"]["名"]} | '
                  f'{o["驻地"]["层级"]} | {o["编制"]} | {o["登记公职数"]} | {o["登记编制小计"]} | '
                  f'{_cell(o["锚点岗位规模"])} | {o["公开信息"]} |')
     L += ['', '| 编号 | 名称 | 机构 | 层级 | 参照层 | 编制 | 职责 |', '| --- | --- | --- | --- | --- | --- | --- |']

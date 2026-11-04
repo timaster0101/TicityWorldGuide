@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""空间闸门：河流锚点缓冲专项＋第5期通行构件十八判。构件侧只读落盘正典与源表，几何与耗时全部另抄一份算式复核。
+"""空间闸门：河流锚点缓冲专项＋通行构件二十五判（第7期含钛马岛三条进岛通路）。构件侧只读落盘正典与源表，几何与耗时全部另抄一份算式复核。
 
 跑法：python 工具/verify_spatial.py。任一判红即非零退出，compile_book.py 会因此停住汇编。
 """
@@ -7,6 +7,8 @@ import json
 import math
 import re
 from pathlib import Path
+
+from anchors import entry_ring, pair_key, RINGS
 
 ROOT = Path(__file__).resolve().parents[1]
 data = json.loads((ROOT / '数据' / '城市空间名录.json').read_text(encoding='utf-8'))
@@ -21,7 +23,6 @@ if not SP_PATH.exists():
 SPCANON = json.loads(SP_PATH.read_text(encoding='utf-8'))
 SPSRC = json.loads((ROOT / '数据' / '空间通行源表.json').read_text(encoding='utf-8'))
 PRMSRC = json.loads((ROOT / '数据' / '运行参数源表.json').read_text(encoding='utf-8'))
-from anchors import entry_ring, pair_key
 
 
 def distance_to_segment(p, a, b):
@@ -62,6 +63,55 @@ def acute(a, b):
 
 def lake_norm(p):
     return (p[0] / LAKE['east_west_semiaxis_km']) ** 2 + (p[1] / LAKE['north_south_semiaxis_km']) ** 2
+
+
+ISL = LAKE.get('island')
+
+
+def island_norm(p):
+    """钛马岛示意椭圆的归一化值；名录没有岛时返回 inf，让岛相关判据自己判红。"""
+    if ISL is None:
+        return float('inf')
+    cx, cy = ISL['center_km']
+    return (((p[0] - cx) / ISL['east_west_semiaxis_km']) ** 2
+            + ((p[1] - cy) / ISL['north_south_semiaxis_km']) ** 2)
+
+
+def lerp(a, b, t):
+    return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]
+
+
+def seg_min(f, a, b, n=400):
+    return min(f(lerp(a, b, i / n)) for i in range(n + 1))
+
+
+def ellipse_edge(center, ia, ib, f, n=360):
+    """沿示意椭圆边界取某个归一化函数的最大值：岛是否整块落在湖内、场地是否整块落在岛内都靠它判。"""
+    cx, cy = center
+    return max(f([cx + ia * math.cos(math.pi * i / 180), cy + ib * math.sin(math.pi * i / 180)])
+               for i in range(n))
+
+
+def ellipse_gap(center, ia, ib, other_center, other_ia, other_ib, n=360):
+    """两个示意椭圆边界之间的最小距离（千米）。"""
+    pa = [[center[0] + ia * math.cos(math.pi * i / 180), center[1] + ib * math.sin(math.pi * i / 180)]
+          for i in range(n)]
+    pb = [[other_center[0] + other_ia * math.cos(math.pi * j / 180),
+           other_center[1] + other_ib * math.sin(math.pi * j / 180)] for j in range(n)]
+    return min(math.hypot(x[0] - y[0], x[1] - y[1]) for x in pa for y in pb)
+
+
+def pair_key_ext(x, y):
+    if '湖岛' not in (x, y):
+        return pair_key(x, y)
+    rank = {k: i for i, k in enumerate(RINGS)}
+    return '|'.join(sorted((x, y), key=lambda k: rank.get(k, len(RINGS))))
+
+
+def wet_length(a, b, line, n=4000):
+    """水下段＝在湖椭圆内但不在岛椭圆内的采样占比乘洞身长。"""
+    hit = sum(1 for i in range(n + 1) if lake_norm(lerp(a, b, i / n)) < 1.0 and island_norm(lerp(a, b, i / n)) >= 1.0)
+    return hit / n * line
 
 
 def mid(a, b):
@@ -138,11 +188,15 @@ def spatial_issues(canon, src, prm):
     out = []
     t = src['参数']['容差']
     brid, whar, routes, passes = canon['桥梁'], canon['渡位'], canon['轮渡航线'], canon['山口通道']
-    # 1 行数与编号：正典四表必须与源表逐行对应，编号唯一且格式统一
+    sites_rows, tn, cb = canon.get('岛上场地', []), canon.get('湖底隧道', []), canon.get('高空缆车', [])
+    # 1 行数与编号：正典七表必须与源表逐行对应，编号唯一且格式统一
     rows_by_name = [('桥梁', brid, r'^BR-\d{2}$', src['参数']['桥梁']),
                     ('渡位', whar, r'^WH-\d{2}$', src['参数']['轮渡']['渡位']),
                     ('航线', routes, r'^FR-\d{2}$', src['参数']['轮渡']['航线']),
-                    ('山口', passes, r'^PA-\d{2}$', src['参数']['山口通道']['通道'])]
+                    ('山口', passes, r'^PA-\d{2}$', src['参数']['山口通道']['通道']),
+                    ('岛上场地', sites_rows, r'^PL-\d{2}$', src['参数']['湖岛']['岛上场地']),
+                    ('湖底隧道', tn, r'^TN-\d{2}$', src['参数']['湖底隧道']['隧道']),
+                    ('高空缆车', cb, r'^CB-\d{2}$', src['参数']['高空缆车']['线路'])]
     for nm, rows, pat, want in rows_by_name:
         if len(rows) != len(want):
             out.append(f'行数: {nm} 正典 {len(rows)} 行，源表 {len(want)} 行')
@@ -157,6 +211,18 @@ def spatial_issues(canon, src, prm):
     # 2 锚点引用与可达复算：连接／服务／门户锚点须在名录内，且构件到锚点距离不超该圈层上限
     reach = t['锚点可达半径上限千米']
     whm = {r['码']: r for r in whar}
+    sites = {r['码']: r for r in canon.get('岛上场地', [])}
+
+    def service(aid):
+        """服务锚点可以是名录条目，也可以是岛上场地：PL- 码按场地解析，圈层记「湖岛」。"""
+        if aid in sites:
+            return sites[aid]['中心km'], '湖岛', t['岛内步行上限千米']
+        e = BY_ID.get(aid)
+        if e is None:
+            return None, None, None
+        ring = entry_ring(e, BY_ID)
+        return e['center_km'], ring, reach.get(ring)
+
     for r in brid:
         for k, aid, pos in (('连接A', r['连接A'], mid(r['桥头A_km'], r['桥头B_km'])),
                             ('连接B', r['连接B'], mid(r['桥头A_km'], r['桥头B_km']))):
@@ -176,14 +242,14 @@ def spatial_issues(canon, src, prm):
             out.append(f'引用: {r["码"]} 引用了不存在的渡位')
             continue
         for k, aid, pos in (('服务A', r['服务A'], a['坐标km']), ('服务B', r['服务B'], b['坐标km'])):
-            if aid not in BY_ID:
-                out.append(f'引用: {r["码"]} 的{k} {aid} 不在名录内')
+            pos2, ring, lim = service(aid)
+            if pos2 is None:
+                out.append(f'引用: {r["码"]} 的{k} {aid} 既不在名录也不在岛上场地表内')
                 continue
-            ring = entry_ring(BY_ID[aid], BY_ID)
-            if ring not in reach:
+            if lim is None:
                 out.append(f'引用: {r["码"]} {k} 的圈层 {ring} 没有可达半径口径')
-            elif straight(pos, BY_ID[aid]['center_km']) > reach[ring]:
-                out.append(f'可达: {r["码"]} 渡位到 {aid} 超过{ring}上限 {reach[ring]} 千米')
+            elif straight(pos, pos2) > lim:
+                out.append(f'可达: {r["码"]} 渡位到 {aid} 超过{ring}上限 {lim} 千米')
     for r in passes:
         if r['门户'] not in BY_ID:
             out.append(f'引用: {r["码"]} 的门户 {r["门户"]} 不在名录内')
@@ -228,12 +294,17 @@ def spatial_issues(canon, src, prm):
         fmin = min(lake_norm([a[0] + (b[0] - a[0]) * i / 100, a[1] + (b[1] - a[1]) * i / 100]) for i in range(101))
         if fmin < t['湖内判据下限']:
             out.append(f'桥穿湖: {r["码"]} 线段最小归一化值 {fmin:.2f}，湖心不架桥')
-    # 8 渡位贴岸：临湖看椭圆贴合，临河看离轴余量区间
+    # 8 渡位贴岸：临湖看椭圆贴合（主岸贴湖岸、岛岸贴岛岸），临河看离轴余量区间
     lo_m, hi_m = t['渡位贴岸余量区间米']
     for r in whar:
         if r['临'] == '湖':
-            if abs(lake_norm(r['坐标km']) - 1.0) > t['湖岸椭圆贴合容差']:
-                out.append(f'渡位岸线: {r["码"]} 临湖但归一化值 {lake_norm(r["坐标km"]):.4f} 不贴岸线')
+            if r.get('岸别') == '岛岸':
+                got = island_norm(r['坐标km'])
+                if abs(got - 1.0) > t['岛岸椭圆贴合容差']:
+                    out.append(f'渡位岸线: {r["码"]} 标为岛岸但岛归一化值 {got:.4f} 不贴岛岸线')
+            else:
+                if abs(lake_norm(r['坐标km']) - 1.0) > t['湖岸椭圆贴合容差']:
+                    out.append(f'渡位岸线: {r["码"]} 临湖但归一化值 {lake_norm(r["坐标km"]):.4f} 不贴岸线')
         else:
             river = RIVERS.get(r['临'])
             if river is None:
@@ -331,13 +402,13 @@ def spatial_issues(canon, src, prm):
     missing = [k for k in ('内湖环', '外城环', '产业小镇', '特色村落') if k not in served]
     if missing:
         out.append(f'圈层覆盖: {missing} 没有任何通行构件服务')
-    # 17 与第4期同源：延后方式只剩机场班机，轮渡与山外接驳登记为矩阵外方式且不进矩阵
+    # 17 与第4期同源：延后方式只剩机场班机，轮渡、山外接驳与进岛的隧道／缆车登记为矩阵外方式且不进矩阵
     sp = prm['参数']['交通']
     deferred = [m['码'] for m in sp['延后方式']]
     outside = [m['码'] for m in sp.get('矩阵外方式', [])]
     if deferred != ['TR-AIR']:
         out.append(f'第4期同源: 延后方式应只剩 TR-AIR，实得 {deferred}')
-    if sorted(outside) != ['TR-FERRY', 'TR-SHUTTLE']:
+    if sorted(outside) != ['TR-CABLE', 'TR-FERRY', 'TR-SHUTTLE', 'TR-TUNNEL']:
         out.append(f'第4期同源: 矩阵外方式码集不合，实得 {sorted(outside)}')
     for m in sp.get('矩阵外方式', []):
         if m.get('真源') != '数据/空间通行源表.json':
@@ -355,19 +426,235 @@ def spatial_issues(canon, src, prm):
         out.append('汇总: 穿湖桥数与桥表不符')
     if s['最长航线km'] != max(r['航段km'] for r in routes):
         out.append('汇总: 最长航线与航线表不符')
-    bad_pair = [r['码'] for r in brid + routes if r['圈层对'] != pair_key(r['A圈层'], r['B圈层'])]
+    bad_pair = [r['码'] for r in brid + routes if r['圈层对'] != pair_key_ext(r['A圈层'], r['B圈层'])]
+    bad_pair += [r['码'] for r in tn + cb if r['圈层对'] != pair_key_ext(r['岸侧圈层'], '湖岛')]
     if bad_pair:
         out.append(f'汇总: 圈层对键名不规范 {bad_pair[:4]}')
+    # 19 湖岛几何同源：岛只登记在名录 lake.island，正典与闸门都从同一份半轴派生
+    isl = ISL
+    if isl is None:
+        out.append('湖岛几何: 名录没有 lake.island：进出岛三通路没有可复核的岛轮廓')
+    else:
+        ia, ib = isl['east_west_semiaxis_km'], isl['north_south_semiaxis_km']
+        if abs(isl['area_km2'] - math.pi * ia * ib) > 0.0001:
+            out.append(f'湖岛几何: 岛面积 {isl["area_km2"]} 与半轴椭圆面积 {math.pi * ia * ib:.4f} 不闭合')
+        if lake_norm(isl['center_km']) >= 1.0:
+            out.append('湖岛几何: 岛心落在湖岸之外')
+        edge = ellipse_edge(isl['center_km'], ia, ib, lake_norm)
+        if edge >= 1.0:
+            out.append(f'湖岛几何: 岛边界湖f {edge:.4f} 已到湖岸之外：岛必须完全在钛湖内')
+        if abs(edge - isl['lake_f_at_boundary_max']) > 0.01:
+            out.append(f'湖岛几何: 名录声明边界湖f {isl["lake_f_at_boundary_max"]}，复算 {edge:.4f}')
+        gap = ellipse_gap(isl['center_km'], ia, ib, LAKE['center_km'],
+                          LAKE['east_west_semiaxis_km'], LAKE['north_south_semiaxis_km'])
+        if gap < t['岛岸到湖岸下限千米']:
+            out.append(f'湖岛几何: 岛岸到湖岸最小 {gap:.3f} 千米，低于 {t["岛岸到湖岸下限千米"]} 千米：水道太窄就不成岛')
+        if abs(gap - isl['shore_gap_to_lakeline_km']) > 0.01:
+            out.append(f'湖岛几何: 名录声明岸距 {isl["shore_gap_to_lakeline_km"]} 千米，复算 {gap:.3f} 千米')
+        if abs(LAKE['open_water_km2'] - (LAKE['area_km2'] - isl['area_km2'])) > 0.0001:
+            out.append(f'湖岛几何: 净水面 {LAKE["open_water_km2"]} 与总面积减岛面积不闭合')
+        on_isl = [e['id'] for e in ENTRIES if island_norm(e['center_km']) <= 1.0]
+        if on_isl:
+            out.append(f'湖岛几何: 名录锚点落进钛马岛 {on_isl[:4]}：岛不进 312 条名录')
+        src_isl = src['参数']['湖岛']
+        if '城市空间名录.json' not in str(src_isl.get('几何真源', '')):
+            out.append('湖岛几何: 源表 湖岛.几何真源 没指向名录：岛几何出现两个真源')
+    # 20 岛上场地：中心与边界都在岛椭圆内，面积由半轴派生，观演容量按有效比例×密度复算，场地互不重叠
+    for r in sites_rows:
+        if island_norm(r['中心km']) >= 1.0:
+            out.append(f'场地几何: {r["码"]} 中心在岛外（岛f {island_norm(r["中心km"]):.3f}）')
+        edge = ellipse_edge(r['中心km'], r['半轴km'][0], r['半轴km'][1], island_norm)
+        if edge >= 1.0:
+            out.append(f'场地几何: {r["码"]} 边界出岛（岛f最大 {edge:.3f}）')
+        if abs(r['面积km2'] - round(math.pi * r['半轴km'][0] * r['半轴km'][1], 4)) > 0.0002:
+            out.append(f'场地几何: {r["码"]} 面积与半轴派生值不符')
+        if r['类'] == '草地广场':
+            cap = int(r['草地有效比例'] * r['观演密度人_平方米'] * r['面积km2'] * 1e6) // 100 * 100
+            if cap != r['容量人']:
+                out.append(f'场地容量: {r["码"]} 正典 {r["容量人"]} 人，复算 {cap} 人')
+        elif '容量人' in r:
+            out.append(f'场地容量: {r["码"]} 不是草地广场却登记了观演容量')
+    for i in range(len(sites_rows)):
+        for j in range(i + 1, len(sites_rows)):
+            x, y = sites_rows[i], sites_rows[j]
+            need = max(x['半轴km']) + max(y['半轴km']) + t['场地间隔下限千米']
+            got = straight(x['中心km'], y['中心km'])
+            if got < need:
+                out.append(f'场地重叠: {x["码"]} 与 {y["码"]} 中心距 {got:.3f} 千米，小于外接圆加间隔 {need:.3f} 千米')
+    # 21 渡位岸别：岸别只在湖面有意义（主岸贴湖岸、岛岸贴岛岸），河渡位一律记「—」
+    bad_bank = [r['码'] for r in whar if r['临'] == '湖' and r.get('岸别') not in ('主岸', '岛岸')]
+    bad_bank += [r['码'] for r in whar if r['临'] != '湖' and r.get('岸别') != '—']
+    if bad_bank:
+        out.append(f'渡位岸别: {bad_bank[:4]} 的岸别与临水对象不配套（湖看主岸／岛岸，河记「—」）')
+    isl_wharves = [r['码'] for r in whar if r.get('岸别') == '岛岸']
+    if [c for c in isl_wharves if whm[c]['临'] != '湖']:
+        out.append(f'渡位岸别: 岛岸渡位 {[c for c in isl_wharves if whm[c]["临"] != "湖"]} 不临湖')
+    if s['岛岸渡位数'] != len(isl_wharves):
+        out.append(f'汇总: 岛岸渡位数 {s["岛岸渡位数"]} 与渡位表 {len(isl_wharves)} 不符')
+    # 22 岸岛渡线唯一：靠岛标志由两端岸别推出，岛不做岛内航线，岸到岸的湖航线不得穿岛
+    ferries = [r for r in routes if r['靠岛'] == '是']
+    if len(ferries) != 1:
+        out.append(f'进岛通路: 岸岛渡线应恰一条，实得 {[r["码"] for r in ferries]}')
+    elif s['进岛客渡线'] != ferries[0]['码']:
+        out.append(f'汇总: 进岛客渡线 {s["进岛客渡线"]} 与渡线表 {ferries[0]["码"]} 不符')
+    for r in routes:
+        a, b = whm.get(r['渡位A']), whm.get(r['渡位B'])
+        if a is None or b is None:
+            continue
+        ends = [a.get('岸别'), b.get('岸别')]
+        want = '是' if '岛岸' in ends else '否'
+        if r['靠岛'] != want:
+            out.append(f'进岛通路: {r["码"]} 靠岛标志 {r["靠岛"]}，两端岸别却为 {ends}')
+        if ends == ['岛岸', '岛岸']:
+            out.append(f'进岛通路: {r["码"]} 两端都在岛岸：岛内不需要航线')
+        if want == '否' and seg_min(island_norm, a['坐标km'], b['坐标km']) < 1.0:
+            out.append(f'航线穿岛: {r["码"]} 岸到岸的湖航线穿进钛马岛')
+    # 23 湖底隧道复算：洞口岸侧、穿湖、水下段、里程耗时、覆土与纵坡，全部按第7期算式独立再算一遍
+    tc = src['参数']['湖底隧道']['常数']
+    src_tn = {x['码']: x for x in src['参数']['湖底隧道']['隧道']}
+    if not tn:
+        out.append('进岛通路: 湖底隧道为空，「乘车走湖底隧道」这条通路没有承载体')
+    for r in tn:
+        a, b = r['岸端洞口km'], r['岛端洞口km']
+        if lake_norm(a) < 1.0:
+            out.append(f'隧道洞口: {r["码"]} 岸端洞口在湖水面内（湖f {lake_norm(a):.3f}）')
+        if island_norm(a) < 1.0:
+            out.append(f'隧道洞口: {r["码"]} 岸端洞口落进钛马岛')
+        if island_norm(b) > 1.0:
+            out.append(f'隧道洞口: {r["码"]} 岛端洞口没上岛（岛f {island_norm(b):.3f}）')
+        line = round(straight(a, b), 3)
+        if abs(line - r['洞身km']) > 0.002:
+            out.append(f'隧道洞身: {r["码"]} 正典 {r["洞身km"]} km，复算 {line} km')
+        if seg_min(lake_norm, a, b) >= 1.0:
+            out.append(f'隧道穿湖: {r["码"]} 洞口连线没进钛湖，不是湖底隧道')
+        wet = round(wet_length(a, b, line), 3)
+        if abs(wet - r['水下段km']) > 0.003:
+            out.append(f'隧道水下段: {r["码"]} 正典 {r["水下段km"]} km，复算 {wet} km')
+        km = round(line * tc['接线系数'], 3)
+        mins = fixed_minutes(km, tc['速度km_h'], tc['站前等候分钟'], tc['取整分钟'])
+        if abs(km - r['里程km']) > 0.002 or mins != r['耗时分钟']:
+            out.append(f'隧道耗时: {r["码"]} 正典 {r["里程km"]} km／{r["耗时分钟"]} 分，复算 {km} km／{mins} 分')
+        cover = (LAKE['normal_surface_elevation_m'] - r['最低点湖底水深m']) - r['最低点顶面高程m']
+        if abs(round(cover, 1) - r['覆土m']) > 0.05:
+            out.append(f'隧道覆土: {r["码"]} 正典 {r["覆土m"]} m，复算 {cover:.1f} m')
+        if cover < tc['覆土下限m']:
+            out.append(f'隧道覆土: {r["码"]} 只有 {cover:.1f} m，低于下限 {tc["覆土下限m"]} m')
+        if not tc['湖底水深区间m'][0] <= r['最低点湖底水深m'] <= tc['湖底水深区间m'][1]:
+            out.append(f'隧道水深: {r["码"]} 最低点设计湖底水深 {r["最低点湖底水深m"]} m 不在名录湖深区间内')
+        want_t = src_tn.get(r['码'])
+        if want_t is None:
+            out.append(f'隧道断面: {r["码"]} 不在源表隧道清单内')
+            continue
+        s_km = want_t['最低点距岸端水平km']
+        if not 0.0 < s_km < straight(a, b):
+            out.append(f'隧道断面: {r["码"]} 最低点距岸端 {s_km} km 不在洞身之内')
+            continue
+        down = (want_t['岸端地面高程m'] - r['最低点顶面高程m']) / (s_km * 1000) * 100
+        up = (want_t['岛端地面高程m'] - r['最低点顶面高程m']) / ((straight(a, b) - s_km) * 1000) * 100
+        if [round(down, 2), round(up, 2)] != list(r['纵坡百分比']):
+            out.append(f'隧道纵坡: {r["码"]} 正典 {r["纵坡百分比"]}%，复算 [{down:.2f}, {up:.2f}]%')
+        if max(down, up) > tc['纵坡上限百分比']:
+            out.append(f'隧道纵坡: {r["码"]} 最大 {max(down, up):.2f}%，超过上限 {tc["纵坡上限百分比"]}%')
+        if r['服务岛侧'] not in sites:
+            out.append(f'隧道引用: {r["码"]} 服务岛侧 {r["服务岛侧"]} 不在岛上场地表内')
+        else:
+            got = straight(b, sites[r['服务岛侧']]['中心km'])
+            if got > t['岛内步行上限千米']:
+                out.append(f'隧道可达: {r["码"]} 岛端洞口到 {r["服务岛侧"]} {got:.2f} km，超岛内步行上限')
+            elif round(got, 2) != r['岛内步行km']:
+                out.append(f'隧道可达: {r["码"]} 岛内步行正典 {r["岛内步行km"]} km，复算 {got:.2f} km')
+        pos, ring, lim = service(r['服务岸侧'])
+        if pos is None:
+            out.append(f'隧道引用: {r["码"]} 服务岸侧 {r["服务岸侧"]} 不在名录内')
+        elif straight(a, pos) > lim:
+            out.append(f'隧道可达: {r["码"]} 岸端洞口到 {r["服务岸侧"]} 超过{ring}上限 {lim} km')
+        if r['票价_钛币'] != tc['票价_钛币']:
+            out.append(f'隧道票价: {r["码"]} 与常数 {tc["票价_钛币"]} 不符')
+    # 24 高空缆车复算：站侧、跨水、单跨、净空、耗时与班次
+    cc2 = src['参数']['高空缆车']['系数与常数']
+    if not cb:
+        out.append('进岛通路: 高空缆车为空，「坐高空缆车」这条通路没有承载体')
+    for r in cb:
+        a, b = r['岸站km'], r['岛站km']
+        if lake_norm(a) < 1.0:
+            out.append(f'缆车站侧: {r["码"]} 岸站落进钛湖水面（湖f {lake_norm(a):.3f}）')
+        if island_norm(b) > 1.0:
+            out.append(f'缆车站侧: {r["码"]} 岛站不在钛马岛上（岛f {island_norm(b):.3f}）')
+        line = round(straight(a, b), 3)
+        if abs(line - r['跨距km']) > 0.002:
+            out.append(f'缆车跨距: {r["码"]} 正典 {r["跨距km"]} km，复算 {line} km')
+        if line > cc2['单跨上限km']:
+            out.append(f'缆车跨距: {r["码"]} {line:.3f} km 超过单跨上限 {cc2["单跨上限km"]} km')
+        if lake_norm(mid(a, b)) >= 1.0:
+            out.append(f'缆车跨水: {r["码"]} 跨线中点不在湖面之上，这一跨没跨水')
+        km = round(line * cc2['缆道系数'], 3)
+        mins = fixed_minutes(km, cc2['速度km_h'], cc2['候乘分钟'], cc2['取整分钟'])
+        if abs(km - r['缆程km']) > 0.002 or mins != r['耗时分钟']:
+            out.append(f'缆车耗时: {r["码"]} 正典 {r["缆程km"]} km／{r["耗时分钟"]} 分，复算 {km} km／{mins} 分')
+        sag = min(r['岸站塔顶高程m'], r['岛站塔顶高程m']) - r['缆绳垂度m']
+        floor_e = sag - r['轿厢离缆m']
+        clear = round(floor_e - LAKE['normal_surface_elevation_m'], 1)
+        if abs(sag - r['缆绳最低点高程m']) > 0.05 or clear != r['轿厢底净空m']:
+            out.append(f'缆车净空: {r["码"]} 正典最低点 {r["缆绳最低点高程m"]}／净空 {r["轿厢底净空m"]} m，'
+                       f'复算 {sag:.1f}／{clear} m')
+        if clear < cc2['缆绳净空下限m']:
+            out.append(f'缆车净空: {r["码"]} 只有 {clear} m，低于下限 {cc2["缆绳净空下限m"]} m')
+        if r['班次每日'] <= 0:
+            out.append(f'缆车班线: {r["码"]} 载客缆车班次每日必须大于 0')
+        if r['服务岛侧'] not in sites:
+            out.append(f'缆车引用: {r["码"]} 服务岛侧 {r["服务岛侧"]} 不在岛上场地表内')
+        else:
+            got = straight(b, sites[r['服务岛侧']]['中心km'])
+            if got > t['岛内步行上限千米']:
+                out.append(f'缆车可达: {r["码"]} 岛站到 {r["服务岛侧"]} {got:.2f} km，超岛内步行上限')
+            elif round(got, 2) != r['岛内步行km']:
+                out.append(f'缆车可达: {r["码"]} 岛内步行正典 {r["岛内步行km"]} km，复算 {got:.2f} km')
+        pos, ring, lim = service(r['服务岸侧'])
+        if pos is None:
+            out.append(f'缆车引用: {r["码"]} 服务岸侧 {r["服务岸侧"]} 不在名录内')
+        elif straight(a, pos) > lim:
+            out.append(f'缆车可达: {r["码"]} 岸站到 {r["服务岸侧"]} 超过{ring}上限 {lim} km')
+        if r['票价_钛币'] != cc2['票价_钛币']:
+            out.append(f'缆车票价: {r["码"]} 与常数 {cc2["票价_钛币"]} 不符')
+    # 25 岛与城无桥：桥线段不得穿岛、不得以场地为端点，进岛三通路齐备且汇总一致
+    touch = [r['码'] for r in brid if r['连接A'] in sites or r['连接B'] in sites]
+    if touch:
+        out.append(f'岛与城无桥: {touch[:4]} 把岛上场地接进路网')
+    cross = [r['码'] for r in brid if seg_min(island_norm, r['桥头A_km'], r['桥头B_km']) < 1.0]
+    if cross:
+        out.append(f'桥穿岛: {cross[:4]} 的桥线段落进钛马岛')
+    if s['通到岛上的桥数'] != 0:
+        out.append(f'汇总: 通到岛上的桥数 {s["通到岛上的桥数"]}，正典要求 0')
+    if s['进岛通路数'] != (1 if ferries else 0) + (1 if tn else 0) + (1 if cb else 0):
+        out.append(f'汇总: 进岛通路数 {s["进岛通路数"]} 与客渡／隧道／缆车三表实得不符')
+    for nm, want_min in (('客渡', ferries[0]['耗时分钟'] if ferries else None),
+                         ('湖底隧道', tn[0]['耗时分钟'] if tn else None),
+                         ('高空缆车', cb[0]['耗时分钟'] if cb else None)):
+        if s['进岛通路分钟'].get(nm) != want_min:
+            out.append(f'汇总: 进岛通路分钟 {nm} 记 {s["进岛通路分钟"].get(nm)}，逐行实得 {want_min}')
+    if (s['岛上场地数'], s['湖底隧道数'], s['高空缆车数']) != (len(sites_rows), len(tn), len(cb)):
+        out.append('汇总: 岛相关计数与三表行数不一致')
+    if s['岛内容量人'] != sum(r.get('容量人', 0) for r in sites_rows):
+        out.append('汇总: 岛内容量人与场地表不符')
+    if tn and s['隧道水下段区间km'] != [min(r['水下段km'] for r in tn), max(r['水下段km'] for r in tn)]:
+        out.append('汇总: 隧道水下段区间与隧道表不符')
+    if cb and s['缆车跨距区间km'] != [min(r['跨距km'] for r in cb), max(r['跨距km'] for r in cb)]:
+        out.append('汇总: 缆车跨距区间与缆车表不符')
+    walk_all = [r['岛内步行km'] for r in tn + cb] + [r['岛内步行km'] for r in ferries]
+    if walk_all and max(walk_all) > t['岛内步行上限千米']:
+        out.append(f'岛内步行: 实得 {max(walk_all)} km，超过上限 {t["岛内步行上限千米"]} km')
     return out
 
 
 spatial = spatial_issues(SPCANON, SPSRC, PRMSRC)
 output = dict(checked=len(results), rule='锚点距离河流折线>=最大水宽/2+30米；不替代完整地块缓冲审查',
               failures=failures, results=results,
-              构件=dict(判据数=18, 桥梁=len(SPCANON['桥梁']), 渡位=len(SPCANON['渡位']),
+              构件=dict(判据数=25, 桥梁=len(SPCANON['桥梁']), 渡位=len(SPCANON['渡位']),
                        航线=len(SPCANON['轮渡航线']), 山口=len(SPCANON['山口通道']),
+                       岛上场地=len(SPCANON.get('岛上场地', [])), 湖底隧道=len(SPCANON.get('湖底隧道', [])),
+                       高空缆车=len(SPCANON.get('高空缆车', [])),
                        失败=len(spatial), 失败明细=spatial,
-                       rule='第5期通行构件十八判：几何、水宽、耗时与第4期同源性由本闸门独立复算，不引用生成器'))
+                       rule='通行构件二十五判：几何、水宽、耗时、湖岛三通路与第4期同源性由本闸门独立复算，不引用生成器'))
 (ROOT / '数据' / '河岸锚点核验.json').write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding='utf-8')
 print(json.dumps(dict(checked=len(results), 构件={k: v for k, v in output['构件'].items() if k != '失败明细'}),
                   ensure_ascii=False, indent=2))
@@ -375,4 +662,4 @@ for line in spatial:
     print('FAIL ' + line)
 if failures or spatial:
     raise SystemExit(1)
-print(f'全绿：河流缓冲 {len(results)} 条零违例，第5期构件十八判 0 失败')
+print(f'全绿：河流缓冲 {len(results)} 条零违例，通行构件二十五判 0 失败')
