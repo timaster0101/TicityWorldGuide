@@ -23,7 +23,27 @@
     "normal_surface_elevation_m": 312,
     "area_km2": 21.1115,
     "max_depth_m": 38,
-    "mean_depth_m": 16
+    "mean_depth_m": 16,
+    "island": {
+      "id": "IS-01",
+      "name": "钛马岛",
+      "kind": "天然湖岛",
+      "center_km": [
+        -1.28,
+        1.1
+      ],
+      "east_west_semiaxis_km": 0.55,
+      "north_south_semiaxis_km": 0.42,
+      "area_km2": 0.7257,
+      "surface_elevation_m": 318.5,
+      "bearing_from_lake_center_deg": 310.67,
+      "lake_f_at_boundary_max": 0.722,
+      "shore_gap_to_lakeline_km": 0.347,
+      "access": "岛与城市无桥：进出只走客渡、湖底隧道与高空缆车三条通路，构件见 数据/空间通行源表.json 的湖岛／湖底隧道／高空缆车三块",
+      "definition": "湖内唯一岛屿的示意椭圆，用于面积台账与视线判断，不代表岛岸实测折线；岛上场地与构件不在名录内登记"
+    },
+    "open_water_km2": 20.3858,
+    "area_note": "area_km2 是湖椭圆总面积，含岛占位；open_water_km2 是扣除钛马岛后的净水面。片区面积台账按椭圆总面积闭合，不按净水面。"
   },
   "rivers": [
     {
