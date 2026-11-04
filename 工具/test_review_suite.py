@@ -70,9 +70,9 @@ class ReviewSuiteTests(unittest.TestCase):
 
     def test_covers_every_item_with_images_and_every_cell_once(self):
         with_images = [it for it in self.manifest if it.get("image_file")]
-        self.assertEqual(len(with_images), 264)
+        self.assertEqual(len(with_images), 283)
         cells = [p for it in with_images for p in it["image_file"]]
-        self.assertEqual(len(cells), 1077)
+        self.assertEqual(len(cells), 1096)
         blocks = self.item_blocks()
         self.assertEqual(sorted(blocks), sorted(it["id"] for it in with_images))
         for path in cells:
@@ -97,16 +97,16 @@ class ReviewSuiteTests(unittest.TestCase):
         self.assertNotIn("已验收", self.work)
         self.assertNotIn("结论：通过", self.work)
         csv_text = (self.out / "打表汇总.csv").read_text(encoding="utf-8-sig")
-        self.assertEqual(len(csv_text.strip().splitlines()), 265)
+        self.assertEqual(len(csv_text.strip().splitlines()), 284)
         self.assertNotIn("通过", csv_text.splitlines()[0])
         self.assertEqual(csv_text.count("已验收"), 0)
 
     def test_contact_sheets_paginate_and_link_local_images(self):
         sheets = self.out / "联络表"
         pages = sorted(sheets.glob("页-*.html"))
-        self.assertEqual(len(pages), 33)
+        self.assertEqual(len(pages), 36)
         index = (sheets / "index.html").read_text(encoding="utf-8")
-        self.assertIn("共 264 条既有图", index)
+        self.assertIn("共 283 条既有图", index)
         self.assertIn("结构合规不等于视觉验收", index)
         cells = [p for it in self.manifest if it.get("image_file") for p in it["image_file"]]
         linked = []
@@ -119,9 +119,9 @@ class ReviewSuiteTests(unittest.TestCase):
                 self.assertTrue(src.startswith("../../../"), src)
                 linked.append(unquote(src)[len("../../../"):])
         # 链接只按字符串还原：图片文件不版本化，临时副本里本来就没有图。这里判的是「src 解码后
-        # 正好落回清单里的某一格、且一格不漏不多」；格子在不在盘上由 verify_image_assets 的 1077 格负责。
+        # 正好落回清单里的某一格、且一格不漏不多」；格子在不在盘上由 verify_image_assets 的 1096 格负责。
         self.assertEqual(sorted(linked), sorted(cells))
-        self.assertEqual(len(linked), 1077)
+        self.assertEqual(len(linked), 1096)
 
     def test_rerun_is_byte_identical(self):
         snapshot = {p.relative_to(self.out).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
