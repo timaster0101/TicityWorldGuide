@@ -14,6 +14,39 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / '工具'))
 
 
+def check_c123_registration(item, rows):
+    """C123 重投占格判据，返回违例清单（空＝达标）。判据本身写在这里，闸门与负测共用一份。
+
+    为什么是替换而不是追加：上一格出成于 C118 档串，其后画风锚点换到 C122、背景授权又随 C123 收回，
+    基准连换两档；两版并排占格会把「这格图存在」读成「两版都可用」。
+    为什么不绑摘要：image_prompt_sha256 的绑定属人工验收动作，脚本代签等于把未经复验的图洗成已验收。
+    """
+    bad = []
+    row = rows[-1] if rows else ''
+    files = item.get('image_file') or []
+    if item.get('status') != '待复验':
+        bad.append('状态不是待复验')
+    if len(files) != 1:
+        bad.append('占格数不是1（本轮是替换，不是追加）')
+    if not files or 'C123新串' not in files[0]:
+        bad.append('占格文件名不是C123新串档')
+    if files and files[0] not in row:
+        bad.append('读数未写本轮占格文件名')
+    if 'C118新串' not in row:
+        bad.append('读数未写被替换的旧格文件名')
+    if not str(item.get('batch') or '').endswith('C123新串-v01'):
+        bad.append('batch 未随本轮换档')
+    if item.get('image_prompt_sha256'):
+        bad.append('已绑定摘要，占格不该由脚本代签验收')
+    for token in ('sha12=', 'caBX=1', 'iTXt=0', '替换上一格',
+                  'image_prompt_sha256 留空', '待复验', '不代签验收'):
+        if token not in row:
+            bad.append('读数缺要素:' + token)
+    if '不回填' in row:
+        bad.append('读数写成不回填，与替换占格矛盾')
+    return bad
+
+
 class ReviewNoteHistory(unittest.TestCase):
     def setUp(self):
         self.manifest = json.loads((ROOT / '数据' / '开图清单.json').read_text(encoding='utf-8'))
@@ -40,10 +73,12 @@ class ReviewNoteHistory(unittest.TestCase):
     # 子批③晴日批一条：v01 因投放时把「人群段」误写成「人群档」属串外，达标不回填；
     # v02 按当前真源串逐字重出后达标回填。同一条ID的两版只有一版能占格，这是串绑定的本意。
     SUNNY = ('R092',)
-    # 第9批放量（L061—L108 共48条）里目视读数达标、可占格的 19 条：图出成于 C118 档串，
-    # 画风锚点其后换到 C122，投放日志又随克隆目录丢失，所以 image_prompt_sha256 一律留空、
-    # 状态只派生到待复验——占格是登记「这格图存在」，不是签署验收。判废25＋标红待裁2（L063／L090）
-    # ＋含标红风险的待复验2（L067／L076）＝29条不占格，见 工具/parallel_batch_2026_11_03/visual_notes.md。
+    # 第9批放量（L061—L108 共48条）里目视读数达标、可占格的 19 条。
+    # 这一组占的格随基准走过两档：首投出成于 C118 档串（画风锚点其后换 C122、背景授权再随 C123 收回），
+    # 2026-11-05 按 C123 新串重投后以新图替换旧格——替换不是追加，旧文件与旧备注都不删。
+    # 两轮投放日志都记不了 image_prompt_sha256：绑定摘要属人工验收动作，脚本不代签，状态只派生到待复验。
+    # 判废25＋标红待裁2（L063／L090）＋含标红风险的待复验2（L067／L076）＝29条不占格，
+    # 见 工具/parallel_batch_2026_11_03/visual_notes.md 与 工具/reinject_2026_11_05/c123_measure.json。
     BATCH9 = ('L061', 'L062', 'L064', 'L066', 'L068', 'L069', 'L070', 'L071', 'L072', 'L074',
               'L077', 'L078', 'L079', 'L082', 'L084', 'L088', 'L091', 'L096', 'L098')
     # 只有目视十项达标的才允许追加图格；判废与待复验的只记打表，不占 image_file。
@@ -107,27 +142,41 @@ class ReviewNoteHistory(unittest.TestCase):
                 self.assertEqual(len(got) if isinstance(got, list) else (1 if got else 0), cells, eid)
 
     def test_batch9_cells_are_registered_but_not_signed(self):
-        """第9批 C118 新串首投回填的 19 条：占格必须自带出处（文件名、sha12、容器读数），
-        又必须自带不复签署的口径（无 image_prompt_sha256、写明按 C122 串重投后复验）。
+        """第9批 19 格按 C123 新串重投后改指新文件。占格必须自带出处（新旧两个文件名、sha12、容器读数），
+        又必须自带不签署的口径（无 image_prompt_sha256、写明不代签验收）。
         少了前一组，下一轮查不到这格是哪批；少了后一组，待复验会被读成已验收。"""
         for eid in self.BATCH9:
             with self.subTest(eid=eid):
-                row = self.notes[eid][-1]
-                item = self.items[eid]
-                self.assertEqual(item['status'], '待复验', eid)
-                self.assertEqual(len(item['image_file']), 1, eid)
-                self.assertTrue(item['image_file'][0].startswith('vibe_images/'), eid)
-                self.assertIn(item['image_file'][0], row, eid)
-                self.assertIn('sha12=', row, eid)
-                self.assertIn('caBX=1', row, eid)
-                self.assertIn('须按C122串重投后复验', row, eid)
-                self.assertIn('image_prompt_sha256 留空', row, eid)
-                self.assertFalse(item.get('image_prompt_sha256'), eid)
-                self.assertIn('C118新串', row, eid)
-                self.assertTrue(item['batch'].endswith('C118新串-v01'), eid)
-        # L061／L066 本轮占的是新串新文件，上一轮串外试投的「不回填」结论必须还在历史里。
+                self.assertEqual(check_c123_registration(self.items[eid], self.notes[eid]), [], eid)
+        # L061／L066 本轮占的是新串新文件，上一轮串外试投的「不回填」结论必须还在历史里；
+        # 本轮追加了一条读数，所以那条历史从倒数第二条挪到倒数第三条。
         for eid in ('L061', 'L066'):
-            self.assertIn('不回填', self.notes[eid][-2], eid)
+            self.assertIn('不回填', self.notes[eid][-3], eid)
+
+    def test_c123_registration_gate_reds_on_each_violation(self):
+        """违例负测：占格判据的每一条都要能被造出来的坏数据打红，否则闸门是假绿。
+        故障样本取自本轮真实做过的四种错法：留着旧格不替换、脚本替人工绑摘要、
+        读数漏掉容器、batch 还停在上一档串。"""
+        base = self.items['L062']
+        rows = self.notes['L062']
+        self.assertEqual(check_c123_registration(base, rows), [])
+        cases = [
+            ('追加不替换', lambda it: it['image_file'].append(it['image_file'][0]), rows),
+            ('脚本代签绑摘要', lambda it: it.__setitem__('image_prompt_sha256', 'deadbeef' * 8), rows),
+            ('状态洗成已验收', lambda it: it.__setitem__('status', '已验收'), rows),
+            ('batch 停在旧档串', lambda it: it.__setitem__('batch', '标志性建筑-L062C118新串-v01'), rows),
+        ]
+        for label, mutate, note_rows in cases:
+            with self.subTest(case=label):
+                item = json.loads(json.dumps(base))
+                mutate(item)
+                self.assertTrue(check_c123_registration(item, note_rows), label)
+        for token, label in (('caBX=1', '读数漏容器'), ('替换上一格', '读数漏出处'),
+                             ('image_prompt_sha256 留空', '读数漏绑定口径')):
+            with self.subTest(case=label):
+                mutated_rows = json.loads(json.dumps(rows))
+                mutated_rows[-1] = mutated_rows[-1].replace(token, '')
+                self.assertTrue(check_c123_registration(base, mutated_rows), label)
 
     def test_history_survives_and_note_still_derives(self):
         # 308 条没有人工长文本，历史是空数组：判"键在不在"而不是"值真不真"；键随名录扩到312条
@@ -374,8 +423,8 @@ class AssetRulings(unittest.TestCase):
         for cid in self.IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 122)
-        self.assertEqual(rows[-1]['编号'], 'C122')
+        self.assertEqual(len(rows), 124)
+        self.assertEqual(rows[-1]['编号'], 'C124')
         self.assertIn('rename_gallery_ext', by_id['C82']['裁定'])
         self.assertIn('不是交付判据', by_id['C83']['裁定'])
         self.assertIn('不判红、不改名', by_id['C84']['裁定'])

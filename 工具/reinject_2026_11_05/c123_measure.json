@@ -1,0 +1,838 @@
+[
+ {
+  "file": "L061-北湖政务协同塔-C123新串-v01_1793813109284_d0763a20.png",
+  "bytes": 2907342,
+  "sha256_12": "350e6685cc15",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 110.0,
+   "TR": 152.5,
+   "BL": 98.1,
+   "BR": 152.6
+  },
+  "p99_lum": 225.0,
+  "fine_var_full": 0.003373,
+  "fine_var_center": 0.005385,
+  "sun_blob_px": 112,
+  "row_seam_peaks": [
+   1201,
+   1202,
+   1203,
+   1206,
+   1207,
+   1208
+  ],
+  "id": "L061",
+  "entry_name": "北湖政务协同塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L061-北湖政务协同塔-C118新串-v01_1793757718784_b8d4fda6.png"
+  ],
+  "camera_facing_deg": 180.0,
+  "sun_relative_deg": 75.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L062-市民法务服务中心-C123新串-v01_1793813263524_67d8d2d5.png",
+  "bytes": 2823731,
+  "sha256_12": "11ce486e5057",
+  "dims": "1536x1024",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 62.8,
+   "TR": 79.2,
+   "BL": 81.9,
+   "BR": 29.3
+  },
+  "p99_lum": 236.0,
+  "fine_var_full": 0.004553,
+  "fine_var_center": 0.004702,
+  "sun_blob_px": 304,
+  "row_seam_peaks": [
+   652,
+   774,
+   794,
+   795,
+   803,
+   813
+  ],
+  "id": "L062",
+  "entry_name": "市民法务服务中心",
+  "entry_type": "标志性建筑",
+  "expected_size": "1536x1024",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L062-市民法务服务中心-C118新串-v01_1793757826176_5d6eda0a.png"
+  ],
+  "camera_facing_deg": 180.0,
+  "sun_relative_deg": 75.0,
+  "aspect": "3:2 横幅，按正典容纳建筑体量与场馆、院落空间",
+  "lock": ""
+ },
+ {
+  "file": "L064-青年科创学院塔-C123新串-v01_1793813310831_cc4d4f30.png",
+  "bytes": 2842250,
+  "sha256_12": "39afc723e437",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 80.1,
+   "TR": 146.9,
+   "BL": 69.1,
+   "BR": 92.7
+  },
+  "p99_lum": 214.0,
+  "fine_var_full": 0.002419,
+  "fine_var_center": 0.003026,
+  "sun_blob_px": 368,
+  "row_seam_peaks": [
+   969,
+   1030,
+   1056,
+   1128,
+   1179,
+   1347
+  ],
+  "id": "L064",
+  "entry_name": "青年科创学院塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L064-青年科创学院塔-C118新串-v01_1793757952361_8137075c.png"
+  ],
+  "camera_facing_deg": 210.0,
+  "sun_relative_deg": 45.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L066-钛心金融主塔-C123新串-v01_1793813359442_6188f202.png",
+  "bytes": 2814773,
+  "sha256_12": "1e46c08d1845",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 137.8,
+   "TR": 159.0,
+   "BL": 45.1,
+   "BR": 157.6
+  },
+  "p99_lum": 213.0,
+  "fine_var_full": 0.003013,
+  "fine_var_center": 0.00304,
+  "sun_blob_px": 528,
+  "row_seam_peaks": [
+   1063,
+   1080,
+   1118,
+   1203,
+   1219,
+   1299
+  ],
+  "id": "L066",
+  "entry_name": "钛心金融主塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L066-钛心金融主塔-C118新串-v01_1793758068095_2de20053.png"
+  ],
+  "camera_facing_deg": 240.0,
+  "sun_relative_deg": 15.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L068-湖东证券塔-C123新串-v01_1793813410099_d484e1fd.png",
+  "bytes": 2703656,
+  "sha256_12": "946fcabad02c",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 72.2,
+   "TR": 156.5,
+   "BL": 57.2,
+   "BR": 82.7
+  },
+  "p99_lum": 228.0,
+  "fine_var_full": 0.002045,
+  "fine_var_center": 0.002528,
+  "sun_blob_px": 48,
+  "row_seam_peaks": [
+   974,
+   981,
+   986,
+   987,
+   1071,
+   1135
+  ],
+  "id": "L068",
+  "entry_name": "湖东证券塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L068-湖东证券塔-C118新串-v01_1793758330467_a32c4c2b.png"
+  ],
+  "camera_facing_deg": 270.0,
+  "sun_relative_deg": -15.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L069-云浦结算中心-C123新串-v01_1793813459239_f02ae7ec.png",
+  "bytes": 2766521,
+  "sha256_12": "106c348d0e3f",
+  "dims": "1536x1024",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 156.1,
+   "TR": 55.4,
+   "BL": 50.4,
+   "BR": 86.0
+  },
+  "p99_lum": 226.0,
+  "fine_var_full": 0.002602,
+  "fine_var_center": 0.001157,
+  "sun_blob_px": 1328,
+  "row_seam_peaks": [
+   504,
+   700,
+   704,
+   708,
+   711,
+   763
+  ],
+  "id": "L069",
+  "entry_name": "云浦结算中心",
+  "entry_type": "标志性建筑",
+  "expected_size": "1536x1024",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L069-云浦结算中心-C118新串-v01_1793758385933_a6f49461.png"
+  ],
+  "camera_facing_deg": 240.0,
+  "sun_relative_deg": 15.0,
+  "aspect": "3:2 横幅，按正典容纳建筑体量与场馆、院落空间",
+  "lock": ""
+ },
+ {
+  "file": "L070-东环企业总部塔-C123新串-v01_1793813509248_ba69b676.png",
+  "bytes": 2688896,
+  "sha256_12": "27a21ce07b92",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 87.2,
+   "TR": 133.5,
+   "BL": 57.6,
+   "BR": 108.2
+  },
+  "p99_lum": 218.0,
+  "fine_var_full": 0.002764,
+  "fine_var_center": 0.006159,
+  "sun_blob_px": 208,
+  "row_seam_peaks": [
+   1006,
+   1131,
+   1223,
+   1281,
+   1288,
+   1331
+  ],
+  "id": "L070",
+  "entry_name": "东环企业总部塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L070-东环企业总部塔-C118新串-v01_1793758444527_8d67a97b.png"
+  ],
+  "camera_facing_deg": 240.0,
+  "sun_relative_deg": 15.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L071-钛湖清算塔-C123新串-v01_1793813562576_566cb5c7.png",
+  "bytes": 2743463,
+  "sha256_12": "0deb77fec841",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 93.7,
+   "TR": 66.5,
+   "BL": 61.6,
+   "BR": 57.2
+  },
+  "p99_lum": 223.0,
+  "fine_var_full": 0.00257,
+  "fine_var_center": 0.003011,
+  "sun_blob_px": 1104,
+  "row_seam_peaks": [
+   1049,
+   1053,
+   1054,
+   1182,
+   1222,
+   1400
+  ],
+  "id": "L071",
+  "entry_name": "钛湖清算塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L071-钛湖清算塔-C118新串-v01_1793758498795_a2c9f0e2.png"
+  ],
+  "camera_facing_deg": 270.0,
+  "sun_relative_deg": -15.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L072-东岸青年创业塔-C123新串-v01_1793813609163_c7cda028.png",
+  "bytes": 2862744,
+  "sha256_12": "f2a82c4d8e70",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 55.9,
+   "TR": 149.9,
+   "BL": 47.3,
+   "BR": 151.5
+  },
+  "p99_lum": 214.0,
+  "fine_var_full": 0.002742,
+  "fine_var_center": 0.004127,
+  "sun_blob_px": 32,
+  "row_seam_peaks": [
+   810,
+   859,
+   880,
+   894,
+   895,
+   907
+  ],
+  "id": "L072",
+  "entry_name": "东岸青年创业塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L072-东岸青年创业塔-C118新串-v01_1793758562942_44c08f7b.png"
+  ],
+  "camera_facing_deg": 240.0,
+  "sun_relative_deg": 15.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L074-水光旅店主塔-C123新串-v01_1793813659398_c4749526.png",
+  "bytes": 2660630,
+  "sha256_12": "50370b58b712",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 151.4,
+   "TR": 85.7,
+   "BL": 53.1,
+   "BR": 47.7
+  },
+  "p99_lum": 206.0,
+  "fine_var_full": 0.002098,
+  "fine_var_center": 0.004226,
+  "sun_blob_px": 64,
+  "row_seam_peaks": [
+   907,
+   972,
+   987,
+   995,
+   1030,
+   1031
+  ],
+  "id": "L074",
+  "entry_name": "水光旅店主塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L074-水光旅店主塔-C118新串-v01_1793758705491_e028c79c.png"
+  ],
+  "camera_facing_deg": 315.0,
+  "sun_relative_deg": -60.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L077-静溪健康驿站-C123新串-v01_1793813709410_982cf3f5.png",
+  "bytes": 2875314,
+  "sha256_12": "aea5e4d4055f",
+  "dims": "1536x1024",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 84.7,
+   "TR": 153.0,
+   "BL": 77.6,
+   "BR": 71.9
+  },
+  "p99_lum": 231.0,
+  "fine_var_full": 0.003512,
+  "fine_var_center": 0.004149,
+  "sun_blob_px": 192,
+  "row_seam_peaks": [
+   616,
+   624,
+   643,
+   648,
+   667,
+   697
+  ],
+  "id": "L077",
+  "entry_name": "静溪健康驿站",
+  "entry_type": "标志性建筑",
+  "expected_size": "1536x1024",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L077-静溪健康驿站-C118新串-v01_1793758869035_cdc62b07.png"
+  ],
+  "camera_facing_deg": 315.0,
+  "sun_relative_deg": -60.0,
+  "aspect": "3:2 横幅，按正典容纳建筑体量与场馆、院落空间",
+  "lock": ""
+ },
+ {
+  "file": "L078-南湖社区生活塔-C123新串-v01_1793813867131_ee9a16d4.png",
+  "bytes": 2855285,
+  "sha256_12": "a41d27d29740",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 148.9,
+   "TR": 156.3,
+   "BL": 27.2,
+   "BR": 121.8
+  },
+  "p99_lum": 221.0,
+  "fine_var_full": 0.003106,
+  "fine_var_center": 0.003327,
+  "sun_blob_px": 368,
+  "row_seam_peaks": [
+   750,
+   897,
+   932,
+   933,
+   1429,
+   1430
+  ],
+  "id": "L078",
+  "entry_name": "南湖社区生活塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L078-南湖社区生活塔-C118新串-v01_1793758925815_04de41ad.png"
+  ],
+  "camera_facing_deg": 0.0,
+  "sun_relative_deg": -105.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L079-月湾市集商厦-C123新串-v01_1793813916575_a609382e.png",
+  "bytes": 2685147,
+  "sha256_12": "ddd0aa823cd7",
+  "dims": "1536x1024",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 80.9,
+   "TR": 39.5,
+   "BL": 71.1,
+   "BR": 51.0
+  },
+  "p99_lum": 200.0,
+  "fine_var_full": 0.00169,
+  "fine_var_center": 0.00233,
+  "sun_blob_px": 96,
+  "row_seam_peaks": [
+   543,
+   626,
+   643,
+   648,
+   654,
+   747
+  ],
+  "id": "L079",
+  "entry_name": "月湾市集商厦",
+  "entry_type": "标志性建筑",
+  "expected_size": "1536x1024",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L079-月湾市集商厦-C118新串-v01_1793758978605_b2e5df14.png"
+  ],
+  "camera_facing_deg": 0.0,
+  "sun_relative_deg": -105.0,
+  "aspect": "3:2 横幅，按正典容纳建筑体量与场馆、院落空间",
+  "lock": ""
+ },
+ {
+  "file": "L082-云栈智能塔-C123新串-v01_1793813981637_21523790.png",
+  "bytes": 3100234,
+  "sha256_12": "80b3eba2a8ff",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 71.1,
+   "TR": 171.7,
+   "BL": 46.7,
+   "BR": 112.8
+  },
+  "p99_lum": 219.0,
+  "fine_var_full": 0.004311,
+  "fine_var_center": 0.005996,
+  "sun_blob_px": 32,
+  "row_seam_peaks": [
+   1307,
+   1337,
+   1339,
+   1387,
+   1388,
+   1420
+  ],
+  "id": "L082",
+  "entry_name": "云栈智能塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L082-云栈智能塔-C118新串-v01_1793759180003_c5a695d1.png"
+  ],
+  "camera_facing_deg": 120.0,
+  "sun_relative_deg": 135.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L084-云栈算法塔-C123新串-v01_1793814032450_a65748f9.png",
+  "bytes": 2669170,
+  "sha256_12": "3b018f7870fc",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 67.1,
+   "TR": 139.9,
+   "BL": 72.4,
+   "BR": 115.2
+  },
+  "p99_lum": 208.0,
+  "fine_var_full": 0.002603,
+  "fine_var_center": 0.0048,
+  "sun_blob_px": 400,
+  "row_seam_peaks": [
+   1121,
+   1122,
+   1125,
+   1126,
+   1127,
+   1155
+  ],
+  "id": "L084",
+  "entry_name": "云栈算法塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L084-云栈算法塔-C118新串-v01_1793759295858_ac445a1c.png"
+  ],
+  "camera_facing_deg": 120.0,
+  "sun_relative_deg": 135.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L088-松岬运动员服务中心-C123新串-v01_1793814098339_db2944b3.png",
+  "bytes": 2740043,
+  "sha256_12": "0f89df393368",
+  "dims": "1536x1024",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 126.3,
+   "TR": 195.4,
+   "BL": 91.3,
+   "BR": 96.1
+  },
+  "p99_lum": 213.0,
+  "fine_var_full": 0.002693,
+  "fine_var_center": 0.003594,
+  "sun_blob_px": 0,
+  "row_seam_peaks": [
+   488,
+   502,
+   527,
+   593,
+   620,
+   657
+  ],
+  "id": "L088",
+  "entry_name": "松岬运动员服务中心",
+  "entry_type": "标志性建筑",
+  "expected_size": "1536x1024",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L088-松岬运动员服务中心-C118新串-v01_1793759526903_979269ca.png"
+  ],
+  "camera_facing_deg": 150.0,
+  "sun_relative_deg": 105.0,
+  "aspect": "3:2 横幅，按正典容纳建筑体量与场馆、院落空间",
+  "lock": ""
+ },
+ {
+  "file": "L091-青岚实验协作塔-C123新串-v01_1793814155458_f7c114a9.png",
+  "bytes": 2840128,
+  "sha256_12": "f561bfe8a2f6",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 39.4,
+   "TR": 169.5,
+   "BL": 55.4,
+   "BR": 64.6
+  },
+  "p99_lum": 224.0,
+  "fine_var_full": 0.003456,
+  "fine_var_center": 0.003462,
+  "sun_blob_px": 112,
+  "row_seam_peaks": [
+   814,
+   1163,
+   1179,
+   1232,
+   1267,
+   1339
+  ],
+  "id": "L091",
+  "entry_name": "青岚实验协作塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L091-青岚实验协作塔-C118新串-v01_1793759687474_2390b000.png"
+  ],
+  "camera_facing_deg": 210.0,
+  "sun_relative_deg": 45.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L096-东铸中试塔-C123新串-v01_1793814206277_b5801cb1.png",
+  "bytes": 2837748,
+  "sha256_12": "b2f61f85ac0f",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 72.4,
+   "TR": 128.2,
+   "BL": 152.3,
+   "BR": 34.3
+  },
+  "p99_lum": 222.0,
+  "fine_var_full": 0.002702,
+  "fine_var_center": 0.004089,
+  "sun_blob_px": 1232,
+  "row_seam_peaks": [
+   971,
+   999,
+   1000,
+   1051,
+   1067,
+   1080
+  ],
+  "id": "L096",
+  "entry_name": "东铸中试塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L096-东铸中试塔-C118新串-v01_1793760084715_ec25140e.png"
+  ],
+  "camera_facing_deg": 270.0,
+  "sun_relative_deg": -15.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ },
+ {
+  "file": "L098-南溪应急物资塔-C123新串-v01_1793814260042_9d55c454.png",
+  "bytes": 2876329,
+  "sha256_12": "31de92147191",
+  "dims": "1536x1024",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 80.4,
+   "TR": 140.2,
+   "BL": 34.8,
+   "BR": 54.5
+  },
+  "p99_lum": 226.0,
+  "fine_var_full": 0.002889,
+  "fine_var_center": 0.001452,
+  "sun_blob_px": 112,
+  "row_seam_peaks": [
+   646,
+   664,
+   675,
+   682,
+   849,
+   856
+  ],
+  "id": "L098",
+  "entry_name": "南溪应急物资塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1536x1024",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L098-南溪应急物资塔-C118新串-v01_1793760208719_94398992.png"
+  ],
+  "camera_facing_deg": 315.0,
+  "sun_relative_deg": -60.0,
+  "aspect": "3:2 横幅，按正典容纳建筑体量与场馆、院落空间",
+  "lock": ""
+ }
+]

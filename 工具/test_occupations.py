@@ -490,7 +490,7 @@ class Rulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 122)
+        self.assertEqual(len(rows), 124)
 
     def test_manual_chains_occupation_steps(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -508,7 +508,7 @@ class AdmissionRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 122)
+        self.assertEqual(len(rows), 124)
 
     def test_manual_chains_admission_before_occupations(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -526,7 +526,7 @@ class PhaseSixRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 122)
+        self.assertEqual(len(rows), 124)
 
     def test_phase_six_rulings_keep_the_hard_wording(self):
         """四条第6期裁定各钉一句只有真源侧才说得出的硬话：
@@ -559,7 +559,7 @@ class PhaseSevenRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 122)
+        self.assertEqual(len(rows), 124)
 
     def test_island_ruling_keeps_the_hard_wording(self):
         """第7期裁定钉四句只有真源侧才说得出的硬话：无桥是用户给的硬约束、岛不进名录是三层落法的代价账、
@@ -595,7 +595,7 @@ class PhaseEightRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 122)
+        self.assertEqual(len(rows), 124)
 
     def test_phase_eight_ruling_keeps_the_hard_wording(self):
         """第8期裁定钉四句只有真源侧才说得出的硬话：救助金额一律派生不手填、按本人发放不乘户均规模、

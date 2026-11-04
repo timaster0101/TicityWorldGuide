@@ -92,6 +92,19 @@ class ReviewSuiteTests(unittest.TestCase):
         for token in ("C100", "C101", "C99", "C92", "C97", "C106", "判据十条", "不写结论", "本单每次重跑会被覆盖"):
             self.assertIn(token, header)
 
+    def test_c123_and_c124_rewrite_the_background_and_floor_criteria(self):
+        """C123／C124 落进判据栏的两处口径：背景授权唯一入口是取景段逐一点名，正文写作「远景」的主体构件不算；
+        画面可读层数与锁定层数不符只记备注、不单独判废。**Why**：层数与米数只活在 101/312 条的中文段，
+        English tail 里没有可数的单元，判废栏留着它就等于判一条模型无从得知的禁令。
+        旧的「高度、层数、冠部形态与名录真值一致」串回到任何一条即判红。"""
+        text = "\n".join(self.item_blocks()["L001"])
+        self.assertIn("画面可读层数与锁定层数不符只记备注、不单独判废（C124", text)
+        self.assertNotIn("高度、层数、冠部形态与名录真值一致", text)
+        self.assertIn("正文里写作「远景」的主体自身构件不算背景授权", text)
+        header = self.work.split("### ")[0]
+        for token in ("C123", "C124"):
+            self.assertIn(token, header)
+
     def test_verdict_columns_are_blank_and_no_acceptance_language(self):
         self.assertEqual(self.signed_verdict_ids(), [])
         self.assertNotIn("已验收", self.work)

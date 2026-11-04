@@ -19,3 +19,10 @@ __pycache__/
 #    清单本身可随时由 build_prompts.py 重建，备份不入版本库只留盘；工具/_bo_task3only.bak 已被上面的 *.bak 覆盖。
 vibe_images/
 数据/开图清单.backup_20261031_203828.json
+
+# 2026-11-05 复测：本轮 C123 新串重投的目视辅助图 104MB／49 个 PNG（七张整图对照拼图、
+# 19 张原生分辨率街面带＋L072 的 3× 放大招牌复核、探针裁图若干）留在 工具/reinject_2026_11_05/ 只留盘不入库，
+# 与 数据/视觉控制资产/ 同一条口径——图不版本化、删了 git 找不回，需另行备份；
+# 同目录的脚本与机读件（measure／digests／send_bodies／backfill 等 13 个）照常入库。
+工具/reinject_2026_11_05/*.png
+工具/reinject_2026_11_05/*/*.png

@@ -1,0 +1,46 @@
+[
+ {
+  "file": "L061-北湖政务协同塔-C123新串-v01_1793813109284_d0763a20.png",
+  "bytes": 2907342,
+  "sha256_12": "350e6685cc15",
+  "dims": "1024x1536",
+  "mode": "RGB",
+  "container": {
+   "cabx": 1,
+   "itxt": 0,
+   "tc260": false,
+   "aigc": false
+  },
+  "corners": {
+   "TL": 110.0,
+   "TR": 152.5,
+   "BL": 98.1,
+   "BR": 152.6
+  },
+  "p99_lum": 225.0,
+  "fine_var_full": 0.003373,
+  "fine_var_center": 0.005385,
+  "sun_blob_px": 112,
+  "row_seam_peaks": [
+   1201,
+   1202,
+   1203,
+   1206,
+   1207,
+   1208
+  ],
+  "id": "L061",
+  "entry_name": "北湖政务协同塔",
+  "entry_type": "标志性建筑",
+  "expected_size": "1024x1536",
+  "size_match": true,
+  "status_now": "待复验",
+  "image_file_now": [
+   "vibe_images/L061-北湖政务协同塔-C118新串-v01_1793757718784_b8d4fda6.png"
+  ],
+  "camera_facing_deg": 180.0,
+  "sun_relative_deg": 75.0,
+  "aspect": "2:3 竖幅，容纳正典塔身与冠部",
+  "lock": ""
+ }
+]

@@ -849,7 +849,14 @@ class BuildPromptsTests(unittest.TestCase):
     # C101：远景可纳性。B3 的 F039（机位朝北）与 R009（取景段「远景止于凸出的砖楼梯间」）都在远景画出整片
     # 主城天际线，L066 的 v01／v02 把 L007 的斜削冠＋细针天线安到了背景塔上。几何在闸门侧独立重抄一份，
     # 刻意不 import 生成器的 background_phrase——两边一起改错才判不出红。
-    FAR_VIEW_RULE = "the far view must contain only what the Chinese framing section names as 远景"
+    # C123：授权宾语从「取景段点名为『远景』的内容」换成不被主体构件占位的背景天际线口径。
+    # 闸门只抄总则前缀（与生成器同串），旧术语回到任何一条都判红——第9批 48 条里 44 条的
+    # `远景为…` 宾语是主体自身构件，旧总则因此对背景天际线空转，这是它被换掉的唯一理由。
+    FAR_VIEW_RULE = "the background skyline beyond the main subject may contain only the distant objects the Chinese"
+    FAR_VIEW_OLD_WORDING = "the far view must contain only what the Chinese framing section names as 远景"
+    GLOBAL_CLUSTER_WITHHELD = ("成簇只是正典事实、不构成本条画面的授权，背景天际线只许画【取景指令】逐一点名的独立远景对象，"
+                               "未点名者一律不入画")
+    GLOBAL_TERM_WITHDRAWN = "「远景」二字常指主体自身的远处构件"
     NAMED_SUPERTALLS = ("L007", "L066")
     # 本轮实测分档：取景段给出可解析机位坐标的 68 条走几何算式（48 条标志性建筑＋20 条城市片区），
     # 其余 244 条（居民区 120／标志性建筑 60／功能区 40／产业小镇 16／特色村落 8）无机位坐标，只走静态句。
@@ -971,6 +978,67 @@ class BuildPromptsTests(unittest.TestCase):
         self.script.write_text(pristine, encoding="utf-8")
         self.run_generator()
         self.assertEqual(self.bg_violations(), [])
+
+    # C123：第9批 20/48 条把未点名的超高层画进背景，根因不是少写一条禁令，而是同一串里既禁点名、又宣布有簇，
+    # 且旧总则的授权宾语「远景」在 48 条里 44 条被主体自身构件占位（L088 是整墙斜拉索上段、L100 是内凹小平台）。
+    # 中文与闸门两侧各抄一份，刻意不 import 生成器常量。
+    def global_view_violations(self):
+        out = []
+        for eid in sorted(self.items):
+            text = self.prompt(eid)
+            line = next((l for l in text.splitlines() if l.startswith("【全局硬设定】")), "")
+            for mark in (self.GLOBAL_CLUSTER_WITHHELD, self.GLOBAL_TERM_WITHDRAWN):
+                if mark not in line:
+                    out.append((eid, mark))
+            if self.FAR_VIEW_OLD_WORDING in text:
+                out.append((eid, "旧的远景授权术语回流"))
+        return out
+
+    def test_the_cluster_clause_no_longer_authorises_a_background_skyline(self):
+        """C123：312 条的中文【全局硬设定】都要读到「成簇只是正典事实、不构成本条画面的授权」与
+        「「远景」二字常指主体自身的远处构件」两句，tail 的新总则逐条在位，旧术语一条不许残留。"""
+        self.assertEqual(self.global_view_violations(), [])
+        self.assertEqual(self.bg_violations(), [])
+        for eid in ("L088", "L100", "L061", "D03", "S18"):
+            with self.subTest(eid=eid):
+                self.assertIn(self.GLOBAL_CLUSTER_WITHHELD, self.prompt(eid))
+
+    def test_reverting_the_background_authorization_wording_is_caught_by_the_new_gate(self):
+        """违例负测：只把 tail 总则换回旧术语，其余逐字不动——新判据必须 312 条全报「旧的远景授权术语回流」，
+        且 C101 的远景判据同时 312 条报总则缺失，证明旧宾语一回来就同时废掉总则与依赖它的逐塔片段。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = 'FAR_VIEW_RULE = ("the background skyline beyond the main subject may contain only the distant objects the Chinese "'
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在 C123 的新总则上")
+        self.script.write_text(
+            pristine.replace(anchor,
+                             'FAR_VIEW_RULE = ("the far view must contain only what the Chinese framing section names as 远景; '
+                             'do not add a distant "', 1), encoding="utf-8")
+        self.run_generator()
+        violations = self.global_view_violations()
+        self.assertEqual(sorted({eid for eid, _ in violations}), sorted(self.items))
+        self.assertEqual({reason for _, reason in violations}, {"旧的远景授权术语回流"})
+        self.assertEqual(sorted({eid for eid, _ in self.bg_violations()}), sorted(self.items))
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.global_view_violations(), [])
+        self.assertEqual(self.bg_violations(), [])
+
+    def test_dropping_the_withheld_authorisation_from_the_global_clause_is_caught(self):
+        """违例负测：只删中文全局段的「成簇不授权」句（tail 逐字不动），新判据必须 312 条全报且只报这一句缺失；
+        C101 的远景算式与 C106 的形体来源判据全绿，证明本轮改的是「收回邀请」，不是再加一条禁令。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = "；成簇只是正典事实、不构成本条画面的授权，背景天际线只许画【取景指令】逐一点名的独立远景对象，未点名者一律不入画"
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在 C123 的成簇收回授权句上")
+        self.script.write_text(pristine.replace(anchor, "", 1), encoding="utf-8")
+        self.run_generator()
+        violations = self.global_view_violations()
+        self.assertEqual(sorted({eid for eid, _ in violations}), sorted(self.items))
+        self.assertEqual({reason for _, reason in violations}, {self.GLOBAL_CLUSTER_WITHHELD})
+        self.assertEqual(self.bg_violations(), [])
+        self.assertEqual(self.skyline_violations(), [])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_generator()
+        self.assertEqual(self.global_view_violations(), [])
 
     # C106：远景「有没有资格出现」由 C101 管，「出现的那几栋长什么样」是另一条。L083 的 C105 换档重出 v05
     # 侧别算对（两座超高层落在左侧），轮廓却是陆家嘴三件套的现成剪影——模型被允许画远景时默认去抄现实天际线。
@@ -1734,6 +1802,46 @@ class RulingC122MediumGrade(unittest.TestCase):
         for reading in ("0.000414", "0.000346"):
             self.assertIn(reading, by_id["C122"]["原因"], "C122 原因里的极轻档地板读数丢了：" + reading)
         self.assertIn("脚本不得代签", by_id["C122"]["影响"])
+
+
+class RulingC123C124BackgroundAndFloor(unittest.TestCase):
+    """C123／C124 的裁定文本是这两处口径的唯一完整出处：一条讲「成簇不授权＋旧术语为何空转」，
+    一条讲「层数为什么退出判废栏」。下一轮若要改回，必须先在这两条记录上留下新的读数，
+    所以这里把措辞、量化凭据与「不触发 docx 重导」的边界一起钉住。"""
+
+    def test_c123_records_the_withheld_background_authorisation(self):
+        rows = json.loads((ROOT / "数据" / "设定裁定记录.json").read_text(encoding="utf-8"))
+        by_id = {r["编号"]: r for r in rows}
+        self.assertIn("C123", by_id)
+        self.assertEqual(set(by_id["C123"]), {"编号", "裁定", "原因", "影响"})
+        body = by_id["C123"]["裁定"] + by_id["C123"]["原因"] + by_id["C123"]["影响"]
+        for keep in ("the background skyline beyond the main subject may contain only the distant objects",
+                     "成簇只是正典事实、不构成本条画面的授权",
+                     "44 条的 `【取景指令】远景为…` 宾语是主体自身的构件",
+                     "逐字存在于 312/312 条",
+                     "`prompt_sha256` 实测 312 变、0 未变",
+                     "MAST_RECAP_CLAUSE",
+                     "不触发 docx 重导",
+                     "计数钉 122→124"):
+            self.assertIn(keep, body, "C123 裁定丢了关键句：" + keep[:24])
+
+    def test_c124_records_the_floor_count_demotion_to_a_note(self):
+        rows = json.loads((ROOT / "数据" / "设定裁定记录.json").read_text(encoding="utf-8"))
+        by_id = {r["编号"]: r for r in rows}
+        self.assertIn("C124", by_id)
+        self.assertEqual(set(by_id["C124"]), {"编号", "裁定", "原因", "影响"})
+        body = by_id["C124"]["裁定"] + by_id["C124"]["原因"] + by_id["C124"]["影响"]
+        for keep in ("只记备注、不单独判废",
+                     "实测 101/312 条带 `锁定N层M米`",
+                     "English tail 里 `floors` 出现 0 次",
+                     "9/48 条因层数量级判废",
+                     "并集 22、交集 7",
+                     "只有 L097 失去唯一判废理由",
+                     "另立裁定"):
+            self.assertIn(keep, body, "C124 裁定丢了关键句：" + keep[:24])
+        # 判废力度只降层数：高度与冠部两句必须仍在记录里，否则下一轮会把整栏一起放松。
+        for hold in ("高度与冠部形态同名录真值一致即过关", "把 L007 的斜削冠＋针状天线安到别的塔上即判废"):
+            self.assertIn(hold, by_id["C124"]["裁定"], "C124 把不该降的力度也降了：" + hold[:20])
 
 
 if __name__ == "__main__":
