@@ -251,12 +251,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_117(self):
+    def test_rulings_are_118(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 117)
-        self.assertEqual(rulings[-1]['编号'], 'C117')
+        self.assertEqual(len(rulings), 118)
+        self.assertEqual(rulings[-1]['编号'], 'C118')
         self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C108', 'C109', 'C110', 'C111', 'C112', 'C113', 'C114', 'C115', 'C116', 'C117'])
+                         ['C109', 'C110', 'C111', 'C112', 'C113', 'C114', 'C115', 'C116', 'C117', 'C118'])
         by_id = {r['编号']: r for r in rulings}
         # C112 的硬话是「判据一律跨源写死、不由本表自证」与「任一行口径出现中断类许可词而同行无否定式即判红」；
         # C113 的硬话是「名称字段 0 条非空」——两条各钉一句，防止过度申报与跨源对账被静默改回话术。
@@ -278,6 +278,23 @@ class CanonConsistency(unittest.TestCase):
         self.assertIn('10541 张岗位卡不因此新增任何字段', by_id['C117']['裁定'])
         self.assertIn('豁免的是词、不是小类 ID', by_id['C117']['裁定'])
         self.assertIn('计数钉 116→117', by_id['C117']['影响'])
+        # C118 的硬话是「竖幅半幅宽 12 毫米」的画幅分档、「只登有读数的两条」的范围纪律，
+        # 以及「取景段是入画的唯一入口」这句优先次序：前两条一旦丢，下一轮会把口径又摊回 18 毫米
+        # 或把段内复述无证据铺满 33 条竖幅；后一条一旦丢，几何算式就又变成替取景段点名的那只手。
+        self.assertIn('2:3 竖幅取半幅宽 12 毫米', by_id['C118']['裁定'])
+        self.assertIn('另登记为待裁口径', by_id['C118']['裁定'])
+        self.assertIn('只登 L061／L083 两条有实投读数的条目', by_id['C118']['裁定'])
+        self.assertIn('逐字不动、两处并存', by_id['C118']['裁定'])
+        self.assertIn('生成器在载入时即退出', by_id['C118']['裁定'])
+        self.assertIn('取景段是入画的唯一入口', by_id['C118']['裁定'])
+        self.assertIn('同一条教训第二次出现就说明它是机制不是偶然', by_id['C118']['原因'])
+        self.assertIn('算式该管的是资格，不是点名', by_id['C118']['原因'])
+        self.assertIn('分卷/原稿/*.md 零改动', by_id['C118']['影响'])
+        self.assertIn('prompt_sha256 变化 60 条、未变 252 条', by_id['C118']['影响'])
+        self.assertIn('in 61／out 241／fallback 10', by_id['C118']['影响'])
+        self.assertIn('框内 78 组减为 68 组', by_id['C118']['影响'])
+        self.assertIn('未解释 0 条', by_id['C118']['影响'])
+        self.assertIn('计数钉 117→118', by_id['C118']['影响'])
         # C89 的「高度第一交给 L066、形态第一留在 L007」是本卷定价外溢的唯一出处，钉死措辞防止被改写后说明与价表脱钩。
         self.assertIn('458米/106层', by_id['C89']['裁定'])
         self.assertIn('唯一形态', by_id['C89']['裁定'])

@@ -340,12 +340,15 @@ class AssetRulings(unittest.TestCase):
         for cid in self.IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 117)
-        self.assertEqual(rows[-1]['编号'], 'C117')
+        self.assertEqual(len(rows), 118)
+        self.assertEqual(rows[-1]['编号'], 'C118')
         self.assertIn('rename_gallery_ext', by_id['C82']['裁定'])
         self.assertIn('不是交付判据', by_id['C83']['裁定'])
         self.assertIn('不判红、不改名', by_id['C84']['裁定'])
         self.assertIn('按文件名引用', by_id['C84']['原因'])
+        # C118 是本轮出图链的口径裁定，链上读数只有这条闸门能给出：数字被改回旧读数就说明产物没重跑。
+        self.assertIn('分卷/原稿/*.md 零改动', by_id['C118']['裁定'] + by_id['C118']['影响'])
+        self.assertIn('verify_image_assets 1077/1077 格通过、提示 0 条', by_id['C118']['影响'])
 
     def test_c97_records_the_two_accepted_containers(self):
         """C97 是双容器交付判据的唯一出处：裁定措辞一旦被回退，核验脚本的判据文本与裁定记录就各说各话，

@@ -475,7 +475,7 @@ class Rulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 117)
+        self.assertEqual(len(rows), 118)
 
     def test_manual_chains_occupation_steps(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -493,7 +493,7 @@ class AdmissionRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 117)
+        self.assertEqual(len(rows), 118)
 
     def test_manual_chains_admission_before_occupations(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -511,7 +511,7 @@ class PhaseSixRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 117)
+        self.assertEqual(len(rows), 118)
 
     def test_phase_six_rulings_keep_the_hard_wording(self):
         """四条第6期裁定各钉一句只有真源侧才说得出的硬话：

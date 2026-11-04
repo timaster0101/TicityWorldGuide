@@ -227,8 +227,8 @@ class RulingsEightyEight(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 117)
-        self.assertEqual(rows[-1]['编号'], 'C117')
+        self.assertEqual(len(rows), 118)
+        self.assertEqual(rows[-1]['编号'], 'C118')
 
 
 if __name__ == '__main__':

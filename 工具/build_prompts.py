@@ -71,13 +71,13 @@ def focal_mm(取景):
     return float(m.group(1)) if m else None
 
 
-def sun_frame_phrase(rel, focal, variant=False):
+def sun_frame_phrase(rel, focal, portrait, variant=False):
     # 时段变体条（C96／B6）的 255°侧别只作对照，光照以正文变体描述为准，因此不套默认光的可纳性算式，
     # 否则会给「清晨」条写进「落日不得入画」这种与本体矛盾的字。C111 把这一刀收窄到「取景段自己换掉了太阳」的条：
     # variant 实参由 variant_exempt_from_sun_math() 给，沿用255°基准的 6 条照样实算。
     if variant or rel is None or not focal:
         return "natural light as the canon section states"
-    half = math.degrees(math.atan(18.0 / focal))
+    half = frame_half_angle(focal, portrait)
     side = "right" if rel > 0 else "left"
     if abs(rel) <= half:
         # 可纳分支也必须写侧别：L066 v02 的日面落在画面左侧，而该条 rel=+15°、正文写「右前侧掠入」，
@@ -108,8 +108,20 @@ SUN_REPLACED_TOKENS = ("不沿用", "不套用", "不套入", "不调用", "而�
 SUN_ABSENT_BASELINE_TOKENS = ("夜景", "夜间", "入夜", "清晨", "阴天")
 
 
-def sun_half_angle(focal):
-    return math.degrees(math.atan(18.0 / focal))
+# C118：水平半视锥的画幅口径。C99 与 C101 自立案起都按 36 毫米全幅的一半（atan(18/焦距)）算水平半角，
+# 这个数对横幅与近正方成立；对 1024x1536 的 2:3 竖幅偏宽——竖幅画框是把 3:2 全幅转 90° 后取 2:3，
+# 画框的水平实际只有原幅的短边 24 毫米，半幅即 12 毫米。第12轮的实测把这条露了出来：L083 按 29.4°
+# 判「画外」的两根远景塔，折到竖幅口径只有 20.6°；L061 的负面分支是在这个偏宽口径下仍然通过的。
+# 于是 C99（日面）与 C101（远景塔）同源共用这一个函数，改一次两侧同时跟着走。
+# 范围纪律：本轮只订正竖幅这一档。5:4 与 7:4 的画框宽同样不等于 36 毫米，但那是第二个变量，
+# 没有成图证据就一并改等于把 68 条算式条目的摘要无判据地再翻一次，已登记为在案待裁。
+FRAME_HALF_WIDTH_MM = 18.0
+PORTRAIT_FRAME_HALF_WIDTH_MM = 12.0
+
+
+def frame_half_angle(focal, portrait):
+    half_width = PORTRAIT_FRAME_HALF_WIDTH_MM if portrait else FRAME_HALF_WIDTH_MM
+    return math.degrees(math.atan(half_width / focal))
 
 
 def variant_exempt_from_sun_math(eid, lighting_baseline):
@@ -117,8 +129,8 @@ def variant_exempt_from_sun_math(eid, lighting_baseline):
     return lighting_baseline == "labeled variant" and eid not in VARIANT_KEEPS_DEFAULT_SUN
 
 
-def sun_out_lock_clause(rel, focal):
-    half = sun_half_angle(focal)
+def sun_out_lock_clause(rel, focal, portrait):
+    half = frame_half_angle(focal, portrait)
     return ("本条沿用255°黄昏太阳：太阳相对本条机位偏%s%d°，在%g毫米镜头的±%.1f°水平半视锥之外，"
             "日面、落日辉光与镜头光斑一律不入画，只画取景段所述的光向、受光面与投影"
             % ("左" if rel < 0 else "右", round(abs(rel)), focal, half))
@@ -201,6 +213,39 @@ def check_variant_sun_keeps():
 check_variant_sun_keeps()
 
 
+# C118：未点名远景塔的屋顶禁则要住进段内。第12轮两条投放 2/2 栽在同一处——L083 的 L066 屋面起了一处短小
+# 竖向构件、L061 的两栋背景楼屋顶起了细桅，而当时这条禁令只住在 tail 的 SKYLINE_SOURCE_RULE 里
+# （"no invented crown, antenna or aperture"）。这与 C111 的发现同构：只写在尾部的禁令压不住模型，
+# 投喂串是「中文段＋尾部英文串」两段，模型按中文段定画面结构。于是按 C111 的同一路子把禁令复述进
+# 本条【锁定与禁则】段末。名单只收有读数凭据的两条，不铺到全部竖幅——无证据扩大是 C111 明确否掉的写法。
+MAST_RECAP_IDS = ("L061", "L083")
+MAST_RECAP_CLAUSE = ("本条远景里凡【取景指令】未点名的塔一律只画体量，屋顶不得起桅杆、天线、细竖杆或任何"
+                     "冠部构件；取景段点名的塔才按它写明的形制画")
+# 原稿自己写了这条禁则时，段内复述就是重复；守卫用这句的特征片段判「已自写」。
+MAST_RECAP_PROBE = "屋顶不得起桅杆"
+
+
+def check_mast_recap_ids():
+    """C118 的载入守卫：段内复述的凭据名单必须与知识库和原稿禁则现状对得上，两个方向都核。"""
+    drift = []
+    seen = {rec["id"] for rec in KB}
+    for eid in MAST_RECAP_IDS:
+        if eid not in seen:
+            drift.append("%s 已不在知识库里" % eid)
+            continue
+        rec = next(r for r in KB if r["id"] == eid)
+        if not is_portrait(rec["type"], eid, rec["name"], REG[eid].get("height_m", 0)):
+            drift.append("%s 已不是竖幅条，C118 的段内复述只裁竖幅小景别，应移出 MAST_RECAP_IDS" % eid)
+        if MAST_RECAP_PROBE in (_SECTIONS_BY_ID[eid].get("锁定项与禁则") or ""):
+            drift.append("%s 的原稿禁则已自写远景桅杆禁令，段内复述多余，应移出 MAST_RECAP_IDS" % eid)
+    if drift:
+        raise SystemExit("远景桅杆禁令的段内复述名单对不上正典：%s——原稿自写了这条就把它从 "
+                         "MAST_RECAP_IDS 移出，生成器不代改正稿" % "；".join(drift))
+
+
+check_mast_recap_ids()
+
+
 def camera_km(取景):
     m = CAMERA_COORD.search(取景 or "")
     return [float(m.group(1)), float(m.group(2))] if m else None
@@ -226,7 +271,7 @@ SKYLINE_SOURCE_RULE = ("background towers are composed from this canon's own geo
                        "city's skyline and do not borrow a real supertall's crown, twist or aperture")
 
 
-def background_phrase(eid, 取景, facing):
+def background_phrase(eid, 取景, facing, portrait):
     cam, focal = camera_km(取景), focal_mm(取景)
     parts = [FAR_VIEW_RULE, SKYLINE_SOURCE_RULE]
     for sid in NAMED_SUPERTALLS:
@@ -241,11 +286,17 @@ def background_phrase(eid, 取景, facing):
                          "its crown must not be reused on any other tower" % (sid, sup["name"], form))
             continue
         rel = offset(bearing(cam, sup["center_km"]), facing)
-        half = math.degrees(math.atan(18.0 / focal))
+        half = frame_half_angle(focal, portrait)
         side = "right" if rel > 0 else "left"
         if abs(rel) <= half:
+            # C118：几何可纳≠授权入画。旧写法 "so it may read in the far view" 让 tail 的点名句自己成了入画凭证，
+            # 与同一段开头的 FAR_VIEW_RULE（远景只许取景段点名的内容）撞车——第12轮的 L083 按 tail 画出两栋、
+            # L061 按 tail 未画出两栋，两种读法都能自证合规。这一句改成只给形制，入画与否归取景段独裁。
+            # 措辞刻意不用分号：闸门侧按 "; " 切分逐塔片段，句内分号会把形制串切到下一段去。
             parts.append("%s %s (%d metres) sits %.0f degrees to the %s of this camera, inside the %.0f degree "
-                         "half-angle, so it may read in the far view, painted as %s"
+                         "half-angle, which makes it geometrically admissible here, but the Chinese framing "
+                         "section stays the only thing that can put it in the picture and only where that section "
+                         "names it does the far view paint it as %s"
                          % (sid, sup["name"], sup["height_m"], abs(rel), side, half, form))
         else:
             parts.append("%s %s (%d metres) is %.0f degrees to the %s of this camera and outside this frame's %.0f "
@@ -470,14 +521,20 @@ for rec in KB:
     sec = rec["sections"]
     取景 = sec["图像与视频取景"]
     锁定 = sec["锁定项与禁则"]
+    # C118：画幅口径要在日面句之前就定下来——水平半视锥对竖幅与横幅取不同的半幅宽，
+    # 而竖幅判定（C91 形态规则）在本循环里只算这一次，段内禁句与 tail 必须共用同一个答案。
+    portrait = is_portrait(typ, eid, name, reg.get("height_m", 0))
     if rec.get("lighting_baseline") == "labeled variant":
         锁定 = "%s。%s。" % (锁定.rstrip("。"), VARIANT_LOCK_CLAUSE)
         if eid in VARIANT_KEEPS_DEFAULT_SUN:
             # C111：沿用255°基准的变体条按本条几何实算，算得须画外的再把禁令复述进段末（可纳的条不写禁句，
             # 否则等于给 D03／R009 这类该画日面的条也套上「不入画」）。守卫已保证这两项都解析得出。
             _rel, _focal = rec.get("sun_relative_deg"), focal_mm(取景)
-            if abs(_rel) > sun_half_angle(_focal):
-                锁定 = "%s。%s。" % (锁定.rstrip("。"), sun_out_lock_clause(_rel, _focal))
+            if abs(_rel) > frame_half_angle(_focal, portrait):
+                锁定 = "%s。%s。" % (锁定.rstrip("。"), sun_out_lock_clause(_rel, _focal, portrait))
+    if eid in MAST_RECAP_IDS:
+        # C118：远景桅杆禁令按 C111 的路子复述进段末（守卫已保证这两条仍在库里、仍是竖幅、原稿没自写这条）。
+        锁定 = "%s。%s。" % (锁定.rstrip("。"), MAST_RECAP_CLAUSE)
     位置 = sec["位置与规模"]
     外观 = sec["外观与辨识细节"]
     人群 = sec["人群与生活节奏"]
@@ -486,7 +543,7 @@ for rec in KB:
         raise SystemExit("%s 的详档含不可校验的热闹词：%s（先改分卷原稿再重跑，生成器不代改正文）"
                          % (eid, "、".join(不可校验)))
     size, aspect = SIZE_BY_TYPE[typ]
-    if is_portrait(typ, eid, name, reg.get("height_m", 0)):
+    if portrait:
         size, aspect = "1024x1536", "2:3 竖幅，容纳正典塔身与冠部"
     parent_name = "主城区" if rec.get("parent") == "CITY" else (rec.get("parent_name") or "山外围区域")
     rel = rec.get("sun_relative_deg")
@@ -534,9 +591,9 @@ for rec in KB:
                   "preserve mandatory platform AIGC labels and TC260 XMP metadata unchanged, no invented landmark, "
                   "everything above in the Chinese canon sections overrides this line."
                   % (STYLE_CORE, TAIL_BY_TYPE[typ], aspect.split("，")[0],
-                     sun_frame_phrase(rel, focal_mm(取景),
+                     sun_frame_phrase(rel, focal_mm(取景), portrait,
                                       variant_exempt_from_sun_math(eid, rec.get("lighting_baseline"))),
-                     background_phrase(eid, 取景, facing),
+                     background_phrase(eid, 取景, facing, portrait),
                      STREET_TRACES, SIGNAGE_RULE, NEGATIVE_TAG))
     # UTF-8 / LF的完整生成输入：身份、硬参数、原文、价格、尺寸和中英文模板。
     # 状态、摘要自身、图片路径、批次与人工备注在计算后加入，避免自引用与回填漂移。
