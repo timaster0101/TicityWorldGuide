@@ -1890,5 +1890,55 @@ class RulingC125SilhouetteBoundary(unittest.TestCase):
         self.assertEqual(leaks, [], "两档判据措辞渗进提示词正文：%s" % leaks[:3])
 
 
+class RulingC126RodAndCraneTiering(unittest.TestCase):
+    """C126 把 C125 记号档里唯一在两档之间反复的两项读法钉成可量的数：屋面细杆按杆高对可见塔身
+    十二分之一分档，塔吊按街面施工层与天际线远景带分档。与 C125 同属判据侧改动，
+    一面钉「三处落点都带阈值与分档」，一面钉「一条画面串都没动」。"""
+
+    ROD = ("屋面上的细竖杆按 C126 量着判而不是看着判：发丝状直杆且无横档、无格构、无灯球、无斜削面、无开洞，"
+           "杆高不超过同屏可见塔身的十二分之一，读作避雷带或旗杆类构件、记备注")
+    CRANE = "塔吊同样按 C126 分工：立于街面施工围挡层、不与任何未点名远景塔冠绑定的吊机读作生活痕迹"
+
+    def test_c126_records_the_threshold_and_the_crane_split(self):
+        rows = json.loads((ROOT / "数据" / "设定裁定记录.json").read_text(encoding="utf-8"))
+        by_id = {r["编号"]: r for r in rows}
+        self.assertIn("C126", by_id)
+        self.assertEqual(set(by_id["C126"]), {"编号", "裁定", "原因", "影响"})
+        body = by_id["C126"]["裁定"] + by_id["C126"]["原因"] + by_id["C126"]["影响"]
+        for keep in ("十二分之一", "grid_crop.py", "杆顶 y、女儿墙 y、前景遮断处 y",
+                     "construction hoarding with a tower crane",
+                     "约十八分之一", "16→15", "不牵连 `prompt_sha256`", "撤销分档"):
+            self.assertIn(keep, body, "C126 裁定丢了关键句：" + keep[:24])
+        for hold in ("斜削冠", "冠部开洞", "扭转塔身", "L007"):
+            self.assertIn(hold, by_id["C126"]["裁定"] + by_id["C126"]["影响"],
+                          "C126 把不该降的力度也降了：" + hold)
+
+    def test_the_manifest_and_worksheet_carry_the_measured_tiers(self):
+        md = (ROOT / "数据" / "开图清单.md").read_text(encoding="utf-8")
+        self.assertIn(self.ROD, md)
+        self.assertIn(self.CRANE, md)
+        self.assertIn("两个数一并写进读数", md)
+        sheet = (ROOT / "数据" / "人工复看套件" / "工作单.md").read_text(encoding="utf-8")
+        self.assertIn("屋面细杆按 C126 量：无横档／格构／灯球／斜削／开洞且杆高≤同屏可见塔身十二分之一者记备注",
+                      sheet)
+        self.assertIn("塔吊立于街面施工层记备注、立于天际线远景带判废（C126）", sheet)
+        self.assertIn("C126（屋面细杆按杆高对可见塔身十二分之一分档、塔吊按街面与天际线分档）", sheet)
+
+    def test_c126_moves_no_prompt_digest_and_writes_nothing_into_the_prompt_bodies(self):
+        snapshot = json.loads((ROOT / "工具" / "reinject_2026_11_05" / "prompt_digests_c123.json")
+                               .read_text(encoding="utf-8"))["items"]
+        manifest = json.loads((ROOT / "数据" / "开图清单.json").read_text(encoding="utf-8"))["items"]
+        moved = [m["id"] for m in manifest if m["prompt_sha256"] != snapshot[m["id"]]["after"]]
+        self.assertEqual(moved, [], "C126 动了画面串，变更 %d 条：%s" % (len(moved), moved[:5]))
+        leaks = []
+        for path in sorted((ROOT / "数据" / "开图提示词").glob("*.txt")):
+            text = path.read_text(encoding="utf-8")
+            # 只扫「## 提示词正文」之后：抬头里的复验备注是人工读数，读数引 C126 是应有之物，不是渗串。
+            body = text.split("## 提示词正文", 1)[1] if "## 提示词正文" in text else ""
+            if "C126" in body or self.ROD in body or self.CRANE in body:
+                leaks.append(path.name)
+        self.assertEqual(leaks, [], "分档措辞渗进提示词正文：%s" % leaks[:3])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

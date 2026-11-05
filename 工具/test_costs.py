@@ -264,12 +264,12 @@ class CanonConsistency(unittest.TestCase):
         self.assertEqual(units, self.canon['汇总']['单元数'])
         self.assertEqual(units * self.canon['汇总']['住房类型数'], self.EXPECTED['库存行数'])
 
-    def test_rulings_are_125(self):
+    def test_rulings_are_126(self):
         rulings = json.loads((ROOT / '数据' / '设定裁定记录.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(rulings), 125)
-        self.assertEqual(rulings[-1]['编号'], 'C125')
-        self.assertEqual([r['编号'] for r in rulings[-10:]],
-                         ['C116', 'C117', 'C118', 'C119', 'C120', 'C121', 'C122', 'C123', 'C124', 'C125'])
+        self.assertEqual(len(rulings), 126)
+        self.assertEqual(rulings[-1]['编号'], 'C126')
+        self.assertEqual([r['编号'] for r in rulings[-11:]],
+                         ['C116', 'C117', 'C118', 'C119', 'C120', 'C121', 'C122', 'C123', 'C124', 'C125', 'C126'])
         by_id = {r['编号']: r for r in rulings}
         # C112 的硬话是「判据一律跨源写死、不由本表自证」与「任一行口径出现中断类许可词而同行无否定式即判红」；
         # C113 的硬话是「名称字段 0 条非空」——两条各钉一句，防止过度申报与跨源对账被静默改回话术。
