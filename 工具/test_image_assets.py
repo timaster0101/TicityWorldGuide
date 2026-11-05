@@ -14,32 +14,68 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / '工具'))
 
 
+CELL_PAT = re.compile(r'(?:替换上一格|替换第(\d+)格) (\S+?\.png)')
+
+
+def c123_row(eid, rows):
+    """按抬头取本轮那条重投读数，不按位置取。
+
+    为什么不按位置：同一 ID 在重投后还会被追加复看补写（2026-11-05 那轮 6 条牌面缺口补写就是把
+    读数追加到末尾），rows[-1] 会指到补写上，判据查的其实一直是重投那条。"""
+    hits = [r for r in rows if r.startswith('C123新串%s重投' % eid)]
+    return hits[-1] if hits else ''
+
+
 def check_c123_registration(item, rows):
     """C123 重投占格判据，返回违例清单（空＝达标）。判据本身写在这里，闸门与负测共用一份。
 
-    为什么是替换而不是追加：上一格出成于 C118 档串，其后画风锚点换到 C122、背景授权又随 C123 收回，
+    为什么是替换而不是追加：上一格出成于旧档串，其后画风锚点换到 C122、背景授权又随 C123 收回，
     基准连换两档；两版并排占格会把「这格图存在」读成「两版都可用」。
     为什么不绑摘要：image_prompt_sha256 的绑定属人工验收动作，脚本代签等于把未经复验的图洗成已验收。
+    占格口径由读数自己声明（替换上一格／替换第N格／本条此前无格为首占），判据拿声明去核清单实际格数，
+    两边对不上就判红——这样第9批两轮的替换格与首占格共用一条判据，不必按批次分叉。
     """
     bad = []
-    row = rows[-1] if rows else ''
+    eid = item['id']
+    row = c123_row(eid, rows)
     files = item.get('image_file') or []
+    if not row:
+        return ['本轮重投读数不在档']
     if item.get('status') != '待复验':
         bad.append('状态不是待复验')
-    if len(files) != 1:
-        bad.append('占格数不是1（本轮是替换，不是追加）')
-    if not files or 'C123新串' not in files[0]:
-        bad.append('占格文件名不是C123新串档')
-    if files and files[0] not in row:
-        bad.append('读数未写本轮占格文件名')
-    if 'C118新串' not in row:
-        bad.append('读数未写被替换的旧格文件名')
+    if len(files) != len(set(files)):
+        bad.append('清单里有重格')
+    slot = None
+    old = None
+    m = CELL_PAT.search(row)
+    if m:
+        slot = int(m.group(1)) if m.group(1) else len(files)
+        old = m.group(2)
+    elif '为首占' in row:
+        slot = 1
+    else:
+        bad.append('读数未写明占格口径（替换上一格／替换第N格／为首占）')
+    if slot is not None:
+        if not (1 <= slot <= len(files)):
+            bad.append('读数声明的格号越出清单（读数%d格，清单%d格）' % (slot, len(files)))
+        elif len([f for f in files if 'C123新串' in f]) != 1:
+            bad.append('本轮新格不止一格（追加而非替换）')
+        else:
+            cell = files[slot - 1]
+            if 'C123新串' not in cell:
+                bad.append('声明的那一格不是C123新串档')
+            if cell not in row:
+                bad.append('读数未写本轮占格文件名')
+        if old:
+            if old == (files[slot - 1] if 1 <= slot <= len(files) else None):
+                bad.append('读数写的旧格与本轮新格同名，替换没落地')
+            if not (ROOT / old).is_file():
+                bad.append('被替换的旧文件已不在盘上（口径是不删）')
     if not str(item.get('batch') or '').endswith('C123新串-v01'):
         bad.append('batch 未随本轮换档')
     if item.get('image_prompt_sha256'):
         bad.append('已绑定摘要，占格不该由脚本代签验收')
-    for token in ('sha12=', 'caBX=1', 'iTXt=0', '替换上一格',
-                  'image_prompt_sha256 留空', '待复验', '不代签验收'):
+    for token in ('sha12=', 'caBX=1', 'iTXt=0', 'image_prompt_sha256 留空', '待复验', '不代签验收'):
         if token not in row:
             bad.append('读数缺要素:' + token)
     if '不回填' in row:
@@ -81,6 +117,10 @@ class ReviewNoteHistory(unittest.TestCase):
     # 见 工具/parallel_batch_2026_11_03/visual_notes.md 与 工具/reinject_2026_11_05/c123_measure.json。
     BATCH9 = ('L061', 'L062', 'L064', 'L066', 'L068', 'L069', 'L070', 'L071', 'L072', 'L074',
               'L077', 'L078', 'L079', 'L082', 'L084', 'L088', 'L091', 'L096', 'L098')
+    # 第9批剩余 29 条按 C123 新串重投后无判废项的 12 条（2026-11-05）：其中 10 条此前无格、本轮首占，
+    # R063／R066 是替换各自第 5 格。判废的 19 条不占格、状态维持待开图，读数只留在批次目录。
+    BATCH9C = ('L063', 'L067', 'L073', 'L075', 'L076', 'L086', 'L087', 'L089', 'L097', 'L102',
+               'R063', 'R066')
     # 只有目视十项达标的才允许追加图格；判废与待复验的只记打表，不占 image_file。
     APPENDED = {'D03': 5, 'D08': 5, 'S02': 6, 'S18': 6, 'R009': 5, 'R038': 5,
                 'L033': 5, 'R076': 5, 'R090': 5, 'R098': 5,
@@ -91,7 +131,7 @@ class ReviewNoteHistory(unittest.TestCase):
         # L061／L066 同时出现在 RESHOT 与 BATCH9（两轮各记一条），所以按键集合比而不是按元组长度比。
         self.assertEqual(set(self.notes),
                          set(self.RECOVERED + self.BACKFILLED + self.RESHOT + self.VARIANT
-                             + self.MORNING + self.RAIN + self.SUNNY + self.BATCH9))
+                             + self.MORNING + self.RAIN + self.SUNNY + self.BATCH9 + self.BATCH9C))
         # 本轮实测：809ed08 的原始长度 518/226/231/151，各带一条同文派生原因，剥净后如下
         self.assertEqual({k: len(v[0]) for k, v in self.notes.items() if k in self.RECOVERED},
                          {'D01': 204, 'L007': 491, 'L008': 199, 'R043': 124})
@@ -106,7 +146,9 @@ class ReviewNoteHistory(unittest.TestCase):
             with self.subTest(eid=eid):
                 row = self.notes[eid][-1]
                 self.assertIn('vibe_images/', row)
-                self.assertIn('C97', row)
+                # C97 认的是「PNG 走 caBX·C2PA 容器」这条口径：旧档备注按裁定号复述一句，
+                # C123 重投档的抬头直接写容器读数 caBX=1、iTXt=0，同一口径两种写法都算交代过。
+                self.assertTrue('C97' in row or 'caBX=1' in row, '%s 未交代标识容器口径' % eid)
                 self.assertIn('待复验', row)
                 self.assertIn('不代签验收', row)
                 item = self.items[eid]
@@ -142,12 +184,18 @@ class ReviewNoteHistory(unittest.TestCase):
                 self.assertEqual(len(got) if isinstance(got, list) else (1 if got else 0), cells, eid)
 
     def test_batch9_cells_are_registered_but_not_signed(self):
-        """第9批 19 格按 C123 新串重投后改指新文件。占格必须自带出处（新旧两个文件名、sha12、容器读数），
-        又必须自带不签署的口径（无 image_prompt_sha256、写明不代签验收）。
+        """第9批 31 格（前一轮 19 条替换旧格、本轮 12 条里 10 条首占＋2 条替换第5格）。
+        占格必须自带出处（本轮文件名、被替换的旧格名、sha12、容器读数），
+        又必须自带不签署的口径（无 image_prompt_sha256、写明绑定留空与不代签验收）。
         少了前一组，下一轮查不到这格是哪批；少了后一组，待复验会被读成已验收。"""
-        for eid in self.BATCH9:
+        for eid in self.BATCH9 + self.BATCH9C:
             with self.subTest(eid=eid):
                 self.assertEqual(check_c123_registration(self.items[eid], self.notes[eid]), [], eid)
+        # 本轮 12 条的读数抬头与批次字段：首占 10 条只有一格，替换 2 条仍是五格
+        for eid in self.BATCH9C:
+            with self.subTest(eid=eid):
+                expect = 5 if eid in ('R063', 'R066') else 1
+                self.assertEqual(len(self.items[eid]['image_file']), expect, eid)
         # L061／L066 本轮占的是新串新文件，上一轮串外试投的「不回填」结论必须还在历史里；
         # 本轮追加了一条读数，所以那条历史从倒数第二条挪到倒数第三条。
         for eid in ('L061', 'L066'):
@@ -155,8 +203,8 @@ class ReviewNoteHistory(unittest.TestCase):
 
     def test_c123_registration_gate_reds_on_each_violation(self):
         """违例负测：占格判据的每一条都要能被造出来的坏数据打红，否则闸门是假绿。
-        故障样本取自本轮真实做过的四种错法：留着旧格不替换、脚本替人工绑摘要、
-        读数漏掉容器、batch 还停在上一档串。"""
+        故障样本取自两轮真实做过的错法：留着旧格不替换、脚本替人工绑摘要、读数漏掉容器、
+        batch 还停在上一档串、首占格数写错、旧格名与本轮新格同名。"""
         base = self.items['L062']
         rows = self.notes['L062']
         self.assertEqual(check_c123_registration(base, rows), [])
@@ -172,28 +220,69 @@ class ReviewNoteHistory(unittest.TestCase):
                 mutate(item)
                 self.assertTrue(check_c123_registration(item, note_rows), label)
         for token, label in (('caBX=1', '读数漏容器'), ('替换上一格', '读数漏出处'),
-                             ('image_prompt_sha256 留空', '读数漏绑定口径')):
+                             ('image_prompt_sha256 留空', '读数漏绑定口径'),
+                             ('待复验', '读数漏状态口径')):
             with self.subTest(case=label):
                 mutated_rows = json.loads(json.dumps(rows))
                 mutated_rows[-1] = mutated_rows[-1].replace(token, '')
                 self.assertTrue(check_c123_registration(base, mutated_rows), label)
+        # 本轮两种新口径各自的坏数据
+        first = self.items['L063']
+        first_rows = self.notes['L063']
+        self.assertEqual(check_c123_registration(first, first_rows), [])
+        with self.subTest(case='首占却占了两格'):
+            item = json.loads(json.dumps(first))
+            item['image_file'].append(item['image_file'][0])
+            self.assertTrue(check_c123_registration(item, first_rows), '首占却占了两格')
+        with self.subTest(case='首占读数不写口径'):
+            mutated = json.loads(json.dumps(first_rows))
+            mutated[-1] = mutated[-1].replace('本条此前无格，为首占', '')
+            self.assertTrue(check_c123_registration(first, mutated), '首占读数不写口径')
+        fifth = self.items['R063']
+        fifth_rows = self.notes['R063']
+        self.assertEqual(check_c123_registration(fifth, fifth_rows), [])
+        with self.subTest(case='替换格号写成追加'):
+            item = json.loads(json.dumps(fifth))
+            item['image_file'].append(item['image_file'][-1])
+            self.assertTrue(check_c123_registration(item, fifth_rows), '替换格号写成追加')
+        with self.subTest(case='旧格名写成本轮新格'):
+            mutated = json.loads(json.dumps(fifth_rows))
+            mutated[-1] = mutated[-1].replace('vibe_images/R063-雨谷花园-B6雨后批-v01_1793684292566_98aa282d.png',
+                                              fifth['image_file'][-1])
+            self.assertTrue(check_c123_registration(fifth, mutated), '旧格名写成本轮新格')
+        with self.subTest(case='被替换的旧文件已不在盘'):
+            mutated = json.loads(json.dumps(fifth_rows))
+            mutated[-1] = mutated[-1].replace('R063-雨谷花园-B6雨后批-v01_1793684292566_98aa282d.png',
+                                              'R063-雨谷花园-B6雨后批-v01_0000000000000000.png')
+            self.assertTrue(check_c123_registration(fifth, mutated), '被替换的旧文件已不在盘')
+
+    def test_reread_appended_after_registration_does_not_move_the_cell_verdict(self):
+        """复看补写往同一 ID 追加读数后，占格判据仍查重投那条：按位置取会指到补写上、把达标判成违例。
+        2026-11-05 那轮 6 条牌面缺口补写就是这种数据形态，这里拿 L064 做未注入对照。"""
+        eid = 'L064'
+        self.assertEqual(check_c123_registration(self.items[eid], self.notes[eid]), [], eid)
+        self.assertGreater(len(self.notes[eid]), 2, eid)
+        # 末尾那条是复看补写（它按文件名引用本轮的图，所以只能按抬头判，不能按关键词判）
+        self.assertFalse(self.notes[eid][-1].startswith('C123新串%s重投' % eid),
+                         '%s 末尾应是复看补写而不是重投读数' % eid)
+        self.assertTrue(c123_row(eid, self.notes[eid]).startswith('C123新串%s重投' % eid), eid)
 
     def test_history_survives_and_note_still_derives(self):
         # 308 条没有人工长文本，历史是空数组：判"键在不在"而不是"值真不真"；键随名录扩到312条
         self.assertEqual(sum(1 for i in self.items.values() if 'review_note_history' in i), 312)
-        # 第9批回填 19 条后：312 条里 47 条带人工长文本（L061／L066 本就有人工历史，故 30＋19−2）
-        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 47)
+        # 第9批两轮回填后：312 条里 57 条带人工长文本（47＋本轮首占的 10 条新键，R063／R066 本就有键）
+        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 57)
         for eid in self.RECOVERED + self.BACKFILLED + self.RESHOT + self.VARIANT + self.MORNING \
-                + self.RAIN + self.SUNNY + self.BATCH9:
+                + self.RAIN + self.SUNNY + self.BATCH9 + self.BATCH9C:
             hist = self.items[eid]['review_note_history']
             self.assertEqual(hist, self.notes[eid], eid)
             self.assertIn(self.notes[eid][-1], self.items[eid]['review_note'])
-        self.assertEqual(self.manifest['needs_review'], 283)
+        self.assertEqual(self.manifest['needs_review'], 293)
         self.assertEqual(self.manifest['accepted'], 0)
-        self.assertEqual(self.manifest['generated'], 283)
-        # 第9批放量48条里回填19条（判废候选25＋标红待裁2（L063／L090）＋含标红风险的待复验2（L067／L076）＝29条不回填）：
-        # generated/needs_review 按有图的283条计，pending 只留真正无图的29条。
-        self.assertEqual(self.manifest['pending'], 29)
+        self.assertEqual(self.manifest['generated'], 293)
+        # 第9批 48 条放量走完后：本轮 29 条重投里 12 条无判废项占了格，判废的 19 条退回待开图。
+        # generated/needs_review 按有图的 293 条计，pending 只留真正无图的 19 条。
+        self.assertEqual(self.manifest['pending'], 19)
 
 
 def jpeg(segments):
@@ -250,18 +339,19 @@ class AssetGate(unittest.TestCase):
 
     def test_paths_are_authoritative_and_unique(self):
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
-        self.assertEqual(len(paths), 1096)
-        self.assertEqual(len(set(paths)), 1096)
-        self.assertEqual(sum(1 for i in self.manifest['items'] if i.get('image_file')), 283)
+        self.assertEqual(len(paths), 1106)
+        self.assertEqual(len(set(paths)), 1106)
+        self.assertEqual(sum(1 for i in self.manifest['items'] if i.get('image_file')), 293)
 
     def test_report_all_green_and_disclaims(self):
-        self.assertEqual(self.report['文件格数'], 1096)
+        self.assertEqual(self.report['文件格数'], 1106)
         self.assertEqual(self.report['失败格数'], 0)
-        self.assertEqual(self.report['通过格数'], 1096)
+        self.assertEqual(self.report['通过格数'], 1106)
         # 回填的 E1 批次格必须真按 C2PA 容器计入，否则「认容器是识别」只写在裁定里、查不到证据。
-        # 40 格 = 阶段6首批 4 格（D03／D08／S02／S18）＋子批①②的 R009＋夜光批 R038＋清晨批四条＋雨后批 R006／R063／R066／R116
-        # ＋晴日批 R092＋C109／C110 新串重出的 R015／R034／S23＋C111 新串重出的 R054＋第9批回填的 19 格。
-        self.assertEqual(self.report['C2PA在位格数'], 40)
+        # 50 格 = 阶段6首批 4 格（D03／D08／S02／S18）＋子批①②的 R009＋夜光批 R038＋清晨批四条＋雨后批 R006／R063／R066／R116
+        # ＋晴日批 R092＋C109／C110 新串重出的 R015／R034／S23＋C111 新串重出的 R054＋第9批前一轮回填的 19 格
+        # ＋本轮首占的 10 格（R063／R066 是就地替换第5格，格数不增）。
+        self.assertEqual(self.report['C2PA在位格数'], 50)
         self.assertNotIn('已验收', json.dumps(self.report, ensure_ascii=False))
         self.assertIn('结构合规不等于视觉验收', self.report['声明'])
 
@@ -293,13 +383,13 @@ class AssetGate(unittest.TestCase):
         self.assertEqual(self.report['提示格数'], 0)
         self.assertEqual(self.report['失败格数'], 0)
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
-        self.assertEqual(len(paths), 1096)
+        self.assertEqual(len(paths), 1106)
         # C82 的归一只管 数据/图集/ 那批；E1 放量批次与 C105／C106 重出批次（C97 起认 caBX·C2PA 容器）
-        # 是真 PNG，按字节与容器引用，不改名也不要求它变成 .jpg。图集外 40 格全部是 caBX·C2PA 容器。
+        # 是真 PNG，按字节与容器引用，不改名也不要求它变成 .jpg。图集外 50 格全部是 caBX·C2PA 容器。
         gallery = [p for p in paths if p.startswith('数据/图集/')]
         out_of_gallery = [p for p in paths if not p.startswith('数据/图集/')]
         self.assertEqual(len(gallery), 1056)
-        self.assertEqual(len(out_of_gallery), 40)
+        self.assertEqual(len(out_of_gallery), 50)
         for p in gallery:
             self.assertTrue(p.lower().endswith(('.jpg', '.jpeg')), p)
             self.assertTrue((ROOT / p).is_file(), p)
@@ -423,8 +513,8 @@ class AssetRulings(unittest.TestCase):
         for cid in self.IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 124)
-        self.assertEqual(rows[-1]['编号'], 'C124')
+        self.assertEqual(len(rows), 125)
+        self.assertEqual(rows[-1]['编号'], 'C125')
         self.assertIn('rename_gallery_ext', by_id['C82']['裁定'])
         self.assertIn('不是交付判据', by_id['C83']['裁定'])
         self.assertIn('不判红、不改名', by_id['C84']['裁定'])

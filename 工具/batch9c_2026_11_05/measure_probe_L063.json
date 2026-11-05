@@ -1,0 +1,36 @@
+{
+ "file": "L063-北书学术交换塔-C123新串-v01_1793831603699_f5c99833.png",
+ "bytes": 2907566,
+ "sha256_12": "0675876f80b5",
+ "dims": "1024x1536",
+ "mode": "RGB",
+ "container": {
+  "cabx": 1,
+  "itxt": 0,
+  "tc260": false,
+  "aigc": false
+ },
+ "corners": {
+  "TL": 78.6,
+  "TR": 165.2,
+  "BL": 62.8,
+  "BR": 102.5
+ },
+ "p99_lum": 219.0,
+ "fine_var_full": 0.003053,
+ "fine_var_center": 0.003573,
+ "sun_blob_px": 16,
+ "row_seam_peaks": [
+  927,
+  938,
+  942,
+  966,
+  970,
+  1203
+ ],
+ "id": "L063",
+ "expected_size": "1024x1536",
+ "size_match": true,
+ "sun_relative_deg": 30.0,
+ "camera_facing_deg": 225.0
+}

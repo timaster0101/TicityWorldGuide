@@ -1844,5 +1844,51 @@ class RulingC123C124BackgroundAndFloor(unittest.TestCase):
             self.assertIn(hold, by_id["C124"]["裁定"], "C124 把不该降的力度也降了：" + hold[:20])
 
 
+class RulingC125SilhouetteBoundary(unittest.TestCase):
+    """C125 把「未点名背景体量」按能否读出专属形制记号分两档：带记号者仍判废、平头与剪影者记备注。
+    这一条只许动判据侧——分档渗进画面串就会让 312 条 prompt_sha256 再变一次档，属跨批次基准变化，
+    所以这里同时钉住「判据有分档」与「提示词零变化」两面。"""
+
+    MARKED = ("未点名体量上出现非对称斜削冠、细针状天线、桅杆或斜拉索上段、冠部开洞、扭转塔身任一记号即判废")
+    SILHOUETTE = "只读得出平头板楼、阶梯退台或雾中无冠部细节的剪影时记备注、不单独判废"
+
+    def test_c125_records_the_two_tier_boundary(self):
+        rows = json.loads((ROOT / "数据" / "设定裁定记录.json").read_text(encoding="utf-8"))
+        by_id = {r["编号"]: r for r in rows}
+        self.assertIn("C125", by_id)
+        self.assertEqual(set(by_id["C125"]), {"编号", "裁定", "原因", "影响"})
+        body = by_id["C125"]["裁定"] + by_id["C125"]["原因"] + by_id["C125"]["影响"]
+        for keep in ("0/19", "11/19", "L061／L064／L066／L068／L071／L077／L079／L082／L084／L091／L096",
+                     "§31.5 当时写的 15 含未落进备注的目视面",
+                     "不牵连 `prompt_sha256`",
+                     "手册是 compile_book 的六个根 md 输入之一",
+                     "第10次 Word 目视重签",
+                     "撤销本条分档"):
+            self.assertIn(keep, body, "C125 裁定丢了关键句：" + keep[:24])
+        for hold in ("非对称斜削冠", "C106", "L007 冠部挪用"):
+            self.assertIn(hold, by_id["C125"]["裁定"] + by_id["C125"]["影响"],
+                          "C125 把不该降的力度也降了：" + hold)
+
+    def test_the_rejection_clause_in_the_manifest_carries_both_tiers(self):
+        md = (ROOT / "数据" / "开图清单.md").read_text(encoding="utf-8")
+        self.assertIn(self.MARKED, md)
+        self.assertIn(self.SILHOUETTE, md)
+        self.assertIn("（C125）", md)
+
+    def test_c125_moves_no_prompt_digest_and_writes_nothing_into_the_prompt_bodies(self):
+        snapshot = json.loads((ROOT / "工具" / "reinject_2026_11_05" / "prompt_digests_c123.json")
+                               .read_text(encoding="utf-8"))["items"]
+        manifest = json.loads((ROOT / "数据" / "开图清单.json").read_text(encoding="utf-8"))["items"]
+        self.assertEqual(len(manifest), 312)
+        moved = [m["id"] for m in manifest if m["prompt_sha256"] != snapshot[m["id"]]["after"]]
+        self.assertEqual(moved, [], "C125 动了画面串，变更 %d 条：%s" % (len(moved), moved[:5]))
+        leaks = []
+        for path in sorted((ROOT / "数据" / "开图提示词").glob("*.txt")):
+            text = path.read_text(encoding="utf-8")
+            if self.MARKED in text or self.SILHOUETTE in text:
+                leaks.append(path.name)
+        self.assertEqual(leaks, [], "两档判据措辞渗进提示词正文：%s" % leaks[:3])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

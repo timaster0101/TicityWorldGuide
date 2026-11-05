@@ -70,9 +70,9 @@ class ReviewSuiteTests(unittest.TestCase):
 
     def test_covers_every_item_with_images_and_every_cell_once(self):
         with_images = [it for it in self.manifest if it.get("image_file")]
-        self.assertEqual(len(with_images), 283)
+        self.assertEqual(len(with_images), 293)
         cells = [p for it in with_images for p in it["image_file"]]
-        self.assertEqual(len(cells), 1096)
+        self.assertEqual(len(cells), 1106)
         blocks = self.item_blocks()
         self.assertEqual(sorted(blocks), sorted(it["id"] for it in with_images))
         for path in cells:
@@ -105,21 +105,82 @@ class ReviewSuiteTests(unittest.TestCase):
         for token in ("C123", "C124"):
             self.assertIn(token, header)
 
+    C125_MARKED_TIER = ("凭空冠部、塔吊或带专属形制记号（斜削冠／细针天线／桅杆与斜拉索上段／冠部开洞／"
+                        "扭转塔身）的未点名体量即判废")
+    C125_SILHOUETTE_TIER = "平头与剪影类未点名体量记备注、不单独判废（C125：剪影不带记号，人工复看不作硬判）"
+    C125_LEGACY_TIER = "凭空天际线、超高层冠部或塔吊即判废"
+
+    def c125_violations(self):
+        """判据纯函数：每条的「远景可纳性」栏必须同时给出 C125 的两档——带记号者判废、平头与剪影者记备注，
+        且 C123 之前的整句判废不得回流。缺任一句即按条报，两档是同时存在的，不是二选一。"""
+        out = []
+        for eid, block in sorted(self.item_blocks().items()):
+            text = "\n".join(block)
+            if "远景可纳性" not in text:
+                out.append((eid, "本条无远景可纳性判据栏"))
+                continue
+            if self.C125_MARKED_TIER not in text:
+                out.append((eid, "记号档判废句缺失"))
+            if self.C125_SILHOUETTE_TIER not in text:
+                out.append((eid, "剪影档备注句缺失"))
+            if self.C125_LEGACY_TIER in text:
+                out.append((eid, "旧的整句判废回流"))
+        return out
+
+    def test_c125_splits_unnamed_background_bodies_into_two_tiers(self):
+        """C125 的判据侧分档：背景里未点名的体量按「能否读出专属形制记号」分两档——带记号者判废、
+        平头与剪影者只记备注。**Why**：第9批 19 条重投的读数是 0/19 带记号违例、11/19 带剪影体量，
+        剪影不带记号、人工复看对不到名录的某一栋，留在判废栏等于每轮复核一次不可核对的判废。"""
+        self.assertEqual(self.c125_violations(), [])
+        text = "\n".join(self.item_blocks()["L001"])
+        self.assertIn(self.C125_MARKED_TIER, text)
+        self.assertIn(self.C125_SILHOUETTE_TIER, text)
+        self.assertIn("C125", self.work.split("### ")[0])
+
+    def test_demoting_every_unnamed_body_is_caught(self):
+        """违例负测：从生成器副本里删掉记号档判废句、只留降级句（即把「记备注」误扩到全部未点名体量），
+        判据必须 293 条全报且只报这一句缺失；剪影档降级句仍在，证明红的是力度越界，不是判据丢失。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        self.assertEqual(pristine.count(self.C125_MARKED_TIER), 1, "注入锚点没落在 C125 的记号档判废句上")
+        self.script.write_text(pristine.replace(self.C125_MARKED_TIER, "", 1), encoding="utf-8")
+        self.run_suite()
+        violations = self.c125_violations()
+        self.assertEqual(sorted({eid for eid, _ in violations}), sorted(self.item_blocks()))
+        self.assertEqual({reason for _, reason in violations}, {"记号档判废句缺失"})
+        self.assertIn(self.C125_SILHOUETTE_TIER, "\n".join(self.item_blocks()["L001"]))
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_suite()
+        self.assertEqual(self.c125_violations(), [])
+
+    def test_reverting_to_the_wholesale_background_rejection_is_caught(self):
+        """违例负测：把判据栏改回 C125 之前的整句判废（未点名者一律判废、不分两档），逐条报三处：
+        两档句各缺失、旧串回流。恢复后必须回到全绿，夹具不留残留。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = self.C125_MARKED_TIER + "；" + self.C125_SILHOUETTE_TIER
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在 C125 的两档分工上")
+        self.script.write_text(pristine.replace(anchor, self.C125_LEGACY_TIER, 1), encoding="utf-8")
+        self.run_suite()
+        self.assertEqual(sorted({reason for _, reason in self.c125_violations()}),
+                         ["剪影档备注句缺失", "旧的整句判废回流", "记号档判废句缺失"])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_suite()
+        self.assertEqual(self.c125_violations(), [])
+
     def test_verdict_columns_are_blank_and_no_acceptance_language(self):
         self.assertEqual(self.signed_verdict_ids(), [])
         self.assertNotIn("已验收", self.work)
         self.assertNotIn("结论：通过", self.work)
         csv_text = (self.out / "打表汇总.csv").read_text(encoding="utf-8-sig")
-        self.assertEqual(len(csv_text.strip().splitlines()), 284)
+        self.assertEqual(len(csv_text.strip().splitlines()), 294)
         self.assertNotIn("通过", csv_text.splitlines()[0])
         self.assertEqual(csv_text.count("已验收"), 0)
 
     def test_contact_sheets_paginate_and_link_local_images(self):
         sheets = self.out / "联络表"
         pages = sorted(sheets.glob("页-*.html"))
-        self.assertEqual(len(pages), 36)
+        self.assertEqual(len(pages), 37)
         index = (sheets / "index.html").read_text(encoding="utf-8")
-        self.assertIn("共 283 条既有图", index)
+        self.assertIn("共 293 条既有图", index)
         self.assertIn("结构合规不等于视觉验收", index)
         cells = [p for it in self.manifest if it.get("image_file") for p in it["image_file"]]
         linked = []
@@ -132,9 +193,9 @@ class ReviewSuiteTests(unittest.TestCase):
                 self.assertTrue(src.startswith("../../../"), src)
                 linked.append(unquote(src)[len("../../../"):])
         # 链接只按字符串还原：图片文件不版本化，临时副本里本来就没有图。这里判的是「src 解码后
-        # 正好落回清单里的某一格、且一格不漏不多」；格子在不在盘上由 verify_image_assets 的 1096 格负责。
+        # 正好落回清单里的某一格、且一格不漏不多」；格子在不在盘上由 verify_image_assets 的 1106 格负责。
         self.assertEqual(sorted(linked), sorted(cells))
-        self.assertEqual(len(linked), 1096)
+        self.assertEqual(len(linked), 1106)
 
     def test_rerun_is_byte_identical(self):
         snapshot = {p.relative_to(self.out).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
