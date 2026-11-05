@@ -37,8 +37,8 @@
   ],
   "crc_verified": true,
   "update_fields": true,
-  "rendering_verified": false,
-  "rendering_note": "目视记录绑定的是另一份 DOCX（记录 e4542657…，当前 62b29b97…）：重导即失效，须重看",
+  "rendering_verified": true,
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签；目视动作由用户本轮以「先做1 2 4」中的『先做1』明确委托会话代理执行）」按「本机 Microsoft Word（comtypes.client.CreateObject 驱动 Word.Application）以只读打开当前 docx（586929 字节，摘要 62b29b97…）→ Documents.Open(ReadOnly=True, AddToRecentFiles=False, Visible=False) → Fields.Update → TablesOfContents.Update → Repaginate → ComputeStatistics（按本构建实测枚举序 0 词数／1 行数／2 页数／3 字符数／4 段落数／5 字符数含空格逐项取） → ExportAsFixedFormat 导 PDF（17＝wdExportFormatPDF）420 页（3149489 字节） → pymupdf 逐页文本、字体、空白页、异常字符、越界与反引号扫描 → 第1／2／377／379／385／386／387／392／396／401／412／413／417／418／420 页按 110dpi 单页位图逐张目视（15 张），另把第4／11／40／64、第108／142／176／207、第227／263／298／334、第370／402／406／413、第398／403／405／416、第407／408／409／410、第378／414／415／419 七组各拼成一张四格位图逐格目视（拼图用 new_page + show_pdf_page 重导，非 Pixmap.copy），18 个分卷首页全部看过；第2页目录引导句另按 rawdict 逐字坐标复核一次。Close(False) 只读关闭，全程不保存，改写本记录前复算 docx 摘要与打开前一致（打开前后摘要一致 true）」目视，绑定当前 DOCX 摘要",
   "source_block_count": 3376,
   "docx_body_block_count": 3376,
   "body_anchor": {
