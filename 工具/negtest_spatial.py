@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """通行构件闸门的违例自检：把闸门与数据复制到临时目录，逐条改坏正典、源表或名录几何，断言闸门必须判红且给出该条自己的措辞。
 
-闸门只会打印"全绿"，无法自证它抓得住违例；本脚本按二十五判反向注入 59 例（含钛马岛三条进岛通路 30 例），
+闸门只会打印"全绿"，无法自证它抓得住违例；本脚本按二十六判反向注入 66 例（含钛马岛三条进岛通路 30 例、第9期航空班线 7 例），
 只操作临时副本，绝不改动被守护的仓库文件。跑完复核夹具零残留。
 跑法：python 工具/negtest_spatial.py
 """
@@ -140,6 +140,29 @@ def cases():
     def deferred_prm(c, prm):
         prm['参数']['交通']['延后方式'].append({'码': 'TR-FERRY', '名': '轮渡', '待': '旧口径'})
 
+    # ―― 第9期航空班线（第八表）：门户唯一、讫点在盆界外、三个读数按公式复算、旧延后读数不得回流 ――
+    def air_second_airport(c, _prm, _src, reg):
+        next(e for e in reg['entries'] if e['id'] == 'S14')['focus'] = '区域机场配套物流'
+
+    def air_inside_basin(c):
+        row(c['航空班线'], 'AR-01')['讫点km'] = [10.0, 10.0]
+
+    def air_near_anchor(c, _prm, src):
+        row(c['航空班线'], 'AR-04')['讫点km'] = [6.0, 33.0]      # 盆界外但只离 S09 8.54 千米
+        src['参数']['容差']['山外讫点离任一锚点下限千米'] = 9.0
+
+    def air_fare_edit(c):
+        row(c['航空班线'], 'AR-01')['票价_钛币'] = 100
+
+    def air_in_matrix(c, prm):
+        prm['参数']['交通']['方式'].append({'码': 'TR-AIR', '名': '机场班机', '速度km_h': 380, '覆盖': []})
+
+    def air_back_to_deferred(c, prm):
+        prm['参数']['交通']['延后方式'].append({'码': 'TR-AIR', '名': '机场班机', '待': '名录无城内机场承载体'})
+
+    def air_stale_ban(c, _prm, src):
+        src['参数']['禁则']['机场班机仍无承载体'] = 'TR-AIR 继续留在延后方式里'
+
     def outside_prm(c, prm):
         prm['参数']['交通']['矩阵外方式'][0]['真源'] = '数据/别处的表.json'
 
@@ -270,7 +293,7 @@ def cases():
         ('构件编号格式破坏', code_format, '编号格式不合'),
         ('两桥头合并到同岸', heads_same_side, '同侧'),
         ('圈层对键名与两端圈层不符', matrix_pair_key, '圈层对键名不规范'),
-        ('第4期延后方式加回轮渡', deferred_prm, '延后方式应只剩 TR-AIR'),
+        ('第4期延后方式加回轮渡', deferred_prm, '延后方式应为空'),
         ('第4期矩阵外方式真源改指', outside_prm, '的真源没指向空间通行源表'),
         ('进岛隧道的方式码被删掉', outside_code_dropped, '矩阵外方式码集不合'),
         ('第4期把轮渡塞进矩阵方式', outside_matrix_prm, '同时进了矩阵方式列表'),
@@ -303,6 +326,13 @@ def cases():
         ('汇总进岛通路数手改', access_count_edit, '汇总: 进岛通路数'),
         ('删空湖底隧道表', tunnel_table_empty, '进岛通路: 湖底隧道为空'),
         ('删空高空缆车表', cable_table_empty, '进岛通路: 高空缆车为空'),
+        ('名录里再点一座机场聚落', air_second_airport, "focus 含「机场」的聚落是"),
+        ('航空讫点落进盆界框', air_inside_basin, '航空班线盆界: AR-01 山外讫点落在盆界矩形内'),
+        ('航空讫点贴住名录锚点', air_near_anchor, '航空班线盆界: AR-04 讫点离最近锚点'),
+        ('航空票价手填与公式不符', air_fare_edit, '航空班线票价: AR-01 正典 100 钛币，按公式复算 170 钛币'),
+        ('航空班线塞进 50 格矩阵', air_in_matrix, '同时进了矩阵方式列表'),
+        ('TR-AIR 退回延后方式', air_back_to_deferred, '延后方式应为空'),
+        ('禁则留着机场班机无承载体的旧读数', air_stale_ban, '还留着「机场班机仍无承载体」'),
     ]
 
 

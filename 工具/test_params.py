@@ -52,9 +52,9 @@ class SourceShape(unittest.TestCase):
     def test_seven_sections_present(self):
         self.assertEqual([k for k in self.SECTIONS if k not in self.src['参数']], [])
         self.assertEqual(len(self.src['参数']['交通']['方式']), 5)
-        self.assertEqual([m['码'] for m in self.src['参数']['交通']['延后方式']], ['TR-AIR'])
+        self.assertEqual([m['码'] for m in self.src['参数']['交通']['延后方式']], [])
         self.assertEqual([m['码'] for m in self.src['参数']['交通']['矩阵外方式']],
-                         ['TR-FERRY', 'TR-SHUTTLE', 'TR-TUNNEL', 'TR-CABLE'])
+                         ['TR-FERRY', 'TR-SHUTTLE', 'TR-TUNNEL', 'TR-CABLE', 'TR-AIR'])
         self.assertEqual(len(self.src['参数']['圈层对']), 10)
         self.assertEqual(len(self.src['参数']['天气']['态']), 6)
         self.assertEqual(len(self.src['参数']['天气']['逐月游程']), 12)
@@ -119,13 +119,19 @@ class CanonDerived(unittest.TestCase):
                           '11': 'SEA-3', '12': 'SEA-4'})
 
     def test_matrix_outside_modes_are_carried_not_deferred(self):
-        """轮渡、山外接驳与进岛的隧道／缆车在第4期矩阵外单列查表，不进 50 格，也不再算「延后」。"""
+        """轮渡、山外接驳、进岛的隧道／缆车与第9期的航空班线都在矩阵外单列查表，不进 50 格、也不留「延后」。"""
         self.assertEqual([m['码'] for m in self.canon['矩阵外方式']],
-                         ['TR-FERRY', 'TR-SHUTTLE', 'TR-TUNNEL', 'TR-CABLE'])
-        self.assertEqual(self.canon['汇总']['延后方式数'], 1)
-        self.assertEqual(self.canon['汇总']['矩阵外方式数'], 4)
+                         ['TR-FERRY', 'TR-SHUTTLE', 'TR-TUNNEL', 'TR-CABLE', 'TR-AIR'])
+        self.assertEqual(self.canon['汇总']['延后方式数'], 0)
+        self.assertEqual(self.canon['汇总']['矩阵外方式数'], 5)
         matrix_codes = {c['方式'] for c in self.canon['交通矩阵']}
         self.assertEqual(matrix_codes & {'TR-FERRY', 'TR-SHUTTLE', 'TR-AIR', 'TR-TUNNEL', 'TR-CABLE'}, set())
+        air = next(m for m in self.canon['矩阵外方式'] if m['码'] == 'TR-AIR')
+        self.assertEqual(air['真源'], '数据/空间通行源表.json')
+        self.assertEqual(air['读数'], '数据/空间通行正典.json 的 航空班线')
+        # 延后清空后小节不能悬空：总表要有一句「本期无延后方式」，而不是只剩表头
+        table = (ROOT / '数据' / '运行参数总表.md').read_text(encoding='utf-8')
+        self.assertIn('本期无延后方式', table)
 
     def test_deriver_is_byte_idempotent(self):
         import hashlib
@@ -167,8 +173,8 @@ class GateExtended(unittest.TestCase):
         import verify_occupations as vo
         self.vo = vo
 
-    def test_thirty_four_checks_registered(self):
-        self.assertEqual(len(self.vo.CHECKS), 34)
+    def test_thirty_five_checks_registered(self):
+        self.assertEqual(len(self.vo.CHECKS), 35)
         self.assertEqual(self.vo.CHECKS[20:25],
                          ['参数完整性', '交通矩阵可复算', '天气年历闭合', '技能阈值同源', '事件与检查点自洽'])
 
@@ -176,9 +182,9 @@ class GateExtended(unittest.TestCase):
         import subprocess
         r = subprocess.run([sys.executable, str(ROOT / '工具' / 'verify_occupations.py')],
                            check=True, capture_output=True, text=True)
-        self.assertIn('三十四条判红', r.stdout)
+        self.assertIn('三十五条判红', r.stdout)
         rep = json.loads((ROOT / '数据' / '产业就业核验.json').read_text(encoding='utf-8'))
-        self.assertEqual(rep['检查项数'], 34)
+        self.assertEqual(rep['检查项数'], 35)
         self.assertEqual(rep['参数汇总']['矩阵格数'], 50)
         self.assertEqual(rep['参数汇总']['年历格数'], 365)
 
@@ -208,8 +214,10 @@ class DocsSynced(unittest.TestCase):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
         self.assertIn('运行参数源表.json', manual)
         self.assertIn('build_params.py', manual)
-        self.assertIn('三十四条判据', manual)
-        self.assertIn('一百三十二类改坏', manual)
+        # 第9期 9a 多了第三份手填真源：手册若漏了它，改卡牌正文的人就不知道门禁的条数带住在哪。
+        self.assertIn('卡牌实例源表.json', manual)
+        self.assertIn('三十五条判据', manual)
+        self.assertIn('一百四十四类改坏', manual)
         self.assertLess(manual.index('build_occupations.py'), manual.index('build_params.py'))
         entry = (ROOT / '阅读入口.md').read_text(encoding='utf-8')
         self.assertIn('运行参数设定.md', entry)
@@ -228,8 +236,8 @@ class RulingsEightyEight(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 126)
-        self.assertEqual(rows[-1]['编号'], 'C126')
+        self.assertEqual(len(rows), 128)
+        self.assertEqual(rows[-1]['编号'], 'C128')
 
 
 class FiveStatScaleC119(unittest.TestCase):

@@ -1,0 +1,111 @@
+# -*- coding: utf-8 -*-
+"""第9批 e 轮 15 张第四投 v02 新图逐张测量打表（只读，不写任何真源）。
+
+复用 工具/reinject_2026_11_05/measure_images.py 的 measure(path) 口径，
+按 工具/batch9e_2026_11_05/send_bodies_15.json 的 id 名单取本轮产物文件
+（只认名字里带 -C123新串-v02 的一张，本轮串名后缀即本轮产物；同一 id 有多张时取时间戳最新的一张，
+ 用于覆盖发送侧字符损坏后的补投），逐张出读数。
+
+实发串与真源不相等的条目（sent_binding.json 逐字相等=false）标记「不参与回填」，仍照常测量留档。
+"""
+import importlib.util
+import json
+import re
+import sys
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
+VIBE = ROOT / "vibe_images"
+OUT = HERE / "batch9e_measure.json"
+
+spec = importlib.util.spec_from_file_location(
+    "m9e", ROOT / "工具/reinject_2026_11_05/measure_images.py"
+)
+m9 = importlib.util.module_from_spec(spec)
+sys.argv = [str(spec.origin), str(OUT)]
+spec.loader.exec_module(m9)
+
+BODIES = json.loads((HERE / "send_bodies_15.json").read_text(encoding="utf-8"))
+BIND = {r["id"]: r for r in json.loads((HERE / "sent_binding.json").read_text(encoding="utf-8"))}
+MANIFEST = json.loads((ROOT / "数据/开图清单.json").read_text(encoding="utf-8"))
+ITEMS = {it["id"]: it for it in MANIFEST["items"]}
+
+FLOOR = 0.000414  # 极轻档地板（塔臂），整图细尺度方差低于此视作非油画
+SUN_MIN = 1500  # 疑似日面圆盘/强光源阈值
+TS = r"_(\d{13})_"
+
+rows = []
+missing = []
+for rid in BODIES:
+    cands = sorted(
+        (p for p in VIBE.glob("%s-*C123新串-v02*.png" % rid) if re.search(TS, p.name)),
+        key=lambda p: int(re.search(TS, p.name).group(1)),
+    )
+    if not cands:
+        missing.append((rid, []))
+        continue
+    path = cands[-1]
+    rec = m9.measure(path)
+    rec["id"] = rid
+    rec["v02_files"] = len(cands)
+    it = ITEMS.get(rid)
+    if it:
+        rec["entry_name"] = it["name"]
+        rec["expected_size"] = it["size"]
+        rec["size_match"] = rec["dims"] == it["size"]
+        rec["image_file_now"] = it["image_file"]
+        rec["camera_facing_deg"] = it["camera_facing_deg"]
+        rec["sun_relative_deg"] = it["sun_relative_deg"]
+    b = BIND.get(rid, {})
+    rec["逐字相等"] = b.get("逐字相等")
+    rec["sent_sha12"] = b.get("sent_sha12")
+    rec["canon_sha12"] = b.get("canon_sha12")
+    rec["参与回填"] = bool(b.get("逐字相等")) and rec.get("size_match")
+    rec["油画量级"] = "off-floor" if rec["fine_var_full"] >= FLOOR else "below-floor"
+    rec["疑似日盘"] = rec["sun_blob_px"] >= SUN_MIN
+    rows.append(rec)
+    print(
+        "%-5s %s %10d caBX=%d iTXt=%d AIGC=%s fvar=%.6f cvar=%.6f sun=%-6d p99=%-5s match=%s 相等=%s 回填=%s"
+        % (
+            rid,
+            rec["dims"],
+            rec["bytes"],
+            rec["container"]["cabx"],
+            rec["container"]["itxt"],
+            rec["container"]["aigc"],
+            rec["fine_var_full"],
+            rec["fine_var_center"],
+            rec["sun_blob_px"],
+            rec["p99_lum"],
+            rec.get("size_match"),
+            rec["逐字相等"],
+            rec["参与回填"],
+        ),
+        flush=True,
+    )
+
+rows.sort(key=lambda r: r["id"])
+OUT.write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+
+n = len(rows)
+print("---- 汇总 ----")
+print("读到 %d 张（名单 %d 条，缺文件 %d）" % (n, len(BODIES), len(missing)))
+for rid, c in missing:
+    print("  缺:", rid, c)
+print("尺寸不符 %d:" % sum(1 for r in rows if not r.get("size_match")),
+      [r["id"] for r in rows if not r.get("size_match")])
+print("逐字相等 false %d:" % sum(1 for r in rows if r["逐字相等"] is False),
+      [r["id"] for r in rows if r["逐字相等"] is False])
+print("参与回填 %d / 不参与 %d" % (sum(1 for r in rows if r["参与回填"]),
+                                   sum(1 for r in rows if not r["参与回填"])))
+bad_container = [r["id"] for r in rows if not (r["container"]["cabx"] >= 1 or r["container"]["aigc"])]
+print("AIGC 标识缺失 %d:" % len(bad_container), bad_container)
+print("细尺度方差区间 %.6f ~ %.6f（极轻档地板 %.6f）；低于地板 %d 张"
+      % (min(r["fine_var_full"] for r in rows), max(r["fine_var_full"] for r in rows), FLOOR,
+         sum(1 for r in rows if r["fine_var_full"] < FLOOR)))
+print("疑似日盘（>=1500px）%d 张:" % sum(1 for r in rows if r["疑似日盘"]),
+      [(r["id"], r["sun_blob_px"]) for r in rows if r["疑似日盘"]])
+print("sha12 重复:", [s for s in {r["sha256_12"] for r in rows}
+                     if sum(1 for r in rows if r["sha256_12"] == s) > 1])
+print("->", OUT)

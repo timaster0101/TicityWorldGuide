@@ -70,9 +70,10 @@ class ReviewSuiteTests(unittest.TestCase):
 
     def test_covers_every_item_with_images_and_every_cell_once(self):
         with_images = [it for it in self.manifest if it.get("image_file")]
-        self.assertEqual(len(with_images), 297)
+        # 第四投 3 条（L065／L104／L107）首占后，有图条目 297→300、格数 1110→1113
+        self.assertEqual(len(with_images), 300)
         cells = [p for it in with_images for p in it["image_file"]]
-        self.assertEqual(len(cells), 1110)
+        self.assertEqual(len(cells), 1113)
         blocks = self.item_blocks()
         self.assertEqual(sorted(blocks), sorted(it["id"] for it in with_images))
         for path in cells:
@@ -139,7 +140,7 @@ class ReviewSuiteTests(unittest.TestCase):
 
     def test_demoting_every_unnamed_body_is_caught(self):
         """违例负测：从生成器副本里删掉记号档判废句、只留降级句（即把「记备注」误扩到全部未点名体量），
-        判据必须 297 条全报且只报这一句缺失；剪影档降级句仍在，证明红的是力度越界，不是判据丢失。"""
+        判据必须 300 条全报且只报这一句缺失；剪影档降级句仍在，证明红的是力度越界，不是判据丢失。"""
         pristine = self.script.read_text(encoding="utf-8")
         self.assertEqual(pristine.count(self.C125_MARKED_TIER), 1, "注入锚点没落在 C125 的记号档判废句上")
         self.script.write_text(pristine.replace(self.C125_MARKED_TIER, "", 1), encoding="utf-8")
@@ -171,7 +172,7 @@ class ReviewSuiteTests(unittest.TestCase):
         self.assertNotIn("已验收", self.work)
         self.assertNotIn("结论：通过", self.work)
         csv_text = (self.out / "打表汇总.csv").read_text(encoding="utf-8-sig")
-        self.assertEqual(len(csv_text.strip().splitlines()), 298)
+        self.assertEqual(len(csv_text.strip().splitlines()), 301)
         self.assertNotIn("通过", csv_text.splitlines()[0])
         self.assertEqual(csv_text.count("已验收"), 0)
 
@@ -180,7 +181,7 @@ class ReviewSuiteTests(unittest.TestCase):
         pages = sorted(sheets.glob("页-*.html"))
         self.assertEqual(len(pages), 38)
         index = (sheets / "index.html").read_text(encoding="utf-8")
-        self.assertIn("共 297 条既有图", index)
+        self.assertIn("共 300 条既有图", index)
         self.assertIn("结构合规不等于视觉验收", index)
         cells = [p for it in self.manifest if it.get("image_file") for p in it["image_file"]]
         linked = []
@@ -193,9 +194,9 @@ class ReviewSuiteTests(unittest.TestCase):
                 self.assertTrue(src.startswith("../../../"), src)
                 linked.append(unquote(src)[len("../../../"):])
         # 链接只按字符串还原：图片文件不版本化，临时副本里本来就没有图。这里判的是「src 解码后
-        # 正好落回清单里的某一格、且一格不漏不多」；格子在不在盘上由 verify_image_assets 的 1110 格负责。
+        # 正好落回清单里的某一格、且一格不漏不多」；格子在不在盘上由 verify_image_assets 的 1113 格负责。
         self.assertEqual(sorted(linked), sorted(cells))
-        self.assertEqual(len(linked), 1110)
+        self.assertEqual(len(linked), 1113)
 
     def test_rerun_is_byte_identical(self):
         snapshot = {p.relative_to(self.out).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()

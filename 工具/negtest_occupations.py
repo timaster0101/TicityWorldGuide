@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""产业与就业层闸门的违例自检：把闸门与十三份数据整批复制到临时目录，逐条改坏正典，断言闸门必须判红并给出该条自己的措辞。
+"""产业与就业层闸门的违例自检：把闸门与十四份数据整批复制到临时目录，逐条改坏正典，断言闸门必须判红并给出该条自己的措辞。
 
-闸门只会打印"全绿"，无法自证它抓得住违例；本脚本按三十四条判据反向注入，只操作临时副本，
+闸门只会打印"全绿"，无法自证它抓得住违例；本脚本按三十五条判据反向注入，只操作临时副本，
 绝不改动被守护的仓库文件。闸门只读落盘 JSON，因此临时目录里不需要 build_admission.py 与 build_costs.py，
 但必须带上 anchors.py——闸门的圈层归属与住所锚都从它取。
 第 30 条的对账清单住在手填源表里，所以注入范围除四份正典外还含 产业就业源表.json；其余两份源表与名录仍只读。
@@ -10,6 +10,8 @@
 用例同样直接删夹具里那一份，用来证救助门禁在缺件时判红而不是空转放行。
 第 34 条的三条等式要拿长期习惯卡的中文幅度上限做对照，所以注入范围再加 运行参数源表.json 与 岗位准入源表.json；
 它的「文件被删除」用例删的是岗位准入源表那一份，用来证开局等式门禁在缺件时判红。
+第 35 条的条数带与总条数带住在手填的 卡牌实例源表.json，注入范围再加这一份；它的 12 例只动 岗位准入正典 的
+卡牌实例块（与 产业就业正典 的岗位卡）——带被压低的那种改坏才动源表规格块。
 跑法：python 工具/negtest_occupations.py
 """
 import json
@@ -24,7 +26,8 @@ TOOLS = ['verify_occupations.py', 'anchors.py']
 DATA = ['产业就业正典.json', '产业就业源表.json', '城市空间名录.json',
         '岗位准入正典.json', '岗位准入源表.json',
         '物价与生活正典.json', '物价生活源表.json', '参考房价租金.json',
-        '运行参数正典.json', '运行参数源表.json', '产业空间图层.json', '职业条目源表.json']
+        '运行参数正典.json', '运行参数源表.json', '产业空间图层.json', '职业条目源表.json',
+        '卡牌实例源表.json']
 TMP_PREFIX = 'occneg-'
 
 
@@ -72,21 +75,95 @@ def adm_source_of(tmp):
     return json.loads((tmp / '数据' / '岗位准入源表.json').read_text(encoding='utf-8'))
 
 
+def card_source_of(tmp):
+    return json.loads((ROOT / '数据' / '卡牌实例源表.json').read_text(encoding='utf-8'))
+
+
 # 用例改动函数的形参顺序即写入顺序：1 参改产业、2 参加字典、3 参加物价、4 参加运行参数、5 参加手填源表、
 # 6 参加产业图层派生件，7 参加职业条目手填源表，8 参加物价生活手填源表，9 参加运行参数手填源表，
-# 10 参加岗位准入手填源表；改动函数往对象里塞 DELETE_MARK 即表示「夹具里这一份要删掉」，
+# 10 参加岗位准入手填源表，11 参加卡牌实例手填源表；改动函数往对象里塞 DELETE_MARK 即表示「夹具里这一份要删掉」，
 # 用来证闸门在缺件时判红而不是空转放行（第 31、33、34 条的文件缺失分支）。
-OBJ_NAMES = ['canon', 'adm', 'costs', 'params', 'source', 'layer', 'osrc', 'csrc', 'prsrc', 'asrc']
+OBJ_NAMES = ['canon', 'adm', 'costs', 'params', 'source', 'layer', 'osrc', 'csrc', 'prsrc', 'asrc', 'ksrc']
 DELETE_MARK = '__删除此文件__'
 FILES = {'canon': '产业就业正典.json', 'adm': '岗位准入正典.json',
          'costs': '物价与生活正典.json', 'params': '运行参数正典.json',
          'source': '产业就业源表.json', 'layer': '产业空间图层.json',
          'osrc': '职业条目源表.json', 'csrc': '物价生活源表.json',
-         'prsrc': '运行参数源表.json', 'asrc': '岗位准入源表.json'}
+         'prsrc': '运行参数源表.json', 'asrc': '岗位准入源表.json',
+         'ksrc': '卡牌实例源表.json'}
 
 
 def cards(canon):
     return [x for comp in canon['公司'] for x in comp['岗位卡']]
+
+
+CARD_OK_CAP = {'CRD-A1': '阶提升 1', 'CRD-A2': '应考资格 1', 'CRD-A3': '单卡 10 点',
+               'CRD-A7': '优先 1 城市年', 'CRD-B3': '阶提升 1'}
+CARD_OK_PATH = {'CRD-A1': 'TRN', 'CRD-A2': 'TRN', 'CRD-A3': '', 'CRD-A7': 'EVT', 'CRD-B3': 'WKS'}
+CARD_TEXT = '这张卡只用来证明闸门抓得住违例，正文本身不作数'
+
+
+def card_bind_id(a, fid):
+    if fid == 'CRD-A3':
+        return '智力'
+    if fid == 'CRD-A7':
+        return a['释放状态'][0]['id']
+    if fid in ('CRD-A2', 'CRD-B2'):
+        return next(t['id'] for t in a['标签'] if t['族'] == '资质')
+    if fid == 'CRD-B3':
+        return next(t['id'] for t in a['标签'] if t['族'] == '专属技能' and t['子类'] == 'S1')
+    return next(t['id'] for t in a['标签'] if t['族'] == '专属技能')
+
+
+def sync_card_summary(a):
+    """第 35 条同时判「每条结构合法」与「派生件和手填真源同源」：注入正文而不同步汇总，
+    就会炸出一堆与本题无关的条数红，而负测要证的是自己想动的那一条。"""
+    rows = a['卡牌实例']['实例']
+    per = {f['id']: sum(1 for r in rows if r['族'] == f['id']) for f in a['卡牌族']}
+    a['汇总']['卡牌实例数'] = len(rows)
+    a['汇总']['逐族条数'] = per
+    a['汇总']['已展开族数'] = sum(1 for v in per.values() if v)
+    a['汇总']['未展开族数'] = sum(1 for v in per.values() if not v)
+    a['汇总']['背景卡实例数'] = len(a['卡牌实例']['背景卡'])
+
+
+def add_card_rows(a, ksrc, fid, n, mutate=None):
+    """n 条合法实例同时写进手填源表的族块与正典的实例块，行形态照生成器 build_card_instances 搭。
+    总条数带随手放宽到 [0, 999]：那一条由 card_total_band_over 单独证，放宽是为了每张卡只炸一处红。"""
+    fam = next(f for f in a['卡牌族'] if f['id'] == fid)
+    block = next(b for b in ksrc['卡牌族实例'] if b['族'] == fid)
+    spec = a['卡牌实例']['规格']
+    ksrc['规格']['总条数区间'] = [0, 999]
+    tail = []
+    for _ in range(n):
+        i = len(block['条目']) + 1
+        item = {'名称': f'测试卡牌{i:03d}', '卡面正文': CARD_TEXT,
+                '绑定对象': card_bind_id(a, fid), '幅度': CARD_OK_CAP[fid],
+                '生效触发': CARD_OK_PATH[fid], '互斥口径': []}
+        if mutate:
+            mutate(item, i)
+        block['条目'].append(item)
+        row = {'id': f'{fid}-{i:03d}', '族': fid, '族名': fam['名称'], '类别': fam['类别'],
+               '绑定域': spec['绑定域表'][fid], '绑定途径': fam['绑定途径'],
+               '幅度上限': fam['幅度上限'], '序号': i, '绑定读数': {}}
+        row.update(item)
+        a['卡牌实例']['实例'].append(row)
+        tail.append(row)
+    sync_card_summary(a)
+    return tail
+
+
+def add_bg_rows(a, ksrc, n, extra=None):
+    """背景卡实例两边一起写：权重与候选数住在 运行参数源表，本表条目只逐张命名与取值。"""
+    items = ksrc['背景卡实例']['条目']
+    for _ in range(n):
+        i = len(items) + 1
+        item = {'名称': f'背景测试{i:03d}', '取值区间': [40, 60]}
+        if extra:
+            item.update(extra)
+        items.append(item)
+        a['卡牌实例']['背景卡'].append(dict({'id': f'BG-{i:03d}'}, **item))
+    sync_card_summary(a)
 
 
 def cases():
@@ -628,6 +705,50 @@ def cases():
     def dim_canon_prohibition_count(c, a, s, p, src, lay, o, cs, pr, asrc):
         p['五维开局']['禁则数'] = 2
 
+    def card_wrong_bind(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        add_card_rows(a, ksrc, 'CRD-A1', 1, lambda r, i: r.update({'绑定对象': 'SKL-9999-S1'}))
+
+    def card_over_amplitude(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        add_card_rows(a, ksrc, 'CRD-A3', 1, lambda r, i: r.update({'幅度': '单卡 15 点'}))
+
+    def card_authority_tier(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        add_card_rows(a, ksrc, 'CRD-A1', 1, lambda r, i: r.update({'幅度': '阶提升 1 触及权威'}))
+
+    def card_wrong_path(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        add_card_rows(a, ksrc, 'CRD-B3', 1, lambda r, i: r.update({'生效触发': 'LEV'}))
+
+    def card_name_duplicated(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        def same_name(r, i):
+            r['名称'] = '测试卡牌001'
+        add_card_rows(a, ksrc, 'CRD-A7', 2, same_name)
+
+    def card_family_band_over(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        ksrc['规格']['每族条数']['CRD-A3'] = [0, 1]
+        add_card_rows(a, ksrc, 'CRD-A3', 2)
+
+    def card_total_band_over(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        add_card_rows(a, ksrc, 'CRD-A3', 4)
+        ksrc['规格']['总条数区间'] = [2, 3]
+
+    def card_exclusive_cycle3(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        ids = ['CRD-A7-001', 'CRD-A7-002', 'CRD-A7-003']
+
+        def all_others(r, i):
+            r['互斥口径'] = [x for x in ids if x != f'CRD-A7-{i:03d}']
+        add_card_rows(a, ksrc, 'CRD-A7', 3, all_others)
+
+    def card_crd_in_job_card(c, a):
+        c['公司'][0]['岗位卡'][0]['卡牌实例'] = 'CRD-A1-001'
+
+    def card_bg_weight_overwrite(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        add_bg_rows(a, ksrc, 24, {'权重': 25})
+
+    def card_bg_count_mismatch(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        add_bg_rows(a, ksrc, 1)
+
+    def card_missing_field(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        add_card_rows(a, ksrc, 'CRD-A2', 1, lambda r, i: r.pop('幅度'))
+
     return [
         ('逐区守恒人数被改', conservation, '守恒'),
         ('整区公司缺失', missing_anchor, '守恒'),
@@ -756,6 +877,18 @@ def cases():
         ('满值罕见线低过开局上界', dim_rare_line_below, '满值罕见线 60'),
         ('类别 id 丢了 BG- 前缀', dim_id_prefix_bad, '须唯一且全部 BG- 前缀'),
         ('开局文本写成待确认', dim_halt_word, '开局文本'),
+        ('卡牌绑到字典外的标签', card_wrong_bind, '不在标签字典内'),
+        ('长期习惯卡的点数越出单卡上限', card_over_amplitude, '越出本族上限'),
+        ('技艺印记把标签推到权威阶', card_authority_tier, '推到「权威」阶'),
+        ('岗位实训卡的生效触发写成 LEV', card_wrong_path, '不等于本族绑定途径 WKS'),
+        ('两张卡牌同名', card_name_duplicated, '名称重复'),
+        ('单族条数越出源表声明带', card_family_band_over, '越出声明带 0—1'),
+        ('卡牌实例总数越出总条数带', card_total_band_over, '越出总条数带 2—3'),
+        ('互斥口径结出三元环', card_exclusive_cycle3, '越出同族持有上限 2 张'),
+        ('岗位卡侧新增 CRD- 引用', card_crd_in_job_card, '岗位卡侧出现 CRD- 引用'),
+        ('背景卡条目覆写权重', card_bg_weight_overwrite, '本表不得覆写'),
+        ('背景卡条数与规格声明不符', card_bg_count_mismatch, '与规格声明 24 不符'),
+        ('卡牌实例少了字段', card_missing_field, '缺字段'),
         ('背景卡禁则少了不重抽一条', dim_group_missing, '背景卡禁则未覆盖关键词组'),
         ('正典开局区间被手改', dim_canon_band_drift, '正典开局区间'),
         ('正典缺开局派生块', dim_canon_block_missing, '正典缺派生块 五维开局'),
@@ -794,7 +927,7 @@ def main():
                     'costs': costs_of(tmp), 'params': params_of(tmp), 'source': source_of(tmp),
                     'layer': layer_of(tmp), 'osrc': occ_source_of(tmp),
                     'csrc': cost_source_of(tmp), 'prsrc': param_source_of(tmp),
-                    'asrc': adm_source_of(tmp)}
+                    'asrc': adm_source_of(tmp), 'ksrc': card_source_of(tmp)}
             names = OBJ_NAMES[:_arity(mutate)]
             mutate(*[objs[k] for k in names])
             payload = [(tmp / '数据' / FILES[k], objs[k]) for k in names]

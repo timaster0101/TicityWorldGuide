@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""产业与就业层闸门：三十四条判红全部落在数据层（十条产业＋六条字典＋四条物价＋五条运行参数＋四条具名命名＋一条零消费者对账＋一条产业图层对账＋一条职业条目对账＋一条失业救助对账＋一条五维开局对账），任一失败即非零退出。跑法：python 工具/verify_occupations.py"""
+"""产业与就业层闸门：三十五条判红全部落在数据层（十条产业＋六条字典＋四条物价＋五条运行参数＋四条具名命名＋一条零消费者对账＋一条产业图层对账＋一条职业条目对账＋一条失业救助对账＋一条五维开局对账＋一条卡牌实例对账），任一失败即非零退出。跑法：python 工具/verify_occupations.py"""
 import json, math, re
 from pathlib import Path
 
@@ -51,7 +51,7 @@ def sea_of(params):
     return out
 
 
-def issues(canon, source, registry, adm, costs, params, psource, layer, occ_source):
+def issues(canon, source, registry, adm, costs, params, psource, layer, occ_source, card_source):
     out, p = [], canon['参数']
     by_id = {e['id']: e for e in registry}
     bands = {t['档']: tuple(t['雇员数']) for t in source['公司档']}
@@ -171,6 +171,7 @@ def issues(canon, source, registry, adm, costs, params, psource, layer, occ_sour
     out += occupation_issues(canon, source, occ_source)
     out += relief_issues(costs, canon, registry, COST_SOURCE)
     out += dim_issues(params, psource, ADM_SOURCE, canon)
+    out += card_issues(canon, adm, card_source, params, source, registry)
     return out
 
 
@@ -919,13 +920,230 @@ def dim_issues(params, psource, adm_src, canon):
     return out
 
 
+CARD_SRC_KEYS = ('口径', '规格', '卡牌族实例', '背景卡实例', '禁则')
+CARD_SPEC_KEYS = ('每族条数', '总条数区间', '字段', '名称长度', '卡面正文长度', '幅度长度',
+                  '互斥口径条数', '绑定域表', '禁用字符', '背景卡条数')
+CARD_DOMAINS = ('专属技能标签', '资质标签', '经历标签', '通用技能标签', '场景', '释放状态',
+                '大类', '片区', '五维')
+CARD_BG_FORBIDDEN = ('权重', '候选数', '组合数')
+CARD_ID_RE = re.compile(r'^CRD-[AB]\d-\d{3}$')
+CAP_NUMBER_RE = re.compile(r'(\d+)')
+
+
+def card_issues(canon, adm, card_src, params, source, registry):
+    """第 35 条：卡牌实例对账——第9期 9a 落的是容器，所以三条线同时判且都允许「未展开」。
+
+    一条判派生件与手填真源是否同源（族块齐套、逐族条数、总数与背景卡计数，正典由生成器算，
+    手改一格就在这里炸出来）；一条判每条实例的结构合法性（六个字段、长度带、禁用字符、整句复述族级禁则、
+    绑定对象按 绑定域 命中真实 id、幅度不越本族上限且不触及「权威」、生效触发等于本族 绑定途径、
+    互斥口径同族成对且不成三元环）；一条判两条反向锁——岗位卡里 CRD- 出现次数恒为 0，
+    背景卡条目里不得出现 权重／候选数／组合数（那两个数只在 运行参数源表 存一份）。
+    条数带下限为 0，即整族未展开合法；一旦展开就必须落进带上，总条数带同理只在总数非零时生效。
+    """
+    out = []
+    missing = [k for k in CARD_SRC_KEYS if k not in card_src]
+    if missing:
+        return [f'卡牌实例对账: 卡牌实例源表.json 缺 {list(missing)}，缺件即判红，不得以无实例可查而空转判绿']
+    block = adm.get('卡牌实例')
+    if not block:
+        return ['卡牌实例对账: 岗位准入正典没有 卡牌实例 一节，派生件缺件不得空转判绿']
+    spec = card_src['规格']
+    miss_spec = [k for k in CARD_SPEC_KEYS if k not in spec]
+    if miss_spec:
+        return [f'卡牌实例对账: 规格块缺 {list(miss_spec)}，条数带与长度带只住在本表，缺键即无从对账']
+    rows = block['实例']
+    bg_rows = block['背景卡']
+    fams = {f['id']: f for f in adm['卡牌族']}
+    tags_by_id = {t['id']: t for t in adm['标签']}
+    scenes_by_id = {s['id'] for s in adm['场景']}
+    rel_by_id = {r['id'] for r in adm['释放状态']}
+    major_by_id = {d['id'] for d in source['大类']}
+    district_ids = {e['id'] for e in registry if e['type'] == '城市片区'}
+    opening = params['参数']['技能'].get('五维开局') or {}
+    bg_weight = params['参数']['技能'].get('背景卡权重') or {}
+    dims = set(opening.get('维度') or [])
+    candidates = sum(c['候选数'] for c in bg_weight.get('类别') or [])
+
+    blocks = [b['族'] for b in card_src['卡牌族实例']]
+    if len(blocks) != len(set(blocks)):
+        out.append(f"卡牌实例对账: 源表族块重复 {sorted({b for b in blocks if blocks.count(b) > 1})}")
+    if set(blocks) != set(fams):
+        out.append(f'卡牌实例对账: 族块与 12 族不等，多 {sorted(set(blocks) - set(fams))} 少 {sorted(set(fams) - set(blocks))}')
+    if set(spec['绑定域表']) != set(fams):
+        out.append('卡牌实例对账: 规格.绑定域表 的族集合与 12 族不等，绑定域表缺族等于放行自造族')
+    for fid, dom in spec['绑定域表'].items():
+        if dom not in CARD_DOMAINS:
+            out.append(f'卡牌实例对账: {fid} 绑定域「{dom}」不在九个域之内')
+    if set(spec['每族条数']) != set(fams):
+        out.append('卡牌实例对账: 规格.每族条数 的族集合与 12 族不等')
+
+    src_rows = {b['族']: len(b['条目']) for b in card_src['卡牌族实例']}
+    per_family = {}
+    for fid in fams:
+        got = sum(1 for r in rows if r['族'] == fid)
+        per_family[fid] = got
+        if src_rows.get(fid, 0) != got:
+            out.append(f'卡牌实例对账: {fid} 正典 {got} 条 != 源表展开 {src_rows.get(fid, 0)} 条')
+        band = spec['每族条数'].get(fid)
+        if band and not (band[0] <= got <= band[1]):
+            out.append(f'卡牌实例对账: {fid} 条数 {got} 越出声明带 {band[0]}—{band[1]}')
+    if adm['汇总'].get('卡牌实例数') != len(rows):
+        out.append(f"卡牌实例对账: 汇总 卡牌实例数 {adm['汇总'].get('卡牌实例数')} != 实际 {len(rows)}")
+    if adm['汇总'].get('逐族条数') != per_family:
+        out.append('卡牌实例对账: 汇总 逐族条数 与重算不符')
+    if adm['汇总'].get('已展开族数') != sum(1 for v in per_family.values() if v):
+        out.append('卡牌实例对账: 汇总 已展开族数 与重算不符')
+    if adm['汇总'].get('未展开族数') != sum(1 for v in per_family.values() if not v):
+        out.append('卡牌实例对账: 汇总 未展开族数 与重算不符')
+    lo, hi = spec['总条数区间']
+    if rows and not (lo <= len(rows) <= hi):
+        out.append(f'卡牌实例对账: 实例总数 {len(rows)} 越出总条数带 {lo}—{hi}')
+
+    if adm['汇总'].get('背景卡实例数') != len(bg_rows):
+        out.append(f"卡牌实例对账: 汇总 背景卡实例数 {adm['汇总'].get('背景卡实例数')} != 实际 {len(bg_rows)}")
+    if len(card_src['背景卡实例']['条目']) != len(bg_rows):
+        out.append(f"卡牌实例对账: 背景卡正典 {len(bg_rows)} 条 != 源表展开 {len(card_src['背景卡实例']['条目'])} 条")
+    if bg_rows and len(bg_rows) != spec['背景卡条数']:
+        out.append(f"卡牌实例对账: 背景卡 {len(bg_rows)} 条与规格声明 {spec['背景卡条数']} 不符")
+    if bg_rows and len(bg_rows) != candidates:
+        out.append(f'卡牌实例对账: 背景卡 {len(bg_rows)} 条 != 运行参数五类候选数之和 {candidates}')
+    if bg_weight and spec['背景卡条数'] != candidates:
+        out.append(f"卡牌实例对账: 规格.背景卡条数 {spec['背景卡条数']} != 运行参数五类候选数之和 {candidates}")
+    for r in bg_rows:
+        hit = [k for k in CARD_BG_FORBIDDEN if k in r]
+        if hit:
+            out.append(f"卡牌实例对账: 背景卡 {r.get('id')} 出现 {hit}，权重与候选数只在 运行参数源表 存一份，本表不得覆写")
+
+    seen_names = {}
+    ids = set()
+    for r in rows + bg_rows:
+        rid = r.get('id')
+        if rid in ids:
+            out.append(f'卡牌实例对账: 实例 id 重复 {rid}')
+        ids.add(rid)
+        if not CARD_ID_RE.match(rid or ''):
+            if not str(rid or '').startswith('BG-'):
+                out.append(f'卡牌实例对账: 实例 id「{rid}」不合 CRD-A1-001 式')
+        name = r.get('名称')
+        if name in seen_names:
+            out.append(f"卡牌实例对账: 名称重复「{name}」（{seen_names[name]} 与 {rid}）")
+        seen_names[name] = rid
+    for r in rows:
+        rid, fid = r['id'], r['族']
+        absent = [k for k in spec['字段'] if k not in r]
+        if absent:
+            out.append(f'卡牌实例对账: {rid} 缺字段 {absent}')
+            continue
+        for f, band in (('名称', spec['名称长度']), ('卡面正文', spec['卡面正文长度']),
+                        ('幅度', spec['幅度长度'])):
+            if not (band[0] <= len(str(r[f])) <= band[1]):
+                out.append(f"卡牌实例对账: {rid}「{r['名称']}」{f}长度 {len(str(r[f]))} 不在 {band[0]}—{band[1]}")
+        for ch in spec['禁用字符']:
+            if any(ch in str(r[f]) for f in spec['字段'] if isinstance(r[f], str)):
+                out.append(f'卡牌实例对账: {rid} 含禁用字符 {ch}')
+        fam = fams.get(fid)
+        if not fam:
+            out.append(f'卡牌实例对账: {rid} 的族 {fid} 不在 12 族内')
+            continue
+        dom = spec['绑定域表'][fid]
+        obj = r['绑定对象']
+        if dom in ('专属技能标签', '资质标签', '经历标签', '通用技能标签'):
+            t = tags_by_id.get(obj)
+            want = {'专属技能标签': '专属技能', '资质标签': '资质',
+                    '经历标签': '经历', '通用技能标签': '通用技能'}[dom]
+            if not t:
+                out.append(f'卡牌实例对账: {rid} 绑定对象 {obj} 不在标签字典内')
+            elif t['族'] != want:
+                out.append(f"卡牌实例对账: {rid} 绑定域要求{dom}，{obj} 实为「{t['族']}」")
+            else:
+                sub = spec['绑定子类表'].get(fid)
+                if sub and t['子类'] != sub:
+                    out.append(f"卡牌实例对账: {rid} 绑定子类要求 {sub}，{obj} 实为 {t['子类']}")
+        elif dom == '场景':
+            if obj not in scenes_by_id:
+                out.append(f'卡牌实例对账: {rid} 绑定场景 {obj} 不在场景字典内')
+        elif dom == '释放状态':
+            if obj not in rel_by_id:
+                out.append(f'卡牌实例对账: {rid} 绑定释放状态 {obj} 不在状态机内')
+        elif dom == '大类':
+            if obj not in major_by_id:
+                out.append(f'卡牌实例对账: {rid} 绑定大类 {obj} 不在产业大类内')
+        elif dom == '片区':
+            if obj not in district_ids:
+                out.append(f'卡牌实例对账: {rid} 绑定片区 {obj} 不在名录 20 片区内')
+        elif dom == '五维':
+            if obj not in dims:
+                out.append(f"卡牌实例对账: {rid} 绑定维度「{obj}」不在五维之内")
+        cap = fam['幅度上限']
+        cap_num = CAP_NUMBER_RE.search(cap or '')
+        own_num = CAP_NUMBER_RE.search(str(r['幅度']) or '')
+        if cap_num:
+            if not own_num:
+                out.append(f"卡牌实例对账: {rid} 幅度「{r['幅度']}」没带本族上限 {cap} 要求的数值")
+            elif int(own_num.group(1)) > int(cap_num.group(1)):
+                out.append(f'卡牌实例对账: {rid} 幅度「{r["幅度"]}」越出本族上限「{cap}」')
+        elif str(r['幅度']) != cap:
+            out.append(f"卡牌实例对账: {rid} 本族上限「{cap}」无数值，幅度须逐字等于上限而非自报数值")
+        if '不得触及权威' in (cap or '') and '权威' in str(r['幅度']):
+            out.append(f"卡牌实例对账: {rid} 幅度「{r['幅度']}」把标签推到「权威」阶，越出本族不得触及权威的边界")
+        want_path = fam['绑定途径']
+        if want_path is None:
+            if r['生效触发'] not in (None, '', '无'):
+                out.append(f"卡牌实例对账: {rid} 本族无绑定途径，生效触发却写了「{r['生效触发']}」")
+        elif r['生效触发'] != want_path:
+            out.append(f"卡牌实例对账: {rid} 生效触发「{r['生效触发']}」不等于本族绑定途径 {want_path}")
+        for ban in fam['禁则']:
+            if ban in str(r['卡面正文']):
+                out.append(f"卡牌实例对账: {rid} 卡面整句复述了族级禁则「{ban[:16]}…」")
+
+    by_family_ids = {}
+    for r in rows:
+        by_family_ids.setdefault(r['族'], set()).add(r['id'])
+    edges = {}
+    for r in rows:
+        for other in (r['互斥口径'] or []):
+            if other not in by_family_ids.get(r['族'], set()):
+                out.append(f"卡牌实例对账: {r['id']} 互斥口径 {other} 不在本族实例内")
+                continue
+            edges.setdefault(frozenset((r['id'], other)), 0)
+            edges[frozenset((r['id'], other))] += 1
+    for pair, n in edges.items():
+        a, b = tuple(pair)
+        if n != 2:
+            out.append(f'卡牌实例对账: 互斥口径 {a} 与 {b} 不成对（只 {n} 处声明），持有侧无从核算')
+    limit = adm['参数']['持有上限']['同族']
+    adj = {}
+    for pair in edges:
+        a, b = tuple(pair)
+        adj.setdefault(a, set()).add(b)
+        adj.setdefault(b, set()).add(a)
+    for start in adj:
+        seen = {start}
+        stack = [start]
+        while stack:
+            cur = stack.pop()
+            for nxt in adj.get(cur, ()):
+                if nxt not in seen:
+                    seen.add(nxt)
+                    stack.append(nxt)
+        if len(seen) > limit:
+            out.append(f'卡牌实例对账: {start} 所在互斥组 {len(seen)} 张，越出同族持有上限 {limit} 张，三元环不可满足')
+            break
+
+    blob = json.dumps(canon['公司'], ensure_ascii=False)
+    if 'CRD-' in blob:
+        out.append(f"卡牌实例对账: 岗位卡侧出现 CRD- 引用 {blob.count('CRD-')} 处，"
+                   f'卡牌实例单向引用字典 id，岗位卡不新增 CRD- 字段')
+    return out
+
+
 CHECKS = ['分区守恒', 'T5每大类一家', '档位区间与占比', '住所覆盖红线', '层系数单调',
           '起始年窗口', 'A08职责禁则', '公职不可申请边界', '字段黑名单', '无人机禁区',
           '引用完整性', '标签体系', '关键场景', '合同矩阵', '卡牌边界', '释放流程',
           '篮子完整性', '硬下限钳', '价物表自洽', '库存与配额',
           '参数完整性', '交通矩阵可复算', '天气年历闭合', '技能阈值同源', '事件与检查点自洽',
           '具名命名完整', '名称逐段回查', '命名池齐套', '名称禁则与长度', '零消费者对账', '产业图层对账', '职业条目对账',
-          '失业救助对账', '五维开局对账']
+          '失业救助对账', '五维开局对账', '卡牌实例对账']
 
 
 def cost_issues(canon, costs, registry):
@@ -1232,11 +1450,17 @@ def main():
         raise SystemExit('缺少 数据/职业条目源表.json：职业条目正文只住在这份手填真源里，先补源表再过闸，'
                          '条目门禁不得因无条目可查而空转判绿')
     occ_source = json.loads(op.read_text(encoding='utf-8'))
+    kp = ROOT / '数据' / '卡牌实例源表.json'
+    if not kp.exists():
+        raise SystemExit('缺少 数据/卡牌实例源表.json：卡牌实例的条数带与长度带只住在这份手填真源里，'
+                         '第 35 条不得因无实例可查而空转判绿')
+    card_source = json.loads(kp.read_text(encoding='utf-8'))
     naming_pool = SOURCE.get('命名') or {}
     zc = zero_counts(canon, adm)
-    bad = issues(canon, SOURCE, REGISTRY, adm, costs, params, psource, layer, occ_source)
+    bad = issues(canon, SOURCE, REGISTRY, adm, costs, params, psource, layer, occ_source, card_source)
     report = {'检查项': CHECKS, '检查项数': len(CHECKS), '失败数': len(bad), '失败明细': bad[:40],
-              '字典汇总': {k: adm['汇总'][k] for k in ('标签数', '场景数', '合同类型数', '卡牌族数', '释放状态数')},
+              '字典汇总': {k: adm['汇总'][k] for k in ('标签数', '场景数', '合同类型数', '卡牌族数', '释放状态数',
+                                                       '卡牌实例数', '背景卡实例数')},
               '物价汇总': {'篮子': costs['篮子'], '品类数': costs['汇总']['品类数'],
                         '库存行数': costs['汇总']['库存行数'], '全城户数': costs['汇总']['全城户数'],
                         '散居挂靠余数': costs['汇总']['散居挂靠余数'],
@@ -1286,7 +1510,7 @@ def main():
                         '候选组合数': params.get('五维开局', {}).get('候选组合数'),
                         '权重和': params.get('五维开局', {}).get('权重和'),
                         'CRD-A3幅度上限': next((c['幅度上限'] for c in ADM_SOURCE['卡牌族'] if c['id'] == 'CRD-A3'), None)},
-              '判据': '三十四条判红（十条产业＋六条字典＋四条物价＋五条运行参数＋四条具名命名＋一条零消费者对账＋一条产业图层对账＋一条职业条目对账＋一条失业救助对账＋一条五维开局对账）；任一失败即非零退出，不允许空转判绿'}
+              '判据': '三十五条判红（十条产业＋六条字典＋四条物价＋五条运行参数＋四条具名命名＋一条零消费者对账＋一条产业图层对账＋一条职业条目对账＋一条失业救助对账＋一条五维开局对账＋一条卡牌实例对账）；任一失败即非零退出，不允许空转判绿'}
     (ROOT / '数据' / '产业就业核验.json').write_text(json.dumps(report, ensure_ascii=False, indent=2),
                                                     encoding='utf-8')
     if bad:
@@ -1295,11 +1519,13 @@ def main():
             print('FAIL', b)
         print(f'共 {len(bad)} 条判红，前 40 条已打印')
         raise SystemExit(1)
-    print(f'全绿：三十四条判红，0 失败；公司 {canon["汇总"]["公司数"]} 家（具名 {canon["汇总"]["具名公司数"]}）'
+    print(f'全绿：三十五条判红，0 失败；公司 {canon["汇总"]["公司数"]} 家（具名 {canon["汇总"]["具名公司数"]}）'
           f'，岗位卡 {canon["汇总"]["岗位卡数"]} 张，雇员 {canon["汇总"]["雇员总数"]} 人'
           f'，被顶起 {canon["汇总"]["被顶起卡数"]} 张／{canon["汇总"]["被顶起名额数"]} 名额'
           f'，职业条目 {canon["汇总"]["职业条目数"]} 条／{canon["汇总"]["职业条目覆盖小类数"]} 小类'
-          f'，图层 {layer["汇总"]["岗位锚点数"]} 锚点／{layer["汇总"]["大类数"]} 大类')
+          f'，图层 {layer["汇总"]["岗位锚点数"]} 锚点／{layer["汇总"]["大类数"]} 大类'
+          f'，卡牌实例 {adm["汇总"]["卡牌实例数"]} 张（{adm["汇总"]["已展开族数"]} 族已展开／'
+          f'{adm["汇总"]["未展开族数"]} 族未展开）／背景卡 {adm["汇总"]["背景卡实例数"]} 张')
 
 
 if __name__ == '__main__':

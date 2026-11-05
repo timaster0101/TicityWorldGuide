@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""空间闸门：河流锚点缓冲专项＋通行构件二十五判（第7期含钛马岛三条进岛通路）。构件侧只读落盘正典与源表，几何与耗时全部另抄一份算式复核。
+"""空间闸门：河流锚点缓冲专项＋通行构件二十六判（第7期含钛马岛三条进岛通路，第9期含航空班线第八表）。构件侧只读落盘正典与源表，几何与耗时全部另抄一份算式复核。
 
 跑法：python 工具/verify_spatial.py。任一判红即非零退出，compile_book.py 会因此停住汇编。
 """
@@ -189,14 +189,16 @@ def spatial_issues(canon, src, prm):
     t = src['参数']['容差']
     brid, whar, routes, passes = canon['桥梁'], canon['渡位'], canon['轮渡航线'], canon['山口通道']
     sites_rows, tn, cb = canon.get('岛上场地', []), canon.get('湖底隧道', []), canon.get('高空缆车', [])
-    # 1 行数与编号：正典七表必须与源表逐行对应，编号唯一且格式统一
+    air = canon.get('航空班线', [])
+    # 1 行数与编号：正典八表必须与源表逐行对应，编号唯一且格式统一
     rows_by_name = [('桥梁', brid, r'^BR-\d{2}$', src['参数']['桥梁']),
                     ('渡位', whar, r'^WH-\d{2}$', src['参数']['轮渡']['渡位']),
                     ('航线', routes, r'^FR-\d{2}$', src['参数']['轮渡']['航线']),
                     ('山口', passes, r'^PA-\d{2}$', src['参数']['山口通道']['通道']),
                     ('岛上场地', sites_rows, r'^PL-\d{2}$', src['参数']['湖岛']['岛上场地']),
                     ('湖底隧道', tn, r'^TN-\d{2}$', src['参数']['湖底隧道']['隧道']),
-                    ('高空缆车', cb, r'^CB-\d{2}$', src['参数']['高空缆车']['线路'])]
+                    ('高空缆车', cb, r'^CB-\d{2}$', src['参数']['高空缆车']['线路']),
+                    ('航空班线', air, r'^AR-\d{2}$', src['参数'].get('航空班线', {}).get('班线', []))]
     for nm, rows, pat, want in rows_by_name:
         if len(rows) != len(want):
             out.append(f'行数: {nm} 正典 {len(rows)} 行，源表 {len(want)} 行')
@@ -402,17 +404,20 @@ def spatial_issues(canon, src, prm):
     missing = [k for k in ('内湖环', '外城环', '产业小镇', '特色村落') if k not in served]
     if missing:
         out.append(f'圈层覆盖: {missing} 没有任何通行构件服务')
-    # 17 与第4期同源：延后方式只剩机场班机，轮渡、山外接驳与进岛的隧道／缆车登记为矩阵外方式且不进矩阵
+    # 17 与第4期同源：延后方式自第9期为空，轮渡、山外接驳、进岛隧道／缆车与航空班线登记为矩阵外方式且不进矩阵
     sp = prm['参数']['交通']
     deferred = [m['码'] for m in sp['延后方式']]
     outside = [m['码'] for m in sp.get('矩阵外方式', [])]
-    if deferred != ['TR-AIR']:
-        out.append(f'第4期同源: 延后方式应只剩 TR-AIR，实得 {deferred}')
-    if sorted(outside) != ['TR-CABLE', 'TR-FERRY', 'TR-SHUTTLE', 'TR-TUNNEL']:
+    if deferred:
+        out.append(f'第4期同源: 延后方式应为空（第9期起 TR-AIR 已升登记为矩阵外方式），实得 {deferred}')
+    if sorted(outside) != ['TR-AIR', 'TR-CABLE', 'TR-FERRY', 'TR-SHUTTLE', 'TR-TUNNEL']:
         out.append(f'第4期同源: 矩阵外方式码集不合，实得 {sorted(outside)}')
     for m in sp.get('矩阵外方式', []):
         if m.get('真源') != '数据/空间通行源表.json':
             out.append(f'第4期同源: {m["码"]} 的真源没指向空间通行源表')
+    air_row = next((m for m in sp.get('矩阵外方式', []) if m['码'] == 'TR-AIR'), None)
+    if air_row is not None and air_row.get('读数') != '数据/空间通行正典.json 的 航空班线':
+        out.append('第4期同源: TR-AIR 的读数没指向航空班线表')
     cell_modes = {x['码'] for x in sp['方式']}
     if cell_modes & (set(outside) | set(deferred)):
         out.append('第4期同源: 矩阵外或延后方式同时进了矩阵方式列表')
@@ -643,18 +648,82 @@ def spatial_issues(canon, src, prm):
     walk_all = [r['岛内步行km'] for r in tn + cb] + [r['岛内步行km'] for r in ferries]
     if walk_all and max(walk_all) > t['岛内步行上限千米']:
         out.append(f'岛内步行: 实得 {max(walk_all)} km，超过上限 {t["岛内步行上限千米"]} km')
+    # 26 航空班线对账：门户唯一且是名录里唯一的机场聚落、讫点在盆界外且离锚有下限、交点声明在容差内，
+    #   航段／耗时／票价三个读数一律按飞行常数复算（票价不是手填的，这行判据就是它唯一的落处）
+    ab = src['参数'].get('航空班线')
+    if ab is None:
+        out.append('航空班线: 源表没有 航空班线 块，TR-AIR 升登记为矩阵外方式后没有承载体')
+    elif '机场班机仍无承载体' in src['参数']['禁则']:
+        out.append('航空班线: 禁则里还留着「机场班机仍无承载体」，这条读数已经说谎')
+    elif not air:
+        out.append('航空班线: 正典的航空班线为空，机场班机这条方式码落不到构件')
+    else:
+        fc = ab['飞行常数']
+        akinds = {k['码']: k for k in ab['班线类']}
+        ports = sorted({r['门户'] for r in air})
+        if len(ports) != 1:
+            out.append(f'航空班线: 出现 {len(ports)} 个门户 {ports}，第9期口径是盆内只有一座机场')
+        else:
+            airport_ids = sorted(e['id'] for e in ENTRIES if '机场' in (e.get('focus') or ''))
+            if airport_ids != ports:
+                out.append(f'航空班线: 名录里 focus 含「机场」的聚落是 {airport_ids}，与门户 {ports[0]} 不符——'
+                           f'盆界框内不得出现第二座机场')
+            if BY_ID.get(ports[0]) is None:
+                out.append(f'航空班线: 门户 {ports[0]} 不在名录内')
+        for k in akinds:
+            if k not in {r['类'] for r in air}:
+                out.append(f'航空班线: 字典类 {k} 没有实例')
+        for r in air:
+            gate = BY_ID.get(r['门户'])
+            if gate is None:
+                out.append(f'航空班线引用: {r["码"]} 的门户 {r["门户"]} 不在名录内')
+                continue
+            if r['门户名'] != gate['name'] or r['门户圈层'] != entry_ring(gate, BY_ID):
+                out.append(f'航空班线引用: {r["码"]} 门户名或圈层与名录不符')
+            k = akinds.get(r['类'])
+            if k is None:
+                out.append(f'航空班线类别: {r["码"]} 的类 {r["类"]} 不在班线类字典内')
+            elif bool(r['载客']) != bool(k['载客']):
+                out.append(f'航空班线类别: {r["码"]} 载客标志与 {r["类"]} 字典不符')
+            if r['班线每日'] <= 0:
+                out.append(f'航空班线班线: {r["码"]} 班线每日必须大于 0')
+            if inside_box(r['讫点km']):
+                out.append(f'航空班线盆界: {r["码"]} 山外讫点落在盆界矩形内')
+            near = min(straight(r['讫点km'], e['center_km']) for e in ENTRIES)
+            if near < t['山外讫点离任一锚点下限千米']:
+                out.append(f'航空班线盆界: {r["码"]} 讫点离最近锚点 {near:.2f} 千米，低于 '
+                           f'{t["山外讫点离任一锚点下限千米"]} 千米')
+            ex = box_exit(gate['center_km'], r['讫点km'])
+            if ex is None or straight(ex, r['盆界交点km']) > t['盆界交点声明容差千米']:
+                out.append(f'航空班线交点: {r["码"]} 实算交点与正典登记不符，容差 {t["盆界交点声明容差千米"]} 千米')
+            seg = round(straight(gate['center_km'], r['讫点km']) * fc['进场系数'], 3)
+            if abs(seg - r['航段km']) > 0.002:
+                out.append(f'航空班线航段: {r["码"]} 正典 {r["航段km"]} km，复算 {seg} km')
+            mins = fixed_minutes(seg, fc['巡航速度km_h'], fc['候机分钟'], fc['取整分钟'])
+            if mins != r['耗时分钟']:
+                out.append(f'航空班线耗时: {r["码"]} 正典 {r["耗时分钟"]} 分，复算 {mins} 分')
+            fare = math.ceil((fc['票价基础_钛币'] + seg * fc['票价每千米_钛币']) / 10) * 10
+            if fare != r['票价_钛币']:
+                out.append(f'航空班线票价: {r["码"]} 正典 {r["票价_钛币"]} 钛币，按公式复算 {fare} 钛币')
+        for nm, want in (('航空班线数', len(air)), ('航空门户数', len({r['门户'] for r in air}))):
+            if s.get(nm) != want:
+                out.append(f'汇总: {nm} 记 {s.get(nm)}，逐行实得 {want}')
+        for nm, key in (('航空航段区间km', '航段km'), ('航空耗时区间分钟', '耗时分钟'),
+                        ('航空票价区间_钛币', '票价_钛币')):
+            if s.get(nm) != [min(r[key] for r in air), max(r[key] for r in air)]:
+                out.append(f'汇总: {nm} 与航空班线表不符')
     return out
 
 
 spatial = spatial_issues(SPCANON, SPSRC, PRMSRC)
 output = dict(checked=len(results), rule='锚点距离河流折线>=最大水宽/2+30米；不替代完整地块缓冲审查',
               failures=failures, results=results,
-              构件=dict(判据数=25, 桥梁=len(SPCANON['桥梁']), 渡位=len(SPCANON['渡位']),
+              构件=dict(判据数=26, 桥梁=len(SPCANON['桥梁']), 渡位=len(SPCANON['渡位']),
                        航线=len(SPCANON['轮渡航线']), 山口=len(SPCANON['山口通道']),
                        岛上场地=len(SPCANON.get('岛上场地', [])), 湖底隧道=len(SPCANON.get('湖底隧道', [])),
-                       高空缆车=len(SPCANON.get('高空缆车', [])),
+                       高空缆车=len(SPCANON.get('高空缆车', [])), 航空班线=len(SPCANON.get('航空班线', [])),
                        失败=len(spatial), 失败明细=spatial,
-                       rule='通行构件二十五判：几何、水宽、耗时、湖岛三通路与第4期同源性由本闸门独立复算，不引用生成器'))
+                       rule='通行构件二十六判：几何、水宽、耗时、湖岛三通路、航空班线第八表与第4期同源性由本闸门独立复算，不引用生成器'))
 (ROOT / '数据' / '河岸锚点核验.json').write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding='utf-8')
 print(json.dumps(dict(checked=len(results), 构件={k: v for k, v in output['构件'].items() if k != '失败明细'}),
                   ensure_ascii=False, indent=2))
@@ -662,4 +731,4 @@ for line in spatial:
     print('FAIL ' + line)
 if failures or spatial:
     raise SystemExit(1)
-print(f'全绿：河流缓冲 {len(results)} 条零违例，通行构件二十五判 0 失败')
+print(f'全绿：河流缓冲 {len(results)} 条零违例，通行构件二十六判 0 失败')

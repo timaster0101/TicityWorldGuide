@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-"""岗位准入字典生成器：读 岗位准入源表.json ＋ 产业就业源表.json，确定性展开标签、场景、合同、卡牌族与状态机。
+"""岗位准入字典生成器：读 岗位准入源表.json ＋ 产业就业源表.json ＋ 卡牌实例源表.json，确定性展开标签、场景、合同、卡牌族、卡牌实例与状态机。
 
-脚本内不内嵌任何大类／小类名称，全部从源表读取；不读名录与定价，与空间层零耦合。
+脚本内不内嵌任何大类／小类名称，全部从源表读取；卡牌实例的正文与条数／长度带只住在 卡牌实例源表.json，
+本文件只按 绑定域 反查真实对象并派生 id 与读数；不读名录与定价，与空间层零耦合。
 跑法：python 工具/build_admission.py [--out-dir DIR]
 """
 import json
@@ -70,6 +71,84 @@ def counts(tags):
     return by
 
 
+CARD_SOURCE_KEYS = ('口径', '规格', '卡牌族实例', '背景卡实例', '禁则')
+
+
+def load_card_source():
+    path = ROOT / '数据' / '卡牌实例源表.json'
+    if not path.exists():
+        raise SystemExit('缺少 数据/卡牌实例源表.json：卡牌正文属手填真源，生成器不代填文本，'
+                         '门禁第 35 条也不得因无实例可查而空转判绿')
+    doc = json.loads(path.read_text(encoding='utf-8'))
+    missing = [k for k in CARD_SOURCE_KEYS if k not in doc]
+    if missing:
+        raise SystemExit(f'卡牌实例源表.json 缺 {missing}：条数带、长度带与绑定域表只住在本表「规格」块，生成器不内嵌常量')
+    return doc
+
+
+CARD_SOURCE = load_card_source()
+
+# 四个标签域在本文件的标签集里反查，场景与释放状态同理，大类在本文件已读的产业就业源表里；
+# 名录片区与运行参数五维两域不在本生成器的读取面内（本文件不读名录与定价），读数里如实写「由闸门对账」，
+# 存在性由门禁第 35 条按同一份真源判，不在此处伪造命中。
+TAG_DOMAIN_FAMILY = {'专属技能标签': '专属技能', '资质标签': '资质',
+                     '经历标签': '经历', '通用技能标签': '通用技能'}
+
+
+def card_binding(domain, sub, obj, tag_by_id, scene_by_id, rel_by_id, major_by_id):
+    if domain in TAG_DOMAIN_FAMILY:
+        t = tag_by_id.get(obj)
+        if not t:
+            return {'解析': '未命中', '域': domain}
+        return {'解析': '命中', '域': domain, '名称': t['名称'], '标签族': t['族'], '子类': t['子类'],
+                '父大类': t['父大类'], '父小类': t['父小类'], '可推进途径': t['可推进途径'],
+                '族相符': t['族'] == TAG_DOMAIN_FAMILY[domain],
+                '子类相符': True if sub is None else t['子类'] == sub}
+    if domain == '场景':
+        s = scene_by_id.get(obj)
+        if not s:
+            return {'解析': '未命中', '域': domain}
+        return {'解析': '命中', '域': domain, '名称': s['名称'], '类别': s['类别'],
+                '适用大类': s['适用大类']}
+    if domain == '释放状态':
+        r = rel_by_id.get(obj)
+        return {'解析': '命中' if r else '未命中', '域': domain, '名称': r}
+    if domain == '大类':
+        m = major_by_id.get(obj)
+        return {'解析': '命中' if m else '未命中', '域': domain, '名称': m}
+    return {'解析': '由闸门对账', '域': domain}
+
+
+def build_card_instances(tags, scenes):
+    spec = CARD_SOURCE['规格']
+    fam_by_id = {f['id']: f for f in SOURCE['卡牌族']}
+    tag_by_id = {t['id']: t for t in tags}
+    scene_by_id = {s['id']: s for s in scenes}
+    rel_by_id = {r['id']: r['名称'] for r in SOURCE['释放状态']}
+    major_by_id = {d['id']: d['名称'] for d in OCC['大类']}
+    rows = []
+    for block in CARD_SOURCE['卡牌族实例']:
+        fid = block['族']
+        fam = fam_by_id.get(fid)
+        domain = spec['绑定域表'].get(fid)
+        sub = spec['绑定子类表'].get(fid)
+        for i, item in enumerate(block['条目'], start=1):
+            row = {'id': f'{fid}-{i:03d}', '族': fid,
+                   '族名': fam['名称'] if fam else None,
+                   '类别': fam['类别'] if fam else None,
+                   '绑定域': domain, '绑定途径': fam['绑定途径'] if fam else None,
+                   '幅度上限': fam['幅度上限'] if fam else None,
+                   '序号': i}
+            for k in spec['字段']:
+                row[k] = item.get(k)
+            row['绑定读数'] = card_binding(domain, sub, item.get('绑定对象'),
+                                          tag_by_id, scene_by_id, rel_by_id, major_by_id)
+            rows.append(row)
+    per_family = {fid: sum(1 for r in rows if r['族'] == fid) for fid in spec['每族条数']}
+    bg = [{'id': f"BG-{i:03d}", **item} for i, item in enumerate(CARD_SOURCE['背景卡实例']['条目'], start=1)]
+    return rows, bg, per_family
+
+
 def render_table(canon):
     s, g = canon['汇总'], canon['场景']
     L = ['# 钛湖城岗位准入字典总表', '',
@@ -115,6 +194,23 @@ def render_table(canon):
     L += ['', f"状态判定：卡片 `起始城市年` 晚于 {canon['setting_year']}（{rule['基准年说明']}）取 {rule['晚于基准年']}，"
                f"否则取 {rule['否则']}；释放去向白名单 {'、'.join(rule['释放去向白名单'])}；名额回流口径：{rule['名额回流']}；"
                f"再求职匹配键：{rule['再求职匹配键']}，优先级 {'→'.join(rule['优先级'])}。留白：{rule['留白']}。", '']
+    cards_spec = canon['卡牌实例']['规格']
+    L += ['', '## 8. 卡牌实例（第9期 9a：容器）', '',
+          f"实例 {canon['汇总']['卡牌实例数']} 张、已展开族 {canon['汇总']['已展开族数']} 族、"
+          f"未展开族 {canon['汇总']['未展开族数']} 族、背景卡实例 {canon['汇总']['背景卡实例数']} 张；"
+          f"总条数带 {cards_spec['总条数区间'][0]}—{cards_spec['总条数区间'][1]}（未展开态记 0，不判越带）。", '',
+          '| 族 | 绑定域 | 绑定子类 | 条数带 | 实得条数 |', '|---|---|---|---|---|']
+    for fid, band in cards_spec['每族条数'].items():
+        L.append(f"| {fid} | {cards_spec['绑定域表'][fid]} | {cards_spec['绑定子类表'][fid] or '—'} "
+                 f"| {band[0]}—{band[1]} | {canon['汇总']['逐族条数'][fid]} |")
+    L += ['', f"每条实例字段：{'、'.join(cards_spec['字段'])}；名称长度 {cards_spec['名称长度'][0]}—"
+               f"{cards_spec['名称长度'][1]}、卡面正文长度 {cards_spec['卡面正文长度'][0]}—"
+               f"{cards_spec['卡面正文长度'][1]}、幅度长度 {cards_spec['幅度长度'][0]}—"
+               f"{cards_spec['幅度长度'][1]}、互斥口径最多 {cards_spec['互斥口径条数'][1]} 条；"
+               f"禁用字符 {'、'.join(cards_spec['禁用字符'])}。条数带下限 0 表示该族本期未展开。", '',
+          f"口径：{canon['卡牌实例']['口径']}", '']
+    for k, v in canon['卡牌实例']['禁则'].items():
+        L.append(f'- {k}：{v}')
     return chr(10).join(L) + chr(10)
 
 
@@ -125,11 +221,12 @@ def main():
     args = parser.parse_args()
     out = Path(args.out_dir) if args.out_dir else ROOT / '数据'
     tags, scenes = build_tags(), build_scenes()
+    cards, background_cards, per_family = build_card_instances(tags, scenes)
     by = counts(tags)
     canon = {
         'version': '1.0', 'fictional': True, 'setting_year': SOURCE['setting_year'],
         'currency': SOURCE['currency'], 'currency_name': SOURCE['currency_name'],
-        'declaration': '本文件由 工具/build_admission.py 从 岗位准入源表.json＋产业就业源表.json 生成，属派生正典；修改请改源表并重跑生成器与 build_occupations.py，不要手改本文件。逐张卡牌实例与逐条职业内容属第6期，本期只出字典与引用口径。',
+        'declaration': '本文件由 工具/build_admission.py 从 岗位准入源表.json＋产业就业源表.json＋卡牌实例源表.json 生成，属派生正典；修改请改源表并重跑生成器与 build_occupations.py，不要手改本文件。逐条职业内容属第6期，逐张卡牌实例的第9期只落容器（规格、字段与 12 个空族块），卡牌正文 0 张、属待 9b／9c 点单项。',
         '阶': SOURCE['阶'], '非阶要求': SOURCE['非阶要求'], '途径': SOURCE['途径'],
         '层级标签绑定': SOURCE['层级标签绑定'],
         '参数': {'持有上限': SOURCE['持有上限'],
@@ -138,6 +235,8 @@ def main():
         '标签': tags, '场景': scenes, '合同类型': SOURCE['合同类型'],
         '准入形态合同过滤': SOURCE['准入形态合同过滤'], '卡牌族': SOURCE['卡牌族'],
         '释放状态': SOURCE['释放状态'], '通用标签分配': common_tag_split(),
+        '卡牌实例': {'规格': CARD_SOURCE['规格'], '口径': CARD_SOURCE['口径'],
+                     '禁则': CARD_SOURCE['禁则'], '实例': cards, '背景卡': background_cards},
         '汇总': {'标签数': len(tags), '专属标签数': by.get('专属技能', 0), '通用标签数': by.get('通用技能', 0),
                  '资质标签数': by.get('资质', 0), '经历标签数': by.get('经历', 0),
                  '覆盖小类数': len({t['父小类'] for t in tags if t['父小类']}),
@@ -147,6 +246,10 @@ def main():
                  '能力类族数': sum(1 for f in SOURCE['卡牌族'] if f['类别'] == 'A'),
                  '学习类族数': sum(1 for f in SOURCE['卡牌族'] if f['类别'] == 'B'),
                  '释放状态数': len(SOURCE['释放状态']), '大类数': len(OCC['大类']),
+                 '卡牌实例数': len(cards), '逐族条数': per_family,
+                 '已展开族数': sum(1 for v in per_family.values() if v),
+                 '未展开族数': sum(1 for v in per_family.values() if not v),
+                 '背景卡实例数': len(background_cards),
                  '口径': '标签、场景、合同、卡牌族与状态机构成岗位准入字典；卡片只引用 ID，不复述文本。'
                          '四阶的名称与层级映射在本期定义；升到各阶所需的经验月数与每轮卡牌上限已由第4期运行参数落定，'
                          '口径见《运行参数设定》与 `数据/运行参数正典.json`，本字典只引用标签 ID。'},

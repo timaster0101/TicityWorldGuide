@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""第5期空间通行清单派生器：读 空间通行源表.json ＋ 名录水系几何，产出桥梁／渡位／航线／山口通道四张实算表。
+"""第5期空间通行清单派生器：读 空间通行源表.json ＋ 名录水系几何，产出桥梁／渡位／航线／山口通道／岛上场地／湖底隧道／高空缆车／航空班线八张实算表。
 
 手填只有构件端点坐标、渡位坐标、山门口与班线常数；跨度、方位、交角、水宽、湖内判定、
 圈层对、盆界交点与固定耗时一律由本文件从 数据/城市空间名录.json 的湖椭圆与两条河流折线实算派生。
@@ -169,13 +169,17 @@ def check_params_同源():
     sp = PARAMS_SRC['参数']['交通']
     deferred = [m['码'] for m in sp['延后方式']]
     outside = {m['码']: m for m in sp.get('矩阵外方式', [])}
-    for code in ('TR-FERRY', 'TR-SHUTTLE', 'TR-TUNNEL', 'TR-CABLE'):
+    for code in ('TR-FERRY', 'TR-SHUTTLE', 'TR-TUNNEL', 'TR-CABLE', 'TR-AIR'):
         if code in deferred:
-            raise SystemExit(f'第4期延后方式里还有 {code}：本期清单已落定，应改登记进 矩阵外方式')
+            raise SystemExit(f'延后方式里还有 {code}：本期清单已落定，应改登记进 矩阵外方式')
         if code not in outside:
-            raise SystemExit(f'第4期矩阵外方式缺 {code}：轮渡、山口接驳、湖底隧道与高空缆车的耗时由本表逐构件给出，必须挂上来源')
-    if 'TR-AIR' not in deferred:
-        raise SystemExit('TR-AIR 不在延后方式里：名录内没有城内机场构件，本期不推翻这条读数')
+            raise SystemExit(f'矩阵外方式缺 {code}：轮渡、山口接驳、进岛的隧道／缆车与航空班线的耗时'
+                             f'由本表逐构件给出，必须挂上来源')
+    if deferred:
+        raise SystemExit(f'延后方式应为空：第9期起 TR-AIR 已升登记为矩阵外方式，承载体是本文件的航空班线表，'
+                         f'实得 {deferred}')
+    if outside['TR-AIR'].get('读数') != '数据/空间通行正典.json 的 航空班线':
+        raise SystemExit('TR-AIR 的读数没指向航空班线表：机场班机的逐班线读数只从这张表派生')
 
 
 def build_bridges():
@@ -393,6 +397,54 @@ def build_passes():
     return rows
 
 
+def build_air_lines():
+    """航空班线：第八表。航段、耗时、票价、盆界交点全从 S02 中心与讫点坐标实算，手填只给讫点坐标、班次与声明交点。"""
+    ab = P['航空班线']
+    c = ab['飞行常数']
+    kinds = {k['码']: k for k in ab['班线类']}
+    rows = []
+    for ar in ab['班线']:
+        code = ar['码']
+        if ar['类'] not in kinds:
+            raise SystemExit(f'{code} 的班线类 {ar["类"]} 不在班线类字典内')
+        kind = kinds[ar['类']]
+        ring, gate = ring_of(ar['门户'], f'{code} 门户')
+        p, q = gate['center_km'], ar['讫点km']
+        if BOX[0] <= q[0] <= BOX[2] and BOX[1] <= q[1] <= BOX[3]:
+            raise SystemExit(f'{code} 山外讫点 {q} 落在盆界矩形内，航空班线的讫点必须在盆界之外')
+        near = min(dist(q, e['center_km']) for e in REGISTRY['entries'])
+        if near < TOL['山外讫点离任一锚点下限千米']:
+            raise SystemExit(f'{code} 山外讫点离最近名录锚点只有 {near:.2f} 千米：山外只给集散场称谓，不许造地点')
+        line = dist(p, q)
+        seg = round(line * c['进场系数'], 3)
+        step = c['取整分钟']
+        if not kind['载客']:
+            raise SystemExit(f'{code} 属不载客类 {ar["类"]}，航空班线表只登记载客航段')
+        if ar['班线每日'] <= 0:
+            raise SystemExit(f'{code} 属载客类 {ar["类"]}，班线每日必须大于 0')
+        minutes = math.ceil((seg / c['巡航速度km_h'] * 60 + c['候机分钟']) / step) * step
+        fare = math.ceil((c['票价基础_钛币'] + seg * c['票价每千米_钛币']) / 10) * 10
+        ex = box_exit(p, q)
+        dev = dist(ex, ar['声明盆界交点km'])
+        if dev > TOL['盆界交点声明容差千米']:
+            raise SystemExit(f'{code} 声明盆界交点 {ar["声明盆界交点km"]} 与实算 {tuple(round(x, 3) for x in ex)} '
+                             f'相差 {dev:.3f} 千米，超过 {TOL["盆界交点声明容差千米"]} 千米——改名录盆界后须重测本行')
+        rows.append(dict(码=code, 名=ar['名'], 类=ar['类'], 类名=kind['名'], 载客=kind['载客'],
+                         门户=ar['门户'], 门户名=gate['name'], 门户圈层=ring,
+                         山外讫点=ar['山外讫点'], 讫点km=q, 直线km=round(line, 2), 航段km=seg,
+                         耗时分钟=minutes, 票价_钛币=fare, 盆界交点km=[round(x, 3) for x in ex],
+                         声明盆界交点km=ar['声明盆界交点km'], 交点偏差km=round(dev, 3),
+                         讫点离最近锚点km=round(near, 2), 班线每日=ar['班线每日'], 说明=ar['说明']))
+    check_unique([r['码'] for r in rows], '航空班线')
+    if len(rows) < 4:
+        raise SystemExit(f'航空班线只有 {len(rows)} 条：TR-AIR 升登记为矩阵外方式，承载体至少要有四向出盆航段，'
+                         f'与山口的四向同轴')
+    if len({r['门户'] for r in rows}) != 1:
+        raise SystemExit(f'航空班线出现多个门户 {sorted({r["门户"] for r in rows})}：'
+                         f'C112 的单一承载体口径要求盆内只有一座机场')
+    return rows
+
+
 def build_sites():
     """岛上场地：面积、容量与「完全在岛内、互不重叠」全部实算，手填只给中心、半轴与密度。"""
     rows = []
@@ -561,6 +613,7 @@ def build_canon():
     wharves = build_wharves()
     routes = build_routes(wharves)
     passes = build_passes()
+    air = build_air_lines()
     sites = {r['码']: r for r in build_sites()}
     tunnels = build_tunnels(sites)
     cables = build_cables(sites)
@@ -571,6 +624,7 @@ def build_canon():
     canon['渡位'] = wharves
     canon['轮渡航线'] = routes
     canon['山口通道'] = passes
+    canon['航空班线'] = air
     canon['岛上场地'] = list(sites.values())
     canon['湖底隧道'] = tunnels
     canon['高空缆车'] = cables
@@ -589,6 +643,10 @@ def build_canon():
         '隧道水下段区间km': [min(r['水下段km'] for r in tunnels), max(r['水下段km'] for r in tunnels)],
         '缆车跨距区间km': [min(r['跨距km'] for r in cables), max(r['跨距km'] for r in cables)],
         '航线数': len(routes), '山口数': len(passes), '山口类数': len(P['山口通道']['六类']),
+        '航空班线数': len(air), '航空门户数': len({r['门户'] for r in air}),
+        '航空航段区间km': [min(r['航段km'] for r in air), max(r['航段km'] for r in air)],
+        '航空耗时区间分钟': [min(r['耗时分钟'] for r in air), max(r['耗时分钟'] for r in air)],
+        '航空票价区间_钛币': [min(r['票价_钛币'] for r in air), max(r['票价_钛币'] for r in air)],
         '载客山口数': sum(1 for r in passes if r['载客']),
         '最长跨度m': span_max['跨度m'], '最长跨度桥': span_max['码'],
         '最长航线km': max(r['航段km'] for r in routes),
@@ -598,10 +656,11 @@ def build_canon():
         '载客山口耗时区间分钟': [min(r['耗时分钟'] for r in passes if r['耗时分钟'] is not None),
                           max(r['耗时分钟'] for r in passes if r['耗时分钟'] is not None)],
         '穿湖桥数': sum(1 for r in bridges if r['穿湖']), '通到岛上的桥数': 0,
-        '口径': '桥梁／渡位／航线／山口／岛上场地／湖底隧道／高空缆车是通行构件事实，只参与「能不能到」的判定，'
-                '不参与耗时覆写、天气降速或随机延误；耗时一律是零随机的固定查表值。七张表都不进第4期交通矩阵：'
+        '口径': '桥梁／渡位／航线／山口／岛上场地／湖底隧道／高空缆车／航空班线是通行构件事实，只参与「能不能到」的判定，'
+                '不参与耗时覆写、天气降速或随机延误；耗时一律是零随机的固定查表值。八张表都不进第4期交通矩阵：'
                 '矩阵按圈层对中位直线口径，与点对点构件的量级不可比。轮渡、山口接驳、湖底隧道与高空缆车在第4期登记为'
-                '矩阵外方式，逐构件读数看本表。钛马岛不进 312 条名录：岛上没有住宅人口、没有岗位锚点、没有房价条目。',
+                '矩阵外方式，航空班线在第9期把 TR-AIR 从延后方式升登记为矩阵外方式，逐构件读数都看本表。'
+                '钛马岛不进 312 条名录：岛上没有住宅人口、没有岗位锚点、没有房价条目。',
     }
     return canon
 
@@ -725,6 +784,28 @@ def render_table(canon):
     for k in canon['参数']['山口通道']['六类']:
         lines.append(f'| {k["码"]} | {k["名"]} | {_cell(k["载客"])} | {k["口径"]} |')
 
+    lines += ['', '| 码 | 名 | 类 | 门户 | 门户圈层 | 山外讫点 | 直线 km | 航段 km | 耗时分钟 | 票价 钛币 | 班线每日 | 盆界交点 km | 声明偏差 km | 离最近锚点 km |',
+              '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |']
+    for r in canon['航空班线']:
+        lines.append(f'| {r["码"]} | {r["名"]} | {r["类"]} | {r["门户"]} {r["门户名"]} | {r["门户圈层"]} | '
+                     f'{r["山外讫点"]} | {r["直线km"]} | {r["航段km"]} | {r["耗时分钟"]} | {r["票价_钛币"]} | '
+                     f'{r["班线每日"]} | ({r["盆界交点km"][0]}, {r["盆界交点km"][1]}) | {r["交点偏差km"]} | '
+                     f'{r["讫点离最近锚点km"]} |')
+    lines += ['', '| 类 | 名 | 载客 | 口径 |', '| --- | --- | --- | --- |']
+    for k in canon['参数']['航空班线']['班线类']:
+        lines.append(f'| {k["码"]} | {k["名"]} | {_cell(k["载客"])} | {k["口径"]} |')
+    fc = canon['参数']['航空班线']['飞行常数']
+    air = canon['航空班线']
+    lines += ['', f'航空班线是 TR-AIR 的承载体，也是第八张表：门户 {canon["汇总"]["航空门户数"]} 个'
+              f'（{air[0]["门户"]} {air[0]["门户名"]}，{air[0]["门户圈层"]}）承 {len(air)} 条出盆班线。三个读数都不手填——'
+              f'航段km = S02 中心到讫点直线km × 进场系数 {fc["进场系数"]}，分钟 = ceil((航段km ÷ '
+              f'{fc["巡航速度km_h"]} × 60 + 候机 {fc["候机分钟"]}) ÷ {fc["取整分钟"]}) × {fc["取整分钟"]}，'
+              f'票价 = ceil(({fc["票价基础_钛币"]} + 航段km × {fc["票价每千米_钛币"]}) ÷ 10) × 10。实得航段区间 '
+              f'{canon["汇总"]["航空航段区间km"][0]}—{canon["汇总"]["航空航段区间km"][1]} 千米、耗时区间 '
+              f'{canon["汇总"]["航空耗时区间分钟"][0]}—{canon["汇总"]["航空耗时区间分钟"][1]} 分钟、票价区间 '
+              f'{canon["汇总"]["航空票价区间_钛币"][0]}—{canon["汇总"]["航空票价区间_钛币"][1]} 钛币。'
+              f'民航不作城内通勤，出盆方式与山口同层，因此不进 50 格矩阵。', '']
+
     lines += ['', '## 七、判据与实测余量', '',
               '| 判据 | 登记值 | 实测区间 |', '| --- | --- | --- |']
     b = canon['桥梁']
@@ -761,10 +842,11 @@ def render_table(canon):
                  f'{t["锚点可达半径上限千米"]["外城环"]}／外围 {t["锚点可达半径上限千米"]["产业小镇"]} km | '
                  f'实得最大 {max(max(r["可达A_km"], r["可达B_km"]) for r in b)} km（桥）、'
                  f'{max(max(r["可达A_km"], r["可达B_km"]) for r in canon["轮渡航线"])} km（渡） |')
+    out_bound = canon['山口通道'] + canon['航空班线']
     lines.append(f'| 盆界交点声明容差 | {t["盆界交点声明容差千米"]} km | '
-                 f'{max(r["交点偏差km"] for r in canon["山口通道"])} km |')
+                 f'{max(r["交点偏差km"] for r in out_bound)} km（山口＋航空 {len(out_bound)} 行）|')
     lines.append(f'| 山外讫点离任一锚点下限 | {t["山外讫点离任一锚点下限千米"]} km | '
-                 f'{min(r["讫点离最近锚点km"] for r in canon["山口通道"])} km |')
+                 f'{min(r["讫点离最近锚点km"] for r in out_bound)} km |')
 
     lines += ['', '## 八、禁则与口径', '']
     for k, v in canon['参数']['禁则'].items():
@@ -777,6 +859,7 @@ def render_table(canon):
               f'- 高空缆车：{canon["参数"]["高空缆车"]["系数与常数"]["口径"]}',
               f'- 岛内步行：{t["岛内步行上限口径"]}',
               f'- 山口：{canon["参数"]["山口通道"]["接驳常数"]["口径"]}',
+              f'- 航空班线：{canon["参数"]["航空班线"]["飞行常数"]["口径"]}',
               f'- 汇总：{canon["汇总"]["口径"]}']
     return '\n'.join(lines) + '\n'
 
