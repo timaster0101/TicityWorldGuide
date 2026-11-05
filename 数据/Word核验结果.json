@@ -1,8 +1,8 @@
 {
   "passed": true,
   "errors": [],
-  "source_sha256": "0ae284bb657050ce63264711b565e8f068bcdc473fef6cad9e05bbe1807ca33d",
-  "docx_sha256": "e454265729c8ff206e68602efc7e965dcfdd6ff2506ae76fcc011989b9af7ba9",
+  "source_sha256": "dbe75016536687851c96d9d22b0ecdc0fe6dc20d558d32a3f39c1e0857696e9d",
+  "docx_sha256": "62b29b97d82acbe6b78be0f0b9d96596c9a4efd1e14501b4fd75e442fca2a7ad",
   "paragraph_count": 8299,
   "table_count": 321,
   "cell_count": 4896,
@@ -37,8 +37,8 @@
   ],
   "crc_verified": true,
   "update_fields": true,
-  "rendering_verified": true,
-  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签；目视动作由用户本轮明确委托会话代理执行）」按「本机 Microsoft Word（comtypes.client.CreateObject 驱动 Word.Application）以只读打开当前 docx（586375 字节，摘要 e4542657…）→ Documents.Open(ReadOnly=True, AddToRecentFiles=False, Visible=False) → Fields.Update → TablesOfContents.Update → Repaginate → ComputeStatistics（枚举 0/1/2/3/4/5 逐项取）→ ExportAsFixedFormat 导 PDF（17＝wdExportFormatPDF）418 页 → pymupdf 逐页文本、字体、空白页、异常字符与越界扫描 → 第1／2／3／379／385／391／395／397／400／409／411／416／418 页按 110dpi 单页位图逐张目视，另把第4／11／40／64、第108／142／176／207、第227／263／298／334、第370／401／405／412、第403／407／415／417、第386／392／396／408、第380／381／382／383、第384／404／406／414、第376／377／378／379 九组各拼成一张四格位图逐格目视，18 个分卷首页全部看过；第2页目录引导句另按 rawdict 逐字坐标复核一次。Close(False) 只读关闭，全程不保存，改写本记录前复算 docx 摘要与打开前一致」目视，绑定当前 DOCX 摘要",
+  "rendering_verified": false,
+  "rendering_note": "目视记录绑定的是另一份 DOCX（记录 e4542657…，当前 62b29b97…）：重导即失效，须重看",
   "source_block_count": 3376,
   "docx_body_block_count": 3376,
   "body_anchor": {
