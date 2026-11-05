@@ -390,9 +390,13 @@ class ReviewNoteHistory(unittest.TestCase):
             # 达标 3 条（L093／L101／L108）画面里没有过阈值线的细杆，因此不进名单。
             'batch9f_2026_11_06': (['L081', 'L083', 'L085', 'L094', 'L099', 'L100', 'L103',
                                     'L105', 'L106'], []),
+            # 第六投 8 张读数全部判废，判废依据是 C123「未点名独立远景对象入画」——栋数与冠部直读即可复核，
+            # 本轮没有按 C126 量杆高比值（自动量杆的两版脚本在玻璃亮塔与云背景下给出的比值互相矛盾，不采信），
+            # 因此两份名单都必须是空；涨了说明有人补了阈值读数却没登记，少了说明这份口径被删了。
+            'batch9g_2026_11_06': ([], []),
         }
         registered = {'batch9d_2026_11_05': self.BATCH9D, 'batch9e_2026_11_05': self.BATCH9E,
-                      'batch9f_2026_11_06': self.BATCH9F}
+                      'batch9f_2026_11_06': self.BATCH9F, 'batch9g_2026_11_06': ()}
         for folder, (expect_rod, expect_crane) in rounds.items():
             draft = json.loads((ROOT / '工具' / folder / 'readings_draft.json')
                                .read_text(encoding='utf-8'))
@@ -439,6 +443,48 @@ class ReviewNoteHistory(unittest.TestCase):
                              ('十二分之一', '第五投抽掉阈值分母')):
             with self.subTest(case=label):
                 self.assertTrue(check_c126_reading(base9f.replace(token, '')), label)
+
+    def test_batch9g_rejected_all_eight_and_left_the_manifest_untouched(self):
+        """第六投 8 张全判废、真源一字未动：这条把「判废即不占格」与「读数自带切片出处」钉住。
+
+        为什么单独钉这一轮：前几轮总有救回项，回填脚本一跑就会动清单；本轮救回 0 条，
+        任何一条读数被误派生成干净项都会往清单里塞一格、把状态刷成待复验。
+        判废句的派生口径直接 import 回填脚本，测试里不抄第二份 HARD/SOFT。
+        """
+        sys.path.insert(0, str(ROOT / '工具' / 'batch9g_2026_11_06'))
+        import backfill_batch9g as g9
+        folder = ROOT / '工具' / 'batch9g_2026_11_06'
+        draft = json.loads((folder / 'readings_draft.json').read_text(encoding='utf-8'))
+        self.assertEqual(sorted(draft), ['L081', 'L083', 'L085', 'L094', 'L099', 'L100',
+                                         'L103', 'L105'], '第六投只有带内 8 张有读数')
+        mea = json.loads((folder / 'batch9g_measure.json').read_text(encoding='utf-8'))
+        rows = mea['rows'] if isinstance(mea, dict) else mea
+        self.assertEqual(sorted(r['id'] for r in rows), sorted(draft))
+        for eid, text in sorted(draft.items()):
+            with self.subTest(case='第六投读数' + eid):
+                self.assertFalse(g9.is_clean(text), '%s 被派生成干净项' % eid)
+                self.assertIn('本条只记人工读数，不代签验收。', text)
+                self.assertIn('crops/%s_网格_' % eid, text, '%s 未交代切片出处' % eid)
+                self.assertEqual(check_c126_reading(text), [], eid)
+        # 清单侧：9 条（含第 9 次发起被服务端 403 code 112 拒了、无产物的 L106）一律维持待开图
+        for eid in sorted(draft) + ['L106']:
+            item = self.items[eid]
+            with self.subTest(case='第六投未占格' + eid):
+                self.assertEqual(item['status'], '待开图', eid)
+                self.assertFalse(item.get('image_file'), eid)
+                self.assertFalse(item.get('image_prompt_sha256'), eid)
+                self.assertFalse([r for r in self.notes.get(eid, []) if '重投第五投（v02）' in r],
+                                 '%s 的判废读数进了真源备注' % eid)
+        # 违例负测：把 L081 的判废句抽掉，派生名单立刻涨出一条「干净项」，
+        # 而它在清单里既无格也无重投读数——占格判据必须判红，不许脚本替它补一格。
+        stripped = re.sub(r'判废：[^。]*。', '', draft['L081'], count=1)
+        self.assertTrue(g9.is_clean(stripped), '判废句没抽干净，负测无效')
+        with self.subTest(case='第六投抽掉判废句即判红'):
+            mutated = dict(draft)
+            mutated['L081'] = stripped
+            self.assertEqual([k for k, v in sorted(mutated.items()) if g9.is_clean(v)], ['L081'])
+            self.assertEqual(check_c123_registration(self.items['L081'], self.notes.get('L081', [])),
+                             ['本轮重投读数不在档'])
 
     def test_reread_appended_after_registration_does_not_move_the_cell_verdict(self):
         """复看补写往同一 ID 追加读数后，占格判据仍查重投那条：按位置取会指到补写上、把达标判成违例。
