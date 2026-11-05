@@ -195,10 +195,10 @@ def render_table(canon):
                f"否则取 {rule['否则']}；释放去向白名单 {'、'.join(rule['释放去向白名单'])}；名额回流口径：{rule['名额回流']}；"
                f"再求职匹配键：{rule['再求职匹配键']}，优先级 {'→'.join(rule['优先级'])}。留白：{rule['留白']}。", '']
     cards_spec = canon['卡牌实例']['规格']
-    L += ['', '## 8. 卡牌实例（第9期 9a：容器）', '',
+    L += ['', '## 8. 卡牌实例（第9期分期展开中）', '',
           f"实例 {canon['汇总']['卡牌实例数']} 张、已展开族 {canon['汇总']['已展开族数']} 族、"
           f"未展开族 {canon['汇总']['未展开族数']} 族、背景卡实例 {canon['汇总']['背景卡实例数']} 张；"
-          f"总条数带 {cards_spec['总条数区间'][0]}—{cards_spec['总条数区间'][1]}（未展开态记 0，不判越带）。", '',
+          f"总条数带 {cards_spec['总条数区间'][0]}—{cards_spec['总条数区间'][1]}（十二族全部展开后才判，分段交付途中不判越带）。", '',
           '| 族 | 绑定域 | 绑定子类 | 条数带 | 实得条数 |', '|---|---|---|---|---|']
     for fid, band in cards_spec['每族条数'].items():
         L.append(f"| {fid} | {cards_spec['绑定域表'][fid]} | {cards_spec['绑定子类表'][fid] or '—'} "
@@ -226,7 +226,7 @@ def main():
     canon = {
         'version': '1.0', 'fictional': True, 'setting_year': SOURCE['setting_year'],
         'currency': SOURCE['currency'], 'currency_name': SOURCE['currency_name'],
-        'declaration': '本文件由 工具/build_admission.py 从 岗位准入源表.json＋产业就业源表.json＋卡牌实例源表.json 生成，属派生正典；修改请改源表并重跑生成器与 build_occupations.py，不要手改本文件。逐条职业内容属第6期，逐张卡牌实例的第9期只落容器（规格、字段与 12 个空族块），卡牌正文 0 张、属待 9b／9c 点单项。',
+        'declaration': '本文件由 工具/build_admission.py 从 岗位准入源表.json＋产业就业源表.json＋卡牌实例源表.json 生成，属派生正典；修改请改源表并重跑生成器与 build_occupations.py，不要手改本文件。逐条职业内容属第6期，逐张卡牌实例按第9期分期展开：规格与字段住 卡牌实例源表.json，正文属手填真源，未展开族以 汇总.未展开族数 为准。',
         '阶': SOURCE['阶'], '非阶要求': SOURCE['非阶要求'], '途径': SOURCE['途径'],
         '层级标签绑定': SOURCE['层级标签绑定'],
         '参数': {'持有上限': SOURCE['持有上限'],

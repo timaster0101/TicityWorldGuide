@@ -371,7 +371,9 @@ def adm_issues(canon, adm, params):
     classes = {c['id']: c for c in canon['行业']['大类']}
     cards = [(comp, x) for comp in canon['公司'] for x in comp['岗位卡']]
 
-    known = set(tags) | set(scenes) | set(contracts) | set(states) | {f['id'] for f in adm['卡牌族']}
+    # 卡牌实例 id 一旦展开就是字典里的在册 id（互斥口径要互相指认），不登记进来就会被本条当成野引用。
+    inst = {r['id'] for r in (adm.get('卡牌实例') or {}).get('实例', [])}
+    known = set(tags) | set(scenes) | set(contracts) | set(states) | {f['id'] for f in adm['卡牌族']} | inst
     blob = json.dumps(canon, ensure_ascii=False) + json.dumps(adm, ensure_ascii=False)
     for tok in sorted({m.group(0) for m in re.finditer(r'(?:SKL|SCN|CTR|CRD|RLS)-[A-Za-z0-9-]+', blob)}):
         if tok not in known:
@@ -938,7 +940,8 @@ def card_issues(canon, adm, card_src, params, source, registry):
     绑定对象按 绑定域 命中真实 id、幅度不越本族上限且不触及「权威」、生效触发等于本族 绑定途径、
     互斥口径同族成对且不成三元环）；一条判两条反向锁——岗位卡里 CRD- 出现次数恒为 0，
     背景卡条目里不得出现 权重／候选数／组合数（那两个数只在 运行参数源表 存一份）。
-    条数带下限为 0，即整族未展开合法；一旦展开就必须落进带上，总条数带同理只在总数非零时生效。
+    条数带下限为 0，即整族未展开合法；一旦展开就必须落进本族带上。总条数带只在十二族全部展开后生效——
+    按大类分段交付（9b 先出四族标签阶推进）时长带「总数量」会把合法的半山状态判成违例。
     """
     out = []
     missing = [k for k in CARD_SRC_KEYS if k not in card_src]
@@ -991,13 +994,14 @@ def card_issues(canon, adm, card_src, params, source, registry):
         out.append(f"卡牌实例对账: 汇总 卡牌实例数 {adm['汇总'].get('卡牌实例数')} != 实际 {len(rows)}")
     if adm['汇总'].get('逐族条数') != per_family:
         out.append('卡牌实例对账: 汇总 逐族条数 与重算不符')
-    if adm['汇总'].get('已展开族数') != sum(1 for v in per_family.values() if v):
+    expanded = sum(1 for v in per_family.values() if v)
+    if adm['汇总'].get('已展开族数') != expanded:
         out.append('卡牌实例对账: 汇总 已展开族数 与重算不符')
     if adm['汇总'].get('未展开族数') != sum(1 for v in per_family.values() if not v):
         out.append('卡牌实例对账: 汇总 未展开族数 与重算不符')
     lo, hi = spec['总条数区间']
-    if rows and not (lo <= len(rows) <= hi):
-        out.append(f'卡牌实例对账: 实例总数 {len(rows)} 越出总条数带 {lo}—{hi}')
+    if expanded == len(fams) and not (lo <= len(rows) <= hi):
+        out.append(f'卡牌实例对账: 十二族全展开后实例总数 {len(rows)} 越出总条数带 {lo}—{hi}')
 
     if adm['汇总'].get('背景卡实例数') != len(bg_rows):
         out.append(f"卡牌实例对账: 汇总 背景卡实例数 {adm['汇总'].get('背景卡实例数')} != 实际 {len(bg_rows)}")

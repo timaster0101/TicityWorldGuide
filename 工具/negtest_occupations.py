@@ -97,22 +97,34 @@ def cards(canon):
     return [x for comp in canon['公司'] for x in comp['岗位卡']]
 
 
-CARD_OK_CAP = {'CRD-A1': '阶提升 1', 'CRD-A2': '应考资格 1', 'CRD-A3': '单卡 10 点',
-               'CRD-A7': '优先 1 城市年', 'CRD-B3': '阶提升 1'}
-CARD_OK_PATH = {'CRD-A1': 'TRN', 'CRD-A2': 'TRN', 'CRD-A3': '', 'CRD-A7': 'EVT', 'CRD-B3': 'WKS'}
 CARD_TEXT = '这张卡只用来证明闸门抓得住违例，正文本身不作数'
+# 合法幅度、生效触发与绑定对象都不写死族名单，一律从 正典的族定义与 规格.绑定域表 现取——
+# 总条数带那条要一次摆满 12 族，逐族列名单会漏掉新用到的族。
+CARD_BIND_TAG = {'专属技能标签': '专属技能', '资质标签': '资质',
+                 '经历标签': '经历', '通用技能标签': '通用技能'}
+# 大类与片区住在 产业就业源表 与名录，注入函数拿不到那两份，直接钉各自的第一条真实 id。
+CARD_OK_BIND = {'大类': 'A01', '片区': 'D01'}
+
+
+def card_ok_cap(fam):
+    cap = fam['幅度上限']
+    return cap if not any(ch.isdigit() for ch in cap) else cap.split('，')[0]
 
 
 def card_bind_id(a, fid):
-    if fid == 'CRD-A3':
+    dom = a['卡牌实例']['规格']['绑定域表'][fid]
+    if dom == '五维':
         return '智力'
-    if fid == 'CRD-A7':
+    if dom == '场景':
+        return a['场景'][0]['id']
+    if dom == '释放状态':
         return a['释放状态'][0]['id']
-    if fid in ('CRD-A2', 'CRD-B2'):
-        return next(t['id'] for t in a['标签'] if t['族'] == '资质')
-    if fid == 'CRD-B3':
-        return next(t['id'] for t in a['标签'] if t['族'] == '专属技能' and t['子类'] == 'S1')
-    return next(t['id'] for t in a['标签'] if t['族'] == '专属技能')
+    if dom in CARD_BIND_TAG:
+        sub = a['卡牌实例']['规格']['绑定子类表'].get(fid)
+        for t in a['标签']:
+            if t['族'] == CARD_BIND_TAG[dom] and (not sub or t['子类'] == sub):
+                return t['id']
+    return CARD_OK_BIND[dom]
 
 
 def sync_card_summary(a):
@@ -137,9 +149,9 @@ def add_card_rows(a, ksrc, fid, n, mutate=None):
     tail = []
     for _ in range(n):
         i = len(block['条目']) + 1
-        item = {'名称': f'测试卡牌{i:03d}', '卡面正文': CARD_TEXT,
-                '绑定对象': card_bind_id(a, fid), '幅度': CARD_OK_CAP[fid],
-                '生效触发': CARD_OK_PATH[fid], '互斥口径': []}
+        item = {'名称': f'测试{fid[-2:]}卡{i:03d}', '卡面正文': CARD_TEXT,
+                '绑定对象': card_bind_id(a, fid), '幅度': card_ok_cap(fam),
+                '生效触发': fam['绑定途径'] or '', '互斥口径': []}
         if mutate:
             mutate(item, i)
         block['条目'].append(item)
@@ -727,7 +739,10 @@ def cases():
         add_card_rows(a, ksrc, 'CRD-A3', 2)
 
     def card_total_band_over(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
-        add_card_rows(a, ksrc, 'CRD-A3', 4)
+        """总条数带只在十二族全展开后生效，所以先给 12 族各摆 1 条把「全展开」凑出来
+        （逐族条数带是 [0, N]，1 条不炸），再把总带收到 2—3 让 12 条越出上界。"""
+        for fam in a['卡牌族']:
+            add_card_rows(a, ksrc, fam['id'], 1)
         ksrc['规格']['总条数区间'] = [2, 3]
 
     def card_exclusive_cycle3(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
