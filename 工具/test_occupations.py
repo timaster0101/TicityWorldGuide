@@ -411,9 +411,9 @@ class Gate(unittest.TestCase):
         self.assertEqual(report['图层汇总']['大类数'], 20)
         self.assertEqual(report['职业条目汇总']['正典条目数'], 684)
         self.assertEqual(report['职业条目汇总']['源表小类行数'], 162)
-        # 9b 两段交付 162 小类 × 3 族＝486 张，加 B4 自学笔记 12 张共 501 张；背景卡仍属 9c，未展开即 0。
+        # 9b 四族标签阶推进 501 张＋9c 其余八族 179 张＝680 张，背景卡 9c 逐张有名 24 张。
         dic = report['字典汇总']
-        self.assertEqual((dic['卡牌实例数'], dic['背景卡实例数']), (501, 0))
+        self.assertEqual((dic['卡牌实例数'], dic['背景卡实例数']), (680, 24))
         relief = report['救助汇总']
         self.assertEqual([relief['全额月数'], relief['递减月数'], relief['最长连发月数']], [2, 4, 6])
         self.assertEqual(relief['逐圈层全额月'], {'内湖环': 1516.3, '外城环': 1395.0,
@@ -434,9 +434,9 @@ NEGTEST = ROOT / '工具' / 'negtest_occupations.py'
 
 class Negtest(unittest.TestCase):
     def test_every_injection_turns_the_gate_red(self):
-        """违例自检必须 144 条全判红、夹具零残留，且被守护的四份正典字节不变。
-        144 = 第 1 至 32 条判据各向注入 + C119 五例（刻度改而点数不改、卡牌点数手改、退化下限脱钩、比例块缺键、下界为负）
-        + 第 33 条失业救助 17 例 + 第 34 条五维开局与背景卡权重 21 例 + 第 35 条卡牌实例 12 例。"""
+        """违例自检必须 148 条全判红、夹具零残留，且被守护的四份正典字节不变。
+        148 = 第 1 至 32 条判据各向注入 + C119 五例（刻度改而点数不改、卡牌点数手改、退化下限脱钩、比例块缺键、下界为负）
+        + 第 33 条失业救助 17 例 + 第 34 条五维开局与背景卡权重 21 例 + 第 35 条卡牌实例 16 例（9c 补背景卡逐类与偏移 4 例）。"""
         before = (ROOT / '数据' / '产业就业正典.json').read_bytes()
         adm_before = (ROOT / '数据' / '岗位准入正典.json').read_bytes()
         cost_before = (ROOT / '数据' / '物价与生活正典.json').read_bytes()
@@ -444,7 +444,7 @@ class Negtest(unittest.TestCase):
         r = subprocess.run([sys.executable, str(NEGTEST)], cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         summary = json.loads(next(l for l in r.stdout.splitlines() if l.startswith('{')))
-        self.assertEqual(summary['cases'], 144)
+        self.assertEqual(summary['cases'], 148)
         self.assertEqual(summary['not_red'], 0)
         self.assertEqual(summary['fixture_leftover'], 0)
         self.assertEqual((ROOT / '数据' / '产业就业正典.json').read_bytes(), before)
@@ -472,19 +472,19 @@ class BookChannel(unittest.TestCase):
         a01 = sum(e['daily_workers'] for e in reg if e['id'] in ('F001', 'F002'))
         self.assertIn(f'{a01} 岗', doc)
 
-    def test_occupation_doc_reports_the_undelivered_layer(self):
+    def test_occupation_doc_reports_the_delivered_cards(self):
         doc = (ROOT / '产业与就业设定.md').read_text(encoding='utf-8')
         self.assertLessEqual(doc.count('CORP-'), 2)
-        # 第6期把名称文本与逐条职业内容都落地了，文档不能再声称只出框架；
-        # 9b 之后「未展开」只剩下八族与背景卡，所以既不能让旧的绝对申报句回流，
-        # 也不能让文档把 501 张这个数自成一套——它必须等于正典汇总的读数。
+        # 9c 之后十二族与背景卡全部有名，文档既不能让旧的「待点单／只出框架」申报回流，
+        # 也不能让 680 与 24 这两个数自成一套——它们必须等于正典汇总的读数。
         self.assertIn('骨架与内容都已闭环', doc)
         self.assertNotIn('本期只出框架', doc)
         self.assertIn('逐张卡牌实例', doc)
-        self.assertIn('属待用户点单项', doc)
+        self.assertNotIn('属待用户点单项', doc)
         self.assertNotIn('仍未展开的是逐张卡牌实例', doc)
         adm = json.loads((ROOT / '数据' / '岗位准入正典.json').read_text(encoding='utf-8'))
         self.assertIn(f"{adm['汇总']['卡牌实例数']} 张", doc)
+        self.assertIn(f"背景卡 {adm['汇总']['背景卡实例数']} 张", doc)
         self.assertIn('禁则', doc)
 
 
@@ -498,7 +498,7 @@ class Rulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 129)
+        self.assertEqual(len(rows), 130)
 
     def test_manual_chains_occupation_steps(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -516,7 +516,7 @@ class AdmissionRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 129)
+        self.assertEqual(len(rows), 130)
 
     def test_manual_chains_admission_before_occupations(self):
         manual = (ROOT / 'AI创作使用手册.md').read_text(encoding='utf-8')
@@ -534,7 +534,7 @@ class PhaseSixRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 129)
+        self.assertEqual(len(rows), 130)
 
     def test_phase_six_rulings_keep_the_hard_wording(self):
         """四条第6期裁定各钉一句只有真源侧才说得出的硬话：
@@ -567,7 +567,7 @@ class PhaseSevenRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 129)
+        self.assertEqual(len(rows), 130)
 
     def test_island_ruling_keeps_the_hard_wording(self):
         """第7期裁定钉四句只有真源侧才说得出的硬话：无桥是用户给的硬约束、岛不进名录是三层落法的代价账、
@@ -605,7 +605,7 @@ class PhaseEightRulings(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 129)
+        self.assertEqual(len(rows), 130)
 
     def test_phase_eight_ruling_keeps_the_hard_wording(self):
         """第8期裁定钉四句只有真源侧才说得出的硬话：救助金额一律派生不手填、按本人发放不乘户均规模、
@@ -625,7 +625,7 @@ class PhaseEightRulings(unittest.TestCase):
         读文档的人就会以为只有三十四条，申报覆盖面时按旧的算。"""
         doc = (ROOT / '产业与就业设定.md').read_text(encoding='utf-8')
         self.assertIn('三十五条门禁', doc)
-        self.assertIn('144 条注入', doc)
+        self.assertIn('148 条注入', doc)
         self.assertIn('失业救助对账', doc)
         self.assertIn('五维开局对账', doc)
         self.assertIn('卡牌实例对账', doc)
@@ -804,23 +804,36 @@ class AdmissionGate(unittest.TestCase):
                     x['关键场景'] = []
         self.assertTrue(any('关键场景' in x for x in self.vo.issues(c2, self.vo.SOURCE, self.vo.REGISTRY, self.adm, self.costs, self.params, self.psource, self.layer, self.osource, self.ksource)))
 
-    def test_half_expanded_cards_stay_under_the_total_band(self):
-        """9b 按大类分两段交付：已展开族数不到 12、总数远够不着总带上界时必须是绿——
-        否则就是把交付节奏判成违例。注入取仍未展开的族，条数不越本族带上界；
-        四族 501 张落盘后这条与 9c 完成前都成立。"""
+    def test_partially_expanded_cards_stay_under_the_total_band(self):
+        """总条数带只在十二族齐观时生效——9b 时期靠「往空族摆行」证这条，9c 十二族全落盘后
+        那种注入会把本族带上界一起顶破，所以改成反向的清空式：抹掉四个标签阶推进族，
+        剩下 8 族 179 张（低于总带下界 660），卡牌实例对账必须仍是零判红。
+        违例侧由 negtest 的 card_total_band_over（12 族齐观＋总带压到 2—3）证明这条判据不是永不判。"""
         import negtest_occupations as nt
-        base_fams = self.adm['汇总']['已展开族数']
+        emptied = ('CRD-A1', 'CRD-B1', 'CRD-B3', 'CRD-B4')
         adm = json.loads(json.dumps(self.adm))
         ksrc = json.loads(json.dumps(self.ksource))
-        for fid in ('CRD-A2', 'CRD-A4', 'CRD-A6', 'CRD-A8'):
-            nt.add_card_rows(adm, ksrc, fid, 3)
-        ksrc['规格']['总条数区间'] = self.ksource['规格']['总条数区间']
+        adm['卡牌实例']['实例'] = [r for r in adm['卡牌实例']['实例'] if r['族'] not in emptied]
+        for blk in ksrc['卡牌族实例']:
+            if blk['族'] in emptied:
+                blk['条目'] = []
+        nt.sync_card_summary(adm)
+        self.assertEqual(adm['汇总']['已展开族数'], 8)
+        self.assertEqual(adm['汇总']['未展开族数'], 4)
         self.assertLess(len(adm['卡牌实例']['实例']), ksrc['规格']['总条数区间'][0])
         card_issues = [x for x in self.vo.issues(self.canon, self.vo.SOURCE, self.vo.REGISTRY, adm,
                                                 self.costs, self.params, self.psource, self.layer,
                                                 self.osource, ksrc) if '卡牌实例对账' in x]
         self.assertEqual(card_issues, [])
-        self.assertLess(base_fams, adm['汇总']['已展开族数'])
+
+    def test_full_expansion_now_meets_the_total_band(self):
+        """与上一条配对的正向读数：盘上的十二族确实齐观，总数落在总带内——
+        防止「总带只在齐观时判」被误读成「总带永远不会判」。"""
+        dic = self.adm['汇总']
+        lo, hi = self.ksource['规格']['总条数区间']
+        self.assertEqual((dic['已展开族数'], dic['未展开族数']), (12, 0))
+        self.assertTrue(lo <= dic['卡牌实例数'] <= hi)
+        self.assertEqual(dic['背景卡实例数'], self.ksource['规格']['背景卡条数'])
 
 
 class AdmissionDoc(unittest.TestCase):

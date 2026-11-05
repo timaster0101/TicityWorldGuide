@@ -10,8 +10,11 @@
 用例同样直接删夹具里那一份，用来证救助门禁在缺件时判红而不是空转放行。
 第 34 条的三条等式要拿长期习惯卡的中文幅度上限做对照，所以注入范围再加 运行参数源表.json 与 岗位准入源表.json；
 它的「文件被删除」用例删的是岗位准入源表那一份，用来证开局等式门禁在缺件时判红。
-第 35 条的条数带与总条数带住在手填的 卡牌实例源表.json，注入范围再加这一份；它的 12 例只动 岗位准入正典 的
-卡牌实例块（与 产业就业正典 的岗位卡）——带被压低的那种改坏才动源表规格块。
+第 35 条的条数带与总条数带住在手填的 卡牌实例源表.json，注入范围再加这一份。9c 十二族与背景卡全部落盘后，
+各族条数已顶到带上界，所以结构类违例（错绑、越幅、越阶、途径不符、同名、缺字段、三元环）改成
+mutate_card_row 改已有条目而不是 add_card_rows 追加新行——追加会连带炸出与本例无关的条数红；
+背景卡侧同理用 mutate_bg_row 改已有条目，专证「总数不变而逐类对不上」的串档。
+带被压低的那种改坏才动源表规格块（总带与逐族带两例）。
 跑法：python 工具/negtest_occupations.py
 """
 import json
@@ -163,6 +166,27 @@ def add_card_rows(a, ksrc, fid, n, mutate=None):
         tail.append(row)
     sync_card_summary(a)
     return tail
+
+
+def mutate_card_row(a, ksrc, fid, idx, mutate):
+    """改一条已有实例：正典行与手填源表条目同步改，条数与汇总都不动。
+    9c 十二族全落盘后各族条数已顶到带上界，再用 add_card_rows 追加会连带炸出条数红，
+    负测就不再只炸自己想动的那一处——所以结构类违例一律改成改已有条目。"""
+    fields = a['卡牌实例']['规格']['字段']
+    row = next(r for r in a['卡牌实例']['实例'] if r['族'] == fid and r['序号'] == idx + 1)
+    mutate(row, idx + 1)
+    block = next(b for b in ksrc['卡牌族实例'] if b['族'] == fid)
+    block['条目'][idx] = {k: row[k] for k in fields if k in row}
+    return row
+
+
+def mutate_bg_row(a, ksrc, idx, mutate):
+    """改一张已有背景卡（正典条目与源表条目同步），条数不变：总数对上而逐类对不上的串档，
+    只有改已有条目才炸得准。"""
+    row = a['卡牌实例']['背景卡'][idx]
+    mutate(row)
+    ksrc['背景卡实例']['条目'][idx] = {k: v for k, v in row.items() if k != 'id'}
+    return row
 
 
 def add_bg_rows(a, ksrc, n, extra=None):
@@ -718,39 +742,41 @@ def cases():
         p['五维开局']['禁则数'] = 2
 
     def card_wrong_bind(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
-        add_card_rows(a, ksrc, 'CRD-A1', 1, lambda r, i: r.update({'绑定对象': 'SKL-9999-S1'}))
+        mutate_card_row(a, ksrc, 'CRD-A1', 0, lambda r, i: r.update({'绑定对象': 'SKL-9999-S1'}))
 
     def card_over_amplitude(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
-        add_card_rows(a, ksrc, 'CRD-A3', 1, lambda r, i: r.update({'幅度': '单卡 15 点'}))
+        mutate_card_row(a, ksrc, 'CRD-A3', 0, lambda r, i: r.update({'幅度': '单卡 15 点'}))
 
     def card_authority_tier(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
-        add_card_rows(a, ksrc, 'CRD-A1', 1, lambda r, i: r.update({'幅度': '阶提升 1 触及权威'}))
+        mutate_card_row(a, ksrc, 'CRD-A1', 1, lambda r, i: r.update({'幅度': '阶提升 1 触及权威'}))
 
     def card_wrong_path(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
-        add_card_rows(a, ksrc, 'CRD-B3', 1, lambda r, i: r.update({'生效触发': 'LEV'}))
+        mutate_card_row(a, ksrc, 'CRD-B3', 0, lambda r, i: r.update({'生效触发': 'LEV'}))
 
     def card_name_duplicated(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
-        def same_name(r, i):
-            r['名称'] = '测试卡牌001'
-        add_card_rows(a, ksrc, 'CRD-A7', 2, same_name)
+        first = next(r['名称'] for r in a['卡牌实例']['实例'] if r['族'] == 'CRD-A7')
+        mutate_card_row(a, ksrc, 'CRD-A7', 1, lambda r, i: r.update({'名称': first}))
 
     def card_family_band_over(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
-        ksrc['规格']['每族条数']['CRD-A3'] = [0, 1]
-        add_card_rows(a, ksrc, 'CRD-A3', 2)
+        """把带上界压到实际条数之下一格：9c 后 A3 有 5 张，带改成 [0, 4] 就够越界，
+        不必再追加行——追加会同时把总条数带与汇总读数一起搅进来。"""
+        ksrc['规格']['每族条数']['CRD-A3'] = [0, 4]
 
     def card_total_band_over(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
-        """总条数带只在十二族全展开后生效，所以先给 12 族各摆 1 条把「全展开」凑出来
-        （逐族条数带是 [0, N]，1 条不炸），再把总带收到 2—3 让 12 条越出上界。"""
-        for fam in a['卡牌族']:
-            add_card_rows(a, ksrc, fam['id'], 1)
+        """总条数带只在十二族全展开后生效；9c 之后 12 族本来就已齐观，
+        所以只把总带收到 2—3，680 张立刻越界，不用再靠摆行凑「全展开」。
+        反向的正向单测（半山态不判红）在 test_occupations 的清空式用例里。"""
         ksrc['规格']['总条数区间'] = [2, 3]
 
     def card_exclusive_cycle3(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
-        ids = ['CRD-A7-001', 'CRD-A7-002', 'CRD-A7-003']
+        """三元环：取 A7 已有的三张真卡两两相斥。9c 之前 A7 是空族，注入只能新摆三行；
+        现在 A7 有 6 张，新摆会顶破本族带上界，所以改成改已有条目——分量 3 张就越出同族持有上限 2。"""
+        ids = [r['id'] for r in a['卡牌实例']['实例'] if r['族'] == 'CRD-A7'][:3]
 
         def all_others(r, i):
-            r['互斥口径'] = [x for x in ids if x != f'CRD-A7-{i:03d}']
-        add_card_rows(a, ksrc, 'CRD-A7', 3, all_others)
+            r['互斥口径'] = [x for x in ids if x != r['id']]
+        for k in range(3):
+            mutate_card_row(a, ksrc, 'CRD-A7', k, all_others)
 
     def card_crd_in_job_card(c, a):
         c['公司'][0]['岗位卡'][0]['卡牌实例'] = 'CRD-A1-001'
@@ -762,7 +788,21 @@ def cases():
         add_bg_rows(a, ksrc, 1)
 
     def card_missing_field(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
-        add_card_rows(a, ksrc, 'CRD-A2', 1, lambda r, i: r.pop('幅度'))
+        mutate_card_row(a, ksrc, 'CRD-A2', 0, lambda r, i: r.pop('幅度'))
+
+    def card_bg_class_swap(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        """总数仍是 24、规格声明也仍是 24，只把一张家庭结构卡改成技能起点——
+        两类各自的候选数（6 与 4）就此对不上，只有逐类计数才抓得住这种串档。"""
+        mutate_bg_row(a, ksrc, 0, lambda r: r.update({'类别': 'BG-SKILL'}))
+
+    def card_bg_class_unknown(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        mutate_bg_row(a, ksrc, 1, lambda r: r.update({'类别': 'BG-EXTRA'}))
+
+    def card_bg_offset_over(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        mutate_bg_row(a, ksrc, 2, lambda r: r.update({'五维偏移': {'体力': 11}}))
+
+    def card_bg_missing_field(c, a, s, p, src, lay, o, cs, pr, asrc, ksrc):
+        mutate_bg_row(a, ksrc, 3, lambda r: r.pop('附带'))
 
     return [
         ('逐区守恒人数被改', conservation, '守恒'),
@@ -897,13 +937,17 @@ def cases():
         ('技艺印记把标签推到权威阶', card_authority_tier, '推到「权威」阶'),
         ('岗位实训卡的生效触发写成 LEV', card_wrong_path, '不等于本族绑定途径 WKS'),
         ('两张卡牌同名', card_name_duplicated, '名称重复'),
-        ('单族条数越出源表声明带', card_family_band_over, '越出声明带 0—1'),
+        ('单族条数越出源表声明带', card_family_band_over, '越出声明带 0—4'),
         ('卡牌实例总数越出总条数带', card_total_band_over, '越出总条数带 2—3'),
         ('互斥口径结出三元环', card_exclusive_cycle3, '越出同族持有上限 2 张'),
         ('岗位卡侧新增 CRD- 引用', card_crd_in_job_card, '岗位卡侧出现 CRD- 引用'),
         ('背景卡条目覆写权重', card_bg_weight_overwrite, '本表不得覆写'),
         ('背景卡条数与规格声明不符', card_bg_count_mismatch, '与规格声明 24 不符'),
         ('卡牌实例少了字段', card_missing_field, '缺字段'),
+        ('背景卡两张挤进同一类候选档', card_bg_class_swap, 'BG-FAM 实有 5 条 != 运行参数候选数 6'),
+        ('背景卡类别写成五档之外', card_bg_class_unknown, '不在运行参数五档 id 之内'),
+        ('背景卡五维偏移越出单类上限', card_bg_offset_over, '越出单类影响上限 10'),
+        ('背景卡少了附带字段', card_bg_missing_field, "背景卡 BG-004 缺字段 ['附带']"),
         ('背景卡禁则少了不重抽一条', dim_group_missing, '背景卡禁则未覆盖关键词组'),
         ('正典开局区间被手改', dim_canon_band_drift, '正典开局区间'),
         ('正典缺开局派生块', dim_canon_block_missing, '正典缺派生块 五维开局'),

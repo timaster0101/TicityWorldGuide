@@ -924,7 +924,8 @@ def dim_issues(params, psource, adm_src, canon):
 
 CARD_SRC_KEYS = ('口径', '规格', '卡牌族实例', '背景卡实例', '禁则')
 CARD_SPEC_KEYS = ('每族条数', '总条数区间', '字段', '名称长度', '卡面正文长度', '幅度长度',
-                  '互斥口径条数', '绑定域表', '禁用字符', '背景卡条数')
+                  '互斥口径条数', '绑定域表', '禁用字符', '背景卡条数',
+                  '背景卡字段', '背景卡附带长度')
 CARD_DOMAINS = ('专属技能标签', '资质标签', '经历标签', '通用技能标签', '场景', '释放状态',
                 '大类', '片区', '五维')
 CARD_BG_FORBIDDEN = ('权重', '候选数', '组合数')
@@ -1017,6 +1018,37 @@ def card_issues(canon, adm, card_src, params, source, registry):
         hit = [k for k in CARD_BG_FORBIDDEN if k in r]
         if hit:
             out.append(f"卡牌实例对账: 背景卡 {r.get('id')} 出现 {hit}，权重与候选数只在 运行参数源表 存一份，本表不得覆写")
+    if bg_rows:
+        # 9c 之后背景卡逐张有名，「总数等于候选数之和」抓不住串档：把一张挪进另一类，
+        # 总数仍是 24 而该类的候选数已对不上。所以逐类计数、字段、长度与五维偏移都得单独判。
+        bg_cls_cap = {c['id']: c['候选数'] for c in (bg_weight.get('类别') or [])}
+        per_dim = params.get('五维开局', {}).get('单类影响上限')
+        seen_cls = {}
+        for r in bg_rows:
+            absent = [k for k in spec['背景卡字段'] if k not in r]
+            if absent:
+                out.append(f"卡牌实例对账: 背景卡 {r.get('id')} 缺字段 {absent}")
+                continue
+            seen_cls[r['类别']] = seen_cls.get(r['类别'], 0) + 1
+            if r['类别'] not in bg_cls_cap:
+                out.append(f"卡牌实例对账: 背景卡 {r['id']} 类别「{r['类别']}」不在运行参数五档 id 之内")
+            for f, band in (('名称', spec['名称长度']), ('卡面正文', spec['卡面正文长度']),
+                            ('附带', spec['背景卡附带长度'])):
+                if not (band[0] <= len(str(r[f])) <= band[1]):
+                    out.append(f"卡牌实例对账: 背景卡 {r['id']}「{r['名称']}」{f}长度 {len(str(r[f]))} "
+                               f"不在 {band[0]}—{band[1]}")
+            for ch in spec['禁用字符']:
+                if any(ch in str(r[f]) for f in ('名称', '卡面正文', '附带')):
+                    out.append(f"卡牌实例对账: 背景卡 {r['id']} 含禁用字符 {ch}")
+            offs = r['五维偏移']
+            if not isinstance(offs, dict) or not offs or any(k not in dims for k in offs):
+                out.append(f"卡牌实例对账: 背景卡 {r['id']} 五维偏移 {offs} 的键不在五维之内或为空")
+            elif per_dim and sum(abs(v) for v in offs.values()) > per_dim:
+                out.append(f"卡牌实例对账: 背景卡 {r['id']} 五维偏移合计 {sum(abs(v) for v in offs.values())} "
+                           f"越出单类影响上限 {per_dim}")
+        for cid, cap in sorted(bg_cls_cap.items()):
+            if seen_cls.get(cid, 0) != cap:
+                out.append(f"卡牌实例对账: 背景卡 {cid} 实有 {seen_cls.get(cid, 0)} 条 != 运行参数候选数 {cap}")
 
     seen_names = {}
     ids = set()

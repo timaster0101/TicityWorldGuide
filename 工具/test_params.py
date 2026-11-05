@@ -217,7 +217,7 @@ class DocsSynced(unittest.TestCase):
         # 第9期 9a 多了第三份手填真源：手册若漏了它，改卡牌正文的人就不知道门禁的条数带住在哪。
         self.assertIn('卡牌实例源表.json', manual)
         self.assertIn('三十五条判据', manual)
-        self.assertIn('一百四十四类改坏', manual)
+        self.assertIn('一百四十八类改坏', manual)
         self.assertLess(manual.index('build_occupations.py'), manual.index('build_params.py'))
         entry = (ROOT / '阅读入口.md').read_text(encoding='utf-8')
         self.assertIn('运行参数设定.md', entry)
@@ -236,8 +236,8 @@ class RulingsEightyEight(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 129)
-        self.assertEqual(rows[-1]['编号'], 'C129')
+        self.assertEqual(len(rows), 130)
+        self.assertEqual(rows[-1]['编号'], 'C130')
 
 
 class FiveStatScaleC119(unittest.TestCase):
