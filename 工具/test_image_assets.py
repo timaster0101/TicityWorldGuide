@@ -170,6 +170,13 @@ class ReviewNoteHistory(unittest.TestCase):
     # 其余 12 条仍是远景记号档判废（斜削冠／细针天线／横档桅杆／冠部开洞／扭转塔身），不占格、状态维持待开图，
     # 15 条的逐张读数与 C126 两个像素数留在 工具/batch9e_2026_11_05/readings_draft.json。
     BATCH9E = ('L065', 'L104', 'L107')
+    # 第9批 e 轮仍判废的 12 条待开图，按同一条 C123/C125/C126 串第五投（2026-11-06）后无判废项的 3 条，全部首占。
+    # 抬头写「重投第四投」：序号从 C123 新串首投起算（v01＝首投、19 条＝第二投、15 条＝第三投、本轮＝第四投），
+    # 与 L065／L104／L107 的「重投第三投」同一把尺往后接；移交清单与批次目录那套序号把 2026-11-03 的 C118 放量
+    # 也算成首投，故同一轮在文档里叫第五投——两个编号空间差一格，闸门只认抬头里的 vNN 后缀。
+    # 其余 9 条仍是远景未点名塔冠记号档判废（斜削冠＋细针天线，全部带 C126 网格量测两个像素数），
+    # 不占格、状态维持待开图，12 条的逐张读数与像素数留在 工具/batch9f_2026_11_06/readings_draft.json。
+    BATCH9F = ('L093', 'L101', 'L108')
     # 只有目视十项达标的才允许追加图格；判废与待复验的只记打表，不占 image_file。
     APPENDED = {'D03': 5, 'D08': 5, 'S02': 6, 'S18': 6, 'R009': 5, 'R038': 5,
                 'L033': 5, 'R076': 5, 'R090': 5, 'R098': 5,
@@ -181,7 +188,7 @@ class ReviewNoteHistory(unittest.TestCase):
         self.assertEqual(set(self.notes),
                          set(self.RECOVERED + self.BACKFILLED + self.RESHOT + self.VARIANT
                              + self.MORNING + self.RAIN + self.SUNNY + self.BATCH9 + self.BATCH9C
-                             + self.BATCH9D + self.BATCH9E))
+                             + self.BATCH9D + self.BATCH9E + self.BATCH9F))
         # 本轮实测：809ed08 的原始长度 518/226/231/151，各带一条同文派生原因，剥净后如下
         self.assertEqual({k: len(v[0]) for k, v in self.notes.items() if k in self.RECOVERED},
                          {'D01': 204, 'L007': 491, 'L008': 199, 'R043': 124})
@@ -234,12 +241,13 @@ class ReviewNoteHistory(unittest.TestCase):
                 self.assertEqual(len(got) if isinstance(got, list) else (1 if got else 0), cells, eid)
 
     def test_batch9_cells_are_registered_but_not_signed(self):
-        """第9批 38 格（前一轮 19 条替换旧格、第二轮 12 条里 10 条首占＋2 条替换第5格、
-        第三轮 19 条判废重投的 v02 里 4 条首占、第四轮 15 条判废重投的 v02 里 3 条首占）。
+        """第9批 41 格（前一轮 19 条替换旧格、第二轮 12 条里 10 条首占＋2 条替换第5格、
+        第三轮 19 条判废重投的 v02 里 4 条首占、第四轮 15 条判废重投的 v02 里 3 条首占、
+        第五轮 12 条待开图重投里 3 条首占）。
         占格必须自带出处（本轮文件名、被替换的旧格名、sha12、容器读数），
         又必须自带不签署的口径（无 image_prompt_sha256、写明绑定留空与不代签验收）。
         少了前一组，下一轮查不到这格是哪批；少了后一组，待复验会被读成已验收。"""
-        for eid in self.BATCH9 + self.BATCH9C + self.BATCH9D + self.BATCH9E:
+        for eid in self.BATCH9 + self.BATCH9C + self.BATCH9D + self.BATCH9E + self.BATCH9F:
             with self.subTest(eid=eid):
                 self.assertEqual(check_c123_registration(self.items[eid], self.notes[eid]), [], eid)
         # 本轮 12 条的读数抬头与批次字段：首占 10 条只有一格，替换 2 条仍是五格
@@ -261,6 +269,16 @@ class ReviewNoteHistory(unittest.TestCase):
                 self.assertIn('-v02_', self.items[eid]['image_file'][0], eid)
                 self.assertTrue(self.items[eid]['batch'].endswith('C123新串-v02'), eid)
                 self.assertIn('重投第三投（v02）', self.notes[eid][-1], eid)
+                self.assertIn('本条此前无格，为首占', self.notes[eid][-1], eid)
+        # 第五轮（12 条待开图重投）3 条同样首占，抬头必须写第四投——C123 新串起算的第四投。
+        # 这一轮与上一轮共用 v02 档串（提示词模板没换、prompt_sha256 变更 0/312），
+        # 所以批次后缀仍是 v02；若把投次写成第五投就会和文档那套编号混起来。
+        for eid in self.BATCH9F:
+            with self.subTest(eid=eid):
+                self.assertEqual(len(self.items[eid]['image_file']), 1, eid)
+                self.assertIn('-v02_', self.items[eid]['image_file'][0], eid)
+                self.assertTrue(self.items[eid]['batch'].endswith('C123新串-v02'), eid)
+                self.assertIn('重投第四投（v02）', self.notes[eid][-1], eid)
                 self.assertIn('本条此前无格，为首占', self.notes[eid][-1], eid)
         # L061／L066 本轮占的是新串新文件，上一轮串外试投的「不回填」结论必须还在历史里；
         # 本轮追加了一条读数，所以那条历史从倒数第二条挪到倒数第三条。
@@ -345,6 +363,17 @@ class ReviewNoteHistory(unittest.TestCase):
             mutated = json.loads(json.dumps(v02b_rows))
             mutated[-1] = mutated[-1].replace('重投第三投（v02）', '重投第三投（v03）')
             self.assertTrue(check_c123_registration(v02b, mutated), '抬头写 v03 但批次仍是 v02')
+        # 第五轮（12 条待开图重投）与第四轮同用 v02：投次中文数字涨了、档号没涨，判据仍该认 v02。
+        # 这条负测钉的是「闸门按抬头里的 vNN 取档号」——若有人把判据改成按投次中文数字分叉，
+        # 第四投读数会被要求成 v03 批次、当场假红。
+        v02c = self.items['L093']
+        v02c_rows = self.notes['L093']
+        self.assertEqual(check_c123_registration(v02c, v02c_rows), [], '第四投读数在 v02 批次上应达标')
+        self.assertIn('重投第四投（v02）', v02c_rows[-1], 'L093 抬头未写明第四投')
+        with self.subTest(case='第四投读数配 v01 批次'):
+            item = json.loads(json.dumps(v02c))
+            item['batch'] = item['batch'].replace('-v02', '-v01')
+            self.assertTrue(check_c123_registration(item, v02c_rows), '第四投读数配 v01 批次')
 
     def test_c126_rod_and_crane_tiering_carries_its_measurements(self):
         """C126 两档读数的达标面：占格的条目在备注里，判废的条目只活在批次读数稿里，两边都要查。
@@ -357,8 +386,13 @@ class ReviewNoteHistory(unittest.TestCase):
             # 第四投 15 条里 13 条提到屋面细杆／细针，只有 L065 之外的 L104／L107 两条写明「阈值项不适用」
             'batch9e_2026_11_05': (['L065', 'L081', 'L083', 'L085', 'L093', 'L094', 'L099', 'L100',
                                     'L101', 'L103', 'L105', 'L106', 'L108'], []),
+            # 第五投 12 条里 9 条提到远景塔冠细针／屋面细杆并给了两个像素数（全部判废、不回填真源），
+            # 达标 3 条（L093／L101／L108）画面里没有过阈值线的细杆，因此不进名单。
+            'batch9f_2026_11_06': (['L081', 'L083', 'L085', 'L094', 'L099', 'L100', 'L103',
+                                    'L105', 'L106'], []),
         }
-        registered = {'batch9d_2026_11_05': self.BATCH9D, 'batch9e_2026_11_05': self.BATCH9E}
+        registered = {'batch9d_2026_11_05': self.BATCH9D, 'batch9e_2026_11_05': self.BATCH9E,
+                      'batch9f_2026_11_06': self.BATCH9F}
         for folder, (expect_rod, expect_crane) in rounds.items():
             draft = json.loads((ROOT / '工具' / folder / 'readings_draft.json')
                                .read_text(encoding='utf-8'))
@@ -394,6 +428,17 @@ class ReviewNoteHistory(unittest.TestCase):
                              ('网格', '本轮抽掉网格来源'), ('分之一', '本轮抽掉分母')):
             with self.subTest(case=label):
                 self.assertTrue(check_c126_reading(base9e.replace(token, '')), label)
+        # 第五投的读数同型负测：本轮把「占比 N%」之外补成了「塔身只有杆高的 K 倍」，
+        # 抽掉来源网格图、两个像素数或对十二分之一线的倍数比较，任一项都得判红。
+        draft9f = json.loads((ROOT / '工具' / 'batch9f_2026_11_06' / 'readings_draft.json')
+                             .read_text(encoding='utf-8'))
+        base9f = draft9f['L081']
+        self.assertEqual(check_c126_reading(base9f), [])
+        for token, label in (('约 70 像素', '第五投抽掉杆高'), ('约 310 像素', '第五投抽掉可见塔身'),
+                             ('网格', '第五投抽掉网格来源'),
+                             ('十二分之一', '第五投抽掉阈值分母')):
+            with self.subTest(case=label):
+                self.assertTrue(check_c126_reading(base9f.replace(token, '')), label)
 
     def test_reread_appended_after_registration_does_not_move_the_cell_verdict(self):
         """复看补写往同一 ID 追加读数后，占格判据仍查重投那条：按位置取会指到补写上、把达标判成违例。
@@ -409,21 +454,24 @@ class ReviewNoteHistory(unittest.TestCase):
     def test_history_survives_and_note_still_derives(self):
         # 308 条没有人工长文本，历史是空数组：判"键在不在"而不是"值真不真"；键随名录扩到312条
         self.assertEqual(sum(1 for i in self.items.values() if 'review_note_history' in i), 312)
-        # 第9批四轮回填后：312 条里 64 条带人工长文本（47＋c轮首占 10 条＋d轮首占 4 条（L080／L090／L092／L095 都是新键），R063／R066 本就有键；
+        # 第9批五轮回填后：312 条里 67 条带人工长文本（47＋c轮首占 10 条＋d轮首占 4 条（L080／L090／L092／L095 都是新键），R063／R066 本就有键；
         # d轮 L090 是 c轮标红待裁、本轮才占格，L080 由判废改备注档后补进来；
-        # 第四投（d 轮判废 15 条的第二投）里 L065／L104／L107 三条达标首占，也都是新键）
-        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 64)
+        # 第四投（d 轮判废 15 条的第二投）里 L065／L104／L107 三条达标首占，也都是新键；
+        # 第五投（e 轮判废 15 条里 12 条待开图的第三投，文档口径叫第五投）里 L093／L101／L108 三条达标首占，同样是新键）
+        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 67)
         for eid in self.RECOVERED + self.BACKFILLED + self.RESHOT + self.VARIANT + self.MORNING \
-                + self.RAIN + self.SUNNY + self.BATCH9 + self.BATCH9C + self.BATCH9D + self.BATCH9E:
+                + self.RAIN + self.SUNNY + self.BATCH9 + self.BATCH9C + self.BATCH9D + self.BATCH9E \
+                + self.BATCH9F:
             hist = self.items[eid]['review_note_history']
             self.assertEqual(hist, self.notes[eid], eid)
             self.assertIn(self.notes[eid][-1], self.items[eid]['review_note'])
-        self.assertEqual(self.manifest['needs_review'], 300)
+        self.assertEqual(self.manifest['needs_review'], 303)
         self.assertEqual(self.manifest['accepted'], 0)
-        self.assertEqual(self.manifest['generated'], 300)
-        # 第9批 48 条放量走完后：d 轮 19 条第二投里 4 条无判废项占了格，第四投里 15 条又有 3 条占了格，
-        # 仍判废的 12 条退回待开图。generated/needs_review 按有图的 300 条计，pending 只留真正无图的 12 条。
-        self.assertEqual(self.manifest['pending'], 12)
+        self.assertEqual(self.manifest['generated'], 303)
+        # 第9批 48 条放量走到第五投后：d 轮 19 条第二投里 4 条无判废项占了格，第四投里 15 条又有 3 条占了格，
+        # 第五投（12 条待开图重投）里再有 3 条占了格。generated/needs_review 按有图的 303 条计，
+        # pending 只留真正无图的 9 条——本轮仍判废的 9 条不占格，退回待开图。
+        self.assertEqual(self.manifest['pending'], 9)
 
 
 def jpeg(segments):
@@ -480,20 +528,21 @@ class AssetGate(unittest.TestCase):
 
     def test_paths_are_authoritative_and_unique(self):
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
-        self.assertEqual(len(paths), 1113)
-        self.assertEqual(len(set(paths)), 1113)
-        self.assertEqual(sum(1 for i in self.manifest['items'] if i.get('image_file')), 300)
+        # 第五投首占 3 格后：1113＋3＝1116 格，有图条目 300＋3＝303 条
+        self.assertEqual(len(paths), 1116)
+        self.assertEqual(len(set(paths)), 1116)
+        self.assertEqual(sum(1 for i in self.manifest['items'] if i.get('image_file')), 303)
 
     def test_report_all_green_and_disclaims(self):
-        self.assertEqual(self.report['文件格数'], 1113)
+        self.assertEqual(self.report['文件格数'], 1116)
         self.assertEqual(self.report['失败格数'], 0)
-        self.assertEqual(self.report['通过格数'], 1113)
+        self.assertEqual(self.report['通过格数'], 1116)
         # 回填的 E1 批次格必须真按 C2PA 容器计入，否则「认容器是识别」只写在裁定里、查不到证据。
         # 57 格 = 阶段6首批 4 格（D03／D08／S02／S18）＋子批①②的 R009＋夜光批 R038＋清晨批四条＋雨后批 R006／R063／R066／R116
         # ＋晴日批 R092＋C109／C110 新串重出的 R015／R034／S23＋C111 新串重出的 R054＋第9批前一轮回填的 19 格
         # ＋d 轮首占的 10 格（R063／R066 是就地替换第5格，格数不增）＋d 轮 v02 重投首占的 4 格（L080／L090／L092／L095）
-        # ＋第四投 v02 重投首占的 3 格（L065／L104／L107）。
-        self.assertEqual(self.report['C2PA在位格数'], 57)
+        # ＋第四投 v02 重投首占的 3 格（L065／L104／L107）＋第五投 v02 重投首占的 3 格（L093／L101／L108）。
+        self.assertEqual(self.report['C2PA在位格数'], 60)
         self.assertNotIn('已验收', json.dumps(self.report, ensure_ascii=False))
         self.assertIn('结构合规不等于视觉验收', self.report['声明'])
 
@@ -525,13 +574,13 @@ class AssetGate(unittest.TestCase):
         self.assertEqual(self.report['提示格数'], 0)
         self.assertEqual(self.report['失败格数'], 0)
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
-        self.assertEqual(len(paths), 1113)
+        self.assertEqual(len(paths), 1116)
         # C82 的归一只管 数据/图集/ 那批；E1 放量批次与 C105／C106 重出批次（C97 起认 caBX·C2PA 容器）
-        # 是真 PNG，按字节与容器引用，不改名也不要求它变成 .jpg。图集外 57 格全部是 caBX·C2PA 容器。
+        # 是真 PNG，按字节与容器引用，不改名也不要求它变成 .jpg。图集外 60 格全部是 caBX·C2PA 容器。
         gallery = [p for p in paths if p.startswith('数据/图集/')]
         out_of_gallery = [p for p in paths if not p.startswith('数据/图集/')]
         self.assertEqual(len(gallery), 1056)
-        self.assertEqual(len(out_of_gallery), 57)
+        self.assertEqual(len(out_of_gallery), 60)
         for p in gallery:
             self.assertTrue(p.lower().endswith(('.jpg', '.jpeg')), p)
             self.assertTrue((ROOT / p).is_file(), p)
