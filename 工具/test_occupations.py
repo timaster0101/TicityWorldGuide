@@ -411,9 +411,9 @@ class Gate(unittest.TestCase):
         self.assertEqual(report['图层汇总']['大类数'], 20)
         self.assertEqual(report['职业条目汇总']['正典条目数'], 684)
         self.assertEqual(report['职业条目汇总']['源表小类行数'], 162)
-        # 9b 第一段交付 A01—A10 共 82 小类 × 3 族＝246 张；背景卡仍属 9c，未展开即 0。
+        # 9b 两段交付 162 小类 × 3 族＝486 张，加 B4 自学笔记 12 张共 501 张；背景卡仍属 9c，未展开即 0。
         dic = report['字典汇总']
-        self.assertEqual((dic['卡牌实例数'], dic['背景卡实例数']), (246, 0))
+        self.assertEqual((dic['卡牌实例数'], dic['背景卡实例数']), (501, 0))
         relief = report['救助汇总']
         self.assertEqual([relief['全额月数'], relief['递减月数'], relief['最长连发月数']], [2, 4, 6])
         self.assertEqual(relief['逐圈层全额月'], {'内湖环': 1516.3, '外城环': 1395.0,
@@ -476,11 +476,15 @@ class BookChannel(unittest.TestCase):
         doc = (ROOT / '产业与就业设定.md').read_text(encoding='utf-8')
         self.assertLessEqual(doc.count('CORP-'), 2)
         # 第6期把名称文本与逐条职业内容都落地了，文档不能再声称只出框架；
-        # 同时必须把唯一未展开的逐张卡牌实例留在原位，防止过度申报。
+        # 9b 之后「未展开」只剩下八族与背景卡，所以既不能让旧的绝对申报句回流，
+        # 也不能让文档把 501 张这个数自成一套——它必须等于正典汇总的读数。
         self.assertIn('骨架与内容都已闭环', doc)
         self.assertNotIn('本期只出框架', doc)
         self.assertIn('逐张卡牌实例', doc)
         self.assertIn('属待用户点单项', doc)
+        self.assertNotIn('仍未展开的是逐张卡牌实例', doc)
+        adm = json.loads((ROOT / '数据' / '岗位准入正典.json').read_text(encoding='utf-8'))
+        self.assertIn(f"{adm['汇总']['卡牌实例数']} 张", doc)
         self.assertIn('禁则', doc)
 
 
@@ -802,13 +806,13 @@ class AdmissionGate(unittest.TestCase):
 
     def test_half_expanded_cards_stay_under_the_total_band(self):
         """9b 按大类分两段交付：已展开族数不到 12、总数远够不着总带上界时必须是绿——
-        否则就是把交付节奏判成违例。基数取当前真源，两段与 9c 完成后这条都仍成立。"""
+        否则就是把交付节奏判成违例。注入取仍未展开的族，条数不越本族带上界；
+        四族 501 张落盘后这条与 9c 完成前都成立。"""
         import negtest_occupations as nt
-        base_rows = len(self.adm['卡牌实例']['实例'])
         base_fams = self.adm['汇总']['已展开族数']
         adm = json.loads(json.dumps(self.adm))
         ksrc = json.loads(json.dumps(self.ksource))
-        for fid in ('CRD-A1', 'CRD-B1', 'CRD-B3', 'CRD-B4'):
+        for fid in ('CRD-A2', 'CRD-A4', 'CRD-A6', 'CRD-A8'):
             nt.add_card_rows(adm, ksrc, fid, 3)
         ksrc['规格']['总条数区间'] = self.ksource['规格']['总条数区间']
         self.assertLess(len(adm['卡牌实例']['实例']), ksrc['规格']['总条数区间'][0])
