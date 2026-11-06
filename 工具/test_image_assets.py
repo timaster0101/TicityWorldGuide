@@ -653,16 +653,45 @@ class AssetGate(unittest.TestCase):
             self.assertTrue((ROOT / p).is_file(), p)
 
     def test_out_of_gallery_extension_sweep_is_advisory(self):
-        # 图集外还有一批 .png 装 JPEG 字节，但被视频工程 JSON 与文档按文件名引用，改名会打断既有工程；
-        # 「看不见」不等于「不用核验」，所以扫一遍只提示、只写口径，绝不判红。
+        """图集外体检的两条支路分开钉：真盘面（归档后只剩定档后图片，实测零不符）＋夹具面（有过期扩展名必须抓到）。
+
+        2026-11-06 实测教训：早于 E1 定档的 187 张按移交清单 §52 归档进 backup/ 后，原先那 46 张
+        「.png 装 JPEG 字节」的卡面整体退出体检面（扫描数 232→45、不一致 46→0）。只把断言改成
+        「等于 0」会把这段判据静默废掉——所以不符形态改由夹具现场喂给同一个函数自证，真盘侧只钉
+        「扫到的文件数与独立走盘一致」这条非惰性读数。归档区无人核验的后果已申报在 §53.3／§53.6。
+        """
         sweep = self.report['图集外扩展名体检']
-        self.assertGreater(sweep['不一致数'], 0)
         self.assertEqual(sweep['判红数'], 0)
         refs = {p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']}
         self.assertFalse(set(sweep['明细']) & refs)
-        for token in ('影像作品', '视觉控制资产'):
-            self.assertIn(token, json.dumps(sweep['按目录'], ensure_ascii=False))
         self.assertIn('按文件名引用', sweep['不改名口径'])
+        self.assertIn('2026-11-06', sweep['不改名口径'])
+        live = sum(1 for dp, dn, fn in os.walk(ROOT / '数据')
+                   for f in fn if os.path.splitext(f)[1].lower() in self.va.IMG_EXT
+                   and not (Path(dp) / f).relative_to(ROOT).as_posix().startswith('数据/图集'))
+        self.assertEqual(sweep['扫描数'], live, '体检扫描面与独立走盘不一致，多半是排除规则或目录结构变了')
+        self.assertGreater(sweep['扫描数'], 0)
+        self.assertEqual(sweep['不一致数'], 0, '归档后 数据/ 下若再长出过期扩展名，先复核定档后批次再改这条')
+
+        import shutil
+        import tempfile
+        tmp = Path(tempfile.mkdtemp())
+        bad_dir = tmp / '数据' / '视觉控制资产' / '卡牌'
+        ok_dir = tmp / '数据' / '影像作品' / '素材'
+        bad_dir.mkdir(parents=True)
+        ok_dir.mkdir(parents=True)
+        (bad_dir / '假PNG真JPEG.png').write_bytes(b'\xff\xd8\xff' + bytes(20))
+        (bad_dir / '另一张假PNG真JPEG.png').write_bytes(b'\xff\xd8\xff\xe0' + bytes(15))
+        (ok_dir / '真PNG.png').write_bytes(png())
+        (ok_dir / '假JPG真PNG.jpg').write_bytes(png())
+        got = self.va.sweep_extensions(tmp)
+        self.assertEqual((got['扫描数'], got['不一致数'], got['判红数']), (4, 3, 0), got)
+        for token in ('影像作品', '视觉控制资产'):
+            self.assertIn(token, json.dumps(got['按目录'], ensure_ascii=False))
+        self.assertEqual({Path(b).name for b in got['明细']},
+                         {'假PNG真JPEG.png', '另一张假PNG真JPEG.png', '假JPG真PNG.jpg'})
+        shutil.rmtree(tmp, ignore_errors=True)
+        self.assertFalse(tmp.exists())
 
     def test_missing_file_fixture_red(self):
         import tempfile
