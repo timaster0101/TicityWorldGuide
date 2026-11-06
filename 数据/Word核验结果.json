@@ -37,8 +37,8 @@
   ],
   "crc_verified": true,
   "update_fields": true,
-  "rendering_verified": false,
-  "rendering_note": "目视记录绑定的是另一份 DOCX（记录 4c81017d…，当前 c4277cf0…）：重导即失效，须重看",
+  "rendering_verified": true,
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签；目视动作由用户本轮以『都委托你做吧』明确委托会话代理执行）」按「本机 Microsoft Word（comtypes.client.CreateObject 驱动 Word.Application，app.Visible=False、DisplayAlerts=0）以只读打开当前 docx（587827 字节，摘要 c4277cf0…）→ Fields.Update → TablesOfContents.Update → Repaginate → ComputeStatistics（按本构建实测枚举序 0 词数／1 行数／2 页数／3 字符数／4 段落数／5 字符数含空格逐项取；枚举 6／7 本轮未取，上一签版已记其读数且不采）→ ExportAsFixedFormat 导 PDF（17＝wdExportFormatPDF）420 页（3152384 字节，摘要 ff337666…）→ 另一次独立进程只读打开同一 docx 取结构计数（表格 321／域 37／节 1／目录域 1／只读 true），Close(False) 后摘要一致 true。对照侧：把上一签版绑定的 docx 用 MSYS_NO_PATHCONV=1 git show 2276fbf:钛湖城城市设定集-完整合订本.docx 取回（587018 字节，重算摘要 4c81017d… 与记录逐字一致），同一台 Word、同一套驱动另进程导成第二份 PDF（3149790 字节，摘要 07fccb5a…，420 页）。上一轮在同进程连开两份 docx 时第二份在 Fields.Update 抛 COMError -2147467259／-2147023170，本轮改为一份一进程，两份各自导出成功。PDF 侧：pymupdf 逐页文本层比对＋全 420 页 60dpi 灰度位图逐页比对＋异常字符／近空白／越界／字面反引号扫描＋目录逐行落位；位图目视本轮实际看过 22 页单张（13 个变化页 375—385／413／414 按 110dpi，封面 1、目录 2、总纲卷首 4、手册卷首 370、产业卷首 386、最密表 398、物价卷首 402、运行参数卷首 406、末页 420 按 100dpi），逐张以图片回看方式看过，未做拼图。改写本记录前复算 docx 摘要与打开前一致。」目视，绑定当前 DOCX 摘要",
   "source_block_count": 3376,
   "docx_body_block_count": 3376,
   "body_anchor": {

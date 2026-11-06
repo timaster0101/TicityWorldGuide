@@ -199,12 +199,17 @@ class ReviewNoteHistory(unittest.TestCase):
                 'R006': 5, 'R063': 5, 'R066': 5, 'R116': 5, 'R092': 5,
                 'R015': 5, 'R034': 5, 'S23': 5, 'R054': 5}
 
+    # 2026-11-06 C项开图人工复看：L001—L006 首次落人工判废读数（新键），
+    # L007／L008／D03／D08／L061／L066 是往已有键追加复看条。全部只记读数、不绑摘要、不改 status。
+    C_ITEM_REREAD = ('L001', 'L002', 'L003', 'L004', 'L005', 'L006',
+                     'L007', 'L008', 'D03', 'D08', 'L061', 'L066')
+
     def test_four_long_notes_recovered(self):
         # L061／L066 同时出现在 RESHOT 与 BATCH9（两轮各记一条），所以按键集合比而不是按元组长度比。
         self.assertEqual(set(self.notes),
                          set(self.RECOVERED + self.BACKFILLED + self.RESHOT + self.VARIANT
                              + self.MORNING + self.RAIN + self.SUNNY + self.BATCH9 + self.BATCH9C
-                             + self.BATCH9D + self.BATCH9E + self.BATCH9F))
+                             + self.BATCH9D + self.BATCH9E + self.BATCH9F + self.C_ITEM_REREAD))
         # 本轮实测：809ed08 的原始长度 518/226/231/151，各带一条同文派生原因，剥净后如下
         self.assertEqual({k: len(v[0]) for k, v in self.notes.items() if k in self.RECOVERED},
                          {'D01': 204, 'L007': 491, 'L008': 199, 'R043': 124})
@@ -217,19 +222,36 @@ class ReviewNoteHistory(unittest.TestCase):
         下一轮就查不到这格图是哪一批、按哪条裁定计进来的。"""
         for eid, cells in self.APPENDED.items():
             with self.subTest(eid=eid):
-                row = self.notes[eid][-1]
+                item = self.items[eid]
+                # 按内容取登记条，不按位置取：同一 ID 之后还会被追加别的类别的人工读数
+                # （2026-11-06 C项复看就把 D03／D08 的登记条从末位挪开），
+                # rows[-1] 会指到后写的复看条上，判据查的其实一直是登记那条——同 c123_row 的理由。
+                cell = unrooted(item['image_file'][-1])
+                rows = [r for r in self.notes[eid] if cell in r]
+                self.assertTrue(rows, '%s 找不到点名本格文件的登记备注' % eid)
+                row = rows[-1]
                 self.assertIn('vibe_images/', row)
                 # C97 认的是「PNG 走 caBX·C2PA 容器」这条口径：旧档备注按裁定号复述一句，
                 # C123 重投档的抬头直接写容器读数 caBX=1、iTXt=0，同一口径两种写法都算交代过。
                 self.assertTrue('C97' in row or 'caBX=1' in row, '%s 未交代标识容器口径' % eid)
                 self.assertIn('待复验', row)
                 self.assertIn('不代签验收', row)
-                item = self.items[eid]
                 self.assertEqual(len(item['image_file']), cells, eid)
-                self.assertTrue(unrooted(item['image_file'][-1]).startswith('vibe_images/'), eid)
-                self.assertIn(unrooted(item['image_file'][-1]), row, eid)
+                self.assertTrue(cell.startswith('vibe_images/'), eid)
                 self.assertEqual(item['status'], '待复验', eid)
                 self.assertFalse(item.get('image_prompt_sha256'), '%s 已绑定摘要，不该再追加格' % eid)
+
+    def test_appended_cell_selector_reds_when_the_registration_note_is_gone(self):
+        """违例负测：上面那条改成了按内容选取，选取本身必须能被坏数据打红，
+        否则「找不到登记备注」的 assertTrue(rows) 就是假绿。
+        样本取自本轮真实风险：把点名本格文件的登记条整条删掉（等于回填没留出处）。"""
+        eid = 'D03'
+        cell = unrooted(self.items[eid]['image_file'][-1])
+        picked = lambda rows: [r for r in rows if cell in r]
+        self.assertTrue(picked(self.notes[eid]), '基线必须先证明选取命中')
+        stripped = [r for r in self.notes[eid] if cell not in r]
+        self.assertTrue(stripped, '违例夹具不该把本条 ID 的备注全删空')
+        self.assertEqual(picked(stripped), [], '删掉登记条后选取仍命中，说明注入没落地')
 
     def test_rejected_and_borderline_rereads_name_the_file_but_take_no_cell(self):
         """子批①里判废与待复验的四条只留打表、不占 image_file；子批③的 R053／R086 同口径——
@@ -296,10 +318,12 @@ class ReviewNoteHistory(unittest.TestCase):
                 self.assertTrue(self.items[eid]['batch'].endswith('C123新串-v02'), eid)
                 self.assertIn('重投第四投（v02）', self.notes[eid][-1], eid)
                 self.assertIn('本条此前无格，为首占', self.notes[eid][-1], eid)
-        # L061／L066 本轮占的是新串新文件，上一轮串外试投的「不回填」结论必须还在历史里；
-        # 本轮追加了一条读数，所以那条历史从倒数第二条挪到倒数第三条。
+        # L061／L066 本轮占的是新串新文件，上一轮串外试投的「不回填」结论必须还在历史里。
+        # 按内容存在性判而不是按倒数第几条：这条历史每被追加一次读数，位置就往后挪一格，
+        # 抄位置等于把「追加了几类备注」钉进测试（2026-11-06 C项复看又追加了一类，位置已从 -2 漂到 -4）。
         for eid in ('L061', 'L066'):
-            self.assertIn('不回填', self.notes[eid][-3], eid)
+            self.assertTrue(any('不回填' in r for r in self.notes[eid]),
+                            '%s 的串外试投「不回填」结论在历史里查不到' % eid)
 
     def test_c123_registration_gate_reds_on_each_violation(self):
         """违例负测：占格判据的每一条都要能被造出来的坏数据打红，否则闸门是假绿。
@@ -516,11 +540,12 @@ class ReviewNoteHistory(unittest.TestCase):
     def test_history_survives_and_note_still_derives(self):
         # 308 条没有人工长文本，历史是空数组：判"键在不在"而不是"值真不真"；键随名录扩到312条
         self.assertEqual(sum(1 for i in self.items.values() if 'review_note_history' in i), 312)
-        # 第9批五轮回填后：312 条里 67 条带人工长文本（47＋c轮首占 10 条＋d轮首占 4 条（L080／L090／L092／L095 都是新键），R063／R066 本就有键；
-        # d轮 L090 是 c轮标红待裁、本轮才占格，L080 由判废改备注档后补进来；
-        # 第四投（d 轮判废 15 条的第二投）里 L065／L104／L107 三条达标首占，也都是新键；
-        # 第五投（e 轮判废 15 条里 12 条待开图的第三投，文档口径叫第五投）里 L093／L101／L108 三条达标首占，同样是新键）
-        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), 67)
+        # 带人工长文本的条数不抄第二份：以 数据/开图验收备注.json 的 ID 数为真源对拍，
+        # 顺带兜住「备注里写了但没镜像进清单」和「备注里有清单外 ID」两种断链。
+        # 沿革：第9批五轮回填到 67 条；2026-11-06 C项复看为 L001—L006 新记 6 条判废读数，现为 73 条。
+        self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), len(self.notes))
+        self.assertTrue(set(self.notes) <= set(self.items),
+                        '备注里有清单外的 ID：%s' % sorted(set(self.notes) - set(self.items)))
         for eid in self.RECOVERED + self.BACKFILLED + self.RESHOT + self.VARIANT + self.MORNING \
                 + self.RAIN + self.SUNNY + self.BATCH9 + self.BATCH9C + self.BATCH9D + self.BATCH9E \
                 + self.BATCH9F:
