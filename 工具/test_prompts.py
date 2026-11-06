@@ -1940,5 +1940,51 @@ class RulingC126RodAndCraneTiering(unittest.TestCase):
         self.assertEqual(leaks, [], "分档措辞渗进提示词正文：%s" % leaks[:3])
 
 
+class RulingC131DerivedCheckInCounts(unittest.TestCase):
+    """C131 把打卡套系的条数从「写死 264／60」改成「随名录派生」，同一轮还顺手去掉手册里最后一处
+    写死计数（264 行工作单）。这里要防的是这两处被改回数字形态——数字一改，下次名录扩容就又造出
+    一条陈旧串，所以既钉派生措辞在、也钉旧数字形态不在，并用内存注入证明旧形态确实会被判红。"""
+
+    HARD_COUNT = re.compile(r"\d+\s*(?:行|条)\s*工作单")
+
+    def test_c131_records_the_derived_check_in_ruling(self):
+        rows = json.loads((ROOT / "数据" / "设定裁定记录.json").read_text(encoding="utf-8"))
+        by_id = {r["编号"]: r for r in rows}
+        self.assertIn("C131", by_id)
+        self.assertEqual(set(by_id["C131"]), {"编号", "裁定", "原因", "影响"})
+        body = by_id["C131"]["裁定"] + by_id["C131"]["原因"] + by_id["C131"]["影响"]
+        for keep in ("打卡对象与地标类成就条件一律从 `数据/城市空间名录.json` 派生",
+                     "L061—L108 全部 48 条地标补进套系",
+                     "景群套系按名录各 L 条目自带的 `focus` 主题字段归群",
+                     "「全城地标巡礼」达成条件由「集齐 60 地标」改为「集齐名录当前全部 L 编号地标」",
+                     "板块套系（城市片区 20＋功能区 40）与外围聚落档（产业小镇 16＋特色村落 8）成员与积分不变",
+                     "1 分／对象规律",
+                     "脚本不得代签"):
+            self.assertIn(keep, body, "C131 裁定丢了关键句：" + keep[:24])
+
+    def test_the_design_doc_and_index_carry_the_ruling_not_the_open_question(self):
+        design = (ROOT / "设计" / "2026-10-31-成就卡打卡套系-设计.md").read_text(encoding="utf-8")
+        self.assertIn("## 五、C131 收口", design)
+        self.assertIn("L061—L108 一律进入景群维度", design)
+        index = (ROOT / "城市运行规则索引.md").read_text(encoding="utf-8")
+        self.assertNotIn("这部分是否补进套系尚未裁定", index)
+        self.assertIn("这 48 条已按裁定 C131 补进套系", index)
+        self.assertIn("打卡对象与地标类成就条件一律随名录派生、不写死条数", index)
+
+    def test_manual_drops_the_hardcoded_worksheet_row_count(self):
+        manual = (ROOT / "AI创作使用手册.md").read_text(encoding="utf-8")
+        self.assertEqual(self.HARD_COUNT.findall(manual), [],
+                         "手册里又出现写死行数的工作单表述：%s" % self.HARD_COUNT.findall(manual))
+        self.assertIn("人工复看套件的工作单还停在旧禁则上", manual)
+        self.assertIn("本句刻意不写死该数", manual)
+
+    def test_injecting_the_old_hard_count_is_caught(self):
+        manual = (ROOT / "AI创作使用手册.md").read_text(encoding="utf-8")
+        fake = manual.replace("人工复看套件的工作单还停在旧禁则上", "264 行工作单还停在旧禁则上", 1)
+        self.assertNotEqual(manual, fake, "夹具替换没生效，说明手册那句被改写过、判据失去比对对象")
+        self.assertEqual(self.HARD_COUNT.findall(fake), ["264 行工作单"],
+                         "注入的旧计数形态没被抓到：%s" % self.HARD_COUNT.findall(fake))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
