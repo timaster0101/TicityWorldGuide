@@ -2133,5 +2133,97 @@ class RulingC132PromptDigestScope(unittest.TestCase):
                          "覆盖面外的一条换串没有被减法点出来（%s）" % victim["id"])
 
 
+CITATION_LANES = {
+    "工具/reshoot_campaign_2026_11_06/build_queue.py": "四向配额",
+    "工具/reshoot_campaign_2026_11_06/pick_primary_cell.py": "主向格定位",
+    "工具/parallel_batch_2026_11_03/measure_images.py": "容器与读数",
+}
+
+
+def check_citation_lanes(texts):
+    """查四条口径的裁定编号有没有串 lane——本轮真的串过一次：四向配额先写成 C134，
+    与机检降级撞号。返回违例清单（空＝各口径仍标在各自编号上）。"""
+    viol = []
+    bq = texts.get("工具/reshoot_campaign_2026_11_06/build_queue.py", "")
+    if "C134" in bq:
+        viol.append("build_queue.py 里出现了 C134：四向配额口径应标 C137，机检降级才是 C134")
+    if "C137" not in bq:
+        viol.append("build_queue.py 丢了 C137 标注：四向格不折算配额的出处没了")
+    if "C138" not in bq:
+        viol.append("build_queue.py 丢了 C138 标注：每条目投主向 1 格的指针出处没了")
+    pc = texts.get("工具/reshoot_campaign_2026_11_06/pick_primary_cell.py", "")
+    if "C138" not in pc:
+        viol.append("pick_primary_cell.py 丢了 C138 标注：主向格定位器没有出处，闸门判据成了凭据")
+    crossed = [c for c in ("C134", "C135", "C136") if c in pc]
+    if crossed:
+        viol.append("pick_primary_cell.py 里出现了 %s：主向定位才是 C138，那三条是机检降级／冻结串绑定／容器画像" % crossed)
+    mi = texts.get("工具/parallel_batch_2026_11_03/measure_images.py", "")
+    cont = [l for l in mi.split("\n") if "不再按出图通道分别成立" in l]
+    if not cont:
+        viol.append("measure_images.py 的容器口径句整句不见了")
+    elif "C136" not in cont[0]:
+        viol.append("容器口径句丢了 C136 标注")
+    readout = [l for l in mi.split("\n") if "C134 降级" in l]
+    if len(readout) < 2:
+        viol.append("两条读数降级句（地板／日面）丢了 C134 标注，现存 %d 句" % len(readout))
+    return viol
+
+
+class RulingC134ToC138StancePins(unittest.TestCase):
+    """本轮五条口径裁定各钉一句硬话，并钉住编号本身不串 lane。
+    五条都已被独立闸门守护（verify_readout_stance / verify_prompt_baseline /
+    backfill 断言 / build_queue 派生 / pick_primary_cell 定位），这里防的是裁定文本被改回判据式措辞、
+    或编号被重新归并成一条——那会让闸门的出处变成凭据。"""
+
+    def _rows(self):
+        rows = json.loads((ROOT / "数据" / "设定裁定记录.json").read_text(encoding="utf-8"))
+        return {r["编号"]: r for r in rows}
+
+    def test_each_ruling_keeps_its_hard_sentence(self):
+        by_id = self._rows()
+        for cid in ("C134", "C135", "C136", "C137", "C138"):
+            self.assertIn(cid, by_id, "缺裁定 " + cid)
+            self.assertEqual(set(by_id[cid]), {"编号", "裁定", "原因", "影响"})
+        keep = {
+            "C134": ("只作读数、不作判据", "判废权收归人工目视", "地板一侧照片 0/45、绘画 0/30"),
+            "C135": ("一律绑冻结基准里该条的 `prompt_sha256`", "图生图格绑到送入串", "备案与绑定是两件事"),
+            "C136": ("至少其一在位", "不得由「文本生图 ⇒ caBX」", "container_profile.json"),
+            "C137": ("只作历史登记、不折算工作量", "本裁定不是一条万能豁免", "每条 1 格、每格 1 串 1 取景"),
+            "C138": ("其余三向不进重投队列", "从未留档", "并列最小则记 `ambiguous` 交人工点，不猜"),
+        }
+        for cid, phrases in keep.items():
+            body = by_id[cid]["裁定"] + by_id[cid]["原因"] + by_id[cid]["影响"]
+            for p in phrases:
+                self.assertIn(p, body, "%s 丢了关键句：%s" % (cid, p[:20]))
+
+    def test_citation_lanes_are_not_cross_referenced(self):
+        texts = {rel: (ROOT / rel).read_text(encoding="utf-8") for rel in CITATION_LANES}
+        self.assertEqual(check_citation_lanes(texts), [], "口径编号串了 lane，四条裁定的出处互相顶包")
+
+    def test_a_lane_collision_is_named(self):
+        """违例负测：内存里把 build_queue 的 C137 改回 C134（本轮真实发生过的串号形态），
+        上面那条判据必须点名它；恢复后归零。不写盘。"""
+        texts = {rel: (ROOT / rel).read_text(encoding="utf-8") for rel in CITATION_LANES}
+        self.assertEqual(check_citation_lanes(texts), [], "真实树本身已带违例，负测失去比对对象")
+        tampered = dict(texts)
+        tampered["工具/reshoot_campaign_2026_11_06/build_queue.py"] = \
+            texts["工具/reshoot_campaign_2026_11_06/build_queue.py"].replace("C137", "C134")
+        hit = check_citation_lanes(tampered)
+        self.assertTrue(any("C134" in x and "C137" in x for x in hit),
+                        "把四向配额改回 C134 之后串号判据没点名（%s）" % hit)
+        tampered2 = dict(texts)
+        tampered2["工具/reshoot_campaign_2026_11_06/pick_primary_cell.py"] = \
+            texts["工具/reshoot_campaign_2026_11_06/pick_primary_cell.py"].replace("C138", "C135")
+        hit2 = check_citation_lanes(tampered2)
+        self.assertTrue(any("pick_primary_cell" in x and "C135" in x for x in hit2),
+                        "把主向定位改标 C135 之后串号判据没点名（%s）" % hit2)
+        tampered3 = dict(texts)
+        tampered3["工具/reshoot_campaign_2026_11_06/pick_primary_cell.py"] = \
+            texts["工具/reshoot_campaign_2026_11_06/pick_primary_cell.py"].replace("C138", "定位器")
+        hit3 = check_citation_lanes(tampered3)
+        self.assertTrue(any("pick_primary_cell.py 丢了 C138" in x for x in hit3),
+                        "抹掉主向定位的 C138 出处之后判据没点名（%s）" % hit3)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
