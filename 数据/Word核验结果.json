@@ -1,8 +1,8 @@
 {
   "passed": true,
   "errors": [],
-  "source_sha256": "0f53914099914d3c88694b8380ce402b994491adf6149d0ceb82cd350decaf22",
-  "docx_sha256": "b27a2531dceb40d0d814ca612909c1068e18e331aad55edf0062754e1f4c601a",
+  "source_sha256": "b201b82bedeaf99a858c83b17e355c916d23550c32e49d764d043b2a3952daf0",
+  "docx_sha256": "a263dde40a758d5417addd36c4f53491777898b398811021267a153dec27e941",
   "paragraph_count": 8299,
   "table_count": 321,
   "cell_count": 4896,
@@ -38,7 +38,7 @@
   "crc_verified": true,
   "update_fields": true,
   "rendering_verified": false,
-  "rendering_note": "目视记录绑定的是另一份 DOCX（记录 4c81017d…，当前 b27a2531…）：重导即失效，须重看",
+  "rendering_note": "目视记录绑定的是另一份 DOCX（记录 4c81017d…，当前 a263dde4…）：重导即失效，须重看",
   "source_block_count": 3376,
   "docx_body_block_count": 3376,
   "body_anchor": {

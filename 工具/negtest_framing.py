@@ -142,6 +142,25 @@ try:
 finally:
     shutil.rmtree(fix, ignore_errors=True)
 
+# 元违例（C132）：闸门按条目类型取画幅像素，类型不在分档表里时它没有半幅宽可算。
+# 这一支必须非零退出并点名那条类型，不得因为「算不出视锥所以跳过」而把片区判成绿。
+fix = fixture()
+try:
+    reg = fix / '数据' / '城市空间名录.json'
+    doc = json.loads(reg.read_text(encoding='utf-8'))
+    victim = next(e for e in doc['entries'] if e['id'] == 'D01')
+    unknown = '城市片区待裁'
+    victim['type'] = unknown
+    reg.write_text(json.dumps(doc, ensure_ascii=False, indent=2), encoding='utf-8')
+    rc, out = run_gate(fix)
+    red = rc != 0 and unknown in out
+    results.append(dict(case='类型不在画幅分档表里', entry='D01', expected='非零退出并点名该类型', rc=rc, red=red))
+    print(('OK ' if red else '!! ') + '类型不在画幅分档表里：rc=%s（应为非零且点名「%s」，不得空转判绿）' % (rc, unknown))
+    if not red:
+        print(out[-600:])
+finally:
+    shutil.rmtree(fix, ignore_errors=True)
+
 leftover = [p for p in Path(tempfile.gettempdir()).glob(TMP_PREFIX + '*') if p.is_dir()]
 failed = [r for r in results if not r['red']]
 print(json.dumps(dict(cases=len(results), red=len(results) - len(failed), not_red=len(failed),

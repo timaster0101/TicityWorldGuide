@@ -37,6 +37,11 @@ CHECKS = (
 BLANK = "＿＿"
 HEADER_KEYS = ("建议尺寸", "拍摄朝向", "光照判定", "状态", "prompt_sha256", "image_prompt_sha256", "复验原因/备注")
 
+# C132 定标：各档画幅共用的那一边是 1024 像素，等于 35 毫米全幅的短边 24 毫米，
+# 所以半幅宽＝12 毫米×该边像素÷1024。本文件与 工具/build_prompts.py 各留一份，不互相 import。
+FRAME_SHORT_EDGE_MM = 24.0
+FRAME_BASE_PX = 1024
+
 
 def parse_prompt(rel):
     """从提示词文件取「实际投喂过什么」：尺寸、光判、人数档与锁定段一律以产物为准，不另抄常量。"""
@@ -64,12 +69,18 @@ def parse_prompt(rel):
 
 
 def sun_expect(info):
-    """闸门侧独立复算一遍 C99：可纳＝|rel| ≤ atan(18/焦距)。套件要把期望写在页面上，
-    否则复核者只能凭感觉判「太阳该不该在画面里」。"""
+    """闸门侧独立复算一遍 C99：可纳＝|rel| ≤ atan(半幅宽／焦距)。套件要把期望写在页面上，
+    否则复核者只能凭感觉判「太阳该不该在画面里」。
+    半幅宽自 C132 起不再写死 18 毫米，而从本条「建议尺寸」行的水平像素派生，与生成器同一算式各写一份、
+    两侧一起改错才判得出红——套件读的是产物，抄第二份毫米数等于给产物和页面留出两个答案的机会。"""
     import math
     if info["sun_deg"] is None or not info["focal_mm"]:
         return "本条为时段变体或焦距不可解析，不套默认光算式"
-    half = math.degrees(math.atan(18.0 / info["focal_mm"]))
+    px = re.match(r"(\d+)x(\d+)", info["size"] or "")
+    if not px:
+        return "本条「建议尺寸」行不可解析，套件不猜半幅宽，请核对产物抬头后再看日面"
+    half_width = FRAME_SHORT_EDGE_MM / 2 * int(px.group(1)) / FRAME_BASE_PX
+    half = math.degrees(math.atan(half_width / info["focal_mm"]))
     side = "右" if info["sun_deg"] > 0 else "左"
     if abs(info["sun_deg"]) <= half:
         return "可入画（rel %+.0f°／半视锥 %.1f°，日面应在画面%s侧带内）" % (info["sun_deg"], half, side)

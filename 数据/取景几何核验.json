@@ -1,5 +1,5 @@
 {
-  "rule": "城市片区取景段须给出机位坐标、镜头焦距与离地高度：机位在本片区扇区角与半径带内、不无说明落水（落进钛马岛椭圆算干地，改按「须写明岛上位置」判，湖水面措辞不顶账）、离地不低于20米、本片区全部下属标志性建筑落在按 atan(36/2/焦距) 算出的水平视锥内且留3°余量；默认只判红城市片区，--all 把其余244条一并纳入。",
+  "rule": "城市片区取景段须给出机位坐标、镜头焦距与离地高度：机位在本片区扇区角与半径带内、不无说明落水（落进钛马岛椭圆算干地，改按「须写明岛上位置」判，湖水面措辞不顶账）、离地不低于20米、本片区全部下属标志性建筑落在按本条目画幅派生的半幅宽算出的水平视锥内（定标与画幅表见本文件FRAME_SHORT_EDGE_MM 与 FRAME_WIDTH_PX_BY_TYPE，不在句里抄第二个毫米数）且留3°余量；默认只判红城市片区，--all 把其余条目一并纳入。",
   "checked": 312,
   "framing_parsed": 312,
   "districts": 20,
@@ -10,7 +10,4400 @@
     "total_landmarks": 108,
     "visible": 108
   },
-  "failures": [],
+  "failures": [
+    {
+      "id": "F001",
+      "name": "湖政公共服务轴",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F001"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F002",
+      "name": "法务与城市档案园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F002"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F003",
+      "name": "钛湖大学开放校园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 28.2,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "F003"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F004",
+      "name": "北书公共教育园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F004"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F005",
+      "name": "钛心总部金融区",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 240.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 2.0,
+      "own_subjects": [
+        "F005"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F006",
+      "name": "东岸专业服务街区",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F006"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F007",
+      "name": "湖东国际会展园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 28.2,
+      "camera_height_m": 1.8,
+      "own_subjects": [
+        "F007"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F008",
+      "name": "潮湾酒店与游憩带",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 225.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F008"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F009",
+      "name": "青湾综合医学园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F009"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F010",
+      "name": "静溪康复与生命研究园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "F010"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F011",
+      "name": "南湖家庭消费中心",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F011"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F012",
+      "name": "湖湾社区服务网",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F012"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F013",
+      "name": "西声演艺制作园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F013"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F014",
+      "name": "旧炉设计与影像园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "F014"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F015",
+      "name": "白石老城保护区",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F015"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F016",
+      "name": "西湖传统商埠",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F016"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F017",
+      "name": "云栈软件创新园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F017"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F018",
+      "name": "数岸互动内容园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 25.1,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F018"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F019",
+      "name": "松岬竞技体育园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "F019"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F020",
+      "name": "环湖全民运动公园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 28.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F020"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F021",
+      "name": "北屏森林教育园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F021"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F022",
+      "name": "林下低扰动生活区",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F022"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F023",
+      "name": "书岭基础研究园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "F023"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F024",
+      "name": "青岚精密仪器园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F024"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F025",
+      "name": "东门铁路综合枢纽区",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "F025"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F026",
+      "name": "东站城市商务园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F026"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F027",
+      "name": "钛东精密制造园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "F027"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F028",
+      "name": "东铸工业设计园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F028"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F029",
+      "name": "南溪综合应急园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "F029"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F030",
+      "name": "循环生活资源园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F030"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F031",
+      "name": "南原公共生活中心",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F031"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F032",
+      "name": "晨光基础教育园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F032"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F033",
+      "name": "西麓农食研究园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F033"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F034",
+      "name": "丰仓生鲜集配园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "F034"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F035",
+      "name": "西门区域贸易园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F035"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F036",
+      "name": "古道修配工坊区",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F036"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F037",
+      "name": "西岭清洁能源园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F037"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F038",
+      "name": "光谷低碳示范区",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "F038"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F039",
+      "name": "北港净水与调蓄园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F039"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "F040",
+      "name": "入湖河口生态园",
+      "type": "功能区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "F040"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L001",
+      "name": "钛湖市民议事厅",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L001"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L002",
+      "name": "钛湖司法服务馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L002"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L003",
+      "name": "城市记忆档案塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L003"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L004",
+      "name": "钛湖大学中央图书馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L004"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L005",
+      "name": "北书科学博物馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 36.9,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "L005"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L006",
+      "name": "湖畔青年交流馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L006"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L007",
+      "name": "钛湖之脊",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 36.9,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L007"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L008",
+      "name": "金融秩序博物馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L008"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L009",
+      "name": "东岸企业会客厅",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L009"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L010",
+      "name": "钛湖国际会展中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 36.9,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "L010"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L011",
+      "name": "潮湾会议酒店",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L011"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L012",
+      "name": "水光游客中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L012"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L013",
+      "name": "青湾中央医院",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L013"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L014",
+      "name": "静溪康复中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "L014"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L015",
+      "name": "生命之窗医学馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L015"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L016",
+      "name": "南湖百业市场",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L016"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L017",
+      "name": "湖湾邻里中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "L017"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L018",
+      "name": "南湖公共儿童馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.3,
+      "own_subjects": [
+        "L018"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L019",
+      "name": "西声大剧院",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L019"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L020",
+      "name": "旧炉影像馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L020"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L021",
+      "name": "风帆设计工坊",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L021"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L022",
+      "name": "白石钟楼",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L022"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L023",
+      "name": "西湖商埠会馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L023"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L024",
+      "name": "青瓦地方民俗馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L024"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L025",
+      "name": "云栈协作中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L025"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L026",
+      "name": "数岸交互艺术馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L026"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L027",
+      "name": "城市计算展示馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L027"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L028",
+      "name": "松岬体育场",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 36.9,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "L028"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L029",
+      "name": "钛湖游泳馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L029"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L030",
+      "name": "山湖户外运动中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 29.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L030"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L031",
+      "name": "北屏自然学校",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L031"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L032",
+      "name": "森林访客中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 30.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L032"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L033",
+      "name": "杉谷观鸟塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "L033"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L034",
+      "name": "书岭联合实验楼",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 19.8,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L034"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L035",
+      "name": "青岚仪器共享中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 24.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L035"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L036",
+      "name": "科研伦理与公众交流馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L036"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L037",
+      "name": "钛湖东站",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 36.9,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L037"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L038",
+      "name": "东站城市接待塔",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L038"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L039",
+      "name": "山湖交通博物馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L039"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L040",
+      "name": "钛东工业设计中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 24.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L040"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L041",
+      "name": "精工制造展示馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L041"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L042",
+      "name": "新铸工匠学院",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 24.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L042"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L043",
+      "name": "南溪城市应急指挥馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L043"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L044",
+      "name": "循环材料展示馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 19.8,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L044"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L045",
+      "name": "城市维修技能中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L045"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L046",
+      "name": "南原中央图书分馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 19.8,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L046"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L047",
+      "name": "晨光综合体育馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L047"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L048",
+      "name": "南原妇幼社区中心",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 19.8,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "L048"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L049",
+      "name": "西麓种子与食品馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L049"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L050",
+      "name": "丰仓城市食物馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 24.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L050"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L051",
+      "name": "农时试验温室",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L051"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L052",
+      "name": "西门贸易交易馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L052"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L053",
+      "name": "古道修配博物馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 19.8,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L053"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L054",
+      "name": "西门工友服务站",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 24.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L054"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L055",
+      "name": "西岭能源调度馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L055"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L056",
+      "name": "光谷低碳体验馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 32.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L056"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L057",
+      "name": "山城能源史馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 24.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L057"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L058",
+      "name": "北港水文博物馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L058"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L059",
+      "name": "清流水质公开实验馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 19.8,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "L059"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "L060",
+      "name": "河口生态观察馆",
+      "type": "标志性建筑",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 27.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "L060"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R001",
+      "name": "银杏议庭",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R001"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R002",
+      "name": "北湖公务花园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 28.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R002"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R003",
+      "name": "铜檐里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R003"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R004",
+      "name": "清简公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 225.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 25.1,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R004"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R005",
+      "name": "法桐书舍",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R005"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R006",
+      "name": "映湖安居坊",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 28.2,
+      "camera_height_m": 1.3,
+      "own_subjects": [
+        "R006"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R007",
+      "name": "书声里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.2,
+      "own_subjects": [
+        "R007"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R008",
+      "name": "红砖学府苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R008"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R009",
+      "name": "青藤教师村",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R009"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R010",
+      "name": "北书青年寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R010"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R011",
+      "name": "杏坛家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R011"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R012",
+      "name": "知行合居院",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R012"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R013",
+      "name": "钛心云邸",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 240.0,
+      "lens_mm": 24.0,
+      "half_fov_deg": 32.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R013"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R014",
+      "name": "东岸金融公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R014"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R015",
+      "name": "澄镜府",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.2,
+      "own_subjects": [
+        "R015"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R016",
+      "name": "银脊人才庭",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 25.1,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R016"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R017",
+      "name": "湖光职住里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 45.0,
+      "half_fov_deg": 18.4,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R017"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R018",
+      "name": "晴窗里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R018"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R019",
+      "name": "潮湾旅居苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R019"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R020",
+      "name": "展园服务公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R020"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R021",
+      "name": "水岸会客里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R021"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R022",
+      "name": "鹭汀花园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R022"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R023",
+      "name": "金篷家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 28.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R023"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R024",
+      "name": "东澜共享寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 225.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R024"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R025",
+      "name": "青湾医师苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R025"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R026",
+      "name": "静溪康养里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R026"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R027",
+      "name": "杏林陪护公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R027"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R028",
+      "name": "白鹭康复居",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.3,
+      "own_subjects": [
+        "R028"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R029",
+      "name": "暖庭护士家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R029"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R030",
+      "name": "春汀无障碍社区",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.25,
+      "own_subjects": [
+        "R030"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R031",
+      "name": "南湖烟火里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R031"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R032",
+      "name": "月湾家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 28.2,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R032"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R033",
+      "name": "米巷公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R033"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R034",
+      "name": "雨棚里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R034"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R035",
+      "name": "棠树邻院",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.3,
+      "own_subjects": [
+        "R035"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R036",
+      "name": "湖湾青少年家庭苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R036"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R037",
+      "name": "旧炉艺居",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R037"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R038",
+      "name": "西声演员公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R038"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R039",
+      "name": "红厂画家村",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R039"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R040",
+      "name": "幕间里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R040"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R041",
+      "name": "黑窗青年坊",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R041"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R042",
+      "name": "音桥家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R042"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R043",
+      "name": "白石老街坊",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R043"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R044",
+      "name": "青瓦南里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R044"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R045",
+      "name": "渔火巷",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.3,
+      "own_subjects": [
+        "R045"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R046",
+      "name": "榕荫祖屋群",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 28.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R046"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R047",
+      "name": "西埠新邻苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R047"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R048",
+      "name": "纸伞里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R048"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R049",
+      "name": "云栈工程师公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R049"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R050",
+      "name": "数岸创客庭",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R050"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R051",
+      "name": "折光里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R051"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R052",
+      "name": "蓝帆协作居",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 28.2,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R052"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R053",
+      "name": "星栈青年社",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R053"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R054",
+      "name": "算溪花园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R054"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R055",
+      "name": "松岬运动员村",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R055"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R056",
+      "name": "跑道里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.3,
+      "own_subjects": [
+        "R056"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R057",
+      "name": "岚风家庭苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R057"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R058",
+      "name": "木台阶公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.2,
+      "own_subjects": [
+        "R058"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R059",
+      "name": "绿径康体居",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R059"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R060",
+      "name": "观赛家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R060"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R061",
+      "name": "杉影山居",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R061"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R062",
+      "name": "北屏护林员社区",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R062"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R063",
+      "name": "雨谷花园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R063"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R064",
+      "name": "松籽里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R064"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R065",
+      "name": "林缘共居院",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R065"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R066",
+      "name": "青苔坡社区",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 30.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R066"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R067",
+      "name": "书岭科研家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R067"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R068",
+      "name": "青岚博士公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R068"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R069",
+      "name": "仪光里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R069"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R070",
+      "name": "静思庭",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R070"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R071",
+      "name": "山窗研究员村",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R071"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R072",
+      "name": "知微家庭苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R072"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R073",
+      "name": "东站通勤城",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R073"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R074",
+      "name": "轨光公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R074"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R075",
+      "name": "山门工务村",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R075"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R076",
+      "name": "早班里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R076"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R077",
+      "name": "东门安居坊",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R077"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R078",
+      "name": "晨笛家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R078"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R079",
+      "name": "钛东技师苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R079"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R080",
+      "name": "精工新村",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R080"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R081",
+      "name": "铸梦公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R081"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R082",
+      "name": "蓝领晴庭",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R082"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R083",
+      "name": "榫合里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R083"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R084",
+      "name": "东铸家庭坊",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R084"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R085",
+      "name": "南溪应急家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R085"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R086",
+      "name": "橙灯里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R086"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R087",
+      "name": "循环工友苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R087"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R088",
+      "name": "修缮师公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R088"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R089",
+      "name": "安澜保障社区",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R089"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R090",
+      "name": "晨守庭",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R090"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R091",
+      "name": "南原万家苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R091"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R092",
+      "name": "晨光学区里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 25.1,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R092"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R093",
+      "name": "榆树新村",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R093"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R094",
+      "name": "青禾保障房社区",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R094"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R095",
+      "name": "向阳老年友好苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R095"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R096",
+      "name": "南原新家庭城",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 28.0,
+      "half_fov_deg": 28.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R096"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R097",
+      "name": "西麓农科苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 225.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R097"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R098",
+      "name": "丰仓鲜活里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R098"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R099",
+      "name": "田畔工友村",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R099"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R100",
+      "name": "麦穗公寓",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R100"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R101",
+      "name": "果园家庭庭院",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R101"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R102",
+      "name": "苗圃青年居",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 32.0,
+      "half_fov_deg": 25.1,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R102"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R103",
+      "name": "西门商旅家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R103"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R104",
+      "name": "古道匠居",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R104"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R105",
+      "name": "赤陶里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R105"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R106",
+      "name": "店后人家",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 225.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R106"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R107",
+      "name": "货巷新邻苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R107"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R108",
+      "name": "西关合居坊",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R108"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R109",
+      "name": "西岭光合社区",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R109"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R110",
+      "name": "储能技师家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R110"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R111",
+      "name": "坡地风庭",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R111"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R112",
+      "name": "净零示范居",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R112"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R113",
+      "name": "蓝瓦里",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R113"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R114",
+      "name": "谷风长者苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "R114"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R115",
+      "name": "北港水师苑",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 135.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R115"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R116",
+      "name": "清流家园",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R116"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R117",
+      "name": "湿地观察员社区",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "R117"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R118",
+      "name": "芦苇庭",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R118"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R119",
+      "name": "河口新居",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 23.2,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R119"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "R120",
+      "name": "水尺巷",
+      "type": "居民区",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 20.6,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "R120"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S01",
+      "name": "稻穗农业小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S01"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S02",
+      "name": "翼谷航空小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 180.0,
+      "lens_mm": 85.0,
+      "half_fov_deg": 13.9,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "S02"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S03",
+      "name": "星核高科技小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 27.7,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "S03"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S04",
+      "name": "茶岚茶业小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S04"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S05",
+      "name": "竹弦竹木小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 22.8,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S05"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S06",
+      "name": "清泉康养小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 22.8,
+      "camera_height_m": 1.4,
+      "own_subjects": [
+        "S06"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S07",
+      "name": "光伏岭能源小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 70.0,
+      "half_fov_deg": 16.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S07"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S08",
+      "name": "镜湾影视小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.7,
+      "own_subjects": [
+        "S08"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S09",
+      "name": "雪岩户外小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S09"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S10",
+      "name": "陶火工艺小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 22.8,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S10"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S11",
+      "name": "花汀园艺小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 27.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "S11"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S12",
+      "name": "河仓食品小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 270.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 22.8,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S12"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S13",
+      "name": "云织纺创小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 22.8,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S13"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S14",
+      "name": "石桥商贸小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S14"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S15",
+      "name": "溪源水务小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 22.8,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S15"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S16",
+      "name": "回环循环小镇",
+      "type": "产业小镇",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 90.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 22.8,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S16"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S17",
+      "name": "白鹭渔村",
+      "type": "特色村落",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 22.8,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "S17"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S18",
+      "name": "杏坳果村",
+      "type": "特色村落",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 315.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S18"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S19",
+      "name": "杉关古村",
+      "type": "特色村落",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 27.7,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S19"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S20",
+      "name": "云台牧村",
+      "type": "特色村落",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 45.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 22.8,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S20"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S21",
+      "name": "南埠水村",
+      "type": "特色村落",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 225.0,
+      "lens_mm": 40.0,
+      "half_fov_deg": 27.7,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "S21"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S22",
+      "name": "石耳菌村",
+      "type": "特色村落",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 22.8,
+      "camera_height_m": 1.6,
+      "own_subjects": [
+        "S22"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S23",
+      "name": "星坡观测村",
+      "type": "特色村落",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 35.0,
+      "half_fov_deg": 31.0,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "S23"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    },
+    {
+      "id": "S24",
+      "name": "芦塘湿地村",
+      "type": "特色村落",
+      "framing_found": true,
+      "camera_km": null,
+      "facing_deg": 0.0,
+      "lens_mm": 50.0,
+      "half_fov_deg": 22.8,
+      "camera_height_m": 1.5,
+      "own_subjects": [
+        "S24"
+      ],
+      "visible_in_fov": [],
+      "issues": [
+        "取景段无可解析的机位坐标"
+      ]
+    }
+  ],
   "results": [
     {
       "id": "D01",
@@ -23,7 +4416,7 @@
       ],
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L001",
@@ -52,7 +4445,7 @@
       ],
       "facing_deg": 216.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L004",
@@ -83,7 +4476,7 @@
       ],
       "facing_deg": 252.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L007",
@@ -122,7 +4515,7 @@
       ],
       "facing_deg": 288.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L010",
@@ -153,7 +4546,7 @@
       ],
       "facing_deg": 324.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L013",
@@ -182,7 +4575,7 @@
       ],
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L016",
@@ -211,7 +4604,7 @@
       ],
       "facing_deg": 36.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L019",
@@ -240,7 +4633,7 @@
       ],
       "facing_deg": 72.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L022",
@@ -265,7 +4658,7 @@
       ],
       "facing_deg": 108.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L025",
@@ -302,7 +4695,7 @@
       ],
       "facing_deg": 144.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L028",
@@ -331,7 +4724,7 @@
       ],
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L031",
@@ -356,7 +4749,7 @@
       ],
       "facing_deg": 216.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L034",
@@ -385,7 +4778,7 @@
       ],
       "facing_deg": 252.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L037",
@@ -418,7 +4811,7 @@
       ],
       "facing_deg": 288.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L040",
@@ -447,7 +4840,7 @@
       ],
       "facing_deg": 324.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L043",
@@ -474,7 +4867,7 @@
       ],
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L046",
@@ -505,7 +4898,7 @@
       ],
       "facing_deg": 36.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L049",
@@ -532,7 +4925,7 @@
       ],
       "facing_deg": 72.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L052",
@@ -563,7 +4956,7 @@
       ],
       "facing_deg": 108.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L055",
@@ -592,7 +4985,7 @@
       ],
       "facing_deg": 144.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 55.0,
       "own_subjects": [
         "L058",
@@ -616,7 +5009,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F001"
@@ -634,7 +5027,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F002"
@@ -652,7 +5045,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 28.0,
-      "half_fov_deg": 32.7,
+      "half_fov_deg": 28.2,
       "camera_height_m": 1.7,
       "own_subjects": [
         "F003"
@@ -670,7 +5063,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F004"
@@ -688,7 +5081,7 @@
       "camera_km": null,
       "facing_deg": 240.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 2.0,
       "own_subjects": [
         "F005"
@@ -706,7 +5099,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F006"
@@ -724,7 +5117,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 28.0,
-      "half_fov_deg": 32.7,
+      "half_fov_deg": 28.2,
       "camera_height_m": 1.8,
       "own_subjects": [
         "F007"
@@ -742,7 +5135,7 @@
       "camera_km": null,
       "facing_deg": 225.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F008"
@@ -760,7 +5153,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F009"
@@ -778,7 +5171,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.4,
       "own_subjects": [
         "F010"
@@ -796,7 +5189,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F011"
@@ -814,7 +5207,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F012"
@@ -832,7 +5225,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F013"
@@ -850,7 +5243,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.7,
       "own_subjects": [
         "F014"
@@ -868,7 +5261,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F015"
@@ -886,7 +5279,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F016"
@@ -904,7 +5297,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F017"
@@ -922,7 +5315,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 32.0,
-      "half_fov_deg": 29.4,
+      "half_fov_deg": 25.1,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F018"
@@ -940,7 +5333,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.7,
       "own_subjects": [
         "F019"
@@ -958,7 +5351,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 28.0,
-      "half_fov_deg": 32.7,
+      "half_fov_deg": 28.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F020"
@@ -976,7 +5369,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F021"
@@ -994,7 +5387,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F022"
@@ -1012,7 +5405,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.7,
       "own_subjects": [
         "F023"
@@ -1030,7 +5423,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F024"
@@ -1048,7 +5441,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.7,
       "own_subjects": [
         "F025"
@@ -1066,7 +5459,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F026"
@@ -1084,7 +5477,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.7,
       "own_subjects": [
         "F027"
@@ -1102,7 +5495,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F028"
@@ -1120,7 +5513,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.7,
       "own_subjects": [
         "F029"
@@ -1138,7 +5531,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F030"
@@ -1156,7 +5549,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F031"
@@ -1174,7 +5567,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F032"
@@ -1192,7 +5585,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F033"
@@ -1210,7 +5603,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.7,
       "own_subjects": [
         "F034"
@@ -1228,7 +5621,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F035"
@@ -1246,7 +5639,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F036"
@@ -1264,7 +5657,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F037"
@@ -1282,7 +5675,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "F038"
@@ -1300,7 +5693,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F039"
@@ -1318,7 +5711,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "F040"
@@ -3422,7 +7815,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R001"
@@ -3440,7 +7833,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 28.0,
-      "half_fov_deg": 32.7,
+      "half_fov_deg": 28.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R002"
@@ -3458,7 +7851,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R003"
@@ -3476,7 +7869,7 @@
       "camera_km": null,
       "facing_deg": 225.0,
       "lens_mm": 32.0,
-      "half_fov_deg": 29.4,
+      "half_fov_deg": 25.1,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R004"
@@ -3494,7 +7887,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R005"
@@ -3512,7 +7905,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 28.0,
-      "half_fov_deg": 32.7,
+      "half_fov_deg": 28.2,
       "camera_height_m": 1.3,
       "own_subjects": [
         "R006"
@@ -3530,7 +7923,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.2,
       "own_subjects": [
         "R007"
@@ -3548,7 +7941,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R008"
@@ -3566,7 +7959,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R009"
@@ -3584,7 +7977,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R010"
@@ -3602,7 +7995,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R011"
@@ -3620,7 +8013,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R012"
@@ -3638,7 +8031,7 @@
       "camera_km": null,
       "facing_deg": 240.0,
       "lens_mm": 24.0,
-      "half_fov_deg": 36.9,
+      "half_fov_deg": 32.0,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R013"
@@ -3656,7 +8049,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R014"
@@ -3674,7 +8067,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.2,
       "own_subjects": [
         "R015"
@@ -3692,7 +8085,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 32.0,
-      "half_fov_deg": 29.4,
+      "half_fov_deg": 25.1,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R016"
@@ -3710,7 +8103,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 45.0,
-      "half_fov_deg": 21.8,
+      "half_fov_deg": 18.4,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R017"
@@ -3728,7 +8121,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R018"
@@ -3746,7 +8139,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R019"
@@ -3764,7 +8157,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R020"
@@ -3782,7 +8175,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R021"
@@ -3800,7 +8193,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R022"
@@ -3818,7 +8211,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 28.0,
-      "half_fov_deg": 32.7,
+      "half_fov_deg": 28.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R023"
@@ -3836,7 +8229,7 @@
       "camera_km": null,
       "facing_deg": 225.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R024"
@@ -3854,7 +8247,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R025"
@@ -3872,7 +8265,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R026"
@@ -3890,7 +8283,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R027"
@@ -3908,7 +8301,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.3,
       "own_subjects": [
         "R028"
@@ -3926,7 +8319,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R029"
@@ -3944,7 +8337,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.25,
       "own_subjects": [
         "R030"
@@ -3962,7 +8355,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R031"
@@ -3980,7 +8373,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 28.0,
-      "half_fov_deg": 32.7,
+      "half_fov_deg": 28.2,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R032"
@@ -3998,7 +8391,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R033"
@@ -4016,7 +8409,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R034"
@@ -4034,7 +8427,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.3,
       "own_subjects": [
         "R035"
@@ -4052,7 +8445,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R036"
@@ -4070,7 +8463,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R037"
@@ -4088,7 +8481,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R038"
@@ -4106,7 +8499,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R039"
@@ -4124,7 +8517,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R040"
@@ -4142,7 +8535,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R041"
@@ -4160,7 +8553,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R042"
@@ -4178,7 +8571,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R043"
@@ -4196,7 +8589,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R044"
@@ -4214,7 +8607,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.3,
       "own_subjects": [
         "R045"
@@ -4232,7 +8625,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 28.0,
-      "half_fov_deg": 32.7,
+      "half_fov_deg": 28.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R046"
@@ -4250,7 +8643,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R047"
@@ -4268,7 +8661,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R048"
@@ -4286,7 +8679,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R049"
@@ -4304,7 +8697,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R050"
@@ -4322,7 +8715,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R051"
@@ -4340,7 +8733,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 28.0,
-      "half_fov_deg": 32.7,
+      "half_fov_deg": 28.2,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R052"
@@ -4358,7 +8751,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R053"
@@ -4376,7 +8769,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R054"
@@ -4394,7 +8787,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R055"
@@ -4412,7 +8805,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.3,
       "own_subjects": [
         "R056"
@@ -4430,7 +8823,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R057"
@@ -4448,7 +8841,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.2,
       "own_subjects": [
         "R058"
@@ -4466,7 +8859,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R059"
@@ -4484,7 +8877,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R060"
@@ -4502,7 +8895,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R061"
@@ -4520,7 +8913,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R062"
@@ -4538,7 +8931,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R063"
@@ -4556,7 +8949,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R064"
@@ -4574,7 +8967,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R065"
@@ -4592,7 +8985,7 @@
       "camera_km": null,
       "facing_deg": 30.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R066"
@@ -4610,7 +9003,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R067"
@@ -4628,7 +9021,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R068"
@@ -4646,7 +9039,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R069"
@@ -4664,7 +9057,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R070"
@@ -4682,7 +9075,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R071"
@@ -4700,7 +9093,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R072"
@@ -4718,7 +9111,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R073"
@@ -4736,7 +9129,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R074"
@@ -4754,7 +9147,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R075"
@@ -4772,7 +9165,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R076"
@@ -4790,7 +9183,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R077"
@@ -4808,7 +9201,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R078"
@@ -4826,7 +9219,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R079"
@@ -4844,7 +9237,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R080"
@@ -4862,7 +9255,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R081"
@@ -4880,7 +9273,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R082"
@@ -4898,7 +9291,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R083"
@@ -4916,7 +9309,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R084"
@@ -4934,7 +9327,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R085"
@@ -4952,7 +9345,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R086"
@@ -4970,7 +9363,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R087"
@@ -4988,7 +9381,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R088"
@@ -5006,7 +9399,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R089"
@@ -5024,7 +9417,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R090"
@@ -5042,7 +9435,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R091"
@@ -5060,7 +9453,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 32.0,
-      "half_fov_deg": 29.4,
+      "half_fov_deg": 25.1,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R092"
@@ -5078,7 +9471,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R093"
@@ -5096,7 +9489,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R094"
@@ -5114,7 +9507,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R095"
@@ -5132,7 +9525,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 28.0,
-      "half_fov_deg": 32.7,
+      "half_fov_deg": 28.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R096"
@@ -5150,7 +9543,7 @@
       "camera_km": null,
       "facing_deg": 225.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R097"
@@ -5168,7 +9561,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R098"
@@ -5186,7 +9579,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R099"
@@ -5204,7 +9597,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R100"
@@ -5222,7 +9615,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R101"
@@ -5240,7 +9633,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 32.0,
-      "half_fov_deg": 29.4,
+      "half_fov_deg": 25.1,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R102"
@@ -5258,7 +9651,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R103"
@@ -5276,7 +9669,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R104"
@@ -5294,7 +9687,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R105"
@@ -5312,7 +9705,7 @@
       "camera_km": null,
       "facing_deg": 225.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R106"
@@ -5330,7 +9723,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R107"
@@ -5348,7 +9741,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R108"
@@ -5366,7 +9759,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R109"
@@ -5384,7 +9777,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R110"
@@ -5402,7 +9795,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R111"
@@ -5420,7 +9813,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R112"
@@ -5438,7 +9831,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R113"
@@ -5456,7 +9849,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.4,
       "own_subjects": [
         "R114"
@@ -5474,7 +9867,7 @@
       "camera_km": null,
       "facing_deg": 135.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R115"
@@ -5492,7 +9885,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R116"
@@ -5510,7 +9903,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "R117"
@@ -5528,7 +9921,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R118"
@@ -5546,7 +9939,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 23.2,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R119"
@@ -5564,7 +9957,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 20.6,
       "camera_height_m": 1.6,
       "own_subjects": [
         "R120"
@@ -5582,7 +9975,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S01"
@@ -5600,7 +9993,7 @@
       "camera_km": null,
       "facing_deg": 180.0,
       "lens_mm": 85.0,
-      "half_fov_deg": 12.0,
+      "half_fov_deg": 13.9,
       "camera_height_m": 1.5,
       "own_subjects": [
         "S02"
@@ -5618,7 +10011,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 27.7,
       "camera_height_m": 1.7,
       "own_subjects": [
         "S03"
@@ -5636,7 +10029,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S04"
@@ -5654,7 +10047,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 22.8,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S05"
@@ -5672,7 +10065,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 22.8,
       "camera_height_m": 1.4,
       "own_subjects": [
         "S06"
@@ -5690,7 +10083,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 70.0,
-      "half_fov_deg": 14.4,
+      "half_fov_deg": 16.7,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S07"
@@ -5708,7 +10101,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 1.7,
       "own_subjects": [
         "S08"
@@ -5726,7 +10119,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S09"
@@ -5744,7 +10137,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 22.8,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S10"
@@ -5762,7 +10155,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 27.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "S11"
@@ -5780,7 +10173,7 @@
       "camera_km": null,
       "facing_deg": 270.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 22.8,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S12"
@@ -5798,7 +10191,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 22.8,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S13"
@@ -5816,7 +10209,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S14"
@@ -5834,7 +10227,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 22.8,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S15"
@@ -5852,7 +10245,7 @@
       "camera_km": null,
       "facing_deg": 90.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 22.8,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S16"
@@ -5870,7 +10263,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 22.8,
       "camera_height_m": 1.5,
       "own_subjects": [
         "S17"
@@ -5888,7 +10281,7 @@
       "camera_km": null,
       "facing_deg": 315.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S18"
@@ -5906,7 +10299,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 27.7,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S19"
@@ -5924,7 +10317,7 @@
       "camera_km": null,
       "facing_deg": 45.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 22.8,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S20"
@@ -5942,7 +10335,7 @@
       "camera_km": null,
       "facing_deg": 225.0,
       "lens_mm": 40.0,
-      "half_fov_deg": 24.2,
+      "half_fov_deg": 27.7,
       "camera_height_m": 1.5,
       "own_subjects": [
         "S21"
@@ -5960,7 +10353,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 22.8,
       "camera_height_m": 1.6,
       "own_subjects": [
         "S22"
@@ -5978,7 +10371,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 35.0,
-      "half_fov_deg": 27.2,
+      "half_fov_deg": 31.0,
       "camera_height_m": 1.5,
       "own_subjects": [
         "S23"
@@ -5996,7 +10389,7 @@
       "camera_km": null,
       "facing_deg": 0.0,
       "lens_mm": 50.0,
-      "half_fov_deg": 19.8,
+      "half_fov_deg": 22.8,
       "camera_height_m": 1.5,
       "own_subjects": [
         "S24"

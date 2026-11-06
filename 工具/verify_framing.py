@@ -15,7 +15,22 @@ ROOT = Path(__file__).resolve().parents[1]
 REG = json.loads((ROOT / '数据' / '城市空间名录.json').read_text(encoding='utf-8'))
 BYID = {e['id']: e for e in REG['entries']}
 LAKE = REG['lake']
-SENSOR_W = 36.0
+# C132：水平半幅宽不再是 36/2 这一个死数，而按拍摄条目自己的画幅从一个定标派生：
+# 各档共用的那一边是 1024 像素＝35 毫米全幅的短边 24 毫米，故 半幅宽 = 12 毫米 ×（水平边像素 ÷ 1024）。
+# 本闸门刻意自己抄一份类型→画幅表而不是 import 生成器（沿用工具/test_prompts.py 的镜像纪律：两侧一起改错才判得出红）。
+# 判红路径只有城市片区一条（1792×1024＝半幅宽 21 毫米）；其余类型的 half_fov 记进快照供对账，
+# 那些条目在视锥里检查的是它自己，偏角恒为 0，不随画幅口径变化，故竖幅地标的 12 毫米只活在生成器侧。
+FRAME_SHORT_EDGE_MM = 24.0
+FRAME_BASE_PX = 1024
+FRAME_WIDTH_PX_BY_TYPE = {'标志性建筑': 1536, '功能区': 1280, '居民区': 1280,
+                          '城市片区': 1792, '产业小镇': 1792, '特色村落': 1792}
+
+
+def frame_half_width_mm(typ):
+    px = FRAME_WIDTH_PX_BY_TYPE.get(typ)
+    if px is None:
+        raise SystemExit('条目类型 %s 没有画幅登记，闸门不允许空转判绿；先在 FRAME_WIDTH_PX_BY_TYPE 补一档' % typ)
+    return FRAME_SHORT_EDGE_MM / 2 * px / FRAME_BASE_PX
 
 ENTRY = re.compile(r'^##\s+([SDFLR]\d{2,3})\s+([^\n]+)\n', re.M)
 SECTION = re.compile(r'^\*\*([^*\n]+)\*\*：(.*)$', re.M)
@@ -98,7 +113,7 @@ for eid, entry in sorted(BYID.items()):
     lens = float(lens.group(1)) if lens else None
     alt = ALT.search(seg)
     alt = float(alt.group(1)) if alt else None
-    half_fov = math.degrees(math.atan(SENSOR_W / 2 / lens)) if lens else None
+    half_fov = math.degrees(math.atan(frame_half_width_mm(entry['type']) / lens)) if lens else None
 
     if entry['type'] == '城市片区':
         own = [e for e in REG['entries'] if e.get('parent') == eid and e['type'] == '标志性建筑']
@@ -157,8 +172,9 @@ gated = district_fail + other_fail if args.all else district_fail
 output = dict(
     rule='城市片区取景段须给出机位坐标、镜头焦距与离地高度：机位在本片区扇区角与半径带内、不无说明落水（落进钛马岛'
          '椭圆算干地，改按「须写明岛上位置」判，湖水面措辞不顶账）、'
-         '离地不低于20米、本片区全部下属标志性建筑落在按 atan(36/2/焦距) 算出的水平视锥内且留3°余量；'
-         '默认只判红城市片区，--all 把其余244条一并纳入。',
+         '离地不低于20米、本片区全部下属标志性建筑落在按本条目画幅派生的半幅宽算出的水平视锥内（定标与画幅表见本文件'
+         'FRAME_SHORT_EDGE_MM 与 FRAME_WIDTH_PX_BY_TYPE，不在句里抄第二个毫米数）且留3°余量；'
+         '默认只判红城市片区，--all 把其余条目一并纳入。',
     checked=len(results),
     framing_parsed=sum(1 for r in results if r['framing_found']),
     districts=len(districts),

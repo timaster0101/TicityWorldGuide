@@ -225,6 +225,92 @@ class ReviewSuiteTests(unittest.TestCase):
         self.run_suite()
         self.assertEqual(self.signed_verdict_ids(), [])
 
+    HALF_RE = re.compile(r"半视锥 (\d+\.\d)°")
+    FRAME_SHORT_EDGE_MM = 24.0
+    FRAME_BASE_PX = 1024
+
+    def suite_ids(self):
+        """套件的人口口径：只有带图格的条目才进工作单，待开图条没有可复算的期望。"""
+        return {it["id"] for it in self.manifest if it.get("image_file")}
+
+    def printed_half_angles(self):
+        """从工作单抠出每条打印的半视锥读数；套件侧的答案必须能被独立复算对拍。"""
+        out = {}
+        for eid, lines in self.item_blocks().items():
+            for line in lines:
+                if "半视锥" not in line:
+                    continue
+                m = self.HALF_RE.search(line)
+                if m:
+                    out[eid] = float(m.group(1))
+        return out
+
+    def frame_probe(self):
+        """闸门侧镜像：{id: (水平像素, 焦距)}。取景段的焦距只在【取景指令】这一行里找，
+        与套件同口径——跨行找会抓到别处的「毫米」，把对拍变成比谁抓得远。"""
+        out = {}
+        for path in sorted((self.root / "数据" / "开图提示词").glob("*.txt")):
+            text = path.read_text(encoding="utf-8")
+            head, body = text.split("## 提示词正文", 1)
+            px = re.search(r"建议尺寸：(\d+)x", head)
+            focal = re.search(r"【取景指令】[^\n]*?(\d+(?:\.\d+)?)\s*毫米", body)
+            eid = re.search(r"提示词｜(\S+?)\s", text).group(1)
+            rel = re.search(r"太阳相对方位：(-?\d+(?:\.\d+)?)°", head)
+            if px and focal and rel:
+                out[eid] = (int(px.group(1)), float(focal.group(1)))
+        return out
+
+    def expected_half_angles(self):
+        """闸门侧镜像：半幅宽＝12 毫米×本条「建议尺寸」行的水平像素÷1024，焦距取本条取景段。"""
+        import math
+        return {eid: round(math.degrees(math.atan(
+            self.FRAME_SHORT_EDGE_MM / 2 * width / self.FRAME_BASE_PX / focal)), 1)
+            for eid, (width, focal) in self.frame_probe().items()}
+
+    def test_the_sun_expectation_follows_each_items_own_frame_size(self):
+        """C132：套件侧的日面可纳性按本条画幅派生半幅宽，四档都要留下各自的答案，
+        且 5:4 与 7:4 两档必须给出与「统一 18 毫米」不同的读数——§48.3-H 说的就是这个缺口。"""
+        printed, want = self.printed_half_angles(), self.expected_half_angles()
+        want = {eid: v for eid, v in want.items() if eid in self.suite_ids()}
+        self.assertTrue(want, "套件侧算不出任何一条半视锥，判据空转")
+        for eid, value in want.items():
+            self.assertIn(eid, printed, "%s 的日面期望没写进工作单" % eid)
+            self.assertAlmostEqual(printed[eid], value, places=1,
+                                  msg="%s 打印 %s°，闸门侧按本条画幅算出 %s°" % (eid, printed[eid], value))
+        import math
+        buckets = {}
+        for eid, (width, focal) in self.frame_probe().items():
+            if eid in want:
+                old = round(math.degrees(math.atan(18.0 / focal)), 1)
+                buckets.setdefault(width, [0, 0])
+                buckets[width][0] += 1
+                buckets[width][1] += int(want[eid] != old)
+        self.assertEqual(sorted(buckets), [1024, 1280, 1536, 1792], "四档画幅没有各自进入套件的日面算式")
+        for width in (1280, 1792):
+            self.assertTrue(buckets[width][1], "%d 像素这一档与统一 18 毫米算出同一个数，档位形同虚设" % width)
+
+    def test_a_uniform_half_width_in_the_suite_is_caught(self):
+        """违例负测：把套件侧退回「全档共用 18 毫米」，本条判据必须报出 5:4、7:4 与竖幅三档；
+        恢复后归零。注入只改临时副本，真实仓库不受影响。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = "    half_width = FRAME_SHORT_EDGE_MM / 2 * int(px.group(1)) / FRAME_BASE_PX"
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在套件的半幅宽派生上")
+        self.script.write_text(pristine.replace(anchor, "    half_width = 18.0", 1), encoding="utf-8")
+        self.run_suite()
+        printed, want = self.printed_half_angles(), self.expected_half_angles()
+        want = {eid: v for eid, v in want.items() if eid in self.suite_ids()}
+        probe = self.frame_probe()
+        bad = {eid for eid in want if abs(printed.get(eid, -1.0) - want[eid]) > 0.05}
+        self.assertTrue(bad, "套件退回统一 18 毫米必须被这条判据判红")
+        widths = sorted({probe[eid][0] for eid in bad})
+        self.assertEqual(widths, [1024, 1280, 1792], "违例集合应当只落在竖幅／5:4／7:4 三档：%r" % widths)
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_suite()
+        printed, want = self.printed_half_angles(), self.expected_half_angles()
+        want = {eid: v for eid, v in want.items() if eid in self.suite_ids()}
+        self.assertEqual({eid for eid in want if abs(printed.get(eid, -1.0) - want[eid]) > 0.05}, set())
+
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -38,8 +38,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.456
+        "limit_deg": 28.0,
+        "slack_deg": 8.256
       },
       "issues": []
     },
@@ -59,8 +59,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -80,8 +80,8 @@
       "nearest_anchor_km": 0.45,
       "fov": {
         "offset_deg": -19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.456
+        "limit_deg": 28.0,
+        "slack_deg": 8.256
       },
       "issues": []
     },
@@ -101,8 +101,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 19.75,
-        "limit_deg": 24.2,
-        "slack_deg": 4.453
+        "limit_deg": 28.0,
+        "slack_deg": 8.253
       },
       "issues": []
     },
@@ -122,8 +122,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": -0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.188
+        "limit_deg": 28.0,
+        "slack_deg": 27.988
       },
       "issues": []
     },
@@ -143,8 +143,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": -19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.464
+        "limit_deg": 28.0,
+        "slack_deg": 8.264
       },
       "issues": []
     },
@@ -164,8 +164,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.464
+        "limit_deg": 28.0,
+        "slack_deg": 8.264
       },
       "issues": []
     },
@@ -185,8 +185,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": -0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.192
+        "limit_deg": 28.0,
+        "slack_deg": 27.992
       },
       "issues": []
     },
@@ -206,8 +206,8 @@
       "nearest_anchor_km": 0.415,
       "fov": {
         "offset_deg": -19.75,
-        "limit_deg": 24.2,
-        "slack_deg": 4.449
+        "limit_deg": 28.0,
+        "slack_deg": 8.249
       },
       "issues": []
     },
@@ -227,8 +227,8 @@
       "nearest_anchor_km": 0.415,
       "fov": {
         "offset_deg": 19.75,
-        "limit_deg": 24.2,
-        "slack_deg": 4.449
+        "limit_deg": 28.0,
+        "slack_deg": 8.249
       },
       "issues": []
     },
@@ -248,8 +248,8 @@
       "nearest_anchor_km": 0.45,
       "fov": {
         "offset_deg": 0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.192
+        "limit_deg": 28.0,
+        "slack_deg": 27.992
       },
       "issues": []
     },
@@ -269,8 +269,8 @@
       "nearest_anchor_km": 0.433,
       "fov": {
         "offset_deg": -19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.464
+        "limit_deg": 28.0,
+        "slack_deg": 8.264
       },
       "issues": []
     },
@@ -290,8 +290,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.464
+        "limit_deg": 28.0,
+        "slack_deg": 8.264
       },
       "issues": []
     },
@@ -311,8 +311,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": 0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.188
+        "limit_deg": 28.0,
+        "slack_deg": 27.988
       },
       "issues": []
     },
@@ -332,8 +332,8 @@
       "nearest_anchor_km": 0.45,
       "fov": {
         "offset_deg": -19.75,
-        "limit_deg": 24.2,
-        "slack_deg": 4.453
+        "limit_deg": 28.0,
+        "slack_deg": 8.253
       },
       "issues": []
     },
@@ -353,8 +353,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.456
+        "limit_deg": 28.0,
+        "slack_deg": 8.256
       },
       "issues": []
     },
@@ -374,8 +374,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -395,8 +395,8 @@
       "nearest_anchor_km": 0.45,
       "fov": {
         "offset_deg": -19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.456
+        "limit_deg": 28.0,
+        "slack_deg": 8.256
       },
       "issues": []
     },
@@ -416,8 +416,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 19.75,
-        "limit_deg": 24.2,
-        "slack_deg": 4.453
+        "limit_deg": 28.0,
+        "slack_deg": 8.253
       },
       "issues": []
     },
@@ -437,8 +437,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": -0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.188
+        "limit_deg": 28.0,
+        "slack_deg": 27.988
       },
       "issues": []
     },
@@ -458,8 +458,8 @@
       "nearest_anchor_km": 0.449,
       "fov": {
         "offset_deg": -19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.464
+        "limit_deg": 28.0,
+        "slack_deg": 8.264
       },
       "issues": []
     },
@@ -479,8 +479,8 @@
       "nearest_anchor_km": 0.449,
       "fov": {
         "offset_deg": 19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.464
+        "limit_deg": 28.0,
+        "slack_deg": 8.264
       },
       "issues": []
     },
@@ -500,8 +500,8 @@
       "nearest_anchor_km": 0.45,
       "fov": {
         "offset_deg": -0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.192
+        "limit_deg": 28.0,
+        "slack_deg": 27.992
       },
       "issues": []
     },
@@ -521,8 +521,8 @@
       "nearest_anchor_km": 0.449,
       "fov": {
         "offset_deg": -19.75,
-        "limit_deg": 24.2,
-        "slack_deg": 4.449
+        "limit_deg": 28.0,
+        "slack_deg": 8.249
       },
       "issues": []
     },
@@ -542,8 +542,8 @@
       "nearest_anchor_km": 0.415,
       "fov": {
         "offset_deg": 19.75,
-        "limit_deg": 24.2,
-        "slack_deg": 4.449
+        "limit_deg": 28.0,
+        "slack_deg": 8.249
       },
       "issues": []
     },
@@ -563,8 +563,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": 0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.192
+        "limit_deg": 28.0,
+        "slack_deg": 27.992
       },
       "issues": []
     },
@@ -584,8 +584,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": -19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.464
+        "limit_deg": 28.0,
+        "slack_deg": 8.264
       },
       "issues": []
     },
@@ -605,8 +605,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 19.74,
-        "limit_deg": 24.2,
-        "slack_deg": 4.464
+        "limit_deg": 28.0,
+        "slack_deg": 8.264
       },
       "issues": []
     },
@@ -626,8 +626,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": 0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.188
+        "limit_deg": 28.0,
+        "slack_deg": 27.988
       },
       "issues": []
     },
@@ -647,8 +647,8 @@
       "nearest_anchor_km": 0.45,
       "fov": {
         "offset_deg": -19.75,
-        "limit_deg": 24.2,
-        "slack_deg": 4.453
+        "limit_deg": 28.0,
+        "slack_deg": 8.253
       },
       "issues": []
     },
@@ -668,8 +668,8 @@
       "nearest_anchor_km": 1.25,
       "fov": {
         "offset_deg": 23.41,
-        "limit_deg": 24.2,
-        "slack_deg": 0.792
+        "limit_deg": 28.0,
+        "slack_deg": 4.592
       },
       "issues": []
     },
@@ -689,8 +689,8 @@
       "nearest_anchor_km": 1.25,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -710,8 +710,8 @@
       "nearest_anchor_km": 1.25,
       "fov": {
         "offset_deg": -23.41,
-        "limit_deg": 24.2,
-        "slack_deg": 0.792
+        "limit_deg": 28.0,
+        "slack_deg": 4.592
       },
       "issues": []
     },
@@ -731,8 +731,8 @@
       "nearest_anchor_km": 0.855,
       "fov": {
         "offset_deg": 23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.795
+        "limit_deg": 28.0,
+        "slack_deg": 4.595
       },
       "issues": []
     },
@@ -752,8 +752,8 @@
       "nearest_anchor_km": 0.75,
       "fov": {
         "offset_deg": 0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.189
+        "limit_deg": 28.0,
+        "slack_deg": 27.989
       },
       "issues": []
     },
@@ -773,8 +773,8 @@
       "nearest_anchor_km": 1.25,
       "fov": {
         "offset_deg": -23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.798
+        "limit_deg": 28.0,
+        "slack_deg": 4.598
       },
       "issues": []
     },
@@ -794,8 +794,8 @@
       "nearest_anchor_km": 0.855,
       "fov": {
         "offset_deg": 23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.8
+        "limit_deg": 28.0,
+        "slack_deg": 4.6
       },
       "issues": []
     },
@@ -815,8 +815,8 @@
       "nearest_anchor_km": 0.751,
       "fov": {
         "offset_deg": -0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -836,8 +836,8 @@
       "nearest_anchor_km": 0.854,
       "fov": {
         "offset_deg": -23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.801
+        "limit_deg": 28.0,
+        "slack_deg": 4.601
       },
       "issues": []
     },
@@ -857,8 +857,8 @@
       "nearest_anchor_km": 0.854,
       "fov": {
         "offset_deg": 23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.801
+        "limit_deg": 28.0,
+        "slack_deg": 4.601
       },
       "issues": []
     },
@@ -878,8 +878,8 @@
       "nearest_anchor_km": 0.751,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -899,8 +899,8 @@
       "nearest_anchor_km": 1.25,
       "fov": {
         "offset_deg": -23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.8
+        "limit_deg": 28.0,
+        "slack_deg": 4.6
       },
       "issues": []
     },
@@ -920,8 +920,8 @@
       "nearest_anchor_km": 1.267,
       "fov": {
         "offset_deg": 23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.798
+        "limit_deg": 28.0,
+        "slack_deg": 4.598
       },
       "issues": []
     },
@@ -941,8 +941,8 @@
       "nearest_anchor_km": 0.75,
       "fov": {
         "offset_deg": -0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.189
+        "limit_deg": 28.0,
+        "slack_deg": 27.989
       },
       "issues": []
     },
@@ -962,8 +962,8 @@
       "nearest_anchor_km": 1.25,
       "fov": {
         "offset_deg": -23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.795
+        "limit_deg": 28.0,
+        "slack_deg": 4.595
       },
       "issues": []
     },
@@ -983,8 +983,8 @@
       "nearest_anchor_km": 0.855,
       "fov": {
         "offset_deg": 23.41,
-        "limit_deg": 24.2,
-        "slack_deg": 0.792
+        "limit_deg": 28.0,
+        "slack_deg": 4.592
       },
       "issues": []
     },
@@ -1004,8 +1004,8 @@
       "nearest_anchor_km": 0.75,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -1025,8 +1025,8 @@
       "nearest_anchor_km": 0.855,
       "fov": {
         "offset_deg": -23.41,
-        "limit_deg": 24.2,
-        "slack_deg": 0.792
+        "limit_deg": 28.0,
+        "slack_deg": 4.592
       },
       "issues": []
     },
@@ -1046,8 +1046,8 @@
       "nearest_anchor_km": 1.25,
       "fov": {
         "offset_deg": 23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.795
+        "limit_deg": 28.0,
+        "slack_deg": 4.595
       },
       "issues": []
     },
@@ -1067,8 +1067,8 @@
       "nearest_anchor_km": 0.75,
       "fov": {
         "offset_deg": 0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.189
+        "limit_deg": 28.0,
+        "slack_deg": 27.989
       },
       "issues": []
     },
@@ -1088,8 +1088,8 @@
       "nearest_anchor_km": 1.25,
       "fov": {
         "offset_deg": -23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.798
+        "limit_deg": 28.0,
+        "slack_deg": 4.598
       },
       "issues": []
     },
@@ -1109,8 +1109,8 @@
       "nearest_anchor_km": 0.855,
       "fov": {
         "offset_deg": 23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.8
+        "limit_deg": 28.0,
+        "slack_deg": 4.6
       },
       "issues": []
     },
@@ -1130,8 +1130,8 @@
       "nearest_anchor_km": 0.751,
       "fov": {
         "offset_deg": -0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -1151,8 +1151,8 @@
       "nearest_anchor_km": 0.854,
       "fov": {
         "offset_deg": -23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.801
+        "limit_deg": 28.0,
+        "slack_deg": 4.601
       },
       "issues": []
     },
@@ -1172,8 +1172,8 @@
       "nearest_anchor_km": 0.854,
       "fov": {
         "offset_deg": 23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.801
+        "limit_deg": 28.0,
+        "slack_deg": 4.601
       },
       "issues": []
     },
@@ -1193,8 +1193,8 @@
       "nearest_anchor_km": 0.751,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -1214,8 +1214,8 @@
       "nearest_anchor_km": 1.25,
       "fov": {
         "offset_deg": -23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.8
+        "limit_deg": 28.0,
+        "slack_deg": 4.6
       },
       "issues": []
     },
@@ -1235,8 +1235,8 @@
       "nearest_anchor_km": 1.25,
       "fov": {
         "offset_deg": 23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.798
+        "limit_deg": 28.0,
+        "slack_deg": 4.598
       },
       "issues": []
     },
@@ -1256,8 +1256,8 @@
       "nearest_anchor_km": 0.75,
       "fov": {
         "offset_deg": -0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.189
+        "limit_deg": 28.0,
+        "slack_deg": 27.989
       },
       "issues": []
     },
@@ -1277,8 +1277,8 @@
       "nearest_anchor_km": 1.25,
       "fov": {
         "offset_deg": -23.4,
-        "limit_deg": 24.2,
-        "slack_deg": 0.795
+        "limit_deg": 28.0,
+        "slack_deg": 4.595
       },
       "issues": []
     },
@@ -1298,8 +1298,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -1319,8 +1319,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 10.93,
-        "limit_deg": 24.2,
-        "slack_deg": 13.269
+        "limit_deg": 28.0,
+        "slack_deg": 17.069
       },
       "issues": []
     },
@@ -1340,8 +1340,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": -0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.198
+        "limit_deg": 28.0,
+        "slack_deg": 27.998
       },
       "issues": []
     },
@@ -1361,8 +1361,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 10.95,
-        "limit_deg": 24.2,
-        "slack_deg": 13.253
+        "limit_deg": 28.0,
+        "slack_deg": 17.053
       },
       "issues": []
     },
@@ -1382,8 +1382,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": -10.94,
-        "limit_deg": 24.2,
-        "slack_deg": 13.264
+        "limit_deg": 28.0,
+        "slack_deg": 17.064
       },
       "issues": []
     },
@@ -1403,8 +1403,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": -0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.198
+        "limit_deg": 28.0,
+        "slack_deg": 27.998
       },
       "issues": []
     },
@@ -1424,8 +1424,8 @@
       "nearest_anchor_km": 0.361,
       "fov": {
         "offset_deg": 10.93,
-        "limit_deg": 24.2,
-        "slack_deg": 13.268
+        "limit_deg": 28.0,
+        "slack_deg": 17.068
       },
       "issues": []
     },
@@ -1445,8 +1445,8 @@
       "nearest_anchor_km": 0.415,
       "fov": {
         "offset_deg": -10.93,
-        "limit_deg": 24.2,
-        "slack_deg": 13.27
+        "limit_deg": 28.0,
+        "slack_deg": 17.07
       },
       "issues": []
     },
@@ -1466,8 +1466,8 @@
       "nearest_anchor_km": 0.378,
       "fov": {
         "offset_deg": 20.27,
-        "limit_deg": 24.2,
-        "slack_deg": 3.932
+        "limit_deg": 28.0,
+        "slack_deg": 7.732
       },
       "issues": []
     },
@@ -1487,8 +1487,8 @@
       "nearest_anchor_km": 0.521,
       "fov": {
         "offset_deg": 22.24,
-        "limit_deg": 24.2,
-        "slack_deg": 1.957
+        "limit_deg": 28.0,
+        "slack_deg": 5.757
       },
       "issues": []
     },
@@ -1508,8 +1508,8 @@
       "nearest_anchor_km": 0.52,
       "fov": {
         "offset_deg": -22.24,
-        "limit_deg": 24.2,
-        "slack_deg": 1.956
+        "limit_deg": 28.0,
+        "slack_deg": 5.756
       },
       "issues": []
     },
@@ -1529,8 +1529,8 @@
       "nearest_anchor_km": 0.361,
       "fov": {
         "offset_deg": 12.74,
-        "limit_deg": 24.2,
-        "slack_deg": 11.463
+        "limit_deg": 28.0,
+        "slack_deg": 15.263
       },
       "issues": []
     },
@@ -1550,8 +1550,8 @@
       "nearest_anchor_km": 0.415,
       "fov": {
         "offset_deg": 10.93,
-        "limit_deg": 24.2,
-        "slack_deg": 13.27
+        "limit_deg": 28.0,
+        "slack_deg": 17.07
       },
       "issues": []
     },
@@ -1571,8 +1571,8 @@
       "nearest_anchor_km": 0.433,
       "fov": {
         "offset_deg": -20.27,
-        "limit_deg": 24.2,
-        "slack_deg": 3.932
+        "limit_deg": 28.0,
+        "slack_deg": 7.732
       },
       "issues": []
     },
@@ -1592,8 +1592,8 @@
       "nearest_anchor_km": 0.419,
       "fov": {
         "offset_deg": 11.73,
-        "limit_deg": 24.2,
-        "slack_deg": 12.467
+        "limit_deg": 28.0,
+        "slack_deg": 16.267
       },
       "issues": []
     },
@@ -1613,8 +1613,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.198
+        "limit_deg": 28.0,
+        "slack_deg": 27.998
       },
       "issues": []
     },
@@ -1634,8 +1634,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 10.94,
-        "limit_deg": 24.2,
-        "slack_deg": 13.264
+        "limit_deg": 28.0,
+        "slack_deg": 17.064
       },
       "issues": []
     },
@@ -1655,8 +1655,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -1676,8 +1676,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 10.93,
-        "limit_deg": 24.2,
-        "slack_deg": 13.269
+        "limit_deg": 28.0,
+        "slack_deg": 17.069
       },
       "issues": []
     },
@@ -1697,8 +1697,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": -0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.198
+        "limit_deg": 28.0,
+        "slack_deg": 27.998
       },
       "issues": []
     },
@@ -1718,8 +1718,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 10.95,
-        "limit_deg": 24.2,
-        "slack_deg": 13.253
+        "limit_deg": 28.0,
+        "slack_deg": 17.053
       },
       "issues": []
     },
@@ -1739,8 +1739,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.198
+        "limit_deg": 28.0,
+        "slack_deg": 27.998
       },
       "issues": []
     },
@@ -1760,8 +1760,8 @@
       "nearest_anchor_km": 0.415,
       "fov": {
         "offset_deg": 10.93,
-        "limit_deg": 24.2,
-        "slack_deg": 13.27
+        "limit_deg": 28.0,
+        "slack_deg": 17.07
       },
       "issues": []
     },
@@ -1781,8 +1781,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": -10.93,
-        "limit_deg": 24.2,
-        "slack_deg": 13.268
+        "limit_deg": 28.0,
+        "slack_deg": 17.068
       },
       "issues": []
     },
@@ -1802,8 +1802,8 @@
       "nearest_anchor_km": 0.433,
       "fov": {
         "offset_deg": -20.27,
-        "limit_deg": 24.2,
-        "slack_deg": 3.932
+        "limit_deg": 28.0,
+        "slack_deg": 7.732
       },
       "issues": []
     },
@@ -1823,8 +1823,8 @@
       "nearest_anchor_km": 0.52,
       "fov": {
         "offset_deg": 22.24,
-        "limit_deg": 24.2,
-        "slack_deg": 1.956
+        "limit_deg": 28.0,
+        "slack_deg": 5.756
       },
       "issues": []
     },
@@ -1844,8 +1844,8 @@
       "nearest_anchor_km": 0.521,
       "fov": {
         "offset_deg": -22.24,
-        "limit_deg": 24.2,
-        "slack_deg": 1.957
+        "limit_deg": 28.0,
+        "slack_deg": 5.757
       },
       "issues": []
     },
@@ -1865,8 +1865,8 @@
       "nearest_anchor_km": 0.35,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.198
+        "limit_deg": 28.0,
+        "slack_deg": 27.998
       },
       "issues": []
     },
@@ -1886,8 +1886,8 @@
       "nearest_anchor_km": 0.414,
       "fov": {
         "offset_deg": 10.94,
-        "limit_deg": 24.2,
-        "slack_deg": 13.264
+        "limit_deg": 28.0,
+        "slack_deg": 17.064
       },
       "issues": []
     },
@@ -1907,8 +1907,8 @@
       "nearest_anchor_km": 0.75,
       "fov": {
         "offset_deg": 0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.192
+        "limit_deg": 28.0,
+        "slack_deg": 27.992
       },
       "issues": []
     },
@@ -1928,8 +1928,8 @@
       "nearest_anchor_km": 0.83,
       "fov": {
         "offset_deg": 12.29,
-        "limit_deg": 24.2,
-        "slack_deg": 11.911
+        "limit_deg": 28.0,
+        "slack_deg": 15.711
       },
       "issues": []
     },
@@ -1949,8 +1949,8 @@
       "nearest_anchor_km": 0.751,
       "fov": {
         "offset_deg": -0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -1970,8 +1970,8 @@
       "nearest_anchor_km": 0.83,
       "fov": {
         "offset_deg": 12.3,
-        "limit_deg": 24.2,
-        "slack_deg": 11.903
+        "limit_deg": 28.0,
+        "slack_deg": 15.703
       },
       "issues": []
     },
@@ -1991,8 +1991,8 @@
       "nearest_anchor_km": 0.831,
       "fov": {
         "offset_deg": -12.29,
-        "limit_deg": 24.2,
-        "slack_deg": 11.908
+        "limit_deg": 28.0,
+        "slack_deg": 15.708
       },
       "issues": []
     },
@@ -2012,8 +2012,8 @@
       "nearest_anchor_km": 0.83,
       "fov": {
         "offset_deg": 22.5,
-        "limit_deg": 24.2,
-        "slack_deg": 1.698
+        "limit_deg": 28.0,
+        "slack_deg": 5.498
       },
       "issues": []
     },
@@ -2033,8 +2033,8 @@
       "nearest_anchor_km": 0.751,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -2054,8 +2054,8 @@
       "nearest_anchor_km": 0.831,
       "fov": {
         "offset_deg": 12.29,
-        "limit_deg": 24.2,
-        "slack_deg": 11.908
+        "limit_deg": 28.0,
+        "slack_deg": 15.708
       },
       "issues": []
     },
@@ -2075,8 +2075,8 @@
       "nearest_anchor_km": 0.75,
       "fov": {
         "offset_deg": -0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.192
+        "limit_deg": 28.0,
+        "slack_deg": 27.992
       },
       "issues": []
     },
@@ -2096,8 +2096,8 @@
       "nearest_anchor_km": 0.75,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -2117,8 +2117,8 @@
       "nearest_anchor_km": 0.831,
       "fov": {
         "offset_deg": 12.29,
-        "limit_deg": 24.2,
-        "slack_deg": 11.906
+        "limit_deg": 28.0,
+        "slack_deg": 15.706
       },
       "issues": []
     },
@@ -2138,8 +2138,8 @@
       "nearest_anchor_km": 0.831,
       "fov": {
         "offset_deg": -12.29,
-        "limit_deg": 24.2,
-        "slack_deg": 11.906
+        "limit_deg": 28.0,
+        "slack_deg": 15.706
       },
       "issues": []
     },
@@ -2159,8 +2159,8 @@
       "nearest_anchor_km": 0.75,
       "fov": {
         "offset_deg": 0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.192
+        "limit_deg": 28.0,
+        "slack_deg": 27.992
       },
       "issues": []
     },
@@ -2180,8 +2180,8 @@
       "nearest_anchor_km": 0.751,
       "fov": {
         "offset_deg": -0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -2201,8 +2201,8 @@
       "nearest_anchor_km": 0.831,
       "fov": {
         "offset_deg": 12.3,
-        "limit_deg": 24.2,
-        "slack_deg": 11.903
+        "limit_deg": 28.0,
+        "slack_deg": 15.703
       },
       "issues": []
     },
@@ -2222,8 +2222,8 @@
       "nearest_anchor_km": 0.831,
       "fov": {
         "offset_deg": -12.29,
-        "limit_deg": 24.2,
-        "slack_deg": 11.908
+        "limit_deg": 28.0,
+        "slack_deg": 15.708
       },
       "issues": []
     },
@@ -2243,8 +2243,8 @@
       "nearest_anchor_km": 0.751,
       "fov": {
         "offset_deg": 0.0,
-        "limit_deg": 24.2,
-        "slack_deg": 24.2
+        "limit_deg": 28.0,
+        "slack_deg": 28.0
       },
       "issues": []
     },
@@ -2264,8 +2264,8 @@
       "nearest_anchor_km": 0.831,
       "fov": {
         "offset_deg": 12.29,
-        "limit_deg": 24.2,
-        "slack_deg": 11.908
+        "limit_deg": 28.0,
+        "slack_deg": 15.708
       },
       "issues": []
     },
@@ -2285,8 +2285,8 @@
       "nearest_anchor_km": 0.75,
       "fov": {
         "offset_deg": -0.01,
-        "limit_deg": 24.2,
-        "slack_deg": 24.192
+        "limit_deg": 28.0,
+        "slack_deg": 27.992
       },
       "issues": []
     }

@@ -17,6 +17,49 @@ INPUTS = ("AI地点知识库.json", "参考房价租金.json", "城市空间名�
 BANNED_UNIQUE_TOWER = ("唯一超过200米", "唯一超过两百米", "唯一超200米",
                        "第二座超两百米塔", "第二座超过200米", "第二座超200米", "唯一368米地标")
 
+# C123 投放基线的逐条摘要存档。C125／C126 用它钉「判据侧改动不许动画面串」；
+# C132 是基线之后第一条**合法**改了画面串的裁定，所以这条比对必须按 C132 的口径把它的
+# 覆盖面现算出来再排除，而不是把断言整条删掉——删掉就再没人管其后新增的静默换串。
+C123_DIGESTS = ("工具", "reinject_2026_11_05", "prompt_digests_c123.json")
+C132_REPRINTED_SIZES = ("1280x1024", "1792x1024")
+HALF_ANGLE_PRINTS = ("degree half-angle", "水平半视锥")
+
+
+def manifest_items(root=ROOT):
+    return json.loads((root / "数据" / "开图清单.json").read_text(encoding="utf-8"))["items"]
+
+
+def prompt_files(root=ROOT):
+    out = {}
+    for path in sorted((root / "数据" / "开图提示词").glob("*.txt")):
+        out[path.name.split("-", 1)[0]] = path
+    return out
+
+
+def prompt_digest_moves(root=ROOT, items=None):
+    """相对 C123 基线换了 prompt_sha256 的条目 id（顺序随清单）；manifest 可注入以便负测。"""
+    snapshot = json.loads((root / Path(*C123_DIGESTS)).read_text(encoding="utf-8"))["items"]
+    items = manifest_items(root) if items is None else items
+    return [m["id"] for m in items if m["prompt_sha256"] != snapshot[m["id"]]["after"]]
+
+
+def c132_reprinted_ids(root=ROOT):
+    """C132 能改到的条：只有 5:4 与 7:4 两档，且只有正文真打印了半视锥读数的条。
+    3:2 横幅与 2:3 竖幅在同一定标下读数一字不变（1536→18 毫米、1024→12 毫米，与 C99／C118 已裁值相同），
+    labeled variant 里取景段自换太阳的条按 C111 走静态句、根本没有这个读数。
+    集合从清单的 size 与产物正文现读，不抄条数——抄了就又是下一轮过期的第二个数字。"""
+    files = prompt_files(root)
+    return [it["id"] for it in manifest_items(root)
+            if it["size"] in C132_REPRINTED_SIZES
+            and it["id"] in files
+            and any(tok in files[it["id"]].read_text(encoding="utf-8") for tok in HALF_ANGLE_PRINTS)]
+
+
+def moves_outside_c132(root=ROOT, items=None):
+    """既换了串、又不在 C132 覆盖面里的条目——C125／C126 那类「判据侧改动」的违例就长这样。"""
+    return sorted(set(prompt_digest_moves(root, items)) - set(c132_reprinted_ids(root)))
+
+
 
 class BuildPromptsTests(unittest.TestCase):
     # C91 形态规则在闸门侧另算一份，刻意不 import 生成器常量：那样两边一起改错就判不出红。
@@ -226,7 +269,8 @@ class BuildPromptsTests(unittest.TestCase):
             dist = math.hypot(float(cam.group(1)) - center[0], float(cam.group(2)) - center[1]) * 1000
             elevation = float(eye.group(1))
             needed = math.degrees(math.atan2(elevation, dist) + math.atan2(height - elevation, dist))
-            frame = math.degrees(2 * math.atan(18 / float(lens.group(1))))
+            frame = math.degrees(2 * math.atan(self.FRAME_SHORT_EDGE_MM / 2 * 1536 / self.FRAME_BASE_PX
+                                                / float(lens.group(1))))
             if needed > frame:
                 violations.append((item["id"], named, round(needed, 1), round(frame, 1)))
         return violations
@@ -480,10 +524,15 @@ class BuildPromptsTests(unittest.TestCase):
     SUN_REPLACED_TOKENS = ("不沿用", "不套用", "不套入", "不调用", "而非", "不额外放入")
     SUN_ABSENT_BASELINE_TOKENS = ("夜景", "夜间", "入夜", "清晨", "阴天")
     SUN_LOCK_PREFIX = "本条沿用255°黄昏太阳"
-    # C118：水平半视锥的画幅口径在闸门侧独立抄一份——生成器把竖幅的半幅宽从 18 毫米收到 12 毫米，
-    # 闸门侧必须自己按画幅重算，两边一起改错才判不出红。竖幅判据复用 C91 的形态规则（PORTRAIT_*）。
-    FRAME_HALF_WIDTH_MM = 18.0
-    PORTRAIT_FRAME_HALF_WIDTH_MM = 12.0
+    # C118 把竖幅的半幅宽从 18 毫米收到 12 毫米，代价是分档常量从一个变成两个，而 5:4 与 7:4 仍共用 18 毫米；
+    # C132 把它收成一条算式：各档共用的那一边是 1024 像素，等于 35 毫米全幅的短边 24 毫米，
+    # 半幅宽 = 12 毫米 ×（参与水平视场的那一边像素 ÷ 1024）。闸门侧独立抄一份定标与分档表，不 import 生成器——
+    # 两边一起改错才判不出红；两边各抄一份而一方改了，正是这条判据要抓的缺陷。
+    FRAME_SHORT_EDGE_MM = 24.0
+    FRAME_BASE_PX = 1024
+    FRAME_WIDTH_PX_BY_TYPE = {"标志性建筑": 1536, "功能区": 1280, "居民区": 1280,
+                              "城市片区": 1792, "产业小镇": 1792, "特色村落": 1792}
+    PORTRAIT_FRAME_WIDTH_PX = 1024
     # C118 的实测分档：竖幅口径收窄后，L063（24毫米、rel 30°）从「可纳」翻到「画外」，
     # 故 61 条太阳可入画、241 条必须留在画外、10 条取景段自换太阳故仍走静态句。
     SUN_BRANCH_COUNTS = {"in": 61, "out": 241, "fallback": 10}
@@ -497,8 +546,16 @@ class BuildPromptsTests(unittest.TestCase):
                            "the only thing that can put it in the picture")
     FAR_ADMIT_OLD_WORDING = "so it may read in the far view"
 
-    def frame_half_angle(self, focal, portrait):
-        half = self.PORTRAIT_FRAME_HALF_WIDTH_MM if portrait else self.FRAME_HALF_WIDTH_MM
+    def frame_width_px(self, eid, towers=None):
+        """本条参与水平视场的那一边像素：竖幅按 C91 的形态规则（PORTRAIT_*）把 1024 这一边横过来放，
+        横幅取本类型自己的水平边。画幅不读产物，闸门侧自己推一遍。"""
+        towers = self.expected_portrait_ids() if towers is None else towers
+        if eid in towers:
+            return self.PORTRAIT_FRAME_WIDTH_PX
+        return self.FRAME_WIDTH_PX_BY_TYPE[self.items[eid]["type"]]
+
+    def frame_half_angle(self, focal, width_px):
+        half = self.FRAME_SHORT_EDGE_MM / 2 * width_px / self.FRAME_BASE_PX
         return math.degrees(math.atan(half / focal))
 
     def focal_of(self, eid):
@@ -522,12 +579,12 @@ class BuildPromptsTests(unittest.TestCase):
         rel, focal = item.get("sun_relative_deg"), self.focal_of(eid)
         if rel is None or not focal:
             return "fallback"
-        return "in" if abs(rel) <= self.frame_half_angle(focal, eid in towers) else "out"
+        return "in" if abs(rel) <= self.frame_half_angle(focal, self.frame_width_px(eid, towers)) else "out"
 
     def expected_sun_lock(self, eid, towers):
         """C111 段内复述句的镜像重抄：侧别、度数与半视锥都由闸门侧从名录另算一遍（C118 起按画幅取半幅宽）。"""
         rel, focal = self.items[eid]["sun_relative_deg"], self.focal_of(eid)
-        half = self.frame_half_angle(focal, eid in towers)
+        half = self.frame_half_angle(focal, self.frame_width_px(eid, towers))
         return ("太阳相对本条机位偏%s%d°，在%g毫米镜头的±%.1f°水平半视锥之外，"
                 "日面、落日辉光与镜头光斑一律不入画，只画取景段所述的光向、受光面与投影"
                 % ("左" if rel < 0 else "右", round(abs(rel)), focal, half))
@@ -618,19 +675,19 @@ class BuildPromptsTests(unittest.TestCase):
                          ["R054", "R063", "R066"])
 
     def test_dropping_the_sun_admissibility_phrase_is_caught_by_the_new_gate(self):
-        """违例负测：把 D11（rel 75°、半视锥 27.2°）的算式结果退回 C99 之前的静态句，
+        """违例负测：把 D11（rel 75°、半视锥按 7:4 的 21 毫米给 31.0°）的算式结果退回 C99 之前的静态句，
         新判据必须只给出这一条；画风／双层／人群等既有断言仍为绿，证明该缺陷要靠新判据才抓得住。
         变异对照：恢复原文后同一判据归零。注入只改临时副本，真实仓库不受影响。"""
         towers = self.expected_portrait_ids()
         pristine = self.script.read_text(encoding="utf-8")
-        anchor = "                     sun_frame_phrase(rel, focal_mm(取景), portrait,"
+        anchor = "                     sun_frame_phrase(rel, focal_mm(取景), size,"
         self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在 tail 的日面句上")
         # 注入只改 D11 一条的 variant 实参，其余 311 条的调用与实参逐字不变。
         # （早先写成把整段换成三元表达式，会把下一行的 variant 实参挤成元组第二项，
         # 于是 16 条时段变体条一起退算式——那条红是注入自身的错，不是判据抓到的缺陷。）
         self.script.write_text(
             pristine.replace(anchor,
-                             '                     sun_frame_phrase(rel, focal_mm(取景), portrait,'
+                             '                     sun_frame_phrase(rel, focal_mm(取景), size,'
                              ' True if eid == "D11" else', 1),
             encoding="utf-8")
         self.run_generator()
@@ -649,10 +706,10 @@ class BuildPromptsTests(unittest.TestCase):
         变异对照：恢复原文后两条判据同时归零。注入只改临时副本，真实仓库不受影响。"""
         towers = self.expected_portrait_ids()
         pristine = self.script.read_text(encoding="utf-8")
-        anchor = "if abs(_rel) > frame_half_angle(_focal, portrait):"
+        anchor = "if abs(_rel) > frame_half_angle(_focal, size):"
         self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在 C111 的段内复述上")
         self.script.write_text(
-            pristine.replace(anchor, 'if eid != "R054" and abs(_rel) > frame_half_angle(_focal, portrait):', 1),
+            pristine.replace(anchor, 'if eid != "R054" and abs(_rel) > frame_half_angle(_focal, size):', 1),
             encoding="utf-8")
         self.run_generator()
         self.assertEqual(self.sun_lock_violations(towers), [("R054", "want")])
@@ -876,7 +933,7 @@ class BuildPromptsTests(unittest.TestCase):
                     % (sid, entry["name"])), "static"
         b = math.degrees(math.atan2(entry["center_km"][0] - cam[0], entry["center_km"][1] - cam[1])) % 360
         rel = (b - facing + 540) % 360 - 180
-        half = self.frame_half_angle(focal, eid in towers)
+        half = self.frame_half_angle(focal, self.frame_width_px(eid, towers))
         side = "right" if rel > 0 else "left"
         if abs(rel) <= half:
             # C118：框内那句只许可形制、不许可入画，镜像串把这段优先次序一起钉住。
@@ -944,7 +1001,8 @@ class BuildPromptsTests(unittest.TestCase):
                    ("L087", "L066"), ("L090", "L007"), ("L090", "L066"), ("L092", "L007"), ("L099", "L066")}
         got = {(eid, sid) for eid in self.items for sid in self.NAMED_SUPERTALLS
                if self.form_expectation(eid, sid, towers) == "outside"
-               and abs(self.bg_offset(eid, sid, towers)) <= self.frame_half_angle(self.focal_of(eid), False)}
+               and abs(self.bg_offset(eid, sid, towers)) <= self.frame_half_angle(
+                   self.focal_of(eid), self.FRAME_WIDTH_PX_BY_TYPE["标志性建筑"]) }
         self.assertEqual(got, flipped, "竖幅收窄翻到框外的十组对不上：多一组就是偷偷多关几根塔，少一组就是没收窄")
         # C118：框内那句只许可形制、不许可入画；旧的入许可措辞回到任何一条都算违例。
         for eid in sorted(self.items):
@@ -965,11 +1023,11 @@ class BuildPromptsTests(unittest.TestCase):
         """违例负测：只把 D03 传给远景算式的朝向转 180°（等于替它挑一个反方向的机位），
         新判据必须只给出 D03 的两根超高层，其余 311 条不受影响；恢复后归零。"""
         pristine = self.script.read_text(encoding="utf-8")
-        anchor = "                     background_phrase(eid, 取景, facing, portrait),"
+        anchor = "                     background_phrase(eid, 取景, facing, size),"
         self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在 tail 的远景句上")
         self.script.write_text(
             pristine.replace(anchor,
-                             '                     background_phrase(eid, 取景, facing if eid != "D03" else (facing + 180) % 360, portrait),', 1),
+                             '                     background_phrase(eid, 取景, facing if eid != "D03" else (facing + 180) % 360, size),', 1),
             encoding="utf-8")
         self.run_generator()
         violations = self.bg_violations()
@@ -1252,43 +1310,101 @@ class BuildPromptsTests(unittest.TestCase):
             if not m:
                 out.append((eid, "算式句里读不到半角度数"))
                 continue
-            want = round(self.frame_half_angle(self.focal_of(eid), eid in towers))
+            want = round(self.frame_half_angle(self.focal_of(eid), self.frame_width_px(eid, towers)))
             if int(m.group(1)) != want:
                 out.append((eid, int(m.group(1)), want))
         return out
 
     def test_the_printed_half_angle_follows_the_frame_aspect(self):
-        """C118：竖幅与横幅各按自己的半幅宽打印半视锥。竖幅 32 毫米必须是 21°（不是 29°）、
-        24 毫米必须是 27°（不是 37°）；横幅同焦距仍按 18 毫米口径——只许动竖幅这一个变量。"""
+        """C118 立的两档读数（竖幅 32 毫米 20.6°、3:2 横幅 29.4°）与 C132 新收的两档（5:4 的 25.1°
+        与 7:4 的 33.3°）必须同时按派生式打印。"""
         towers = self.expected_portrait_ids()
         self.assertEqual(self.sun_half_angle_violations(towers), [])
         with self.subTest(portrait="32mm 竖幅"):
-            self.assertAlmostEqual(self.frame_half_angle(32.0, True), 20.6, places=1)
-            self.assertAlmostEqual(self.frame_half_angle(32.0, False), 29.4, places=1)
+            self.assertAlmostEqual(self.frame_half_angle(32.0, self.PORTRAIT_FRAME_WIDTH_PX), 20.6, places=1)
+            self.assertAlmostEqual(self.frame_half_angle(32.0, self.FRAME_WIDTH_PX_BY_TYPE["标志性建筑"]),
+                                   29.4, places=1)
         with self.subTest(portrait="24mm 竖幅"):
-            self.assertAlmostEqual(self.frame_half_angle(24.0, True), 26.6, places=1)
-            self.assertAlmostEqual(self.frame_half_angle(24.0, False), 36.9, places=1)
+            self.assertAlmostEqual(self.frame_half_angle(24.0, self.PORTRAIT_FRAME_WIDTH_PX), 26.6, places=1)
+            self.assertAlmostEqual(self.frame_half_angle(24.0, self.FRAME_WIDTH_PX_BY_TYPE["标志性建筑"]),
+                                   36.9, places=1)
+        with self.subTest(new_tiers="5:4 与 7:4 各有各的半幅宽"):
+            self.assertAlmostEqual(self.frame_half_angle(32.0, self.FRAME_WIDTH_PX_BY_TYPE["功能区"]),
+                                   25.1, places=1)
+            self.assertAlmostEqual(self.frame_half_angle(32.0, self.FRAME_WIDTH_PX_BY_TYPE["城市片区"]),
+                                   33.3, places=1)
         # 竖幅与横幅各挑一条实测：L083（32毫米竖幅）与 D06（35毫米横幅）打印值必须分属两个口径
         self.assertIn("outside this frame's 21 degree half-angle", self.prompt("L083"))
-        self.assertIn("inside the 27 degree half-angle", self.prompt("D06"))
+        self.assertIn("inside the 31 degree half-angle", self.prompt("D06"))
 
-    def test_portrait_prompts_rolled_back_to_the_wide_half_angle_are_caught(self):
-        """违例负测：只把竖幅的半幅宽从 12 毫米退回 18 毫米（生成器常量单点），
-        新判据必须报出竖幅算式条、且一条横幅条都不许被牵连——横幅口径本轮没动。
-        变异对照：恢复后归零。注入只改临时副本，真实仓库不受影响。"""
-        pristine = self.script.read_text(encoding="utf-8")
-        anchor = "PORTRAIT_FRAME_HALF_WIDTH_MM = 12.0"
-        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在 C118 的竖幅半幅宽上")
-        self.script.write_text(pristine.replace(anchor, "PORTRAIT_FRAME_HALF_WIDTH_MM = 18.0", 1), encoding="utf-8")
-        self.run_generator()
+    def test_every_bucket_prints_the_half_angle_of_its_own_frame(self):
+        """C132 的正测：四个画幅档各自打印自己那一条派生式给出的半视锥，且同定标下四档读数互不相等。
+        §48.3-H 登记的缺口就在这儿——5:4 这一档此前在测试全文命中 0，只断言过 aspect 串里有「5:4」。"""
         towers = self.expected_portrait_ids()
-        violations = self.sun_half_angle_violations(towers)
-        self.assertTrue(violations, "竖幅退回横幅口径必须被这条判据判红")
-        self.assertTrue(set(v[0] for v in violations) <= towers, "非竖幅条被横幅口径的注入牵连了")
-        self.assertIn("L083", {v[0] for v in violations})
-        self.script.write_text(pristine, encoding="utf-8")
-        self.run_generator()
-        self.assertEqual(self.sun_half_angle_violations(self.expected_portrait_ids()), [])
+        readings = {}
+        for eid in sorted(self.items):
+            if self.expected_sun_branch(eid, towers) == "fallback":
+                continue
+            m = self.SUN_OUT_HALF.search(self.prompt(eid)) or self.SUN_IN_HALF.search(self.prompt(eid))
+            if m:
+                readings.setdefault(self.frame_width_px(eid, towers), []).append((eid, int(m.group(1))))
+        self.assertEqual(set(readings), {1024, 1280, 1536, 1792},
+                         "四档画幅没有各自留下打印读数：%r" % sorted(readings))
+        for width_px, rows in readings.items():
+            with self.subTest(width_px=width_px):
+                for eid, printed in rows:
+                    self.assertEqual(printed, round(self.frame_half_angle(self.focal_of(eid), width_px)),
+                                     "%s 打印的半视锥不等于闸门侧按 %d 像素派生的读数" % (eid, width_px))
+        # 同焦距下四档必须给出四个不同读数——否则「派生」只是换了个地方写死
+        probe = {w: round(self.frame_half_angle(35.0, w)) for w in (1024, 1280, 1536, 1792)}
+        self.assertEqual(len(set(probe.values())), 4, "两档共用了同一个半视锥读数：%r" % probe)
+
+    def test_the_frame_derivation_is_copied_once_in_each_of_the_three_scripts(self):
+        """定标必须在生成器、取景闸门与复看套件三处各写一份且不互相 import：
+        少一份（改成 import 或删掉）与多一份（写死档位回来）都判红。"""
+        sources = {"build_prompts.py": None, "verify_framing.py": None, "build_review_suite.py": None}
+        for name in sources:
+            text = (ROOT / "工具" / name).read_text(encoding="utf-8")
+            self.assertEqual(text.count("FRAME_SHORT_EDGE_MM = 24.0"), 1, name + " 的定标不在场或被抄了两份")
+            self.assertEqual(text.count("FRAME_BASE_PX = 1024"), 1, name + " 的像素基准不在场或被抄了两份")
+            self.assertNotIn("FRAME_HALF_WIDTH_MM = 18.0", text, name + " 里写死档次的常量又回来了")
+            self.assertNotIn("PORTRAIT_FRAME_HALF_WIDTH_MM", text, name + " 里 C118 的第二档常量又回来了")
+            self.assertNotIn("SENSOR_W = 36.0", text, name + " 又按 36 毫米长边算水平半视锥了")
+            self.assertNotIn("atan(18.0 / ", text, name + " 又统一按 18 毫米算半角了")
+        # 三处共用同一个定标，但画幅口径的来源各写各的：生成器读本条 size，闸门按类型分档，套件读产物抬头
+        self.assertIn("FRAME_WIDTH_PX_BY_TYPE", (ROOT / "工具" / "verify_framing.py").read_text(encoding="utf-8"))
+        self.assertIn('re.match(r"(\\d+)x(\\d+)", info["size"]',
+                      (ROOT / "工具" / "build_review_suite.py").read_text(encoding="utf-8"))
+        self.assertIn('int(str(size).split("x")[0])',
+                      (ROOT / "工具" / "build_prompts.py").read_text(encoding="utf-8"))
+
+    def test_a_single_uniform_half_width_is_caught_on_both_sides(self):
+        """违例负测：把派生式退回「一个死数」的两种历史形态各注入一次。
+        退回 1536（＝C99／C101 时代全档共用 18 毫米）必须报出竖幅＋5:4＋7:4 三条档，
+        退回 1024（＝只有 C118 那一档）必须报出全部横幅条；两次的违例集合都按闸门侧镜像算出来逐格对拍，
+        不写死条数。变异对照：恢复原文后归零。注入只改临时副本，真实仓库不受影响。"""
+        towers = self.expected_portrait_ids()
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = '    width_px = int(str(size).split("x")[0])'
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在 C132 的画幅解析上")
+        for injected, label in ((self.PORTRAIT_FRAME_WIDTH_PX, "退回 12 毫米一档"),
+                                (self.FRAME_WIDTH_PX_BY_TYPE["标志性建筑"], "退回 18 毫米一档")):
+            with self.subTest(revert=label):
+                self.script.write_text(
+                    pristine.replace(anchor, "    width_px = %d" % injected, 1), encoding="utf-8")
+                self.run_generator()
+                violations = self.sun_half_angle_violations(towers)
+                want = {eid for eid in self.items
+                        if self.expected_sun_branch(eid, towers) != "fallback"
+                        and self.frame_width_px(eid, towers) != injected}
+                got = {v[0] for v in violations}
+                self.assertTrue(got, label + " 必须被这条判据判红")
+                self.assertEqual(got & want, want,
+                                 label + " 有画幅档没被报出来（漏报即档位又共用了半幅宽）：" +
+                                 ",".join(sorted(want - got)))
+                self.script.write_text(pristine, encoding="utf-8")
+                self.run_generator()
+                self.assertEqual(self.sun_half_angle_violations(self.expected_portrait_ids()), [])
 
     # C108：雨后批三条（R015 v01 落点约(1250,1009)、R034 v02、R054 v01）与夜光批 R086 v01 都塌在右下角
     # 地面的字母形笔画簇，而 tail 原有的 no third-party or model-generated watermark, logo or signature
@@ -1401,7 +1517,7 @@ class BuildPromptsTests(unittest.TestCase):
             return "static"
         bearing = math.degrees(math.atan2(entry["center_km"][0] - cam[0], entry["center_km"][1] - cam[1])) % 360
         rel = (bearing - facing + 540) % 360 - 180
-        return "inside" if abs(rel) <= self.frame_half_angle(focal, eid in towers) else "outside"
+        return "inside" if abs(rel) <= self.frame_half_angle(focal, self.frame_width_px(eid, towers)) else "outside"
 
     def supertall_chunk(self, eid, sid):
         for chunk in self.far_view_fragment(eid).split("; "):
@@ -1876,12 +1992,12 @@ class RulingC125SilhouetteBoundary(unittest.TestCase):
         self.assertIn("（C125）", md)
 
     def test_c125_moves_no_prompt_digest_and_writes_nothing_into_the_prompt_bodies(self):
-        snapshot = json.loads((ROOT / "工具" / "reinject_2026_11_05" / "prompt_digests_c123.json")
-                               .read_text(encoding="utf-8"))["items"]
-        manifest = json.loads((ROOT / "数据" / "开图清单.json").read_text(encoding="utf-8"))["items"]
+        manifest = manifest_items()
         self.assertEqual(len(manifest), 312)
-        moved = [m["id"] for m in manifest if m["prompt_sha256"] != snapshot[m["id"]]["after"]]
-        self.assertEqual(moved, [], "C125 动了画面串，变更 %d 条：%s" % (len(moved), moved[:5]))
+        # C132 是基线之后唯一在案的合法换串来源；除它以外一条都不许动。
+        self.assertEqual(moves_outside_c132(items=manifest), [],
+                         "C125 动了画面串（C132 的半幅宽派生之外）：%s"
+                         % moves_outside_c132(items=manifest)[:5])
         leaks = []
         for path in sorted((ROOT / "数据" / "开图提示词").glob("*.txt")):
             text = path.read_text(encoding="utf-8")
@@ -1925,11 +2041,10 @@ class RulingC126RodAndCraneTiering(unittest.TestCase):
         self.assertIn("C126（屋面细杆按杆高对可见塔身十二分之一分档、塔吊按街面与天际线分档）", sheet)
 
     def test_c126_moves_no_prompt_digest_and_writes_nothing_into_the_prompt_bodies(self):
-        snapshot = json.loads((ROOT / "工具" / "reinject_2026_11_05" / "prompt_digests_c123.json")
-                               .read_text(encoding="utf-8"))["items"]
-        manifest = json.loads((ROOT / "数据" / "开图清单.json").read_text(encoding="utf-8"))["items"]
-        moved = [m["id"] for m in manifest if m["prompt_sha256"] != snapshot[m["id"]]["after"]]
-        self.assertEqual(moved, [], "C126 动了画面串，变更 %d 条：%s" % (len(moved), moved[:5]))
+        manifest = manifest_items()
+        self.assertEqual(moves_outside_c132(items=manifest), [],
+                         "C126 动了画面串（C132 的半幅宽派生之外）：%s"
+                         % moves_outside_c132(items=manifest)[:5])
         leaks = []
         for path in sorted((ROOT / "数据" / "开图提示词").glob("*.txt")):
             text = path.read_text(encoding="utf-8")
@@ -1984,6 +2099,38 @@ class RulingC131DerivedCheckInCounts(unittest.TestCase):
         self.assertNotEqual(manual, fake, "夹具替换没生效，说明手册那句被改写过、判据失去比对对象")
         self.assertEqual(self.HARD_COUNT.findall(fake), ["264 行工作单"],
                          "注入的旧计数形态没被抓到：%s" % self.HARD_COUNT.findall(fake))
+
+
+class RulingC132PromptDigestScope(unittest.TestCase):
+    """C132 是 C123 投放基线之后第一条**合法**改了画面串的裁定，所以「相对基线换了摘要」这件事
+    本身不再是违例；违例换成了「换的条不在 C132 的覆盖面里」或「覆盖面里的条没换」。
+    这条类把 C125／C126 依赖的那个减法显式钉住，并证明减法本身不是空转判绿。"""
+
+    def test_the_moved_set_equals_the_c132_scope_exactly(self):
+        moved = set(prompt_digest_moves())
+        explained = set(c132_reprinted_ids())
+        self.assertTrue(explained, "C132 覆盖面现算出空集——size 列或半视锥句没了，判据已空转")
+        self.assertEqual(moved, explained,
+                         "换串的条与 C132 覆盖面不吻合：多换 %s｜该换没换 %s"
+                         % (sorted(moved - explained)[:5], sorted(explained - moved)[:5]))
+        untouched = {it["size"] for it in manifest_items() if it["id"] not in moved}
+        self.assertTrue({"1536x1024", "1024x1536"} <= untouched,
+                        "3:2 横幅或 2:3 竖幅被 C132 牵连（同定标下这两档读数应逐字不变）")
+
+    def test_a_move_outside_the_c132_scope_is_named(self):
+        """违例负测：在内存里把一条 3:2 横幅（C132 覆盖面之外）的摘要改一个字符，
+        C125／C126 用的那条减法必须点名它；恢复后归零。不写盘。"""
+        items = json.loads((ROOT / "数据" / "开图清单.json").read_text(encoding="utf-8"))["items"]
+        victim = next(it for it in items if it["size"] == "1536x1024"
+                      and it["id"] not in set(c132_reprinted_ids()))
+        pristine = moves_outside_c132(items=items)
+        self.assertEqual(pristine, [], "真实仓库本身就带着 C132 覆盖面之外的换串，负测失去比对对象")
+        tampered = json.loads(json.dumps(items))
+        for it in tampered:
+            if it["id"] == victim["id"]:
+                it["prompt_sha256"] = ("0" if it["prompt_sha256"][0] != "0" else "1") + it["prompt_sha256"][1:]
+        self.assertEqual(moves_outside_c132(items=tampered), [victim["id"]],
+                         "覆盖面外的一条换串没有被减法点出来（%s）" % victim["id"])
 
 
 if __name__ == "__main__":
