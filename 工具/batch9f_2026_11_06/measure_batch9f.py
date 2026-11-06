@@ -32,8 +32,8 @@ BIND = {r["id"]: r for r in json.loads((HERE / "sent_binding.json").read_text(en
 MANIFEST = json.loads((ROOT / "数据/开图清单.json").read_text(encoding="utf-8"))
 ITEMS = {it["id"]: it for it in MANIFEST["items"]}
 
-FLOOR_VAR = 0.000414  # 极轻档地板（塔臂），整图细尺度方差低于此视作非油画
-SUN_MIN = 1500  # 疑似日面圆盘/强光源阈值
+FLOOR_VAR = 0.000414  # C134：极轻档地板（塔臂）只作读数参照；低于此不再判非油画（实测无法分离照片与绘画）
+SUN_MIN = 1500  # C134：上半区日面连通块面积的读数分档线，只作记录不作判据
 TS = r"_(\d{13})_"
 
 rows = []
@@ -63,8 +63,8 @@ for rid in BODIES:
     rec["sent_sha12"] = b.get("sent_sha12")
     rec["canon_sha12"] = b.get("canon_sha12")
     rec["参与回填"] = bool(b.get("逐字相等")) and rec.get("size_match")
-    rec["油画量级"] = "off-floor" if rec["fine_var_full"] >= FLOOR_VAR else "below-floor"
-    rec["疑似日盘"] = rec["sun_blob_px"] >= SUN_MIN
+    rec["油画量级"] = "off-floor" if rec["fine_var_full"] >= FLOOR_VAR else "below-floor"  # C134：仅读数，不作判废依据
+    rec["疑似日盘"] = rec["sun_blob_px"] >= SUN_MIN  # C134：仅读数，不作判废依据
     rows.append(rec)
     print(
         "%-5s %s %10d caBX=%d iTXt=%d AIGC=%s fvar=%.6f cvar=%.6f sun=%-6d p99=%-5s match=%s 相等=%s 回填=%s"
@@ -102,10 +102,10 @@ print("参与回填 %d / 不参与 %d" % (sum(1 for r in rows if r["参与回填
                                    sum(1 for r in rows if not r["参与回填"])))
 bad_container = [r["id"] for r in rows if not (r["container"]["cabx"] >= 1 or r["container"]["aigc"])]
 print("AIGC 标识缺失 %d:" % len(bad_container), bad_container)
-print("细尺度方差区间 %.6f ~ %.6f（极轻档地板 %.6f）；低于地板 %d 张"
+print("细尺度方差区间 %.6f ~ %.6f（极轻档地板 %.6f，仅读数）；低于地板 %d 张（仅读数，不作判据）"
       % (min(r["fine_var_full"] for r in rows), max(r["fine_var_full"] for r in rows), FLOOR_VAR,
          sum(1 for r in rows if r["fine_var_full"] < FLOOR_VAR)))
-print("疑似日盘（>=1500px）%d 张:" % sum(1 for r in rows if r["疑似日盘"]),
+print("日面读数>=1500px（C134 起仅读数，不作判据）%d 张:" % sum(1 for r in rows if r["疑似日盘"]),
       [(r["id"], r["sun_blob_px"]) for r in rows if r["疑似日盘"]])
 print("sha12 重复:", [s for s in {r["sha256_12"] for r in rows}
                      if sum(1 for r in rows if r["sha256_12"] == s) > 1])

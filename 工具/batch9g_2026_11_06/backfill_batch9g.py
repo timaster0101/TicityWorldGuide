@@ -59,16 +59,19 @@ def main():
     resynced = 0
     for k in clean:
         row = mea[k]
-        assert row['container']['cabx'] == 1, (k, 'caBX 不在位，不能占格')
-        assert row['container']['itxt'] == 0, (k, 'PNG 侧不应出现 iTXt·TC260')
+        # C136 订正：容器画像不再按出图通道分别成立（同是文本生图，本轮格 caBX=0／iTXt=1，
+        # 母图 caBX=1／iTXt=0）。占格只要求「AIGC 标识容器至少其一在位」，具体画像由实测数据打印。
+        cont = row['container']
+        assert cont['cabx'] >= 1 or cont['itxt'] >= 1, (k, 'caBX 与 iTXt 都不在位，无 AIGC 标识不能占格')
         assert 'C123新串-v02' in row['file'], (k, row['file'])
         assert row['逐字相等'] is True, (k, '实发串与真源不相等')
         assert row['size_match'] is True, (k, '尺寸与清单不符')
         assert not items[k].get('image_prompt_sha256'), (k, '已绑定摘要，不该再打表')
 
-        fmt = HEAD + ('vibe_images/%s，%s，%d字节，sha12=%s，caBX=1、iTXt=0；'
+        fmt = HEAD + ('vibe_images/%s，%s，%d字节，sha12=%s，%s；'
                       '本条此前无格，为首占%s）：%s')
-        note = fmt % (k, row['file'], row['dims'], row['bytes'], row['sha256_12'], GUARD, readings[k])
+        note = fmt % (k, row['file'], row['dims'], row['bytes'], row['sha256_12'],
+                      'caBX=%d、iTXt=%d' % (cont['cabx'], cont['itxt']), GUARD, readings[k])
         assert '本条只记人工读数，不代签验收。' in note, (k, '读数缺人工声明')
 
         notes['备注'].setdefault(k, [])

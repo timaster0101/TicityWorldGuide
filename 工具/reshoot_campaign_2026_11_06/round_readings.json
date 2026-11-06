@@ -1,0 +1,81 @@
+{
+ "frozen_at": "2026-11-06 21:43:50.057",
+ "frozen_at_ms": 1793972630057,
+ "rows": [
+  {
+   "id": "D03",
+   "file": "D03-东湖金融片区-C133冻结重投-v01_1793973271721_0a6dd833.png",
+   "ts_ms": 1793973271721,
+   "ts_text": "2026-11-06 21:54:31.721",
+   "逐字相等": true,
+   "dims": "1792x1024",
+   "declared_size": "1792x1024",
+   "size_match": true,
+   "bytes": 3124196,
+   "sha256_12": "3e7a92f0ffdc",
+   "container": {
+    "cabx": 0,
+    "itxt": 1,
+    "tc260": true,
+    "aigc": true
+   },
+   "p99_lum": 239.0,
+   "fine_var_full": 0.002936,
+   "sun_blob_px": 1712,
+   "replaced_cell": "backup/vibe_images/D03-东湖金融片区-E1重出-v04_1793646041850_7688b3c2.png",
+   "status_before": "待复验"
+  },
+  {
+   "id": "L061",
+   "file": "L061-北湖政务协同塔-C133冻结重投-v01_1793973318649_61839668.png",
+   "ts_ms": 1793973318649,
+   "ts_text": "2026-11-06 21:55:18.649",
+   "逐字相等": true,
+   "dims": "1024x1536",
+   "declared_size": "1024x1536",
+   "size_match": true,
+   "bytes": 3083067,
+   "sha256_12": "53f73801ab47",
+   "container": {
+    "cabx": 0,
+    "itxt": 1,
+    "tc260": true,
+    "aigc": true
+   },
+   "p99_lum": 227.0,
+   "fine_var_full": 0.004429,
+   "sun_blob_px": 16,
+   "replaced_cell": "backup/vibe_images/L061-北湖政务协同塔-C123新串-v01_1793813109284_d0763a20.png",
+   "status_before": "待复验"
+  },
+  {
+   "id": "L066",
+   "file": "L066-钛心金融主塔-C133冻结重投-v01_1793973363185_65172908.png",
+   "ts_ms": 1793973363185,
+   "ts_text": "2026-11-06 21:56:03.185",
+   "逐字相等": true,
+   "dims": "1024x1536",
+   "declared_size": "1024x1536",
+   "size_match": true,
+   "bytes": 3003777,
+   "sha256_12": "f722fa2393bc",
+   "container": {
+    "cabx": 0,
+    "itxt": 1,
+    "tc260": true,
+    "aigc": true
+   },
+   "p99_lum": 237.0,
+   "fine_var_full": 0.004418,
+   "sun_blob_px": 16,
+   "replaced_cell": "backup/vibe_images/L066-钛心金融主塔-C123新串-v01_1793813359442_6188f202.png",
+   "status_before": "待复验"
+  }
+ ],
+ "统计面": {
+  "本轮发图串条数": 4,
+  "回绑成功条数": 3,
+  "落盘在冻结带内条数": 3,
+  "会话jsonl": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda.jsonl"
+ }
+}

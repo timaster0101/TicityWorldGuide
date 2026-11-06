@@ -1,0 +1,2948 @@
+{
+  "version": "1.0",
+  "declaration": "本文件是重投期的提示词基准唯一快照。frozen_at 之后任何一条 prompt_sha256 变化都算换档，须先追加裁定再 --force 重写，且该条目已投出的格全部降回待复验、不得复制摘要补绑（口径见 数据/开图清单.json declaration 与 工具/build_prompts.py:676）。摘要口径为整份提示词 txt 去掉「状态/prompt_sha256/image_prompt_sha256/复验原因备注」四行元数据后的文本，不是只对「## 提示词正文」段算摘要；重跑生成器只会新增备注镜像行时摘要不变，属正常。cell_ts_ms 取图片文件名里的毫秒时间戳，无时间戳的格不参与本字段（统计面见 readings）。",
+  "frozen_at": "2026-11-06 21:43:50.057",
+  "frozen_at_ms": 1793972630057,
+  "frozen_by": "freeze_prompt_baseline.py（会话代理执行，非人工签收）",
+  "prompt_count": 312,
+  "baseline_sha256_12": "b74127f6079e",
+  "readings": {
+    "清单条数": 312,
+    "清单声明条数": 312,
+    "提示词txt枚数": 312,
+    "参与冻结条数": 312,
+    "摘要断链条目": 0,
+    "摘要断链清单": [],
+    "清单外txt条目": [],
+    "格总数": 1116,
+    "带毫秒时间戳的格数": 60
+  },
+  "entries": [
+    {
+      "id": "L001",
+      "name": "钛湖市民议事厅",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L001-钛湖市民议事厅.txt",
+      "prompt_sha256": "4a4c6968d19ffafbd71cd41241c1d5e41dde720aae274748bbac10c7aacd2e50",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L002",
+      "name": "钛湖司法服务馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L002-钛湖司法服务馆.txt",
+      "prompt_sha256": "2fce68abd645f29c63f5599f2bd9a33fb42f113a7983f97870bf421a9cd474ed",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L003",
+      "name": "城市记忆档案塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L003-城市记忆档案塔.txt",
+      "prompt_sha256": "9212c6786eadc2c268fc86694ed78a3f0fcfcd8c13b5997bcbd6871058adb64e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L004",
+      "name": "钛湖大学中央图书馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L004-钛湖大学中央图书馆.txt",
+      "prompt_sha256": "f84c3802815ee064b76c5b73c1000fb7f0455d2351b65009bad963470fc70427",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L005",
+      "name": "北书科学博物馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L005-北书科学博物馆.txt",
+      "prompt_sha256": "8dc620eae8b899c78d885f030ef657e15b9ebecd9b233af11c7b3421c2a29851",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L006",
+      "name": "湖畔青年交流馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L006-湖畔青年交流馆.txt",
+      "prompt_sha256": "a2d3a61771b12a571ee3b511fbc8fa0f6621302e3b70e29c17e1034580a00cc7",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L007",
+      "name": "钛湖之脊",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L007-钛湖之脊.txt",
+      "prompt_sha256": "ae7b719df401bd6895b9c01484e826f299aa49a401b8adf9a647454b994db0dd",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L008",
+      "name": "金融秩序博物馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L008-金融秩序博物馆.txt",
+      "prompt_sha256": "10ddaca0fa47d34ee4736dcea763d1eb9c6b2dc8439071d7064c722c7aee3268",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L009",
+      "name": "东岸企业会客厅",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L009-东岸企业会客厅.txt",
+      "prompt_sha256": "8c2da6cc138b26d54754cf987026b66cfe10fec767dbdc6e0ed0a525e593c112",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L010",
+      "name": "钛湖国际会展中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L010-钛湖国际会展中心.txt",
+      "prompt_sha256": "aa7163ccb03ca9a4dcc065a7d4480886db99896fdeccf149d73010d12c32553f",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L011",
+      "name": "潮湾会议酒店",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L011-潮湾会议酒店.txt",
+      "prompt_sha256": "e27790fde7120857eab566a6f1187799a1609bfbf684631884d95b8735bdccd8",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L012",
+      "name": "水光游客中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L012-水光游客中心.txt",
+      "prompt_sha256": "567f1a5683443b30c658ff9cf74833fdb0fac07cb8eed0b39f2af77ad35b4e9f",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L013",
+      "name": "青湾中央医院",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L013-青湾中央医院.txt",
+      "prompt_sha256": "4dccc8f6d0fddf64a92bfa2882244fa65999360ebaa3a19fb586cecc14e572fe",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L014",
+      "name": "静溪康复中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L014-静溪康复中心.txt",
+      "prompt_sha256": "94ca54f68993317063922d249b5f12e9e1807be060c1ab642f76f4dc8d8aedd5",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L015",
+      "name": "生命之窗医学馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L015-生命之窗医学馆.txt",
+      "prompt_sha256": "36b02917e15738ee3f6d53436fdcb03729e29bc253238346b203abb7534c0337",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L016",
+      "name": "南湖百业市场",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L016-南湖百业市场.txt",
+      "prompt_sha256": "8f18fa36342bb45e2047194c4566bbcfee02bffc08bc35b8f3b4b325b5de2b20",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L017",
+      "name": "湖湾邻里中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L017-湖湾邻里中心.txt",
+      "prompt_sha256": "729e7c0829bc11783cfba532c440fcd2e6d49f0ca3aeb0092068aa87dbe402cf",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L018",
+      "name": "南湖公共儿童馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L018-南湖公共儿童馆.txt",
+      "prompt_sha256": "1500bc178df274324809efc045b81d567e89d16062da3f66454e059ebd356140",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L019",
+      "name": "西声大剧院",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L019-西声大剧院.txt",
+      "prompt_sha256": "82f53c9d8e8c34bc2b31e674141060665db23e900d9a2687a9f56099c4b1c94b",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L020",
+      "name": "旧炉影像馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L020-旧炉影像馆.txt",
+      "prompt_sha256": "6e287574a556a79063c9285ffddeebdc55e21c629276ee20270f34b1f6a63de2",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L021",
+      "name": "风帆设计工坊",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L021-风帆设计工坊.txt",
+      "prompt_sha256": "45d3d0e7f21f6f262227efe518c3d3c4e779f1b57fd539d3af2c913df66a8b0e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L022",
+      "name": "白石钟楼",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L022-白石钟楼.txt",
+      "prompt_sha256": "b44beb63c1993fb60cfc4ab5362377d7449b4455c7aebdf6a63aa315a1034c53",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L023",
+      "name": "西湖商埠会馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L023-西湖商埠会馆.txt",
+      "prompt_sha256": "cf3afc6a23a2b77fdc73a9ca8530df6e6be9fa1a6294b4fb78dc257468e5c444",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L024",
+      "name": "青瓦地方民俗馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L024-青瓦地方民俗馆.txt",
+      "prompt_sha256": "bbbd3644b6b6846b33904f7d56b59162ee74fac199dcc10a0f33e4f1a6047c6b",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L025",
+      "name": "云栈协作中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L025-云栈协作中心.txt",
+      "prompt_sha256": "a3797defb3d38db368c0af004e5d1683620836c84d53fff45115f96a9c090063",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L026",
+      "name": "数岸交互艺术馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L026-数岸交互艺术馆.txt",
+      "prompt_sha256": "0f14cf3a6d33a5717bd8b97a15725dd19a58ecbbc728e49edb3206a0ff8c9370",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L027",
+      "name": "城市计算展示馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L027-城市计算展示馆.txt",
+      "prompt_sha256": "a64b72cb8b25ff6ffb20ce2f3584581f401490ca7f2378f9993a6d83d481f7c3",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L028",
+      "name": "松岬体育场",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L028-松岬体育场.txt",
+      "prompt_sha256": "65dcf721c9e7faa37778c6bbec3c72df2a3a1f7dd944af9fbc9ad5518a4268c1",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L029",
+      "name": "钛湖游泳馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L029-钛湖游泳馆.txt",
+      "prompt_sha256": "6ed54451c13a890f06bb6f1782d970086d92415e08421c990073bb73e730c993",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L030",
+      "name": "山湖户外运动中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L030-山湖户外运动中心.txt",
+      "prompt_sha256": "aa84ef1cd43d79e508f971d6a5372f1d9472ac875de80ee9565536439d9c34f1",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L031",
+      "name": "北屏自然学校",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L031-北屏自然学校.txt",
+      "prompt_sha256": "5789802c1d930f9cfac4952a382438ce524462aa3a1e95b34445e5ed5edb611e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L032",
+      "name": "森林访客中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L032-森林访客中心.txt",
+      "prompt_sha256": "a4b33fcfb1689add699104a6b5696b091e52e8992e08fc640dbc6c2de6f24063",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L033",
+      "name": "杉谷观鸟塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L033-杉谷观鸟塔.txt",
+      "prompt_sha256": "190188b11c3ed6f60316fb257d79d40a202f9e1859d55147b1b50a671bc6bf61",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793683360990
+      ]
+    },
+    {
+      "id": "L034",
+      "name": "书岭联合实验楼",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L034-书岭联合实验楼.txt",
+      "prompt_sha256": "2942b8f85e71f1d68da2cad72bfeff7647e9172d134a05c52d94a188c9de3c7d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L035",
+      "name": "青岚仪器共享中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L035-青岚仪器共享中心.txt",
+      "prompt_sha256": "dce6cc06154999412f348256e8708ff3a25f7a26f56dbbe82be6aa92d82f0090",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L036",
+      "name": "科研伦理与公众交流馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L036-科研伦理与公众交流馆.txt",
+      "prompt_sha256": "fbcd4fa3b83acc665e742e6f6f21af4331510e506c35ba1bad98b7865c101f32",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L037",
+      "name": "钛湖东站",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L037-钛湖东站.txt",
+      "prompt_sha256": "b4dfd315250598d24e570709f210b73b61fabad52e96a57624cbf69bf8a902cf",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L038",
+      "name": "东站城市接待塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L038-东站城市接待塔.txt",
+      "prompt_sha256": "0e524c38271ec2d07cdde89350beae33b4808f77218216638174aa431c137fbc",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L039",
+      "name": "山湖交通博物馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L039-山湖交通博物馆.txt",
+      "prompt_sha256": "268dc39345c5c1c99ea4bc95ea7ce7cc910bc0fce8057dbb0ee1a24cc2f644a7",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L040",
+      "name": "钛东工业设计中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L040-钛东工业设计中心.txt",
+      "prompt_sha256": "8803ac445b7a6450a79c176714985ad70e46c0bd9d5a5e3a4ade03ffd92f0c05",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L041",
+      "name": "精工制造展示馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L041-精工制造展示馆.txt",
+      "prompt_sha256": "d061fa5df9f8b151ed266544e0301c32c8672d06dfc67baded6b221e481ccc27",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L042",
+      "name": "新铸工匠学院",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L042-新铸工匠学院.txt",
+      "prompt_sha256": "c5c5bb7e1262520286fa45595d48cd6febdf2f9b565aac4d49cea089cc5b1710",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L043",
+      "name": "南溪城市应急指挥馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L043-南溪城市应急指挥馆.txt",
+      "prompt_sha256": "bd74148a22865b4a63a0a45c18926faa6d35aceac42b1134f719d27acf2f9add",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L044",
+      "name": "循环材料展示馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L044-循环材料展示馆.txt",
+      "prompt_sha256": "68a6d5310f91d30fa8380cd1ec4dd5e8c469155c4d155924a5a3d0800b3d2242",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L045",
+      "name": "城市维修技能中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L045-城市维修技能中心.txt",
+      "prompt_sha256": "9d261007015f78d85d5c019aa9422b90fd72622e26a5e1b97e1292b76e902b4e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L046",
+      "name": "南原中央图书分馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L046-南原中央图书分馆.txt",
+      "prompt_sha256": "1ad57326a5dce81b5c51b0e2b6b23ba2cdc9b073e29fdfe6a9cf9648c4d3aa1e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L047",
+      "name": "晨光综合体育馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L047-晨光综合体育馆.txt",
+      "prompt_sha256": "ec086e2e96f250d247a7edf022199bd44486785f5036f5a9b0a86994a98af095",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L048",
+      "name": "南原妇幼社区中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L048-南原妇幼社区中心.txt",
+      "prompt_sha256": "6a7d9dfee0aa3729096b096d18f53bde181feca20fba06f5dbc53df80bae992c",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L049",
+      "name": "西麓种子与食品馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L049-西麓种子与食品馆.txt",
+      "prompt_sha256": "d1b2afdf36fe5896646b3a051e276905424506a24ae9a4d38843cb8983958721",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L050",
+      "name": "丰仓城市食物馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L050-丰仓城市食物馆.txt",
+      "prompt_sha256": "11114c8d5ee1880f92ba4af033d1838c4ea463230761a4398c1e3740289698ac",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L051",
+      "name": "农时试验温室",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L051-农时试验温室.txt",
+      "prompt_sha256": "d0db3fd3ab497bdcf5338bf6cdd287edb408c9dd6c0224555fed0ba00e78b443",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L052",
+      "name": "西门贸易交易馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L052-西门贸易交易馆.txt",
+      "prompt_sha256": "1eec683a7c699a262cb591f1e2f48b9e2a81ed004a11d5983ee1c91357ae932c",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L053",
+      "name": "古道修配博物馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L053-古道修配博物馆.txt",
+      "prompt_sha256": "7a1c806bd1576b31995e32c22bc3e88fd859b867cb5dcfab0f3502034df1cfc0",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L054",
+      "name": "西门工友服务站",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L054-西门工友服务站.txt",
+      "prompt_sha256": "282a375afc14b104a9eb729c3991bd313982cbd8867dd48cf073c75cb32c2c1b",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L055",
+      "name": "西岭能源调度馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L055-西岭能源调度馆.txt",
+      "prompt_sha256": "a2c8d3edc8d062fb013bcc785a659e594289e92768ad9f95204e046cba8e94e4",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L056",
+      "name": "光谷低碳体验馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L056-光谷低碳体验馆.txt",
+      "prompt_sha256": "7133fea53f1730953f0512ea1d72f83209e6536eb1e81170a6582a25e661ef52",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L057",
+      "name": "山城能源史馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L057-山城能源史馆.txt",
+      "prompt_sha256": "75c9e71783382f9d35b27cc43f60d204ba60f3908382e829d359e43a02b6b71e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L058",
+      "name": "北港水文博物馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L058-北港水文博物馆.txt",
+      "prompt_sha256": "a1424eae862aeb57e55efbfca507e7996db697c57d21396554188ab7b144e6cd",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L059",
+      "name": "清流水质公开实验馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L059-清流水质公开实验馆.txt",
+      "prompt_sha256": "67d1d35723387f46c458226a79e6e3fb3965851d2b69a98af80333cb19646eb9",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L060",
+      "name": "河口生态观察馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L060-河口生态观察馆.txt",
+      "prompt_sha256": "eec5b4ef655a473c5806b607be75194e5bde836750ac785a889bd3aa91e339cb",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L061",
+      "name": "北湖政务协同塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L061-北湖政务协同塔.txt",
+      "prompt_sha256": "01f0a5b92bfcc5dd5d4122842b723d2a8682163e83289856e100564065c8766e",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813109284
+      ]
+    },
+    {
+      "id": "L062",
+      "name": "市民法务服务中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L062-市民法务服务中心.txt",
+      "prompt_sha256": "241feb66fdfc8a1c91a7129043ed33b127335343ac6f8d714501dd30fffb6aab",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813263524
+      ]
+    },
+    {
+      "id": "L063",
+      "name": "北书学术交换塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L063-北书学术交换塔.txt",
+      "prompt_sha256": "bfb1e6d8c11691a67872e30397a8d0521b378dd6bb61c734664f1de1a9f7c5cc",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793831603699
+      ]
+    },
+    {
+      "id": "L064",
+      "name": "青年科创学院塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L064-青年科创学院塔.txt",
+      "prompt_sha256": "68b02c437ecf71f00237501c551319f5b82112246e8c36e1582d83fddd56977a",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813310831
+      ]
+    },
+    {
+      "id": "L065",
+      "name": "校园书市商廊",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L065-校园书市商廊.txt",
+      "prompt_sha256": "da59e55cdafabdf84181c4744aa660c63b1484efc96e57765df2c777b9c7b9bf",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793858767439
+      ]
+    },
+    {
+      "id": "L066",
+      "name": "钛心金融主塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L066-钛心金融主塔.txt",
+      "prompt_sha256": "be7bac9c86d5fc960b6716fc0707a1795c5c3e3873f30e9b7e03795b7ba247cb",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813359442
+      ]
+    },
+    {
+      "id": "L067",
+      "name": "澄湖资本塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L067-澄湖资本塔.txt",
+      "prompt_sha256": "b923a11ac97ad2ce9a7c477583545a51cbbfc76e1beb8ec7bd87acab712050de",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793831782486
+      ]
+    },
+    {
+      "id": "L068",
+      "name": "湖东证券塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L068-湖东证券塔.txt",
+      "prompt_sha256": "386c01cc4d76005a82e64b8b20299a9671b3c370eb81b4ab666ba60dfbbdc406",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813410099
+      ]
+    },
+    {
+      "id": "L069",
+      "name": "云浦结算中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L069-云浦结算中心.txt",
+      "prompt_sha256": "73c195dbb8acb176191d9784e9ae4dfbc09433144f93f60ab30d764dd44d79bf",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813459239
+      ]
+    },
+    {
+      "id": "L070",
+      "name": "东环企业总部塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L070-东环企业总部塔.txt",
+      "prompt_sha256": "7d5ef616594328a7e10bed892ed84fdf08106b5092237eccfbe02c64a5dba063",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813509248
+      ]
+    },
+    {
+      "id": "L071",
+      "name": "钛湖清算塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L071-钛湖清算塔.txt",
+      "prompt_sha256": "ec212bbbe845105885a7460d9e8403df46acc5e7d1380be55fb39977b02aea8d",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813562576
+      ]
+    },
+    {
+      "id": "L072",
+      "name": "东岸青年创业塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L072-东岸青年创业塔.txt",
+      "prompt_sha256": "db7e4e7d1a9433ebdd5c3e95f38ca61e311f5da1b857d5952f2f0339dc211e0c",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813609163
+      ]
+    },
+    {
+      "id": "L073",
+      "name": "潮湾国际商务塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L073-潮湾国际商务塔.txt",
+      "prompt_sha256": "a33a343cf645535a85b32152b17b8dc340e2372c620a1c0953f3242ee33a1edb",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793831864982
+      ]
+    },
+    {
+      "id": "L074",
+      "name": "水光旅店主塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L074-水光旅店主塔.txt",
+      "prompt_sha256": "c94c9a29cc45f947969beb8f0b76534ab21dd5f6358869aea4e7d731e0bec19c",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813659398
+      ]
+    },
+    {
+      "id": "L075",
+      "name": "金篷会议宴会塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L075-金篷会议宴会塔.txt",
+      "prompt_sha256": "590457444e5db44187ddbd8843db4496561ec1114211ebbd8bc689f1b0a7e002",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793832012257
+      ]
+    },
+    {
+      "id": "L076",
+      "name": "青湾医学研究塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L076-青湾医学研究塔.txt",
+      "prompt_sha256": "111bbb369219a66107e69abf105dd75d969ed108df21f5748e883e72a537d6e7",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793832063827
+      ]
+    },
+    {
+      "id": "L077",
+      "name": "静溪健康驿站",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L077-静溪健康驿站.txt",
+      "prompt_sha256": "6d2f91e7aae6e0e0cf653202c0d3fb20b1efb13f855de707e2920f7eafb9c54c",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813709410
+      ]
+    },
+    {
+      "id": "L078",
+      "name": "南湖社区生活塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L078-南湖社区生活塔.txt",
+      "prompt_sha256": "1c4c556712c5ac0785a01b51816b95ecd93c1a69e11905f5f7561e373a67f45b",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813867131
+      ]
+    },
+    {
+      "id": "L079",
+      "name": "月湾市集商厦",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L079-月湾市集商厦.txt",
+      "prompt_sha256": "55a2c3a0b08037e6441964adba7c9db083655fccad2ff7b5f21a855f5d6eb069",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813916575
+      ]
+    },
+    {
+      "id": "L080",
+      "name": "西声演艺孵化塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L080-西声演艺孵化塔.txt",
+      "prompt_sha256": "bcaa008ad529b901ffcf42764f90fba463f953937303807efb5f4bf7e50882ec",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793845765564
+      ]
+    },
+    {
+      "id": "L081",
+      "name": "旧炉夜间市集馆",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L081-旧炉夜间市集馆.txt",
+      "prompt_sha256": "c4f117487e41095cc34687d2b0eeb92500867939235c1dd7ed7a6f463bf18289",
+      "cell_count": 0,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L082",
+      "name": "云栈智能塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L082-云栈智能塔.txt",
+      "prompt_sha256": "4725c6b0dd70fed27a5c32bd79ec7e7c6405ce094ce50d5657613ca54f6b97c3",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793813981637
+      ]
+    },
+    {
+      "id": "L083",
+      "name": "数岸算力塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L083-数岸算力塔.txt",
+      "prompt_sha256": "b1c9bae22bbdad9015f25b357f19b877aa75c5a1f9fbf8086b9d6a126121076d",
+      "cell_count": 0,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L084",
+      "name": "云栈算法塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L084-云栈算法塔.txt",
+      "prompt_sha256": "b9cceb9e94c84ee1ea0bd677a2835559933dd42ab9202a9647b26404c6ce4179",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793814032450
+      ]
+    },
+    {
+      "id": "L085",
+      "name": "数创内容工场",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L085-数创内容工场.txt",
+      "prompt_sha256": "9f5ccc41d50c4c705bd0712b57a0beecafc533d994bba32de886530ce70ddb08",
+      "cell_count": 0,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L086",
+      "name": "星栈开发者塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L086-星栈开发者塔.txt",
+      "prompt_sha256": "b7b9dabc3ad67a6bcec6e8448497eb039cb7c792c8b7d0686dab4809cf9d4029",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793832454577
+      ]
+    },
+    {
+      "id": "L087",
+      "name": "蓝帆播送塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L087-蓝帆播送塔.txt",
+      "prompt_sha256": "1bb8820f3f633281c0856c97df65623ba8bbb7bdcd30b3fd00ee0d49c2d627cd",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793832510192
+      ]
+    },
+    {
+      "id": "L088",
+      "name": "松岬运动员服务中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L088-松岬运动员服务中心.txt",
+      "prompt_sha256": "72e0d4e2a2c62f8cec097791354178529ba4067772450b93485def74db450215",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793814098339
+      ]
+    },
+    {
+      "id": "L089",
+      "name": "环湖运动健康塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L089-环湖运动健康塔.txt",
+      "prompt_sha256": "e6dc0202c6ae076c7475779a2398d9819d06b30c89c9d7ec92581c6bf87abe9c",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793832561514
+      ]
+    },
+    {
+      "id": "L090",
+      "name": "书岭精密观测塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L090-书岭精密观测塔.txt",
+      "prompt_sha256": "2a7f99f44fca792ee462564f6dc14e8d19e380274f33b2a362d11ad518ab4058",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793845962046
+      ]
+    },
+    {
+      "id": "L091",
+      "name": "青岚实验协作塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L091-青岚实验协作塔.txt",
+      "prompt_sha256": "89b4993cdbad86830958c245adabb24ff93048306515a0e13595969562998654",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793814155458
+      ]
+    },
+    {
+      "id": "L092",
+      "name": "东门枢纽商务塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L092-东门枢纽商务塔.txt",
+      "prompt_sha256": "7e4d0ae9feaab98ade0136fb11179ca955b6b65b315557cb4f3ff9231b51479f",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793846042694
+      ]
+    },
+    {
+      "id": "L093",
+      "name": "山门货运调度塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L093-山门货运调度塔.txt",
+      "prompt_sha256": "5019be9be685552e5f68de79d120b61f457f18c7750cf888cd0eef461ef14e3f",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793902167994
+      ]
+    },
+    {
+      "id": "L094",
+      "name": "轨交换乘商业塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L094-轨交换乘商业塔.txt",
+      "prompt_sha256": "f4bc925fdda5a90d7b5a2fe836c8a3c02a0906070c573d563a8461d989a1bd9d",
+      "cell_count": 0,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L095",
+      "name": "东门工友服务站",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L095-东门工友服务站.txt",
+      "prompt_sha256": "1ed0b9b95809d06114b9d0e699f00bb9a6f40062a4589d3ce74a485745d9b7f4",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793846240546
+      ]
+    },
+    {
+      "id": "L096",
+      "name": "东铸中试塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L096-东铸中试塔.txt",
+      "prompt_sha256": "7d32a13045402f01c0b819845c8b6866f6886484bf2dfbf6df90bc35230c5a14",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793814206277
+      ]
+    },
+    {
+      "id": "L097",
+      "name": "精工公共实训塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L097-精工公共实训塔.txt",
+      "prompt_sha256": "dfecd21ef98c7f39d932a1216f6ac3bed14f190a78f1ec610c66ad213d883d30",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793841194561
+      ]
+    },
+    {
+      "id": "L098",
+      "name": "南溪应急物资塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L098-南溪应急物资塔.txt",
+      "prompt_sha256": "f1e87108da4b8e1ecedd43c01f49ee8fad9b166e2898c81b09ef49c560060f6e",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793814260042
+      ]
+    },
+    {
+      "id": "L099",
+      "name": "南原综合服务塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L099-南原综合服务塔.txt",
+      "prompt_sha256": "6c26e70fc1166b7c7ac390f0a86324b404a6a09154a0f53ab92da20fa2e7ea16",
+      "cell_count": 0,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L100",
+      "name": "南原家庭服务中心",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L100-南原家庭服务中心.txt",
+      "prompt_sha256": "38db7981155726c1353a5836cfe96f628de3513f47bc8034882a549ec302c23f",
+      "cell_count": 0,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L101",
+      "name": "晨光邻里商业塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L101-晨光邻里商业塔.txt",
+      "prompt_sha256": "58ca4db3d72d8e2dadd1e393f528d7fde3e1dc2abac45e32f543da012eab13c9",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793902389992
+      ]
+    },
+    {
+      "id": "L102",
+      "name": "丰仓食品检测塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L102-丰仓食品检测塔.txt",
+      "prompt_sha256": "e5369e64075ef91cbf7be653e715d4ee0ddafbf4cbc448a09c8e4c7bab54d99c",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793833122126
+      ]
+    },
+    {
+      "id": "L103",
+      "name": "西门商贸结算塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L103-西门商贸结算塔.txt",
+      "prompt_sha256": "3086877535c09c62dca796fc26d17e49bdde5dc108598b6d3ad2db07c13ef647",
+      "cell_count": 0,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L104",
+      "name": "西关货栈塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L104-西关货栈塔.txt",
+      "prompt_sha256": "f0fa71521a164ca1528afd5101445ce3c7d56171b635230e288feb41ab30b5ef",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793859861630
+      ]
+    },
+    {
+      "id": "L105",
+      "name": "赤陶市集商厦",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L105-赤陶市集商厦.txt",
+      "prompt_sha256": "a0b460d4290e3c153433093631c0de44788105c6a0393ed4533b73243bea0712",
+      "cell_count": 0,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L106",
+      "name": "西岭储能示范塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L106-西岭储能示范塔.txt",
+      "prompt_sha256": "aef56b2cdbd204636d9ca45662f7c713c804eb30e0bbd29a5402793de634a5cb",
+      "cell_count": 0,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "L107",
+      "name": "光谷低碳商务塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L107-光谷低碳商务塔.txt",
+      "prompt_sha256": "fabe47a30fff9e3b5a9fffa47484b7a67f6eae3608c171e5419119aab998dd35",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793860052459
+      ]
+    },
+    {
+      "id": "L108",
+      "name": "北港水质监测塔",
+      "type": "标志性建筑",
+      "prompt_file": "数据/开图提示词/L108-北港水质监测塔.txt",
+      "prompt_sha256": "121ee2af046d2cec3780ecfe5948e6848d2a855e6d05dd3ccb6d0f90e3c9d7ad",
+      "cell_count": 1,
+      "cell_ts_ms": [
+        1793902715679
+      ]
+    },
+    {
+      "id": "F001",
+      "name": "湖政公共服务轴",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F001-湖政公共服务轴.txt",
+      "prompt_sha256": "9b00fc4f179e0d65dd32bf2847237a88458e17c707d5a7b5c0ef0f674caebe9f",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F002",
+      "name": "法务与城市档案园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F002-法务与城市档案园.txt",
+      "prompt_sha256": "07f8101a67ffba7b3c4f8a0d9e414116fe277877ba5cfa86d02d5acd7f1a65de",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F003",
+      "name": "钛湖大学开放校园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F003-钛湖大学开放校园.txt",
+      "prompt_sha256": "8ae138c054404e1eafc14f614e203700ab312be825a2ab32fb36d892382b1c10",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F004",
+      "name": "北书公共教育园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F004-北书公共教育园.txt",
+      "prompt_sha256": "3bc3b895e89f099200f253df116c5f4f81a9e9c9f2ba3d875697aea875aaf97b",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F005",
+      "name": "钛心总部金融区",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F005-钛心总部金融区.txt",
+      "prompt_sha256": "67488abfc4388b87860426ace05cffa65d10bc4b47fbcb08d4c9842b748eacbd",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F006",
+      "name": "东岸专业服务街区",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F006-东岸专业服务街区.txt",
+      "prompt_sha256": "842891d15f89db914e69092eb87684b246bf5f5bc0c8dfc408c0d127054beff2",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F007",
+      "name": "湖东国际会展园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F007-湖东国际会展园.txt",
+      "prompt_sha256": "d6d28826cfaa23137563407935373b6dc9bd4e854c2f5d746501ed6ab1cebf9d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F008",
+      "name": "潮湾酒店与游憩带",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F008-潮湾酒店与游憩带.txt",
+      "prompt_sha256": "fc87c5d97fd61d2da20084ebf6bca2257a9268f589789eb08c35438630142a73",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F009",
+      "name": "青湾综合医学园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F009-青湾综合医学园.txt",
+      "prompt_sha256": "8b796cc0dbe099d0e31fc190a320d2bdf4ddc397b1b51461e48c17b825e2f424",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F010",
+      "name": "静溪康复与生命研究园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F010-静溪康复与生命研究园.txt",
+      "prompt_sha256": "efdacf146311085fe6b6a5973f0448492ddb970be7cd6f6f24fc4b69b4b597f0",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F011",
+      "name": "南湖家庭消费中心",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F011-南湖家庭消费中心.txt",
+      "prompt_sha256": "ae9ca8e3584b7f5654333ac9d726be55d082b1eadd655d502611e25d0ce0e197",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F012",
+      "name": "湖湾社区服务网",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F012-湖湾社区服务网.txt",
+      "prompt_sha256": "3b9398c310ccc8a381f455ce26a1fc5895489c96e793e3507d8168d620b0d3f4",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F013",
+      "name": "西声演艺制作园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F013-西声演艺制作园.txt",
+      "prompt_sha256": "3a0775954789f5ed5c29e33add364723c0ed632ac7c28fc32598b2939aac1904",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F014",
+      "name": "旧炉设计与影像园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F014-旧炉设计与影像园.txt",
+      "prompt_sha256": "24505a1a527aeb9ccc3ffc20de0e4114d41186650296a79d7b14bc8bf8363cfd",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F015",
+      "name": "白石老城保护区",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F015-白石老城保护区.txt",
+      "prompt_sha256": "4daff75ad3823f4749595dcf169e83fb61a3008760ecd6801558c7482b98724b",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F016",
+      "name": "西湖传统商埠",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F016-西湖传统商埠.txt",
+      "prompt_sha256": "65977c2b5e1541f3c4f908aaef064d97dbed28b65099ba14a578093f50c795b3",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F017",
+      "name": "云栈软件创新园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F017-云栈软件创新园.txt",
+      "prompt_sha256": "ddcb82508e499200138af463d1bd742e4e90ce7e6c5f22e17bd3204330c0a4f3",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F018",
+      "name": "数岸互动内容园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F018-数岸互动内容园.txt",
+      "prompt_sha256": "6a8657b3f2668ec698fb766e9f325d0b281951bf60f7aca1718d299993de45bd",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F019",
+      "name": "松岬竞技体育园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F019-松岬竞技体育园.txt",
+      "prompt_sha256": "d2dfdf12cd1216c58556db535a5cdc1ce9f526eabe5af836bbc241d826444951",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F020",
+      "name": "环湖全民运动公园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F020-环湖全民运动公园.txt",
+      "prompt_sha256": "9264a47774f538d856e804b38104590b64daf0f8c6ce3929f1d1e2f84ed97e84",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F021",
+      "name": "北屏森林教育园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F021-北屏森林教育园.txt",
+      "prompt_sha256": "481b4627f6dcd713174b77f773a124f9ca181b42b422fab8eb293917d0b04731",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F022",
+      "name": "林下低扰动生活区",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F022-林下低扰动生活区.txt",
+      "prompt_sha256": "6ebf913c95ae4ac5e0ba75ee97cabdf8f8af7b32fd01941ba440ff907ae2782a",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F023",
+      "name": "书岭基础研究园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F023-书岭基础研究园.txt",
+      "prompt_sha256": "5de2c81f7985ae7b0d81759381f3971483a84354405c0a7d7622a90d66ffe7f8",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F024",
+      "name": "青岚精密仪器园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F024-青岚精密仪器园.txt",
+      "prompt_sha256": "7c512269657e5a79740ee11b0c06e31580346711e902c4a7d434be39818529d0",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F025",
+      "name": "东门铁路综合枢纽区",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F025-东门铁路综合枢纽区.txt",
+      "prompt_sha256": "cc78bbe6e2dae7dac458088470b2f9dd3716f0d13b86731a14949506c26925c9",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F026",
+      "name": "东站城市商务园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F026-东站城市商务园.txt",
+      "prompt_sha256": "4eef7f88b18a073ddd0f94ff918d1fb1942811b27162478915ded2eba9251415",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F027",
+      "name": "钛东精密制造园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F027-钛东精密制造园.txt",
+      "prompt_sha256": "71e92e9223f6734121083698e70dc7cea1e5ff1e38c7df4464fdbd905c971e5b",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F028",
+      "name": "东铸工业设计园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F028-东铸工业设计园.txt",
+      "prompt_sha256": "4f4bd4c1a4d4e62897dc020c2b64999a3245d3dfc68ed76a3665876b18c176b4",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F029",
+      "name": "南溪综合应急园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F029-南溪综合应急园.txt",
+      "prompt_sha256": "7ea31214aff4b0d34f8e34c347acc6ba6e917b1a03cfa83722936338c2fa1b0a",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F030",
+      "name": "循环生活资源园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F030-循环生活资源园.txt",
+      "prompt_sha256": "a7a39232aeed2f41eb297491afac9de69e3686987ba596c02c5e82f7c7ac2d68",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F031",
+      "name": "南原公共生活中心",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F031-南原公共生活中心.txt",
+      "prompt_sha256": "5d317e3bc25543cb9dc608c78d8275605afe229359266b03b85ca0904dae5b68",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F032",
+      "name": "晨光基础教育园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F032-晨光基础教育园.txt",
+      "prompt_sha256": "e86962fbeda62cfb199d9ae006c196ea999896caf5ecc8617ae9fda12a240650",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F033",
+      "name": "西麓农食研究园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F033-西麓农食研究园.txt",
+      "prompt_sha256": "27ef16247028f8b865d6f6682b8a761132403b0b65dbbc4cf453d3c3be545062",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F034",
+      "name": "丰仓生鲜集配园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F034-丰仓生鲜集配园.txt",
+      "prompt_sha256": "acfb9c4162e3e05a12a7a94559ce871432136e416dfd09a1b2ec6eeac30cfcc1",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F035",
+      "name": "西门区域贸易园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F035-西门区域贸易园.txt",
+      "prompt_sha256": "b4151a4462bad470734ca031edaf6cadcda4cde9510d033ee18d07ab27dad056",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F036",
+      "name": "古道修配工坊区",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F036-古道修配工坊区.txt",
+      "prompt_sha256": "fac129f1c753d68e8ae320601a310c24e2934ac54f645e8ee2ffd8286c3015d7",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F037",
+      "name": "西岭清洁能源园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F037-西岭清洁能源园.txt",
+      "prompt_sha256": "8aeb0035e7dce6979aed28d34b520cc0ee1aa1f74868f98f21c0a77c7b2a8513",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F038",
+      "name": "光谷低碳示范区",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F038-光谷低碳示范区.txt",
+      "prompt_sha256": "be8524c30c667e376183fc06d1222afa3fe49da061037772c044ad3c0580fcea",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F039",
+      "name": "北港净水与调蓄园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F039-北港净水与调蓄园.txt",
+      "prompt_sha256": "db3fdac2f52b7af0476c3fcdc95cc810ea5a0e61dd33844b257eaf385251eab0",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "F040",
+      "name": "入湖河口生态园",
+      "type": "功能区",
+      "prompt_file": "数据/开图提示词/F040-入湖河口生态园.txt",
+      "prompt_sha256": "19afad3a57ab1a0cc6b634257be113aed7508d5109a98e81990161f3d2f35d90",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S01",
+      "name": "稻穗农业小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S01-稻穗农业小镇.txt",
+      "prompt_sha256": "68751e98ad19bcc5fbad004199d2d054a41924664197e50860b47a650590b546",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S02",
+      "name": "翼谷航空小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S02-翼谷航空小镇.txt",
+      "prompt_sha256": "4d452f804935a08f31f33cd69cf39d8975d186bdf74839a1f8459d07956d834b",
+      "cell_count": 6,
+      "cell_ts_ms": [
+        1793648437645,
+        1793680192040
+      ]
+    },
+    {
+      "id": "S03",
+      "name": "星核高科技小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S03-星核高科技小镇.txt",
+      "prompt_sha256": "f8200b1c720497098359879db8c3e56d72c2958c3736e3fc586bc2b156597e65",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S04",
+      "name": "茶岚茶业小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S04-茶岚茶业小镇.txt",
+      "prompt_sha256": "3cddfb4753c57fc0ef1034becf2290425817d0b50c0cb0a1d7b43dbe6bddfcab",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S05",
+      "name": "竹弦竹木小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S05-竹弦竹木小镇.txt",
+      "prompt_sha256": "2e6e02f35d50334c871179e35772572b337cfcbb2c57793c9d33556d561b712a",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S06",
+      "name": "清泉康养小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S06-清泉康养小镇.txt",
+      "prompt_sha256": "047b2d516971ba00fc5ace0b92b7ed122fc5889d74e77a9d415ccbcb958cccdd",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S07",
+      "name": "光伏岭能源小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S07-光伏岭能源小镇.txt",
+      "prompt_sha256": "bf01fb443ba30c5e3dee51edeb8064de91c5c7daf6c997af5717063443761207",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S08",
+      "name": "镜湾影视小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S08-镜湾影视小镇.txt",
+      "prompt_sha256": "af04fee03a6ac6eff431078fbc32d1fd80a96ca5922d01d04f5eb89d006d32a7",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S09",
+      "name": "雪岩户外小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S09-雪岩户外小镇.txt",
+      "prompt_sha256": "d5e2fc4d642bdedc900aba52f49d084492acdb4d45efc02054b3bacf6528f84c",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S10",
+      "name": "陶火工艺小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S10-陶火工艺小镇.txt",
+      "prompt_sha256": "56af20217b1c84fd319d9d15e0172af7ce5463450b1261fe4ce9df0da74df42d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S11",
+      "name": "花汀园艺小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S11-花汀园艺小镇.txt",
+      "prompt_sha256": "c54aa3a549a0f12d3c6992d233ad457e8280a480180024645bcd39bbdb301f9e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S12",
+      "name": "河仓食品小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S12-河仓食品小镇.txt",
+      "prompt_sha256": "9a7034527e3fd5771edbf050a530e4e1e5dd67e81de69b711612b2c00a117780",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S13",
+      "name": "云织纺创小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S13-云织纺创小镇.txt",
+      "prompt_sha256": "8aba1e989109ebe523fe5447e78f9a6846152f0fd7d60fe46bb326156f3a9896",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S14",
+      "name": "石桥商贸小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S14-石桥商贸小镇.txt",
+      "prompt_sha256": "8d9bb5614545d62617df83490e3e4895c45770e6076dce2858e21113a0085cc4",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S15",
+      "name": "溪源水务小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S15-溪源水务小镇.txt",
+      "prompt_sha256": "cf32942849ddb36c37e66115c6290a597411884d654b7ee1c306acc6271de0e1",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S16",
+      "name": "回环循环小镇",
+      "type": "产业小镇",
+      "prompt_file": "数据/开图提示词/S16-回环循环小镇.txt",
+      "prompt_sha256": "20901340e417ee4b4c84ef9dcb27fb23efb40bb1bc20f7066d9307231073eaee",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S17",
+      "name": "白鹭渔村",
+      "type": "特色村落",
+      "prompt_file": "数据/开图提示词/S17-白鹭渔村.txt",
+      "prompt_sha256": "20ca894c4e7f19be149f933394d4878538a2662dacb8e31c206e1d4a30699bfd",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S18",
+      "name": "杏坳果村",
+      "type": "特色村落",
+      "prompt_file": "数据/开图提示词/S18-杏坳果村.txt",
+      "prompt_sha256": "d044bb96b2a39b76a7297b82fcf7735218e76ce6028ed35bd5268b3cbef9ccf1",
+      "cell_count": 6,
+      "cell_ts_ms": [
+        1793648499332,
+        1793680318935
+      ]
+    },
+    {
+      "id": "S19",
+      "name": "杉关古村",
+      "type": "特色村落",
+      "prompt_file": "数据/开图提示词/S19-杉关古村.txt",
+      "prompt_sha256": "ea2e6779a6d9b479c1cde76e6595f6bd5a1e2c997ebe5f128b0ecc88a09a2ab0",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S20",
+      "name": "云台牧村",
+      "type": "特色村落",
+      "prompt_file": "数据/开图提示词/S20-云台牧村.txt",
+      "prompt_sha256": "e5d3dd04fc35777358f05c086959865c1b1eaffdc15f4fcdd347f82a20ae6a52",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S21",
+      "name": "南埠水村",
+      "type": "特色村落",
+      "prompt_file": "数据/开图提示词/S21-南埠水村.txt",
+      "prompt_sha256": "0fcf4e3a0f89ce36c6e187e6872bf17b4cb9ca677a478a1d8e9bfa2df6235395",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S22",
+      "name": "石耳菌村",
+      "type": "特色村落",
+      "prompt_file": "数据/开图提示词/S22-石耳菌村.txt",
+      "prompt_sha256": "a466325ffa9d97a716ba8e3018c00076f7870f60f443d8cbd7e3ea4300afa85c",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "S23",
+      "name": "星坡观测村",
+      "type": "特色村落",
+      "prompt_file": "数据/开图提示词/S23-星坡观测村.txt",
+      "prompt_sha256": "32ca37f2bad7a591ddf9ae4b143d827c8b5d0d5b69d0e6137c8dd19376c54f24",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793693756590
+      ]
+    },
+    {
+      "id": "S24",
+      "name": "芦塘湿地村",
+      "type": "特色村落",
+      "prompt_file": "数据/开图提示词/S24-芦塘湿地村.txt",
+      "prompt_sha256": "3d03e88059a41356caccf9999eb43d5484877a150bec30004d3616e725876d8e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R001",
+      "name": "银杏议庭",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R001-银杏议庭.txt",
+      "prompt_sha256": "a9b5f08e12886823655ab6fa14e4bb4c590f86868e9680959179036b0f0e7337",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R002",
+      "name": "北湖公务花园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R002-北湖公务花园.txt",
+      "prompt_sha256": "e28c479be23e21ba407777f77689b0c9f9583550077b87589cfb3b760e38255e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R003",
+      "name": "铜檐里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R003-铜檐里.txt",
+      "prompt_sha256": "9f445a3664ae9e2f3de17c8d8f7ebfc89ad99cc117f78314b1966cd13b3b0e2e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R004",
+      "name": "清简公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R004-清简公寓.txt",
+      "prompt_sha256": "91abf40ca2e956b79a7b05b4c0b87f92143634613b878bc86a1e5a8cad72af7c",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R005",
+      "name": "法桐书舍",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R005-法桐书舍.txt",
+      "prompt_sha256": "5952940fb9549c9464406c6406a6ca06bf7fa5883068362d161182c2ad9509bc",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R006",
+      "name": "映湖安居坊",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R006-映湖安居坊.txt",
+      "prompt_sha256": "fe1eb59732db47df68837657cf9b246ef85643b73315fac17e79d9cc6725dd1f",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793684033743
+      ]
+    },
+    {
+      "id": "R007",
+      "name": "书声里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R007-书声里.txt",
+      "prompt_sha256": "d8780622ebb58887a13e4ffdc0d7e9f61a90211c122393c329712fc546198930",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R008",
+      "name": "红砖学府苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R008-红砖学府苑.txt",
+      "prompt_sha256": "34f4363a693f049b3cba1876d9411bf4ad4b2d8f41a24ca0732ccceead997f16",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R009",
+      "name": "青藤教师村",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R009-青藤教师村.txt",
+      "prompt_sha256": "acf543553fa3243ac7077706c3ffdb6eb1433db710b6b17a8105333a4249a4ae",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793679850653
+      ]
+    },
+    {
+      "id": "R010",
+      "name": "北书青年寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R010-北书青年寓.txt",
+      "prompt_sha256": "a94ab3965a99525259f0e2b2872d9a4f10727c16be4e082819797031de1593b6",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R011",
+      "name": "杏坛家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R011-杏坛家园.txt",
+      "prompt_sha256": "99eb990e4121bb16e2fe5edf312b71978946869d6be8438b9f56b0116a3b2d3d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R012",
+      "name": "知行合居院",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R012-知行合居院.txt",
+      "prompt_sha256": "ebf1f508d7bb245d21a3e838ad83d4bdf19ac31aaac999920457d4f2f5e73b8f",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R013",
+      "name": "钛心云邸",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R013-钛心云邸.txt",
+      "prompt_sha256": "4c99339f47a4e6e17ae04e6fada06f17789a4fac07d5a69b45b37028f7dacd6f",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R014",
+      "name": "东岸金融公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R014-东岸金融公寓.txt",
+      "prompt_sha256": "c0794212df53fb8ad0904d90980b325174c3eb4ad6a87f63d17c0221d0da2ec3",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R015",
+      "name": "澄镜府",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R015-澄镜府.txt",
+      "prompt_sha256": "e0edc10985d3407fda4ff4f39c45673bdd0a4c8c8b49289feb086b9fe12a2c16",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793692926814
+      ]
+    },
+    {
+      "id": "R016",
+      "name": "银脊人才庭",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R016-银脊人才庭.txt",
+      "prompt_sha256": "6d5dca09f14d2b5a7d2bda73fc7be4bfefc4a891e4c655ca158cd0d906fbb218",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R017",
+      "name": "湖光职住里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R017-湖光职住里.txt",
+      "prompt_sha256": "2b0d05cef47aee5f0d7e149353c3994938ffe84e53cc22fa6c56b18a77d0488a",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R018",
+      "name": "晴窗里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R018-晴窗里.txt",
+      "prompt_sha256": "b0a2370cfde542c662eeb7cde132760d07f84d5bff3844ccc145c721d3a8fdf5",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R019",
+      "name": "潮湾旅居苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R019-潮湾旅居苑.txt",
+      "prompt_sha256": "9b7c0a44bc27b0fc19de9b540efdfafc7dc4dadefecc9e5f6553ca1ae5117561",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R020",
+      "name": "展园服务公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R020-展园服务公寓.txt",
+      "prompt_sha256": "4b18578dd2bb552156dec56e5032e7e9875edfa186e52f70494336f20e16df12",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R021",
+      "name": "水岸会客里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R021-水岸会客里.txt",
+      "prompt_sha256": "2117f3811a8eac5197a31888af5d33039d05eeb0f34e2f68cee5e12a11054d92",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R022",
+      "name": "鹭汀花园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R022-鹭汀花园.txt",
+      "prompt_sha256": "eb1a60f1d2765b1a8a69ac2c7ec8840862e939b4b1f32ce388108171eeca88f2",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R023",
+      "name": "金篷家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R023-金篷家园.txt",
+      "prompt_sha256": "712d692ec28a2f58be48133e3ef849e3061848acf16353aa9f67c2aecfe7711d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R024",
+      "name": "东澜共享寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R024-东澜共享寓.txt",
+      "prompt_sha256": "67b457f1cd26f108fbd6007d3807cf12fff9ca863ae5b759075b00ccb73a29e1",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R025",
+      "name": "青湾医师苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R025-青湾医师苑.txt",
+      "prompt_sha256": "a29a1e020e46f951fc6051cd33da6277a9731a9a1b099f6ce47cc2cd8e6bd304",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R026",
+      "name": "静溪康养里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R026-静溪康养里.txt",
+      "prompt_sha256": "39ccc6d4aadcf7b63774cbc60c23a669e8101e37014d8d8ba654e2684d8906a7",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R027",
+      "name": "杏林陪护公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R027-杏林陪护公寓.txt",
+      "prompt_sha256": "2f5be14885abe016c5d76797209e9ed265d048b8b77aaf0ba33bb6665b77c628",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R028",
+      "name": "白鹭康复居",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R028-白鹭康复居.txt",
+      "prompt_sha256": "1e14253e044905b6b25d04d3b33757cefdde83d1c8487c6918b9f09e067452f6",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R029",
+      "name": "暖庭护士家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R029-暖庭护士家园.txt",
+      "prompt_sha256": "560b4e297e2a16326ec0192a6974d38a9e699601ac14d6e58d092bd4f29a007c",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R030",
+      "name": "春汀无障碍社区",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R030-春汀无障碍社区.txt",
+      "prompt_sha256": "619758e5ef14ad87f7f4253065c31ae54ce6c0f3c09e099034e238b9f6572157",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R031",
+      "name": "南湖烟火里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R031-南湖烟火里.txt",
+      "prompt_sha256": "c52deedc1956676d921cba9e35f2a6b19cea467854dc20a51544563344add609",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R032",
+      "name": "月湾家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R032-月湾家园.txt",
+      "prompt_sha256": "2847c2d54bbd12fb4ff4bfb11b437692412252801e57b2e345e74f3c441e813a",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R033",
+      "name": "米巷公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R033-米巷公寓.txt",
+      "prompt_sha256": "a3a08a76240206437e2aba29b8850dac1018377031eb09ef488530c72a8619c7",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R034",
+      "name": "雨棚里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R034-雨棚里.txt",
+      "prompt_sha256": "814f54b3d44dde94ec7a6196e0c768772dfe153b37a11c945d06bf9855af8dc4",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793693394695
+      ]
+    },
+    {
+      "id": "R035",
+      "name": "棠树邻院",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R035-棠树邻院.txt",
+      "prompt_sha256": "a3c2bd8f630608413194245621136af7ba1d0d676088db490db6072110311194",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R036",
+      "name": "湖湾青少年家庭苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R036-湖湾青少年家庭苑.txt",
+      "prompt_sha256": "52a8f9ed016b736d2737d7ff675f57aa092aba5acbe5e8d50180153a1c53053f",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R037",
+      "name": "旧炉艺居",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R037-旧炉艺居.txt",
+      "prompt_sha256": "c98b42b39693b731ac5f83b65c93862093755d0685eb21b28584dbd7633e1881",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R038",
+      "name": "西声演员公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R038-西声演员公寓.txt",
+      "prompt_sha256": "073cb03c3731dd06c7d9261a90a9f888c1140df1c6ec13d1934c740f7bf93630",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793681620467
+      ]
+    },
+    {
+      "id": "R039",
+      "name": "红厂画家村",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R039-红厂画家村.txt",
+      "prompt_sha256": "1e9b3830c47bdaaab120d85bcad760199de0fe2ed7e113ddf706e9cbc49662a1",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R040",
+      "name": "幕间里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R040-幕间里.txt",
+      "prompt_sha256": "14324e0329b32c5f24352efc569b5ecccb65b8aa31988da1aa81263713a2df9d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R041",
+      "name": "黑窗青年坊",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R041-黑窗青年坊.txt",
+      "prompt_sha256": "d5f0c282463a345165cff921c9a2e31e97f0675eadc27ce1bddcd2c8a46aeab5",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R042",
+      "name": "音桥家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R042-音桥家园.txt",
+      "prompt_sha256": "bbb1ecaf8f3972e1a701303d6d1a659e9f759b15bfa0cb54b354f8ca386c845e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R043",
+      "name": "白石老街坊",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R043-白石老街坊.txt",
+      "prompt_sha256": "2ee01e527dcae8276dabeb54c782ed08243a9a54841f29d257b77cdf21438906",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R044",
+      "name": "青瓦南里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R044-青瓦南里.txt",
+      "prompt_sha256": "aadd56aec9f12ef396b088c57a6cf5ff00ed52b75609c543670c5ba31eabc8ad",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R045",
+      "name": "渔火巷",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R045-渔火巷.txt",
+      "prompt_sha256": "faa391c263d04cc08275934161af584daf80e8312ec0024f80f4bad7ac3f0a97",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R046",
+      "name": "榕荫祖屋群",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R046-榕荫祖屋群.txt",
+      "prompt_sha256": "ae2eb4381d133b775c24582b31bfe84768d2ade4bc89d5f52f1acbdb548a4d8b",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R047",
+      "name": "西埠新邻苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R047-西埠新邻苑.txt",
+      "prompt_sha256": "b21b00e3b6e56348c2e442493c73cac745772d12f85963dfe9be2ac025867374",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R048",
+      "name": "纸伞里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R048-纸伞里.txt",
+      "prompt_sha256": "83f9e7a6311919cce249228592f8e3325dff199b3f59b0f6818789491ef13b35",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R049",
+      "name": "云栈工程师公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R049-云栈工程师公寓.txt",
+      "prompt_sha256": "ffc20bb0bb35bf58319865350d0ee6c42fa811c76741bc02b844009d55ffdd94",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R050",
+      "name": "数岸创客庭",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R050-数岸创客庭.txt",
+      "prompt_sha256": "dea76437cf88e44c33656007b2ef0c1ce02f20d03987b04d19b470aea9387317",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R051",
+      "name": "折光里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R051-折光里.txt",
+      "prompt_sha256": "ae5cb14e6207ff5fa0e0fa45e30e3c5025083086b62f4e731ceae9aab2fb6e69",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R052",
+      "name": "蓝帆协作居",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R052-蓝帆协作居.txt",
+      "prompt_sha256": "cdd1c131cc655b36e60dca3d049819bfdcc94b1aa0d5f6b14fa7c68a530a9313",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R053",
+      "name": "星栈青年社",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R053-星栈青年社.txt",
+      "prompt_sha256": "98eca7a2b2b497771a7acd623d7df1d07df7f6e53666bd5d0fe1a1eef1713297",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R054",
+      "name": "算溪花园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R054-算溪花园.txt",
+      "prompt_sha256": "90f17c0acee654aaab967cdeaabe859aec91ec9bcbd93a44152127298efa5fb4",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793701191889
+      ]
+    },
+    {
+      "id": "R055",
+      "name": "松岬运动员村",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R055-松岬运动员村.txt",
+      "prompt_sha256": "846f1f91c4ace5b31eaefcf86a207204138824d3212aeae47b0b100744c63c14",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R056",
+      "name": "跑道里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R056-跑道里.txt",
+      "prompt_sha256": "c5fa23aa50d7e692771829f810d24e6f860d73c25ac2f0fad4ad58f9029a9ed1",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R057",
+      "name": "岚风家庭苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R057-岚风家庭苑.txt",
+      "prompt_sha256": "7a51067c3ff242fcbb547c163038b0547829aff54c9c33326cd5f18b3464252e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R058",
+      "name": "木台阶公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R058-木台阶公寓.txt",
+      "prompt_sha256": "e64b4b9a94140846cb1fe48319cc7abbe2a79682e7cff415febeb981dd669589",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R059",
+      "name": "绿径康体居",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R059-绿径康体居.txt",
+      "prompt_sha256": "ce9efc53a0d095b3b79ff139698da2ef348557ff4de1c377a3e9c2039a03b16f",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R060",
+      "name": "观赛家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R060-观赛家园.txt",
+      "prompt_sha256": "de5941f9ebd7c226bc254045a9974f43e098f5c70110f0d9388ef8c6e89aced0",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R061",
+      "name": "杉影山居",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R061-杉影山居.txt",
+      "prompt_sha256": "1b63943725bc21db6a8412bab7025535106a2ed93e59df4bc7fc417e5a885a61",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R062",
+      "name": "北屏护林员社区",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R062-北屏护林员社区.txt",
+      "prompt_sha256": "d5acbd47c34f005216f5f7d2142c3d078682d1789e34e02f03d9c57590814cab",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R063",
+      "name": "雨谷花园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R063-雨谷花园.txt",
+      "prompt_sha256": "50206d87a773de0f80db89e41222f0c8fb852d3b21d33e19a3faa440ada9da8a",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793833481987
+      ]
+    },
+    {
+      "id": "R064",
+      "name": "松籽里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R064-松籽里.txt",
+      "prompt_sha256": "3d08b12689af121cc6d87897aa7a02d37e794411f659f68f1db5f0e84cc771e5",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R065",
+      "name": "林缘共居院",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R065-林缘共居院.txt",
+      "prompt_sha256": "4f8bf5afdcfa209f525a9442295f969c223476476af1ad59c71538207b543ce9",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R066",
+      "name": "青苔坡社区",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R066-青苔坡社区.txt",
+      "prompt_sha256": "7a98d47fbe9fb3fc9bf54cf7e79d13b5d7f73cd36ab14a871c635b124de30e98",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793833534267
+      ]
+    },
+    {
+      "id": "R067",
+      "name": "书岭科研家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R067-书岭科研家园.txt",
+      "prompt_sha256": "039ffe4f97e782fa9f902ec291fee0b8b6316eae3fad81c4de7293103fd4405d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R068",
+      "name": "青岚博士公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R068-青岚博士公寓.txt",
+      "prompt_sha256": "8dd4ba86d3c5737d2c9d156c29b04108665a7a5daa20349ed9a6e2a1ec72650f",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R069",
+      "name": "仪光里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R069-仪光里.txt",
+      "prompt_sha256": "d15ca4225282aae1a412fb190f8eec7b6e27188b84d21a52dd31b47f15d7402d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R070",
+      "name": "静思庭",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R070-静思庭.txt",
+      "prompt_sha256": "ee1b5e4a82d31de31a85417cf412f18d5aae5d8a336f99884b27f52a50f68ba9",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R071",
+      "name": "山窗研究员村",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R071-山窗研究员村.txt",
+      "prompt_sha256": "5a39e35ff63102d474d975658f4e6fe593a55c983dc44accfad276b1d5463014",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R072",
+      "name": "知微家庭苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R072-知微家庭苑.txt",
+      "prompt_sha256": "3c1cf9580cae20469086858d0682c743f4598797a34d7d8a08183f5924561212",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R073",
+      "name": "东站通勤城",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R073-东站通勤城.txt",
+      "prompt_sha256": "b736376d4fb908d75e13b74acea9d65b4caf4450bc3b5e1d19b780595932a1f2",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R074",
+      "name": "轨光公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R074-轨光公寓.txt",
+      "prompt_sha256": "db8b5d4eb34cf9925418b6f35d8d61c07061e1200466e6961a1fbdf86ae99e8d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R075",
+      "name": "山门工务村",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R075-山门工务村.txt",
+      "prompt_sha256": "f89d485aedf48429c66b8bcb9df47e6bad6d28fe4707dfeb4c7a83abaf18b172",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R076",
+      "name": "早班里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R076-早班里.txt",
+      "prompt_sha256": "d7fa4bf3898a058497184cbe87b53a5f3ad0a192d6b639aedf8fc48e6204ef0b",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793683562591
+      ]
+    },
+    {
+      "id": "R077",
+      "name": "东门安居坊",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R077-东门安居坊.txt",
+      "prompt_sha256": "48e4e48aeac72e948001c75beeb59a42b9e31c7ba50e4f1d634089cc9fc8ddc1",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R078",
+      "name": "晨笛家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R078-晨笛家园.txt",
+      "prompt_sha256": "9f10d352f5b8e7e3ee30bc86fdd13bd5c5fd5bbda379ff8883c1ebc51167086e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R079",
+      "name": "钛东技师苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R079-钛东技师苑.txt",
+      "prompt_sha256": "4a54fca02abb91876cf48e128aa744642bd092b4eea073ef6c48878d853c03f3",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R080",
+      "name": "精工新村",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R080-精工新村.txt",
+      "prompt_sha256": "487065c910b6bcd4b955610554920b4eaf0754c210b6fb89a8534ea7b7d67433",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R081",
+      "name": "铸梦公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R081-铸梦公寓.txt",
+      "prompt_sha256": "5b22e2de2107157aac6d8fdc68889a8db44f7ac9e9aa8c3df10e6b2565fc7275",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R082",
+      "name": "蓝领晴庭",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R082-蓝领晴庭.txt",
+      "prompt_sha256": "af5db1fbc7c272bfb2e958cb03cf5087a21cb61db1f09ec04058c05db8482125",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R083",
+      "name": "榫合里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R083-榫合里.txt",
+      "prompt_sha256": "ebbc59e3ebf25a43dcb5efcbb7aaecc5dd30ab6ba17045b74a1281af8a2c4a16",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R084",
+      "name": "东铸家庭坊",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R084-东铸家庭坊.txt",
+      "prompt_sha256": "c5814536f71ac5b66c056e6cb57d34cb5f06307a5aa17d49ce76390379537601",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R085",
+      "name": "南溪应急家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R085-南溪应急家园.txt",
+      "prompt_sha256": "8580d206afb1266697bbe5917b51821348cd1f235cb44ffeee4958901bec99dd",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R086",
+      "name": "橙灯里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R086-橙灯里.txt",
+      "prompt_sha256": "8749359a83f5a26851490153c6a41960ab28bba6241c8bb57d0f28fde4ec64a9",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R087",
+      "name": "循环工友苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R087-循环工友苑.txt",
+      "prompt_sha256": "425d572b82120305fe00237d129098e0b37a6184957e6f6d5365a4aa3812e2d2",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R088",
+      "name": "修缮师公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R088-修缮师公寓.txt",
+      "prompt_sha256": "61414ec5284f5392bb5eeac004ca7e95809a1169b0b3faf858ee759553509f3d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R089",
+      "name": "安澜保障社区",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R089-安澜保障社区.txt",
+      "prompt_sha256": "b93555bba087fdfcc18da2addf2c90d4a2354995766cba96cf3ee684997d76d7",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R090",
+      "name": "晨守庭",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R090-晨守庭.txt",
+      "prompt_sha256": "c68b1ec8e6c2b95fbcef9013dc23605d2b3dae4dbde02e1ddefb416ce0306cb2",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793683624308
+      ]
+    },
+    {
+      "id": "R091",
+      "name": "南原万家苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R091-南原万家苑.txt",
+      "prompt_sha256": "a5f616dff14306adda4ae4b54b2c7835507ff6155dd1eac689d89b53429040fb",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R092",
+      "name": "晨光学区里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R092-晨光学区里.txt",
+      "prompt_sha256": "5e3296eb1f6f7862c26ef674702a48a30c305b553ed4eb3fbd6b0264fa114a5b",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793685491589
+      ]
+    },
+    {
+      "id": "R093",
+      "name": "榆树新村",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R093-榆树新村.txt",
+      "prompt_sha256": "3c4ffc2db7d6a1d6bad19b78c91387b7e83492b0d83ac43d02aca5699d5756e1",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R094",
+      "name": "青禾保障房社区",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R094-青禾保障房社区.txt",
+      "prompt_sha256": "34e2ec225f56abde1a1165f910e758aa9583d5b85562f420d9ad4b707a09281b",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R095",
+      "name": "向阳老年友好苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R095-向阳老年友好苑.txt",
+      "prompt_sha256": "901a10e87ce20f3cb18ea1b780f75c57d52c86eaba1864353a2ff959b86617c9",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R096",
+      "name": "南原新家庭城",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R096-南原新家庭城.txt",
+      "prompt_sha256": "623bb978500d88306d78e4440a570f7613c339d84dbc2e3c9e347c3fc642de6d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R097",
+      "name": "西麓农科苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R097-西麓农科苑.txt",
+      "prompt_sha256": "6babc6db9e88cd35b554bb764f010eb621d554c57aab48716c23b372c4e04d8e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R098",
+      "name": "丰仓鲜活里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R098-丰仓鲜活里.txt",
+      "prompt_sha256": "518d12cea2e68ec526d94e3429c815fd54508cdb292e5da793fbd8d708cbd6e1",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793683675830
+      ]
+    },
+    {
+      "id": "R099",
+      "name": "田畔工友村",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R099-田畔工友村.txt",
+      "prompt_sha256": "38389542adc602544c5d29c79fe0a7f2b40d5b9b2ea417d3db9cf8fc19a48cce",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R100",
+      "name": "麦穗公寓",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R100-麦穗公寓.txt",
+      "prompt_sha256": "7baec93ac70ae8c14595eb9c776262344ae156970b59e341c01587b1b530826e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R101",
+      "name": "果园家庭庭院",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R101-果园家庭庭院.txt",
+      "prompt_sha256": "23ac17e5d861fd311d2c907578e6234b61c9c0a85e858aeb86870aa11cdccad1",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R102",
+      "name": "苗圃青年居",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R102-苗圃青年居.txt",
+      "prompt_sha256": "9c9fe7b0417ce349848f87f24a4bb9e11b3b934d82a8fac6fd484c060d7df0a7",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R103",
+      "name": "西门商旅家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R103-西门商旅家园.txt",
+      "prompt_sha256": "7181c9538d122c094e9eae343f3c94391bc54210703f0d4cd300f17852f56791",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R104",
+      "name": "古道匠居",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R104-古道匠居.txt",
+      "prompt_sha256": "fd916375dc6c6b321d78137143965eed568c1f59220b82703dc30bb5a2732a71",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R105",
+      "name": "赤陶里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R105-赤陶里.txt",
+      "prompt_sha256": "1b74b9073d6d608d08c9540d03019863cae74cd35ea8144a3c39fb01a3504b3d",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R106",
+      "name": "店后人家",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R106-店后人家.txt",
+      "prompt_sha256": "5244b307b2b4f8566192b32085a3dc7050ec92dcb0cb3e766644427e8cc7f9b8",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R107",
+      "name": "货巷新邻苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R107-货巷新邻苑.txt",
+      "prompt_sha256": "758ebe17d31051d5d8e8fdd6278a54d43e8de1228e2f300b6bcbf481977706da",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R108",
+      "name": "西关合居坊",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R108-西关合居坊.txt",
+      "prompt_sha256": "fbc4a4ea6197265fc6b9e0914e07d6d7fcaa0b48bef0de05b9b68d1b7638cf7f",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R109",
+      "name": "西岭光合社区",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R109-西岭光合社区.txt",
+      "prompt_sha256": "b0ac7a22f091293246e1f8ea742dfaf98a443f1af77530f87c317e1226c34bf3",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R110",
+      "name": "储能技师家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R110-储能技师家园.txt",
+      "prompt_sha256": "922d3a13f5206aeceb467762e7f66e9bd71ebafecfdc27a77f511a7e028f2e93",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R111",
+      "name": "坡地风庭",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R111-坡地风庭.txt",
+      "prompt_sha256": "ebe19de8efcf2f1e3c89a0849b137112935e9ad2ed18d7c8de99f1567c913fea",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R112",
+      "name": "净零示范居",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R112-净零示范居.txt",
+      "prompt_sha256": "21b106036d4b59cedebbc1ef53a91879c49eb7a98b50d61d6e4a2e38a27306ee",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R113",
+      "name": "蓝瓦里",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R113-蓝瓦里.txt",
+      "prompt_sha256": "128d5cd39514e97ccd7799a6f7b00e12a8056d162bb6a933e45905a380546442",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R114",
+      "name": "谷风长者苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R114-谷风长者苑.txt",
+      "prompt_sha256": "b967a72359610ad2ee6573e57c0bdef400add1f76a53c33c7ff350871eebec37",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R115",
+      "name": "北港水师苑",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R115-北港水师苑.txt",
+      "prompt_sha256": "54aebc3eb2c6d3b863330e8ef3eeafe6ec87b4425a722aae8b435b66c5cf9940",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R116",
+      "name": "清流家园",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R116-清流家园.txt",
+      "prompt_sha256": "e3957e0919522c2cf0a99682bbd6b1ac1e8a7a05766544b1cbbbe92a32ffbe03",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793684611318
+      ]
+    },
+    {
+      "id": "R117",
+      "name": "湿地观察员社区",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R117-湿地观察员社区.txt",
+      "prompt_sha256": "b242f7df3017ea9e54088f70763e90f0132ffff53dc1c7163c211a0789289e84",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R118",
+      "name": "芦苇庭",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R118-芦苇庭.txt",
+      "prompt_sha256": "aca8d95efd1a8e69ea35bec231135571adeb18069b2708f63dabb8be135bcaa5",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R119",
+      "name": "河口新居",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R119-河口新居.txt",
+      "prompt_sha256": "3c5f737d122ba384b6e6ab08d07d54e635e05a353f15dd8d66d47f3f64f3f92c",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "R120",
+      "name": "水尺巷",
+      "type": "居民区",
+      "prompt_file": "数据/开图提示词/R120-水尺巷.txt",
+      "prompt_sha256": "4c593d09e075aa91562e07180ffa0f05469d49af1afbb1b27cb0d1a52ccb70f0",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D01",
+      "name": "北湖政务片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D01-北湖政务片区.txt",
+      "prompt_sha256": "cced1f6c8281af2544edb879a889f8ffeed035ff7d51672af30b6c901f4a6447",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D02",
+      "name": "东北文教片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D02-东北文教片区.txt",
+      "prompt_sha256": "8b7dca0c37cc9456e7951f5099667934f50c9cd59eebbd0b76b1da55a52ada78",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D03",
+      "name": "东湖金融片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D03-东湖金融片区.txt",
+      "prompt_sha256": "6ef625e3330302450731445623b2ab64cec8cc4d7340d752688d7a837d409e86",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793646041850
+      ]
+    },
+    {
+      "id": "D04",
+      "name": "东南会展片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D04-东南会展片区.txt",
+      "prompt_sha256": "49828cbe3a219634d910349cbe8a78b39934c9d3305159c3a0c23b4b1646dcdd",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D05",
+      "name": "青湾医养片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D05-青湾医养片区.txt",
+      "prompt_sha256": "7234236b35443c761a975d4dd8eb27eb6c76ab87c392f7bf39505b504baa873a",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D06",
+      "name": "南湖生活片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D06-南湖生活片区.txt",
+      "prompt_sha256": "5884df6a13c1651d029fd081f5640c5fb3015efb602d32d37e6f9de2e10d0841",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D07",
+      "name": "西南文艺片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D07-西南文艺片区.txt",
+      "prompt_sha256": "e0d7c2a84529584e3bc15935db52b082c8ea4378d6215538d22754a3c86b79a1",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D08",
+      "name": "西湖古城片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D08-西湖古城片区.txt",
+      "prompt_sha256": "98aa939ae1e3d03e86628285788f954b4a71e23f95313cffaedb15c913e48205",
+      "cell_count": 5,
+      "cell_ts_ms": [
+        1793646285472
+      ]
+    },
+    {
+      "id": "D09",
+      "name": "云栈数创片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D09-云栈数创片区.txt",
+      "prompt_sha256": "6de0e0d8796e5c5c63117dc99a9f6c5bd96c15581e3d9432b583186a3ffd7bf8",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D10",
+      "name": "松岬体育片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D10-松岬体育片区.txt",
+      "prompt_sha256": "f11338aa2096908df2a00b6b88126492addfbbb51e4b89029009b24195e3732b",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D11",
+      "name": "北屏生态片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D11-北屏生态片区.txt",
+      "prompt_sha256": "a22ddbf8d3baf932321379282f5086b885ab78813c7aa5d14526ab5ac1c1d8ca",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D12",
+      "name": "书岭科研片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D12-书岭科研片区.txt",
+      "prompt_sha256": "4e38e1f1d7f53699a24d82926d4e188945300432f2309eed48948ee1b8065afc",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D13",
+      "name": "东门枢纽片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D13-东门枢纽片区.txt",
+      "prompt_sha256": "fe5757b695c0e797a622a7661605e2808f218ade2b3bb01affe2a11849ff5bab",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D14",
+      "name": "钛东智造片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D14-钛东智造片区.txt",
+      "prompt_sha256": "02dab87fc3216f7cc4504cbe5e4f45a4f7953863440581a289977c7857940bef",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D15",
+      "name": "南溪服务片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D15-南溪服务片区.txt",
+      "prompt_sha256": "d1ccded7fa408be230ee0daf5f1c29e07cb8c768464964e9c76f684b2f35fe1e",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D16",
+      "name": "南原居住片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D16-南原居住片区.txt",
+      "prompt_sha256": "1aee7a7c4e2319e16484c444c338c63bf355937431a8cde8814658db6563ad79",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D17",
+      "name": "西麓农食片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D17-西麓农食片区.txt",
+      "prompt_sha256": "6f89b83479369a575187b18479fcb5cd73d823c2aa6b169d3c9ce20977a00060",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D18",
+      "name": "西门商贸片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D18-西门商贸片区.txt",
+      "prompt_sha256": "6046b380ead37dc019aa5c7386212daef1d2517c591b94739086db70d5073a47",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D19",
+      "name": "西岭能源片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D19-西岭能源片区.txt",
+      "prompt_sha256": "46f758ff351d770208eb7617635a6ad994feaa6e22858102221ab39dd30c8974",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    },
+    {
+      "id": "D20",
+      "name": "北港水务片区",
+      "type": "城市片区",
+      "prompt_file": "数据/开图提示词/D20-北港水务片区.txt",
+      "prompt_sha256": "85aab68ef24abd8e509dabe604d4145a0fef110971ac4faa66f57e902187a65f",
+      "cell_count": 4,
+      "cell_ts_ms": []
+    }
+  ]
+}
