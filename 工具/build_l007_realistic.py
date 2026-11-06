@@ -10,6 +10,8 @@ from PIL import Image, ImageDraw
 from build_visual_controls import SCENES, project_point
 
 ROOT = Path(__file__).resolve().parents[1]
+# v05 原件已按 B 前置裁定整体归档进 backup/ 镜像路径（移交清单 §50.2），此处只读不改。
+V05_SOURCE = ROOT / "backup" / "数据" / "图集" / "L007-钛湖之脊-v05.jpg"
 SCENE = SCENES["L007"]
 SHAFT_BOTTOM = 24
 SHAFT_TOP = 320
@@ -186,7 +188,7 @@ def render_realistic_frame(time_s, size=(1024, 1536)):
 
 def composite_realistic_still(size=(1024, 1536)):
     """沿用v05照片材质，仅在塔身立面重绘恰好78个等高楼层。"""
-    source = ROOT / "数据" / "图集" / "L007-钛湖之脊-v05.jpg"
+    source = V05_SOURCE
     with Image.open(source) as source_image:
         pixels = np.asarray(source_image.convert("RGB")).copy()
     facades = (
@@ -253,7 +255,7 @@ def composite_realistic_frame(time_s, size=(1024, 1536)):
 def save_still():
     """只生成首图；视频须在首图人工复验通过后另行封装。"""
     target = ROOT / "数据" / "图集" / "L007-钛湖之脊-v07-1024x1536.jpg"
-    source = ROOT / "数据" / "图集" / "L007-钛湖之脊-v05.jpg"
+    source = V05_SOURCE
     image = composite_realistic_still()
     xmp = Image.open(source).info.get("xmp", b"")
     image.save(target, quality=95, subsampling=0, xmp=xmp)

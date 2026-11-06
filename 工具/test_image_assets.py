@@ -17,6 +17,22 @@ sys.path.insert(0, str(ROOT / '工具'))
 CELL_PAT = re.compile(r'(?:替换上一格|替换第(\d+)格) (\S+?\.png)')
 VNN_IN_ROW = re.compile(r'重投第[一二三四五六七八九十]+投（(v\d+)）')
 
+ARCHIVE_ROOT = 'backup/'
+
+
+def unrooted(path):
+    """去掉 B 前置裁定的归档镜像前缀，返回读数侧一贯使用的无前缀写法。
+    为什么判据按无前缀比对：`数据/开图清单.json` 的 image_file 在过渡期整体挂 backup/ 路径，
+    303 条重投后还要整体切回原路径（移交清单 §50.3），而人工读数是按文件名原样记录的。
+    认这个前缀等于让同一批断言在切回那天再红一次。"""
+    return path[len(ARCHIVE_ROOT):] if path.startswith(ARCHIVE_ROOT) else path
+
+
+def on_disk(path):
+    """清单挂 backup/、读数挂无前缀，两侧任一处落盘即算在盘上。"""
+    bare = unrooted(path)
+    return (ROOT / bare).is_file() or (ROOT / ARCHIVE_ROOT / bare).is_file()
+
 
 def c123_row(eid, rows):
     """按抬头取本轮那条重投读数，不按位置取。
@@ -65,12 +81,12 @@ def check_c123_registration(item, rows):
             cell = files[slot - 1]
             if 'C123新串' not in cell:
                 bad.append('声明的那一格不是C123新串档')
-            if cell not in row:
+            if unrooted(cell) not in row:
                 bad.append('读数未写本轮占格文件名')
         if old:
-            if old == (files[slot - 1] if 1 <= slot <= len(files) else None):
+            if unrooted(old) == unrooted(files[slot - 1]):
                 bad.append('读数写的旧格与本轮新格同名，替换没落地')
-            if not (ROOT / old).is_file():
+            if not on_disk(old):
                 bad.append('被替换的旧文件已不在盘上（口径是不删）')
     # 批次后缀跟着读数抬头走：抬头写「重投X投（vNN）」的必须落 -vNN，没写档号的仍是 -v01。
     # 为什么不由脚本按 ID 名单判：同一批里 v01 与 v02 并存，名单一抄就成第二份真源，
@@ -210,8 +226,8 @@ class ReviewNoteHistory(unittest.TestCase):
                 self.assertIn('不代签验收', row)
                 item = self.items[eid]
                 self.assertEqual(len(item['image_file']), cells, eid)
-                self.assertTrue(item['image_file'][-1].startswith('vibe_images/'), eid)
-                self.assertIn(item['image_file'][-1], row, eid)
+                self.assertTrue(unrooted(item['image_file'][-1]).startswith('vibe_images/'), eid)
+                self.assertIn(unrooted(item['image_file'][-1]), row, eid)
                 self.assertEqual(item['status'], '待复验', eid)
                 self.assertFalse(item.get('image_prompt_sha256'), '%s 已绑定摘要，不该再追加格' % eid)
 
@@ -621,10 +637,12 @@ class AssetGate(unittest.TestCase):
         self.assertEqual(self.report['失败格数'], 0)
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
         self.assertEqual(len(paths), 1116)
-        # C82 的归一只管 数据/图集/ 那批；E1 放量批次与 C105／C106 重出批次（C97 起认 caBX·C2PA 容器）
+        # C82 的归一只管 图集/ 那批；E1 放量批次与 C105／C106 重出批次（C97 起认 caBX·C2PA 容器）
         # 是真 PNG，按字节与容器引用，不改名也不要求它变成 .jpg。图集外 60 格全部是 caBX·C2PA 容器。
-        gallery = [p for p in paths if p.startswith('数据/图集/')]
-        out_of_gallery = [p for p in paths if not p.startswith('数据/图集/')]
+        # 不按根前缀而按子串分类：B 前置裁定后 image_file 过渡期整体挂在 backup/ 镜像路径（§50.3），
+        # 303 条重投后还要整体切回 数据/图集/ —— 认子串两侧都不用再改这条断言。
+        gallery = [p for p in paths if '数据/图集/' in p]
+        out_of_gallery = [p for p in paths if '数据/图集/' not in p]
         self.assertEqual(len(gallery), 1056)
         self.assertEqual(len(out_of_gallery), 60)
         for p in gallery:

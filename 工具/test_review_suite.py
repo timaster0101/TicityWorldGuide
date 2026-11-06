@@ -220,7 +220,7 @@ class ReviewSuiteTests(unittest.TestCase):
         self.script.write_text(pristine.replace(anchor, injected, 1), encoding="utf-8")
         self.run_suite()
         self.assertEqual(self.signed_verdict_ids(), [("L001", "结论", "通过")])
-        self.assertIn("- 图格：数据/图集", self.work)
+        self.assertIn("- 图格：", self.work)
         self.script.write_text(pristine, encoding="utf-8")
         self.run_suite()
         self.assertEqual(self.signed_verdict_ids(), [])
