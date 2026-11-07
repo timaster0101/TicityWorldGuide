@@ -15,6 +15,8 @@ import json
 import os
 from pathlib import Path
 
+from signing_declaration import visual_column
+
 ROOT = Path(__file__).resolve().parents[1]
 XMP_NS = b'http://ns.adobe.com/xap/1.0/'
 JPEG_MAGIC = b'\xff\xd8\xff'
@@ -204,8 +206,11 @@ def check(items, root=ROOT):
                               '这批文件又都不在 image_file 交付判据内，所以本期只体检、只报数，判红数固定 0、不催办、不改名。'
                               '2026-11-06 起这批文件里早于 E1 定档的 187 张已按移交清单 §52 归档进 backup/，工程 JSON 与文档引用同步改写；'
                               '归档区不在本体检面内（扫描数以同表「扫描数」字段为准，不在此抄第二份），那批归档图的容器合规改由清单 image_file 逐格判据兜。'}),
-            '声明': '结构合规不等于视觉验收。本核验不判构图、不判穿帮、不判水印，'
-                    '不得由脚本代签 image_prompt_sha256；人工复验结论只能由人写进验收备注。'}
+            '声明': '结构合规不等于视觉验收。本核验不判构图、不判穿帮、不判水印，也不写 status 或绑定 '
+                    'image_prompt_sha256；人工复验结论只能由人写进验收备注。C139 起允许受用户明确委托代签，'
+                    '但代签的只是机械判据，且每条必须在 数据/开图验收备注.json 留代签申报行'
+                    '（执行人／委托来源原句／依据读数／人工逐张目视未执行／绑定摘要前12位），'
+                    '缺任一要素由 工具/test_image_assets.py 判红；本核验只把该状态如实渲染进工作单，不替它宣称目视通过。'}
 
 
 def render_worksheet(report, items):
@@ -216,11 +221,20 @@ def render_worksheet(report, items):
     sweep_line = ('图集外扩展名体检：扫 %d 个图片文件，扩展名与字节不符 %d 个（%s），判红 %d。'
                   '这批文件不在 `image_file` 交付判据内、且被视频工程 JSON 与文档按文件名引用，只报不办、不改名（C84）。'
                   % (sw['扫描数'], sw['不一致数'], by_dir, sw['判红数']))
+    visual = {it['id']: visual_column(it) for it in items}
+    vc = {}
+    for v in visual.values():
+        vc[v] = vc.get(v, 0) + 1
     md = ['# 钛湖城开图图片复验工作单', '',
           '生成物，禁止手改：本单由 `python 工具/verify_image_assets.py` 从 `数据/开图清单.json` 的 `image_file` 逐格派生。',
           '**结构合规不等于视觉验收**：下表「结构核验」只回答文件存在与标识容器在不在位（JPEG 走 APP1 XMP·TC260＋AIGC；'
           'PNG 走 caBX 内 C2PA 清单＋生成式来源声明，caBX 缺位时认 iTXt 里的 TC260／AIGC 字样，C136），',
-          '「视觉复验」列一律留 `待人工复验`，不得由脚本代签 `image_prompt_sha256`，也不得由本单宣称任何一条已验收。', '',
+          '「视觉复验」列按条目真实签署状态派生（C139，判据与 `工具/signing_declaration.py` 共用一份）：'
+          '已验收且代签申报合规格写 `已验收（机械代签）／人工目视未执行`，仍待复验写 `待人工复验`，无图写 `无图，待开图`；'
+          '申报不合规格的已验收直接把闸门结论写进本列，不由本单替它宣称验收成立。'
+          '**机械代签不等于人工目视通过、也不等于画风已过关**：本单不承接人工结论，画风侧的反向读数与未收口偏差见该轮裁定登记。', '',
+          '视觉复验列分布：%s（合计 %d 条，统计面＝清单全部条目，含无图条目）。' % (
+              '／'.join('%s %d' % (k, v) for k, v in sorted(vc.items())), len(items)),
           '合计 %d 格｜结构通过 %d｜结构失败 %d｜扩展名提示 %d｜C2PA 在位 %d｜iTXt 标识在位 %d'
           '（容器分布 XMP·TC260 %d／C2PA(caBX) %d／iTXt·TC260 %d）。' % (
               report['文件格数'], report['通过格数'], report['失败格数'], report['提示格数'], report['C2PA在位格数'],
@@ -244,9 +258,10 @@ def render_worksheet(report, items):
             struct = '通过' if verdicts == {'通过'} else '／'.join(sorted(verdicts))
         note = (it.get('acceptance') or '').replace('|', '｜').replace('\n', ' ')[:40]
         md.append('| %s | %s | %s | %s | %s | %s | %s |' % (
-            it['id'], it['name'], it['type'], '<br>'.join(paths), struct, '待人工复验', note or '—'))
+            it['id'], it['name'], it['type'], '<br>'.join(paths), struct, visual[it['id']], note or '—'))
     md.append('')
-    md.append('人工复验结论写在 `数据/开图验收备注.json`，重跑后同步进清单的 `review_note_history`；本单不承接人工结论。')
+    md.append('人工复验结论写在 `数据/开图验收备注.json`，重跑后同步进清单的 `review_note_history`；本单不承接人工结论。'
+              'C139 代签申报行也写在同一份备注里，本单的「视觉复验」列只是它的派生读数，改备注后须重跑本生成器。')
     return '\n'.join(md) + '\n'
 
 

@@ -1836,35 +1836,74 @@ class BuildPromptsTests(unittest.TestCase):
         self.assertEqual(self.manifest.get("accepted"), 0)
 
     def bind_supplemental_input(self):
+        """补充输入夹具：绑定按 C135 一律是冻结基准串 prompt_sha256，实际送入串只作 generation_input_* 备案。
+        备案串与基准串故意取不同值（'a'*64），这样「绑错了对象」才测得出来——两者相同时判反也看不见。"""
         item = self.add_image(bind=False)
         item = self.items["D01"]
         item.update(
             generation_input_file="数据/test-generation-input.txt",
             generation_input_sha256="a" * 64,
             image_base_prompt_sha256=item["prompt_sha256"],
-            image_prompt_sha256="a" * 64,
+            image_prompt_sha256=item["prompt_sha256"],
         )
         self.save_manifest()
 
-    def test_supplemental_input_binds_actual_hash_and_base_version(self):
+    def test_supplemental_input_binds_frozen_base_and_records_actual_input(self):
         self.bind_supplemental_input()
         self.run_generator()
         item = self.items["D01"]
         self.assert_status_outputs("D01", "已验收")
-        self.assertEqual(item["image_prompt_sha256"], "a" * 64)
+        self.assertEqual(item["image_prompt_sha256"], item["prompt_sha256"])
+        self.assertNotEqual(item["image_prompt_sha256"], item["generation_input_sha256"])
+        self.assertEqual(item["generation_input_sha256"], "a" * 64)
         self.assertEqual(item["image_base_prompt_sha256"], item["prompt_sha256"])
         self.assertEqual(item["generation_input_file"], "数据/test-generation-input.txt")
 
+    def test_binding_to_the_sent_string_instead_of_the_base_is_not_accepted(self):
+        """违例负测：C135 之前 review_state 取 (generation_input_sha256 or prompt_sha256) 当绑定目标，
+        等于给补充输入通道开了第二套基准——与 verify_prompt_baseline 的 bind_ok（一律对冻结串）判反。
+        这里把绑定写成实际送入串，生成器必须降回待复验，否则按 C135／C139 绑冻结串的条目会被当场洗回待复验、
+        而绑错对象的条目反倒判绿。"""
+        self.bind_supplemental_input()
+        self.items["D01"]["image_prompt_sha256"] = "a" * 64
+        self.save_manifest()
+        self.run_generator()
+        item = self.items["D01"]
+        self.assert_status_outputs("D01", "待复验")
+        self.assertIn("图片绑定摘要与当前基准提示词不一致", item["review_note"])
+        self.assertEqual(item["image_prompt_sha256"], "a" * 64)
+
     def test_supplemental_input_base_change_needs_review(self):
         self.bind_supplemental_input()
+        bound_before = self.items["D01"]["image_prompt_sha256"]
         rec = next(rec for rec in self.kb if rec["id"] == "D01")
         rec["sections"]["图像与视频取景"] += "测试改变基准。"
         self.save("AI地点知识库.json", self.kb)
         self.run_generator()
         item = self.items["D01"]
         self.assert_status_outputs("D01", "待复验")
-        self.assertEqual(item["image_prompt_sha256"], "a" * 64)
-        self.assertIn("基准提示词已变化", item["review_note"])
+        self.assertEqual(item["image_prompt_sha256"], bound_before, '生成器不得替人改绑定串')
+        self.assertNotEqual(item["image_prompt_sha256"], item["prompt_sha256"])
+        self.assertIn("图片绑定摘要与当前基准提示词不一致", item["review_note"])
+
+    def test_copying_the_new_digest_over_the_old_image_is_not_accepted(self):
+        """违例负测：基准换档后把 image_prompt_sha256 复制成新串（补绑）不许洗成已验收。
+        上一支判的是「绑定串没跟着换」，这一支判的是「绑定串换了但图没换」——
+        image_base_prompt_sha256 记的是生成时基准，它与当前基准不符即说明这张图出在旧档上。"""
+        self.bind_supplemental_input()
+        rec = next(rec for rec in self.kb if rec["id"] == "D01")
+        rec["sections"]["图像与视频取景"] += "测试改变基准。"
+        self.save("AI地点知识库.json", self.kb)
+        self.run_generator()
+        old_base = self.items["D01"]["image_base_prompt_sha256"]
+        self.items["D01"]["image_prompt_sha256"] = self.items["D01"]["prompt_sha256"]
+        self.save_manifest()
+        self.run_generator()
+        item = self.items["D01"]
+        self.assert_status_outputs("D01", "待复验")
+        self.assertEqual(item["image_base_prompt_sha256"], old_base)
+        self.assertNotEqual(item["image_base_prompt_sha256"], item["prompt_sha256"])
+        self.assertIn("图片对应的基准提示词已变化", item["review_note"])
 
     def test_hash_changes_with_hard_parameters_identity_price_and_size(self):
         self.assertTrue(all("prompt_sha256" in item for item in self.items.values()))

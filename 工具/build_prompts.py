@@ -483,8 +483,11 @@ check_tech_carriers()
 
 manifest = []
 
-# 清单回填是真源；图片、批次、备注按ID保留，验收必须绑定当前生成输入摘要。
+# 清单回填是真源；图片、批次、备注按ID保留，验收必须绑定当前基准摘要（C135：绑定答「按哪版基准投的」）。
 # 不得用新摘要自动补绑旧图，否则会把未经复验的图片洗成已验收。
+# C139 起允许受委托代签，但代签只认机械判据，且必须在 数据/开图验收备注.json 留代签申报行
+# （执行人／委托来源原句／依据读数／人工逐张目视未执行／绑定摘要前12位），由 test_image_assets 的
+# check_sign_declaration 逐条判；没申报的已验收照旧判红。accepted 因此只表示机械验收通过。
 PREV = {}
 MANIFEST_PATH = DATA / "开图清单.json"
 if MANIFEST_PATH.exists():
@@ -504,9 +507,12 @@ def review_state(prev, prompt_sha256, manual):
     elif not prev.get("image_prompt_sha256"):
         status = "待复验"
         reason = "旧图缺少 image_prompt_sha256，须对照当前提示词实际复验"
-    elif prev["image_prompt_sha256"] != (prev.get("generation_input_sha256") or prompt_sha256):
+    elif prev["image_prompt_sha256"] != prompt_sha256:
+        # C135：绑定摘要一律是冻结基准串，实际送入串只作 generation_input_* 备案。
+        # 原写法取 (generation_input_sha256 or prompt_sha256)，等于给补充输入通道开了第二套基准——
+        # 按 C135 绑冻结串的条目会被这里当场降回待复验，与 verify_prompt_baseline 的 bind_ok 判反。
         status = "待复验"
-        reason = "图片绑定摘要与实际生成输入不一致，须实际复验"
+        reason = "图片绑定摘要与当前基准提示词不一致，须实际复验"
     elif prev.get("generation_input_sha256") and prev.get("image_base_prompt_sha256") != prompt_sha256:
         status = "待复验"
         reason = "图片对应的基准提示词已变化，须对照当前提示词实际复验"
@@ -672,10 +678,12 @@ out = {
     "setting_year": 2013,
     "declaration": "提示词由分卷成稿的取景段与锁定段逐字提取，硬参数取自城市空间名录，光照侧别按 rel=(255−拍摄朝向+180)mod360−180 推导。"
                    "生成后回填 image_file 与 batch，保持一图对一点；prompt_sha256 是不含状态、摘要与回填字段的基准生成输入摘要。"
-                   "仅在实际验收通过后绑定图片：无补充输入时 image_prompt_sha256=prompt_sha256；有补充输入时另存 generation_input_file 与 generation_input_sha256，"
-                   "image_prompt_sha256 绑定实际输入，image_base_prompt_sha256 绑定生成时基准版本；基准变化仍须复验，不得只复制摘要补绑。"
+                   "仅在实际验收通过后绑定图片：image_prompt_sha256 一律绑当前基准 prompt_sha256（C135）；有补充输入时另存 generation_input_file 与 generation_input_sha256 作实际送入串备案，"
+                   "image_base_prompt_sha256 记生成时基准版本；备案与绑定是两件事、谁也不能替谁过关，基准变化仍须复验，不得只复制摘要补绑。"
                    "重跑保留图片路径、批次与既有备注；有图但绑定缺失或不一致降为待复验并写 review_note，无图始终待开图。"
                    "generated 仅按非空 image_file 计数，不代表验收通过；accepted、needs_review 分别统计已验收、待复验。"
+                   "C139 起 accepted 只表示机械判据验收通过，不表示人工逐张目视通过：受委托代签的条目必须在 数据/开图验收备注.json 留一行代签申报，"
+                   "含执行人、委托来源原句、依据读数、「人工逐张目视未执行」与绑定摘要前12位，缺任一要素即判红（守卫是「没申报不许签」，不是「不许签」）。"
                    "判废口径见AI创作使用手册第9节：第三方台标与渠道logo判废，平台AIGC强制标识角标与XMP里的TC260元数据标识须原样保留。",
     "prompt_count": len(manifest),
     "pending": sum(1 for m in manifest if m["status"] == "待开图"),
@@ -689,7 +697,8 @@ out = {
 
 md = ["# 钛湖城开图清单（%d条，一图对一点）\n" % out["prompt_count"]]
 md.append("每条提示词是 `数据/开图提示词/` 下的独立文件，文件名即“ID-名称”。生图后把图片路径回填到 `数据/开图清单.json` 的 `image_file` 与 `batch` 字段，不要另建对照表，避免两边漂移。\n")
-md.append("实际验收通过后再绑定图片：无补充输入时 `image_prompt_sha256=prompt_sha256`；有补充输入时记录 `generation_input_file`、`generation_input_sha256` 与 `image_base_prompt_sha256`，图片绑定实际输入摘要，基准变化仍须复验。不得只复制摘要补绑；图片、批次与既有备注保留。无图始终待开图，有图不代表通过；修改状态后重跑本生成器同步提示词和本表。\n")
+md.append("实际验收通过后再绑定图片：`image_prompt_sha256` 一律绑当前基准 `prompt_sha256`（C135）；有补充输入时把实际送入串记进 `generation_input_file`、`generation_input_sha256`，并用 `image_base_prompt_sha256` 记生成时基准版本——备案答「实际喂了什么」、绑定答「按哪版基准投的」，两者不能互相顶替，基准变化仍须复验。不得只复制摘要补绑；图片、批次与既有备注保留。无图始终待开图，有图不代表通过；修改状态后重跑本生成器同步提示词和本表。\n")
+md.append("**已验收的语义边界（C139）**：本表「已验收」与本清单 `accepted` 只表示机械判据验收通过（容器标识、逐字回绑、格数与档串、尺寸对回声明），**不表示人工逐张目视通过、也不表示画风已过关**。受委托代签的每条都在 `数据/开图验收备注.json` 留一行 `C139代签验收<ID>：`，写明执行人、委托来源原句、依据读数、「人工逐张目视未执行」与绑定摘要前12位；缺任一要素由 `工具/test_image_assets.py` 的 `check_sign_declaration` 判红。画风侧的反向读数与未收口偏差见该轮登记，不得把 `accepted` 读成目视结论。\n")
 md.append("提示词 %d｜待开图 %d｜有图 %d｜已验收 %d｜待复验 %d。有图数仅按非空 `image_file` 统计，不代替人工验收。\n" % (
     out["prompt_count"], out["pending"], out["generated"], out["accepted"], out["needs_review"]))
 md.append("## 批次与验收\n")

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """B5 人工复看套件的判据：套件只许排工作与列判据，不许替人写结论。
 真实仓库只读，全部执行在临时副本里。"""
+import csv
 import hashlib
+import io
 import json
 import re
 import shutil
@@ -31,6 +33,10 @@ class ReviewSuiteTests(unittest.TestCase):
             shutil.copyfile(ROOT / "数据" / name, self.root / "数据" / name)
         shutil.copytree(ROOT / "数据" / "开图提示词", self.root / "数据" / "开图提示词")
         self.manifest = json.loads((self.root / "数据" / "开图清单.json").read_text(encoding="utf-8"))["items"]
+        notes = json.loads((self.root / "数据" / "开图验收备注.json").read_text(encoding="utf-8"))["备注"]
+        # 工作单里「已记人工结论」那一块是备注的逐行回显，不是套件自撰的话。验收字样守卫只管套件自撰的行：
+        # L088 的历史备注里真有一句「结论：人工目视通过」（第9批的人工读数），按全文扫会把历史读数判成代签。
+        self.echoed = {"  - " + row for rows in notes.values() for row in rows}
         self.run_suite()
 
     def run_suite(self):
@@ -167,15 +173,88 @@ class ReviewSuiteTests(unittest.TestCase):
         self.run_suite()
         self.assertEqual(self.c125_violations(), [])
 
-    def test_verdict_columns_are_blank_and_no_acceptance_language(self):
+    STATUS_ECHO = re.compile(r"^- 当前摘要：.*｜状态：(\S+)$")
+
+    def authored_lines(self):
+        """工作单里由套件自撰的行：剔掉备注的逐行回显（那一块的话出自人工结论真源，不是套件下的结论）。"""
+        return [l for l in self.work.splitlines() if l not in self.echoed]
+
+    def status_echo_violations(self):
+        """判据纯函数：状态栏只许是清单的回显，不许是套件自己下的结论。
+        返回（回显与清单不符的条, 「已验收」出现在回显行之外的自撰行）。C139 之后清单里真有 303 条已验收，
+        原来那句「工作单里不许出现已验收」会把合法回显判成代签；改成钉回显本身，守卫力度不降。"""
+        status = {it["id"]: it["status"] for it in self.manifest}
+        mismatch = []
+        for eid, lines in self.item_blocks().items():
+            hits = [l for l in lines if "｜状态：" in l]
+            m = self.STATUS_ECHO.match(hits[0]) if len(hits) == 1 else None
+            if m is None:
+                mismatch.append((eid, "状态回显行缺失或形态不符"))
+            elif m.group(1) != status[eid]:
+                mismatch.append((eid, "状态回显与清单不符"))
+        stray = [l for l in self.authored_lines()
+                 if "已验收" in l and not re.match(r"^- 当前摘要：.*｜状态：已验收$", l)]
+        return mismatch, stray
+
+    def bare_visual_pass_claims(self):
+        """判据纯函数：套件自撰的行里「人工目视通过」只许以否定形式出现（C139 申报行里的免责声明）。
+        按裸子串禁会连「不表示人工目视通过」一起判红——2026-11-07 实测工作单里 304 处命中，
+        303 处是这句免责声明、1 处是 L088 的历史人工读数回显，所以判据取「命中数 == 否定形式命中数」＋剔回显。"""
+        return [l for l in self.authored_lines()
+                if "人工目视通过" in l and l.count("人工目视通过") != l.count("不表示人工目视通过")]
+
+    def test_verdict_columns_are_blank_and_status_is_only_an_echo(self):
         self.assertEqual(self.signed_verdict_ids(), [])
-        self.assertNotIn("已验收", self.work)
+        self.assertTrue(any("人工目视通过" in l for l in self.echoed),
+                        "回显豁免面没有承载样本，这条豁免等于没被测到")
+        mismatch, stray = self.status_echo_violations()
+        self.assertEqual(mismatch, [])
+        self.assertEqual(stray, [], "套件在状态回显之外自己写了验收字样：%s" % stray[:3])
+        self.assertEqual(self.bare_visual_pass_claims(), [])
         self.assertNotIn("结论：通过", self.work)
         csv_text = (self.out / "打表汇总.csv").read_text(encoding="utf-8-sig")
         # 第五投首占 3 条后：有图条目 300→303，打表行 301→304（含表头）
         self.assertEqual(len(csv_text.strip().splitlines()), 304)
         self.assertNotIn("通过", csv_text.splitlines()[0])
-        self.assertEqual(csv_text.count("已验收"), 0)
+        rows = list(csv.reader(io.StringIO(csv_text)))
+        self.assertEqual(rows[0][4], "状态")
+        status = {it["id"]: it["status"] for it in self.manifest}
+        self.assertEqual(len(rows) - 1, len(status) - sum(1 for s in status.values() if s == "待开图"))
+        for row in rows[1:]:
+            self.assertEqual(row[4], status[row[0]], row[0])
+            self.assertEqual([c for i, c in enumerate(row) if i != 4 and "已验收" in c], [],
+                             "CSV 在状态列之外写了验收字样：%s" % row[0])
+
+    def test_status_echo_guard_is_not_inert(self):
+        """违例负测：上面那条守卫的两支各造一个坏样本——①套件自己多写一句验收结论，
+        ②状态回显脱离清单另写一个值。两支都必须被判红，恢复后回到全绿，夹具不留残留。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        anchor = '        lines.append("- 打表（结论请写进 数据/开图验收备注.json，勿在本单落笔——本单每次重跑会被覆盖）：")'
+        self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在打表抬头上")
+        self.script.write_text(pristine.replace(
+            anchor, '        lines.append("- 本条已验收（人工目视通过）")\n' + anchor, 1), encoding="utf-8")
+        self.run_suite()
+        mismatch, stray = self.status_echo_violations()
+        self.assertEqual(mismatch, [])
+        self.assertEqual(len(stray), 303, "多写的验收句没被逐条抓到")
+        self.assertEqual(len(self.bare_visual_pass_claims()), 303, "裸的目视通过断言没被抓到")
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_suite()
+        self.assertEqual(self.status_echo_violations(), ([], []))
+        self.assertEqual(self.bare_visual_pass_claims(), [])
+
+        lie = '                        (info["head"].get("image_prompt_sha256") or "未绑定")[:12], it["status"]))'
+        self.assertEqual(pristine.count(lie), 1, "注入锚点没落在状态回显的取值上")
+        self.script.write_text(pristine.replace(lie, lie.replace('it["status"]', '"待复验"'), 1),
+                               encoding="utf-8")
+        self.run_suite()
+        mismatch, stray = self.status_echo_violations()
+        self.assertEqual(len(mismatch), 303)
+        self.assertEqual({r for _, r in mismatch}, {"状态回显与清单不符"})
+        self.assertEqual(stray, [])
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_suite()
+        self.assertEqual(self.status_echo_violations(), ([], []))
 
     def test_contact_sheets_paginate_and_link_local_images(self):
         sheets = self.out / "联络表"

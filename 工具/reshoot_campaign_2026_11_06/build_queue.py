@@ -13,7 +13,7 @@
      这 1 格是四向里的哪一格由 C138 裁定，指针现读同目录 pick_primary_cell.locate() 逐条挂到行上
      （主向格／定位方式／角差），定位违例或并列待人工非空即退出非零——队列不带悬空指针出盘。
   R2 绑定关口重投：该格带毫秒时间戳且时间戳 < frozen_at_ms（§54 关口B：基准 aa3d777 换档晚于生成时刻，
-     0/60 可主张，依 build_prompts.py:676 不得补绑，只能重投）。
+     0/60 可主张，依 build_prompts.py 的 declaration「不得只复制摘要补绑」，只能重投）。
   时间戳 ≥ frozen_at_ms 的格不进队列——那是冻结后已投的新格，走正常验收通道。
 
 跑法：python 工具/reshoot_campaign_2026_11_06/build_queue.py
