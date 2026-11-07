@@ -22,7 +22,8 @@
     备注里必须把「执行人／委托来源／未目视」三件事写明，读数目视未执行＝只含机械项。
 5. 幂等：同一抬头（档串＋条目）的备注再跑一次是改写而不是追加；抬头变了说明占格口径动过，停手让人复核。
 6. 判绿枚先从仓外出图目录（ImageGen 现落点＝仓库同级 `c8c10ff8/vibe_images/`）逐字节对拍请进仓内
-    `vibe_images/`，仓外原件不删——清单挂的是仓内相对路径，不请进来那一格就是死链。
+    交付落点 `数据/图集/<条目ID>/`（C141，2026-11-07 用户「图集目录下，放到各个文件夹里」），仓外原件不删——
+    清单挂的是仓内相对路径，不请进来那一格就是死链。
 
 跑法：python -X utf8 工具/reshoot_campaign_2026_11_06/backfill_round.py <R1|R2> [--only 送入串台账.json]
      --only 把回填范围收到那一份台账的键面上（R1 组读数面已含 264＋5＋48 三份合成，不限范围就会把
@@ -41,6 +42,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
 WORKSPACE = os.path.abspath(os.path.join(ROOT, '..'))
 MANIFEST = os.path.join(ROOT, '数据', '开图清单.json')
+# C141（2026-11-07）：仓内交付落点＝图集下按条目 ID 分的文件夹，档名不改
+GALLERY = os.path.join(ROOT, '数据', '图集')
+GALLERY_PREFIX = '数据/图集/'
 NOTES = os.path.join(ROOT, '数据', '开图验收备注.json')
 
 ROUNDS = {
@@ -89,20 +93,22 @@ CATCHUP_DELEGATION = ('补投范围依据用户 2026-11-07 裁定「只要不是
 
 
 def bring_in(green):
-    """把本轮判绿枚从仓外出图目录请进仓内 `vibe_images/`，逐枚按 sha256 对拍后才算落地。
+    """把本轮判绿枚从仓外出图目录请进仓内交付落点 `数据/图集/<条目ID>/`，逐枚按 sha256 对拍后才算落地。
 
     为什么要这一步：本轮图落在仓库同级的 `c8c10ff8/vibe_images/`（ImageGen 现在的默认落点，
     也是 verify_round 与 container_profile 钉的统计面），而清单的 image_file 一律是仓内相对路径，
     `test_image_assets.test_gallery_extension_is_normalised` 与 on_disk 都只在仓内与 backup/ 两支找文件；
     图不搬进来，回填出来的那一格就指向一个仓内不存在的文件——闸门会红，人眼点开也是死链。
     仓外原件一个都不删：那是投后核验的取数面，删了下轮无从复核。
-    2026-11-05 那几轮不需要这一步，因为当时会话的工作区根就是仓库本身，图直接落在仓内。"""
-    dst = os.path.join(ROOT, 'vibe_images')
-    if not os.path.isdir(dst):
-        os.makedirs(dst)
+    2026-11-05 那几轮不需要这一步，因为当时会话的工作区根就是仓库本身，图直接落在仓内。
+    落点为什么是图集按 ID 分文件夹而不是仓内 vibe_images/ 平铺：C141（用户 2026-11-07「图集目录下，
+    放到各个文件夹里」）把交付面统一到了 数据/图集/<ID>/，本函数与登记路径必须同向走，
+    否则回填一轮就把上一轮迁好的目录形态顶回去一次，而闸门按文件名比对，看不见这种退化。"""
     copied = already = 0
     for r in sorted(green, key=lambda x: x['id']):
-        src, tgt = os.path.join(WORKSPACE, 'vibe_images', r['file']), os.path.join(dst, r['file'])
+        dst_dir = os.path.join(GALLERY, r['id'])
+        src = os.path.join(WORKSPACE, 'vibe_images', r['file'])
+        tgt = os.path.join(dst_dir, r['file'])
         assert os.path.isfile(src), (r['id'], '仓外原件不在盘，读数与盘面对不上')
         if os.path.isfile(tgt):
             h1 = hashlib.sha256(io.open(src, 'rb').read()).hexdigest()
@@ -110,6 +116,17 @@ def bring_in(green):
             assert h1 == h2, (r['id'], '仓内同名文件与仓外原件字节不同，停手人工复核')
             already += 1
             continue
+        # 上一档落点里已有同名原件时不重复占盘：先校验它确实就是本轮这一枚，再把它挪进图集目录。
+        legacy = os.path.join(ROOT, 'vibe_images', r['file'])
+        if os.path.isfile(legacy):
+            h1 = hashlib.sha256(io.open(src, 'rb').read()).hexdigest()
+            h2 = hashlib.sha256(io.open(legacy, 'rb').read()).hexdigest()
+            assert h1 == h2, (r['id'], '仓内旧落点的同名文件与仓外原件字节不同，停手人工复核')
+            os.makedirs(dst_dir, exist_ok=True)
+            os.replace(legacy, tgt)
+            already += 1
+            continue
+        os.makedirs(dst_dir, exist_ok=True)
         shutil.copy2(src, tgt)
         assert hashlib.sha256(io.open(tgt, 'rb').read()).hexdigest().startswith(r['sha256_12']), \
             (r['id'], '落仓后前 12 位与投后核验读数不一致')
@@ -146,7 +163,7 @@ def main(group, only=None):
     kept = []
     promoted = []
     for r in sorted(green, key=lambda x: x['id']):
-        eid, old, new = r['id'], r['replaced_cell'], 'vibe_images/' + r['file']
+        eid, old, new = r['id'], r['replaced_cell'], GALLERY_PREFIX + r['id'] + '/' + r['file']
         files = list(items[eid]['image_file'] or [])
         if old is None:
             # 补投面里「此前零图」那 9 条没有可替换的格：占格口径只能是新增首格，读数里逐字写「为首占」，
@@ -231,7 +248,7 @@ def main(group, only=None):
           % (retained, len(kept) - retained, len(green) - len(kept)))
     print('读数来源 %s｜档串 %s｜image_prompt_sha256 脚本一律不写不撤'
           % (cfg['readings'], cfg['suffix']))
-    print('请进仓内 vibe_images/：新拷 %d 枚／已在仓内且逐字节相符 %d 枚（仓外原件 0 删）' % (copied, already))
+    print('请进仓内图集交付落点 数据/图集/<ID>/：新拷 %d 枚／已在仓内且逐字节相符 %d 枚（仓外原件 0 删）' % (copied, already))
     if cfg['occupy_all']:
         print('「全部占格」例外通道：已带绑定摘要仍占格 %d 条（摘要原样保留，过期与否见上一行分档）：%s'
               % (len(kept), ' '.join(sorted(kept)) or '—'))
