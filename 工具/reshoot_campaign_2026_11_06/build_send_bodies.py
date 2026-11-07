@@ -21,11 +21,18 @@ R1 后缀里刻意不含「C133冻结重投」子串：`container_profile.py` �
                    对拍（两处不一致＝真源与队列分叉，当场停）。定位并列（ambiguous）、指针缺失、
                    四向格不足 4 枚，一律停而不猜。台账另立 send_bodies_r1_primary.json，不与 R2 台账混写
                    ——混了会把已投过的条目重复送进发送面。
+  R3 补投组 —— 成员面不抄名单：现算自清单，image_file 里一枚 C138主向重投 格都没有的条目就是本组
+                   （用户 2026-11-07「只要不是新画风生成的或者缺少的，都开」＝本轮花钱放行的范围）。
+                   档串沿用 C138主向重投-v01（补投出来的就是主向格，另起档串会让容器画像／CLIP／代签／复看
+                   四处读取面各多一份登记，而它们认的本来就是这枚子串），投次靠独立台账
+                   send_bodies_r1_catchup.json 与落盘毫秒时间戳分。取格两条路：挂 1 枚带时间戳定档格＝替换它，
+                   一枚都没有＝新增首格；挂满四向（归 R1）或已带新画风格（重复投放）停手。
 
 用法：
   python 工具/reshoot_campaign_2026_11_06/build_send_bodies.py D03 D08 L061 L066   R2 组（逐条点，出 paste_*.txt）
   python 工具/reshoot_campaign_2026_11_06/build_send_bodies.py --r1-all            R1 组全量（只出台账，不出 paste 副本）
   python 工具/reshoot_campaign_2026_11_06/build_send_bodies.py --r1 L001 L002      R1 组逐条点（台账 + paste_r1/）
+  python 工具/reshoot_campaign_2026_11_06/build_send_bodies.py --r3-all            R3 补投组全量（成员面清单现算，只出台账）
   python 工具/reshoot_campaign_2026_11_06/build_send_bodies.py --negtest           违例注入自证（仓库外临时目录）
 """
 import argparse
@@ -41,14 +48,19 @@ from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
-SUFFIX = {'R2': 'C133冻结重投-v01', 'R1': 'C138主向重投-v01'}
+SUFFIX = {'R2': 'C133冻结重投-v01', 'R1': 'C138主向重投-v01', 'R3': 'C138主向重投-v01'}
+# 「新画风」判据＝格文件名带 C138 主向组档串（与 工具/verify_readout_stance.py 的 R1_CELL_TOKEN 同一把尺）。
+# R3 刻意沿用该档串而不是另起一枚：补投出来的就是主向格，档串换了会让容器画像、CLIP、代签与复看四条读取面
+# 各多一份「新组」登记，而那些面认的本来就是这枚子串；投次靠台账文件与落盘毫秒时间戳分，不靠档串分。
+NEW_STYLE_TOKEN = 'C138主向重投'
 sys.path.insert(0, HERE)
 
 from pick_primary_cell import locate, four_way_cells  # noqa: E402  主向口径唯一实现，不在本文件复制一份
 
-LEDGER = {'R2': 'send_bodies_r1.json', 'R1': 'send_bodies_r1_primary.json'}
-QUEUE_KEY = {'R2': 'R2_绑定关口', 'R1': 'R1_画风判废'}
-PASTE_SUB = {'R2': None, 'R1': 'paste_r1'}
+LEDGER = {'R2': 'send_bodies_r1.json', 'R1': 'send_bodies_r1_primary.json',
+          'R3': 'send_bodies_r1_catchup.json'}
+QUEUE_KEY = {'R2': 'R2_绑定关口', 'R1': 'R1_画风判废', 'R3': 'R3_补投非新画风'}
+PASTE_SUB = {'R2': None, 'R1': 'paste_r1', 'R3': 'paste_r1'}
 PREFIX = 'send_bodies_neg_'
 
 
@@ -78,9 +90,27 @@ def primary_pointers(root):
     return {r['id']: r for r in rows}, man['items']
 
 
+def catchup_ids(items):
+    """R3 成员面＝清单现算「没有一枚新画风主向格」的条目（用户 2026-11-07「只要不是新画风生成的或者缺少的，都开」）。
+    不手抄 ID 名单，也不写死条数：名单由 image_file 派生，条数只作打印读数。"""
+    return sorted(it['id'] for it in items
+                  if not any(NEW_STYLE_TOKEN in (c or '') for c in (it.get('image_file') or [])))
+
+
 def pick_cell(group, eid, item, row, queue_ref):
-    """返回替换格（本组唯一可投的那一格）。两组各只有一条放行路径，其余一律停而不猜。"""
+    """返回替换格（本组唯一可投的那一格）。各组的放行路径互不重叠，其余一律停而不猜。"""
     cells = list(item.get('image_file') or [])
+    if group == 'R3':
+        # 补投面：一条要么挂着 1 枚带时间戳的旧画风定档格（替换它），要么一枚格都没有（新增首格）。
+        # 挂满四向或已带新画风格的条目不属本组——前者归 R1 主向口径，后者已经投过，重复投就是同带重发。
+        assert not any(NEW_STYLE_TOKEN in (c or '') for c in cells), \
+            (eid, '本条已挂新画风主向格，重复投放会造出同条目同档串的两枚格')
+        assert not four_way_cells(item), (eid, '四向条目归 R1 主向口径，不在补投面')
+        ts_cells = [c for c in cells if re.search(r'_(1\d{12})_', os.path.basename(c))]
+        assert len(ts_cells) <= 1, (eid, '补投条目挂 %d 枚带时间戳格（应为 0 或 1）：%s'
+                                        % (len(ts_cells), [os.path.basename(c) for c in ts_cells]))
+        cell = ts_cells[0] if ts_cells else None
+        return cell, [c for c in cells if c != cell], None
     if group == 'R2':
         ts_cells = [c for c in cells if re.search(r'_(1\d{12})_', os.path.basename(c))]
         assert len(ts_cells) == 1, (eid, 'R2 应恰为单枚带时间戳格，实测 %d 枚（全格 %d 枚）：%s'
@@ -109,7 +139,10 @@ def build(ids, group, root, here, emit_paste=True, queue_entries=None):
     snap = json.load(io.open(os.path.join(root, '数据', '提示词基准冻结.json'), encoding='utf-8'))
     base = {e['id']: e['prompt_sha256'] for e in snap['entries']}
     if queue_entries is None:
-        queue_entries = _json_load(os.path.join(here, 'queue.json'))[QUEUE_KEY[group]]['entries']
+        if group == 'R3':
+            queue_entries = [{'id': i, '主向格': None} for i in catchup_ids(items)]
+        else:
+            queue_entries = _json_load(os.path.join(here, 'queue.json'))[QUEUE_KEY[group]]['entries']
     by_q = {e['id']: e for e in queue_entries}
     paste_dir = here
     if PASTE_SUB[group]:
@@ -148,6 +181,9 @@ def build(ids, group, root, here, emit_paste=True, queue_entries=None):
             # 两组共用同一条串的条目（R1∩R2＝19 条）：各投一次、各换一格，靠组别后缀把发名分开。
             # 后缀已不含「C133冻结重投」子串，故不会落进 R2 那批历史实验样本的通配里。
             rec['同条目R2组在队'] = eid in _other_group_ids(here, group)
+        if group == 'R3':
+            rec['group'] = QUEUE_KEY['R3']
+            rec['占格口径'] = '替换定档格' if cell else '新增首格（该条此前零图）'
         if emit_paste:
             pend.append((eid, os.path.join(paste_dir, 'paste_%s.txt' % eid)))
         out[eid] = rec
@@ -204,7 +240,7 @@ def _json_dump(obj, p):
 
 
 def negtest():
-    """七条违例注入，各打一条停手通道；夹具在仓库外临时目录，被守护仓库零写入。"""
+    """十条违例注入，各打一条停手通道；夹具在仓库外临时目录，被守护仓库零写入。"""
     tmp = tempfile.mkdtemp(prefix=PREFIX)
     root, here = os.path.join(tmp, 'root'), os.path.join(tmp, 'here')
     lines, rc = [], 0
@@ -310,6 +346,21 @@ def negtest():
             SUFFIX['R1'] = SUFFIX['R2']
             return 'R1', ['L001'], None
 
+        def inj_r3_newstyle():
+            items = items_now()
+            items[2]['image_file'] = [D03[0], 'backup/数据/图集/D03/D03-东湖金融片区-C138主向重投-v01.png']
+            put_items(items)
+            return 'R3', ['D03'], [{'id': 'D03', '主向格': None}]
+
+        def inj_r3_fourway():
+            return 'R3', ['L001'], [{'id': 'L001', '主向格': None}]
+
+        def inj_r3_two_ts():
+            items = items_now()
+            items[2]['image_file'] = D03 + [D03_2]
+            put_items(items)
+            return 'R3', ['D03'], [{'id': 'D03', '主向格': None}]
+
         suffix0 = dict(SUFFIX)
         for name, fn in [('①队列登记主向格 ≠ 现读指针', inj_queue_diverge),
                          ('②主向并列（ambiguous，不猜）', inj_ambiguous),
@@ -317,7 +368,10 @@ def negtest():
                          ('④冻结快照 prompt_sha256 漂移', inj_snapshot),
                          ('⑤开图提示词正文被改', inj_body_drift),
                          ('⑥R2 条目挂两枚带时间戳格（真源 S02/S18 实测形态）', inj_two_ts),
-                         ('⑦档串不带组别 → 与 R2 台账撞发名', inj_suffix_clash)]:
+                         ('⑦档串不带组别 → 与 R2 台账撞发名', inj_suffix_clash),
+                         ('⑧R3 条目已挂新画风主向格（重复投放＝同带重发）', inj_r3_newstyle),
+                         ('⑨R3 条目挂满四向（应归 R1 主向口径）', inj_r3_fourway),
+                         ('⑩R3 条目挂两枚带时间戳格（替换对象不唯一）', inj_r3_two_ts)]:
             fresh()
             SUFFIX.update(suffix0)
             group, ids, qe = fn()
@@ -344,6 +398,24 @@ def negtest():
                              % ('✓' if ok else '✗', r2out['L001']['send_name'], r1['send_name'],
                                 '不撞档' if ok else '仍撞档'))
 
+        # R3 的正检面：零图条目必须放行且记为「新增首格」；成员面现算只认没有新画风格的条目——
+        # 已投过的四向条目不得出现在里面（少了这条派生面判据，⑨ 那种「队列里手点四向条目」只能靠 pick_cell 兜）。
+        fresh()
+        items = items_now()
+        items[0]['image_file'] = [L001[0].replace('四向00-主向-朝北-r01', 'C138主向重投-v01')]
+        items[1]['image_file'] = [R057[0].replace('四向外-R057方向-朝东-r01', 'C138主向重投-v01')]
+        items[2]['image_file'] = []
+        put_items(items)
+        face = catchup_ids(items_now())
+        r3 = build(face, 'R3', root, here, emit_paste=False)[0]
+        ok = face == ['D03'] and sorted(r3) == ['D03'] and r3['D03']['replaced_cell'] is None \
+            and r3['D03']['占格口径'].startswith('新增首格')
+        rc |= 0 if ok else 1
+        lines.append('%s R3正检：成员面 %s（已投过的 L001/R057 不在面内）→ 放行 %s，'
+                     'replaced_cell=%s，占格口径=%s'
+                     % ('✓' if ok else '✗', face, sorted(r3), r3['D03']['replaced_cell'],
+                        r3['D03']['占格口径']))
+
         residue = [p.name for p in Path(ROOT).rglob('*') if PREFIX in p.name]
         lines.append('仓库内 %s 残留 %d' % (PREFIX, len(residue)))
         if residue:
@@ -352,7 +424,7 @@ def negtest():
         shutil.rmtree(tmp, ignore_errors=True)
         lines.append('临时目录已删：%s 存在=%s' % (os.path.basename(tmp), os.path.isdir(tmp)))
     print('\n'.join(lines))
-    print('%s 送入串构造负测（7 条注入须全部停手，⑦ 另带回「分档后必须放行」的正检面）'
+    print('%s 送入串构造负测（10 条注入须全部停手；⑦ 带回「分档后必须放行」、R3 块带回「零图条目新增首格」两条正检面）'
           % ('✅' if rc == 0 else '❌'))
     return rc
 
@@ -362,10 +434,27 @@ def main():
     ap.add_argument('ids', nargs='*', help='R2 绑定关口组条目 ID')
     ap.add_argument('--r1', nargs='*', metavar='ID', help='R1 主向格组条目 ID（出台账 + paste_r1/）')
     ap.add_argument('--r1-all', action='store_true', help='R1 组全量：队列点名的每条 1 格主向（只出台账，不出 paste 副本）')
+    ap.add_argument('--r3-all', action='store_true',
+                    help='R3 补投组全量：清单现算「没有一枚新画风主向格」的条目，每条 1 格（只出台账）')
     ap.add_argument('--negtest', action='store_true', help='违例注入自证，须在仓库外临时目录跑')
     args = ap.parse_args()
     if args.negtest:
         return negtest()
+    if args.r3_all:
+        man = json.load(io.open(os.path.join(ROOT, '数据', '开图清单.json'), encoding='utf-8'))
+        ids = catchup_ids(man['items'])
+        out, snap = build(ids, 'R3', ROOT, HERE, emit_paste=False)
+        summarize('R3', out, snap, limit=8)
+        kinds = {}
+        for r in out.values():
+            kinds[r['占格口径']] = kinds.get(r['占格口径'], 0) + 1
+        st = {}
+        for r in out.values():
+            st[r['status_before']] = st.get(r['status_before'], 0) + 1
+        print('  档串 %s（与 R1 同枚，投次靠台账文件＋落盘毫秒时间戳分）｜占格口径 %s｜投放前状态 %s'
+              % (SUFFIX['R3'], kinds, st))
+        print('  成员面现算自 image_file（不含 %s 子串），不手抄名单；本轮 %d 条' % (NEW_STYLE_TOKEN, len(ids)))
+        return 0
     if args.r1_all:
         ids = [e['id'] for e in _json_load(os.path.join(HERE, 'queue.json'))[QUEUE_KEY['R1']]['entries']]
         out, snap = build(ids, 'R1', ROOT, HERE, emit_paste=False)

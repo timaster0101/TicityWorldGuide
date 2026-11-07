@@ -13,6 +13,9 @@
      回绑源两种形态：① 单份会话 jsonl 路径（老调用）；② 逗号分隔的多份 jsonl；
      ③ 指向 transcript 登记件（*.json，含 transcripts 字典）——登记件里在盘的逐份扫，
      不在盘的只报「回绑源缺失 N 份」，不拿缺失当通过。
+     ④ 逗号分隔的混合清单（登记件与 jsonl 混写）：R1 组现在的发送面是「264 主向 ＋ 48 补投」两轮，
+     回绑源就是两份登记件并列（transcripts_r1.json,transcripts_r3.json）——只给一份会把另一轮的
+     实发串当没投过，与只读主台账是同一类假绿。
      组别不写＝R2，沿用老调用。两组的送入串台账、读数与轮次台账分档，
      免得 R1 一轮把 R2 的 round_readings.json／ledger.json 覆写掉。
      R2 的送入串面是「试点 4 条 + 全量并集」两份台账合成，缺全量那份直接停手——
@@ -33,13 +36,15 @@ WORKSPACE = os.path.abspath(os.path.join(ROOT, '..'))
 IMG_DIR = os.path.join(WORKSPACE, 'vibe_images')
 
 # 档串与送入串台账一一对应；build_send_bodies.py 的 SUFFIX/LEDGER 是本表的前置口径。
-# bodies_extra＝该组的并集补充台账（仓内新文件，不动被逐字节钉住的试点那份）。
+# bodies_extra＝该组的并集补充台账（仓内新文件，不动被逐字节钉住的试点那份）。写成列表是因为 R1 组的
+# 发送面已经有三份：试点/证据那份（逐字节钉）＋ 264 主向全量 ＋ 48 条补投（C139 后用户「都开」那一轮）。
+# 少读一份就是把补投过的条目当没投过——并轨口径同 §55.17，缺文件当场停手，不静默降级。
 GROUPS = {
     'R2': {'suffix': 'C133冻结重投-v01', 'bodies': 'send_bodies_r1.json',
-           'bodies_extra': 'send_bodies_r2_full.json',
+           'bodies_extra': ['send_bodies_r2_full.json'],
            'readings': 'round_readings.json', 'ledger': 'ledger.json'},
     'R1': {'suffix': 'C138主向重投-v01', 'bodies': 'send_bodies_r1_primary.json',
-           'bodies_extra': 'send_bodies_r1_evidence.json',
+           'bodies_extra': ['send_bodies_r1_evidence.json', 'send_bodies_r1_catchup.json'],
            'readings': 'round_readings_r1.json', 'ledger': 'ledger_r1.json'},
 }
 LEDGER_DECL = {
@@ -85,32 +90,37 @@ def sent_prompts(jsonl):
 
 
 def resolve_sources(arg):
-    """回绑源展开：逗号分隔的 jsonl 清单，或 transcript 登记件（*.json 里的 transcripts 字典）。
+    """回绑源展开：逗号分隔的清单，每一项既可以是 transcript 登记件（*.json，取其 transcripts 字典），
+    也可以是单份会话 jsonl；两种形态可以混着写（R1 一轮的登记件 ＋ 补投一轮的登记件）。
 
     返回 (在盘路径列表, 缺失路径列表)。登记件的形态是本轮并轨的前提——放量改子代理分片投放后，
     逐字回绑的正源不再是单份主会话 jsonl，缺失必须显式计数，不能静默少扫。
     """
-    if arg.endswith('.json'):
-        reg = json.load(io.open(arg, encoding='utf-8'))
-        paths = sorted(set(reg['transcripts'].values()))
-    else:
-        paths = sorted({p.strip() for p in arg.split(',') if p.strip()})
+    paths = set()
+    for token in [t.strip() for t in str(arg).split(',') if t.strip()]:
+        if token.endswith('.json'):
+            paths.update(sorted(set(json.load(io.open(token, encoding='utf-8'))['transcripts'].values())))
+        else:
+            paths.add(token)
+    paths = sorted(paths)
     hit = [p for p in paths if os.path.exists(p)]
     gone = [p for p in paths if p not in hit]
     return hit, gone
 
 
 def merge_bodies(here, cfg, group):
-    """试点台账 + 并集补充台账合成读取面；同 ID 两边都在时正文必须逐字相同。"""
+    """主台账 + 全部并集补充台账合成读取面；同 ID 两边都在时正文必须逐字相同。"""
     bodies = json.load(io.open(os.path.join(here, cfg['bodies']), encoding='utf-8'))
-    extra_name = cfg.get('bodies_extra')
+    extra_names = cfg.get('bodies_extra') or []
+    if isinstance(extra_names, str):   # 历史形态：单份字符串仍按一份补充台账处理
+        extra_names = [extra_names]
     merged_from = [cfg['bodies']]
-    if extra_name:
+    for extra_name in extra_names:
         p = os.path.join(here, extra_name)
-        assert os.path.exists(p), ('%s 组缺并集补充台账 %s：本组的实发串面在两份文件里，'
+        assert os.path.exists(p), ('%s 组缺并集补充台账 %s：本组的实发串面在 %d 份文件里，'
                                    '只读主台账等于把补充条目当没投过（并轨口径见 设计/2026-11-03-待办移交清单.md §55.17；'
-                                   'R1 那份补的是双发条目的投次证据）'
-                                   % (group, extra_name))
+                                   'R1 的 evidence 补双发条目的投次、catchup 补 C139 后 48 条「非新画风／缺图」补投）'
+                                   % (group, extra_name, 1 + len(extra_names)))
         extra = json.load(io.open(p, encoding='utf-8'))
         clash = sorted(set(bodies) & set(extra))
         for eid in clash:

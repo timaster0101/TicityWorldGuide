@@ -38,6 +38,14 @@ def check_sign_declaration(item, rows):
             bad.append('代签申报缺要素:' + tok)
     if not bound or bound[:12] not in d:
         bad.append('代签申报没复述绑定摘要前 12 位')
+    # 申报行还必须点名清单当前在册的那一格。少这一句，「上一轮的申报行」就能顶替「本轮的申报行」：
+    # 2026-11-07 补投把 39 条的定档格换成新画风枚，旧申报行复述的绑定摘要前 12 位一点没变
+    # （C135 绑的是提示词串，串没换），要素也齐，只看要素与摘要就会让那份绑在被替换旧格上的
+    # 验收继续宣称本轮过关——摘要对得上格，才叫对得上本条。
+    cells = [str(c or '').replace('\\', '/').rsplit('/', 1)[-1] for c in (item.get('image_file') or [])]
+    cells = [c for c in cells if c]
+    if cells and not any(c in d for c in cells):
+        bad.append('代签申报没点名当前在册的格（点名的那格已被后一轮替换，旧验收不能顶本轮）')
     return bad
 
 

@@ -1,0 +1,15 @@
+{
+  "declaration": "R3 补投组（用户 2026-11-07 裁定「2 只要不是新画风生成的或者缺少的，都开」「3 补」）48 条的逐字回绑正源清单：档串沿用 C138主向重投-v01，成员面＝清单里没有任何 C138主向重投 格的那 48 条（39 条旧画风定档格＋9 条此前零图），台账 send_bodies_r1_catchup.json。投放改子代理分片：4 片 11–12 条＋1 份探针 transcript，主会话本轮零发起，所以本登记件的 5 份真源全是 subagents 下的子代理 jsonl（与 transcripts_r1.json 的「15 子代理＋1 主会话」形状不同，属同一口径的不同事实）。路径在 .qoder-cn/projects/…/<会话>/subagents/ 会话区，跨会话不保证还在；verify_round.py 对缺失份数显式判红（不拿缺失当通过）。发起合计＝台账条数＝在盘枚数＝48，实测无同条多枚、无同条二次发起（探针 L081 单独计 1 次）。",
+  "group": "R1",
+  "suffix": "C138主向重投-v01",
+  "registered_at": "2026-11-07",
+  "条数": 48,
+  "发起合计": 48,
+  "transcripts": {
+    "1fc8b995bf5378dd(12发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-1fc8b995bf5378dd.jsonl",
+    "6b0212121faa8886(11发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-6b0212121faa8886.jsonl",
+    "9285b826a67fd6b0(12发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-9285b826a67fd6b0.jsonl",
+    "6a6bb1287b605f82(12发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-6a6bb1287b605f82.jsonl",
+    "65c9fca533e4fc35(1发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-65c9fca533e4fc35.jsonl"
+  }
+}

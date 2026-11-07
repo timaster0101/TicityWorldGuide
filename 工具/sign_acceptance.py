@@ -105,6 +105,23 @@ def stale_declared(notes, eid):
     return any('维持原绑定' in r for r in notes.get(eid, []))
 
 
+def current_cells_declared(item, rows):
+    """最新一条代签申报行是否点名了当前每一枚重投期格。
+
+    为什么要单独判：`already` 那一支原先只看「状态已验收＋绑定等于串＋申报行要素齐全」，
+    而补投轮替换掉的正是申报行依据里点名的那一枚——串没变、摘要没变、要素也没缺，
+    旧申报行却指着一张已经不占格的图。按这个条件它会被当成「已签不重复追加」静默跳过，
+    等于让一轮占格把依据留在过期状态。判据取读数自己的原文，不另抄名单。"""
+    decl = declaration_rows(rows)
+    if not decl:
+        return False
+    d = decl[-1]
+    bases = [os.path.basename(c) for c in reshoot_cells(item)]
+    if not bases:
+        return '本轮无该格投后核验读数' in d
+    return all(b in d for b in bases)
+
+
 def build_row(item, bound, rounds, clip, thr, struct, old_fields):
     eid = item['id']
     parts = ['执行人=%s' % EXECUTOR, '委托来源=%s' % DELEGATION]
@@ -191,7 +208,8 @@ def main():
             bad.append('%s 申报行不合规格：%s' % (eid, viol))
             continue
         if item.get('status') == '已验收' and item.get('image_prompt_sha256') == bound \
-                and not check_sign_declaration(item, notes.get(eid, [])):
+                and not check_sign_declaration(item, notes.get(eid, [])) \
+                and current_cells_declared(item, notes.get(eid, [])):
             already.append(eid)
             continue
         plan.append((item, row, bound, old if is_stale else None))
