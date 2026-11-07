@@ -31,20 +31,56 @@ ROUNDS = (
 )
 
 ARCHIVE_ROOT = 'backup/'
+# 2026-11-07 起交付格的登记落点（按 ID 分文件夹）；归档镜像仍写完整 backup/数据/图集/... 所以只用于前缀判定
+GALLERY_ROOT = '数据/图集/'
+
+
+def gallery_slot_ok(path, item_id):
+    """图集落点判据：`数据/图集/<自己的ID>/<ID>-档名`，深度、目录段与文件名前缀三样都得对。
+
+    写成函数而不是把断言抄在两处：判据本体若散在测试里，负测就只能重述一遍判据、抓不到真错。
+    文件名前缀这一项钉的是「这格确实属于这个条目」，目录段钉的是「按 ID 分文件夹」的约定（C141）；
+    只钉目录会让 `数据/图集/D01/别人家的图.png` 蒙过去。"""
+    parts = path.split('/')
+    return (path.startswith(GALLERY_ROOT) and len(parts) == 4
+            and parts[2] == item_id and parts[3].startswith(item_id + '-'))
 
 
 def unrooted(path):
-    """去掉 B 前置裁定的归档镜像前缀，返回读数侧一贯使用的无前缀写法。
-    为什么判据按无前缀比对：`数据/开图清单.json` 的 image_file 在过渡期整体挂 backup/ 路径，
-    303 条重投后还要整体切回原路径（移交清单 §50.3），而人工读数是按文件名原样记录的。
-    认这个前缀等于让同一批断言在切回那天再红一次。"""
-    return path[len(ARCHIVE_ROOT):] if path.startswith(ARCHIVE_ROOT) else path
+    """把清单侧的登记路径归一到读数侧一贯使用的写法＝文件名。
+
+    为什么判据按文件名比对而不按目录：`image_file` 的目录已经换过三档——过渡期整体挂 `backup/`
+    镜像（§50.3）、C138 起挂 ImageGen 默认落点的仓内镜像 `vibe_images/`、2026-11-07 又按用户
+    「图集目录下，放到各个文件夹里」整体搬进 `数据/图集/<ID>/`（登记件
+    `数据/图集迁移明细_20261107.json`），而人工读数与验收备注始终是按文件名原样记录的。
+    认目录前缀等于让同一批断言在每次搬迁那天再红一次；文件名本身带档串、毫秒时间戳与 sha256 尾巴，
+    是投次回绑的证据键，够唯一。目录侧的真实存在性不由这里判，由 `on_disk` 与图片资产核验逐格核。"""
+    return path.rsplit('/', 1)[-1].rsplit(os.sep, 1)[-1]
+
+
+_INDEX = {}
+
+
+def gallery_index():
+    """一次走盘建「文件名→仓内相对路径」索引，供 on_disk 把读数里的历史路径解析到当前落点。"""
+    if not _INDEX:
+        for base in ('数据/图集', 'vibe_images', ARCHIVE_ROOT.rstrip('/')):
+            root = ROOT / base
+            if not root.is_dir():
+                continue
+            for dp, _, fn in os.walk(root):
+                for f in fn:
+                    if f.lower().endswith(('.png', '.jpg', '.jpeg')):
+                        _INDEX.setdefault(f, []).append((Path(dp) / f).relative_to(ROOT).as_posix())
+    return _INDEX
 
 
 def on_disk(path):
-    """清单挂 backup/、读数挂无前缀，两侧任一处落盘即算在盘上。"""
-    bare = unrooted(path)
-    return (ROOT / bare).is_file() or (ROOT / ARCHIVE_ROOT / bare).is_file()
+    """读数写的是历史路径，落点可能已随搬迁移动：登记路径、backup 镜像、按文件名的走盘索引任一处命中即算在盘。"""
+    for cand in (unrooted(path), path, ARCHIVE_ROOT + unrooted(path)):
+        if (ROOT / cand).is_file():
+            return True
+    return bool(gallery_index().get(unrooted(path)))
 
 
 def head_re(token):
@@ -331,15 +367,21 @@ class ReviewNoteHistory(unittest.TestCase):
                 cell = unrooted(item['image_file'][-1])
                 rows = [r for r in self.notes[eid] if cell in r]
                 self.assertTrue(rows, '%s 找不到点名本格文件的登记备注' % eid)
-                row = rows[-1]
-                self.assertIn('vibe_images/', row)
+                # 选取器改成按文件名后，命中集里会多出 C139 代签申报那一行（按口径只点名文件、不带目录）。
+                # 本块查的始终是「那一轮的占格读数」，所以再按「带目录点名本格」筛一层——
+                # 这一层筛出来的就是原先按整路径命中时的那批行，判据承载不变；
+                # 且不钉死是哪一档目录（`vibe_images/…` 是当时落点、`数据/图集/<ID>/…` 是现落点），
+                # 钉目录等于每搬一次家就红一次。
+                qualified = [r for r in rows if re.search(r'\S+/' + re.escape(cell), r)]
+                self.assertTrue(qualified, '%s 的登记备注没写本格文件的出处路径' % eid)
+                row = qualified[-1]
                 # C97 认的是「PNG 走 caBX·C2PA 容器」这条口径：旧档备注按裁定号复述一句，
                 # C123 重投档的抬头直接写容器读数 caBX=1、iTXt=0，同一口径两种写法都算交代过。
                 self.assertTrue('C97' in row or 'caBX=' in row, '%s 未交代标识容器口径' % eid)
                 self.assertIn('待复验', row)
                 self.assertIn('不代签验收', row)
                 self.assertEqual(len(item['image_file']), cells, eid)
-                self.assertTrue(cell.startswith('vibe_images/'), eid)
+                self.assertTrue(item['image_file'][-1].startswith(GALLERY_ROOT), eid)
                 if item['status'] == '已验收':
                     self.assertTrue(item.get('image_prompt_sha256'), '%s 已验收却没绑摘要' % eid)
                     self.assertEqual(check_sign_declaration(item, self.notes[eid]), [], eid)
@@ -980,22 +1022,54 @@ class AssetGate(unittest.TestCase):
         self.assertEqual(self.report['失败格数'], 0)
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
         self.assertEqual(len(paths), 1125)
-        # C82 的归一只管 图集/ 那批；E1 放量批次与 C105／C106 重出批次（C97 起认 caBX·C2PA 容器）
+        # C82 的归一只管 图集/ 那批 jpg；E1 放量与 C105／C106 重出批次（C97 起认 caBX·C2PA 容器）
         # 是真 PNG，按字节与容器引用，不改名也不要求它变成 .jpg。
-        # 不按根前缀而按子串分类：B 前置裁定后 image_file 过渡期整体挂在 backup/ 镜像路径（§50.3），
-        # 303 条重投后还要整体切回 数据/图集/ —— 认子串两侧都不用再改这条断言。
-        # 图集外 333 格＝vibe_images 的 331 格（C138 主向档 312 ＋ R2 残留 19）＋ S02／S18 两格 backup；
-        # 图集侧那 1056 张 jpg 因此只剩 792，两个数恒该加起来等于总格数 1125，所以按和来钉、不各抄一份。
-        gallery = [p for p in paths if '数据/图集/' in p]
-        out_of_gallery = [p for p in paths if '数据/图集/' not in p]
-        self.assertEqual(len(gallery) + len(out_of_gallery), 1125)
-        self.assertEqual(len(out_of_gallery), 333)
-        for p in gallery:
-            self.assertTrue(p.lower().endswith(('.jpg', '.jpeg')), p)
+        # 分类改成按扩展名而不是按落点子串：原先注释里那句「303 条重投后还要整体切回 数据/图集/——
+        # 认子串两侧都不用再改这条断言」已被 2026-11-07 的搬迁证伪，就地订正。切回图集那天，
+        # PNG 交付格与归档 jpg 同住一个子串下，按子串分就分不出「哪批该归一扩展名、哪批按字节判」，
+        # 而这条断言真正要钉的是后者，所以按扩展名分。
+        # PNG 交付面 333 格＝数据/图集/<ID>/ 的 331 格（C138 主向档 312 ＋ R2 残留 19）
+        # ＋ S02／S18 两格仍在 backup/vibe_images/ 镜像（B 项归档时按原路径整体搬，未随本轮迁进图集）；
+        # JPG 归档面 792 格全在 backup/数据/图集/四向/<ID>/。两档桶之和恒等于总格数 1125，按和来钉、不各抄一份。
+        png = [p for p in paths if p.lower().endswith('.png')]
+        jpg = [p for p in paths if p.lower().endswith(('.jpg', '.jpeg'))]
+        self.assertEqual(len(png) + len(jpg), 1125)
+        self.assertEqual(len(png), 333)
+        for p in jpg:
+            self.assertTrue(p.startswith(ARCHIVE_ROOT + GALLERY_ROOT), p)
             self.assertTrue((ROOT / p).is_file(), p)
-        for p in out_of_gallery:
-            self.assertTrue(p.lower().endswith('.png'), p)
+        for p in png:
             self.assertTrue((ROOT / p).is_file(), p)
+            if p.startswith(GALLERY_ROOT):
+                # 落点约定：图集目录下按条目 ID 分文件夹，档名不改（毫秒时间戳带＋sha256 尾巴是回绑证据）
+                self.assertTrue(gallery_slot_ok(p, p.split('/')[2]), p)
+        # 交付 PNG 里除了那两格 backup，其余必须逐条挂在自己 ID 的图集目录下
+        live = [p for p in png if p.startswith(GALLERY_ROOT)]
+        self.assertEqual(len(live), 331)
+        for item in self.manifest['items']:
+            for p in item.get('image_file') or []:
+                if p.startswith(GALLERY_ROOT):
+                    self.assertTrue(gallery_slot_ok(p, item['id']), p)
+
+    def test_gallery_slot_judgement_reds_on_misfiled_cells(self):
+        """违例负测：上一条的落点判据必须是能在坏数据上打红的，不是恒真。
+        四种错挂形态都取自本轮迁移真可能踩到的坑：建目录时拿错条目、按平铺落点留在 vibe_images、
+        多套一层子目录、以及档名没带条目 ID 前缀（改名或串仓）。"""
+        p = next(x for i in self.manifest['items'] for x in (i.get('image_file') or [])
+                 if x.startswith(GALLERY_ROOT))
+        eid = p.split('/')[2]
+        self.assertTrue(gallery_slot_ok(p, eid), '基线必须先证明正例为真')
+        cases = {
+            '挂到别人 ID 的目录下': ('数据/图集/Z99/%s-%s.png' % (eid, eid, ), eid),
+            '平铺在图集根': ('数据/图集/%s' % p.rsplit('/', 1)[-1], eid),
+            '多套一层子目录': ('数据/图集/%s/主向/%s' % (eid, p.rsplit('/', 1)[-1]), eid),
+            '档名丢了 ID 前缀': ('数据/图集/%s/%s.png' % (eid, '改名后的图'), eid),
+        }
+        for label, (bad, who) in cases.items():
+            with self.subTest(case=label):
+                self.assertFalse(gallery_slot_ok(bad, who), label)
+        # 判据不能对 backup 归档面误判为真：那 792＋2 格走的是另一档路径，前缀就不是图集
+        self.assertFalse(gallery_slot_ok(ARCHIVE_ROOT + GALLERY_ROOT + '四向/S02/S02-翼谷航空小镇-x.png', 'S02'))
 
     def test_out_of_gallery_extension_sweep_is_advisory(self):
         """图集外体检的两条支路分开钉：真盘面（归档后只剩定档后图片，实测零不符）＋夹具面（有过期扩展名必须抓到）。
@@ -1142,10 +1216,11 @@ class AssetGate(unittest.TestCase):
         """
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']
                  if p.lower().endswith('.png')]
-        # 333＝S02／S18 两格 caBX ＋ vibe_images 的 331 格（C138 主向档 312 ＋ R2 未被替换的 C133 残留 19）；
+        # 333＝S02／S18 两格 caBX ＋ 数据/图集/<ID>/ 的 331 格（C138 主向档 312 ＋ R2 未被替换的 C133 残留 19）；
         # 沿革：R2 回填 58 ＋ R1 放量 264 ＝ 322，同日补投 48 枚里 39 枚把 C133 格换成 C138 格（净数不变）、
         # 9 枚是此前零图的新增格。这条钉的是「PNG 交付面没被悄悄换小」，
         # 两档桶之和与它相等由下面那条对拍兜住，容器读数本身仍以现读字节为准。
+        # 目录段写的是 2026-11-07 C141 之后的落点；这条按扩展名取数，与搬家无关。
         self.assertEqual(len(paths), 333)
         buckets = {'C2PA(caBX)': 0, 'iTXt·TC260': 0}
         for p in paths:
@@ -1229,8 +1304,8 @@ class AssetRulings(unittest.TestCase):
         for cid in self.IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 140)
-        self.assertEqual(rows[-1]['编号'], 'C140')
+        self.assertEqual(len(rows), 141)
+        self.assertEqual(rows[-1]['编号'], 'C141')
         self.assertIn('rename_gallery_ext', by_id['C82']['裁定'])
         self.assertIn('不是交付判据', by_id['C83']['裁定'])
         self.assertIn('不判红、不改名', by_id['C84']['裁定'])
