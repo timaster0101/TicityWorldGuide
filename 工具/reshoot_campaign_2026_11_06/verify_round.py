@@ -9,9 +9,14 @@
 4. C136：容器画像不按出图通道成立。本轮真图实测 caBX=0／iTXt=1（见 ledger.json 第 1 轮 rows），
    所以占格只要求「AIGC 标识至少其一在位」——旧的 `cabx == 1` 会把合规图判红。
 
-用法：python 工具/reshoot_campaign_2026_11_06/verify_round.py <会话jsonl路径> [R1|R2]
+用法：python 工具/reshoot_campaign_2026_11_06/verify_round.py <回绑源> [R1|R2]
+     回绑源两种形态：① 单份会话 jsonl 路径（老调用）；② 逗号分隔的多份 jsonl；
+     ③ 指向 transcript 登记件（*.json，含 transcripts 字典）——登记件里在盘的逐份扫，
+     不在盘的只报「回绑源缺失 N 份」，不拿缺失当通过。
      组别不写＝R2，沿用老调用。两组的送入串台账、读数与轮次台账分档，
      免得 R1 一轮把 R2 的 round_readings.json／ledger.json 覆写掉。
+     R2 的送入串面是「试点 4 条 + 全量并集」两份台账合成，缺全量那份直接停手——
+     「闸门看不见全量串」正是并轨要消灭的状态，不许静默降级成只读试点。
 """
 import datetime
 import io
@@ -28,10 +33,13 @@ WORKSPACE = os.path.abspath(os.path.join(ROOT, '..'))
 IMG_DIR = os.path.join(WORKSPACE, 'vibe_images')
 
 # 档串与送入串台账一一对应；build_send_bodies.py 的 SUFFIX/LEDGER 是本表的前置口径。
+# bodies_extra＝该组的并集补充台账（仓内新文件，不动被逐字节钉住的试点那份）。
 GROUPS = {
     'R2': {'suffix': 'C133冻结重投-v01', 'bodies': 'send_bodies_r1.json',
+           'bodies_extra': 'send_bodies_r2_full.json',
            'readings': 'round_readings.json', 'ledger': 'ledger.json'},
     'R1': {'suffix': 'C138主向重投-v01', 'bodies': 'send_bodies_r1_primary.json',
+           'bodies_extra': 'send_bodies_r1_evidence.json',
            'readings': 'round_readings_r1.json', 'ledger': 'ledger_r1.json'},
 }
 LEDGER_DECL = {
@@ -76,11 +84,55 @@ def sent_prompts(jsonl):
     return out
 
 
+def resolve_sources(arg):
+    """回绑源展开：逗号分隔的 jsonl 清单，或 transcript 登记件（*.json 里的 transcripts 字典）。
+
+    返回 (在盘路径列表, 缺失路径列表)。登记件的形态是本轮并轨的前提——放量改子代理分片投放后，
+    逐字回绑的正源不再是单份主会话 jsonl，缺失必须显式计数，不能静默少扫。
+    """
+    if arg.endswith('.json'):
+        reg = json.load(io.open(arg, encoding='utf-8'))
+        paths = sorted(set(reg['transcripts'].values()))
+    else:
+        paths = sorted({p.strip() for p in arg.split(',') if p.strip()})
+    hit = [p for p in paths if os.path.exists(p)]
+    gone = [p for p in paths if p not in hit]
+    return hit, gone
+
+
+def merge_bodies(here, cfg, group):
+    """试点台账 + 并集补充台账合成读取面；同 ID 两边都在时正文必须逐字相同。"""
+    bodies = json.load(io.open(os.path.join(here, cfg['bodies']), encoding='utf-8'))
+    extra_name = cfg.get('bodies_extra')
+    merged_from = [cfg['bodies']]
+    if extra_name:
+        p = os.path.join(here, extra_name)
+        assert os.path.exists(p), ('%s 组缺并集补充台账 %s：本组的实发串面在两份文件里，'
+                                   '只读主台账等于把补充条目当没投过（并轨口径见 设计/2026-11-03-待办移交清单.md §55.17；'
+                                   'R1 那份补的是双发条目的投次证据）'
+                                   % (group, extra_name))
+        extra = json.load(io.open(p, encoding='utf-8'))
+        clash = sorted(set(bodies) & set(extra))
+        for eid in clash:
+            assert bodies[eid]['body'] == extra[eid]['body'], (
+                eid, '两份台账同 ID 正文分叉：串面出现第二条真源，先定谁是正源再谈核验')
+            assert bodies[eid]['send_name'] == extra[eid]['send_name'], (eid, '两份台账同 ID 发名分叉')
+        for eid, rec in extra.items():
+            merged = dict(bodies[eid]) if eid in bodies else dict(rec)
+            merged.update({k: v for k, v in rec.items() if k in ('投次', '作废发起', '作废删除', '点单', '复投')})
+            merged.setdefault('投次', 1)
+            bodies[eid] = merged
+        merged_from.append(extra_name)
+    for rec in bodies.values():
+        rec.setdefault('投次', 1)
+    return bodies, merged_from
+
+
 def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
     cfg = GROUPS[group]
     if measure is None:
         measure = load_measure(root).measure
-    bodies = json.load(io.open(os.path.join(here, cfg['bodies']), encoding='utf-8'))
+    bodies, merged_from = merge_bodies(here, cfg, group)
     wrong = sorted(k for k, v in bodies.items() if not v['send_name'].endswith('-' + cfg['suffix']))
     assert not wrong, ('%s 组台账 %s 里有 %d 条发名不带本组档串 %s（示例 %s）：'
                        '读错组会把别组的落盘算成本轮「已投」'
@@ -88,7 +140,10 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
     snap = json.load(io.open(os.path.join(root, '数据', '提示词基准冻结.json'), encoding='utf-8'))
     floor = int(snap['frozen_at_ms'])
 
-    prompts = sent_prompts(jsonl)
+    sources, missing = resolve_sources(jsonl)
+    prompts = []
+    for p in sources:
+        prompts.extend(sent_prompts(p))
     by_name = {}
     for p in prompts:
         by_name.setdefault(p.get('name'), []).append(p.get('prompt') or '')
@@ -97,12 +152,18 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
     rc = 0
     for eid, ref in sorted(bodies.items()):
         name = ref['send_name']
+        sends = int(ref['投次'])
         uses = by_name.get(name, [])
-        if len(uses) != 1:
-            print('✗ %s 会话里按名 %s 找到 %d 次发起（必须恰 1 次）' % (eid, name, len(uses)))
+        if len(uses) != sends:
+            print('✗ %s 回绑源里按名 %s 找到 %d 次发起（台账投次=%d%s）'
+                  % (eid, name, len(uses), sends,
+                     '，另有缺失回绑源 %d 份' % len(missing) if missing else ''))
             rc = 1
             continue
-        verbatim = uses[0] == ref['body']
+        verbatim_uses = [u for u in uses if u == ref['body']]
+        drifted = len(uses) - len(verbatim_uses)
+        known_drift = int(ref.get('作废发起', 0))
+        verbatim = len(verbatim_uses) >= 1 and drifted == known_drift
         files = []
         if os.path.isdir(img_dir):
             for f in os.listdir(img_dir):
@@ -112,7 +173,8 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
                 if m and int(m.group(2)) >= floor:
                     files.append((int(m.group(2)), f))
         if len(files) != 1:
-            print('✗ %s 冻结带内（ts ≥ %d）落盘 %d 张：%s' % (eid, floor, len(files), [f for _, f in files]))
+            print('✗ %s 冻结带内（ts ≥ %d）落盘 %d 张（投次=%d；被作废的枚必须逐条登记进「作废删除」，'
+                  '落盘面恒为 1 枚）：%s' % (eid, floor, len(files), sends, [f for _, f in files]))
             rc = 1
             continue
         ts, fname = files[0]
@@ -128,19 +190,38 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
             'bytes': r['bytes'], 'sha256_12': r['sha256_12'], 'container': cont,
             'p99_lum': r['p99_lum'], 'fine_var_full': r['fine_var_full'], 'sun_blob_px': r['sun_blob_px'],
             'replaced_cell': ref['replaced_cell'], 'status_before': ref['status_before'],
+            '投次': sends, '逐字发起数': len(verbatim_uses), '非逐字发起数': drifted,
+            '登记作废发起数': known_drift,
+            '作废删除': ref.get('作废删除', []),
         }
         rows.append(row)
         flag = '✓' if (verbatim and size_match and container_ok) else '✗'
         if flag == '✗':
             rc = 1
-        print('%s %s｜%s｜%s｜逐字相等=%s 尺寸符=%s caBX=%s／iTXt=%s sha12=%s'
-              % (flag, eid, row['ts_text'], r['dims'], verbatim, size_match, cont['cabx'], cont['itxt'],
+        print('%s %s｜%s｜%s｜逐字相等=%s 投次=%d（逐字%d／非逐字%d，登记作废发起%d）尺寸符=%s caBX=%s／iTXt=%s sha12=%s'
+              % (flag, eid, row['ts_text'], r['dims'], verbatim, sends,
+                 len(verbatim_uses), drifted, known_drift, size_match, cont['cabx'], cont['itxt'],
                  r['sha256_12']))
+
+    if missing:
+        print('✗ 回绑源缺失 %d 份（登记件里有名、在盘找不到）：%s' % (len(missing), missing[:5]))
+        rc = 1
 
     out = {'frozen_at': snap['frozen_at'], 'frozen_at_ms': floor, 'rows': rows,
            '统计面': {'组别': group, '档串': cfg['suffix'], '送入串台账': cfg['bodies'],
-                      '本轮发图串条数': len(bodies), '回绑成功条数': sum(1 for x in rows if x['逐字相等']),
+                      '送入串台账并集': merged_from,
+                      '本轮发图串条数': len(bodies),
+                      '投次合计': sum(int(v['投次']) for v in bodies.values()),
+                      '复投条目数': sum(1 for v in bodies.values() if int(v['投次']) > 1),
+                      '登记作废发起合计': sum(int(v.get('作废发起', 0)) for v in bodies.values()),
+                      '实测非逐字发起合计': sum(x['非逐字发起数'] for x in rows),
+                      '作废删除枚数合计': sum(len(v.get('作废删除', [])) for v in bodies.values()),
+                      '回绑成功条数': sum(1 for x in rows if x['逐字相等']),
                       '落盘在冻结带内条数': len(rows),
+                      '回绑源形态': 'transcript登记件' if str(jsonl).endswith('.json') else 'jsonl清单',
+                      '回绑源在盘份数': len(sources),
+                      '回绑源缺失份数': len(missing),
+                      '回绑源缺失清单': missing,
                       '会话jsonl': jsonl}}
     with io.open(os.path.join(here, cfg['readings']), 'w', encoding='utf-8', newline='\n') as fp:
         json.dump(out, fp, ensure_ascii=False, indent=1)
@@ -155,20 +236,28 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
     ledger['rounds'].append({
         '轮次': seq, '登记时刻': ts_now, '组别': group, '档串': cfg['suffix'],
         'frozen_at_ms': floor, '本轮发起条目': sorted(bodies),
+        '送入串台账并集': merged_from,
+        '投次合计': sum(int(v['投次']) for v in bodies.values()),
+        '复投条目': sorted(k for k, v in bodies.items() if int(v['投次']) > 1),
+        '回绑源形态': 'transcript登记件' if str(jsonl).endswith('.json') else 'jsonl清单',
+        '回绑源在盘份数': len(sources), '回绑源缺失份数': len(missing),
         '落盘与回绑': rows,
         '人工目视结论': {}, '判废': [], '回填': False,
     })
     with io.open(ledger_path, 'w', encoding='utf-8', newline='\n') as fp:
         json.dump(ledger, fp, ensure_ascii=False, indent=1)
         fp.write('\n')
-    print('台账第 %d 轮登记完成：%s｜rows %d｜%s 与 %s 已写'
-          % (seq, HERE, len(rows), cfg['readings'], cfg['ledger']))
+    print('台账第 %d 轮登记完成：%s｜rows %d｜条数 %d（投次合计 %d／复投 %d）｜回绑源在盘 %d 份、缺失 %d 份｜%s 与 %s 已写'
+          % (seq, HERE, len(rows), len(bodies), sum(int(v['投次']) for v in bodies.values()),
+             sum(1 for v in bodies.values() if int(v['投次']) > 1), len(sources), len(missing),
+             cfg['readings'], cfg['ledger']))
     return rc
 
 
 def main():
     if len(sys.argv) not in (2, 3):
-        print('用法：verify_round.py <会话jsonl路径> [R1|R2]（不写＝R2）')
+        print('用法：verify_round.py <回绑源> [R1|R2]（不写＝R2）；'
+              '回绑源＝单份会话 jsonl／逗号分隔多份／transcript 登记件 *.json')
         return 2
     group = sys.argv[2] if len(sys.argv) == 3 else 'R2'
     if group not in GROUPS:

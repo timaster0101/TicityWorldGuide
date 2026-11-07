@@ -8,6 +8,9 @@
 用法：
     python 工具/verify_prompt_baseline.py            # 正检，rc=0 表示基准仍冻结、冻结后落盘的格逐枚具备绑定资格
     python 工具/verify_prompt_baseline.py --negtest  # 违例注入自证：全部判据必须被检出，且在仓库外临时目录里做
+
+绑到过期基准那一类有一条免红通道（2026-11-07）：占格备注逐字申报「维持原绑定 <前12位>」的条目只出读数、
+不判红——撤绑/改绑是人工验收动作，闸门不许把它当成自己的违例去逼脚本改库；未申报的照旧判红。
 """
 import argparse
 import datetime
@@ -218,12 +221,24 @@ def check(root=ROOT):
     if unqualified:
         viol.append('%s：%d 枚格的文件名毫秒时间戳 ≥ frozen_at 但其条目基准在冻结后又变过，涉及条目 %s（这批只能重投，不能补绑）'
                     % (K_AFTER_UNQUALIFIED, sum(n for _, n in unqualified), [i for i, _ in unqualified][:20]))
-    stale = []
+    # 过期绑定的豁免口子（2026-11-07「1 回填」裁定「全部 264 都占格」）：占格可以，撤绑/改绑归人工。
+    # 所以备注里逐字申报了「维持原绑定 <该串前12位>」的条目不再判红，改出一条待人工撤销的读数；
+    # 没申报（或申报了却没复述前 12 位＝挂的是另一串）照旧判红——豁免只认申报与绑定摘要能对上这一件事。
+    # 统计面：清单 items[].review_note（生成器从 数据/开图验收备注.json 逐条镜像的当前备注串）。
+    stale, stale_declared = [], []
     for r in after_ids:
         if r['bind'] and r['bind'] != snap_map.get(r['id']):
-            stale.append(r['id'])
+            if '维持原绑定 %s' % str(r['bind'])[:12] in (by_id[r['id']].get('review_note') or ''):
+                stale_declared.append(r['id'])
+            else:
+                stale.append(r['id'])
+    readings['过期绑定已申报待人工撤销条数'] = len(stale_declared)
+    if stale_declared:
+        readings['过期绑定已申报条目名单_不判红只待人工撤销'] = stale_declared[:20]
     if stale:
-        viol.append('%s：冻结后落盘的格绑到了 ≠ 快照基准的摘要（C135 口径：按冻结串绑，送入串只作第二字段），涉及条目 %s'
+        viol.append('%s：冻结后落盘的格绑到了 ≠ 快照基准的摘要，且其 review_note 里没有'
+                    '「维持原绑定 <前12位>」申报（C135 口径：按冻结串绑，送入串只作第二字段；'
+                    '2026-11-07 起占格备注的申报是这类绑定唯一的免红通道），涉及条目 %s'
                     % (K_AFTER_STALE_BIND, stale[:20]))
     # 7) 签收与绑定的矛盾：已验收必须绑当前基准，否则就是「复制摘要补绑」被洗成验收
     def bind_ok(it):
@@ -344,6 +359,14 @@ def negtest():
             elif what == K_AFTER_STALE_BIND:
                 md['items'][0]['image_prompt_sha256'] = 'f' * 64
                 mp.write_text(json.dumps(md, ensure_ascii=False), encoding='utf-8')
+            elif what == '申报在位':
+                md['items'][0]['image_prompt_sha256'] = 'f' * 64
+                md['items'][0]['review_note'] = '占格读数：image_prompt_sha256 维持原绑定 %s（本轮不撤不签）' % ('f' * 12)
+                mp.write_text(json.dumps(md, ensure_ascii=False), encoding='utf-8')
+            elif what == '申报没复述前12位':
+                md['items'][0]['image_prompt_sha256'] = 'f' * 64
+                md['items'][0]['review_note'] = '占格读数：image_prompt_sha256 维持原绑定（本轮不撤不签）'
+                mp.write_text(json.dumps(md, ensure_ascii=False), encoding='utf-8')
             elif what == K_ACCEPT_UNBOUND:
                 md['items'][0]['status'] = '已验收'
                 md['items'][0]['image_prompt_sha256'] = 'e' * 64
@@ -372,6 +395,19 @@ def negtest():
                 rc = 1
             lines.append('%s %s → %d 违例 %s' % ('✓' if hit[kind] else '✗', kind, len(viol), names[:4]))
         lines.append('命中 %d/%d' % (sum(hit.values()), len(ALL_KINDS)))
+        # 免红通道自证（2026-11-07 加）：两头各钉一次——只钉正向等于把判据关掉，只钉反向等于让真申报也红。
+        for case, want_red in (('申报在位', False), ('申报没复述前12位', True)):
+            viol, readings = mutate(case)
+            names = [v.split('：')[0] for v in viol]
+            fired = K_AFTER_STALE_BIND in names
+            ok = (fired == want_red)
+            if case == '申报在位':
+                ok = ok and readings.get('过期绑定已申报待人工撤销条数') == 1
+            if not ok:
+                rc = 1
+            lines.append('%s 免红通道「%s」→ %s判红、申报在位读数=%s %s'
+                         % ('✓' if ok else '✗', case, '照' if fired else '未',
+                            readings.get('过期绑定已申报待人工撤销条数'), names[:4]))
         # 残留口径：连被守护脚本自己的临时前缀一起数，仓库内不得出现任何 gate 产物
         residue = [p.name for p in ROOT.rglob('*') if RESIDUE_PREFIX in p.name]
         lines.append('仓库内 %s 残留 %d' % (RESIDUE_PREFIX, len(residue)))
@@ -400,6 +436,11 @@ def main():
     print('✅ 提示词基准冻结闸门通过：漂移 0 条、txt 断链 0 条、冻结后落盘 %s 枚逐枚具备绑定资格（涉及 %s 条，其中 %s 枚待人工签收填绑定）'
           % (readings.get('冻结后落盘的格数'), readings.get('冻结后涉及条目数'),
              readings.get('冻结后未绑定待人工签收格数')))
+    if readings.get('过期绑定已申报待人工撤销条数'):
+        print('   （附读数，非违例）已申报「维持原绑定」的过期绑定 %s 条 %s：占格本身合规，'
+              '但那串摘要绑的是被替换前的旧文件、已过期，撤销或重绑归人工复验。'
+              % (readings['过期绑定已申报待人工撤销条数'],
+                 readings.get('过期绑定已申报条目名单_不判红只待人工撤销')))
     return 0
 
 

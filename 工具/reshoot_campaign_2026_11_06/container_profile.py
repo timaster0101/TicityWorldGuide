@@ -92,4 +92,7 @@ def main():
     print('产物', OUT)
 
 
-main()
+if __name__ == '__main__':
+    # 守卫是必需的：本模块被当库 import（比如只为查 profile() 的实现）时，模块级调用会当场重跑并覆写产物——
+    # 2026-11-07 规划期就因此把 container_profile.json 从 6,365 字节静默写成 73,711 字节，且脚本自己零报错。
+    main()
