@@ -1,0 +1,18 @@
+{
+ "declaration": "R2 绑定关口组·逐字回绑源登记件（并轨第 2 批）。verify_round.py 的第三个入参形态即指向本件：按 transcripts 的 values 逐份扫 ImageGen 的 tool_use input。本件里的路径是会话临时区的 transcript，跨会话会失效——缺失时 resolve_sources 显式计数并判红，不拿缺失当通过。",
+ "group": "R2",
+ "suffix": "C133冻结重投-v01",
+ "band": "C133冻结重投-v01",
+ "registered_at": "2026-11-07",
+ "主会话id": "6b39cfae-e2ed-48a8-81fd-0af6e4887eda",
+ "note": "22 条早期分片登记的口径见 _scratch_reshoot/sender_transcripts.json；本件只收 R2 用到的 7 份 jsonl 真源。",
+ "transcripts": {
+  "主会话（第1轮试点＋D08双发＋尾档补投）": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda.jsonl",
+  "R2全量档 R01": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-4c183f5575631243.jsonl",
+  "R2全量档 R02": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-5f23fec4d0ea2e94.jsonl",
+  "R2全量档 R03": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-ba22cfff378c4018.jsonl",
+  "R2全量档 R04": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-568c36a1941acbea.jsonl",
+  "R2全量档 R05": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-0f1400c1e7e4fb66.jsonl",
+  "R2全量档 T01": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-2bd4e549a8411867.jsonl"
+ }
+}

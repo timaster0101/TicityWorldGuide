@@ -1,0 +1,26 @@
+{
+ "declaration": "R1 组（档串 C138主向重投-v01，264 条主向格）逐字回绑的正源清单：15 份子代理 transcript ＋ 1 份主会话 jsonl。路径在 .qoder-cn/projects/…/<会话>/subagents/ 会话区，跨会话不保证还在；verify_round.py 对缺失份数显式判红（不拿缺失当通过），补投前要重新登记当轮路径。2026-11-07 按台账原串复投 F027／L037 各 1 次（发在主会话，落盘后按「留后来出的」硬删非逐字首送枚并登记进证据台账「作废删除」），发起合计 267→269，复投条目 3→5、登记作废发起 2→4。",
+ "group": "R1",
+ "suffix": "C138主向重投-v01",
+ "registered_at": "2026-11-07",
+ "条数": 264,
+ "发起合计": 269,
+ "transcripts": {
+  "0145020088e8aa86(22发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-0145020088e8aa86.jsonl",
+  "028e788f0a836922(22发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-028e788f0a836922.jsonl",
+  "5965e479a0cb2d79(22发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-5965e479a0cb2d79.jsonl",
+  "61f5edb15b8029e0(22发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-61f5edb15b8029e0.jsonl",
+  "683bd7169c0c22b9(22发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-683bd7169c0c22b9.jsonl",
+  "908abb5cc02fef29(22发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-908abb5cc02fef29.jsonl",
+  "99971a47da8aab7c(22发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-99971a47da8aab7c.jsonl",
+  "d945d6f3d547c775(22发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-d945d6f3d547c775.jsonl",
+  "a1a5c0f8925c9fd7(20发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-a1a5c0f8925c9fd7.jsonl",
+  "12a490fcd1b817a7(19发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-12a490fcd1b817a7.jsonl",
+  "80d0a19cfb454b57(12发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-80d0a19cfb454b57.jsonl",
+  "83af3982dbfc053d(12发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-83af3982dbfc053d.jsonl",
+  "39537b82b0a916ff(11发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-39537b82b0a916ff.jsonl",
+  "8a4d7e307945a715(9发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-8a4d7e307945a715.jsonl",
+  "2497045fc0297884(6发起)": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8\\6b39cfae-e2ed-48a8-81fd-0af6e4887eda\\subagents\\agent-ageneral-purpose-2497045fc0297884.jsonl",
+  "主会话（探针 D01＋R120 补发）＋F027／L037 复投": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda.jsonl"
+ }
+}
