@@ -37,8 +37,8 @@
   ],
   "crc_verified": true,
   "update_fields": true,
-  "rendering_verified": false,
-  "rendering_note": "目视记录绑定的是另一份 DOCX（记录 c4277cf0…，当前 64a433f1…）：重导即失效，须重看",
+  "rendering_verified": true,
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签；目视动作由用户本轮以『都帮我做完吧』明确委托会话代理执行）」按「本机 WPS Office 12.1.0.29690 提供 Word.Application COM 接口（本机没有 Microsoft Word：COM 自报 Name＝Microsoft Word、Version＝12.0、Build＝12.1.0.29690，但 app.Path 指向 D:\\Program Files\\WPS Office\\12.1.0.29690\\office6，全盘 find 无 WINWORD.EXE，HKCU App Paths 只有 wps.exe——本轮实测取证，并据此订正第 1—14 次记录里『本机 Microsoft Word』的措辞）。驱动姿势与上一签同：comtypes.client.CreateObject 取 Word.Application，app.Visible=False、DisplayAlerts=0，只读打开当前 docx（588776 字节，摘要 64a433f1…）→ Fields.Update → TablesOfContents.Update → Repaginate → ComputeStatistics 按本构建实测枚举序逐项取 0／1／2／3／4／5／6 → ExportAsFixedFormat 导 PDF（17＝wdExportFormatPDF）421 页（3179353 字节，摘要前 12 位 e00c90ffb69c）→ Close(False) 后复算 docx 摘要一致。对照侧：把第 14 次签署记录绑定的那份 docx 用 MSYS_NO_PATHCONV=1 git show 4584b2a:钛湖城城市设定集-完整合订本.docx 取回（587827 字节，重算摘要 c4277cf0cba31506… 与记录逐字一致）才用作对照，同一渲染器、同一套驱动另进程导出 prev.pdf（3152384 字节，摘要前 12 位 a8210912f083，420 页）。一份一进程（第 14 次记录里那条『同进程连开两份在 Fields.Update 抛 COMError』的教训沿用），两侧各自导出成功。PDF 侧：pymupdf 逐页文本层比对＋全 421/420 页 60dpi 灰度位图逐页比对＋异常字符／空白／越界／字面反引号扫描＋目录逐行落位＋逐 span 字体取证＋正文流去页眉页脚后的重排自证。位图目视本轮实际看过 9 张单页（当前版 1／2／377／378／387／399／414／421 按 150dpi，对照版 420 按 150dpi）＋1 张 400dpi 单字条带（第377页「⇒」），逐张以图片回看方式看过，未做拼图。改写本记录前复算 docx 摘要与打开前一致。」目视，绑定当前 DOCX 摘要",
   "source_block_count": 3377,
   "docx_body_block_count": 3377,
   "body_anchor": {
