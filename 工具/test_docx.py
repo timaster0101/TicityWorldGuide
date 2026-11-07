@@ -56,7 +56,9 @@ BODY = [
     paragraph('第一卷', 'Heading1', '<w:pageBreakBefore/>'),
     paragraph('第二级', 'Heading2'),
     paragraph('第三级', 'Heading3'),
-    paragraph(raw='<w:r><w:t>正文 </w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:t>粗体</w:t></w:r><w:r><w:t> x=-12.5 </w:t></w:r><w:hyperlink><w:r><w:t>显示文本</w:t></w:r></w:hyperlink><w:r><w:t> `保持`。</w:t></w:r>'),
+    # 导出器已改成「先剥内联码/链接标记，再按加粗切段」（2026-11-07 修）：套在加粗里的内联码
+    # 不再把字面反引号写进正文，所以这里 **`保持`** 落成加粗段「保持」，与 _inline() 同文。
+    paragraph(raw='<w:r><w:t>正文 </w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:t>粗体</w:t></w:r><w:r><w:t> x=-12.5 </w:t></w:r><w:hyperlink><w:r><w:t>显示文本</w:t></w:r></w:hyperlink><w:r><w:t> </w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:t>保持</w:t></w:r><w:r><w:t>。</w:t></w:r>'),
     paragraph('列表 -36 与 36', properties='<w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr>'),
     paragraph('1. 编号 007'),
     paragraph('引用 -0.888'),
@@ -135,6 +137,42 @@ class DocxVerificationTests(unittest.TestCase):
                 details = json.dumps(result['differences'], ensure_ascii=False)
                 self.assertIn(before, details)
                 self.assertIn(after, details)
+
+    def test_prose_marker_leak_guard_is_not_inert(self):
+        """C139 重导后新增的字面反引号闸门：漏检出判红、围栏豁免只免「整段除反引号无正文」。"""
+        clean = self.verify()
+        self.assertEqual(clean['prose_marker_leaks'], 0, clean['prose_marker_leak_locations'])
+        self.assertEqual(clean['prose_fence_paragraphs'], 0)
+        # 正样本里确有带反引号的表格单元（BODY 第 10 项），漏检数仍为 0 —— 说明免的是 kind，
+        # 不是「夹具碰巧一个反引号都没有」。
+        self.assertIn('`-17`', BODY[9])
+
+        # 违例①：正文段落漏出配对的内联码标记，且段内有别的正文。
+        leaked = list(BODY)
+        leaked[4] = paragraph('正文 粗体 x=-12.5 显示文本 保持。指针 `-36` 漏出')
+        self.write_docx(body=leaked)
+        bad = self.verify()
+        self.assertEqual(bad['prose_marker_leaks'], 1, bad['prose_marker_leak_locations'])
+        self.assertEqual(bad['prose_fence_paragraphs'], 0)
+        self.assertIn('body/p[10]', ' '.join(bad['prose_marker_leak_locations']))
+        self.assertTrue(any('内联码标记' in error for error in bad['errors']), bad['errors'])
+
+        # 违例②：同样的段落只剩反引号（围栏分隔行形态）→ 归豁免、不判漏。
+        fence = list(BODY)
+        fence[4] = paragraph('```')
+        self.write_docx(body=fence)
+        exempt = self.verify()
+        self.assertEqual(exempt['prose_fence_paragraphs'], 1)
+        self.assertEqual(exempt['prose_marker_leaks'], 0, exempt['prose_marker_leak_locations'])
+
+        # 违例③：豁免边界——反引号后面还有正文就必须回到判漏支路，否则整段豁免会被滥用。
+        mixed = list(BODY)
+        mixed[4] = paragraph('``` 围栏里混了正文')
+        self.write_docx(body=mixed)
+        edge = self.verify()
+        self.assertEqual(edge['prose_fence_paragraphs'], 0)
+        self.assertEqual(edge['prose_marker_leaks'], 1, edge['prose_marker_leak_locations'])
+        self.assertTrue(any('内联码标记' in error for error in edge['errors']), edge['errors'])
 
     def test_missing_reordered_and_extra_paragraphs_fail(self):
         variants = [BODY[:4] + BODY[5:], BODY[:4] + [BODY[5], BODY[4]] + BODY[6:], BODY + [paragraph('多余正文')]]
@@ -419,6 +457,10 @@ class RenderingRecordTests(unittest.TestCase):
         result = module.verify(ROOT)
         self.assertTrue(result['passed'], result['errors'])
         self.assertTrue(result['rendering_verified'], result['rendering_note'])
+        # 真实合订本的字面反引号读数：正文漏出为 0，围栏分隔行 4 段全部走豁免支路。
+        # 4 这个数字来自导出器写盘的 ``` 段落，形态变了这条要重取而不是改成断言相等就完事。
+        self.assertEqual(result['prose_marker_leaks'], 0, result['prose_marker_leak_locations'])
+        self.assertEqual(result['prose_fence_paragraphs'], 4, '围栏段落形态变了，豁免支路的承载要重取')
 
 
 if __name__ == '__main__':

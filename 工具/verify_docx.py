@@ -22,6 +22,7 @@ BOOK = '钛湖城城市设定集-完整合订本'
 REPORT = Path('数据') / 'Word核验结果.json'
 RECORD = Path('数据') / 'Word渲染目视.json'
 W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
+BT = '`'  # Markdown 内联码标记；导出到 Word 正文后必须已被剥掉，留在这里就是渲染缺陷
 # 目视记录必须自带的字段与必须覆盖的范围：缺任何一项都不算看过，脚本只核对不补写。
 RECORD_FIELDS = ('docx_sha256', '渲染方式', '目视范围', '结论', '核验人', '日期')
 RECORD_SCOPE = ('封面计数', '目录页码', '分卷首页', '表格页', '末页截断')
@@ -56,13 +57,11 @@ def rendering_state(root, docx_sha256):
 
 
 def _inline(text):
-    # Match export_docx.cjs runs(): bold chunks do NOT undergo code/link cleanup.
-    parts = re.split(r'(\*\*[^*]+\*\*)', text)
-    return ''.join(
-        part[2:-2] if part.startswith('**') else
-        re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', re.sub(r'`([^`]+)`', r'\1', part))
-        for part in parts if part
-    )
+    # Match export_docx.cjs runs(): code/link markers are stripped BEFORE the bold split, so a
+    # code span nested inside bold no longer leaves literal backticks in the rendered document.
+    text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', re.sub(r'`([^`]+)`', r'\1', text))
+    return ''.join(part[2:-2] if part.startswith('**') else part
+                   for part in re.split(r'(\*\*[^*]+\*\*)', text) if part)
 
 
 def _markdown_blocks(source):
@@ -362,6 +361,26 @@ def verify(root=DEFAULT_ROOT):
             result['differences'] = _differences(source_blocks, actual)
             if result['differences']:
                 result['errors'].append('正文有序块不一致: %d 处差异（完整内容见 differences）' % len(result['differences']))
+        # 字面反引号体检：正文段落里的内联码标记必须在导出时剥掉，漏出来就是书面渲染缺陷。
+        # 两类既有形态不算漏：①表格单元不经 runs()，保留字面反引号（上一签已登记、不据此判废）；
+        # ②围栏代码块的 ``` 分隔行被导出器当普通段落写盘（实测 4 段，整段除反引号外无正文），
+        #    那是围栏本身而不是内联码没配对，去掉反引号后为空即可判别。
+        def leaked(block):
+            if block['kind'] == 'table':
+                return False
+            text = block['text']
+            if BT not in text:
+                return False
+            return bool(text.replace(BT, '').strip())
+        leaks = [block['docx_location'] for block in actual if leaked(block)]
+        result['prose_marker_leaks'] = len(leaks)
+        result['prose_fence_paragraphs'] = sum(1 for block in actual
+                                               if block['kind'] != 'table' and BT in block['text']
+                                               and not block['text'].replace(BT, '').strip())
+        result['prose_marker_leak_locations'] = leaks[:10]
+        if leaks:
+            result['errors'].append('正文段落漏出未转换的内联码标记: %d 处（%s）'
+                                    % (len(leaks), '、'.join(leaks)))
     result['rendering_verified'], result['rendering_note'] = rendering_state(root, result['docx_sha256'])
     result['passed'] = not result['errors']
     return result

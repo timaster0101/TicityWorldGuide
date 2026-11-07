@@ -1,8 +1,8 @@
 {
   "passed": true,
   "errors": [],
-  "source_sha256": "14f260faf0f50588157420eabb8f7f50084cb36a61fcdbc941914f68ed1e1bce",
-  "docx_sha256": "1ab36b7bcc266a735aa70e2900a4970337ec2a938b71da7122b75a39822dd55d",
+  "source_sha256": "aaaacd43651486beab701f3f30395ed394ce9c266ae28c35701f38a9f6ba72c4",
+  "docx_sha256": "d64f2d66963c8d437742a628eef9234349b73313439ed15e6a0427ebd676c9ec",
   "paragraph_count": 8300,
   "table_count": 321,
   "cell_count": 4896,
@@ -38,7 +38,7 @@
   "crc_verified": true,
   "update_fields": true,
   "rendering_verified": true,
-  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签；目视动作由用户本轮以『1 回填 / 2 复投 / 3 补』并裁定『手册＋报告都补，重导并重做（第 16 次）目视』明确委托会话代理执行）」按「本机 WPS Office 12.1.0.29690 提供 Word.Application COM 接口（本机没有 Microsoft Word，措辞口径沿用第 15 次记录起的订正）。驱动姿势与上一签同：一份 docx 一个进程，comtypes.client.CreateObject 取 Word.Application，app.Visible=False、DisplayAlerts=0，只读打开 → Fields.Update → TablesOfContents.Update → Repaginate → ComputeStatistics 按本构建实测枚举序逐项取 0／1／2／3／4／5／6 → 同进程读结构计数 → ExportAsFixedFormat 导 PDF（17＝wdExportFormatPDF）→ Close(False) 后复算 docx 摘要一致。当前版 589730 字节（摘要 1ab36b7bcc26…，与工作树交付的那份逐字节比对为同一文件）导出 cur.pdf 3182626 字节、摘要前 12 位 2622621640c0、421 页；对照版 588776 字节（摘要 64a433f1baf1…，与第 15 次签署记录绑定值逐字一致），本轮用 MSYS_NO_PATHCONV=1 git show HEAD:钛湖城城市设定集-完整合订本.docx 从提交 8eabf96 取回并重算摘要对上才用作对照，另进程导出 prev.pdf 3179353 字节、摘要前 12 位 f00987023fee、421 页。统计读数本轮另用只取 ComputeStatistics、不导 PDF 的脚本对两份 docx 各起一进程复算一遍，七项与渲染进程逐项一字不差（属同轮双证，不是沿用）。PDF 侧比对：pymupdf 逐页文本层＋全 421/421 页 60dpi 灰度位图逐页对拍＋异常字符／越界／字面反引号／逐 span 字体扫描＋目录逐行落位＋末页文本＋正文流剥页眉页脚去空白的重排自证。位图目视本轮实际看过 18 张单页，全部当前版 150dpi、逐张以图片回看方式看过、未做拼图（清单见 目视范围）。改写本记录前复算工作树 docx 摘要与打开前一致。」目视，绑定当前 DOCX 摘要",
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮逐页目视，非脚本代签；目视动作由用户在本轮以「你都代完成，用最彻底的方式，不要给未来留隐患」与「连验收一起代签」的委托链、并以「继续」指示续做，明确委托会话代理执行。该委托覆盖 C139 的代签验收与本轮 Word 渲染目视，不覆盖画风判废权——画风判废权一律在人工目视，见合订本书面第 378 页）」按「本机 WPS Office 12.1.0.29690 提供 Word.Application COM 接口（本机没有 Microsoft Word，措辞口径沿用第 15 次记录起的订正）。驱动姿势与上一签同：一份 docx 一个进程，comtypes.client.CreateObject 取 Word.Application，app.Visible=False、DisplayAlerts=0，只读打开 → Fields.Update → TablesOfContents.Update → Repaginate → ComputeStatistics 按本构建实测枚举序逐项取 0／1／2／3／4／5／6 → 同进程读结构计数 → ExportAsFixedFormat 导 PDF（17＝wdExportFormatPDF）→ Close(False) 后复算 docx 摘要一致（本轮 590786 字节、摘要 d64f2d66963c…，打开前后一致＝true）。对照版＝第 16 次签署绑定的 589730 字节（摘要 1ab36b7bcc26…，与上一签绑定值逐字一致，本轮直接从上一签的暂存副本取用并复算摘要对上），另进程导出 prev.pdf 3182626 字节、摘要前 12 位 ca062215d68a、421 页；当前版导出 cur.pdf 3190319 字节、摘要前 12 位 f4fc1e87b717、422 页。PDF 侧比对：pymupdf 逐页文本层＋同序 421 页 60dpi 灰度位图逐页对拍＋异常字符／越界／字面反引号／逐 span 字体扫描＋目录逐行落位＋末页文本＋正文流剥页眉页脚去空白的最长公共前缀／后缀与整行连续命中自证。页眉剥离本轮按实测文本层订正为正则（渲染出来是「钛湖城/ 城市空间与生活设定」，空格被吃掉），上一签按字面相等剥会把页眉漏进正文流、把首个正文流差异页假报到版页边界上。位图目视本轮实际看过 23 张单页，全部当前版 150dpi、逐张以图片回看方式看过、未做拼图（清单见 目视范围）。改写本记录前复算工作树 docx 摘要与打开前一致。」目视，绑定当前 DOCX 摘要",
   "source_block_count": 3377,
   "docx_body_block_count": 3377,
   "body_anchor": {
@@ -47,5 +47,8 @@
     "text": "2013年原创虚构城市正典 · 24个村镇 · 20个片区 · 148项功能区与地标 · 120个著名居民区",
     "prefix_block_count": 8
   },
-  "differences": []
+  "differences": [],
+  "prose_marker_leaks": 0,
+  "prose_fence_paragraphs": 4,
+  "prose_marker_leak_locations": []
 }

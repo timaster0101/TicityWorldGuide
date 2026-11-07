@@ -29,9 +29,15 @@ function columnsFor(count) {
   return count > 1 ? widths : [contentWidth];
 }
 
+// 内联码与链接标记在导出时必须先剥掉，再按加粗切段：放在切段之后会让「**`x` …**」这种
+// 套在加粗里的内联码漏出字面反引号（2026-11-07 实测，书面第378页漏 2 枚）。
+function stripMarkers(text) {
+  return text.replace(/`([^`]+)`/g, '$1').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+}
+
 function runs(text) {
-  return text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map(part => new TextRun({
-    text: part.startsWith('**') ? part.slice(2, -2) : part.replace(/`([^`]+)`/g, '$1').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1'),
+  return stripMarkers(text).split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map(part => new TextRun({
+    text: part.startsWith('**') ? part.slice(2, -2) : part,
     bold: part.startsWith('**'),
   }));
 }
