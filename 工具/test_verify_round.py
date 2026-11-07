@@ -25,7 +25,8 @@ CAMPAIGN = ROOT / '工具' / 'reshoot_campaign_2026_11_06'
 REAL_FILES = ('ledger.json', 'round_readings.json',
               'send_bodies_r1.json', 'send_bodies_r1_primary.json',
               'send_bodies_r2_full.json', 'transcripts_r2.json',
-              'send_bodies_r1_evidence.json', 'transcripts_r1.json')
+              'send_bodies_r1_evidence.json', 'transcripts_r1.json',
+              'send_bodies_r1_catchup.json', 'transcripts_r3.json')
 PREFIX = 'verify_round_neg_'
 
 _spec = importlib.util.spec_from_file_location('verify_round_under_test', str(CAMPAIGN / 'verify_round.py'))
@@ -81,8 +82,8 @@ class VerifyRoundGroups(unittest.TestCase):
     def put_ledger(self, group, refs, extra_refs=()):
         (self.here / vr.GROUPS[group]['bodies']).write_text(
             json.dumps({r['id']: r for r in refs}, ensure_ascii=False, indent=1), encoding='utf-8')
-        extra_name = vr.GROUPS[group].get('bodies_extra')
-        if extra_name:
+        extra = vr.GROUPS[group].get('bodies_extra')
+        for extra_name in ([extra] if isinstance(extra, str) else list(extra or [])):
             (self.here / extra_name).write_text(
                 json.dumps({r['id']: r for r in extra_refs}, ensure_ascii=False, indent=1), encoding='utf-8')
 
@@ -432,8 +433,10 @@ class MergedR1Ledger(unittest.TestCase):
     def test_d_group_config_points_at_both_files(self):
         cfg = vr.GROUPS['R1']
         self.assertEqual(cfg['bodies'], 'send_bodies_r1_primary.json')
-        self.assertEqual(cfg['bodies_extra'], 'send_bodies_r1_evidence.json')
-        for f in (cfg['bodies'], cfg['bodies_extra'], 'transcripts_r1.json'):
+        # R1 的发送面已经有三份：264 主向全量 ＋ 复投证据 ＋ C139 后 48 条「非新画风／缺图」补投。
+        # 这份断言按列表逐字钉住补充台账名单，少一份就是把补投过的条目当没投过（同 §55.21 的回绑口径）。
+        self.assertEqual(cfg['bodies_extra'], ['send_bodies_r1_evidence.json', 'send_bodies_r1_catchup.json'])
+        for f in (cfg['bodies'], 'transcripts_r1.json', 'transcripts_r3.json') + tuple(cfg['bodies_extra']):
             self.assertTrue((CAMPAIGN / f).exists(), f)
 
 

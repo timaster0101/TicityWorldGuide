@@ -76,10 +76,11 @@ class ReviewSuiteTests(unittest.TestCase):
 
     def test_covers_every_item_with_images_and_every_cell_once(self):
         with_images = [it for it in self.manifest if it.get("image_file")]
-        # 第五投 3 条（L093／L101／L108）首占后，有图条目 300→303、格数 1113→1116
-        self.assertEqual(len(with_images), 303)
+        # 第五投 3 条首占后有图条目 300→303；C138 放量与其后 48 条补投把 9 条零图条目也请进了图面
+        # （303→312）。替换不增格、首占才增格，所以格数 1116→1125 的增量正是那 9 枚首占，不是回填跑了两遍。
+        self.assertEqual(len(with_images), 312)
         cells = [p for it in with_images for p in it["image_file"]]
-        self.assertEqual(len(cells), 1116)
+        self.assertEqual(len(cells), 1125)
         blocks = self.item_blocks()
         self.assertEqual(sorted(blocks), sorted(it["id"] for it in with_images))
         for path in cells:
@@ -181,7 +182,7 @@ class ReviewSuiteTests(unittest.TestCase):
 
     def status_echo_violations(self):
         """判据纯函数：状态栏只许是清单的回显，不许是套件自己下的结论。
-        返回（回显与清单不符的条, 「已验收」出现在回显行之外的自撰行）。C139 之后清单里真有 303 条已验收，
+        返回（回显与清单不符的条, 「已验收」出现在回显行之外的自撰行）。C139 之后清单里真有 312 条已验收，
         原来那句「工作单里不许出现已验收」会把合法回显判成代签；改成钉回显本身，守卫力度不降。"""
         status = {it["id"]: it["status"] for it in self.manifest}
         mismatch = []
@@ -198,8 +199,8 @@ class ReviewSuiteTests(unittest.TestCase):
 
     def bare_visual_pass_claims(self):
         """判据纯函数：套件自撰的行里「人工目视通过」只许以否定形式出现（C139 申报行里的免责声明）。
-        按裸子串禁会连「不表示人工目视通过」一起判红——2026-11-07 实测工作单里 304 处命中，
-        303 处是这句免责声明、1 处是 L088 的历史人工读数回显，所以判据取「命中数 == 否定形式命中数」＋剔回显。"""
+        按裸子串禁会连「不表示人工目视通过」一起判红——2026-11-07 代签补投后实测工作单里 352 处命中，
+        351 处是这句免责声明、1 处是 L088 的历史人工读数回显，所以判据取「命中数 == 否定形式命中数」＋剔回显。"""
         return [l for l in self.authored_lines()
                 if "人工目视通过" in l and l.count("人工目视通过") != l.count("不表示人工目视通过")]
 
@@ -213,8 +214,8 @@ class ReviewSuiteTests(unittest.TestCase):
         self.assertEqual(self.bare_visual_pass_claims(), [])
         self.assertNotIn("结论：通过", self.work)
         csv_text = (self.out / "打表汇总.csv").read_text(encoding="utf-8-sig")
-        # 第五投首占 3 条后：有图条目 300→303，打表行 301→304（含表头）
-        self.assertEqual(len(csv_text.strip().splitlines()), 304)
+        # 打表一行一条既有图条目再加表头：312 条 → 313 行（补投前是 303 条 / 304 行）
+        self.assertEqual(len(csv_text.strip().splitlines()), 313)
         self.assertNotIn("通过", csv_text.splitlines()[0])
         rows = list(csv.reader(io.StringIO(csv_text)))
         self.assertEqual(rows[0][4], "状态")
@@ -236,8 +237,8 @@ class ReviewSuiteTests(unittest.TestCase):
         self.run_suite()
         mismatch, stray = self.status_echo_violations()
         self.assertEqual(mismatch, [])
-        self.assertEqual(len(stray), 303, "多写的验收句没被逐条抓到")
-        self.assertEqual(len(self.bare_visual_pass_claims()), 303, "裸的目视通过断言没被抓到")
+        self.assertEqual(len(stray), 312, "多写的验收句没被逐条抓到")
+        self.assertEqual(len(self.bare_visual_pass_claims()), 312, "裸的目视通过断言没被抓到")
         self.script.write_text(pristine, encoding="utf-8")
         self.run_suite()
         self.assertEqual(self.status_echo_violations(), ([], []))
@@ -249,7 +250,7 @@ class ReviewSuiteTests(unittest.TestCase):
                                encoding="utf-8")
         self.run_suite()
         mismatch, stray = self.status_echo_violations()
-        self.assertEqual(len(mismatch), 303)
+        self.assertEqual(len(mismatch), 312)
         self.assertEqual({r for _, r in mismatch}, {"状态回显与清单不符"})
         self.assertEqual(stray, [])
         self.script.write_text(pristine, encoding="utf-8")
@@ -259,9 +260,9 @@ class ReviewSuiteTests(unittest.TestCase):
     def test_contact_sheets_paginate_and_link_local_images(self):
         sheets = self.out / "联络表"
         pages = sorted(sheets.glob("页-*.html"))
-        self.assertEqual(len(pages), 38)
+        self.assertEqual(len(pages), 39)
         index = (sheets / "index.html").read_text(encoding="utf-8")
-        self.assertIn("共 303 条既有图", index)
+        self.assertIn("共 312 条既有图", index)
         self.assertIn("结构合规不等于视觉验收", index)
         cells = [p for it in self.manifest if it.get("image_file") for p in it["image_file"]]
         linked = []
@@ -274,9 +275,9 @@ class ReviewSuiteTests(unittest.TestCase):
                 self.assertTrue(src.startswith("../../../"), src)
                 linked.append(unquote(src)[len("../../../"):])
         # 链接只按字符串还原：图片文件不版本化，临时副本里本来就没有图。这里判的是「src 解码后
-        # 正好落回清单里的某一格、且一格不漏不多」；格子在不在盘上由 verify_image_assets 的 1116 格负责。
+        # 正好落回清单里的某一格、且一格不漏不多」；格子在不在盘上由 verify_image_assets 的 1125 格负责。
         self.assertEqual(sorted(linked), sorted(cells))
-        self.assertEqual(len(linked), 1116)
+        self.assertEqual(len(linked), 1125)
 
     def test_rerun_is_byte_identical(self):
         snapshot = {p.relative_to(self.out).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()

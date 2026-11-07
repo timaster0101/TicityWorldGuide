@@ -26,7 +26,9 @@ class ReviewFreshnessTests(unittest.TestCase):
         result = subprocess.run([sys.executable, '-B', str(ROOT / '工具' / 'verify_review_freshness.py')],
                                 cwd=ROOT, capture_output=True, text=True, encoding='utf-8', timeout=300)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        for line in ('清单格数: 1116', '工作单格数: 1116', '联络表引用数: 1116', '联络表页面数: 39'):
+        # 补投 9 条首占把格数从 1116 抬到 1125；页面数按联络表目录里全部 *.html 数（39 张分页＋1 张 index），
+        # 口径写在这里是为了下次它涨了能分清是多了一页分页还是多了一个入口页。
+        for line in ('清单格数: 1125', '工作单格数: 1125', '联络表引用数: 1125', '联络表页面数: 40'):
             self.assertIn(line, result.stdout)
 
     def test_gate_is_not_inert(self):

@@ -43,7 +43,7 @@ class AssetReportFreshnessTests(unittest.TestCase):
         """正检：盘上两份产物与现算逐字段一致，且现算本身没判红。"""
         result = self.run_gate()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        for line in ('清单直数格数: 1116', '现算文件格数: 1116', '现算失败格数: 0',
+        for line in ('清单直数格数: 1125', '现算文件格数: 1125', '现算失败格数: 0',
                      '数字漂移字段数: 0', '口径漂移字段数: 0'):
             self.assertIn(line, result.stdout)
 

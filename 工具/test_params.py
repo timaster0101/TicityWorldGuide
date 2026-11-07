@@ -236,8 +236,8 @@ class RulingsEightyEight(unittest.TestCase):
         for cid in self.PHASE_IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 139)
-        self.assertEqual(rows[-1]['编号'], 'C139')
+        self.assertEqual(len(rows), 140)
+        self.assertEqual(rows[-1]['编号'], 'C140')
 
 
 class FiveStatScaleC119(unittest.TestCase):

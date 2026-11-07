@@ -175,9 +175,20 @@ def check_cell_registration(item, rows):
             bad.append('已绑定摘要的条目占格却没申报摘要过期')
         elif bound[:12] not in row:
             bad.append('摘要过期申报没复述被维持的那串前 12 位')
-    for token_ in ('sha12=', 'caBX=', 'iTXt=', '待复验', '不代签验收'):
+    for token_ in ('sha12=', 'caBX=', 'iTXt='):
         if token_ not in row:
             bad.append('读数缺要素:' + token_)
+    # 占格当时的签署口径必须逐字留在读数里，但按占格时状态分两档核：
+    # 未签那档要写「待复验＋不代签验收」（第9批到 C138 放量都是这一档），
+    # C139 之后「占格时条目已经是已验收」的那档（补投面 39 条）要写「accepted 维持已验收」
+    # 并点明代签依据待 sign_acceptance 复核。两档各防各的假话：前者防把待复验读成已验收，
+    # 后者防把「上一轮签过、本轮没复核」读成「本轮复核过了」——拿前者的字面量去要求后者，
+    # 等于要么逼回填脚本替 39 条假称未签，要么逼闸门把真话判红。
+    if 'accepted 维持已验收' in row:
+        if 'sign_acceptance' not in row:
+            bad.append('读数申报了已验收却没写明代签依据待 sign_acceptance 按本轮新枚复核')
+    elif '待复验' not in row or '不代签验收' not in row:
+        bad.append('读数缺要素:待复验／不代签验收（未签档位必须逐字写明占格时状态与不代签）')
     if 'image_prompt_sha256 留空' not in row and '维持原绑定' not in row:
         bad.append('读数未交代 image_prompt_sha256 的去向（留空／维持原绑定）')
     if '不回填' in row:
@@ -285,12 +296,14 @@ class ReviewNoteHistory(unittest.TestCase):
 
     def test_four_long_notes_recovered(self):
         # L061／L066 同时出现在 RESHOT 与 BATCH9（两轮各记一条），所以按键集合比而不是按元组长度比。
-        # 2026-11-07 R1 回填那 264 条也各带一条登记备注。名单不手抄：
+        # 2026-11-07 R1 回填那 264 条也各带一条登记备注；同日补投（R3）又把余下 48 条占格并各带一条，
+        # 名单不手抄：
         # 从清单的 batch 后缀（回填脚本按档串写入）派生，键集合必须恰等于「历史钉住的批次 ∪ 本轮占格的条目」——
         # 多出来的键说明有人在清单之外造了备注，少掉的键说明某条占格没留出处，两种都判红。
         c138 = {i['id'] for i in self.manifest['items']
                 if str(i.get('batch') or '').endswith('C138主向重投-v01')}
-        self.assertEqual(len(c138), 264, 'R1 占格条目数不是 264，回填范围或档串换了')
+        self.assertEqual(len(c138), 312,
+                         'C138 主向档的占格条目数不是 312（264 放量＋48 补投），回填范围或档串换了')
         self.assertEqual(set(self.notes),
                          set(self.RECOVERED + self.BACKFILLED + self.RESHOT + self.VARIANT
                              + self.MORNING + self.RAIN + self.SUNNY + self.BATCH9 + self.BATCH9C
@@ -359,21 +372,24 @@ class ReviewNoteHistory(unittest.TestCase):
         本组只继续管它们上一轮串外试投那条「不回填」的历史结论还在不在。
         F012／F039／R053／R086 同口径移出：2026-11-07 R1 按台账串逐字重投后占的是本轮那一格，
         「串外不占格」这条禁则已被用户「全部 264 都占格」的裁定推翻——推翻的是当轮不占格，
-        不是那句历史结论：不回填那条读数仍须原样留在备注里，由下面 second 那段按抬头逐条查。"""
-        expect = {'L083': ('待开图', 0)}
-        for eid, (status, cells) in expect.items():
-            with self.subTest(eid=eid):
-                row = self.notes[eid][-1]
-                self.assertIn('vibe_images/', row)
-                self.assertIn('不回填', row)
-                item = self.items[eid]
-                self.assertNotIn('vibe_images/', json.dumps(item['image_file'], ensure_ascii=False), eid)
-                self.assertEqual(item['status'], status, eid)
-                got = item['image_file']
-                self.assertEqual(len(got) if isinstance(got, list) else (1 if got else 0), cells, eid)
-        # 移出组的历史结论不能被「新一轮把旧读数盖掉」静默抹平：四条各留一条写明不回填的旧读数，
+        不是那句历史结论：不回填那条读数仍须原样留在备注里，由下面 second 那段按抬头逐条查。
+        L083 本轮（2026-11-07 补投，用户「2 只要不是新画风生成的或者缺少的，都开」「3 补」）同口径移出：
+        它此前零格、占的是 C138 主向串补投那一枚。移出的是「待开图＋零格」这个当轮形态，
+        判废禁则本身一字没动——判废读数里点名的每一枚至今仍不在交付格里，这句现在按文件名逐枚对账，
+        比原先那句「image_file 里查不到 vibe_images/ 前缀」强：补投后那一格本身就带这个前缀，
+        原句在现清单上已经表达不了它想表达的东西。"""
+        eid = 'L083'
+        row = [r for r in self.notes[eid] if '不回填' in r][0]
+        self.assertIn('vibe_images/', row)
+        rejected = set(re.findall(r'vibe_images/([^\s，、；：（）]+)', row))
+        self.assertTrue(rejected, 'L083 的判废读数没点名任何一枚文件，这条判据无承载')
+        self.assertFalse(rejected & {unrooted(c) for c in self.items[eid]['image_file']},
+                         'L083 的判废枚进了交付格')
+        self.assertEqual(self.items[eid]['status'], '已验收', eid)
+        self.assertEqual(len(self.items[eid]['image_file']), 1, eid)
+        # 移出组的历史结论不能被「新一轮把旧读数盖掉」静默抹平：五条各留一条写明不回填的旧读数，
         # 且最新一轮（C138）那一格是真占了的——两边同时成立才叫「推翻的是当轮、留的是沿革」。
-        for eid in ('F012', 'F039', 'R053', 'R086'):
+        for eid in ('F012', 'F039', 'R053', 'R086', 'L083'):
             with self.subTest(eid=eid):
                 self.assertTrue([r for r in self.notes[eid] if '不回填' in r],
                                 '%s 的串外试投「不回填」读数被改写或删掉了' % eid)
@@ -435,28 +451,37 @@ class ReviewNoteHistory(unittest.TestCase):
                             '%s 的串外试投「不回填」结论在历史里查不到' % eid)
 
     def test_r1_backfill_is_registered_and_signing_is_declared(self):
-        """R1 回填 264 条的交付面：每条都要自带出处（本轮文件名、被替换的旧四向格、sha12、容器读数）。
+        """C138 主向档 312 条的交付面：每条都要自带出处（本轮文件名、被替换的旧格或「此前无格为首占」、sha12、容器读数）。
         签署面按 C139 两头钉：已验收的必须绑到冻结基准串、且备注里有要素齐全的代签申报行；
         仍待复验的不许有绑定。历史登记条里那句「留空／维持原绑定」是占格当时的原文，不许改写。
 
         为什么单列一条而不是并进 BATCH9 那条：BATCH9 管的是「按 C123 串重投的 41 条」，
-        R1 是「按 C138 主向串放量 264 条」，两轮占的是同一格的两个版本，名单与档串都不同。
-        名单不手抄：由清单 batch 后缀派生，派生出 264 这一数本身就是读数。"""
+        这一档管的是「按 C138 主向串投的 264 条放量＋48 条补投」，两轮占的是同一格的两个版本，名单与档串都不同。
+        名单不手抄：由清单 batch 后缀派生，派生出 312 这一数本身就是读数。
+        48 条补投（用户 2026-11-07「2 只要不是新画风生成的或者缺少的，都开」「3 补」）里 39 条占格时是已验收、
+        绑的是没换过的提示词串（C135），那句「摘要已过期」对它们是假申报，所以过期档按字面量而不是按
+        「有没有维持原绑定」分——后者已被补投面撑到 43 条，拿它筛就会把 39 条真话读成过期申报。"""
         c138 = sorted(i['id'] for i in self.manifest['items']
                       if str(i.get('batch') or '').endswith('C138主向重投-v01'))
-        self.assertEqual(len(c138), 264)
+        self.assertEqual(len(c138), 312)
         # 历史面：占格当时申报过「摘要已过期、维持原绑定」的只有那四条。这条钉的是历史读数没被改写，
         # 不是钉当前绑定——当前绑定已由 C139 全部重绑到冻结串，拿它反推会把沿革读错。
         stale_declared = sorted(eid for eid in c138
-                                if '维持原绑定' in round_row(eid, self.notes[eid], 'C138主向重投'))
+                                if '维持原绑定' in round_row(eid, self.notes[eid], 'C138主向重投')
+                                and '已过期' in round_row(eid, self.notes[eid], 'C138主向重投'))
         self.assertEqual(stale_declared, ['D01', 'L007', 'L008', 'R043'],
                          '占格当时申报过摘要过期的条目变了，须先复核沿革再改名单')
+        kept_current = sorted(eid for eid in c138
+                              if '维持原绑定' in round_row(eid, self.notes[eid], 'C138主向重投')
+                              and '已过期' not in round_row(eid, self.notes[eid], 'C138主向重投'))
+        self.assertEqual(len(kept_current), 39,
+                         '补投面「串未变、摘要未过期」的条数不是 39：C139 后补投范围变了须先复核裁定')
         for eid in c138:
             with self.subTest(eid=eid):
                 item = self.items[eid]
                 self.assertEqual(check_cell_registration(item, self.notes[eid]), [], eid)
                 row = round_row(eid, self.notes[eid], 'C138主向重投')
-                if eid not in stale_declared:
+                if '维持原绑定' not in row:
                     self.assertIn('image_prompt_sha256 留空', row, eid)
                 if item['status'] == '已验收':
                     self.assertEqual(item['image_prompt_sha256'], item['prompt_sha256'],
@@ -466,8 +491,8 @@ class ReviewNoteHistory(unittest.TestCase):
                     self.assertEqual(item['status'], '待复验', eid)
                     self.assertFalse(item.get('image_prompt_sha256'), '%s 未签署却已绑定' % eid)
         signed = [eid for eid in c138 if self.items[eid]['status'] == '已验收']
-        self.assertEqual(len(signed), 264,
-                         'R1 组代签验收范围不是 264：C139 的委托面变了须先复核裁定再改数')
+        self.assertEqual(len(signed), 312,
+                         'C138 主向档代签验收范围不是 312：C139 的委托面变了须先复核裁定再改数')
 
     def test_r1_signing_declaration_is_not_inert(self):
         """违例负测：C139 的「没申报不许签」必须能被坏数据打红，否则守卫只是散文。
@@ -524,7 +549,10 @@ class ReviewNoteHistory(unittest.TestCase):
         没申报不许签、申报了就得复述当前绑定串。
         负测跑在两个视图上：最新一轮（2026-11-07 R2 回填后＝C133冻结重投）用现清单，
         C123 那轮的档位后缀与投次抬头用 as_of_round 还原视图——后一轮替换掉的是同一格，
-        现清单里已经没有 C123 的产物可查，直接在现清单上跑这批负测会做成恒绿。"""
+        现清单里已经没有 C123 的产物可查，直接在现清单上跑这批负测会做成恒绿。
+        签署口径的字面量同理：代签之后清单现算全是已验收，未签档原文只在还原视图里还活着，
+        所以那三例跑在 C138 的未签档还原视图上，已签档两例另跑在 L062 的原文上——两档各抽各的字面量，
+        每例都先断言字面量真在原文里，防止抽成空操作后把「负测无效」读成「判据松了」。"""
         base = self.items['L062']
         rows = self.notes['L062']
         sel = cell_row('L062', rows)[0]
@@ -544,10 +572,31 @@ class ReviewNoteHistory(unittest.TestCase):
                 self.assertNotEqual((item, note_rows), (base, rows), '%s 的注入没落地，负测无效' % label)
                 self.assertTrue(check_cell_registration(item, note_rows), label)
         for repl, label in ((lambda r: r.replace('caBX=', ''), '读数漏容器'),
-                            (lambda r: re.sub(r'替换(上一格|第\d+格)', '', r), '读数漏出处'),
-                            (lambda r: r.replace('image_prompt_sha256 留空', ''), '读数漏绑定口径'),
-                            (lambda r: r.replace('待复验', ''), '读数漏状态口径')):
+                            (lambda r: re.sub(r'替换(上一格|第\d+格)', '', r), '读数漏出处')):
             with self.subTest(case=label):
+                mutated_rows = [(repl(r) if r == sel else r) for r in rows]
+                self.assertNotEqual(mutated_rows, rows, '%s 的替换没落地，负测无效' % label)
+                self.assertTrue(check_cell_registration(base, mutated_rows), label)
+        # 签署口径的负测按占格那一档分两组跑，理由与判据分档一致（见 check_cell_registration 注释）：
+        # 未签档的字面量（留空／待复验／不代签验收）只存在于占格当时还没签的那批读数里。C139 代签之后
+        # 清单现算全是已验收，直接拿现清单抽字面量会抽成空操作——那正是这一版闸门一度假绿的原因，
+        # 所以这里按 as_of_round 回退到「刚占格、尚未签」的视图再抽。
+        unst, unst_rows = as_of_round(self.items['L001'], self.notes['L001'], 'C138主向重投')
+        self.assertEqual(check_cell_registration(unst, unst_rows), [], '未签档还原视图本身必须先达标')
+        unst_sel = cell_row('L001', unst_rows)[0]
+        for repl, label in ((lambda r: r.replace('image_prompt_sha256 留空', ''), '读数漏绑定口径'),
+                            (lambda r: r.replace('待复验', ''), '读数漏状态口径'),
+                            (lambda r: r.replace('不代签验收', ''), '读数漏不代签口径')):
+            with self.subTest(case=label):
+                self.assertTrue(repl(unst_sel) != unst_sel, '%s 在未签档原文上找不到字面量，负测无承载' % label)
+                mutated_rows = [(repl(r) if r == unst_sel else r) for r in unst_rows]
+                self.assertNotEqual(mutated_rows, unst_rows, '%s 的替换没落地，负测无效' % label)
+                self.assertTrue(check_cell_registration(unst, mutated_rows), label)
+        # 已签档那一档（补投 39 条）各防各的假话：抽掉「维持已验收」要退回未签档字面量、抽掉复核人即失据。
+        for repl, label in ((lambda r: r.replace('accepted 维持已验收', ''), '已签档读数不写维持已验收'),
+                            (lambda r: r.replace('sign_acceptance', ''), '已签档读数不点明代签复核人')):
+            with self.subTest(case=label):
+                self.assertTrue(repl(sel) != sel, '%s 在已签档原文上找不到字面量，负测无承载' % label)
                 mutated_rows = [(repl(r) if r == sel else r) for r in rows]
                 self.assertNotEqual(mutated_rows, rows, '%s 的替换没落地，负测无效' % label)
                 self.assertTrue(check_cell_registration(base, mutated_rows), label)
@@ -713,25 +762,39 @@ class ReviewNoteHistory(unittest.TestCase):
                 self.assertIn('本条只记人工读数，不代签验收。', text)
                 self.assertIn('crops/%s_网格_' % eid, text, '%s 未交代切片出处' % eid)
                 self.assertEqual(check_c126_reading(text), [], eid)
-        # 清单侧：9 条（含第 9 次发起被服务端 403 code 112 拒了、无产物的 L106）一律维持待开图
+        # 清单侧：9 条（含第 9 次发起被服务端 403 code 112 拒了、无产物的 L106）第六投之后仍零格待开图；
+        # 2026-11-07 用户「2 只要不是新画风生成的或者缺少的，都开」「3 补」把这 9 条补投成 C138 主向档，
+        # 所以「零格／待开图／无绑定」这个当轮形态已经翻篇——现在钉的是它翻篇翻得干净：
+        # 每条恰好只有一格、那一格是本轮补投枚，而第六投那 8 枚判废产物逐枚对账仍不在任何格里。
+        rejected_files = {r['file'] for r in rows}
+        self.assertEqual(len(rejected_files), 8, '第六投的判废产物读数不足 8 枚，下面那句对账就无承载')
         for eid in sorted(draft) + ['L106']:
             item = self.items[eid]
             with self.subTest(case='第六投未占格' + eid):
-                self.assertEqual(item['status'], '待开图', eid)
-                self.assertFalse(item.get('image_file'), eid)
-                self.assertFalse(item.get('image_prompt_sha256'), eid)
+                self.assertEqual(len(item['image_file'] or []), 1, eid)
+                self.assertIn('C138主向重投', (item['image_file'] or [''])[0], eid)
+                self.assertFalse(rejected_files & {unrooted(c) for c in item['image_file']},
+                                 '%s 的第六投判废枚进了交付格' % eid)
                 self.assertFalse([r for r in self.notes.get(eid, []) if '重投第五投（v02）' in r],
                                  '%s 的判废读数进了真源备注' % eid)
-        # 违例负测：把 L081 的判废句抽掉，派生名单立刻涨出一条「干净项」，
-        # 而它在清单里既无格也无重投读数——占格判据必须判红，不许脚本替它补一格。
+        # 违例负测：把 L081 的判废句抽掉，派生名单立刻涨出一条「干净项」；
+        # 而占格判据在「这条还没重投读数」的形态上必须判红，不许脚本替它补一格。
+        # 现清单上 L081 已有补投那一格，判据不再无话可说——所以负测跑在还原视图上：
+        # 取本轮之前的备注面（后续轮次的登记行与代签申报行按抬头剔掉），格面清空、状态回待开图。
         stripped = re.sub(r'判废：[^。]*。', '', draft['L081'], count=1)
         self.assertTrue(g9.is_clean(stripped), '判废句没抽干净，负测无效')
         with self.subTest(case='第六投抽掉判废句即判红'):
             mutated = dict(draft)
             mutated['L081'] = stripped
             self.assertEqual([k for k, v in sorted(mutated.items()) if g9.is_clean(v)], ['L081'])
-            self.assertEqual(check_cell_registration(self.items['L081'], self.notes.get('L081', [])),
-                             ['本轮重投读数不在档'])
+            hist = [r for r in self.notes.get('L081', [])
+                    if not any(head_re(t).match(r) for t in ('C133冻结重投', 'C138主向重投'))
+                    and not SIGN_DECL.match(r)]
+            self.assertFalse([r for r in hist if 'C138主向重投' in r], '还原视图里还留着本轮登记行，负测无效')
+            probe = json.loads(json.dumps(self.items['L081']))
+            probe['image_file'] = []
+            probe['status'] = '待开图'
+            self.assertEqual(check_cell_registration(probe, hist), ['本轮重投读数不在档'])
 
     def test_reread_appended_after_registration_does_not_move_the_cell_verdict(self):
         """复看补写往同一 ID 追加读数后，占格判据仍查重投那条：按位置取会指到补写上、把达标判成违例。
@@ -756,7 +819,9 @@ class ReviewNoteHistory(unittest.TestCase):
         # 带人工长文本的条数不抄第二份：以 数据/开图验收备注.json 的 ID 数为真源对拍，
         # 顺带兜住「备注里写了但没镜像进清单」和「备注里有清单外 ID」两种断链。
         # 沿革：第9批五轮回填到 67 条；2026-11-06 C项复看为 L001—L006 新记 6 条判废读数，那时 73 条；
-        # 2026-11-07 R1 回填 264 条各追加一条登记备注，现为 304 键。键数不抄第二份，判据拿 len(self.notes) 现算。
+        # 2026-11-07 R1 回填 264 条各追加一条登记备注到 304 键，同日补投 48 条（其中 8 条新键＋L106 那类
+        # 零图条目并入）到 312 键＝名录全覆盖，此后「备注键数」不再是一个会随轮次漂的数。
+        # 键数不抄第二份，判据拿 len(self.notes) 现算。
         self.assertEqual(sum(1 for i in self.items.values() if i['review_note_history']), len(self.notes))
         self.assertTrue(set(self.notes) <= set(self.items),
                         '备注里有清单外的 ID：%s' % sorted(set(self.notes) - set(self.items)))
@@ -766,14 +831,15 @@ class ReviewNoteHistory(unittest.TestCase):
             hist = self.items[eid]['review_note_history']
             self.assertEqual(hist, self.notes[eid], eid)
             self.assertIn(self.notes[eid][-1], self.items[eid]['review_note'], eid)
-        # C139（2026-11-07）受委托代签之后：303 条有图的全部走到已验收，needs_review 归 0。
+        # C139（2026-11-07）受委托代签之后：312 条有图的全部走到已验收，needs_review 与 pending 归 0。
         # accepted 只表示机械判据通过且逐条写了代签申报，不表示人工逐张目视通过、更不表示画风已过关——
         # 那两个含义由工作单「视觉复验」列与 verify_readout_stance 的画风读数分别承载，别在这个计数上读。
         self.assertEqual(self.manifest['needs_review'], 0)
-        self.assertEqual(self.manifest['accepted'], 303)
-        self.assertEqual(self.manifest['generated'], 303)
-        # pending 只留真正无图的 9 条：本轮仍判废的 9 条不占格，退回待开图，不随代签一起进 accepted。
-        self.assertEqual(self.manifest['pending'], 9)
+        self.assertEqual(self.manifest['accepted'], 312)
+        self.assertEqual(self.manifest['generated'], 312)
+        # pending 归 0：此前那 9 条零图条目按用户「2 只要不是新画风生成的或者缺少的，都开」「3 补」补投，
+        # 各自新增首格并代签，清单里已无「真正无图」的条目。
+        self.assertEqual(self.manifest['pending'], 0)
 
     def test_visual_column_does_not_launder_an_undeclared_acceptance(self):
         """违例负测：「视觉复验」列必须能把「已验收但没申报」如实写成判红，而不是替它宣称验收成立。
@@ -856,22 +922,25 @@ class AssetGate(unittest.TestCase):
 
     def test_paths_are_authoritative_and_unique(self):
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
-        # 第五投首占 3 格后：1113＋3＝1116 格，有图条目 300＋3＝303 条
-        self.assertEqual(len(paths), 1116)
-        self.assertEqual(len(set(paths)), 1116)
-        self.assertEqual(sum(1 for i in self.manifest['items'] if i.get('image_file')), 303)
+        # 第五投首占 3 格到 1116；2026-11-07 补投那 9 条此前零图的条目各新增首格 → 1125 格，
+        # 有图条目随名录满覆盖＝312 条（312 条全部有图，pending 已归 0）。
+        self.assertEqual(len(paths), 1125)
+        self.assertEqual(len(set(paths)), 1125)
+        self.assertEqual(sum(1 for i in self.manifest['items'] if i.get('image_file')), 312)
 
     def test_report_all_green_and_disclaims(self):
-        self.assertEqual(self.report['文件格数'], 1116)
+        self.assertEqual(self.report['文件格数'], 1125)
         self.assertEqual(self.report['失败格数'], 0)
-        self.assertEqual(self.report['通过格数'], 1116)
+        self.assertEqual(self.report['通过格数'], 1125)
         # 回填的 E1 批次格必须真按容器计入，否则「认容器是识别」只写在裁定里、查不到证据。
         # C2PA 在位 2 格、iTXt 在位 58 格是 C136 那轮 R2 回填换档的结果；2026-11-07 R1 回填把
-        # 264 个四向 jpg 格替换成同通道产物（逐枚现读 caBX=0／iTXt=1），iTXt 档因此 58→322。
+        # 264 个四向 jpg 格替换成同通道产物（逐枚现读 caBX=0／iTXt=1），iTXt 档因此 58→322；
+        # 同日补投 48 枚里 39 枚替换掉的正是 R2 那 58 格中的 C133 格（同名换档、净数不变），
+        # 只有此前零图的 9 枚是新增格，所以 iTXt 档 322→331＝312 枚 C138 ＋ 19 枚 C133。
         # 仍留在 caBX 档的只有阶段6首批 B3 样本 S02／S18 两格（早先归因里的 R009／夜光／清晨／雨后／晴日
         # 等批次格已被后续轮次的 image_file 替换覆盖，那串 57 格的构成注释到本轮已过期，故按明细重写）。
         self.assertEqual(self.report['C2PA在位格数'], 2)
-        self.assertEqual(self.report['iTXt标识在位格数'], 322)
+        self.assertEqual(self.report['iTXt标识在位格数'], 331)
         self.assertNotIn('已验收', json.dumps(self.report, ensure_ascii=False))
         self.assertIn('结构合规不等于视觉验收', self.report['声明'])
         # C139：本核验只如实渲染签署状态，不替它宣称目视通过。这两句缺了，工作单就成了替代签洗白的产物。
@@ -910,17 +979,17 @@ class AssetGate(unittest.TestCase):
         self.assertEqual(self.report['提示格数'], 0)
         self.assertEqual(self.report['失败格数'], 0)
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']]
-        self.assertEqual(len(paths), 1116)
+        self.assertEqual(len(paths), 1125)
         # C82 的归一只管 图集/ 那批；E1 放量批次与 C105／C106 重出批次（C97 起认 caBX·C2PA 容器）
         # 是真 PNG，按字节与容器引用，不改名也不要求它变成 .jpg。
         # 不按根前缀而按子串分类：B 前置裁定后 image_file 过渡期整体挂在 backup/ 镜像路径（§50.3），
         # 303 条重投后还要整体切回 数据/图集/ —— 认子串两侧都不用再改这条断言。
-        # 图集外 324 格＝R2 回填 58 格 ＋ 2026-11-07 R1 回填替换进来的 264 个主向格；
-        # 图集侧那 1056 张 jpg 因此只剩 792，两个数恒该加起来等于总格数 1116，所以按和来钉、不各抄一份。
+        # 图集外 333 格＝vibe_images 的 331 格（C138 主向档 312 ＋ R2 残留 19）＋ S02／S18 两格 backup；
+        # 图集侧那 1056 张 jpg 因此只剩 792，两个数恒该加起来等于总格数 1125，所以按和来钉、不各抄一份。
         gallery = [p for p in paths if '数据/图集/' in p]
         out_of_gallery = [p for p in paths if '数据/图集/' not in p]
-        self.assertEqual(len(gallery) + len(out_of_gallery), 1116)
-        self.assertEqual(len(out_of_gallery), 324)
+        self.assertEqual(len(gallery) + len(out_of_gallery), 1125)
+        self.assertEqual(len(out_of_gallery), 333)
         for p in gallery:
             self.assertTrue(p.lower().endswith(('.jpg', '.jpeg')), p)
             self.assertTrue((ROOT / p).is_file(), p)
@@ -1073,9 +1142,11 @@ class AssetGate(unittest.TestCase):
         """
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']
                  if p.lower().endswith('.png')]
-        # 324＝R2 回填的 58 格＋2026-11-07 R1 回填替换进来的 264 格；这条钉的是「PNG 交付面没被悄悄换小」，
+        # 333＝S02／S18 两格 caBX ＋ vibe_images 的 331 格（C138 主向档 312 ＋ R2 未被替换的 C133 残留 19）；
+        # 沿革：R2 回填 58 ＋ R1 放量 264 ＝ 322，同日补投 48 枚里 39 枚把 C133 格换成 C138 格（净数不变）、
+        # 9 枚是此前零图的新增格。这条钉的是「PNG 交付面没被悄悄换小」，
         # 两档桶之和与它相等由下面那条对拍兜住，容器读数本身仍以现读字节为准。
-        self.assertEqual(len(paths), 324)
+        self.assertEqual(len(paths), 333)
         buckets = {'C2PA(caBX)': 0, 'iTXt·TC260': 0}
         for p in paths:
             with self.subTest(path=p):
@@ -1158,8 +1229,8 @@ class AssetRulings(unittest.TestCase):
         for cid in self.IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 139)
-        self.assertEqual(rows[-1]['编号'], 'C139')
+        self.assertEqual(len(rows), 140)
+        self.assertEqual(rows[-1]['编号'], 'C140')
         self.assertIn('rename_gallery_ext', by_id['C82']['裁定'])
         self.assertIn('不是交付判据', by_id['C83']['裁定'])
         self.assertIn('不判红、不改名', by_id['C84']['裁定'])
