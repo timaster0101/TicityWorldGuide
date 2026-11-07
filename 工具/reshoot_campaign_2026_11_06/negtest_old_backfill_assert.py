@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-"""C136 的复现器：已提交版 backfill 的容器前置断言，拿 C133 冻结重投那 3 枚真图跑一次，看它到底崩不崩。
+"""C136 的复现器：改之前那版 backfill（按修订钉 `6acbbad`）的容器前置断言，拿 C133 冻结重投那 3 枚真图跑一次，看它到底崩不崩。
 
 §55.7 原先写的是「照已提交断言推它会崩，本轮没让它真崩过一次」——本文件把那条推断换成读数。
+钉修订而不是读 HEAD：C136 的修复（446214e）已经把那条断言换掉了，读 HEAD 等于拿改完的代码复现改之前的崩溃。
 
 三个案例（缺一即判红）：
   A 真读数：容器画像取 `container_profile.json` 的现读值（3/3 都是 caBX=0／iTXt≥1），档串名用真实文件名
     → 必须停在 `caBX 不在位，不能占格`，且真源零落笔。
-  B 变异对照（HEAD 版）：把同 3 行的容器画像改回旧通道（caBX=1／iTXt=0）、档串名换成含 `C123新串-v02`
+  B 变异对照（同钉版 6acbbad）：把同 3 行的容器画像改回旧通道（caBX=1／iTXt=0）、档串名换成含 `C123新串-v02`
     → 必须放行并落笔 added=3；同时证明它写进备注的是格式串里那个**写死的** `caBX=1、iTXt=0`，
       与磁盘上真实的 (0,1) 相反——这才是「前置断言不可沿用」的完整代价：不只是崩，不崩还会记错画像。
   C 现工作树版：真实容器读数 (0,1) ＋ 只把档串名换成该脚本自己认的 `-v02`（越过第 66 行的批次串名钉，
@@ -34,6 +35,8 @@ REPO_MANIFEST = os.path.join(ROOT, '数据', '开图清单.json')
 PROFILE = os.path.join(HERE, 'container_profile.json')
 SUB = '工具/batch9g_2026_11_06'
 TARGET = SUB + '/backfill_batch9g.py'
+OLD_REV = '6acbbad'          # 带旧通道断言那一版；C136 的修复在 446214e 把它换掉了
+OLD_ASSERT = "'caBX 不在位，不能占格'"
 PREFIX = 'old_backfill_neg_'
 IDS = ['D03', 'L061', 'L066']
 
@@ -41,9 +44,16 @@ CLEAN = '远景无越权塔群、无塔吊入画，日面在框内右低，画�
 
 
 def head_source():
-    r = subprocess.run(['git', '-c', 'core.quotePath=false', 'show', 'HEAD:' + TARGET],
+    """取「带旧通道断言」那一版回填脚本——按修订钉死，不取 HEAD。
+
+    C136 的修复本身就把 :62 那条断言换掉了，HEAD 会随修复一起前进；
+    复现器若读 HEAD，等于拿改完的代码去复现改之前的崩溃，A 案会永远打不出 `caBX 不在位`。
+    所以钉 6acbbad，并自证钉到的确实是带旧断言那一版（字面量不在就停，不静默放行）。
+    """
+    r = subprocess.run(['git', '-c', 'core.quotePath=false', 'show', OLD_REV + ':' + TARGET],
                        capture_output=True, cwd=ROOT, encoding='utf-8')
     assert r.returncode == 0, r.stderr[:200]
+    assert OLD_ASSERT in r.stdout, (OLD_REV, '钉的修订里没有旧通道断言 %r，复现器的 A 案无从谈起' % OLD_ASSERT)
     return r.stdout
 
 

@@ -5,9 +5,13 @@
 数据/提示词基准冻结.json 的 prompt_sha256 对拍——这正是 C133 冻结的意义：
 放量的每一串都必须打在快照上，跑这一脚本时若快照已漂移，当场停而不是投出去再发现作废。
 
-档位串（文件名后缀）本轮定为 `C133冻结重投-v01`：提示词模板本身没换（prompt_sha256 未变），
-换的是「分带依据」——§54 靠档串后缀区分投次，历史同名串四轮撞档只能靠 FLOOR 时间戳切；
-本轮起 数据/提示词基准冻结.json 的 frozen_at_ms 就是那把尺，后缀同时写进台账，两套编号不再互相顶。
+档位串（文件名后缀）两组分开：R2 沿用 `C133冻结重投-v01`，R1 用 `C138主向重投-v01`。
+提示词模板本身没换（prompt_sha256 未变），换的是「分带依据」——§54 靠档串后缀区分投次，历史同名串四轮撞档只能靠
+FLOOR 时间戳切；本轮起 数据/提示词基准冻结.json 的 frozen_at_ms 就是那把尺，后缀同时写进台账，两套编号不再互相顶。
+264 条 R1 全量统一加后缀，不挑那 19 条 R1∩R2 交集单改——按条目分支会让「这条属于哪一轮」重新变成要靠历史猜的事。
+R1 后缀里刻意不含「C133冻结重投」子串：`container_profile.py` 与 `clip_style.py` 都按 `*C133冻结重投*.png` 通配取组，
+含进去等于把 264 格静默灌进 R2 那 3 枚的历史实验样本面（`negtest_old_backfill_assert.py` 对该组枚数钉了恰为 D03/L061/L066）。
+新档串要进容器画像就得在同文件 patterns 里显式登记，不登记就是静默漏计。
 
 两组走同一条取格口径（C137／C138）：
   R2 绑定关口组 —— 替换对象是「带毫秒时间戳的那一枚定档后格」，同条目挂着的定档前四向格属 R1、本组不动；
@@ -37,7 +41,7 @@ from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
-SUFFIX = 'C133冻结重投-v01'
+SUFFIX = {'R2': 'C133冻结重投-v01', 'R1': 'C138主向重投-v01'}
 sys.path.insert(0, HERE)
 
 from pick_primary_cell import locate, four_way_cells  # noqa: E402  主向口径唯一实现，不在本文件复制一份
@@ -113,6 +117,7 @@ def build(ids, group, root, here, emit_paste=True, queue_entries=None):
         if emit_paste:
             os.makedirs(paste_dir, exist_ok=True)
     out = {}
+    pend = []
     for eid in ids:
         assert eid in by_id, (eid, '清单里没有这条 ID')
         assert eid in by_q, (eid, '不在 %s 队列里：本脚本只投队列点名的条目（口径见 设计/2026-11-03-待办移交清单.md §55）'
@@ -126,7 +131,7 @@ def build(ids, group, root, here, emit_paste=True, queue_entries=None):
         cell, others, row = pick_cell(group, eid, item, ptrs.get(eid), by_q.get(eid))
         rec = {
             'file': '数据/开图提示词/' + name,
-            'send_name': '%s-%s' % (name[:-4], SUFFIX),
+            'send_name': '%s-%s' % (name[:-4], SUFFIX[group]),
             'size': item['size'],
             'chars': len(body),
             'sha256': sha,
@@ -140,21 +145,35 @@ def build(ids, group, root, here, emit_paste=True, queue_entries=None):
             rec['主向格定位方式'] = row['way']
             rec['主向格角差'] = row['delta_deg']
             rec['四向其余三格'] = [c for c in four_way_cells(item) if c != cell]
-            # 同名提醒：send_name 由「条目名+档串」拼出，不带组别。R1∩R2 的条目两组共用一枚发名，
-            # 一轮里各投一次会让 verify_round 的「按名恰 1 次」判红——是否给 R1 加组别后缀，属队列口径，交人工定。
+            # 两组共用同一条串的条目（R1∩R2＝19 条）：各投一次、各换一格，靠组别后缀把发名分开。
+            # 后缀已不含「C133冻结重投」子串，故不会落进 R2 那批历史实验样本的通配里。
             rec['同条目R2组在队'] = eid in _other_group_ids(here, group)
         if emit_paste:
-            with io.open(os.path.join(paste_dir, 'paste_%s.txt' % eid), 'w', encoding='utf-8', newline='\n') as fp:
-                fp.write(body + '\n')
+            pend.append((eid, os.path.join(paste_dir, 'paste_%s.txt' % eid)))
         out[eid] = rec
+    _assert_names_disjoint(here, group, out)
+    for eid, path in pend:   # 判据全过才动盘：停手的那一轮不留半成品 paste
+        with io.open(path, 'w', encoding='utf-8', newline='\n') as fp:
+            fp.write(out[eid]['body'] + '\n')
     with io.open(os.path.join(here, LEDGER[group]), 'w', encoding='utf-8', newline='\n') as fp:
         json.dump(out, fp, ensure_ascii=False, indent=1, sort_keys=True)
         fp.write('\n')
     return out, snap
 
 
+def _assert_names_disjoint(here, group, out):
+    """另一组台账若在盘，逐枚比 send_name；撞名就是后缀回退或档串写错，写盘前先停。"""
+    other = 'R2' if group == 'R1' else 'R1'
+    p = os.path.join(here, LEDGER[other])
+    if not os.path.exists(p):
+        return
+    clash = sorted({r['send_name'] for r in out.values()} & {r['send_name'] for r in _json_load(p).values()})
+    assert not clash, ('发名撞档：%d 枚与 %s 台账同名（两组档串必须分开，否则同一轮里各投一次会触发'
+                       'verify_round「按名恰 1 次」判红）：%s' % (len(clash), LEDGER[other], clash[:6]))
+
+
 def summarize(group, out, snap, limit=None):
-    print('%s：%d 条｜档串 %s｜frozen_at %s' % (LEDGER[group], len(out), SUFFIX, snap['frozen_at']))
+    print('%s：%d 条｜档串 %s｜frozen_at %s' % (LEDGER[group], len(out), SUFFIX[group], snap['frozen_at']))
     for i, eid in enumerate(sorted(out)):
         if limit and i >= limit:
             print('  …其余 %d 条见台账' % (len(out) - limit))
@@ -185,7 +204,7 @@ def _json_dump(obj, p):
 
 
 def negtest():
-    """六条违例注入，各打一条停手通道；夹具在仓库外临时目录，被守护仓库零写入。"""
+    """七条违例注入，各打一条停手通道；夹具在仓库外临时目录，被守护仓库零写入。"""
     tmp = tempfile.mkdtemp(prefix=PREFIX)
     root, here = os.path.join(tmp, 'root'), os.path.join(tmp, 'here')
     lines, rc = [], 0
@@ -204,6 +223,10 @@ def negtest():
         os.makedirs(here)
 
         def fresh():
+            for g in LEDGER.values():   # 上一枚注入写的台账不能留给下一枚当「另一组在盘」
+                p = os.path.join(here, g)
+                if os.path.exists(p):
+                    os.remove(p)
             items = [
                 {'id': 'L001', 'name': '钛湖市民议事厅', 'type': '标志性建筑', 'size': '1536x1024',
                  'status': '待复验', 'camera_facing_deg': 0.0, 'image_file': list(L001)},
@@ -277,13 +300,26 @@ def negtest():
             put_items(items)
             return 'R2', ['D03'], None
 
+        def inj_suffix_clash():
+            # 给 L001 补一枚带时间戳格，让它两组都能投；先落 R2 台账，再把 R1 后缀回退成不带组别那版
+            items = items_now()
+            items[0]['image_file'] = L001 + ['backup/数据/图集/L001/'
+                                             'L001-钛湖市民议事厅-B3样本-v01_1793000000000_aabbccdd.png']
+            put_items(items)
+            build(['L001'], 'R2', root, here, emit_paste=False)
+            SUFFIX['R1'] = SUFFIX['R2']
+            return 'R1', ['L001'], None
+
+        suffix0 = dict(SUFFIX)
         for name, fn in [('①队列登记主向格 ≠ 现读指针', inj_queue_diverge),
                          ('②主向并列（ambiguous，不猜）', inj_ambiguous),
                          ('③四向挂载不足 4 枚', inj_three_cells),
                          ('④冻结快照 prompt_sha256 漂移', inj_snapshot),
                          ('⑤开图提示词正文被改', inj_body_drift),
-                         ('⑥R2 条目挂两枚带时间戳格（真源 S02/S18 实测形态）', inj_two_ts)]:
+                         ('⑥R2 条目挂两枚带时间戳格（真源 S02/S18 实测形态）', inj_two_ts),
+                         ('⑦档串不带组别 → 与 R2 台账撞发名', inj_suffix_clash)]:
             fresh()
+            SUFFIX.update(suffix0)
             group, ids, qe = fn()
             try:
                 build(ids, group, root, here, emit_paste=False, queue_entries=qe)
@@ -292,6 +328,21 @@ def negtest():
                 hit, why = True, str(e)[:130]
             rc |= 0 if hit else 1
             lines.append('%s %s → %s' % ('✓' if hit else '✗', name, why))
+            if name.startswith('⑦'):
+                # ⑦的正检面：同一 L001 先投 R2 再投 R1，档串按组分开后必须放行（否则分档是把判据写死成永远红）
+                fresh()
+                SUFFIX.update(suffix0)
+                items = items_now()
+                items[0]['image_file'] = L001 + ['backup/数据/图集/L001/'
+                                                 'L001-钛湖市民议事厅-B3样本-v01_1793000000000_aabbccdd.png']
+                put_items(items)
+                r2out = build(['L001'], 'R2', root, here, emit_paste=False)[0]
+                r1 = build(['L001'], 'R1', root, here, emit_paste=False)[0]['L001']
+                ok = r1['send_name'] != r2out['L001']['send_name']
+                rc |= 0 if ok else 1
+                lines.append('%s ⑦正检：同一 L001 两组各投一次，R2 发名 %s ／ R1 发名 %s → %s'
+                             % ('✓' if ok else '✗', r2out['L001']['send_name'], r1['send_name'],
+                                '不撞档' if ok else '仍撞档'))
 
         residue = [p.name for p in Path(ROOT).rglob('*') if PREFIX in p.name]
         lines.append('仓库内 %s 残留 %d' % (PREFIX, len(residue)))
@@ -301,7 +352,8 @@ def negtest():
         shutil.rmtree(tmp, ignore_errors=True)
         lines.append('临时目录已删：%s 存在=%s' % (os.path.basename(tmp), os.path.isdir(tmp)))
     print('\n'.join(lines))
-    print('%s 送入串构造负测（6 条注入须全部停手）' % ('✅' if rc == 0 else '❌'))
+    print('%s 送入串构造负测（7 条注入须全部停手，⑦ 另带回「分档后必须放行」的正检面）'
+          % ('✅' if rc == 0 else '❌'))
     return rc
 
 
@@ -324,8 +376,8 @@ def main():
         print('  主向定位方式分布 %s｜四向其余三格合计 %d 枚（另立四向控制资产缺项，不进本轮队列）'
               % (kinds, sum(len(r['四向其余三格']) for r in out.values())))
         dup = sorted(eid for eid, r in out.items() if r['同条目R2组在队'])
-        print('  与 R2 组同名（send_name 不带组别，一轮各投一次会触发 verify_round「按名恰 1 次」判红）%d 条：%s'
-              % (len(dup), ' '.join(dup)))
+        print('  档串 %s（R2 用 %s）｜R1∩R2 交集 %d 条两组各投一次、发名已按组分开：%s'
+              % (SUFFIX['R1'], SUFFIX['R2'], len(dup), ' '.join(dup)))
         return 0
     if args.r1:
         out, snap = build(args.r1, 'R1', ROOT, HERE)

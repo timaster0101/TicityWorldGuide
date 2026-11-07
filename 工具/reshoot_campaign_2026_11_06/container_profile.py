@@ -50,6 +50,8 @@ def main():
     groups = []
     patterns = [
         ('C133冻结重投', os.path.join(VIBE, '*C133冻结重投*.png')),
+        # C138 主向组的档串不带「C133冻结重投」子串，必须显式加组，否则 264 格从容器画像里静默漏计（当前未投＝0 枚）。
+        ('C138主向重投', os.path.join(VIBE, '*C138主向重投*.png')),
         ('画风通道实验', os.path.join(VIBE, '*画风通道实验*.png')),
         ('E1定档母图', os.path.join(E1, '*.png')),
     ]

@@ -33,6 +33,15 @@
       ]
     },
     {
+      "group": "C138主向重投",
+      "pattern": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\*C138主向重投*.png",
+      "枚数": 0,
+      "caBX=1且iTXt=0": 0,
+      "caBX=0且iTXt≥1": 0,
+      "两者都无": 0,
+      "rows": []
+    },
+    {
       "group": "画风通道实验",
       "pattern": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\*画风通道实验*.png",
       "枚数": 2,
