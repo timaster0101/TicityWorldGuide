@@ -184,7 +184,7 @@ output = dict(
     district_subject_coverage=dict(
         total_landmarks=sum(len(r['own_subjects']) for r in districts),
         visible=sum(len(r['visible_in_fov']) for r in districts)),
-    failures=gated,
+    failures=district_fail + other_fail,
     results=results)
 (ROOT / '数据' / '取景几何核验.json').write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding='utf-8')
 

@@ -1378,6 +1378,26 @@ class BuildPromptsTests(unittest.TestCase):
         self.assertIn('int(str(size).split("x")[0])',
                       (ROOT / "工具" / "build_prompts.py").read_text(encoding="utf-8"))
 
+    def test_framing_product_face_is_flag_independent(self):
+        """C139 轮的教训钉：落盘产物的 failures 曾经挂在 `gated` 上，而 `gated` 随 `--all` 变形——
+        一次「全绿的默认面复跑」会静默把已提交产物从 244 条违例面换成 0 条面。
+        现在产物固定写 `district_fail + other_fail`，只让 stdout 抬头与退出码随档位走。
+        三份对拍：源码形态、产物自洽式、以及把锚点注入回 `gated` 时本判据必须判红（负测不落真实仓库）。"""
+        text = (ROOT / "工具" / "verify_framing.py").read_text(encoding="utf-8")
+        self.assertEqual(text.count("failures=district_fail + other_fail"), 1,
+                         "取景闸门落盘产物的 failures 不再固定为「片区违例＋非片区违例」，或被抄了两份")
+        self.assertNotIn("failures=gated", text,
+                         "产物 failures 又挂回随 --all 变形的 gated 了：默认面复跑会静默换掉已提交产物的承载面")
+        product = json.loads((ROOT / "数据" / "取景几何核验.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(product["failures"]),
+                         product["districts_fail"] + product["non_district_fail"],
+                         "产物里的 failures 条数与 districts_fail＋non_district_fail 不自洽，说明它是按档位裁剪出来的")
+        mutated = text.replace("failures=district_fail + other_fail", "failures=gated", 1)
+        self.assertNotEqual(mutated, text, "负测锚点没接上，本判据是空转的")
+        self.assertIn("failures=gated", mutated)
+        self.assertNotEqual(mutated.count("failures=district_fail + other_fail"), 1,
+                           "变异对照失效：注入回 gated 后源码判据仍为绿")
+
     def test_a_single_uniform_half_width_is_caught_on_both_sides(self):
         """违例负测：把派生式退回「一个死数」的两种历史形态各注入一次。
         退回 1536（＝C99／C101 时代全档共用 18 毫米）必须报出竖幅＋5:4＋7:4 三条档，
