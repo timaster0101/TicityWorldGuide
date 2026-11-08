@@ -1,0 +1,1301 @@
+{
+ "投放轮次": "card3x4_R1",
+ "证据件": [
+  "sent_shard0.jsonl",
+  "sent_shard1.jsonl",
+  "sent_shard1_retry.jsonl",
+  "sent_shard2.jsonl",
+  "sent_shard3.jsonl",
+  "sent_shard4.jsonl",
+  "sent_shard5.jsonl",
+  "sent_shard6.jsonl"
+ ],
+ "证据件数": 8,
+ "应投": 80,
+ "合规格": 80,
+ "不合规格": 0,
+ "统计面": "只数 数据\\卡面主图提示词3x4\\投放台账.json 列出的 80 条；证据只取 C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/钛湖城城市设定集/../_scratch_cardref/card3x4_r1 的 sent_shard*.jsonl；尺寸真源＝PIL 打开 landing 取 size；串 sha 真源＝数据/卡面主图提示词3x4 下的本轮 .txt",
+ "逐条": [
+  {
+   "id": "L009",
+   "sink": "L009",
+   "name": "东岸企业会客厅",
+   "prompt_file": "数据/卡面主图提示词3x4/L009-东岸企业会客厅.txt",
+   "prompt_sha256": "ae0bd423e8d63552fe75ab4c4b24d7f9b5120a4be8bde54599ef3be6f5a69630",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L009.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L009_1794124011318_fa0123ad.png",
+   "bytes": 1398703,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "3ca33423a63369f772ea804d94658b32a29787f80b52ff084b3f88eff457abb7",
+   "timestamp_ms": 1794124021025
+  },
+  {
+   "id": "L037",
+   "sink": "L037",
+   "name": "钛湖东站",
+   "prompt_file": "数据/卡面主图提示词3x4/L037-钛湖东站.txt",
+   "prompt_sha256": "8c967f53660d0524a0c1fab303c9782b43ec8ea942b504f7adb0a598390a973a",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L037.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L037_1794124075665_06a5a7fd.png",
+   "bytes": 1343709,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "be0002c451b6d7f02b2e62e8ba2b7feb464646369ff494858bb0ed7bfea4fe0a",
+   "timestamp_ms": 1794124090893
+  },
+  {
+   "id": "L038",
+   "sink": "L038",
+   "name": "东站城市接待塔",
+   "prompt_file": "数据/卡面主图提示词3x4/L038-东站城市接待塔.txt",
+   "prompt_sha256": "73b8fc6b608300f7b5ba00e3a6143fdba7b4957742885eda726f7124f2565677",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L038.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L038_1794124150704_e2fc91c3.png",
+   "bytes": 1415458,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "b1ad093b307fb116a44430761603c9cb82a29dc886c1fb26f9bd581cf8c5f43f",
+   "timestamp_ms": 1794124160381
+  },
+  {
+   "id": "L039",
+   "sink": "L039",
+   "name": "山湖交通博物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L039-山湖交通博物馆.txt",
+   "prompt_sha256": "fdd63b7e4a9aa22d4932d2d3fd86e2d6362130619d49b73550597f89a6104abc",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L039.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L039_1794124214275_dc5a1f93.png",
+   "bytes": 1337841,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "6136f7d1d875dfc538a1b7dfcab86932c8d1dd0df4d8e5045953ae14415e0eb0",
+   "timestamp_ms": 1794124223275
+  },
+  {
+   "id": "L010",
+   "sink": "L010",
+   "name": "钛湖国际会展中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L010-钛湖国际会展中心.txt",
+   "prompt_sha256": "3226ca2cce71d4a38d06708a3ee2fd060d77f2980db2ce9e4c3fe74c454e24bd",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L010.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L010_1794124284521_373cedbc.png",
+   "bytes": 1227443,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "03b44995853ee23e65c0915f0b5822d0718c4cce6f3e33c1d582a91f280c3527",
+   "timestamp_ms": 1794124292501
+  },
+  {
+   "id": "L011",
+   "sink": "L011",
+   "name": "潮湾会议酒店",
+   "prompt_file": "数据/卡面主图提示词3x4/L011-潮湾会议酒店.txt",
+   "prompt_sha256": "34ba23a11229b0d29547e21e78ae9ab1def3557e405d247fe3d8bbed61f45bcf",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L011.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L011_1794124370545_3f40296b.png",
+   "bytes": 1456287,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "d151215b2f8b85b06011bea2c61cea48204e1987911b52b037afccb9f562a0a4",
+   "timestamp_ms": 1794124380648
+  },
+  {
+   "id": "L049",
+   "sink": "L049",
+   "name": "西麓种子与食品馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L049-西麓种子与食品馆.txt",
+   "prompt_sha256": "0ad6c280ac3328282c6c0ebc95df7c399fa82cce4459583cc58a0621b1baf26e",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L049.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L049_1794124435073_988b7dde.png",
+   "bytes": 1523166,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "37cecd28746be0b57c476e8cdcac05eb8b2a08c4f8d8f8c9c1e67aac67456262",
+   "timestamp_ms": 1794124444671
+  },
+  {
+   "id": "L050",
+   "sink": "L050",
+   "name": "丰仓城市食物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L050-丰仓城市食物馆.txt",
+   "prompt_sha256": "ac30d7acf1c23e34bf24362c02ba6be73df5ec0e1622e88c4bac68261741e695",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L050.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L050_1794124504466_e85de545.png",
+   "bytes": 1443830,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "facc32592f4d51064f7495e9b0e6d7f428c1e764ca82da1c44778d2ba3e692b4",
+   "timestamp_ms": 1794124521155
+  },
+  {
+   "id": "L051",
+   "sink": "L051",
+   "name": "农时试验温室",
+   "prompt_file": "数据/卡面主图提示词3x4/L051-农时试验温室.txt",
+   "prompt_sha256": "476d477dd22fd55f15c389e0718ea6f94b3f9481f7a9c74ba1285f3ac91f039b",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L051.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L051_1794124572252_f93ddf0e.png",
+   "bytes": 1544800,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "f93feea157f5f99261b90b1b92ff0758d133c9ea50f5eea2ebe26b77e40e383a",
+   "timestamp_ms": 1794124586331
+  },
+  {
+   "id": "L013",
+   "sink": "L013",
+   "name": "青湾中央医院",
+   "prompt_file": "数据/卡面主图提示词3x4/L013-青湾中央医院.txt",
+   "prompt_sha256": "e17f09abdef4542fe7d4dd57e12dd9d9df1a667eabc0cf9a5d186541978c2290",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L013.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L013_1794124632143_95e25917.png",
+   "bytes": 1312000,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "ec4c5a9b9737f52d15192ca4173cb27f902a15ebad4a05771f806e21cb3545fc",
+   "timestamp_ms": 1794124646513
+  },
+  {
+   "id": "L014",
+   "sink": "L014",
+   "name": "静溪康复中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L014-静溪康复中心.txt",
+   "prompt_sha256": "6baa6a21ce21245335cbd29769678dbc1393e217ca765f8a69f761886f88f063",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L014.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L014_1794124691525_41ac949e.png",
+   "bytes": 1410757,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "8a956b18b73532f24651393a718695ba7ed1c650ac9cdb131eb194d9cba2df38",
+   "timestamp_ms": 1794124704996
+  },
+  {
+   "id": "L015",
+   "sink": "L015",
+   "name": "生命之窗医学馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L015-生命之窗医学馆.txt",
+   "prompt_sha256": "dc1af48b128d09c4fc86fc2a69e5a959011e4b9cc322eee65822a41460edcbca",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L015.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L015_1794124753498_63b68c45.png",
+   "bytes": 1387342,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "c4532cdd17f1cd58f54d6bf4f5e5847de0901f0daa6d81528a43ae78d71bf1c5",
+   "timestamp_ms": 1794124766487
+  },
+  {
+   "id": "L022",
+   "sink": "L022",
+   "name": "白石钟楼",
+   "prompt_file": "数据/卡面主图提示词3x4/L022-白石钟楼.txt",
+   "prompt_sha256": "dd55553c5f4dd54be00525def13d019e2d0c0ab83cd40f206e85969b6ae1ff11",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L022.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L022_1794124046760_cc7d7ba4.png",
+   "bytes": 1325554,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "decbb3c6b6ffc143e55f6acb3fb164201578908f174c4f0ecb823aa248eaec74",
+   "timestamp_ms": 1794124055212
+  },
+  {
+   "id": "L023",
+   "sink": "L023",
+   "name": "西湖商埠会馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L023-西湖商埠会馆.txt",
+   "prompt_sha256": "da7a948908a860a1eae881a9ff0cd58587c09728522eac4ebe26dfb794013cf6",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L023.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L023_1794124107306_15929694.png",
+   "bytes": 1581311,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "6b60e3f5702a7cea127e5c8385d1203fc55a8e2e5337225b54552e165fbd7b5b",
+   "timestamp_ms": 1794124114787
+  },
+  {
+   "id": "L024",
+   "sink": "L024",
+   "name": "青瓦地方民俗馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L024-青瓦地方民俗馆.txt",
+   "prompt_sha256": "8469afabcbb357aebb20b039b692112f31491c92ddfdca34cd1dee4f5ec2095f",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L024.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L024_1794124164550_0712bc96.png",
+   "bytes": 1528250,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "1b77f388c3fe7fda0f664891eb13af3ce842bb784a50eb0838707da9fc2f0aac",
+   "timestamp_ms": 1794124171765
+  },
+  {
+   "id": "L052",
+   "sink": "L052",
+   "name": "西门贸易交易馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L052-西门贸易交易馆.txt",
+   "prompt_sha256": "e03a019ddb62bdb53179c6db886cb9e58e9e3f7247fcecc33ce0a50f95f61fe4",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L052.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L052_1794124222983_a7e4b27d.png",
+   "bytes": 1451414,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "24cd7c54e0e742a0b586b2040d4208c94f00d571d2468f4116cf063866236e04",
+   "timestamp_ms": 1794124229254
+  },
+  {
+   "id": "L053",
+   "sink": "L053",
+   "name": "古道修配博物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L053-古道修配博物馆.txt",
+   "prompt_sha256": "191b25433f957019dd1d14dfeaed3955b72c53112ad4c39cd5f3e7b3f3abd19c",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L053.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L053_1794124280673_7624382b.png",
+   "bytes": 1449791,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "afcd12d95da6867658a193f9dcc07540b124ceb3d1e614e082d162ea26bded23",
+   "timestamp_ms": 1794124300136
+  },
+  {
+   "id": "L054",
+   "sink": "L054",
+   "name": "西门工友服务站",
+   "prompt_file": "数据/卡面主图提示词3x4/L054-西门工友服务站.txt",
+   "prompt_sha256": "6a36867e7198f0f5f6d92637f20fd0cf280e462a57efcb33ae4892f2b11b2100",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L054.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L054_1794124412294_ebb54f79.png",
+   "bytes": 1433924,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "d11bbceb6562bf57de81bb2ae26a37d45548ae3310c2bdb32651c2ad9f28d6f4",
+   "timestamp_ms": 1794124423571
+  },
+  {
+   "id": "L043",
+   "sink": "L043",
+   "name": "南溪城市应急指挥馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L043-南溪城市应急指挥馆.txt",
+   "prompt_sha256": "75826affb4a91e587869cbb4338bf6a3c1168421466da05d22a0645329f97a81",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L043.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L043_1794124465210_5754e927.png",
+   "bytes": 1184943,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "f77754ee30bb80627248fe57da2be59e45b89863a6dd5f2bb51d3c2d5df8314f",
+   "timestamp_ms": 1794124474483
+  },
+  {
+   "id": "L044",
+   "sink": "L044",
+   "name": "循环材料展示馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L044-循环材料展示馆.txt",
+   "prompt_sha256": "57ca5e79e026ab5b603170f6ca1754627c4fe6ded441c0f967ffe61bd2c13f87",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L044.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L044_1794124525009_fc1ebd63.png",
+   "bytes": 1571261,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "2117c61a75da63c245fcade8f55a8fc14de1b956b691f57994007fac4b28fef8",
+   "timestamp_ms": 1794124535750
+  },
+  {
+   "id": "L045",
+   "sink": "L045",
+   "name": "城市维修技能中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L045-城市维修技能中心.txt",
+   "prompt_sha256": "2b180091e61b9847dcb49101ca30bed802710928090591bf8916f86ff9960be8",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L045.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L045_1794124583712_7f7c9e9d.png",
+   "bytes": 1353106,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "ec1d08192b9159a96b0e412bee9bd9a6291036b9d759ec907017e3cca2c1aa5f",
+   "timestamp_ms": 1794124594178
+  },
+  {
+   "id": "L025",
+   "sink": "L025",
+   "name": "云栈协作中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L025-云栈协作中心.txt",
+   "prompt_sha256": "80ace1007c1d495ac3d153bbecf25967c85dd6b179b45096d7575d6b1b23ae22",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L025.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L025_1794124645161_47a2c8b9.png",
+   "bytes": 1475207,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "67667c37d8a795d349a84fe7411d57bb1c2310d5f80cb19963c89a6e5fd5e165",
+   "timestamp_ms": 1794124655287
+  },
+  {
+   "id": "L026",
+   "sink": "L026",
+   "name": "数岸交互艺术馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L026-数岸交互艺术馆.txt",
+   "prompt_sha256": "dec3f6623cc181043ae712a0d3f2434e5380aedeb5bd01f29ccda2cb63fc463b",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L026.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L026_1794125688206_1878b833.png",
+   "bytes": 1262739,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "42f6af8154722250b53f377a80d21f15b1f3db8ac051716ba5020bebf909fe0c",
+   "timestamp_ms": 1794125693121
+  },
+  {
+   "id": "L027",
+   "sink": "L027",
+   "name": "城市计算展示馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L027-城市计算展示馆.txt",
+   "prompt_sha256": "bb4e9e0f1d165d057a7083954751bf9eabe610eb29bb228e4d92a8f8dbd40e7e",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L027.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L027_1794125734328_c59e697e.png",
+   "bytes": 1531607,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "c7e8144c211cc1d895dcb80a2411ce1ccb7c583e28b388c96b83c9620c91e72b",
+   "timestamp_ms": 1794125740438
+  },
+  {
+   "id": "L028",
+   "sink": "L028",
+   "name": "松岬体育场",
+   "prompt_file": "数据/卡面主图提示词3x4/L028-松岬体育场.txt",
+   "prompt_sha256": "3995ba668dffafdec5b00ab9be8e5180220db73fb5bf01384058c18d3bf63715",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L028.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L028_1794124047158_764ad10f.png",
+   "bytes": 1471602,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "201dc5656ec96e76e8c4e365e940d6ecc2d17dda46361d70f0f483a6bb87c43b",
+   "timestamp_ms": 1794124061280
+  },
+  {
+   "id": "L029",
+   "sink": "L029",
+   "name": "钛湖游泳馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L029-钛湖游泳馆.txt",
+   "prompt_sha256": "8cff87ca40e9a2e04cb13f82d222e85c7133e77b15b17e09eb09649b1b31e960",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L029.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L029_1794124107221_ef7eb19b.png",
+   "bytes": 1200051,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "fa389f1c382bf27cd1c2ba9fd58d8fb1a1f3eaa7b35e85b82dcc60123b19b2d5",
+   "timestamp_ms": 1794124114283
+  },
+  {
+   "id": "L030",
+   "sink": "L030",
+   "name": "山湖户外运动中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L030-山湖户外运动中心.txt",
+   "prompt_sha256": "bb19b67133a6281cdf8949c4757a7f85ab795d61533210b6ddbebd8bc703ee15",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L030.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L030_1794124169163_01c9f7a8.png",
+   "bytes": 1400572,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "f1d06383bd4ed69acf35696937bdf7e6ef8443f36db84023fa5de46c7bc54882",
+   "timestamp_ms": 1794124176817
+  },
+  {
+   "id": "L047",
+   "sink": "L047",
+   "name": "晨光综合体育馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L047-晨光综合体育馆.txt",
+   "prompt_sha256": "ff62254798aa836e2e76b7050a4020d41913b949e17b020b0bd41f108619c75a",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L047.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L047_1794124226455_233b37f8.png",
+   "bytes": 1449259,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "091dfa97fd3e16079673eb2d728aefc9d33d568b53791c33d3bc2cfd0e51843b",
+   "timestamp_ms": 1794124233032
+  },
+  {
+   "id": "L019",
+   "sink": "L019",
+   "name": "西声大剧院",
+   "prompt_file": "数据/卡面主图提示词3x4/L019-西声大剧院.txt",
+   "prompt_sha256": "e812c5a6a8b22ca348b91f643e9db4bc37cbfaa0f89d914e790cd090b630fe81",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L019.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L019_1794124280274_245c08f2.png",
+   "bytes": 1560055,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "a7bef678ccbf1b0a5377c832dca7b48a119b404e26656088472c1ed1c54bf183",
+   "timestamp_ms": 1794124287982
+  },
+  {
+   "id": "L020",
+   "sink": "L020",
+   "name": "旧炉影像馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L020-旧炉影像馆.txt",
+   "prompt_sha256": "10c36e78f8e4be2ef35a4ac2c4678cb91835b8d40f26045eeb71998153a9b429",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L020.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L020_1794124338652_9ff03f88.png",
+   "bytes": 1390036,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "304b01bfca161096191096c2515286c764089cbf042477f10bbca87ce011c32c",
+   "timestamp_ms": 1794124344713
+  },
+  {
+   "id": "L021",
+   "sink": "L021",
+   "name": "风帆设计工坊",
+   "prompt_file": "数据/卡面主图提示词3x4/L021-风帆设计工坊.txt",
+   "prompt_sha256": "2aa67451ef39b662f2519499a38d85e772d0f3bba86041d98235207f76afec6d",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L021.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L021_1794124392691_9f66ac85.png",
+   "bytes": 1676592,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "177d0290b4d3cf590c8c75492cf716925e3ac8861de51ceb5713c481480f7bbc",
+   "timestamp_ms": 1794124400002
+  },
+  {
+   "id": "L040",
+   "sink": "L040",
+   "name": "钛东工业设计中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L040-钛东工业设计中心.txt",
+   "prompt_sha256": "b5732eb693647c3d8d650b61c80c920b62e37649fcdbcb373e4643dcbf4f0a20",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L040.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L040_1794124448453_c47821b3.png",
+   "bytes": 1315618,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "90d451cbed6fd93e8cea72175c7144525067d2c5049207a60b209a4418326883",
+   "timestamp_ms": 1794124456201
+  },
+  {
+   "id": "L041",
+   "sink": "L041",
+   "name": "精工制造展示馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L041-精工制造展示馆.txt",
+   "prompt_sha256": "35da80ae4deb2b3a15fd26895a54090f34930aad500e88a2c3b3fcc0d4f93701",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L041.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L041_1794124507299_064b4656.png",
+   "bytes": 1510370,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "29f67e7ac75298cff96cd08cb9a8209adc2cef7e97f0083a206739e7ae90c945",
+   "timestamp_ms": 1794124514011
+  },
+  {
+   "id": "L042",
+   "sink": "L042",
+   "name": "新铸工匠学院",
+   "prompt_file": "数据/卡面主图提示词3x4/L042-新铸工匠学院.txt",
+   "prompt_sha256": "bc1827c87f4ded25b9ef559f051e608a78fd40a06e52961a210072c4434f2365",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L042.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L042_1794124564816_52fbd00f.png",
+   "bytes": 1580671,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "4a86596088ea87e7fd7abe815bf2639251b9b10b369becb339942a26171a8681",
+   "timestamp_ms": 1794124571227
+  },
+  {
+   "id": "D01",
+   "sink": "D01",
+   "name": "北湖政务片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D01-北湖政务片区.txt",
+   "prompt_sha256": "7c8cee2d9e3a4fd6dd506b51106cd493e3f92c67a7aba52f0a0e50ce6ed75e93",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D01.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-D01_1794124618077_87cf9e5c.png",
+   "bytes": 1500896,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "9ef186a640809ffee12f6b45b934e894a4cba9781b221d37a8675f2362f4ae0b",
+   "timestamp_ms": 1794124626692
+  },
+  {
+   "id": "D02",
+   "sink": "D02",
+   "name": "东北文教片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D02-东北文教片区.txt",
+   "prompt_sha256": "28cbc4237ccdf695a8a3f8fb16a7042dc5705a3a1939deb5c6d7d637b2912d3b",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D02.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-D02_1794124674979_33bc2347.png",
+   "bytes": 1493473,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "6674a6cbe6e92216e3f2b278d9e9f0cb89d4f767d106b28b39dd52ef94f3d0bb",
+   "timestamp_ms": 1794124683892
+  },
+  {
+   "id": "D03",
+   "sink": "D03",
+   "name": "东湖金融片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D03-东湖金融片区.txt",
+   "prompt_sha256": "33dabad2854d212e08a7115a7fd6ab9af2cea2667ce67b25dc08a36f2ba0a677",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D03.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D03_1794124051754_52bfc789.png",
+   "bytes": 1334914,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "73d367d8bdcf46c056e2a0381c236abd65e24a673a15afc6db4cf53bcce223e6",
+   "timestamp_ms": 1794124070655
+  },
+  {
+   "id": "D04",
+   "sink": "D04",
+   "name": "东南会展片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D04-东南会展片区.txt",
+   "prompt_sha256": "8188a3538bc04486342b82d7da160b603a63df8a45281c7fb4bc4606d8a9cbb6",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D04.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D04_1794124129845_74c1ddca.png",
+   "bytes": 1577777,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "f980240b3cd41042b47f56b3f71ff6de4b68e53f4b8a29b9748552188141182a",
+   "timestamp_ms": 1794124139218
+  },
+  {
+   "id": "D05",
+   "sink": "D05",
+   "name": "青湾医养片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D05-青湾医养片区.txt",
+   "prompt_sha256": "612709259483a8338e9ef4c687206081bebbea20de943f7d59d9e83d14663573",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D05.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D05_1794124196840_5f43d4d2.png",
+   "bytes": 1526666,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "7fd7a236383b7513fc7e0704b6be5b060b6d7868e92a5f235c476b42ef9d08e3",
+   "timestamp_ms": 1794124204083
+  },
+  {
+   "id": "D06",
+   "sink": "D06",
+   "name": "南湖生活片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D06-南湖生活片区.txt",
+   "prompt_sha256": "904c9ccfb7432a7920170eeed7f73bde527e09716469bc01831841d87cb26ba6",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D06.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D06_1794124259512_ee6b21b7.png",
+   "bytes": 1419487,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "a4696ba3035ab59fb3bf65178918c2c62908f355be1d3540a5667b7ef317e28e",
+   "timestamp_ms": 1794124269108
+  },
+  {
+   "id": "D07",
+   "sink": "D07",
+   "name": "西南文艺片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D07-西南文艺片区.txt",
+   "prompt_sha256": "4830edfff906251b2053bc676bc4ee67d0732933f2adce499c0933fad04e5431",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D07.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D07_1794124323854_19ed9870.png",
+   "bytes": 1541876,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "e49a6c997b8a27fc5062311eaf3c1481ea948707f353d15e97a87f2ff2335a3f",
+   "timestamp_ms": 1794124330698
+  },
+  {
+   "id": "D08",
+   "sink": "D08",
+   "name": "西湖古城片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D08-西湖古城片区.txt",
+   "prompt_sha256": "4977e1b88a9791f58e3c6738d8e46b4226eb7bab1ee5f69b77f61251e9ed007a",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D08.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D08_1794124395859_f0974ae7.png",
+   "bytes": 1548671,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "618184613386a1f1a889d28390f4b3063b95abf2b6a9947f5cb20eb7500910b2",
+   "timestamp_ms": 1794124402532
+  },
+  {
+   "id": "D09",
+   "sink": "D09",
+   "name": "云栈数创片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D09-云栈数创片区.txt",
+   "prompt_sha256": "c9d2839e61221007b436e955173177c571c6f6164544259e50d354c9bc7372dd",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D09.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D09_1794124452812_e23d2adb.png",
+   "bytes": 1593858,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "b5d7e223b4f8e4e274ce8218f599d0a11a21f45cd0af42babd75e4b9273f587b",
+   "timestamp_ms": 1794124460364
+  },
+  {
+   "id": "D10",
+   "sink": "D10",
+   "name": "松岬体育片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D10-松岬体育片区.txt",
+   "prompt_sha256": "7596f873e0998e877b0c6218e39f6c946a7b5e5f6aa67d979647df4f9bcca89a",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D10.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D10_1794124515310_ba635e8a.png",
+   "bytes": 1458203,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "ed55cb2263137927e18f93012d6ba37a0c660160278f503ebbb0fa9ad23e9cbf",
+   "timestamp_ms": 1794124522409
+  },
+  {
+   "id": "D11",
+   "sink": "D11",
+   "name": "北屏生态片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D11-北屏生态片区.txt",
+   "prompt_sha256": "071971660a15c91357a900540445f97940c19187331ef99ef6e7708bed2297ec",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D11.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D11_1794124573232_7394fe20.png",
+   "bytes": 1566585,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "1518f5aa5c6cd25a2d6f473c160d2d4c55adac2d8abc9e5c52cbcb92901076bb",
+   "timestamp_ms": 1794124580511
+  },
+  {
+   "id": "D12",
+   "sink": "D12",
+   "name": "书岭科研片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D12-书岭科研片区.txt",
+   "prompt_sha256": "e7b1e224e1804621ee5257a7f656f5b7937c25f2a48edfb46b04a8e218414e7b",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D12.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D12_1794124634840_af5df2a2.png",
+   "bytes": 1482119,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "46a1d88f8b00e77988ca0709198a0da51df366b5d306b16d53df09a3072e274d",
+   "timestamp_ms": 1794124641274
+  },
+  {
+   "id": "D13",
+   "sink": "D13",
+   "name": "东门枢纽片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D13-东门枢纽片区.txt",
+   "prompt_sha256": "be6240d3204f52c53304bd8863bf19ebb449a43b038c78d9507f5de47a427d31",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D13.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D13_1794124696410_1d4841b3.png",
+   "bytes": 1458062,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "93c16b7b759f47b5f5799655c138b2eb0332b77b87449e4917a15d0067f9a6bb",
+   "timestamp_ms": 1794124703459
+  },
+  {
+   "id": "D14",
+   "sink": "D14",
+   "name": "钛东智造片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D14-钛东智造片区.txt",
+   "prompt_sha256": "4d5ca11de12a346232829a5f0d08e8a1bb2d0713c1d2e3470a6e1554fd7426c2",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D14.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D14_1794124759449_55e9adb5.png",
+   "bytes": 1320418,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "48dd5940806867cc035f337f41069e86ee71fbb7e16388275791239a0e3492a2",
+   "timestamp_ms": 1794124768805
+  },
+  {
+   "id": "D15",
+   "sink": "D15",
+   "name": "南溪服务片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D15-南溪服务片区.txt",
+   "prompt_sha256": "e9c622bf2b20fee6142a0b0dfe51c96bc434c6513c8401a3c82b6f06da1773e1",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D15.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D15_1794124079066_da71adc4.png",
+   "bytes": 1510402,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "7d97ee45245ed9356b2eab9aea05c4b96e3a92e99c22e82dbc7fc0ef7ca0204e",
+   "timestamp_ms": 1794124104308
+  },
+  {
+   "id": "D16",
+   "sink": "D16",
+   "name": "南原居住片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D16-南原居住片区.txt",
+   "prompt_sha256": "7216ce928e86139c20f3460a5051ee8d763f3b7be97be869da3bb26d9b9fb873",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D16.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D16_1794124218073_25a6481d.png",
+   "bytes": 1667354,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "7d612bdb545101e7e9c5b7879c2b8ecce145da82c1c00636cc32657934c72839",
+   "timestamp_ms": 1794124232952
+  },
+  {
+   "id": "D17",
+   "sink": "D17",
+   "name": "西麓农食片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D17-西麓农食片区.txt",
+   "prompt_sha256": "afe531ea33decd4240eb408682ccf5ae300fb5f8225b5c8a8faa51707a6c8747",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D17.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D17_1794124316305_b982579a.png",
+   "bytes": 1585330,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "900e2680608f1e54fea9420a7a1f46b4b668117523fab6a66a2f722a512e4be5",
+   "timestamp_ms": 1794124330303
+  },
+  {
+   "id": "D18",
+   "sink": "D18",
+   "name": "西门商贸片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D18-西门商贸片区.txt",
+   "prompt_sha256": "d4f30115a6176c457f4f4aef02278f5c8e36c4071275224aaad85f9581775e57",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D18.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D18_1794124396701_611d840b.png",
+   "bytes": 1432161,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "239a63fd42fd8529b0438cad3530c8d78bebcc6de1f4022831945509816cee0d",
+   "timestamp_ms": 1794124406202
+  },
+  {
+   "id": "D19",
+   "sink": "D19",
+   "name": "西岭能源片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D19-西岭能源片区.txt",
+   "prompt_sha256": "d2cce238f9cfee68d28b19bfd91906194a95af2365c4e2bda760358693694087",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D19.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D19_1794124496296_86084467.png",
+   "bytes": 1545629,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "3f425b24bc938331de18986c14253dcada9db939b476a88914da5b53ed952fcc",
+   "timestamp_ms": 1794124504867
+  },
+  {
+   "id": "D20",
+   "sink": "D20",
+   "name": "北港水务片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D20-北港水务片区.txt",
+   "prompt_sha256": "48bd02c5aa07485342e15f5294c1b183493ed3892b3ab4c7cbd8e8a4b7002c7f",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D20.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-D20_1794124565483_c3d8a4aa.png",
+   "bytes": 1525264,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "26540970c0ca321339aef5d15b531a7bd4914dd8078ff3968cb56f00efb78655",
+   "timestamp_ms": 1794124573984
+  },
+  {
+   "id": "L058",
+   "sink": "L058",
+   "name": "北港水文博物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L058-北港水文博物馆.txt",
+   "prompt_sha256": "8b7eae3beb24ad047f495434d37694bd0aa5a2dc644d7b4fc7c3f65d7ad67e82",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L058.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L058_1794124627251_cd1e0712.png",
+   "bytes": 1491865,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "e8c529c9feb2ee0dbcc0a90629d9cd10f316a2c15c899a87bbbcde3dd581b02c",
+   "timestamp_ms": 1794124642465
+  },
+  {
+   "id": "L012",
+   "sink": "L012",
+   "name": "水光游客中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L012-水光游客中心.txt",
+   "prompt_sha256": "b2227c217597c5a33fd84effecff865d4c53f4a65a9905a6feeb03f97fc53ab3",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L012.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L012_1794124728845_8f8b6e7c.png",
+   "bytes": 1318823,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "60a33b8bffac3aabb194cb7cd9a505d6fb3abdc0df041b9b9e93c458453a01a5",
+   "timestamp_ms": 1794124737793
+  },
+  {
+   "id": "L016",
+   "sink": "L016",
+   "name": "南湖百业市场",
+   "prompt_file": "数据/卡面主图提示词3x4/L016-南湖百业市场.txt",
+   "prompt_sha256": "b0095653ad4c5f5746ee55c8b0ed87646b06e5a62d5ac94636ed7bd2c3b99faf",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L016.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L016_1794124784797_fd0e69f9.png",
+   "bytes": 1404763,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "2ce66d4a69f969050dad209e83380c6a7bf8f758be31292d5b0192af0fb16f50",
+   "timestamp_ms": 1794124795314
+  },
+  {
+   "id": "L017",
+   "sink": "L017",
+   "name": "湖湾邻里中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L017-湖湾邻里中心.txt",
+   "prompt_sha256": "ddcb964b5e52ec66c05bc4e719cc6101ecf517feff487c924056db61368aeea2",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L017.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L017_1794124851059_7cc0a8c9.png",
+   "bytes": 1527216,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "8375ccd3927a3eec1822c066992edf9caa99d92e535f5ecad0d0767df08fd95e",
+   "timestamp_ms": 1794124866301
+  },
+  {
+   "id": "L018",
+   "sink": "L018",
+   "name": "南湖公共儿童馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L018-南湖公共儿童馆.txt",
+   "prompt_sha256": "aec0e78ef686eab944dbd8090dae0c9b68e9dec034e14eddfbb823c7de2492da",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L018.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L018_1794124921431_55c5ff89.png",
+   "bytes": 1505480,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "d186bbf55357006fdb83ca2312cf34b38ee5559296f6c7382f0ea9ff9008bf8b",
+   "timestamp_ms": 1794124929800
+  },
+  {
+   "id": "L031",
+   "sink": "L031",
+   "name": "北屏自然学校",
+   "prompt_file": "数据/卡面主图提示词3x4/L031-北屏自然学校.txt",
+   "prompt_sha256": "846b64d0661a989bf24920a1846b6e55be02bbf794756fde7ea46b09b12b0259",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L031.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L031_1794124979322_3ca84175.png",
+   "bytes": 1645752,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "153ba9e99afcdd810fa57e3389f322b555d8277e9a5f92e5a7c372968a8be01d",
+   "timestamp_ms": 1794124989085
+  },
+  {
+   "id": "L032",
+   "sink": "L032",
+   "name": "森林访客中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L032-森林访客中心.txt",
+   "prompt_sha256": "5a965de0290c95e4c94a5e031efb9c80438a64f6d7e6d584adb8b05dc0212698",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L032.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L032_1794124099285_49962600.png",
+   "bytes": 1554753,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "a8d7dcc5269b2d837291d032c8a5cb650e37f1c7fee7abd8ae2898126595cced",
+   "timestamp_ms": 1794124111676
+  },
+  {
+   "id": "L033",
+   "sink": "L033",
+   "name": "杉谷观鸟塔",
+   "prompt_file": "数据/卡面主图提示词3x4/L033-杉谷观鸟塔.txt",
+   "prompt_sha256": "f1f6f5b1f3f691225d8001633c78c0cd2fa2e7439a9e0954684ef717376b7eaf",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L033.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L033_1794124170297_e27b3bb9.png",
+   "bytes": 1570876,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "3154897eb21912b6f3aeb0a4393aab6b5f38609fa66efd4083dbee0a99686095",
+   "timestamp_ms": 1794124188391
+  },
+  {
+   "id": "L059",
+   "sink": "L059",
+   "name": "清流水质公开实验馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L059-清流水质公开实验馆.txt",
+   "prompt_sha256": "4d94956bd0241a20cc2aad628de86054dbbd0fac63e9dead1b63d19692db3508",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L059.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L059_1794124238159_d5144e66.png",
+   "bytes": 1567008,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "f67bb5aae4cba44144984d278c2398bab566031f833ecd816907b1fc83785a84",
+   "timestamp_ms": 1794124246989
+  },
+  {
+   "id": "L060",
+   "sink": "L060",
+   "name": "河口生态观察馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L060-河口生态观察馆.txt",
+   "prompt_sha256": "57d46149c3124f96e1fc5b9008027f619fd123fb2335ab6a9edd78c5487176d8",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L060.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L060_1794124292644_c6cc3a69.png",
+   "bytes": 1431789,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "11a454d922aa99bc0e87861c35c50a0505700acfe5463fcc319e5110ce3f29c5",
+   "timestamp_ms": 1794124299397
+  },
+  {
+   "id": "L046",
+   "sink": "L046",
+   "name": "南原中央图书分馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L046-南原中央图书分馆.txt",
+   "prompt_sha256": "1672f588b8aae8be2218c9929283d7ae39c1ac51dacde556ab578f8b7e597bb1",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L046.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L046_1794124400373_ef261fed.png",
+   "bytes": 1615366,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "3c9c5e2c597a83539ebec40b8f4d4d6412ef55420cec283981d02868e6290bf1",
+   "timestamp_ms": 1794124412612
+  },
+  {
+   "id": "L048",
+   "sink": "L048",
+   "name": "南原妇幼社区中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L048-南原妇幼社区中心.txt",
+   "prompt_sha256": "809ee39f2c2c1e0cafb1e9c72c40d62a71ed3a2e3bdb6536a04ade286e0ae4c7",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L048.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L048_1794124460434_1ec6cef6.png",
+   "bytes": 1401155,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "3326f55fac1afb036047b18acc42b9b6a383b0deed193332bf7b88e57969c828",
+   "timestamp_ms": 1794124470415
+  },
+  {
+   "id": "L034",
+   "sink": "L034",
+   "name": "书岭联合实验楼",
+   "prompt_file": "数据/卡面主图提示词3x4/L034-书岭联合实验楼.txt",
+   "prompt_sha256": "c7e198d3c738b8bfa1e6ac22ba4bf9f8779e6c37a7a414eed1e0baf22fc7741c",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L034.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L034_1794124518326_22866b1d.png",
+   "bytes": 1433855,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "14759f02f79ab7b4b65f76f51dc141a6f8c0186edd56cdc7a612a220d1621af0",
+   "timestamp_ms": 1794124564023
+  },
+  {
+   "id": "L035",
+   "sink": "L035",
+   "name": "青岚仪器共享中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L035-青岚仪器共享中心.txt",
+   "prompt_sha256": "59ad74c092617a818ca5e141cde178321262e8279d8924e054083c3175f8c344",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L035.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L035_1794124580499_91975536.png",
+   "bytes": 1443450,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "1d1d6da8a777f64cad9d637644f17b13bb128b87658f57057dc99b69c7121cfa",
+   "timestamp_ms": 1794124618746
+  },
+  {
+   "id": "L036",
+   "sink": "L036",
+   "name": "科研伦理与公众交流馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L036-科研伦理与公众交流馆.txt",
+   "prompt_sha256": "36d4cc4576f7987db4d716d7e801ac1621320f00ea2287c378044e8fa56696a2",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L036.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L036_1794124635119_96cf607b.png",
+   "bytes": 1452594,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "d0fddb79599a0edc9b8b3f782ec08679fb5961a166520b3256a75c50ba86b5d3",
+   "timestamp_ms": 1794124669674
+  },
+  {
+   "id": "L055",
+   "sink": "L055",
+   "name": "西岭能源调度馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L055-西岭能源调度馆.txt",
+   "prompt_sha256": "ce16bafb5253967b299203c4c055204d28abe6f4e58b231b34c0bc73aadd46b2",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L055.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L055_1794124683197_0e02e795.png",
+   "bytes": 1468358,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "fca96a75a62cda59b5eda6b3e79f53674b027293e22dc24a01ed03c2baa3f5af",
+   "timestamp_ms": 1794124720748
+  },
+  {
+   "id": "L056",
+   "sink": "L056",
+   "name": "光谷低碳体验馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L056-光谷低碳体验馆.txt",
+   "prompt_sha256": "038ec38bbc5e51f8e4e2c7800208a0c8c68eb2ba7b4fac65d30f8104dbf8a971",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L056.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L056_1794124744124_0b69fa0a.png",
+   "bytes": 1504673,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "81a43b182c66c299c924192121c040a8a4eb08fe77a00ca49d21038cbcc9ae6b",
+   "timestamp_ms": 1794124783752
+  },
+  {
+   "id": "L057",
+   "sink": "L057",
+   "name": "山城能源史馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L057-山城能源史馆.txt",
+   "prompt_sha256": "b20ba1f599b79a6c2c23950b47dc1a8ed8cdc75ac8c1f870b506d7122beaa209",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L057.png",
+   "imagegen_path": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/vibe_images/card3x4-L057_1794124796720_401bab83.png",
+   "bytes": 1359531,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "44682f1388f8573bf87d961b7d29914d8f6c14a578f5021a7938a9a2c6bcfd63",
+   "timestamp_ms": 1794124806377
+  },
+  {
+   "id": "L001",
+   "sink": "L001",
+   "name": "钛湖市民议事厅",
+   "prompt_file": "数据/卡面主图提示词3x4/L001-钛湖市民议事厅.txt",
+   "prompt_sha256": "8dd92550bd9af4b2d26396d0818355798fdad41dde3c1a615f3350814f2d695a",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L001.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L001_1794124084144_f2b5bc35.png",
+   "bytes": 1282750,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "a760ebe8a74692319573df3ab4b1fdf9664c21830f0567adac1c8fae899399fd",
+   "timestamp_ms": 1794124093513
+  },
+  {
+   "id": "L002",
+   "sink": "L002",
+   "name": "钛湖司法服务馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L002-钛湖司法服务馆.txt",
+   "prompt_sha256": "ce324afa0799a2917ded3141d30b515fc0d64814014074f3e4833a086f1b33c2",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L002.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L002_1794124145710_629e2c7a.png",
+   "bytes": 1388389,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "c7da4d8c641cb12676c027cd2a801358466dbe29c9f022ffff0694ae89944982",
+   "timestamp_ms": 1794124153606
+  },
+  {
+   "id": "L003",
+   "sink": "L003",
+   "name": "城市记忆档案塔",
+   "prompt_file": "数据/卡面主图提示词3x4/L003-城市记忆档案塔.txt",
+   "prompt_sha256": "d43d54782e559965c1537f7a40531a61db4f9a2fa1a3eead56a764fbcd811bd0",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L003.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L003_1794124202674_7474054f.png",
+   "bytes": 1432176,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "42f6aff6a18ef43ce287fc6c2b6d6f5cfc1c334901800eaf8fab01fc6d348b65",
+   "timestamp_ms": 1794124211332
+  },
+  {
+   "id": "L004",
+   "sink": "L004",
+   "name": "钛湖大学中央图书馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L004-钛湖大学中央图书馆.txt",
+   "prompt_sha256": "9eb22d3ba4c203a149247a311c183a9a628bb9a40b72af87de1c7d162e083423",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L004.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L004_1794124261162_5a60349c.png",
+   "bytes": 1589660,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "2df023dbcc5f2418c1e181aebe9ee0c41fc293ea44cceb367b3e1a77ef588f9d",
+   "timestamp_ms": 1794124269445
+  },
+  {
+   "id": "L005",
+   "sink": "L005",
+   "name": "北书科学博物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L005-北书科学博物馆.txt",
+   "prompt_sha256": "b7eaf0b7f75ea8c5dc8208b860f3a0148ea9236f897eaece4358c0352ceca73f",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L005.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L005_1794124316012_e214a461.png",
+   "bytes": 1471168,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "23b21edc94fc6821d018d5e100d9518c9f61afb02b6cda0452ed51c9db5a81d5",
+   "timestamp_ms": 1794124324186
+  },
+  {
+   "id": "L006",
+   "sink": "L006",
+   "name": "湖畔青年交流馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L006-湖畔青年交流馆.txt",
+   "prompt_sha256": "fff37a10aeb13170c4f4f6f926d8a61d282a62407bd6d282e009d43b7804f173",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L006.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L006_1794124380385_cf6b3147.png",
+   "bytes": 1542807,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "3d01ad2da0e1b3c5e45ed8c9dbd3c8191dea60a784bbf96b09d9986f8e8df2cb",
+   "timestamp_ms": 1794124388422
+  },
+  {
+   "id": "L007",
+   "sink": "L007",
+   "name": "钛湖之脊",
+   "prompt_file": "数据/卡面主图提示词3x4/L007-钛湖之脊.txt",
+   "prompt_sha256": "ebea0d599aa0589a3e9f1ba67625ade558398401419ab026733d4539392755c2",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L007.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L007_1794124429195_d9c1b5fc.png",
+   "bytes": 1454110,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "3c0820b1c074a5027e96b821f8cb5da09aa9c08625a43168dc87c7ddb5571b3a",
+   "timestamp_ms": 1794124437050
+  },
+  {
+   "id": "L008",
+   "sink": "L008",
+   "name": "金融秩序博物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L008-金融秩序博物馆.txt",
+   "prompt_sha256": "c6fd0a74bd7135feeffad08badddd348a7a142174d8a2d94f726931573b1e572",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L008.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-L008_1794124488033_266384bf.png",
+   "bytes": 1316036,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "8bd622ca659ad93b9b9c3e835b4fb49e753166a809c295161b811a83ab9926cd",
+   "timestamp_ms": 1794124496665
+  }
+ ],
+ "问题清单": []
+}

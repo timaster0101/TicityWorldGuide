@@ -1,0 +1,353 @@
+{
+ "投放轮次": "card3x4_R2",
+ "放行原话": "用户 2026-11-08：「② 34 张实景待投未投＝11 张产品方向未点（#64）＋23 张须先新写 3:4 正文（#49/#50/#51），花钱调用下轮要重新放行；③ 本轮未提交也未推送，需要的话我先报提交范围再动。都做」",
+ "探针": {
+  "id": "idx007",
+  "note": "探针用本轮同一份底串（sha 一致），确认后放量其余 33 张"
+ },
+ "口径": "底串＝数据/卡面主图提示词3x4/idxNNN-名.txt（待投拼装支路产物）；画幅 768×1024；landing＝数据/视觉控制资产/卡牌/主图3x4/idxNNN.png（本机资产、gitignored）；prompt_sha256 与 bytes 取 CRLF→LF 归一后的文本字节（txt 在 Windows 以文本模式落盘为 CRLF），送入串与证据对拍同一口径",
+ "条数": 34,
+ "画幅": "768x1024",
+ "items": [
+  {
+   "id": "idx007",
+   "name": "T1轻量-城市主题壁纸包",
+   "prompt_file": "数据/卡面主图提示词3x4/idx007-T1轻量-城市主题壁纸包.txt",
+   "prompt_sha256": "26198ca96c6dd9aa22af74bbe92354d64a6722b6e725adbfc49af7c751821d4b",
+   "bytes": 9497,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx007.png",
+   "card_type": "兑换卡"
+  },
+  {
+   "id": "idx008",
+   "name": "T2纪念-典藏明信片套装",
+   "prompt_file": "数据/卡面主图提示词3x4/idx008-T2纪念-典藏明信片套装.txt",
+   "prompt_sha256": "38f89c2338a17fcf002274811c6f707aa54290786c03f509dbe35665dcf899ca",
+   "bytes": 9583,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx008.png",
+   "card_type": "兑换卡"
+  },
+  {
+   "id": "idx009",
+   "name": "T3典藏-文创手办",
+   "prompt_file": "数据/卡面主图提示词3x4/idx009-T3典藏-文创手办.txt",
+   "prompt_sha256": "b895a5c9c3d237366ad168b3c293febfd0e1dcfa85944c9f81ae42d4c325f877",
+   "bytes": 9537,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx009.png",
+   "card_type": "兑换卡"
+  },
+  {
+   "id": "idx010",
+   "name": "T4纪念级-联名实物礼盒",
+   "prompt_file": "数据/卡面主图提示词3x4/idx010-T4纪念级-联名实物礼盒.txt",
+   "prompt_sha256": "13d4455ebab7983d8abc2875154edee393ce106c3ae0d9c2fe34a6d1e6433222",
+   "bytes": 9683,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx010.png",
+   "card_type": "兑换卡"
+  },
+  {
+   "id": "idx011",
+   "name": "T5顶格-专属定制",
+   "prompt_file": "数据/卡面主图提示词3x4/idx011-T5顶格-专属定制.txt",
+   "prompt_sha256": "44e6b491f4216b69040363abded29f2eb494899f5f97ceac4feebf5d4fb253dc",
+   "bytes": 9632,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx011.png",
+   "card_type": "兑换卡"
+  },
+  {
+   "id": "idx014",
+   "name": "全城地标巡礼",
+   "prompt_file": "数据/卡面主图提示词3x4/idx014-全城地标巡礼.txt",
+   "prompt_sha256": "12a48d56404cdae1d463fe2bcd0c61d741dd8b65d8ff3c07171852a3f643cd6a",
+   "bytes": 9567,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx014.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "idx070",
+   "name": "匠人工坊工具组-生产",
+   "prompt_file": "数据/卡面主图提示词3x4/idx070-匠人工坊工具组-生产.txt",
+   "prompt_sha256": "7139845168c3249cdaec7ed5b7eb9d3ce5eaf2caf81bdd471717bec9294355bb",
+   "bytes": 9700,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx070.png",
+   "card_type": "物品卡"
+  },
+  {
+   "id": "idx072",
+   "name": "社区住所卡-居住",
+   "prompt_file": "数据/卡面主图提示词3x4/idx072-社区住所卡-居住.txt",
+   "prompt_sha256": "9e71e7da13634512898ab02963c5e6a1de86095b25ae6e396b984a8fde11aaa2",
+   "bytes": 9777,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx072.png",
+   "card_type": "物品卡"
+  },
+  {
+   "id": "idx074",
+   "name": "通勤折叠车-出行",
+   "prompt_file": "数据/卡面主图提示词3x4/idx074-通勤折叠车-出行.txt",
+   "prompt_sha256": "9ebc7f222a87ba5370026a70d416a4235b59db008737f60bfc90ebaad86aab80",
+   "bytes": 9702,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx074.png",
+   "card_type": "物品卡"
+  },
+  {
+   "id": "idx080",
+   "name": "生态科普线",
+   "prompt_file": "数据/卡面主图提示词3x4/idx080-生态科普线.txt",
+   "prompt_sha256": "b68719a051e3e2de5e9bcd9f8f9591d4097a8989544adb1ee550e1ec3074c0a8",
+   "bytes": 9704,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx080.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "idx086",
+   "name": "三电系统实训-A14",
+   "prompt_file": "数据/卡面主图提示词3x4/idx086-三电系统实训-A14.txt",
+   "prompt_sha256": "4d865253e090fd90645a235d11e5b220f3db01d7c0183bf21b4caafbe6eda0d3",
+   "bytes": 10428,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx086.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx087",
+   "name": "临床试验支持培训-A04",
+   "prompt_file": "数据/卡面主图提示词3x4/idx087-临床试验支持培训-A04.txt",
+   "prompt_sha256": "44875a012294b44cb92732ecc0f22293a98bf34e80a22823b4f06ca49e8c43a4",
+   "bytes": 10302,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx087.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx088",
+   "name": "仓储作业实训-A12",
+   "prompt_file": "数据/卡面主图提示词3x4/idx088-仓储作业实训-A12.txt",
+   "prompt_sha256": "02f4cda1f781b913bdf8634dfc446582f6bf66e74d0f3981ae4942d2d5afc8b9",
+   "bytes": 10335,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx088.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx089",
+   "name": "会展策划培训-A09",
+   "prompt_file": "数据/卡面主图提示词3x4/idx089-会展策划培训-A09.txt",
+   "prompt_sha256": "2789de366edb62beb93aa126814a95528167711472a852582da23fa1a0d48cf7",
+   "bytes": 10162,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx089.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx090",
+   "name": "会计从业考-A08",
+   "prompt_file": "数据/卡面主图提示词3x4/idx090-会计从业考-A08.txt",
+   "prompt_sha256": "9a86892237e22286d9b6d56d57a6c2c7c7405e9e5f89c287c2c6e5be4134b942",
+   "bytes": 10299,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx090.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx091",
+   "name": "光伏运维实训-A16",
+   "prompt_file": "数据/卡面主图提示词3x4/idx091-光伏运维实训-A16.txt",
+   "prompt_sha256": "467754379c798065b5e9ba888df39b30854c9c4eb14582f11b1efa4d7abfc741",
+   "bytes": 10492,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx091.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx092",
+   "name": "净水运维实训-A17",
+   "prompt_file": "数据/卡面主图提示词3x4/idx092-净水运维实训-A17.txt",
+   "prompt_sha256": "363309f254a628c86a11cde34587a8842163146f09344656697d43d3ffe371d6",
+   "bytes": 10489,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx092.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx093",
+   "name": "手作工坊技艺-A19",
+   "prompt_file": "数据/卡面主图提示词3x4/idx093-手作工坊技艺-A19.txt",
+   "prompt_sha256": "8e9ba059399f867d2dcec86de6fe6a42dd65f551893d5315fa7b60824eaae9db",
+   "bytes": 10482,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx093.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx094",
+   "name": "护理照护训练-A03",
+   "prompt_file": "数据/卡面主图提示词3x4/idx094-护理照护训练-A03.txt",
+   "prompt_sha256": "5f3771a3f03b77969a9d74272ad87c8bbafb993eba2cf2c10b24eb5271f31541",
+   "bytes": 10438,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx094.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx095",
+   "name": "政务规范结业-A01",
+   "prompt_file": "数据/卡面主图提示词3x4/idx095-政务规范结业-A01.txt",
+   "prompt_sha256": "69f9c391e91783bc2538babc7c8bc1dfad7a81946e2362881d0fb55e3724a3ef",
+   "bytes": 10623,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx095.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx096",
+   "name": "教师资格认证-A02",
+   "prompt_file": "数据/卡面主图提示词3x4/idx096-教师资格认证-A02.txt",
+   "prompt_sha256": "534c9b6a67439b9e610369a921c8d0a3b118d0cc833be569bdc27e0accfea6a4",
+   "bytes": 10373,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx096.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx097",
+   "name": "机器人集成实训-A15",
+   "prompt_file": "数据/卡面主图提示词3x4/idx097-机器人集成实训-A15.txt",
+   "prompt_sha256": "0506d3d0b5ad99cd3f76e5a5baaa1e5bcf454458e13f8c35a6ca387e5669303b",
+   "bytes": 10620,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx097.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx099",
+   "name": "物业运维实训-A20",
+   "prompt_file": "数据/卡面主图提示词3x4/idx099-物业运维实训-A20.txt",
+   "prompt_sha256": "463bb52c70581faf4730cef872ebdda9feee3ecc4f38bf593cef5807a72ac371",
+   "bytes": 9715,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx099.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx100",
+   "name": "直播运营实训-A07",
+   "prompt_file": "数据/卡面主图提示词3x4/idx100-直播运营实训-A07.txt",
+   "prompt_sha256": "0d55b92f7d80767e40e76145a4201ba6f9fbf600ab3a90f19d797fc7b4063860",
+   "bytes": 9600,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx100.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx101",
+   "name": "精密仪器操作证-A05",
+   "prompt_file": "数据/卡面主图提示词3x4/idx101-精密仪器操作证-A05.txt",
+   "prompt_sha256": "061c00b15070f2761905447ca8ea326635b472a48dd5c021c28880475ea62015",
+   "bytes": 9515,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx101.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx103",
+   "name": "装配技能证-A13",
+   "prompt_file": "数据/卡面主图提示词3x4/idx103-装配技能证-A13.txt",
+   "prompt_sha256": "54f46c375e6ee6daa22c72a0f749b590927d0dc295f895ecbc02e26caf8ac535",
+   "bytes": 9535,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx103.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx104",
+   "name": "配送安全实训-A11",
+   "prompt_file": "数据/卡面主图提示词3x4/idx104-配送安全实训-A11.txt",
+   "prompt_sha256": "283c073b0f1e4ddc74f7f049f7395f5e5e23368053dd7cbd6907b8437472076d",
+   "bytes": 9658,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx104.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx105",
+   "name": "零售运营实训-A10",
+   "prompt_file": "数据/卡面主图提示词3x4/idx105-零售运营实训-A10.txt",
+   "prompt_sha256": "45bce8b7671da4b5c6b441e2b69ca8235946b05f969222809dacd7cd09b52ea8",
+   "bytes": 9484,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx105.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx106",
+   "name": "食品检测证-A18",
+   "prompt_file": "数据/卡面主图提示词3x4/idx106-食品检测证-A18.txt",
+   "prompt_sha256": "f46fb788a8cbdd1b65d612d4339d9a4fe4c9efe187710b5f3f88394eb4af5db0",
+   "bytes": 9459,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx106.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx107",
+   "name": "高级工程师答辩-A06",
+   "prompt_file": "数据/卡面主图提示词3x4/idx107-高级工程师答辩-A06.txt",
+   "prompt_sha256": "de009cda03c75850ac620936053116e536472741cce8017136a6e6243915f370",
+   "bytes": 9560,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx107.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx108",
+   "name": "危机谈判-实战-情商",
+   "prompt_file": "数据/卡面主图提示词3x4/idx108-危机谈判-实战-情商.txt",
+   "prompt_sha256": "36bbc8535e9906a7776d54cf68b92994a49185888e897cfd00b8328444ee0c19",
+   "bytes": 9631,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx108.png",
+   "card_type": "能力卡"
+  },
+  {
+   "id": "idx110",
+   "name": "深夜自习-学习-智力",
+   "prompt_file": "数据/卡面主图提示词3x4/idx110-深夜自习-学习-智力.txt",
+   "prompt_sha256": "293b875c8da7f76e6d5ca849a40085f811b2268d94a854421bed191ced456eb9",
+   "bytes": 9714,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx110.png",
+   "card_type": "能力卡"
+  },
+  {
+   "id": "idx112",
+   "name": "长跑习惯-习惯-体力",
+   "prompt_file": "数据/卡面主图提示词3x4/idx112-长跑习惯-习惯-体力.txt",
+   "prompt_sha256": "6444cbaad6e7a7741d2e75ae4e49e7a8b3bd0b400ec104a8be356860f4a8f603",
+   "bytes": 9878,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx112.png",
+   "card_type": "能力卡"
+  },
+  {
+   "id": "idx116",
+   "name": "钛湖之脊",
+   "prompt_file": "数据/卡面主图提示词3x4/idx116-钛湖之脊.txt",
+   "prompt_sha256": "4ffa2a5a6f3a765013934c41d0e2bbb482915f2f2934d4c4c0da06779d1b957e",
+   "bytes": 9916,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx116.png",
+   "card_type": "景群地标卡"
+  }
+ ]
+}

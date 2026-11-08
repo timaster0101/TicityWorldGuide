@@ -1,0 +1,561 @@
+{
+ "投放轮次": "card3x4_R2",
+ "证据件": [
+  "sent_shard1.jsonl",
+  "sent_shard2.jsonl",
+  "sent_shard3.jsonl",
+  "sent_shard_probe.jsonl"
+ ],
+ "证据件数": 4,
+ "应投": 34,
+ "合规格": 34,
+ "不合规格": 0,
+ "统计面": "只数 数据\\卡面主图提示词3x4\\投放台账R2.json 列出的 34 条；证据只取 C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/钛湖城城市设定集/../_scratch_cardref/card3x4_r2 的 sent_shard*.jsonl；尺寸真源＝PIL 打开 landing 取 size；串 sha 真源＝数据/卡面主图提示词3x4 下的本轮 .txt",
+ "逐条": [
+  {
+   "id": "idx007",
+   "sink": "7",
+   "name": "T1轻量-城市主题壁纸包",
+   "prompt_file": "数据/卡面主图提示词3x4/idx007-T1轻量-城市主题壁纸包.txt",
+   "prompt_sha256": "26198ca96c6dd9aa22af74bbe92354d64a6722b6e725adbfc49af7c751821d4b",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx007.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx007_1794132175731_216dca80.png",
+   "bytes": 1568596,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "6ff305e776f8547bbdde1a114adc3676a2f4dc244d5d1d75d9a9701214f59b99",
+   "timestamp_ms": 1794132193490
+  },
+  {
+   "id": "idx008",
+   "sink": "8",
+   "name": "T2纪念-典藏明信片套装",
+   "prompt_file": "数据/卡面主图提示词3x4/idx008-T2纪念-典藏明信片套装.txt",
+   "prompt_sha256": "38f89c2338a17fcf002274811c6f707aa54290786c03f509dbe35665dcf899ca",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx008.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx008_1794132403337_efc35b4f.png",
+   "bytes": 1592319,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "ab0bf272734ddc7bf39465a6a1360d1512b202fd11cfb687b1fd345df2e4c2da",
+   "timestamp_ms": 1794132415832
+  },
+  {
+   "id": "idx009",
+   "sink": "9",
+   "name": "T3典藏-文创手办",
+   "prompt_file": "数据/卡面主图提示词3x4/idx009-T3典藏-文创手办.txt",
+   "prompt_sha256": "b895a5c9c3d237366ad168b3c293febfd0e1dcfa85944c9f81ae42d4c325f877",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx009.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx009_1794132466979_a1e6d1c2.png",
+   "bytes": 1348114,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "9a6b6f299fdf7bf2d0906be9abfec6a8751c498bf072738382d8ce8b42ebecdf",
+   "timestamp_ms": 1794132478937
+  },
+  {
+   "id": "idx010",
+   "sink": "10",
+   "name": "T4纪念级-联名实物礼盒",
+   "prompt_file": "数据/卡面主图提示词3x4/idx010-T4纪念级-联名实物礼盒.txt",
+   "prompt_sha256": "13d4455ebab7983d8abc2875154edee393ce106c3ae0d9c2fe34a6d1e6433222",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx010.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx010_1794132532072_a2550f66.png",
+   "bytes": 1584140,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "ab2738149059306724eab0fa2678e54f52a5253fa0b9dab86fb01f6236072eb4",
+   "timestamp_ms": 1794132542940
+  },
+  {
+   "id": "idx011",
+   "sink": "11",
+   "name": "T5顶格-专属定制",
+   "prompt_file": "数据/卡面主图提示词3x4/idx011-T5顶格-专属定制.txt",
+   "prompt_sha256": "44e6b491f4216b69040363abded29f2eb494899f5f97ceac4feebf5d4fb253dc",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx011.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx011_1794132598243_ac789878.png",
+   "bytes": 1142750,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "0688879d0798f15006fc58f3ceb7c14fabc819791b75979ab3e6358b3fad021c",
+   "timestamp_ms": 1794132610737
+  },
+  {
+   "id": "idx014",
+   "sink": "14",
+   "name": "全城地标巡礼",
+   "prompt_file": "数据/卡面主图提示词3x4/idx014-全城地标巡礼.txt",
+   "prompt_sha256": "12a48d56404cdae1d463fe2bcd0c61d741dd8b65d8ff3c07171852a3f643cd6a",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx014.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx014_1794132675399_59c9286c.png",
+   "bytes": 1457846,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "03749019ef2be4bf18204854316863873291325d18dfb5d85503365e2410effe",
+   "timestamp_ms": 1794132684266
+  },
+  {
+   "id": "idx070",
+   "sink": "70",
+   "name": "匠人工坊工具组-生产",
+   "prompt_file": "数据/卡面主图提示词3x4/idx070-匠人工坊工具组-生产.txt",
+   "prompt_sha256": "7139845168c3249cdaec7ed5b7eb9d3ce5eaf2caf81bdd471717bec9294355bb",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx070.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx070_1794132736730_3b3a616e.png",
+   "bytes": 1545274,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "cfc32ecc959b532edeced9fc65a147c73ad681031516c039f1e6fb322d304df1",
+   "timestamp_ms": 1794132745789
+  },
+  {
+   "id": "idx072",
+   "sink": "72",
+   "name": "社区住所卡-居住",
+   "prompt_file": "数据/卡面主图提示词3x4/idx072-社区住所卡-居住.txt",
+   "prompt_sha256": "9e71e7da13634512898ab02963c5e6a1de86095b25ae6e396b984a8fde11aaa2",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx072.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx072_1794132792454_89085f2b.png",
+   "bytes": 1378731,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "7fa9d9f44053ce66eb4148c3e6227a62d10be9d97a9e50cbc57e9c4770677235",
+   "timestamp_ms": 1794132801181
+  },
+  {
+   "id": "idx074",
+   "sink": "74",
+   "name": "通勤折叠车-出行",
+   "prompt_file": "数据/卡面主图提示词3x4/idx074-通勤折叠车-出行.txt",
+   "prompt_sha256": "9ebc7f222a87ba5370026a70d416a4235b59db008737f60bfc90ebaad86aab80",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx074.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx074_1794132855254_d85567ce.png",
+   "bytes": 1477961,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "2ac6f03dc197822c74e30c562bd199ce529dc6697351aca2a04964ad64da4718",
+   "timestamp_ms": 1794132872073
+  },
+  {
+   "id": "idx080",
+   "sink": "80",
+   "name": "生态科普线",
+   "prompt_file": "数据/卡面主图提示词3x4/idx080-生态科普线.txt",
+   "prompt_sha256": "b68719a051e3e2de5e9bcd9f8f9591d4097a8989544adb1ee550e1ec3074c0a8",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx080.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx080_1794132928674_ea0322a5.png",
+   "bytes": 1600145,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "be2f547f39fb4798a3b3d242b9be6f9101d086b77e69f95827b6d1e1d24760ba",
+   "timestamp_ms": 1794132938750
+  },
+  {
+   "id": "idx086",
+   "sink": "86",
+   "name": "三电系统实训-A14",
+   "prompt_file": "数据/卡面主图提示词3x4/idx086-三电系统实训-A14.txt",
+   "prompt_sha256": "4d865253e090fd90645a235d11e5b220f3db01d7c0183bf21b4caafbe6eda0d3",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx086.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx086_1794132993684_6727a5ec.png",
+   "bytes": 1577638,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "1491e0697e42af40b58c8f2126021e6fff890185c1eba4cd4d874b9d97bb6a64",
+   "timestamp_ms": 1794133001024
+  },
+  {
+   "id": "idx087",
+   "sink": "87",
+   "name": "临床试验支持培训-A04",
+   "prompt_file": "数据/卡面主图提示词3x4/idx087-临床试验支持培训-A04.txt",
+   "prompt_sha256": "44875a012294b44cb92732ecc0f22293a98bf34e80a22823b4f06ca49e8c43a4",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx087.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx087_1794133047153_422fbb47.png",
+   "bytes": 1266510,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "092ca5c81cdbd094e232a7ca0b4c0f4a6237ae4d1be4e18bed0e22a40a18bc85",
+   "timestamp_ms": 1794133057271
+  },
+  {
+   "id": "idx088",
+   "sink": "88",
+   "name": "仓储作业实训-A12",
+   "prompt_file": "数据/卡面主图提示词3x4/idx088-仓储作业实训-A12.txt",
+   "prompt_sha256": "02f4cda1f781b913bdf8634dfc446582f6bf66e74d0f3981ae4942d2d5afc8b9",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx088.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx088_1794132398262_05712fab.png",
+   "bytes": 1475801,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "cc8b3b0d2d6d5c8c5c3e347067f573f8138691eb400d04662914c1fe299d6439",
+   "timestamp_ms": 1794132408100
+  },
+  {
+   "id": "idx089",
+   "sink": "89",
+   "name": "会展策划培训-A09",
+   "prompt_file": "数据/卡面主图提示词3x4/idx089-会展策划培训-A09.txt",
+   "prompt_sha256": "2789de366edb62beb93aa126814a95528167711472a852582da23fa1a0d48cf7",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx089.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx089_1794132461468_c4cead80.png",
+   "bytes": 1440570,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "1b6833495d96f3ba66f3e29696a3f5add10cee1be83b9109ceffa6f26d015285",
+   "timestamp_ms": 1794132486961
+  },
+  {
+   "id": "idx090",
+   "sink": "90",
+   "name": "会计从业考-A08",
+   "prompt_file": "数据/卡面主图提示词3x4/idx090-会计从业考-A08.txt",
+   "prompt_sha256": "9a86892237e22286d9b6d56d57a6c2c7c7405e9e5f89c287c2c6e5be4134b942",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx090.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx090_1794132535345_eb67078d.png",
+   "bytes": 1491010,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "f352653fb8a5accb73955631a2ff0962ba8fcb898d262e3edb3bbfd89e89ddb0",
+   "timestamp_ms": 1794132545958
+  },
+  {
+   "id": "idx091",
+   "sink": "91",
+   "name": "光伏运维实训-A16",
+   "prompt_file": "数据/卡面主图提示词3x4/idx091-光伏运维实训-A16.txt",
+   "prompt_sha256": "467754379c798065b5e9ba888df39b30854c9c4eb14582f11b1efa4d7abfc741",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx091.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx091_1794132594904_825fc368.png",
+   "bytes": 1571357,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "ee2026c40041d0d315110bdb8df2d4d808a7c32fa3e64517133b740106ac0313",
+   "timestamp_ms": 1794132607121
+  },
+  {
+   "id": "idx092",
+   "sink": "92",
+   "name": "净水运维实训-A17",
+   "prompt_file": "数据/卡面主图提示词3x4/idx092-净水运维实训-A17.txt",
+   "prompt_sha256": "363309f254a628c86a11cde34587a8842163146f09344656697d43d3ffe371d6",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx092.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx092_1794132653542_ac8161e7.png",
+   "bytes": 1475814,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "5b7ea92af857e4600e525d8b5391a0fba9b02e296be1f089fba704359e72f888",
+   "timestamp_ms": 1794132661966
+  },
+  {
+   "id": "idx093",
+   "sink": "93",
+   "name": "手作工坊技艺-A19",
+   "prompt_file": "数据/卡面主图提示词3x4/idx093-手作工坊技艺-A19.txt",
+   "prompt_sha256": "8e9ba059399f867d2dcec86de6fe6a42dd65f551893d5315fa7b60824eaae9db",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx093.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx093_1794132711342_249a03b8.png",
+   "bytes": 1587621,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "d1f5895605818852f8709012b8d2c176a2820d1657fda5edfbe9be22e102504a",
+   "timestamp_ms": 1794132722085
+  },
+  {
+   "id": "idx094",
+   "sink": "94",
+   "name": "护理照护训练-A03",
+   "prompt_file": "数据/卡面主图提示词3x4/idx094-护理照护训练-A03.txt",
+   "prompt_sha256": "5f3771a3f03b77969a9d74272ad87c8bbafb993eba2cf2c10b24eb5271f31541",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx094.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx094_1794132769845_6d48d32e.png",
+   "bytes": 1488416,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "2360ff6da745fd864c5cd749e000ff363f635ad1242725725e0fe3d9a13a714a",
+   "timestamp_ms": 1794132778866
+  },
+  {
+   "id": "idx095",
+   "sink": "95",
+   "name": "政务规范结业-A01",
+   "prompt_file": "数据/卡面主图提示词3x4/idx095-政务规范结业-A01.txt",
+   "prompt_sha256": "69f9c391e91783bc2538babc7c8bc1dfad7a81946e2362881d0fb55e3724a3ef",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx095.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx095_1794132825727_b1603d37.png",
+   "bytes": 1434642,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "25e12bde8b51826324a6f800ecf52960e5e42627fb15e7013d80cdb450d42fc1",
+   "timestamp_ms": 1794132834916
+  },
+  {
+   "id": "idx096",
+   "sink": "96",
+   "name": "教师资格认证-A02",
+   "prompt_file": "数据/卡面主图提示词3x4/idx096-教师资格认证-A02.txt",
+   "prompt_sha256": "534c9b6a67439b9e610369a921c8d0a3b118d0cc833be569bdc27e0accfea6a4",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx096.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx096_1794132880400_639062f2.png",
+   "bytes": 1595756,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "d3a3fe10db9661e342c3767fefb7d631743e3d325f5346c79efa35352f8b7852",
+   "timestamp_ms": 1794132889375
+  },
+  {
+   "id": "idx097",
+   "sink": "97",
+   "name": "机器人集成实训-A15",
+   "prompt_file": "数据/卡面主图提示词3x4/idx097-机器人集成实训-A15.txt",
+   "prompt_sha256": "0506d3d0b5ad99cd3f76e5a5baaa1e5bcf454458e13f8c35a6ca387e5669303b",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx097.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx097_1794132925834_70a7492d.png",
+   "bytes": 1636904,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "d5a2cfebd607d4b04192ae23f237d913a0cdf8fb5a6fd550740d21871e616d1a",
+   "timestamp_ms": 1794132936700
+  },
+  {
+   "id": "idx099",
+   "sink": "99",
+   "name": "物业运维实训-A20",
+   "prompt_file": "数据/卡面主图提示词3x4/idx099-物业运维实训-A20.txt",
+   "prompt_sha256": "463bb52c70581faf4730cef872ebdda9feee3ecc4f38bf593cef5807a72ac371",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx099.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx099_1794132977643_f9e8443d.png",
+   "bytes": 1495304,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "33367af43540582708bc4cbf79a6aa4ff5b11134d7e6b18c44d43924dcf8b76c",
+   "timestamp_ms": 1794132987150
+  },
+  {
+   "id": "idx100",
+   "sink": "100",
+   "name": "直播运营实训-A07",
+   "prompt_file": "数据/卡面主图提示词3x4/idx100-直播运营实训-A07.txt",
+   "prompt_sha256": "0d55b92f7d80767e40e76145a4201ba6f9fbf600ab3a90f19d797fc7b4063860",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx100.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx100_1794132430371_39f9b586.png",
+   "bytes": 1412677,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "576e226347724b00267cf26066768f68d4e066c6982b15866f679142a758a02c",
+   "timestamp_ms": 1794132450988
+  },
+  {
+   "id": "idx101",
+   "sink": "101",
+   "name": "精密仪器操作证-A05",
+   "prompt_file": "数据/卡面主图提示词3x4/idx101-精密仪器操作证-A05.txt",
+   "prompt_sha256": "061c00b15070f2761905447ca8ea326635b472a48dd5c021c28880475ea62015",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx101.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx101_1794132504515_0048a030.png",
+   "bytes": 1510378,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "7724d0a494d35f9ac79753d8a7ae53e26db6d345117c7bc31d353660e8b9fa4f",
+   "timestamp_ms": 1794132515836
+  },
+  {
+   "id": "idx103",
+   "sink": "103",
+   "name": "装配技能证-A13",
+   "prompt_file": "数据/卡面主图提示词3x4/idx103-装配技能证-A13.txt",
+   "prompt_sha256": "54f46c375e6ee6daa22c72a0f749b590927d0dc295f895ecbc02e26caf8ac535",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx103.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx103_1794132567109_9c5501bb.png",
+   "bytes": 1390861,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "7f3a0c3a82458939d311b0ae82d93daa0dbf08fee1a7b8faa14a7f2b373420b0",
+   "timestamp_ms": 1794132579187
+  },
+  {
+   "id": "idx104",
+   "sink": "104",
+   "name": "配送安全实训-A11",
+   "prompt_file": "数据/卡面主图提示词3x4/idx104-配送安全实训-A11.txt",
+   "prompt_sha256": "283c073b0f1e4ddc74f7f049f7395f5e5e23368053dd7cbd6907b8437472076d",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx104.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx104_1794132630525_2a085757.png",
+   "bytes": 1459878,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "38061be7e27e38517b314199eadedd176ddcf388e95698f2e13c96e51103d755",
+   "timestamp_ms": 1794132641123
+  },
+  {
+   "id": "idx105",
+   "sink": "105",
+   "name": "零售运营实训-A10",
+   "prompt_file": "数据/卡面主图提示词3x4/idx105-零售运营实训-A10.txt",
+   "prompt_sha256": "45bce8b7671da4b5c6b441e2b69ca8235946b05f969222809dacd7cd09b52ea8",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx105.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx105_1794132699851_cee200a8.png",
+   "bytes": 1631493,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "b2878aa9793512ba7986433b4930358ba125f52be4ee2cf0a95df87927336bf9",
+   "timestamp_ms": 1794132710592
+  },
+  {
+   "id": "idx106",
+   "sink": "106",
+   "name": "食品检测证-A18",
+   "prompt_file": "数据/卡面主图提示词3x4/idx106-食品检测证-A18.txt",
+   "prompt_sha256": "f46fb788a8cbdd1b65d612d4339d9a4fe4c9efe187710b5f3f88394eb4af5db0",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx106.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx106_1794132761594_5bab9e23.png",
+   "bytes": 1319300,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "d509620001f096e53265ab84ddd64ceca7a53921e13515789439455aeaf00c0f",
+   "timestamp_ms": 1794132774322
+  },
+  {
+   "id": "idx107",
+   "sink": "107",
+   "name": "高级工程师答辩-A06",
+   "prompt_file": "数据/卡面主图提示词3x4/idx107-高级工程师答辩-A06.txt",
+   "prompt_sha256": "de009cda03c75850ac620936053116e536472741cce8017136a6e6243915f370",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx107.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx107_1794132821565_8c5c0fc0.png",
+   "bytes": 1252117,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "5d884ca9b5ae04e0adb4c72df001765c9b1e2777622bd4ddfc2fa354070ded1b",
+   "timestamp_ms": 1794132832943
+  },
+  {
+   "id": "idx108",
+   "sink": "108",
+   "name": "危机谈判-实战-情商",
+   "prompt_file": "数据/卡面主图提示词3x4/idx108-危机谈判-实战-情商.txt",
+   "prompt_sha256": "36bbc8535e9906a7776d54cf68b92994a49185888e897cfd00b8328444ee0c19",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx108.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx108_1794132878619_ea201c41.png",
+   "bytes": 1198815,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "b60c7f7a705842d939c5977b47d4dc4c1b8589632f31525caf08b8c8bc51f97d",
+   "timestamp_ms": 1794132889861
+  },
+  {
+   "id": "idx110",
+   "sink": "110",
+   "name": "深夜自习-学习-智力",
+   "prompt_file": "数据/卡面主图提示词3x4/idx110-深夜自习-学习-智力.txt",
+   "prompt_sha256": "293b875c8da7f76e6d5ca849a40085f811b2268d94a854421bed191ced456eb9",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx110.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx110_1794132936144_af2c039c.png",
+   "bytes": 1103709,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "913c97ec5d31a84f1ef4d87535e3646eda7bc99424a1884b5506fd52f37dba4f",
+   "timestamp_ms": 1794132947125
+  },
+  {
+   "id": "idx112",
+   "sink": "112",
+   "name": "长跑习惯-习惯-体力",
+   "prompt_file": "数据/卡面主图提示词3x4/idx112-长跑习惯-习惯-体力.txt",
+   "prompt_sha256": "6444cbaad6e7a7741d2e75ae4e49e7a8b3bd0b400ec104a8be356860f4a8f603",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx112.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx112_1794132994450_6f2f4f68.png",
+   "bytes": 1482408,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "6da39dcf27c6e368c83826b2b76701ab699fb8d50fddb2cc43766c32ac510c1f",
+   "timestamp_ms": 1794133006801
+  },
+  {
+   "id": "idx116",
+   "sink": "116",
+   "name": "钛湖之脊",
+   "prompt_file": "数据/卡面主图提示词3x4/idx116-钛湖之脊.txt",
+   "prompt_sha256": "4ffa2a5a6f3a765013934c41d0e2bbb482915f2f2934d4c4c0da06779d1b957e",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx116.png",
+   "imagegen_path": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\vibe_images\\card3x4-idx116_1794133055406_44170998.png",
+   "bytes": 1202118,
+   "size": [
+    768,
+    1024
+   ],
+   "landing_sha256": "938358b18dcfca69498516cb80dea36b2fa0a213494c79187dde08c938696743",
+   "timestamp_ms": 1794133066075
+  }
+ ],
+ "问题清单": []
+}

@@ -1,0 +1,784 @@
+{
+ "生成者": "本文件为 34 张待投卡面的主图正文真源；串由 工具/build_card_main_prompts.py 的 pending 支路拼装（骨架五段逐字复用 80 张同源件，画幅约束改用本文件的 CLAUSE_SCENE）",
+ "口径": "2026-11-08 用户「都做」批准投放 34 张实景待投（C149）。职业卡 20 的场景取 数据/产业就业正典.json 行业.大类 与 数据/城市空间名录.json 可落锚点，兑换/物品/能力/景群共 11 张的实景方向由代理代定、逐条标注供推翻；画风侧沿用 E1（半写实数字绘画）与 C133 冻结的骨架五段，不改写正典段。",
+ "画幅": "768x1024",
+ "CLAUSE_SCENE": "画幅为3:4竖幅（768×1024，满幅铺整卡，不作裁切适配）：主体与关键人物完整入画，头面、手部与所用器械一律不得裁切，叙事主体竖向轮廓居中略偏上；顶部留出不少于画面高度14%的文字安全区（卡名与副标题由页面叠在此处，该带只许天面、上部墙体或均匀暗部，不得有枝叶、构件、灯杆或人物头部切入），底部留出不少于画面高度22%的暗部安全区（底部文案浮层叠在此处，该带以地面、阴影与实物体量为主，不放关键构件、不放人物正面与可读招牌，画面下沿12%内保持均匀暗面）；本条只改画幅与上下安全区，主体外观、光照方位与人物密度沿用下文原句，不因此增删场景构件；竖幅只是同一机位的画幅变化，不因此获得新的背景授权：背景只许出现【取景指令】逐一点名的对象，未点名的现代高层群、玻璃塔群与塔吊一律不入画。",
+ "骨架": {
+  "画风锚点": "【画风锚点】medium is a semi-realistic digital painting: glass, stone, fabric, foliage and sky are smoothly blended painted areas with no visible impasto and no dry-brush edges, and skin is clean and blended with no brush strokes on it; the picture still reads as a painting because of its soft hand-mixed transitions, its drawn edges and its idealized features, not because of thick paint; painted illustration rather than a snapshot; the Chinese sections below describe the subject, not the medium",
+  "全局硬设定": "【全局硬设定】虚构城市钛湖城，2013年，当代现实技术；「顶级现代化」按2010年代前沿读：玻璃塔群、LED媒体立面、地下环道与综合管廊、城市轨道与枢纽换乘、光纤到楼、洁净实验室与数据中心、自助闸机、电动大巴、施工围挡与吊装作业；不得用飞行汽车、载人无人机、全息投影、机器人服务员、自动驾驶车队或赛博义体表达现代性，不是赛博朋克；城市定位：顶级现代化科技城市 × 保存完好的中国老城街巷 × 烟火气。同一画面里科技层与老城层必须有物理接触，天上现代、地上生活——高层与设备在画面上半，人流与生活痕迹在画面下半；只有玻璃幕墙或只有仿古街都算不合格；画风：半写实数字绘画，颜料一律铺成平滑过渡、不做厚涂堆叠与干笔边缘，皮肤不带笔触也不画毛孔，表面是画出来的，不是照片，也不是描边平涂的动画赛璐璐；画感由柔和过渡、勾形与轻微理想化的五官承担；人物保持真实比例与实际年龄特征；本地坐标：湖心(0,0)，x向东、y向北，单位千米；方位北0°顺时针；中心湖约6.4×4.2千米椭圆，四面环山；清岚河西北入湖，澜川东南外流；默认光照：晚秋，太阳方位255°、高度6°，能见度12至18千米；清晨、夜景、雨后、阴天须显式标注为变体；天际线分层：L066钛心金融主塔458米为全城第一，L007钛湖之脊368米（含针状天线）为第二；200米以上的塔楼在内湖环金融与枢纽片区成簇，逐栋参数以空间名录为准，提示词内不复数；成簇只是正典事实、不构成本条画面的授权，背景天际线只许画【取景指令】逐一点名的独立远景对象，未点名者一律不入画；本条正文里的「远景」二字常指主体自身的远处构件，不构成另画一片城市背景或超高层塔群的许可；非对称直线斜削冠与细针状天线的组合只属于L007，任何其它塔楼不得复制该冠部；L007与L066均为直线形体，不得扭转；机场只在S02山外，跑道东西向3.2千米；不得出现第二个机场；禁止：湖中高楼、海港、大型人工岛、飞行汽车、把L007的斜削冠与针状天线安到别的塔楼上；山体遮挡：外围村镇通常不能透山看到湖面或主城天际线；正文中的无水印禁则指第三方或模型生成的水印、台标、logo与签名；招牌、店招、灯箱与门牌必须存在，但字形须是不可读的模糊笔画，不得形成可拼读的汉字或拉丁词，也不得凭空造出可读标语；平台强制AIGC角标与XMP中的TC260元数据标识不属禁则，须原样保留，不得裁剪、遮盖或修补",
+  "English tail 风格前缀": "English tail: semi-realistic digital painting, smoothly blended paint on glass, stone, fabric and foliage with no impasto texture and no dry-brush edges, clean blended skin, sky as a smooth blended gradient, warm late-autumn palette, illustrated cityscape rather than a snapshot,",
+  "English tail 禁则后缀": "painted material texture, everyday people doing everyday things, street life must read as physical traces, at least three of: hanging laundry, potted plants and rooftop planting, market crates mid-unload, steam off a street food stall, lit shop lampboxes, parked bicycles and scooters, elders playing chess on backed stools, parents collecting children, construction hoarding with a tower crane, rubbish collection point and truck, a dog on a lead, puddle reflections after rain, shop signboards, banners, lampboxes and door plates must exist along the street, drawn as blurred non-readable strokes; they must not spell legible characters or Latin words and must not invent a readable slogan, not a photograph, no photorealistic pore detail, no lens grain as the look, not a 3D render, no cel outline, no flat cel fills, not a cartoon, not an idol illustration; era 2013: no flying cars, no holograms, no humanoid robots, no cyberpunk, no near-future sci-fi, no autonomous vehicle fleets, no neon-drenched street replacing street life; no recognizable real-world skyline (Lujiazui, Hong Kong, Shenzhen Bay, Manhattan, Dubai, Chicago) and no crown, twist or aperture copied from a real supertall; nothing written on the ground or pavement in any corner; no letter-shaped signature cluster, monogram or floating glyph strokes on street surfaces, kerbs or in the four corners of the frame, no third-party or model-generated watermark, logo or signature, preserve mandatory platform AIGC labels and TC260 XMP metadata unchanged, no invented landmark, everything above in the Chinese canon sections overrides this line.",
+  "English tail 画幅句": "3:4 portrait 768x1024, full-bleed inside the card with no crop; any 3:2 banner wording elsewhere in this prompt is superseded by this clause; main subject and key figures fully inside the frame; the top 14 percent of the frame is sky, upper wall or even dark tone and the bottom 22 percent is ground, shadow and solid mass, both reserved for the page's overlaid text,"
+ },
+ "骨架出处": "骨架五段一律取自 80 张同源件的 3:2 原文（数据/开图提示词/，经 数据/卡面主图提示词3x4/台账.json 的 base_prompt_file 列出），取段用 ^【段名】 行首正则而非子串 find；English tail 取全 80 条的最长公共前缀与最长公共后缀，主体句与机位几何句属逐卡差异段、不进骨架。",
+ "骨架指纹": {
+  "画风锚点": "b664631db5ba",
+  "全局硬设定": "3c68e9975054",
+  "English tail 风格前缀": "45702797c46d",
+  "English tail 禁则后缀": "1ea290f20a34",
+  "English tail 画幅句": "c68bbbb6602d"
+ },
+ "items": [
+  {
+   "idx": 7,
+   "name": "T1轻量-城市主题壁纸包",
+   "card_type": "兑换卡",
+   "anchor": "L012 水光游客中心（3.324,-1.842）",
+   "方向依据": "底稿_idx7：兑换卡·T1，bottom_text『城市主题壁纸包，每月1次（现实时间）』，OCR副题提示门槛约50积分，属最低档高频权益，应选最公共、门槛最低的领取场所。落点用名录L012水光游客中心，type标志性建筑，center_km(3.324,-1.842)，focus会议展览旅游与接待、visual浅香槟金属折板大屋顶通透门厅，正合『城市形象领取处』。不选站厅方案：与T4、74场景同构，档位差难拉开；不选门洞木牌方案：无兑换动作与包装体量，画面失去兑换叙事。",
+   "sections": {
+    "画面定位": "位于钛湖东南岸的水光游客中心，中心坐标(3.324,-1.842)千米。",
+    "取景指令": "在L012水光游客中心西侧檐下广场离地1.5米朝东，使用32毫米镜头。7秒沿檐下向南平移，前景为举着手机刚选完画面的游客，中景为自助影像终端与短队列，远景呈现本馆浅折板屋顶挑檐端部和随空气透视变淡的湖面与北岸林带。255°夕阳从相机右后方擦亮香槟色金属挑檐板与终端不锈钢肩，东向画面不出现身后湖湾渡站台；声音为快门提示音、队列低声商量和湖面风掠檐声。",
+    "外观辨识": "通透门厅上方的内嵌LED媒体立面占约两层高，画面是湖光、老城灰瓦顶与玻璃塔群剪影的城市主题影像，媒体帧之间以均匀深香槟色金属板分隔；檐下三台银灰自助终端立式触屏面朝街，屏幕内容为纯色块与模糊笔画纹理；地面浅灰石材与常绿树池相间，电动大巴在广场边停靠一角，施工围挡在远处只露一小段。",
+    "人群与烟火气": "周末傍晚的团队散客、带娃家庭、结伴学生和慢跑回程的居民混编。前景3—6人主体组：一对年轻人凑在手机上互选壁纸，一位老人让孙子教他把媒体墙画面存进手机，旁边有人举机对着终端拍照。午后短时高峰排队约二十人，入夜后终端保留照明仍可自助使用，公共免费、无人值守式领取。密度档取15—40人档的上沿，体现T1低门槛高频的大众感；科技层（媒体墙、自助终端、光纤屏）与生活层（举着手机的老人孩子、树池石裙边）在同一个领取动作里接触。",
+    "锁定与禁则": "锁定浅香槟折板檐口、内嵌媒体墙、檐下立式自助终端与树池石裙边。屏幕与海报文字一律模糊笔画，不得拼读；禁全息投影、载人无人机、机器人引导员；不作卡面外框、编号与角标；远景只许湖面与北岸林带，不得移入超高层塔群。"
+   },
+   "tail_extra": "Foreground props specific to this card: a freestanding self-service kiosk with a brushed steel body and a waist-high screen showing abstract colour blocks of city scenery, two teenagers huddled over a 2013-era slab smartphone selecting wallpapers, an elderly visitor being pointed at the screen by a child. The LED media wall above the colonnade displays only soft painterly cityscapes—lake glitter, grey-tile old roofs, tower silhouettes—never readable glyphs, never celebrity faces, never brand marks. Electric shuttle buses parked at the plaza edge, low stone planters, wet-swept granite. Prohibited: holographic panels, floating drones, service robots, card-frame borders, corner indices, any legible Chinese or Latin lettering on screens, kiosks or backpacks. Late-autumn 255-degree low sun rakes the champagne-metal eave from behind the camera's right shoulder; keep the sun disc outside the frame.,",
+   "分片": "pending_specs_shardC.json",
+   "方向备选": [
+    {
+     "方向": "水光游客中心檐下自助影像台：游客把LED媒体墙上的城市画面选进手机",
+     "理由": "壁纸是无实体轻权益，天然对应游客中心『城市形象→个人手机』的领取动作；T1每月1次、门槛最低，公共可及度最高，人流密度也最大",
+     "风险": "媒体墙屏幕内容易生成可读文字或假logo，需强禁"
+    },
+    {
+     "方向": "轨道站厅自助闸机旁的大屏城市风光",
+     "理由": "闸机与屏是2013年最日常的城市科技层，通勤人群烟火气足",
+     "风险": "站厅与T4会展门厅、74折叠车同构，五张档位差会被拉平"
+    },
+    {
+     "方向": "老城门洞口的旧地图木牌与新壁纸海报并置",
+     "理由": "新旧同屏最有钛湖反差感",
+     "风险": "无实体包装可拍，画面退化成街景卡，兑换感缺失"
+    }
+   ],
+   "选定方向": "水光游客中心檐下自助影像台：媒体墙滚动播放钛湖四季城市画面，游客在自助终端把壁纸包选入手机"
+  },
+  {
+   "idx": 8,
+   "name": "T2纪念-典藏明信片套装",
+   "card_type": "兑换卡",
+   "anchor": "L065 校园书市商廊（2.375,2.503）",
+   "方向依据": "底稿_idx8：兑换卡·T2，bottom_text『典藏明信片套装，每季1次（现实时间）』，OCR提示门槛约150积分，属中低档纪念品。落点用名录L065校园书市商廊，center_km(2.375,2.503)，visual红褐砖、浅灰预制混凝土、内院和高树冠步道，底商连廊适合摆摊。不选邮亭：名录查无实体条目；不选FE-18兑换角：有积分依据却毁掉纪念典藏气质且距离过远使远景授权失控。物价正典PRD-CULT-05纸质书证明纸质文化商品在城市账本里有既有品类。",
+   "sections": {
+    "画面定位": "位于钛湖东北文教片区的校园书市商廊，中心坐标(2.375,2.503)千米。",
+    "取景指令": "在L065校园书市商廊北段底商连廊下离地1.35米朝南，使用35毫米镜头。6秒沿连廊缓缓前推，前景为摊面上竖开的明信片套装与一枚捏在指间的单卡，中景为俯身挑卡的学生和守摊递整套的售货员，远景呈现连廊尽头的红褐砖柱廊、高树冠步道和更远处L005北书科学博物馆的红砖体量顶部。255°夕光从相机左后方斜入连廊口，只擦亮外侧檐口与纸卡覆膜的反光带，廊内以摊头暖灯为主；南向画面不出现身后商廊塔楼玻璃幕墙主面；声音为翻纸声、自行车铃和远处校园广播的含混尾音。",
+    "外观辨识": "木条货架与翻扣纸箱摞成半围合摊位，明信片以牛皮纸封套与透明塑膜成束包装，卡面图案是湖、桥、老城屋脊与钟楼的彩绘图像，一切卡面与封套文字呈不可读模糊笔画；摊角立小型木质印章台和墨绿印泥盒，盖戳图案为几何纹；连廊钢柱与遮雨顶棚把摊位于人流中固定，柱侧光纤到楼的浅灰信息箱一闪而过，属科技层的生活角落。",
+    "人群与烟火气": "下课学生、结伴写卡寄友的青年、带孩子的教师、路过挑两张的退休职工混流。主体3—6人组：一名男生俯身从整套里抽卡比对，两名女生趴在小桌上各写一张，摊主双手递出一套未拆封典藏组。傍晚散摊前人最密，合计15—40人中档；周末有外摊展销手作件、讲工艺记意向的市集售货员式摊位（OCC-A19-B08-04既有职业）。挑摊免费围观，兑换按登记积分划扣，不构成消费门槛。",
+    "锁定与禁则": "锁定木架纸卡、牛皮封套、印章台与连廊钢柱。卡面、封套、桌牌文字全部模糊笔画，不得拼读汉字或拉丁词；禁全息、禁平板点单屏特写；不出现编号角标与卡名文字；不加装帧外框；远景只许点名的红砖柱廊与L005顶部，不得引入金融塔群。"
+   },
+   "tail_extra": "Scene-specific props: a slatted wooden market stall under a rain-sheltered colonnade, stacks of postcards bundled in kraft-paper sleeves and clear film, one full collector set fanned open in the vendor's hands, two girls writing on cards leaning over a small varnished desk, a stamping corner with a wooden stand and dark green ink pads pressing geometric non-readable seals. Card artwork is painted lake views, bell towers and old grey roofs only. No legible text on any card face, sleeve, table sign or backpack patch—blurred brush strokes at most. No holograms, no tablet checkout screens in close-up, no card borders or corner numbers. Late-autumn low sun at 255 degrees enters from behind the camera's left shoulder, glazing the colonnade's outer eave and the plastic wrap into a thin warm band while stall interiors stay lamplit; distant view limited to red-brick campus arcades and the named brick museum crown.,",
+   "分片": "pending_specs_shardC.json",
+   "方向备选": [
+    {
+     "方向": "校园书市商廊底商明信片挑摊：成套卡纸在木架与牛皮纸封包里被拆开展示",
+     "理由": "L065是名录里唯一以书市纸品交易为锚的地标，明信片落此最顺；文教区人流有逛摊挑一套的日常动作",
+     "风险": "摊面容易生成可读标题字，需显式禁"
+    },
+    {
+     "方向": "北湖政务片区银杏广场旁的纪念邮亭",
+     "理由": "寄信动作直接",
+     "风险": "名录312条中查无独立邮亭条目，落点须新造，违反只用真实name的约束"
+    },
+    {
+     "方向": "回环循环小镇分类兑换角的旧物纸箱堆",
+     "理由": "流程制度正典FE-18回环分类日确有分类兑换角与旧物估价台，兑换语义最硬",
+     "风险": "S16在28千米外隔离台地，灰绿厂房气质与典藏纪念违和，档感像回收站"
+    }
+   ],
+   "选定方向": "校园书市商廊底商连廊下的明信片挑摊：一整套塑封典藏明信片被摊主拆开展示，学生伏在小桌上写卡"
+  },
+  {
+   "idx": 9,
+   "name": "T3典藏-文创手办",
+   "card_type": "兑换卡",
+   "anchor": "L021 风帆设计工坊（-2.779,-2.592）",
+   "方向依据": "底稿_idx9：兑换卡·T3，bottom_text『典藏级别·城市设定集文创手办/实体徽章』，无频次字段，说明非日常高频、偏预约制。落点用名录L021风帆设计工坊，center_km(-2.779,-2.592)，visual深红砖、黑钢窗、旧厂锯齿屋顶，与『设计工坊出品』互证，所在F014旧炉设计与影像园focus即设计。职业侧OCC-A07-B07-01平面设计师出稿交付印稿的日常循环支持设计物从工坊出库的叙事。不选L005：会把典藏降格成旅游柜台；不选L016：与_idx8同为摊位挑货构图，档位差塌陷。",
+   "sections": {
+    "画面定位": "位于钛湖西南文艺片区的风帆设计工坊，中心坐标(-2.779,-2.592)千米。",
+    "取景指令": "在L021风帆设计工坊一层靠南的样架区离地1.2米朝北，使用40毫米镜头。5秒顺长案横向缓移，前景为半开箱的泡沫内衬与一只正取出微缩城市手办的手，中景为排开的金属徽章托盘与两位俯身端详的领取人，远景呈现黑钢窗格、锯齿屋顶的天窗光带和深处图纸台上亮着的台灯。255°晚秋夕光从南窗低角平射进来，沿长案拉出细长暖光带擦亮手办树脂边与徽章金属面，北墙纵深保持均匀暗部；窗外街面只可闻不可见；声音为极轻的泡沫摩擦、低声比对和窗外隐约市声。",
+    "外观辨识": "深红砖墙与黑钢窗，锯齿屋顶天窗的格栅光落在浅木长案上；样架为浅灰金属与木夹板组合，层板上微缩地标手办以素色树脂与哑光喷涂呈现，含钟楼、斜削冠塔、老城牌坊等剪影；实体徽章在分格托盘里排成阵列，表面是几何化的湖形与帆形浮雕；包装为无字灰纸盒与麻布内衬，一切标签文字呈模糊笔画；图纸台、裁切垫和卡规是工坊在场物。",
+    "人群与烟火气": "本卡以静物为主，人群降档为6—15人，降档理由是典藏预约制场景不该有人潮：室内两名预约领取者隔样架细看、一名工坊人员托盒递样、一名设计师在图纸台前勾样，窗外连廊与院口稀落五至八人路过闲聊。午后为预约领取时段，入夜后设计区台灯仍亮属夜间文化常态。领取凭登记到访，不排队拥挤；科技层（造物工坊、图纸台、样架灯光）与生活层（红砖旧厂、连廊市声）同屏。",
+    "锁定与禁则": "锁定红砖黑钢窗、锯齿天窗光带、长案样架与分格徽章盘。手办不得画成机甲或名人形象；一切包装标签模糊笔画不可拼读；禁3D打印机床特写、禁全息展示柜；无编号角标、无卡名文字、无外框装帧；窗外不许出现可读招牌或超高层塔群。"
+   },
+   "tail_extra": "Scene-specific objects: a half-opened plain grey gift box with foam lining, a hand lifting a miniature resin landmark figurine with a matte-painted silhouetted tower, bell tower and old-town arch; a tray of fanned metal lapel badges with geometric lake and sail reliefs; rows of identical unlabeled boxes on birch-ply shelving against red-brick walls; a designer's drafting table with ruler, cutting mat and a warm task lamp under sawtooth skylight bands; two visitors leaning close, comparing a piece to its shadow. All packaging text is blurred pseudo-strokes, never readable words; figurines are city-scale models, not mecha or celebrity characters. No hologram displays, no visible 3D printer, no frame borders. Low 255-degree late-autumn sun grazes the long bench through southern steel windows, rimming resin edges; the north end of the hall stays in even shadow.,",
+   "分片": "pending_specs_shardC.json",
+   "方向备选": [
+    {
+     "方向": "风帆设计工坊一层成品样架间：微缩城市地标手办与金属徽章在长案上被预约领取者端详",
+     "理由": "L021以设计与夜间文化为focus、旧厂锯齿屋顶，造物现场最能撑典藏级别，手办徽章在此有出处的感觉而非商品货架",
+     "风险": "静物为主，人群烟火气需靠窗外街层补足"
+    },
+    {
+     "方向": "北书科学博物馆门厅文创柜",
+     "理由": "公知场景，参观人流天然",
+     "风险": "L005主叙事是科普展陈，手办柜会显得喧宾且像旅游纪念品摊，掉档"
+    },
+    {
+     "方向": "南湖百业市场二层手作区",
+     "理由": "烟火气最足、价格感亲民",
+     "风险": "与T2挑摊视觉重复，典藏感被市集气质冲淡"
+    }
+   ],
+   "选定方向": "风帆设计工坊锯齿屋顶下的成品样架间：一只微缩城市手办开箱上架，徽章托盘在长案排开，领取人隔样架细看"
+  },
+  {
+   "idx": 10,
+   "name": "T4纪念级-联名实物礼盒",
+   "card_type": "兑换卡",
+   "anchor": "L010 钛湖国际会展中心（3.772,-0.463）",
+   "方向依据": "底稿_idx10：兑换卡·T4，bottom_text『联名实物礼盒，每年1次（现实时间）』，OCR提示门槛约1000积分，高额低频，需要规模加秩序的仪式感。落点用名录L010钛湖国际会展中心，center_km(3.772,-0.463)，visual浅香槟金属折板大屋顶、通透门厅和疏林广场；岗位准入正典SCN-A09-2会展旅游与接待对外交付节点给交付点单提供既有口径。不选L011：背景授权复杂且私密分发掉排场；不选F036：与_idx70同锚互吃。全卡不得出现真实品牌，联名只以素色压纹与模糊笔画表达。",
+   "sections": {
+    "画面定位": "位于钛湖东南会展片区的钛湖国际会展中心，中心坐标(3.772,-0.463)千米。",
+    "取景指令": "在L010国际会展中心南向前厅玻璃门内离地1.5米朝北，使用28毫米镜头。7秒自门厅入口向主展台缓推，前景为一只刚放下、封箱带尚卷着的木色礼盒，中景为码成矮墙的礼盒山与两名弯腰点数的工作人员、一侧的兑换登记台短列，远景呈现通透门厅尽头的折板大屋顶底面、高侧窗光带和门外疏林广场的树梢。255°夕光从玻璃门厅侧低角切入，在地砖铺出长条暖光并把礼盒侧棱擦亮，屋盖底面保持深侧；门外广场只露一角；声音为胶带撕拉、推车脚轮、点名报数的低声和门外风过树梢。",
+    "外观辨识": "浅香槟金属折板屋顶在室内露出整齐的板底肋线，通高玻璃门厅把疏林广场框成背景；礼盒为木色与灰绿两系素面硬盒，缎带与压纹只有几何暗纹，盒标是模糊笔画；礼盒山码放不超过一人高，边线齐整并置于周转托盘上；登记台为长条浅灰桌加自助登记屏，屏幕仅显示色块；不锈钢行李车与剪叉式登高平台在远侧一角，施工围挡在室外装卸口露出窄段。",
+    "人群与烟火气": "布展日午前：会务核验员两两一组逐箱对单，兑换登记台前约十几位持积分登记的市民排短列，一名母亲托孩子抱走一只小盒，搬运工把推车归位。合计15—40人中档，主体3—6人组为核验员、登记员、一家三口与搬运工各就其位，正在点单、登记、搬卸、开箱验视。下午转场后人稀只余值班台；年度发放凭当日登记入场，公共可及但节奏被流程管住，这正是T4对T1、T2的档位差。",
+    "锁定与禁则": "锁定折板屋顶板底肋线、通高玻璃门厅、素面礼盒与一人高以下的码放线。禁真实品牌名与任何可拼读文字，盒标一律模糊笔画；禁无人机巡场、机器人搬运、全息吊牌；无编号角标与卡名文字；不加外框；门外背景只许疏林广场树梢，不得引入金融塔群。"
+   },
+   "tail_extra": "Scene-specific objects: a freshly set-down plain wood-tone gift crate with a curling strapping band, two staff crouching to tick boxes against a clipboard list, a waist-high wall of identical unbranded crates in wood-tone and grey-green on pallets, a long pale registration counter with a self-service screen showing colour blocks only, a steel luggage trolley and a scissor lift parked far side, a narrow slice of construction hoarding at the outdoor dock beyond the glass. Ribbon and embossing are purely geometric; every label is blurred pseudo-strokes, no brand names, no legible characters. Prohibited: inspection drones, robotic loaders, holographic hangtags, card frames or corner numbers. The 255-degree late-autumn sun enters low through the glazed lobby, laying a long warm stripe on the floor and rimming crate edges while the coffered folded-plate ceiling soffit stays in deep shade; beyond the glass only sparse woodland plaza treetops are allowed.,",
+   "分片": "pending_specs_shardC.json",
+   "方向备选": [
+    {
+     "方向": "国际会展中心通透门厅的年礼展台：素色礼盒码成矮墙，核验员对清单点单，登记台前排短列",
+     "理由": "L010是名录唯一会展主场，每年1次与年展布展动作天然咬合；规模与秩序的仪式感支撑千积分档",
+     "风险": "易画成展销卖场，需用核验台与制服的克制感压住"
+    },
+    {
+     "方向": "潮湾会议酒店宴会厅前厅的分发长桌",
+     "理由": "L011接待属性强，礼盒递送更私密",
+     "风险": "另一地标使背景授权另开；酒店气质与城市兑换距离远"
+    },
+    {
+     "方向": "古道修配工坊区老号铺子的手工合箱",
+     "理由": "联名可落在老城手作，烟火气足",
+     "风险": "与70工具组同地互吃场景，小铺面撑不起年礼规模感"
+    }
+   ],
+   "选定方向": "钛湖国际会展中心年度联名礼盒布展日：门厅素色礼盒山与封箱带，核验员逐箱点单，兑换登记台前排短列"
+  },
+  {
+   "idx": 11,
+   "name": "T5顶格-专属定制",
+   "card_type": "兑换卡",
+   "anchor": "L009 东岸企业会客厅（3.772,0.463）",
+   "方向依据": "底稿_idx11：兑换卡·T5，bottom_text『顶格权益·专属定制款·限量·需人工审核』，OCR提示门槛约2500积分，最高档，唯一硬要求是人工审核在场感与稀缺感。落点用名录L009东岸企业会客厅，center_km(3.772,0.463)，成品提示词L009已给出凹口门厅跨层通透、楼梯与接待台、深灰石裙房等可安全引用的构件；岗位准入正典SCN-G01面试与录用、SCN-G05晋升答辩的见证记录参与方证明当面签认与书面记录是城市既有流程口径。不选L021：与T3同锚互吃；不选L025：屏幕评审让人工审核失去实体重量。",
+   "sections": {
+    "画面定位": "位于钛湖近正东方向的东岸企业会客厅，中心坐标(3.772,0.463)千米。",
+    "取景指令": "在L009西向跨层门厅内侧夹层栏杆边离地1.4米朝东，使用35毫米镜头。5秒沿夹层向洽谈席缓移，前景为摊开的定制料样册与一只压纸的黄铜镇纸，中景为俯身批注的审核员、端坐签认的受益人和静置的深灰色素面定制箱，远景呈现门厅玻璃尽头的银钛竖肋、降阶屋顶底沿和门外檐下候见的两三人剪影。255°夕光从相机背后偏左穿过玻璃门厅低角平进，把石台台面与定制箱侧棱擦亮，竖肋在画面尽头排成细密明暗；室内不用顶灯强光；声音为笔尖划纸、极轻的翻页和门外低语。",
+    "外观辨识": "低反射冷灰玻璃与银钛窄竖肋构成的门厅骨架、深灰石裙房台面是既有构件；定制箱为无字深灰硬箱，内衬素麻，样品是缩小到掌长的城市地标白模与一枚哑光徽章料板；审核文件用灰白纸张与黑夹，批注字迹呈模糊笔画；黄铜镇纸、铅笔与火漆式封样线是人工审核的实体物；门外檐下会议层深檐带与连续步道一角可见。",
+    "人群与烟火气": "顶格非公开，人群降档为6—15人，降档理由是限量与人工审核意味着当面办理、不容围观人潮：洽谈席3人主体组（审核员、受益人、记录员）正在批注、签认、归档；门厅接待台1人值守；檐下候见3—4人低声交谈；楼梯转角会务人员1人。公共性体现在门厅本身通透可入、接待台对所有人开放，只是这一席需预约；午后为签认常态时段，晚间散场只留通路照明。",
+    "锁定与禁则": "锁定银钛竖肋、跨层门厅、深灰石台与降阶屋顶底沿。文件、箱面、徽章料板一律无拼读文字；禁指纹平板、全息合同、机器人递件；画面不得出现编号角标、卡名文字与装帧外框；背景只许点名构件，不得移入斜削冠塔或任何超高层；不画成宴会厅排场。"
+   },
+   "tail_extra": "Scene-specific objects: an open sample folio on a dark grey stone counter, weighted by a brass paper bar; a reviewer in a plain jacket writing fine annotations on off-white sheets; the recipient signing at the far side while a recorder stacks grey document folders; a matte dark-grey custom case, unmarked, lined with plain linen, holding a palm-sized unpainted architectural white model and one metal badge blank; pencil shavings and a wax-sealed sample string. All handwriting and print must read as blurred strokes, never legible characters or numbers. Prohibited: fingerprint tablets, holographic contracts, service robots, banquet-hall grandeur, card borders, corner indices. Late-autumn 255-degree sun enters low through the west glazed lobby behind the camera, raking the stone ledge and case edges into a warm line while the lobby ceiling keeps even shade; the far mullions and stepped roof soffit are the only named background; the small waiting group under the canopy stays silhouetted.,",
+   "分片": "pending_specs_shardC.json",
+   "方向备选": [
+    {
+     "方向": "东岸企业会客厅跨层门厅内夹层洽谈席：料样册摊开、审核员手写批注、受益人当面签认",
+     "理由": "L009本就按预约迎送、会议层可直达（成品L009人群段），需人工审核在门厅内成立；凹口门厅与降阶屋顶给室内提供克制的排场",
+     "风险": "纯室内场景需靠窗光与檐下候见者保住城市层"
+    },
+    {
+     "方向": "风帆设计工坊大师房一对一起样",
+     "理由": "造物感强",
+     "风险": "与_idx9同锚同气质，两张T卡互相塌陷；工坊缺审核的正式感"
+    },
+    {
+     "方向": "云栈协作中心开放工作台阶上的在线评审桌",
+     "理由": "数字化审核效率高，符合数创气质",
+     "风险": "屏幕评审削弱人工二字的实体重量，顶格感掉落"
+    }
+   ],
+   "选定方向": "东岸企业会客厅门厅夹层洽谈席：限量定制款料样册摊在深灰石台上，审核员逐页手写批注，受益人对面签认，门外檐下有人候见"
+  },
+  {
+   "idx": 14,
+   "name": "全城地标巡礼",
+   "card_type": "景群地标卡",
+   "anchor": "L001-L060",
+   "方向依据": "全城地标巡礼为集齐60座城市地标的成就卡（成就积分加60），成员依据04至07卷共L001至L060全部在册，本轮核验L001至L060无缺号；地面观景机位锚点取自城市空间名录D03东湖金融片区（center_km 4.422,1.437）；远景逐一点名金融片区内真实地标L007钛湖之脊368米含针状天线、L008金融秩序博物馆66米、L009东岸企业会客厅92米，高度取自04与05卷真读。",
+   "sections": {
+    "画面定位": "位于钛湖近正东方向的东湖金融片区，中心坐标(4.422,1.437)千米。",
+    "取景指令": "在金融片区东岸有檐步道的地面观景位离地1.6米朝北，使用32毫米镜头。9秒沿檐下步道向西平移，前景为地标导览立柱与打卡合影的人群，中景为深色裙房、连续步道与自助闸机，远景逐一点名为368米含针状天线的钛湖之脊、66米金融秩序博物馆与92米东岸企业会客厅。255°晚秋低角度夕光从相机右后方擦亮银钛竖肋与玻璃，北向画面不出现身后湖面；声音为导览低声、快门、落客车辆与金属栏板轻响。",
+    "外观辨识": "近正东的金融核心以低反射冷灰玻璃与银钛窄竖肋成簇，深色裙房把街角收成可坐平台，连续有檐步道串联各馆；地面设一座地标巡礼导览柱与一排自助打卡闸机，柱面与导览屏文字一律作不可读模糊笔画，打卡屏只给图形点位；钛湖之脊以深蓝灰直塔配非对称直线斜削冠与细针状天线立于一侧，金融秩序博物馆与东岸企业会客厅以平退屋顶分列。",
+    "人群与烟火气": "以集齐60座地标的巡礼打卡为场景。游客一家、结伴青年、摄影爱好者与带队讲解员在导览柱前对点位合影，办公人员沿檐下步道穿行，闸机提示此起彼伏。上午团队集中、午后散客打卡、傍晚下班人流与清洁接班交叠；导览柱、打卡屏与檐下长凳构成公共节点，轮椅沿平坡到达，夜间保留通路照明。｜画面内人物密度：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（合影、扫码、走、等）。科技上半为玻璃塔群、竖肋与闸机导览柱，下半为步道、裙房平台与街面人流。",
+    "锁定与禁则": "锁定东湖金融冷灰玻璃与银钛竖肋、深色裙房与有檐步道、导览柱与打卡闸机。远景只许钛湖之脊、金融秩序博物馆与东岸企业会客厅，不得堆成通用天际线；钛湖之脊的斜削冠与针状天线全城唯一，不得安到别的塔上，各塔直线不得扭转；无水印，无凭空文字。"
+   },
+   "tail_extra": "a city-landmark tour check-in viewpoint on a covered east financial-district promenade: a tour guide column and a row of self-service check-in turnstiles in the foreground, groups posing and scanning for a stamp, office workers walking the colonnade; the distant skyline is limited to one 368-metre deep-blue-grey straight shaft with an asymmetric straight-cut sloped crown and a single slender needle antenna, a 66-metre flat-roofed museum and a 92-metre stepped-roof corporate hall, with no generic tower cluster added; the sloped-crown-plus-needle belongs to that one shaft only and must not appear on any other tower; guide column, LED strip and door plates as unreadable blurred strokes only; no drone, no hologram, no flying car; glass cluster stays upper, colonnade platform and street crowd lower.,",
+   "分片": "pending_specs_shardB.json"
+  },
+  {
+   "idx": 70,
+   "name": "匠人工坊工具组-生产",
+   "card_type": "物品卡",
+   "anchor": "R104 古道匠居（-7.941,-2.58）",
+   "方向依据": "底稿_idx70：物品卡·生产，bottom_text『生产工具，随持有转移』，OCR含『生计』字样，卡义是随身生产资料而非资产。落点用名录R104古道匠居，center_km(-7.941,-2.58)，type居民区，同带F036古道修配工坊区center_km(-7.46,-1.45)；职业侧OCC-A19-B05-03堆焊修复技工（上岗先清油污并查裂纹）与OCC-A19-B01-04木作图纸放样员（班前校直尺与样杆）的日常循环给出工具在场的正典依据。不选L042：公家发还逻辑与随持有转移矛盾；不选S16：回收气质压过匠人。",
+   "sections": {
+    "画面定位": "位于钛湖西侧西门商贸片区的古道匠居，中心坐标(-7.941,-2.58)千米。",
+    "取景指令": "在R104古道匠居东段货巷离地1.2米朝东北，使用35毫米镜头。6秒沿米白雨棚下条凳横向缓移，前景为摊开的帆布卷包工具组与一只正被拿起的活动扳手，中景为俯身选件的年长匠人和捧着工件等候的学徒，远景呈现赤褐陶砖铺面收进巷口、窄面宽店铺门洞成排和巷尾卸货车的一角篷布。255°夕光从巷口方向低角斜入，在石板缝里拉出细长光带并擦亮扳手柄与工具钢面，棚下主体保持均匀半明半暗；巷内不出现主街车流正面；声音为金属轻碰、木料落地的钝响和巷口讨价还价的含混人声。",
+    "外观辨识": "工具组本体写清：粗木柄凿、两把开口扳手与一把活动扳手、直角尺、划线器、折叠刀、磨石，收纳在洗旧帆布卷包里，铜扣与缝线完整；匠人皮围裙带烫痕、袖口缠布。店铺为赤褐陶砖墙、米白帆布雨棚、窄门脸深进深，门洞内隐约见木台钳与图纸筒；门牌招幌一律模糊笔画；巷侧电线杆上有光纤到楼的浅灰分线箱，是现代基础设施与生活层交接的具体物。",
+    "人群与烟火气": "午后作业时段，巷道人流稀而不断：主体3—6人组为师徒二人加一位隔壁铺面探头借件的邻居、一位棚下等修壶的老主顾；远景巷口两三人搬运货筐，合计约15—25人档。工具组属私人生产资料，画面公共性在于货客分流巷是街坊共用空间，任何人都可站棚下看匠人挑工具；晨间开门掸尘、傍晚收摊后条凳让给乘凉居民。科技层（光纤分线箱、计量表箱）与生活层（陶砖、雨棚、工具钢）在同一巷段同屏。",
+    "锁定与禁则": "锁定赤褐陶砖、米白雨棚、窄门脸序列与帆布卷包的工具明细。不许出现电动工具阵列、机床加工特写；匠作无品牌钢印，招幌门牌不可拼读；禁无人机送货、禁机器人学徒；无编号角标与卡名文字，不加外框装帧；巷尾只许一辆篷布卸货车一角，不得引入高层塔群。"
+   },
+   "tail_extra": "Object-level detail required: a worn canvas roll-up tool wrap snapped open on a bench plank, holding chisels with bulbous wooden handles, two open-end wrenches, an adjustable wrench, a try square, a marking gauge, a folding knife and an oilstone, all with honest steel wear and no brand stamps; the master's scorched leather apron; the apprentice holding a half-finished timber frame. Setting props: red-brown brick shopfronts with cream canvas awnings, narrow deep storefront interiors glimpsing bench vises and paper drawing tubes, a pale fibre-to-the-building junction box on a lane pole. All signs are blurred strokes. No power-tool walls, no machining close-ups, no drones, no robotic helpers, no frame borders or corner numbers. Sun at 255 degrees enters the lane mouth low, gilding wrench steel and stone seams while the awning shade stays even; only a tarp-loaded delivery tricycle corner is allowed at the lane end.,",
+   "分片": "pending_specs_shardC.json",
+   "方向备选": [
+    {
+     "方向": "古道匠居窄铺面雨棚下，帆布卷包工具组在条凳上摊开，师父递扳手给学徒",
+     "理由": "R104与F036的visual即赤褐陶砖、米白雨棚、窄面宽进深店铺和货客分流巷，是名录里唯一成体系的老匠居生活现场；随持有转移与街坊师徒关系咬合",
+     "风险": "物件多构图易碎，需用一根主视轴串起"
+    },
+    {
+     "方向": "新铸工匠学院设备廊道的成套扭力扳手墙",
+     "理由": "L042精密制造气质强，工具更现代",
+     "风险": "学院发工具缺私人持有感，与随持有转移的卡意相悖"
+    },
+    {
+     "方向": "回环循环小镇旧物估价台的二手工具箱",
+     "理由": "FE-18旧物估价台与二手折价口径可给工具流转供依据",
+     "风险": "灰绿隔离台地与回收气质把匠人感洗掉，画面偏冷"
+    }
+   ],
+   "选定方向": "古道匠居雨棚下的工具展开瞬间：帆布卷包工具组在条凳上摊开，师徒为活计选件"
+  },
+  {
+   "idx": 72,
+   "name": "社区住所卡-居住",
+   "card_type": "物品卡",
+   "anchor": "R089 安澜保障社区（5.555,-7.645）",
+   "方向依据": "底稿_idx72：物品卡·居住，bottom_text『登记租赁/保障分配权益，非产权』，卡义核心是权益凭证而非房子本身。落点用名录R089安澜保障社区，center_km(5.555,-7.645)，focus城市应急维修回收与生活保障，与保障分配直接对位；职业侧OCC-A20-B06-04租住社区服务专员（登记诉求并分类建档、上门对接、办结回访）给登记与回执提供既有流程；物价正典保障域列有押金与生活保障标准（外城环押金1994.5钛币），说明租赁登记在城市账本里真实存在。不选L017：辨识度弱；不选R094：只有公告无办理，物件与动作脱钩。",
+   "sections": {
+    "画面定位": "位于钛湖南偏东外圈南溪服务片区的安澜保障社区，中心坐标(5.555,-7.645)千米。",
+    "取景指令": "在R089社区服务院门厅闸机侧离地1.4米朝北，使用32毫米镜头。6秒沿队伍隔线向窗口缓移，前景为一只手把浅色住所卡贴上读卡区、闸机亮一小段绿光条，中景为窗口后推钥匙与回执的专员和侧身让出孩子的年轻母亲，远景呈现土黄清水砖院墙、灰钢架雨棚与院外分隔式院落的防雨卸货棚一角。255°夕光从相机右后方越过雨棚边缘斜入，只擦亮闸机不锈钢肩和砖墙顶部收边，门厅内以白墙与暖顶灯为主；院内车道不出现轿车长队；声音为闸机两声轻响、钥匙落托盘的脆响和窗口低声问答。",
+    "外观辨识": "住所卡本体写清：磨砂浅灰塑料卡面、凸起的几何点纹与一条磁条，无任何拼读字样，卡角有一道使用磨白；自助闸机为不锈钢立柱加矮转杆，读屏只显示色块；窗口台面深灰防火板，上置托盘、登记本与印泥盒；建筑为土黄清水砖横缝、灰钢架雨棚、深棕门框，院墙边有喷漆身高尺与晾衣绳一角；光纤信息箱与门禁读卡器是科技层小物。",
+    "人群与烟火气": "傍晚下班时段：窗口前三四组排队，主体3—6人组为办续租的新婚夫妻、代老人领回执的邻居青年、正在核档的专员；旁边儿童被母亲抱起看闸机绿灯，合计约18—30人档。登记服务全院可及、不设消费门槛；专员按日常循环上门回访，说明窗口只是流程一环；雨天雨棚下聚拢收伞的人群是本场所的时段差异。科技层（闸机、读卡器、信息箱）与生活层（身高尺、晾衣绳、钥匙托盘）在交接动作里接触。",
+    "锁定与禁则": "锁定土黄清水砖、灰钢架雨棚、磨砂卡与浅绿闸机光条。卡面、回执、门牌一律不可拼读，不得出现证号与住址字样；禁人脸识别大屏与全自动无人窗口；不画产权交易、中介招牌或楼盘沙盘；无编号角标卡名文字，无外框装帧；院外远景只许卸货棚一角，不得引入高层住宅群。"
+   },
+   "tail_extra": "Object detail: a frosted light-grey plastic residence card with raised geometric dots and a dark magnetic stripe, its corner worn pale, held against a stainless turnstile reader glowing one short green bar; the staffed counter tray with a single key and a blank receipt pad; a red ink stamp box. Architecture: ochre face-brick walls with horizontal joints, grey steel canopies, deep-brown doorframes, a children's height chart spray-painted by the wall, laundry lines in an inner courtyard, a fibre junction box beside the door lock. Queue: a young couple, a neighbour holding an elderly person's paperwork, a mother lifting a toddler to see the green light. No readable characters on card, receipt, sign or plates; no face-recognition wall-screens, no unmanned counters, no property-sale sand tables or agent signage; no frame borders or corner indices. Late-autumn 255-degree sun over-bricks the wall tops and polishes the turnstile shoulder from behind-right while the hall stays softly lamplit.,",
+   "分片": "pending_specs_shardC.json",
+   "方向备选": [
+    {
+     "方向": "安澜保障社区服务院门厅：自助登记闸机前，专员把住所卡与一把钥匙推过台面",
+     "理由": "R089的focus即生活保障，visual土黄清水砖、灰钢架、分隔式院落，是名录里最贴保障分配的居民区；闸机加人工台面同时表达登记与温度",
+     "风险": "院落建筑气质偏工业，需用绿植、身高尺等软物压住"
+    },
+    {
+     "方向": "湖湾邻里中心柜台办租赁登记",
+     "理由": "L017名称即社区服务，亲民",
+     "风险": "南湖片区背景授权拥挤，辨识度弱，保障分配的稀缺感不足"
+    },
+    {
+     "方向": "青禾保障房社区球场边的楼栋公告栏",
+     "理由": "R094宽树荫街与社区球场生活层厚",
+     "风险": "缺办理动作，卡与场景只剩张贴关系，物件感不足"
+    }
+   ],
+   "选定方向": "安澜保障社区服务院登记窗口：住所卡在自助闸机上读出绿灯，台面同时完成钥匙与登记回执的人工交接"
+  },
+  {
+   "idx": 74,
+   "name": "通勤折叠车-出行",
+   "card_type": "物品卡",
+   "anchor": "L094 轨交换乘商业塔（6.244,1.157）",
+   "方向依据": "底稿_idx74：物品卡·出行，bottom_text『出行工具，一物一卡』。落点用名录L094轨交换乘商业塔，center_km(6.244,1.157)，parent东门枢纽片区D13(7.608,2.472)、同带F025东门铁路综合枢纽区(6.888,3.212)，其visual直接给出闸机、长屋盖与导向线；物价正典PRD-TRANS-11自行车与PRD-TRANS-06共享单车月卡证明自有车与共享车在城市账本并存。不选L016：现代换乘层缺席；不选居住区：与_idx72撞场景。SCN-A11交通与即时配送类场景说明骑行通勤人群有正典在场。",
+   "sections": {
+    "画面定位": "位于钛湖正东方向的东门枢纽轨交换乘商业塔，中心坐标(6.244,1.157)千米。",
+    "取景指令": "在L094北侧进站屋盖下离地1.3米朝西，使用28毫米镜头。7秒随持车人向闸机缓移，前景为刚折收到位的小轮折叠车被右手提起、左手持卡贴闸，中景为自助闸机阵列与侧身让道的通勤者、导视立柱的模糊笔画色带，远景呈现浅钛长屋盖的连续挑檐、透明侧厅玻璃后的站台雨棚顶和屋盖尽头吊装作业的一小截吊臂剪影。255°夕光从相机右后方平过来，在铝屋盖底面擦出一道长暖带并给车轮辐条镀边，西向画面不出现塔楼主立面全景；声音为闸机提示音、折叠扣哒声、轮皮拖地与广播的含混尾音。",
+    "外观辨识": "折叠车本体写清：暗红小轮车架、双折叶中轴、磁吸扣起的脚踏、车把立管快拆扳手、磨白的橡胶把套与车铃，轮径约14寸，收折后两块板高；站厅为浅钛金属长屋盖、透明侧厅与磨石地面，自助闸机不锈钢矮转杆、读屏只显色块；进站导视是带模糊笔画的连续色带；自行车维修架与立式打气柱在屋盖边一角，电动大巴在远处落客带露出一截车顶。",
+    "人群与烟火气": "晚高峰前沿：主体3—6人组为提车进站的工厂青年、在锁桩前展开另一台折叠车的老太太、帮孩子背包的父亲、闸机口引导的站务；闸机与屋盖下人流取15—40人档上沿，肩距半米但不停滞。折叠车可进闸、可寄存的公共可及性用同一动作被不同人重复来表达；清晨此处落客与骑行共存，夜间只留导向灯带。科技层（闸机、屋盖、导向系统）与生活层（磨白把套、打气柱、车铃）在同一个进闸动作里接触。",
+    "锁定与禁则": "锁定暗红小轮车架、双折叶中轴、浅钛长屋盖与不锈钢闸机群。导视带、车牌、广告一律模糊笔画不可拼读；禁扫码特写、人脸闸机屏、电动滑板车阵列与载人无人机；画面不得出现编号角标、卡名与外框；远景只许屋盖挑檐、站台棚顶与一小截吊臂，不得移入塔楼全貌。"
+   },
+   "tail_extra": "Object detail: a dark-red 14-inch folding bike snapped into its two-panel carry pose, pedals magnetically folded, stem quick-release lever visible, rubber grips worn pale, bell and tyre scuffs present; the rider's other hand taps a transit card on a stainless turnstile reader showing only colour blocks. Station fabric: long pale-titanium canopy, glazed side hall with platform roofs glimpsed beyond, continuous wayfinding strips in unreadable strokes, a repair stand with a floor pump, one electric-bus roof slice in the drop-off lane, a crane-tip silhouette at the canopy far end. Crowd at pre-evening peak repeating the same entering action. Prohibited: app-scanning close-ups, face screens, e-scooter banks, cargo or passenger drones, card borders or corner numbers. Low 255-degree sun behind-right lays a warm band under the canopy and silver-rims spokes; the tower's own curtain-wall face must stay out of frame.,",
+   "分片": "pending_specs_shardC.json",
+   "方向备选": [
+    {
+     "方向": "东门枢纽轨交换乘商业塔进站口：通勤者收折折叠车、刷卡过闸，屋盖下人流不断",
+     "理由": "L094与F025的focus即铁路换乘，visual浅钛长屋盖与明确步行导向，是名录中唯一与轨道交通加闸机同址的地标；一物一卡在进闸动作里被读成实物通行",
+     "风险": "枢纽人流易吞掉单车小物，需让折叠车占前景实尺"
+    },
+    {
+     "方向": "南湖百业市场口自行车棚的锁桩",
+     "理由": "物价正典PRD-TRANS-11自行车让车与车的账本并存有据，烟火气足",
+     "风险": "缺现代换乘层，科技与生活同屏变成纯生活层"
+    },
+    {
+     "方向": "保障房社区家楼下支起车的一幕",
+     "理由": "私人持有感最强",
+     "风险": "与_idx72同属居住场景，两卡互吃"
+    }
+   ],
+   "选定方向": "轨交换乘商业塔北侧进站屋盖下：一台小轮折叠车正被折成两块板高提进闸机，主人另一手贴交通卡"
+  },
+  {
+   "idx": 80,
+   "name": "生态科普线",
+   "card_type": "景群地标卡",
+   "anchor": "JQ-L05",
+   "方向依据": "生态科普线为集齐该线地标的成就卡（成就积分加8），成员依据景群成员可校验表.json人工命名线JQ-L05生态科普线：L031北屏自然学校、L032森林访客中心、L033杉谷观鸟塔、L059清流水质公开实验馆、L060河口生态观察馆（出处：景群成员可校验表.json与06、07卷）；机位锚点取城市空间名录D11北屏生态片区（center_km 0.000,8.000）；远景逐一点名同线真实设施L032森林访客中心28米、L033杉谷观鸟塔22米、L031北屏自然学校36米，高度取自06卷真读；下游L059清流水质公开实验馆60米、L060河口生态观察馆66米同属该线。",
+   "sections": {
+    "画面定位": "位于钛湖正北方向的北屏生态片区，中心坐标(0.000,8.000)千米。",
+    "取景指令": "在北屏林缘木栈道开放入口坪离地1.5米朝北，使用35毫米镜头。8秒沿栈道与雨水花园边缘缓移，前景为解说牌与停在栏杆内记生的自然教育员，中景为深檐木构的森林访客中心与雨水花园，远景逐一点名为28米森林访客中心深檐体量、22米杉谷观鸟塔叠檐木匣与36米北屏自然学校。255°晚秋低角度夕光从左前侧斜穿杉冠，在木板与湿地留下暖斑与长影；南向湖面与主城不入画面，不越北岭透视湖面；声音为脚步、木板轻响、风过杉叶与偶发鸟鸣，不播放鸟声驱动表演。",
+    "外观辨识": "烟灰石基、耐候木水平板与深檐小体量组成林缘科普带：木栈道连续，雨水花园以浅种植槽展示过滤，森林访客中心为低平深檐木构，杉谷观鸟塔是五层叠檐的窄木匣、观察面按不同方向切窄窗，北屏自然学校退在树冠后；解说牌、导览图与门牌文字一律作不可读模糊笔画，只给图形点位；防护栏连续封边，不出现悬空跳台。",
+    "人群与烟火气": "以集齐生态科普线的自然教育为场景。讲解员带学生小组在模型与标本前辨识羽形与生境，家长带孩子沿栈道观察记录，植被养护人员在院边作业。上午预约小组、午后社区课程、傍晚闭馆前检查各平台；低密居住带有人散步，檐下长凳可坐。公共可及，行动不便者沿缓坡到达入口，不承诺看到特定鸟种。｜画面内人物密度：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（讲解、记、看、走）。科技上半为水质监测与科普设施的玻璃长窗与解说装置，下半为栈道、湿地与生活人群。",
+    "锁定与禁则": "锁定北屏烟灰石基、耐候木深檐小体量、木栈道与雨水花园、叠檐木匣观鸟塔。远景只许森林访客中心、杉谷观鸟塔与自然学校，不得把观鸟塔画成高层观景楼或滨湖灯塔，不得堆入主城玻璃塔群；解说牌与门牌文字作不可读模糊笔画；无水印，无凭空文字。"
+   },
+   "tail_extra": "an ecology-science-line checkpoint view on a forest-edge timber boardwalk in the north eco district: a natural-education guide with a clipboard and students at a low model and specimen table, parents and children reading interpretive rails, vegetation crew working at the yard edge; smoke-grey stone bases, weathering-timber deep-eave small volumes, a rain garden with shallow planting troughs, a four-storey 28-metre forest visitor centre, a five-tier 22-metre stacked-timber birdwatching box and a 36-metre nature school set behind the canopy; interpretive panels, wayfinding and door plates as unreadable blurred strokes only; no bird calls played to drive a show, no tall observation tower or lakeside lighthouse, no main-city glass cluster, no seeing the lake across the north ridge; interpretive and water-quality monitoring glass upper, boardwalk wetland and people lower.,",
+   "分片": "pending_specs_shardB.json"
+  },
+  {
+   "idx": 86,
+   "name": "三电系统实训-A14",
+   "card_type": "职业卡",
+   "anchor": "A14",
+   "方向依据": "新能源汽车与电驱A14；取用锚点F027钛东精密制造园，中心坐标(7.460,-1.450)千米；取用职业条目OCC-A14-B01-01电池模组装配工、OCC-A14-B01-02电驱总成装配工、OCC-A14-B01-04电机绕线浸漆工、OCC-A14-B04-03电驱台架标定员。",
+   "sections": {
+    "画面定位": "位于钛湖东偏南外城的钛东精密制造园F027，中心坐标(7.460,-1.450)千米。",
+    "取景指令": "在实训车间西入口内侧离地1.6米朝东，使用28毫米镜头。7秒沿台架排向北平移，前景为铺在绝缘垫上的电池模组与力矩枪，中景为电驱总成装配工位和带课师傅领着的一群学员，远景逐一点名为车间尽头的检测室玻璃隔断、北向天窗带和隔断外墙的一排银色设备廊道；未点名的塔楼群、塔吊与湖面一律不入画。255°晚秋低角度夕光从相机右后方穿过西侧高窗，把铝合金台架边沿与铜排擦出暖橙长条，浅灰环氧地面留在冷调暗部。画面内不出现太阳本体与镜头光斑，朝东画面不出现身后货运院与西向外景；声音为力矩枪短促咔声、绝缘垫被脚踩实的闷响、教师讲解和通风设备的低频嗡鸣。画面上半为管廊、桥架与天窗带，下半为工位、保温杯与工装后背。",
+    "外观辨识": "单层大跨实训车间檐口约两层高，石墨灰压型板墙被银色设备廊道竖向切开，北向天窗带把天光均匀铺在台架面上。前区摆六组开放实训台，铝型材框架上固定电池模组端板、铜排与线束拖链，台面垂挂螺旋气管与记录夹。东侧一整面玻璃隔断后是气密检测房，里面两台白色箱体检测设备与黄黑警示地面清楚可辨，隔断前有一条学员观察走廊。墙面明装金属线槽与桥架分层排布，配电箱门闭合，门上标记只作不可读的小色块。屋顶不设大跨度排烟塔，改用一排低矮风机群。与相邻D14的标准厂房相比，本处开窗率明显更高、外墙多出观察廊与学员通道，门口有雨棚和成排自行车。",
+    "人群与烟火气": "学员由职校实习生、在岗电工、转岗维修工和职业院校教师混编，年龄跨度大，不穿同款工装。上午是断电状态下的模组堆叠与力矩练习，午后转到台架旁听讲解并填记录表，傍晚下班后来进修的人围着展示墙比对笔记，休息角有电饭煲、保温杯和搭在椅背上的外套。走廊一侧的玻璃观学区让家长与访客隔窗观看，无障碍通道直达一层工位，观察廊不设门槛；夜间只保留工位局部照明与走道灯。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定单层大跨车间、北向天窗带、银色设备廊道、六组开放台架与东侧检测室玻璃隔断。禁止出现未来感座舱、人形机器人、全息教学、自动驾驶车队与可读文字招牌；不把高压实训画成带电冒险作业；无水印，无凭空文字。"
+   },
+   "tail_extra": "interior of a 2013 electric-vehicle powertrain training hall: open aluminium benches carrying battery modules with end plates and copper busbars, de-energised orange cabling used only as teaching samples, insulated rubber mats, torque wrenches, clip record sheets, a glazed airtight-testing room with two white cabinet instruments over yellow-and-black safety flooring, silver service corridors and overhead cable trays, north-light roof windows, one trainee group of five checking a winding sample while another wipes the mat; mixed ages, ordinary work clothes, thermos flasks and jackets on chair backs; all panels, badges, posters and instrument screens show only blurred non-readable strokes, no legible Chinese characters or Latin words; no humanoid robots, no autonomous vehicles, no holograms, no glowing sci-fi interfaces, no live-high-voltage drama, no sun disc or lens flare, no distant skyline or tower crane.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 87,
+   "name": "临床试验支持培训-A04",
+   "card_type": "职业卡",
+   "anchor": "A04",
+   "方向依据": "生命科学与健康研究A04；取用锚点F010静溪康复与生命研究园，中心坐标(2.303,-4.154)千米；取用职业条目OCC-A04-B04-01试验协调联络员、OCC-A04-B04-02试验用药管理员、OCC-A04-B04-03血样冷链转运员、OCC-A04-B04-04源数据核对员。",
+   "sections": {
+    "画面定位": "位于钛湖南偏东的静溪康复与生命研究园F010，中心坐标(2.303,-4.154)千米。",
+    "取景指令": "在转化医学培训楼一层内廊南端离地1.6米朝北，使用30毫米镜头。7秒由模拟访视室门口向源数据核对区平移，前景为摆着冷链转运箱的交接台与一只扫码枪，中景为访视室里的协调员和扮演受试者的学员，远景逐一点名为内廊尽头的米白陶板墙面、楼梯间的雾绿玻璃栏板和墙上一排只作不可读笔画的导视色块；未点名的塔楼群、湖面与塔吊不入画。255°晚秋夕光从相机左后方斜进西侧高窗，把雾绿玻璃照成半透，在浅灰地胶上铺开斜长暖带，米白陶板墙一半暖一半冷。画面内不出现太阳本体与光斑，朝北画面不出现身后大厅与落客区；声音为冷链箱扣合的脆响、纸页翻动、低声复述、键盘轻点和洁净空调的低频。画面上半为设备带与窗带，下半为等候椅、帆布袋与交接台上的一杯温水。",
+    "外观辨识": "五层退台研究楼的培训层，米白陶板外墙配雾绿玻璃与水平遮阳板，退台上种低矮灌木。室内是可移动隔断的模拟访视室，一张问诊桌、两把椅子、病历车和带盲文的封口资料袋；走廊一侧是一排双门常温留样柜与一台小型温度记录仪表，柜门铭牌只作模糊笔画。前室设风淋门与手消台，浅灰地面有黄色防滑线。屋顶是均匀的低矮风机阵列与天线箱。与相邻康养院区相比，本处窗下多出设备带与前室，入口有封闭疗愈院的一角竹丛。",
+    "人群与烟火气": "学员包括医院科研秘书、在校硕士、外包监测机构新人和从护理转岗的中年人，穿日常便装加白大褂，不统一。上午排本周访视表并核名单，午后做源数据逐字段比对与冷链装箱演练，傍晚有人抱着资料袋在走廊对笔记、有人在楼下长椅打电话确认到院时间。一层大厅对园区开放，问路台可咨询，无障碍电梯直达培训层，走廊留轮椅回转余地；夜间只亮值班灯与走道灯。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定米白陶板与雾绿玻璃退台楼、模拟访视室、冷链交接台、留样柜与风淋前室。禁止出现戏剧化人体试验、未来医疗设备、全息影像、人形机器人与可读文字招牌；不画动物实验场面；无水印，无凭空文字。"
+   },
+   "tail_extra": "clean modern 2013 clinical-trial support training floor inside a terraced research building: cream terracotta wall panels, mist-green glass balustrades, horizontal sun shades, a mock subject visit room with one consultation table and a rolling chart cart, a handover counter with insulated cold-chain shipping boxes and ice packs, a scan gun, dual-door ambient sample cabinets with blurred unreadable nameplates, air-shower ante-room and hand-rub station, yellow anti-slip floor lines, ceiling service strips and low roof ventilation units; six trainees of mixed ages in plain clothes under white lab coats checking a source-data worksheet while another seals a courier box; every sign, screen, label and form is drawn as blurred non-readable strokes, no legible Chinese characters or Latin words, no readable medical charts; no futuristic devices, no holograms, no humanoid robots, no animal experimentation, no dramatic injections, no sun disc or lens flare, no distant skyline or tower crane.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 88,
+   "name": "仓储作业实训-A12",
+   "card_type": "职业卡",
+   "anchor": "A12",
+   "方向依据": "物流与供应链A12；取用锚点F034丰仓生鲜集配园，中心坐标(-5.183,-5.558)千米；取用职业条目OCC-A12-B02-01库区班组长、OCC-A12-B02-02上架补货作业员、OCC-A12-B02-03库存盘点作业员、OCC-A12-B02-04搬运设备点检员。",
+   "sections": {
+    "画面定位": "位于钛湖西南的丰仓生鲜集配园F034，中心坐标(-5.183,-5.558)千米。",
+    "取景指令": "在集配库区南月台内侧离地1.7米朝北，使用28毫米镜头。7秒沿主通道向北平移，前景为贴着模糊标签的周转箱与一台手动液压托盘车，中景为两排货架间做循环盘点的学员和弯腰归位的补货工，远景逐一点名为库房尽头的冷风机组、垂着厚重门帘的冷库入口和侧墙高窗带；未点名的温室玻璃、城镇建筑与湖面不入画。255°晚秋夕光从相机左后方掠过敞开的南月台口，把门口一段水泥地烧成暖橙，库内货架留在均匀的冷白灯光里，浅褐砖山墙泛起砖红。画面内不出现太阳本体与光斑，朝北画面不出现身后雨棚与货运停车场；声音为轮子压过地面伸缩缝、扫码提示短音、胶带撕拉、电动托盘车的低鸣与远处雨棚上的风声。画面上半为钢屋架、冷风机组与线槽，下半为手推箱、饭盒、外套和门边候车的电动车。",
+    "外观辨识": "单层净高约九米的浅褐砖库房，锯齿式低平坡顶配高侧窗，装卸月台有防雨棚与液压调节板。库内主通道两侧为可调层板货架，端头设称重复核台与周转箱回收笼，墙上挂着库位示意板，字迹只作不可读笔画。地面为耐磨混凝土，黄色网格划出暂存区与通道，角上放着托盘与散落纸箱。外墙明装银色通风短管，无大型外挂广告位，一角有充电插座与停着的电动叉车。与相邻D17片区的温室段相比，本处体量更低、砖墙比例更高、没有连片温室玻璃。",
+    "人群与烟火气": "学员含应届生鲜分拣工、转岗仓库员、来学盘点流程的商户老板和从货车司机转岗的人，库房里还混着带班的库区班组长。早班先分派上架任务，午后练循环盘点与差异复点，傍晚月台最忙，司机与搬运工交接单据、把空箱归堆，夜里有人在休息室泡面、有人在门口给电动车插电。园区门口职工食堂对外营业，雨天雨棚可避雨，月台与通道有防滑坡道和扶手，玻璃廊桥可俯视作业但不进入作业区。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定浅褐砖单层库房、低平坡顶高侧窗、防雨月台、可调货架与周转箱回收笼。禁止出现自动分拣机器人集群、无人仓、机械臂码垛、全息库存界面与可读标签文字；不画货物倒塌伤人桥段；无水印，无凭空文字。"
+   },
+   "tail_extra": "inside a 2013 fresh-produce distribution warehouse: single-storey pale-brown brick shell with sawtooth low-slope roof and high side windows, rain canopy and dock levellers at the south loading bay, two rows of adjustable steel shelving, hand pallet trucks and one electric forklift parked against a wall socket, weighing recheck table at the aisle end, grey rolling cages for returnable crates, worn concrete floor with yellow grid markings, a wall location board drawn as blurred non-readable strokes, overhead steel trusses and cable trays; fifteen to forty people in fore- and midground, a group of four trainees counting shelf bins while a crew leader writes on a clipboard, another worker sliding crates onto a truck; ordinary clothes, instant noodles in the rest corner, electric scooters by the door; no legible labels, no readable slogans, no robotic sorting arms, no drone swarm, no holographic inventory display, no sun disc, no distant skyline.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 89,
+   "name": "会展策划培训-A09",
+   "card_type": "职业卡",
+   "anchor": "A09",
+   "方向依据": "会展、旅游与接待A09；取用锚点F007湖东国际会展园，中心坐标(4.663,-0.906)千米；取用职业条目OCC-A09-B01-01会务项目统筹、OCC-A09-B01-02会议签到排桌员、OCC-A09-B01-03同传设备保障员、OCC-A09-B02-01展台搭建班组长。",
+   "sections": {
+    "画面定位": "位于钛湖东偏南的湖东国际会展园F007，中心坐标(4.663,-0.906)千米。",
+    "取景指令": "在南登录厅玻璃门内侧离地1.7米朝北，使用30毫米镜头。7秒由签到长桌向排桌沙盘平移，前景为分装中的资料袋与成束胸卡带，中景为排定座次的签到桌和三组低声讨论的学员，远景逐一点名为馆内折板屋顶的钢梁下弦、半搭的木质展台骨架和尽头卸货口放下的卷帘门；未点名的湖面、超高层塔楼与塔吊不入画。255°晚秋夕光从相机左后方穿过西侧玻璃幕墙，把浅香槟金属立柱的边缘擦亮，在水磨石地面铺出整齐斜影，沙盘台面留在柔和暗部。画面内不出现太阳本体与镜头光斑，朝北画面不出现身后湖岸与落客雨棚；声音为电钻短响、展架滚轮、胶带撕开、学员低声排桌和广播里含混不清的提示音。画面上半为屋顶钢构与灯光桁架，下半为板材堆、水杯、纸箱与工人后背。",
+    "外观辨识": "折板大屋顶下的无柱展厅，浅香槟金属竖柱配深灰梁架，门厅一整面通透玻璃。培训区是门厅一角的临时工作岛，一块可移动排桌板、两台同传机柜、一盒编号耳机与一台消毒小柜；另一侧是正在搭木作与布线的展位骨架，回路箱门闭合并只贴不可读色块。二层为疏林广场与玻璃栏板观展廊，廊下能看见货运通道。外立面不设整面彩色动态幕墙，只用檐下窄条灯。与相邻会议酒店带相比，本处以大跨度展厅与货运门为主，没有酒店落客雨篷与门童台。",
+    "人群与烟火气": "学员含会展公司项目助理、酒店前厅转岗者、职校会展专业生与自由策展人，讲师现场讲评动线。上午走位核对进场路线，午后分装资料并试声道，傍晚搭展工人收工具、清洁队推着车进场，夜里加班布展时对外通道仍亮着灯。门厅周末对市民开放观展动线，可借轮椅与婴儿车，无障碍电梯直上二层观展廊，签到桌一侧留矮台面。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定折板大屋顶、浅香槟金属柱、通透登录门厅、临时培训工作岛与二层观展廊。禁止全息投影、虚拟舞台、无人机灯光秀、机器人引导员与可读会刊或招牌文字；不把会展写成奢华宴会场面；无水印，无凭空文字。"
+   },
+   "tail_extra": "empty convention hall mid-setup in 2013: folded-plate roof with visible steel bottom chords, pale champagne metal columns, full-height glass lobby wall, a temporary training island with a movable seating-layout board, two interpreter booths and a tray of numbered headsets, half-built timber booth frames with cable reels and a closed circuit box marked only by unreadable colour blocks, loading-door roller shutter in the distance, terrazzo floor with long raking shadows, second-floor viewing gallery onto a sparse tree plaza; people of mixed ages packing document bags and laying name badges, three trainees arguing over table order, workers coiling cable; every banner, programme page, badge and screen is blurred non-readable strokes, no legible words; no holograms, no drones, no robot ushers, no virtual stage, no glamorous banquet reading, no sun disc, no lake view, no distant skyline or crane.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 90,
+   "name": "会计从业考-A08",
+   "card_type": "职业卡",
+   "anchor": "A08",
+   "方向依据": "金融与专业服务A08；取用锚点F006东岸专业服务街区，中心坐标(4.663,0.906)千米；取用职业条目OCC-A08-B04-01总账会计、OCC-A08-B04-02成本会计、OCC-A08-B04-04凭证档案员、OCC-A08-B01-01网点柜员。",
+   "sections": {
+    "画面定位": "位于钛湖东偏北的东岸专业服务街区F006，中心坐标(4.663,0.906)千米。",
+    "取景指令": "在考场西侧走廊内口离地1.6米朝东，使用32毫米镜头。7秒由考生入口向监考台方向平移，前景为贴着模糊座位号的桌面、一台厚壳计算器与一沓凭证样张，中景为成排伏案应考的人和弯腰核对名单的监考员，远景逐一点名为尽头的米白隔墙、玻璃隔断后成列的金属档案架和墙上方一条只作不可读笔画的横幅；未点名的塔楼群、湖岸与塔吊不入画。255°晚秋夕光从相机右后方擦进临街玻璃，把纸边照成一条金线，档案架那一层留在冷灰暗部，地面砖缝拉出长影。画面内不出现太阳本体与镜头光斑，朝东画面不出现身后街立面与车站；声音为笔尖划纸、计算器按键、翻动凭证的脆响、走廊皮鞋与中央空调低频。画面上半为幕墙竖肋与灯带，下半为考位、外套、帆布包和桌腿上的挂钩。",
+    "外观辨识": "街区裙房三层的考点，冷灰玻璃与银钛窄竖肋配深色裙房，底层开窗密、有独立考生入口与窄雨棚。内部为浅灰防火板隔墙、可锁单人考位约四十个，桌面带挡板；一侧是凭证装订间，线装打孔机、装订线、牛皮纸卷与成排金属档案架，架上标签只作模糊笔画；前厅设自助寄存柜与两道自助闸机，旁留人工通道。屋顶无企业标识位，只有低矮风机与天线箱。与相邻办公塔楼相比，本处人流集中在底层与二层，楼梯宽、导视牌密且不具名。",
+    "人群与烟火气": "应考者有便利店店主、企业新出纳、回家带几年孩子再就业的人和职校应届生，衣着日常、年龄相差二十岁。上午一批进场后街道安静，午后有人抱着教材在走廊台阶上默背分录，监考员在讲台核对证件，装订间的档案员趁考试糊凭证角；傍晚有人接完孩子赶来考晚场，寄存柜前短暂排队，门口小摊卖水和茶叶蛋。一层大厅饮水处与座椅对楼内员工和考生家属开放，首层设无障碍考位，闸机旁常有人问路。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定裙房考点、冷灰玻璃银钛竖肋、可锁单人考位、凭证装订间与自助闸机。禁止出现行情大屏、交易大厅、未来金融界面、成捆现金炫富场面与可读试卷或招牌文字；不画替考与作弊戏剧桥段；无水印，无凭空文字。"
+   },
+   "tail_extra": "a 2013 accounting qualification exam room in a modern service-district podium: cold grey curtain wall with narrow titanium mullions above a dark stone base, light fireproof-board partition walls, forty lockable single desks with paper dividers, thick shell calculators, stacks of blank voucher sheets, a binding room with a punch machine, linen thread and kraft rolls, tall metal archive racks whose labels are blurred unreadable strokes, self-service lockers and two turnstile gates with a staffed side lane; examinees of very different ages and plain clothes leaning over papers, one invigilator checking identity cards, a woman reciting journal entries on the stair landing, a water egg stall outside; all papers, screens, banners and door plates are unreadable blurred strokes, no legible numbers or characters; no trading screens, no futuristic finance interfaces, no cash bundles, no cheating melodrama, no sun disc, no distant skyline.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 91,
+   "name": "光伏运维实训-A16",
+   "card_type": "职业卡",
+   "anchor": "A16",
+   "方向依据": "能源与低碳A16；取用锚点S07光伏岭能源小镇，中心坐标(-20.000,-7.000)千米；取用职业条目OCC-A16-B01-01光伏支架安装班长、OCC-A16-B01-02组串电性核对员、OCC-A16-B01-03电站例行检查工、OCC-A16-B02-02储能柜温控维护工。",
+   "sections": {
+    "画面定位": "位于钛湖西偏南山外的光伏岭能源小镇S07，中心坐标(-20.000,-7.000)千米。",
+    "取景指令": "在检修房前的水泥坪上离地1.7米朝北，使用28毫米镜头。7秒沿裸露检修道向东平移，前景为摊开的组串接线盒与万用表表笔，中景为抬着支架校验倾角的班组和一排斜放的蓝黑组件，远景逐一点名为坡顶的白灰配电小间、山脊线上的低矮水泥防风墙和防风墙后一道深绿防护林带；小镇在西部山外，隔山不透视主城，未点名的湖面、塔楼群与塔吊不入画。255°晚秋夕光从相机左侧低低斜扫，把蓝黑玻璃面烧成一片暖橙镜反，铝合金边框发亮，碎石检修道上的石子投出针状长影。画面内不出现太阳本体与镜头光斑，朝北画面把落日留在相机右后方的画外；声音为扭矩扳手咔哒、金属边框热胀轻响、山风掀动防水布、对讲机短呼与坡面排水沟的水声。画面上半为板阵与架空线缆，下半为工具箱、水壶、棉外套和踩脏的绝缘鞋。",
+    "外观辨识": "干燥阳坡上分六片的蓝黑组件方阵，浅灰铝合金边框成整齐斜线，立柱与横梁带编号色块但不成文字。灰白检修房为单层压型板，屋顶装小型气象百叶箱与风向标；检修道是碎石与混凝土板相间，沿线有接地扁钢、电缆沟盖板与一只闭合的白色汇流箱，箱门铭牌只作模糊笔画。坡脚有消防砂池、隔离灌木带和一段施工围挡。与相邻D19片区相比，本处没有下沉设备场与厚绿化缓冲，而是开阔坡面、低矮防风墙和裸露检修道。",
+    "人群与烟火气": "学员含支架安装工、农村电工、返乡青年、新能源专业学生和从火电厂转岗的老师傅，男女都有，戴安全帽与手套。上午开安全交底与放线，午后在样板方阵上练扭矩抽检和开路电压核对，傍晚有人登检修梯查接线盒、有人在坡下抄录热斑位置；风大时聚在检修房背风处喝水啃饼。院门口有接送职工的电动班车与一处对外开放的工具棚小卖部，硬化坡道与扶手直通样板区，真实并网点围栏上锁，参观止步于样板方阵。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定六片蓝黑板阵、灰白单层检修房、碎石与混凝土检修道、白灰配电小间与山脊水泥防风墙。禁止出现自动巡检机器人、飞行检查无人机、发光概念储能装置、可读标牌文字与第二个机场；不把带电并网点画成徒手作业；无水印，无凭空文字。"
+   },
+   "tail_extra": "a 2013 photovoltaic maintenance training yard on a dry western hillside outside the mountains: six arrays of blue-black modules in pale aluminium frames tilted south, grey-white single-storey corrugated utility hut with a small weather louvre box and wind vane on its roof, gravel-and-slab inspection path with earthing strips and cable trench covers, one closed white combiner box whose nameplate is only blurred unreadable strokes, fire-sand pit, scrub isolation belt and a stretch of construction hoarding, low cement wind-break wall along the ridge with a dark green shelterbelt behind; crews of mixed ages and both sexes carrying a bracket section, one tightening bolts with a torque wrench, two recording hot-spot positions on paper, a group eating flatbread in the lee of the hut; hard hats, dusty insulating boots, tin kettles; no robot cleaners, no inspection drones, no glowing concept batteries, no legible signage, no readable characters, no second airport, no lake or distant downtown visible through the ridge, no sun disc in frame.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 92,
+   "name": "净水运维实训-A17",
+   "card_type": "职业卡",
+   "anchor": "A17",
+   "方向依据": "水务、生态与城市运维A17；取用锚点F039北港净水与调蓄园，中心坐标(-5.183,5.558)千米；取用职业条目OCC-A17-B01-01水厂运行值班员、OCC-A17-B01-02混凝加药调控员、OCC-A17-B03-01水样采集员、OCC-A17-B03-02水质理化化验员。",
+   "sections": {
+    "画面定位": "位于钛湖北偏西的北港净水与调蓄园F039，中心坐标(-5.183,5.558)千米。",
+    "取景指令": "在滤池走道端头离地1.7米朝东，使用30毫米镜头。7秒沿加药间外墙向南平移，前景为提着棕色采样桶的水样采集员与一排洗净的空瓶，中景为揭盖检查的滤池格和两名蹲着读液位的值班学员，远景逐一点名为清水池顶板的浅蓝灰混凝土低拱、池区尽头的水平长窗化验楼和绿篱后一排深绿色护栏；未点名的湖面、湿地村落与主城塔楼群不入画。255°晚秋夕光从相机右后方低低掠进，把敞露池面照成一块起伏的铜色，浅蓝灰混凝土墙身一半暖一半冷，走道栏杆在地面织出密排长影。画面内不出现太阳本体与镜头光斑，朝东画面不出现身后沉淀池端山墙；声音为跌水入槽的连续水声、阀门手轮吱响、加药泵规律顿挫、胶靴踩湿面和通话里的逐句复诵。画面上半为管廊与池面反光，下半为采样桶、棉工装、饭盒与墙角的扫把。",
+    "外观辨识": "实训区由三条沉淀槽、六格快滤池、加药间和化验室组成，以浅蓝灰混凝土体量与水平长窗为主，深绿钢栏杆与黄色安全线划出走道，池面有指流撇渣板与橡胶刮板。加药间外墙有一排竖直母液罐与低矮围栏，罐体无色标文字。化验室一层大窗里能看到通风柜、比色管架与滴定台。屋顶排布低矮通风管与计量罐，不外露大型钢结构，厂区外围是阶梯湿地与芦苇。与相邻的北港水文博物馆相比，本处没有观展大厅与坡道幕墙，只有低平工艺池和功能小房。",
+    "人群与烟火气": "学员含水厂值班工、二次供水维护员、职校市政专业生、复训的老职工和化验室新来的检验员，穿深蓝或灰绿工装。上午跟值班员按工艺单调阀门并核药耗，午后在化验台测浊度与余氯、给在线仪表做两点校准，傍晚反冲洗结束后在加药间门口冲鞋、把记录本夹在腋下；厂区绿篱外的步道上散步的居民偶尔停一下看池面。开放日市民可经栈桥参观廊俯瞰沉淀池，门口公示墙上的水质条目只作不可读笔画；走道无高台阶，配扶手与防滑面，参观廊有无障碍坡道。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定浅蓝灰混凝土沉淀槽与滤池格、水平长窗化验楼、深绿栏杆、加药间母液罐与外围阶梯湿地。禁止出现发光水体、未来膜装置、水下机器人、可读仪表读数与招牌文字；不画溺水与药剂泼溅事故；无水印，无凭空文字。"
+   },
+   "tail_extra": "a 2013 water treatment plant training yard: pale blue-grey concrete settling troughs and six rapid-sand filter cells with open lids, rubber scrapers and baffle boards on rippling water surfaces, deep green steel railings with yellow safety lines along narrow walkways, dosing shed with a row of vertical mother-liquor tanks and no lettering, single-storey laboratory block with long horizontal windows revealing fume cupboards, colorimetry tube racks and burette stands, low roof vents and measuring tanks, stepped reed wetland outside the fence; workers in dark blue and grey-green uniforms lifting a brown sample bucket, two trainees crouching to read a water level, one calibrating an online meter with standard solution, another rinsing boots at the gate; residents walking the public path beyond the hedge; no readable gauges, no legible notice board, no glowing water, no futuristic membrane devices, no underwater robots, no accident scenes, no sun disc, no distant skyline.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 93,
+   "name": "手作工坊技艺-A19",
+   "card_type": "职业卡",
+   "anchor": "A19",
+   "方向依据": "材料、再制造与传统工艺A19；取用锚点F015白石老城保护区，中心坐标(-4.305,-2.007)千米；取用职业条目OCC-A19-B08-01竹编工坊主理人、OCC-A19-B08-02手作体验课指导师、OCC-A19-B01-04木作图纸放样员、OCC-A19-B03-03烧成窑值班工。",
+   "sections": {
+    "画面定位": "位于钛湖西南的白石老城保护区F015，中心坐标(-4.305,-2.007)千米。",
+    "取景指令": "在老城手作巷口的青石路边离地1.5米朝东，使用35毫米镜头。7秒沿巷向水边平移，前景为半成品的竹篾与一圈木刨花，中景为三张长条木工作台前的学员与带课师傅，远景逐一点名为巷尾贴水的石埠头、埠头后一片灰瓦坡屋顶和屋脊缝间露出的对岸冷灰玻璃塔群轮廓；未点名的超高层、塔吊与可辨冠部塔楼不入画，对岸塔群只作均匀直线形体的浅灰剪影。255°晚秋夕光从相机右后方掠过巷口，把白墙照成淡金、灰瓦檐口发亮，竹篾与刨花卷边泛出橙光，巷内一半仍留在青灰阴影里。画面内不出现太阳本体与镜头光斑，朝东画面不出现完整湖面与身后街口；声音为竹篾劈开的脆响、木槌敲凿、巷口油锅滋声、自行车铃与远处船篙点水。画面上半为白墙灰瓦与对岸塔群剪影，下半为竹料堆、围裙、水壶和门槛边的猫。",
+    "外观辨识": "三开间穿斗木构作坊，木檐下挂竹帘，青石基座被常年踩出浅凹，白墙新抹、木柱旧色。前店后坊，临街木格窗内是体验课长桌与板凳；后天井改成小型窑房与上光台，屋面上加了小块光伏板和一只灰白光纤分线箱，门口挂一块只作不可读笔画的小灯箱。巷口有充电桩与一辆停靠的电动公交，墙面明装浅色线管。与相邻的商埠会馆相比，本处尺度更小、开门更密、檐下没有石库门式牌楼，晾晒的布料与竹器堆在阶边。",
+    "人群与烟火气": "学员有退休来学手艺的老人、带孩子来体验的家长、设计专业学生、返乡青年与已在开店的手艺人，围裙颜色不一。上午师傅示范起底分篾，午后做小件并送去窑房烧或就地晾干，傍晚巷口卖豆花的推车停在门口、下班骑车的人探头看作品；有人蹲在阶边磨竹口，主理人在门口记账。巷内台阶多，作坊在门槛处设可拆活动坡道与坐凳，听力不便的学员靠手势与图示卡上课，门口课表牌的字形为不可读笔画。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定三开间穿斗木构、青石基座、白墙灰瓦、天井小窑房与巷口灯箱充电桩。禁止机械臂手作、未来材料、全息教学、可读店招与凭空造字招牌；不把老城画成破败棚户区，也不把对岸新区画成霓虹夜景；无水印，无凭空文字。"
+   },
+   "tail_extra": "a 2013 traditional craft workshop in a preserved old-town lane: three-bay timber-frame hall with white lime walls, grey tile roof, weathered wooden columns, bluestone plinth worn shallow by footsteps, bamboo curtains under the eaves, long work benches with hand tools, half-woven bamboo strips and curling wood shavings, a small kiln room and glazing table opened into the rear courtyard, one rooftop solar panel and a pale fibre-optic distribution box on the wall, a blurred stroke shop lampbox by the door, a charging post with an electric bus outside the lane end, hanging laundry and stacked bamboo ware on the steps; elders, parents with children, design students and returning young makers in mismatched aprons, one master demonstrating splitting, another carrying a piece to the kiln, a tofu-pudding cart parked at the corner; across the lane gap the far shore reads only as plain straight-edged grey glass tower silhouettes; no robot arms, no holograms, no legible signboard, no invented readable characters, no rundown slum mood, no neon night look, no sun disc, no distinctive tower crown.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 94,
+   "name": "护理照护训练-A03",
+   "card_type": "职业卡",
+   "anchor": "A03",
+   "方向依据": "医疗健康与照护A03；取用锚点F009青湾综合医学园，中心坐标(3.239,-3.474)千米；取用职业条目OCC-A03-B04-01病区责任组长、OCC-A03-B04-02输液配置核对员、OCC-A03-B04-03消毒被服收发员、OCC-A03-B04-04长护等级评估员。",
+   "sections": {
+    "画面定位": "位于钛湖东南的青湾综合医学园F009，中心坐标(3.239,-3.474)千米。",
+    "取景指令": "在护理实训层内廊南端离地1.6米朝北，使用30毫米镜头。7秒由模拟病房门口向处置台平移，前景为平放的护理训练模拟人与一支输液架，中景为两名学员做无菌操作与双人核对，远景逐一点名为内廊尽头的米白陶板墙、护士站的浅灰台面和玻璃窗后的治疗室；未点名的塔楼群、湖面与塔吊不入画。255°晚秋夕光从相机左后方擦进西向高窗，把雾绿玻璃照成半透，在浅灰地胶上铺开斜长暖带，米白墙面一半暖一半冷。画面内不出现太阳本体与镜头光斑，朝北画面不出现身后入口大厅与落客雨棚；声音为呼叫铃短音、床栏扣合、纸胶带撕开、低声复述与推车轮子压过伸缩缝。画面上半为设备带、窗带与风机组，下半为护理床、轮椅、帆布袋和叠好的被服。",
+    "外观辨识": "五层退台的护理实训楼，米白陶板配雾绿玻璃，退台上是低灌木与浅色花盆。内部分模拟病房区、老年照护区、输液配置间与被服收发间：病房里有可升降护理床、仿真人模、轮椅、移位滑板与约束带样件；走廊双侧装扶手，地面划黄色防滑线，门口设手消台与隔离前室；护士台上方一块只作不可读笔画的指示灯箱。屋顶为均匀的低矮医用风机组与天窗，外墙无大型标识。与相邻康复院区相比，本处窗下多出设备带与扶手、门上多观察窗、收发间有一排金属周转柜。",
+    "人群与烟火气": "学员是职校护理生、在岗护士、养老院护理员、家庭照护者与转岗的社区工作者，年龄与体力差别明显，男学员不止一两名。上午练翻身叩背与口腔护理，午后做自理评分表与双人核对签章，傍晚有人抱着模拟手臂练穿刺、被服间里收发员过秤点数，配置台前两人互相复诵标签；楼下休息区有人啃面包、把鞋换了。中心一层候诊式休息区对园区开放，饮水处与卫生间可及，侧门有无障碍坡道与电梯直达实训层。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定五层退台、米白陶板配雾绿玻璃、模拟病房带、双侧扶手走廊与被服收发间。禁止人形护理机器人、外骨骼、全息手术演示、真实患者入镜与可读病历文字；不把失能老人画成煽情对象；无水印，无凭空文字。"
+   },
+   "tail_extra": "a 2013 nursing and elder-care training ward inside a terraced medical campus building: cream terracotta panels with mist-green glazing, setback planting on each terrace, mock patient rooms with height-adjustable beds, life-size care manikins, side rails, transfer boards and restraint strap samples, a medication checking counter with printed label rolls and two staff reading aloud to each other, a linen exchange room with metal trolley cabinets and a weighing scale, double corridor handrails, yellow anti-slip lines, hand-rub stations and an isolation ante-room, one blank stroke-only indicator lampbox over the nurses desk, low roof-mounted medical air handlers; trainees of clearly different ages and sexes, one rolling a manikin, one adjusting a wheelchair, two signing a check sheet, another counting folded gowns, someone eating bread in the public rest corner; all charts, labels, screens and badges stay blurred unreadable strokes; no humanoid robots, no exoskeletons, no holographic surgery, no real patients, no sentimental elderly framing, no sun disc, no distant skyline.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 95,
+   "name": "政务规范结业-A01",
+   "card_type": "职业卡",
+   "anchor": "A01",
+   "方向依据": "公共治理与法务A01；取用锚点F001湖政公共服务轴，中心坐标(-0.579,4.715)千米；取用职业条目OCC-A01-B01-01窗口收件员、OCC-A01-B01-02帮办代办员、OCC-A01-B01-03政务热线座席员、OCC-A01-B01-04社区专职网格员。",
+   "sections": {
+    "画面定位": "位于钛湖北侧略偏西的湖政公共服务轴F001，中心坐标(-0.579,4.715)千米。",
+    "取景指令": "在门厅南入口自助闸机内侧离地1.7米朝北，使用32毫米镜头。7秒由取号机向综合窗口带平移，前景为低头填单的办事人与一摞刚装订好的结业手册，中景为帮办代办员陪着办事人走过窗口，远景逐一点名为尽头的深铜竖框窗口带、暖灰石材墙面和墙上方一排只作不可读笔画的窗口指示牌；未点名的银杏树冠、城市天际线与塔吊不入画。255°晚秋夕光从相机左后方斜进门厅，把暖灰石材照成蜜色，深铜竖框边缘发亮，浅色地面铺出整齐的长影。画面内不出现太阳本体与镜头光斑，朝北画面不出现身后街道与车辆；声音为取号提示音、印章落纸、低声问答、闸机轻响与鞋底在石材上的空阔回声。画面上半为铜框、灯带与楼层栏板，下半为填单台、老花镜盒、背包和等候椅上的外套。",
+    "外观辨识": "门厅通高约三层，暖灰石材墙面配深铜竖框，基座只用低台阶与缓坡；一排综合窗口以矮柜和玻璃小隔扇相连，窗口上方悬挂不可读笔画的色块指示牌，柜面上摆着扫描仪、评价器与一叠表格。东侧是结业培训角，长条会议桌、白板与几只成捆的资料袋；自助区有取号机、两道闸机、填单台和老花镜盒。屋顶为均匀筒灯带与空调风口，不装巨型屏与电子舞台。与相邻的市民议事厅相比，本处没有环形会议厅与高台阶，而是密排矮柜台、双向通道与敞开等候椅。",
+    "人群与烟火气": "画面里的公职岗位只是正在服务的在册人员，不表现为招聘对象：窗口收件员盖章出回执，热线座席在侧厅戴着耳麦边听边填，网格员把走访记录交给后台，帮办员陪办事人逐个窗口跑材料。结业学员是各区窗口新人与复训者，两人一组互相练一次告知的口径；办事人包括个体户、来办居住证的年轻人、带孩子的居民和坐轮椅的老人。上午取号高峰、午后培训角最热闹、傍晚结业班领手册并合影于不可读笔画的横幅下，保洁在窗口收尾。低柜台、扶手坡道、母婴室与人工窗口常年保留，取号机旁有人指引，一层对市民开放。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定通高门厅、暖灰石材配深铜竖框、矮柜综合窗口带、自助取号闸机与东侧培训角。公职岗位仅背景在册，不得表现为公开招聘或可申请；禁止机器人办事员、全息叫号、政务大屏与可读文字招牌；无水印，无凭空文字。"
+   },
+   "tail_extra": "a 2013 public service hall interior: triple-height warm grey stone lobby with dark bronze vertical mullions, low steps and a gentle ramp instead of a monumental stair, a continuous row of short counter windows joined by small glass screens, each topped by unreadable blurred colour-block signs, scanners and comment keypads on the counters, an east-side training corner with long meeting tables, a plain whiteboard and bundled completion handbooks, queue-ticket machine, two self-service turnstiles with a staffed side lane, form-filling desks with reading glasses in a box, even downlight bands and air diffusers on the ceiling, no giant video wall; clerks stamping receipts, a hotline operator wearing a headset filling a form, a grid worker handing over a visit log, a helper walking with a resident from window to window, trainees practising one-time notification in pairs, an elder in a wheelchair waiting; no robot clerks, no holograms, no big data dashboard, no readable text on any board, banner or screen, no recruitment poster reading, no sun disc, no skyline.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 96,
+   "name": "教师资格认证-A02",
+   "card_type": "职业卡",
+   "anchor": "A02",
+   "方向依据": "教育与公共知识A02；取用锚点F004北书公共教育园，中心坐标(3.239,3.474)千米；取用职业条目OCC-A02-B02-01语文任课教师、OCC-A02-B02-03学籍考务管理员、OCC-A02-B03-01数控实训指导教师、OCC-A02-B07-01企业培训讲师。",
+   "sections": {
+    "画面定位": "位于钛湖东北的北书公共教育园F004，中心坐标(3.239,3.474)千米。",
+    "取景指令": "在培训楼二层走廊北口离地1.6米朝南，使用30毫米镜头。7秒由备考室门口向试讲教室后门平移，前景为手捏题签低声默说的应考者，中景为试讲教室里对着黑板比划的学员与三人考官席，远景逐一点名为走廊尽头的红褐砖山墙、内院的高树冠和院墙外一段浅灰预制混凝土栏杆；未点名的塔楼群、湖岸线与塔吊不入画。255°晚秋夕光从相机右前方的西向侧窗低低进入，把红褐砖墙照成暖赭、浅灰预制板泛金，考生后背投出向左上延伸的长影，太阳本体被窗棂挡在画外。画面内不出现太阳与镜头光斑，朝南画面不出现身后楼梯间与外墙消防梯；声音为粉笔敲板、纸页翻动、克制的讲课声、走廊皮鞋与院内鸟叫。画面上半为窗带、预制板与栏杆，下半为课桌、题签盒、帆布包和靠墙的折叠椅。",
+    "外观辨识": "四层培训楼为红褐砖与浅灰预制混凝土组合，窗带规整、内院树冠高出檐口。试讲教室配可移动课桌、深绿毛面黑板、讲台、指针模糊的计时钟与三面可翻转镜板，黑板上的笔画一律不可读；备考室是长条桌、铁皮题签盒、一次性水杯和密封的抽签袋；走廊一侧挂只作不可读笔画的导视牌。屋顶为低矮风机与避雷带，山墙面无校名大字。与相邻的大学图书馆区相比，本处以小班教室与内院为主，没有大跨阅览中庭与连续长桌。",
+    "人群与烟火气": "应考者有职校专业课教师候选人、在职代课教师、幼儿园转岗者、理工科毕业生与企业里来考职技类培训资格的人，着装克制日常。上午抽题备考、教室里空椅子当学生，午后逐场试讲与结构化问答、考官席三人低头记表，傍晚有人在院内走廊互相练板书、有人蹲在台阶上啃面包、有母亲把孩子放在长椅上等下一场。一层门厅设饮水处与座椅，对园区开放，无障碍电梯直达本层，走廊留出轮椅回转余地。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定红褐砖配浅灰预制板立面、小班试讲教室、毛面黑板与可翻转镜板、长条备考桌与题签盒。禁止智能全息课堂、机器人助教、平板考场炫技、可读板书与招牌文字；不画师生煽情桥段与升学率口号；无水印，无凭空文字。"
+   },
+   "tail_extra": "a 2013 teacher-qualification practicum room in a brick-and-precast-concrete education park: four-storey red-brown brick facade with light grey precast bands, orderly window rows, tall courtyard tree canopies above the eaves, a mock-teaching classroom with movable desks facing empty chairs, dark green felt blackboard covered only in unreadable chalk strokes, small lectern, clock with blurred dial, three flip-over mirror panels; a preparation room with long tables, tin question-slip boxes, sealed draw bags and paper cups; corridor directory plaques drawn as blurred non-readable strokes with no school name on the gable; candidates of both sexes and varied ages murmuring their lessons, one writing on the board while three examiners tick a form, two rehearsing handwriting in the courtyard, a woman eating bread on the steps, a child waiting on a bench; no holographic teaching, no robot assistant, no glowing tablet stage, no legible writing anywhere, no sentimental slogan, no sun disc, no distant skyline or crane.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 97,
+   "name": "机器人集成实训-A15",
+   "card_type": "职业卡",
+   "anchor": "A15",
+   "方向依据": "半导体、机器人与智能硬件A15；取用锚点S03星核高科技小镇，中心坐标(18.000,16.000)千米；取用职业条目OCC-A15-B03-02机械臂标定工、OCC-A15-B03-04工作站联调技师、OCC-A15-B07-01无尘室环境监控员、OCC-A15-B01-02芯片成品测试员。",
+   "sections": {
+    "画面定位": "位于钛湖东北山外的星核高科技小镇S03，中心坐标(18.000,16.000)千米。",
+    "取景指令": "在装配院西侧围栏外的通道上离地1.6米朝东，使用32毫米镜头。7秒沿安全围栏向北平移，前景为手执测量靶球支架的学员与一把内六角扳手，中景为两台六轴机械臂连同夹具工作站和一位报数的带课技师，远景逐一点名为尽头的白灰实验楼山墙、连排低窗的精密装配院和院外一条修剪整齐的连续绿廊；小镇在东北山外平缓盆地，隔山不透视主城，未点名的湖面、塔楼群与塔吊不入画。255°晚秋夕光从相机右后方低掠，擦亮机械臂的象牙白外壳与不锈钢法兰，浅色环氧地面反出柔和暖光，围栏网在台面织出细密格影。画面内不出现太阳本体与镜头光斑，朝东画面不出现身后绿廊与停车区；声音为伺服电机轻鸣、气动阀短促排气、扳手碰到法兰的脆响、技师报数与远处风淋房的低吼。画面上半为桥架、风淋管道与高窗，下半为工装车、记录板、水杯与蹲着接线的身影。",
+    "外观辨识": "实训场是白灰实验楼一层的两跨大空间，落地安全围栏配联锁门与黄色急停柱，地面划深色通行网格。四组工作站各有一台象牙白与浅橙双色的六轴机械臂、末端气动夹具与缠带电缆包，每台旁立灰色控制柜，示教器挂在螺旋线上，柜面无任何可辨文字。墙面明装金属桥架与光纤分线箱，二层为带玻璃栏板的洁净观察廊。屋面一排低矮排风帽。与相邻的测试小体量相比，本处有大型回转台、工装车与吊装梁，窗下多出风淋入口与洁尘服柜。",
+    "人群与烟火气": "学员含机械与电气专业应届生、设备厂售后工程师、产线班组长和从传统机加工转岗的工人，男女混合，穿浅色工作服与防砸鞋，个别戴洁净帽。上午学示教编程与安全挂牌确认，午后用靶球做关节标定与重复定位测试，傍晚联调夹具节拍并在记录板上写数；休息时围在自动贩卖机旁看手机，把安全帽倒扣在腿上。场地对园区开放观察廊，轮椅可沿坡道看到整排工作站，入口处有访客登记台与头盔借用，危险工位一律关门断电。｜画面内人物密度缺省档：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、聊、等、吃）。本条人群段与锁定段的具体描写优先于该缺省档，冲突时按详档，不为凑人数增删人物。",
+    "锁定与禁则": "锁定两跨白灰实验楼、落地安全围栏与黄色急停柱、四组六轴工作站、灰色控制柜与二层观察廊。禁止人形机器人、机器人服务员、自动驾驶车队、无人机、全息示教与可读面板文字；机械臂只在断电挂牌或低速防护下演示；无水印，无凭空文字。"
+   },
+   "tail_extra": "a 2013 industrial robot integration training bay inside a white-grey laboratory building in a basin beyond the northern hills: two-span single-storey hall, floor-standing safety fencing with interlocked gates and yellow emergency-stop posts, dark floor traffic grid, four workstations each with an ivory-and-pale-orange six-axis arm, pneumatic gripper and cable dressing, grey controller cabinets with a pendant on a coiled cord and no readable panel text, tooling carts and a rotary positioning table, overhead bridge beam, wall-mounted cable trays and fibre distribution boxes, clean-air shower entry and garment lockers under the windows, glass-railed observation gallery on the second floor, low roof exhaust hoods; trainees in light work coats and safety shoes, one holding a measurement sphere bracket, one tightening a flange, two logging cycle times, a technician calling out numbers; wheelchairs can reach the gallery; no humanoid robots, no service droids, no drones, no autonomous vehicles, no holograms, no readable text, no sun disc, no distant downtown or crane.,",
+   "分片": "pending_specs_shardA.json"
+  },
+  {
+   "idx": 99,
+   "name": "物业运维实训-A20",
+   "card_type": "职业卡",
+   "anchor": "A20",
+   "方向依据": "大类A20建筑、房地产与城市更新；取锚点F031南原公共生活中心（城市空间名录center_km 0.926,-7.543）；职业条目依据OCC-A20-B05-01物业维修工、OCC-A20-B05-02设备设施运维员、OCC-A20-B05-03秩序维护领班、OCC-A20-B05-04物业客服管家；远景建筑L046南原中央图书分馆32米、L048南原妇幼社区中心62米，高度取自07卷真读。",
+   "sections": {
+    "画面定位": "位于钛湖正南外城环的南原公共生活中心，中心坐标(0.926,-7.543)千米。",
+    "取景指令": "在社区设备用房南窗内侧离地1.4米朝北，使用35毫米镜头。8秒沿配电柜与泵组之间的通道向西缓移，前景为两名运维员俯身核对水泵压力表并抄录运行台账，中景为配电柜、变频控制柜与光纤到楼弱电箱成排，窗外远景逐一点名为浅沙色板楼底层门禁、32米南原中央图书分馆与62米南原妇幼社区中心。255°晚秋低角度夕光从右侧窗斜入，把机柜侧面与地面黄线拉出长影；北向窗外不出现湖对岸或超高层塔群；声音为水泵低频、对讲短呼、门禁提示音与鞋底摩擦水泥地。",
+    "外观辨识": "浅沙色板楼的地下设备层被改造成明亮机房，灰绿墙面、明装桥架、离心泵组与气压罐成排，配电柜门指示牌与弱电箱面板文字一律作不可读模糊笔画。出口自助闸机、门禁读卡器与监控小屏嵌在底商檐下，酒红阳台与宽树荫街在窗外上半层铺开。机柜顶留检修走道，地面刷黄黑警示带，报修受理台与备件架靠墙，墙面设备点位图只作色块无字。",
+    "人群与烟火气": "以物业运维实操考核为场景。维修工处理住户水电报修，设备设施运维员按时查看泵房配电并填台账，秩序维护领班带队员在门禁值守与巡逻，客服管家在受理台派单回访。上午报修集中，午后巡检轮转，傍晚交接班与清理同步，底商灯箱、遮雨连廊与社区球场有居民路过。公共前区对外开放，受理台设低位窗口，轮椅沿平坡进出。｜画面内人物密度：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（搬、查、记、说）。科技层在窗外的板楼门禁、光纤弱电箱与监控屏，人生活在下半的设备房操作台与门前人流。",
+    "锁定与禁则": "锁定南原浅沙色板楼、地下设备机房、泵组与配电成排、门禁闸机与社区底商连廊。远景只许点名32米南原中央图书分馆与62米南原妇幼社区中心，不得堆叠玻璃塔群或超高层；不得把配电室画成数据中心机房，不得出现机器人或自动巡检车；无水印，无凭空文字。"
+   },
+   "tail_extra": "a facility-maintenance training scene inside a residential plant room: two technicians in plain work clothes checking pump gauges and a run-log clipboard beside a row of green switchgear cabinets, a variable-frequency control cabinet and a fibre-to-the-building weak-current box; an access-control turnstile and a card reader at the podium glazing below wine-red balconies; beige slab towers, a wide tree-lined street, one 32-metre branch library and one 62-metre maternal-and-child centre block the distant view; overhead cable tray, yellow-black hazard tape, a spare-parts rack and a low repair-desk; cabinet nameplates, wall maps and screens stay unreadable blurred strokes; no robot, no autonomous patrol cart, no hologram, no drone; keep the access-control layer upper and residents street life lower.,",
+   "分片": "pending_specs_shardB.json"
+  },
+  {
+   "idx": 100,
+   "name": "直播运营实训-A07",
+   "card_type": "职业卡",
+   "anchor": "A07",
+   "方向依据": "大类A07数字内容与网络传播；取锚点F018数岸互动内容园（城市空间名录center_km -4.305,2.007）；职业条目依据OCC-A07-B02-03直播间运营、OCC-A07-B02-04直播场控、OCC-A07-B03-01直播间主播、OCC-A07-B03-04直播助播员；远景L025云栈协作中心96米、L027城市计算展示馆80米，高度取自05卷真读。",
+   "sections": {
+    "画面定位": "位于钛湖西北方向的数岸互动内容园，中心坐标(-4.305,2.007)千米。",
+    "取景指令": "在直播间东墙落地窗前离地1.5米朝西，使用35毫米镜头。7秒沿主播位与监视器墙之间缓慢横移，前景为举样品卡出镜的主播与旁侧递物的助播，中景为环形补光灯、手机三脚架、实体提词板与切台操作位的多联监视墙，窗外远景逐一点名为屋顶绿化平台、96米云栈协作中心与80米城市计算展示馆。255°晚秋低角度夕光从西侧落地窗平进，把主播身后墙面与监视器边框镀上暖边；监视墙与窗外不出现整面彩色动态幕墙；声音为麦克风口播、场控低声口令、键盘与散热风扇。",
+    "外观辨识": "浅银铝板与低反射玻璃围出的内容直播间里，环形补光灯、手机三脚架、实体提词板与一台笔记本承担全部直播设备；监视墙分格显示多路画面，屏上文字与商品贴片一律作不可读模糊笔画；货架码放待讲解样品与选品清单夹，色板、包装与价签缩成无字色块。玻璃幕墙外是低反射铝板与屋顶绿化，一条窄底商老街在楼脚铺开。",
+    "人群与烟火气": "以直播运营实操为场景。直播间运营盯场次节奏与目标，直播场控守信号切换与音画进出，主播做商品讲解与互动应答，助播出镜递样品提卡，另有选品整理与数据复盘在场外补位。日间连播、晚间冲量、收播后复盘节奏不同；公共走道开放，粉丝与路人在玻璃外停步围观，外卖与快递交接在底商门前。｜画面内人物密度：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（播、切、举、记）。科技上半在监视墙、补光设备与幕墙，下半在货架、街面人流与围观者。",
+    "锁定与禁则": "锁定数岸浅银铝板与低反射玻璃、环形补光与实体提词板、多联监视墙、货架选品与楼脚老街。屏幕价签与门牌文字一律作不可读模糊笔画；远景只许云栈协作中心与城市计算展示馆两处，不得堆玻璃塔群；不得画全息投影或悬浮界面；无水印，无凭空文字。"
+   },
+   "tail_extra": "a live-commerce studio inside a low-reflective glass and silver-aluminium content park: a host on a phone mounted to a small tripod under a ring light, an assistant holding a product card and a cue board, a floor-control operator at a video switcher with a multi-tile monitor wall whose feeds stay as unreadable blurred colour blocks; product shelves and packing boxes stacked behind, a physical teleprompter and a 2013 laptop as the only gear; through the west glazing an old narrow arcade street at the tower base, rooftop greening, one 96-metre collaboration tower and one 80-metre computing hall; screens, price tags and banners render only as non-readable strokes; no hologram, no floating AR interface, no airborne drone, no robot; studio gear stays upper, host and street crowd lower.,",
+   "分片": "pending_specs_shardB.json"
+  },
+  {
+   "idx": 101,
+   "name": "精密仪器操作证-A05",
+   "card_type": "职业卡",
+   "anchor": "A05",
+   "方向依据": "大类A05科研与精密实验；取锚点F024青岚精密仪器园（城市空间名录center_km 5.183,5.558）；职业条目依据OCC-A05-B03-01长度计量校准员、OCC-A05-B03-02质量砝码检定员、OCC-A05-B03-04光学镜片装调员、OCC-A05-B02-02色谱上机分析员；远景L035青岚仪器共享中心68米、L034书岭联合实验楼76米，高度取自06卷真读。",
+   "sections": {
+    "画面定位": "位于钛湖东北方向的青岚精密仪器园，中心坐标(5.183,5.558)千米。",
+    "取景指令": "在计量校准室防震台前离地1.4米朝北，使用35毫米镜头。8秒沿恒温罩、光学装调台与色谱进样台之间缓移，前景为操作员用镊子夹量块比对并记录偏移，中景为恒温测量罩、干涉仪与色谱仪成排，窗外远景逐一点名为安静院落连桥、68米青岚仪器共享中心与76米书岭联合实验楼。255°晚秋低角度夕光从侧高窗斜入，把仪器台面与地砖缝拉成明暗带；窗外不出现主城玻璃塔群；声音为仪器风扇低鸣、气动隔振轻响、翻页与记笔。",
+    "外观辨识": "浅灰砖与蓝灰遮阳板围出的恒温计量室里，防震台上一台坐标测量机与量块组、砝码检定天平、光学镜片装调干涉仪与色谱仪依次布置；台面仪器铭牌、记录表与屏幕读数全部作不可读模糊笔画；玻璃观察窗退在深影里，通风柜与标准样品柜沿墙，连桥与有边界院落把安静感留住。",
+    "人群与烟火气": "以精密仪器操作认证考核为场景。长度计量校准员做量块与卡尺周期校准出记录，质量砝码检定员检定砝码与天平静水校核，光学镜片装调员定心胶合后检像差，色谱上机分析员进样判读峰表，公共仪器协调员管预约与机时。上午校准、午后上机、傍晚送检登记台账；楼下院落有科研人员推车取餐、树荫长凳歇息。｜画面内人物密度：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（夹、校、看、记）。科技上半在仪器与连桥幕墙，下半在院落树荫与生活人流。",
+    "锁定与禁则": "锁定青岚浅灰砖与蓝灰遮阳板、恒温防震台、量块砝码与干涉仪、色谱进样台、连桥与安静院落。仪器铭牌、屏幕与门牌文字须为不可读模糊笔画；远景只许68米青岚仪器共享中心与76米书岭联合实验楼，不得堆超高层；不得画全息、机械臂或悬浮读数；无水印，无凭空文字。"
+   },
+   "tail_extra": "a metrology and precision-instrument certification room inside a light-grey-brick research campus with blue-grey shading panels: an operator with tweezers comparing gauge blocks and logging offsets, a vibration-isolated coordinate measuring table under a temperature-controlled draft shield, an analytical balance with a weight set, an optical lens-alignment bench with an interferometer and a chromatography autosampler along the bench; instrument nameplates, log sheets and readouts stay unreadable blurred strokes; through a high side window a quiet courtyard with a pedestrian link bridge, one 68-metre shared-instrument hall and one 76-metre joint laboratory building; a scientist pushing a lunch cart and people resting on a shaded bench live lower; no robot arm, no hologram, no floating numeric overlay.,",
+   "分片": "pending_specs_shardB.json"
+  },
+  {
+   "idx": 103,
+   "name": "装配技能证-A13",
+   "card_type": "职业卡",
+   "anchor": "A13",
+   "方向依据": "大类A13精密制造与装配；取锚点F027钛东精密制造园（城市空间名录center_km 7.460,-1.450）；职业条目依据OCC-A13-B03-01洁净装配工、OCC-A13-B03-02光学镜片装调工、OCC-A13-B03-03微小组件贴装工、OCC-A13-B03-04洁净包装封口工；远景L040钛东工业设计中心90米、L041精工制造展示馆66米，高度取自06卷真读。",
+   "sections": {
+    "画面定位": "位于钛湖正东偏南的钛东精密制造园，中心坐标(7.460,-1.450)千米。",
+    "取景指令": "在洁净装配间层流台前离地1.4米朝西，使用35毫米镜头。8秒沿洁净装配、镜片装调与微小件贴装工位横移，前景为穿无尘服的操作工在防静电桌上按力矩与顺序装配精密组件，中景为层流罩、周转料车、计数看板与装调台，窗外远景逐一点名为银色设备廊道、90米钛东工业设计中心与66米精工制造展示馆。255°晚秋低角度夕光从西侧天窗带斜入，把廊道与地面分缝照成暖冷两色；窗外不出现未点名的玻璃塔群；声音为层流风声、气动工具短促、周转车滚轮与交接口令。",
+    "外观辨识": "石墨灰厂房内的洁净装配间以浅白墙板与层流罩围出，防静电地面、无尘工位与放大镜贴装台成排，周转料车上码放精密组件与镜筒；计数看板、设备状态牌与封口标签文字一律作不可读模糊笔画；北向天窗、银色设备廊道与规则货运院在窗外，红砖旧厂区与法国梧桐留在园区边缘。",
+    "人群与烟火气": "以装配技能鉴定为场景。洁净装配工按力矩顺序装配防颗粒进入，光学镜片装调工校同轴度，微小组件贴装工在放大工位点胶贴装，洁净包装封口工做防尘热封留样，班组长做班前交底与安全确认。白班与夜班节拍不同，交接班在休息角；走廊水房、更衣柜与班前看板有工生活。｜画面内人物密度：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（装、调、贴、封）。科技上半在层流罩与设备廊道，下半在工位与交接班生活。",
+    "锁定与禁则": "锁定钛东石墨灰厂房、洁净层流罩、防静电工位、周转料车与计数看板、银色设备廊道与北向天窗。看板、封口标签与门牌文字作不可读模糊笔画；远景只许工业设计中心与精工制造展示馆两处，不得堆玻璃塔群；不得画机器人产线或悬浮工单屏；无水印，无凭空文字。"
+   },
+   "tail_extra": "a cleanroom precision-assembly certification bench inside a graphite-grey factory with silver equipment corridors and north skylights: technicians in lint-free suits torquing and sequencing small precision modules on antistatic tables, an optics lens-barrel alignment station, a micro-component dispenser placing parts under magnifiers and a dust-proof heat-seal packaging station with lot samples; laminar-flow hoods, rolling component carts and a count board carry only unreadable blurred strokes; through the window an orderly freight yard, one 90-metre industrial-design tower and one 66-metre precision-manufacturing hall, with a red-brick old factory and plane trees kept at the site edge; a water room, lockers and a shift-handover board live lower; no robot production arm, no hologram, no floating work-order screen.,",
+   "分片": "pending_specs_shardB.json"
+  },
+  {
+   "idx": 104,
+   "name": "配送安全实训-A11",
+   "card_type": "职业卡",
+   "anchor": "A11",
+   "方向依据": "大类A11交通与即时配送；取锚点D13东门枢纽片区（城市空间名录center_km 7.608,2.472）；职业条目依据OCC-A11-B04-01商圈骑手站长、OCC-A11-B04-02即时配送骑手、OCC-A11-B04-03出餐对接协调员；远景L037钛湖东站39米、L038东站城市接待塔78米、L039山湖交通博物馆64米，高度取自06卷真读。",
+   "sections": {
+    "画面定位": "位于钛湖东侧偏北的东门枢纽片区，中心坐标(7.608,2.472)千米。",
+    "取景指令": "在枢纽落客层取餐点前离地1.6米朝南，使用35毫米镜头。7秒沿取餐柜、电动车停放棚与落客通道之间缓移，前景为戴头盔穿反光背心的骑手整理保温餐箱并核对单号，中景为智能取餐柜、出餐对接台与站长主持的班前安全交底，窗外远景逐一点名为透明侧厅、39米钛湖东站长屋盖、78米东站城市接待塔与64米山湖交通博物馆。255°晚秋低角度夕光横扫落客广场，把长屋盖与栏板镀出暖边；广场不出现未点名的玻璃塔群；声音为闸机提示、电动车低压电机、取餐柜开合与站长口令。",
+    "外观辨识": "浅钛金属长屋盖下的透明侧厅把商业与换乘叠在一起，智能取餐柜与出餐对接台成排，柜面与导向屏文字一律作不可读模糊笔画；电动两轮车与外卖保温箱停在有棚车位，反光背心、头盔与限速牌挂在交底板边，地下环道与轨道枢纽出口嵌在广场一角，底商骑楼在画面下沿铺开。",
+    "人群与烟火气": "以即时配送安全实操为场景。骑手按单取餐保持餐箱清洁，商圈骑手站长按时段排班并作安全与判责交底，出餐对接协调员驻点商户协调取餐节奏。午高峰出餐与取餐交叠，夜间时段运力收紧、应急联系值守；落客面、餐饮档口蒸汽、骑楼底商与等单骑手吃盒饭构成街面。公共可达，无障碍坡道连到取餐层，歇脚角可及。｜画面内人物密度：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（取、装、讲、等）。科技上半在长屋盖、闸机与取餐柜，下半在骑手、餐饮蒸汽与骑楼人流。",
+    "锁定与禁则": "锁定东门浅钛长屋盖、透明侧厅、智能取餐柜、电动两轮车与保温箱、地下环道与轨道枢纽出口。取餐柜屏、导向屏与门牌文字作不可读模糊笔画；远景只许东站、城市接待塔与交通博物馆三处；不得画自动驾驶车队、无人机送餐或飞行汽车；无水印，无凭空文字。"
+   },
+   "tail_extra": "a delivery-safety training scene at a transit-hub drop-off concourse under a pale-titanium long roof and transparent side hall: couriers in helmets and reflective vests zipping insulated food boxes and checking order numbers, a rider-station lead holding a pre-shift safety briefing at a board, a smart pickup-locker wall and a merchant order-handover counter, electric two-wheelers and delivery boxes parked under a canopy; locker screens, LED guidance strips and door plates stay unreadable blurred strokes; an underground ring-road ramp and a metro entrance sit at one corner of the plaza, old arcade storefronts along the lower edge; in the far view a 39-metre station roof, a 78-metre reception tower and a 64-metre transport museum; food-stall steam, boxed lunches and waiting riders fill the lower band; no self-driving vehicle fleet, no delivery drone, no flying car.,",
+   "分片": "pending_specs_shardB.json"
+  },
+  {
+   "idx": 105,
+   "name": "零售运营实训-A10",
+   "card_type": "职业卡",
+   "anchor": "A10",
+   "方向依据": "大类A10商贸零售与居民服务；取锚点F011南湖家庭消费中心（城市空间名录center_km 0.579,-4.715）；职业条目依据OCC-A10-B01-01卖场理货员、OCC-A10-B01-02生鲜课班长、OCC-A10-B01-03商超收银员、OCC-A10-B02-01社区店长；远景L016南湖百业市场62米、L017湖湾邻里中心60米，高度取自04卷真读。",
+   "sections": {
+    "画面定位": "位于钛湖正南内湖环的南湖家庭消费中心，中心坐标(0.579,-4.715)千米。",
+    "取景指令": "在综合商超货架主通道离地1.6米朝东，使用35毫米镜头。7秒沿理货、生鲜课与收银线之间缓推，前景为理货员按货架图补货并核对价签，中景为生鲜冷柜、称重台与人工加自助收银线，窗外远景逐一点名为遮雨连廊、62米南湖百业市场与60米湖湾邻里中心。255°晚秋低角度夕光从西侧橱窗平进，把货架端头与冷柜玻璃镀上暖光；窗外不出现未点名的玻璃塔群；声音为扫码滴声、冷柜压缩机低鸣、推车与广播。",
+    "外观辨识": "暖米色涂层与深棕窗框围出的商超里，货架、排面与端头码放整齐，生鲜课有果蔬肉水产与冷链冰柜，遮雨连廊串起底商；价签、电子秤读数、促销牌与收银屏文字一律作不可读模糊笔画；自助收银与人工收银并排，退货服务台与代收架靠门，窄街底商在窗外延续。",
+    "人群与烟火气": "以零售经营实操为场景。卖场理货员补货排面并对临期下架，生鲜课班长管当日订货折价与冷链温度，商超收银员收款退换并对账实相符，社区店长管全天营业与到货。早市买菜、午间快餐、傍晚家庭采购与夜间鲜食废弃时段不同；顾客推购物车、老人挑菜、熟食档蒸汽、代收包裹。公共可及，收银设低位台与无障碍通道。｜画面内人物密度：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（补、称、收、挑）。科技上半在自助收银、冷柜与橱窗屏，下半在货架、称重与顾客人流。",
+    "锁定与禁则": "锁定南湖暖米色涂层与深棕窗框、规整货架端头、生鲜冷柜与称重台、人工与自助收银并列、遮雨连廊底商。价签、电子秤与收银屏文字作不可读模糊笔画；远景只许百业市场与邻里中心两处，不得堆玻璃塔群；不得画自助结算机器人、悬浮促销或全息；无水印，无凭空文字。"
+   },
+   "tail_extra": "a supermarket retail-operations practice floor with warm-beige coating and dark-brown window frames: a stock clerk refacing shelves and matching shelf labels per a planogram, a fresh-food lead checking produce, meat and seafood against cold-chain temperatures on a scale bench, a cashier and a self-checkout row scanning items, and a service counter handling returns and parcel pickup; price tags, scale readouts, promo signs and checkout screens stay unreadable blurred strokes; a rain-shed covered colonnade links the street-level shops, with one 62-metre neighbourhood market and one 60-metre community centre in the distance; shoppers with carts, elders picking vegetables and steaming prepared-food stalls fill the lower band; no checkout robot, no floating promo screen, no hologram.,",
+   "分片": "pending_specs_shardB.json"
+  },
+  {
+   "idx": 106,
+   "name": "食品检测证-A18",
+   "card_type": "职业卡",
+   "anchor": "A18",
+   "方向依据": "大类A18农业、食品与生鲜；取锚点F033西麓农食研究园（城市空间名录center_km -3.685,-6.647）；职业条目依据OCC-A18-B10-01食品快检员、OCC-A18-B10-02食品实验室化验员、OCC-A18-B10-03留样管理员、OCC-A18-B10-05批次追溯记录员；远景L049西麓种子与食品馆60米、L050丰仓城市食物馆66米、L051农时试验温室12米，高度取自07卷真读。",
+   "sections": {
+    "画面定位": "位于钛湖西南方向的西麓农食研究园，中心坐标(-3.685,-6.647)千米。",
+    "取景指令": "在食品检测实训室通风柜前离地1.4米朝东，使用35毫米镜头。8秒沿快检台、化验台与留样柜之间缓移，前景为化验员在通风柜内移液并读取比色卡，中景为快检台面、电子天平、培养箱与贴批号的留样柜，窗外远景逐一点名为温室玻璃、60米西麓种子与食品馆、66米丰仓城市食物馆与12米农时试验温室。255°晚秋低角度夕光从侧高窗斜入，把实验台面与地砖缝拉成明暗带；窗外不出现主城玻璃塔群；声音为通风柜排风、移液器轻响、天平滴声与走廊脚步。",
+    "外观辨识": "浅褐砖与温室玻璃围出的食品检测实训室里，通风柜、生物安全柜、培养箱、高压灭菌锅与电子天平成排，快检台面摆试剂条与比色卡，留样柜按批次贴标签；仪器铭牌、记录表与培养箱屏文字一律作不可读模糊笔画；送样窗口在走廊侧，温室田垄与食用景观带在窗外低平坡顶铺开。",
+    "人群与烟火气": "以食品安全检测认证为场景。食品快检员对进货与成品现场快检出结论放行，化验员做理化与微生物检测出数据留图谱，留样管理员管克重标识与保存期，批次追溯记录员核对原料到成品批号链，多名学员轮转工位。上午收样快检、午后上机化验、傍晚清台登记；窗外菜农送检、试验田垄与农舍构成田头生活。｜画面内人物密度：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（取样、移液、称、记）。科技上半在通风柜与温室玻璃幕墙，下半在台面与田头人流。",
+    "锁定与禁则": "锁定西麓浅褐砖与温室玻璃、通风柜与生物安全柜、培养箱灭菌锅与天平、按批次留样柜与送样窗口。仪器铭牌、记录表与培养箱屏文字作不可读模糊笔画；远景只许种子食品馆、食物馆与试验温室三处；不得画机械臂取样、全息或悬浮读数；无水印，无凭空文字。"
+   },
+   "tail_extra": "a food-safety testing certification lab inside a light-brown-brick food-research campus under low glasshouse roofs: an analyst pipetting and reading a colour chart inside a fume hood, a rapid-test bench with reagent strips, an analytical balance, incubators and an autoclave, and a retained-sample cabinet labelled by batch, with a public sample-intake window in the corridor; instrument nameplates, log sheets and incubator readouts stay unreadable blurred strokes; outside the side window greenhouse glass, one 60-metre seed-and-food hall, a 12-metre trial greenhouse and low field ridges with farm sheds; farmers delivering samples live in the lower band; no robotic sampling arm, no hologram, no floating data overlay.,",
+   "分片": "pending_specs_shardB.json"
+  },
+  {
+   "idx": 107,
+   "name": "高级工程师答辩-A06",
+   "card_type": "职业卡",
+   "anchor": "A06",
+   "方向依据": "大类A06软件与人工智能；取锚点F017云栈软件创新园（城市空间名录center_km -4.663,0.906）；职业条目依据OCC-A06-B01-01服务端接口研发员、OCC-A06-B02-01特征工程研发员、OCC-A06-B04-04上线实施员、OCC-A06-B08-02集群节点运维员，作为接受晋升答辩的资深工程师岗位；远景L025云栈协作中心96米、L027城市计算展示馆80米、L026数岸交互艺术馆72米，高度取自05卷真读。",
+   "sections": {
+    "画面定位": "位于钛湖正西偏北方向的云栈软件创新园，中心坐标(-4.663,0.906)千米。",
+    "取景指令": "在软件园评审答辩间大屏前离地1.5米朝西，使用35毫米镜头。7秒沿答辩位与评审席之间缓移，前景为答辩工程师在架构图与指标曲线前翻页陈述，中景为评审席数人翻阅材料并记录、白板上手绘架构框，落地窗外远景逐一点名为开放工作台阶、96米云栈协作中心、80米城市计算展示馆与72米数岸交互艺术馆。255°晚秋低角度夕光从西侧玻璃平进，把白板与大屏边框镀暖；窗外不出现未点名的玻璃塔群；声音为翻页、键鼠、低声提问与走廊脚步。",
+    "外观辨识": "浅银铝板与低反射玻璃围出的评审间里，一块会议大屏投出架构图与指标曲线，实体白板手绘分层框与要点，评审席摊开装订材料与打分纸表；大屏图表、界面与胸牌文字一律作不可读模糊笔画，只作图形不作字；墙外开放工作台阶与屋顶绿化层层退台，一条窄底商老街在园区脚下延续。",
+    "人群与烟火气": "以软件行业高级工程师晋升答辩为场景。服务端接口研发员、特征工程研发员、上线实施员、集群节点运维员等资深工程师轮流陈述，评审席数名评委提问记录，助理投影翻页计时。上午评审、午后技术讨论、傍晚散场后台阶上仍有小组复盘；走廊咖啡角、台阶讨论人群与底商人流构成日常。公共前区开放，评审间玻璃可外看。｜画面内人物密度：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（讲、问、记、翻）。科技上半在大屏与幕墙塔群，下半在台阶讨论与街面生活。",
+    "锁定与禁则": "锁定云栈浅银铝板与低反射玻璃、会议大屏与实体白板、开放工作台阶与屋顶绿化。大屏图表与胸牌文字作不可读模糊笔画不得成字；远景只许协作中心、计算展示馆与交互艺术馆三处，不得堆超高层；不得画全息、悬浮或漂浮指标；无水印，无凭空文字。"
+   },
+   "tail_extra": "a senior-engineer promotion-defense room inside a silver-aluminium low-reflective-glass software park: a candidate presenting at a meeting screen showing a system-architecture diagram and metric curves while an assistant turns slides, a row of reviewers reading bound papers and marking paper score-sheets, a physical whiteboard with hand-drawn layered boxes beside them; charts, interface elements and name badges stay unreadable blurred strokes, graphics only, never legible words; through the west glazing an open working staircase with tiered rooftop greening, one 96-metre collaboration tower, one 80-metre computing hall and one 72-metre interactive-art hall, an old narrow street at the park foot; a corridor coffee corner and small discussion groups live lower; no hologram, no floating UI, no airborne data overlay.,",
+   "分片": "pending_specs_shardB.json"
+  },
+  {
+   "idx": 108,
+   "name": "危机谈判-实战-情商",
+   "card_type": "能力卡",
+   "anchor": "L002 钛湖司法服务馆（0.0,3.8）",
+   "方向依据": "底稿_idx108：能力卡·实战·情商，bottom_text『情商+1~2，单卡≤2』，能力卡必须落在可拍的对抗性真实现场。依据岗位准入正典场景SCN-G08劳动争议调解（类别通用，参与方：本人、用人方、见证记录），画面恰好三方在场；调解记录员OCC-A01-B02-01记录双方陈述与让步点、当场读核提供动作明细。空间用名录L002钛湖司法服务馆，center_km(0.0,3.8)，visual暖灰石材、深铜竖框与成品D01一致；其楼层参数与D01正文描述有出入，故正文不复数以免引战。不选L001：议事结构稀释谈判张力；不选岗亭：缺见证记录在场。",
+   "sections": {
+    "画面定位": "位于钛湖正北内湖环的钛湖司法服务馆，中心坐标(0.0,3.8)千米。",
+    "取景指令": "在L002底层调解室门口侧离地1.5米朝东南，使用35毫米镜头。5秒从门缝视角向长桌缓推，前景为记录员摊开并压平的笔录纸与一支悬着的笔，中景为长桌两侧对坐的当事双方与正把纸杯往前推的调解员，远景呈现深铜竖框大窗、窗外银杏树冠和被空气透视压淡的湖面一线。255°夕光从东南窗外低角平入，沿长桌铺出一条暖光带，正擦出杯壁与笔录纸边，两方人物各占明暗一侧；门厅走廊不入远景；声音为压低的陈述、纸张抚平声与窗外风过银杏。",
+    "外观辨识": "室内必须具体：暖灰石墙面、深铜窗框、长条哑光木桌、四把直背椅、不锈钢暖水瓶与几只白瓷杯、台式麦克风、文件盘与牛皮纸袋；笔录为横线纸加骑缝章形暗纹；一方手边是安全帽与工装袖口，另一方手边是装订材料夹；窗外可见前庭低台阶与疏朗银杏。全画面纸张封皮不得出现可读字，一律模糊笔画。",
+    "人群与烟火气": "公共法务空间而非密室：室内4人主体组（当事人二人、调解员、记录员）都在做具体的事——陈述、攥拳、推杯、记录；门厅外等候区五六人排队或翻看指南，自助取号机屏幕只显色块，合计约12—20人档；降于满档的理由是调解室内围人即失真。白天各时段调解案连排，傍晚只剩值班台一盏灯；公共可及性由取号、旁听在外间、窗口对市民开放承担。科技层（取号机、门禁读卡）与生活层（暖水瓶、纸杯、牛皮袋）同室。",
+    "锁定与禁则": "锁定暖灰石、深铜窗框、长桌三方座位关系与窗外银杏湖线。禁手铐、法槌、被告席等刑庭符号；禁执法记录仪特写、全息证据屏；笔录、封皮、取号屏文字全部不可拼读，不得出现可辨证件信息；无编号角标与卡名文字，无外框装帧；远景只许窗外树冠与湖面一线。"
+   },
+   "tail_extra": "Scene-specific props: a long matte-wood mediation table with straight-back chairs facing across it; on one side a scuffed safety helmet and a work-jacket sleeve, on the other a bound document folder; a mediator's hand pushing a white porcelain cup across the warm sunlit strip; a recorder flattening ruled minutes paper beside a stamp box and kraft envelopes; a steel thermos, paper cups, a desktop microphone; behind, deep-bronze mullioned windows framing sparse ginkgo crowns and a thin pale line of lake. All paper covers and slips show only blurred pseudo-strokes, never legible text. Prohibited: handcuffs, gavel or criminal-court symbols, body-cam close-ups, holographic evidence displays, service robots, card frame or corner numbers. Late-autumn 255-degree light enters low from the southeast window, splitting the table into lit and shaded halves; the corridor outside stays out of the far view; the waiting hall reads only through a doorway slice.,",
+   "分片": "pending_specs_shardC.json",
+   "方向备选": [
+    {
+     "方向": "司法服务馆底层调解室长桌两侧：劳动争议调解现场，一方攥拳、调解员把水杯推过去",
+     "理由": "SCN-G08劳动争议调解是唯一现成的双方当面对坐场景，参与方本人、用人方、见证记录与画面人物一一对应；L002是既有法务地标",
+     "风险": "室内对峙易画平，需用窗光与物件分层"
+    },
+    {
+     "方向": "钛湖市民议事厅圆桌旁听席外的走廊劝谈",
+     "理由": "L001议事厅公共性强",
+     "风险": "议事的三方以上结构缺谈判的贴脸张力"
+    },
+    {
+     "方向": "车队服务管理员约谈司机的停车场岗亭",
+     "理由": "OCC-A11-B03-03回访重点投诉并约谈当事司机的日常循环直接在场",
+     "风险": "两方独谈缺见证记录，与正典结果口径差一层"
+    }
+   ],
+   "选定方向": "钛湖司法服务馆底层调解室：劳动争议调解进行中，长桌两侧的陈述与让步点被逐句记录，调解员在僵局里推过一杯水"
+  },
+  {
+   "idx": 110,
+   "name": "深夜自习-学习-智力",
+   "card_type": "能力卡",
+   "anchor": "L004 钛湖大学中央图书馆（1.606,3.444）",
+   "方向依据": "底稿_idx110：能力卡·学习·智力，bottom_text『智力+1~2，单卡≤2』，场景须可拍且以个人用功为主角。空间用名录L004钛湖大学中央图书馆，center_km(1.606,3.444)，visual红褐砖、浅灰预制混凝土、内院和高树冠步道。人口依据：OCC-A07-B04-02内容合规审核员、SCN-G01面试与录用等条目说明城市存在大量为资格用功的成年人，深夜自习人群有正典出处。本卡为夜景变体：全局硬设定要求夜景显式标注，故正文声明以255°方位最后余晖加室内暖光为主。不选L025：加班气质压过学习；不选L065：打烊歧义且与_idx8撞背景。",
+   "sections": {
+    "画面定位": "位于钛湖东北文教片区的钛湖大学中央图书馆，中心坐标(1.606,3.444)千米。本卡为夜景变体。",
+    "取景指令": "在L004三层夜间开放阅览厅北端栏杆处离地1.4米朝南，使用32毫米镜头。6秒沿两排长桌之间缓进，前景为摊开的活页笔记、被手掌压住的纸角与一杯见底的茶，中景为台灯下各自用功的深夜自习者五六人，远景呈现南窗整幅夜色——窗外红褐砖立面余温、高树冠剪影和远处湖岸一线灯点。夜景变体显式声明：太阳已落入255°方位山后，天际保留该方向最后一线冷橙余晖，厅内以台灯暖光为主光源；画面不出现走廊与电梯厅；声音为翻页、笔尖、暖风低鸣和极偶尔的椅脚轻响。",
+    "外观辨识": "室内构件写清：浅灰预制混凝土大梁下吊深色钢制台灯臂，长条原木桌密布使用痕；两侧书架层板形成整齐书脊墙；桌面物为活页题册、错题贴签、荧光笔、方形倒计时器、老式计算器与叠成两摞的纸质书；窗外红褐砖墙与高树冠、远处湖岸一线灯点；门厅一侧自助借还机屏幕在夜里有低亮色块。",
+    "人群与烟火气": "深夜厅内取6—15人档，降档理由是深夜自习是安静的个人劳作，人多即毁氛围：主体3—6人组——备考职业资格的青年工程师在活页上划选项、专升本女生对错题贴签、夜班回来补学历的中年职工打盹又醒来、角落一人戴有线耳机背卡；楼外台阶两人合披一件外套回宿舍，门厅值班灯亮着。公共性体现在夜间开放区凭校园与市民凭证进入；22点前人更满，0点后台灯只留半排。科技层（借还机、照明系统）与生活层（保温杯、贴签、外套）同层。",
+    "锁定与禁则": "锁定红褐砖窗景、混凝土大梁与台灯暖光序列。书本、笔记、贴签、借还机屏文字一律模糊笔画；禁网课悬浮窗、电子墨满屏、环形补光等超2013物件；不画品牌咖啡杯与任何标识；无编号角标卡名文字、无外框装帧；窗外远景只许砖面、树冠与湖岸灯点，不得移入金融塔群。"
+   },
+   "tail_extra": "Night-variant scene detail: rows of long oak tables under suspended dark-steel task lamps inside a concrete-beamed reading hall; on the desks ring-bound workbooks with pencil marks, error-correction sticky tabs, highlighters, a chunky countdown timer, a 2013-era calculator, a thermos cup of tea gone cold, two stacks of plain paper books; bookcases lining both walls; through the tall south windows only red-brick campus facades, high tree-crown silhouettes and a thin string of far lakeshore lights under the last cool-orange afterglow on the 255-degree horizon. A self-service return machine glows as colour blocks in the doorway. People: an exam-preparing young engineer, a woman tabulating mistakes, a middle-aged shift worker nodding awake, one learner reciting with wired earphones. Prohibited: readable pages, floating online-class windows, e-ink walls, brand cups, ring-light setups, holograms, drones, card frames or corner numbers.,",
+   "分片": "pending_specs_shardC.json",
+   "方向备选": [
+    {
+     "方向": "中央图书馆夜间开放阅览厅：台灯连排，深夜自习者各自啃书，窗外砖面与湖岸灯点",
+     "理由": "L004本名即中央图书馆，红褐砖加高树冠步道，夜间灯窗是最可拍的智识现场；习惯性的深夜用功贴学习·智力标签",
+     "风险": "夜景属显式变体，必须整卡声明并压住光源数"
+    },
+    {
+     "方向": "云栈协作中心开放工作台阶上的深夜刷题",
+     "理由": "L025台阶与数字从业者契合考证人群",
+     "风险": "办公台阶缺书桌与书架层，画面滑向加班而非自习"
+    },
+    {
+     "方向": "校园书市商廊上层自习卡座",
+     "理由": "L065底商连廊可改卡座，位置与_idx8同带便于复用授权",
+     "风险": "商廊氛围杂，夜间易被读成打烊商铺，安静感不足"
+    }
+   ],
+   "选定方向": "钛湖大学中央图书馆夜间开放阅览厅：两排台灯下的深夜自习者，窗外红褐砖与远处湖岸灯点"
+  },
+  {
+   "idx": 112,
+   "name": "长跑习惯-习惯-体力",
+   "card_type": "能力卡",
+   "anchor": "L030 山湖户外运动中心（-1.606,3.444）",
+   "方向依据": "底稿_idx112：能力卡·习惯·体力，bottom_text『体力+1~2，单卡≤2』，卡义是长期养成的日常体能而非赛事瞬间。落点用名录L030山湖户外运动中心，center_km(-1.606,3.444)，type标志性建筑，visual钛灰拉索、木色座椅、草坡看台和连续运动步道，与D10松岬体育片区center_km(-2.733,3.762)同构；物价正典PRD-CARE-20健身年卡与PRD-DOM-19运动鞋证明跑步是市民账本内的常规开销。不选L028：夜景变体与_idx110撞车且专业队气质；不选R056：无可校验跑道构件，易编造。",
+   "sections": {
+    "画面定位": "位于钛湖西北松岬体育片区的山湖户外运动中心，中心坐标(-1.606,3.444)千米。",
+    "取景指令": "在L030南侧连续运动步道入口离地1.5米朝东北，使用32毫米镜头。7秒顺步道弧度与跑者逆向缓移，前景为一只踏过落叶的旧跑鞋与摆动的手臂，中景为三五成流的收班跑者、草坡看台阴影下拉伸的两人和牵狗让道的居民，远景呈现木色座椅看台檐口、钛灰拉索塔柱剪影和更高处的山脊林线。255°夕光从相机左前方低角掠过步道，给跑者镀出长影并擦亮栏杆与拉索，看台立面保持侧暗面；画面不出现田径主场内场；声音为脚步连点、狗链轻响、拉伸者的笑和远处收班广播的含混尾音。",
+    "外观辨识": "步道本体写清：沥青色透水跑道带浅色分界滚线，边缘收防腐木矮栏与不锈钢扶手，坡度随草坡起伏；看台为木色座椅条带与钛灰斜拉索塔柱，草坡修剪面留有滚轮痕；生活物为搭在栏上的毛巾、公共直饮水柱、无字储物棚一排、跑者腕上的方形电子表；近旁有光纤到楼的检修井与低杆下照灯具，科技层藏在基础设施里；胸牌柜贴文字一律模糊笔画。",
+    "人群与烟火气": "傍晚交接班时段，步道是全城最平价的可及性运动场：合计15—40人档——主体3—6人组为穿旧工装外套直接开跑的制造业下班者、并肩配速讨论积分的两名店员、被狗拽着让道的老人、在草坡阴影拉伸的中学生；远端有推婴儿车散步的家庭。清晨以老年慢走为主、密度减半，雨天仍有人穿雨衣跑；无人收费、无人检录，公共性由直饮水柱与开放储物棚承担。科技层（照明、检修井、电子表）与生活层（工装、狗、毛巾）在同一条跑道上接触。",
+    "锁定与禁则": "锁定透水步道带、木色座椅、钛灰拉索塔柱与草坡看台轮廓。禁赛事化元素：号码布、计时拱门、赞助背景板；跑者服装无品牌标识，只许纯色块；禁手环数据屏与载人无人机跟拍；文字全模糊笔画；无编号角标卡名、无外框装帧；远景不得引入湖面塔群或主场内场。"
+   },
+   "tail_extra": "Scene-specific detail: an asphalt-coloured permeable running lane with pale rolled boundary lines edging a grass-slope bank; low preservative-treated timber rails and brushed steel handings; a row of unmarked grey storage benches, a public drinking-fountain post, a towel draped over the rail; runners in plain faded work clothes and school tracksuits without any brand blocks; a chunky 2013 digital wrist watch, an old dog straining gently across the lane; grandstand bands of wooden-seat strips and raked titanium-grey cable masts catching the low sun. Evening shift-change flow mixes commuters, two clerks pacing together, a student stretching in shade, a family with a stroller. Prohibited: race-bib close-ups, timing gates, sponsor backdrops, readable chest numbers, smartwatch data screens, filming drones, card borders or corner indices. The 255-degree late-autumn sun grazes the lane from front-left casting long raking shadows; the stadium inner field stays out of frame; background limited to the named seat bands, cable masts and ridge tree line.,",
+   "分片": "pending_specs_shardC.json",
+   "方向备选": [
+    {
+     "方向": "山湖户外运动中心的连续运动步道：黄昏收班跑者沿草坡看台下步道成流跑过",
+     "理由": "D10与L030的visual钛灰拉索、木色座椅、草坡看台和连续运动步道直接给出跑道本体，focus即全民运动；傍晚跑流是习惯而非比赛，贴习惯·体力标签",
+     "风险": "运动人群易画成赛事摆拍，需用衣着日常化压住"
+    },
+    {
+     "方向": "松岬体育场塑胶跑道夜训组",
+     "理由": "L028有标准跑道，跑者密度真实",
+     "风险": "夜训需夜景变体，与_idx110在批内重复，且田径队训练感离市民习惯远"
+    },
+    {
+     "方向": "跑道里居民区晨跑环线",
+     "理由": "R056名即跑道里，生活层最厚",
+     "风险": "名录中该居民区无跑道硬质构件依据，细节会越界"
+    }
+   ],
+   "选定方向": "山湖户外运动中心外的连续运动步道：晚秋黄昏，收班跑者、遛狗人与看台阴影下的拉伸者共用一条步道"
+  },
+  {
+   "idx": 116,
+   "name": "钛湖之脊",
+   "card_type": "景群地标卡",
+   "anchor": "L007",
+   "方向依据": "卡名八景打卡为登临钛湖之脊的成就卡（成就积分加8）。主体依据04卷L007钛湖之脊：height_m 368、78个地上使用楼层、深蓝灰直塔、非对称直线斜削冠、含细针状天线、深色横向裙房（外观辨识与锁定段真读）；八景成员依据景群成员可校验表.json人工命名线JQ-L01钛湖八景L001至L008；机位锚点取城市空间名录L007（center_km 3.324,1.842）；远景隔湖逐一点名八景成员真实地标L003城市记忆档案塔82米、L001钛湖市民议事厅74米、L004钛湖大学中央图书馆68米，高度取自04卷真读；全城第一L066钛心金融主塔458米不入本画面。",
+   "sections": {
+    "画面定位": "位于钛湖近正东的东湖金融片区钛湖之脊，中心坐标(3.324,1.842)千米。",
+    "取景指令": "在钛湖之脊上部公共观景平台栏板内侧离地1.6米朝西北，使用24毫米镜头。6秒沿平台环视缓移，前景为打卡拍照的访客与连续栏板，中景为本塔上部收分的非对称直线斜削冠高侧斜面、细针状天线根部与冠部检修走道，均在本塔轮廓内、机位之上，远景隔湖逐一点名为82米城市记忆档案塔、74米钛湖市民议事厅与68米钛湖大学中央图书馆及其前庭。255°晚秋低角度夕光从画面左后方擦亮斜削冠西缘与银钛竖肋；不用广角把塔身拧弯，镜头不越过栏板；东南侧458米钛心金融主塔不入画面；声音为高空风声、檐下低语、快门与电梯到站提示。",
+    "外观辨识": "观景平台由深蓝灰直塔顶部的金属屋面环抱：斜削冠高侧接细针状天线、低侧直线落下，两个侧面交线明确，绝不形成旋转螺带；栏板、避雷与检修走道退在轮廓内，平台铺防滑金属板与低位护栏；裙房深灰石材与玻璃门厅远在脚下，湖面在西北展开，对岸政务与文教塔以平屋顶与退台屋顶立着，各自没有斜削冠与天线。",
+    "人群与烟火气": "以登临八景打卡为场景。游客在栏板前对湖合影、按点位集章，讲解员指认八景方位，摄影者整理器材，少数办公与运维人员经授权在检修侧通行。日间连班打卡、午后人流回落、傍晚散场；无障碍电梯直达观景层，平台设低位休息席与护栏，公众不自由进入办公层与冠部检修区。｜画面内人物密度：前景与中景合计15—40人，主体人物组3—6人，至少一组正在做具体的事（合影、指认、拍照、走）。科技上半为斜削冠、针状天线与幕墙竖肋，下半为平台访客与脚下街湖生活。",
+    "锁定与禁则": "锁定368米含针状天线、深蓝灰直塔、非对称直线斜削冠与深色横向裙房。冠部斜削与细针组合全城唯一只属本塔，不得安到对岸档案塔、议事厅或图书馆上；对岸各塔保持直线平退屋顶，本塔与远景一律不得扭转；458米钛心金融主塔不入本画面；无水印，无凭空文字。"
+   },
+   "tail_extra": "an ascent-and-check-in view from a public observation platform near the crown of the 368-metre 钛湖之脊: visitors posing and stamping a tour card at a continuous railing, a guide pointing out the eight scenes across the lake, photographers organizing gear; the mid-ground shows this one shaft's own asymmetric straight-cut sloped crown, its high side joined to a single slender needle antenna and its low side falling as a straight line, with a maintenance walkway and lightning protection kept inside the outline; the far bank names only an 82-metre archive tower, a 74-metre assembly hall and a 68-metre university library, all with flat or stepped roofs and no sloped crown or antenna; the 458-metre main tower L066 stays out of frame; the sloped-crown-plus-needle belongs to this shaft alone and must not be copied onto any far tower; the straight shaft must not be twisted even with a wide lens; door plates and check-in screens as unreadable blurred strokes; crown upper, platform visitors and lakefront life lower.,",
+   "分片": "pending_specs_shardB.json"
+  }
+ ],
+ "骨架字数": {
+  "画风锚点": 493,
+  "全局硬设定": 999,
+  "English tail 风格前缀": 279,
+  "English tail 禁则后缀": 1614,
+  "English tail 画幅句": 367
+ },
+ "条数": 34,
+ "合并读数": {
+  "分片件": [
+   "pending_specs_shardA.json",
+   "pending_specs_shardB.json",
+   "pending_specs_shardC.json"
+  ],
+  "条目": 34,
+  "带方向备选条数": 11,
+  "剥掉自带画幅措辞条数": 0,
+  "坐标行全覆盖": 34
+ }
+}
