@@ -142,6 +142,31 @@ class CardFacesGateTest(unittest.TestCase):
         self.assertEqual(code, 1, out)
         self.assertIn("有文案版底部文字带无墨", out)
 
+    def test_竖幅源未换横幅时印章必须判红(self):
+        """竖幅源按窗宽放进来会高出窗带，落点框随之越窗——这条守「印章不挂到卡面之外」。"""
+        def mutate(man):
+            for c in man["cards"]:
+                if c["file"].startswith("东湖金融线-L009"):
+                    c["src_size"] = [1024, 1536]
+        self._manifest(mutate)
+        code, out = run(self.root)
+        self.assertEqual(code, 1, out)
+        self.assertIn("越出实景窗带", out)
+
+    def test_印章内缩归小时必须判红(self):
+        """判据非退化读数：把内缩从 0.0533 退回原型的 0.0370 再退到 0.02，
+        可见章面下沿就会落进实景下沿 35 px 的台标带——闸门必须当场翻红。"""
+        import verify_card_faces as gate
+        self.assertGreaterEqual(gate.SEAL_INSET_R, 0.0533)
+        saved = gate.SEAL_INSET_R
+        try:
+            gate.SEAL_INSET_R = 0.02
+            hits = [f for f in gate.check(ROOT) if "台标带" in f]
+        finally:
+            gate.SEAL_INSET_R = saved
+        self.assertEqual(len(hits), 119, hits[:2])
+        self.assertEqual([f for f in gate.check(ROOT) if "台标带" in f], [])
+
 
 if __name__ == "__main__":
     sys.path.insert(0, HERE)

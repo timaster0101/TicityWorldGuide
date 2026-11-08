@@ -7,7 +7,10 @@
   3) manifest 副标题不含档号（A12／L009／T3 之类），即「副标题里的编号一起去掉」已落实；
   4) 不存在「源放不下」的卡——竖幅源必须由 数据/卡面专用提示词/ 产出的横幅图顶上，不许挤压或留白；
   5) 有文案版底部文字带有墨、无文案版同带无墨，两版只差程序叠字那一段；
-  6) 占位窗（实景待投／需卡面专用图）只允许出现在 manifest 记为 MISSING 的卡上。
+  6) 占位窗（实景待投／需卡面专用图）只允许出现在 manifest 记为 MISSING 的卡上；
+  7) 运行时印章（card-lab/seal.html 的 720 像素见方 SVG）在 768×1024 画幅上的落点：
+     落点框必须在实景窗带内、不压标题/副标题/底部三条文字带，可见章面既不越出该卡实际
+     贴入格，也不进入实景下沿 35 px 的「模型侧 AI生成 台标带」（角标不许被遮盖）。
 
 --root 指向副本目录即可对夹具跑违例负测，不触碰被守护仓库。
 """
@@ -26,6 +29,16 @@ WINDOW_BAND = (0.3200, 0.7930)
 PLACEHOLDER_FILL = (0xE9, 0xE1, 0xD3)
 CODE_RE = re.compile(r"(?<![A-Za-z0-9])[A-Z]\d{2,3}(?![0-9])")
 
+# 印章口径：尺寸比例取自已批准的 1080×1800 原型（card-lab/shoot2.py 的 SIZE=360），
+# 内缩从原型 40/1080=0.0370 抬到 0.0533（24→34 px），理由是右下角落点要离台标带；
+# 可见章面＝720 素材去掉四周透明留白后的外接框占比，实测 x0.058..0.946 y0.049..0.939。
+SEAL_SIZE_R = 0.3333
+SEAL_INSET_R = 0.0533
+SEAL_VIS = (0.058, 0.049, 0.946, 0.939)
+SEAL_BADGE_BAND = 35
+SEAL_WIN_X = (0.0153, 0.9646)
+SEAL_TEXT_BANDS = {"标题": (0.098, 0.140), "副标题": (0.186, 0.219), "底部文案": BOTTOM_BAND}
+
 
 def body_rect(w, h):
     x0 = round(w * MARGIN["left"])
@@ -33,6 +46,49 @@ def body_rect(w, h):
     y0 = round(h * MARGIN["top"])
     y1 = h - round(h * MARGIN["bottom"])
     return x0, y0, x1 - x0, y1 - y0
+
+
+def seal_boxes(bx, by, bw, bh, src_size=None):
+    """返回 (窗带, 该卡实际贴入格, 印章落点框, 可见章面框)，全部为画布像素。"""
+    wx = bx + round(bw * SEAL_WIN_X[0])
+    ww = round(bw * (SEAL_WIN_X[1] - SEAL_WIN_X[0]))
+    top = by + round(bh * WINDOW_BAND[0])
+    limit = by + round(bh * WINDOW_BAND[1]) - top
+    fill = round(ww * src_size[1] / src_size[0]) if src_size else limit
+    size = round(bw * SEAL_SIZE_R)
+    inset = round(bw * SEAL_INSET_R)
+    x1 = wx + ww - inset
+    y1 = top + fill - inset
+    box = (x1 - size, y1 - size, x1, y1)
+    vis = (round(box[0] + SEAL_VIS[0] * size), round(box[1] + SEAL_VIS[1] * size),
+           round(box[0] + SEAL_VIS[2] * size), round(box[1] + SEAL_VIS[3] * size))
+    return (wx, top, wx + ww, top + limit), (wx, top, wx + ww, top + fill), box, vis
+
+
+def seal_fails(rec, band, fill, box, vis, text_bands):
+    out = []
+    if not (band[0] <= box[0] and box[2] <= band[2] and band[1] <= box[1] and box[3] <= band[3]):
+        out.append("%s 印章落点框 %s 越出实景窗带 %s" % (rec["file"], box, band))
+    for nm, (y0, y1) in text_bands.items():
+        if not (box[3] < y0 or y1 < box[1]):
+            out.append("%s 印章落点框压到%s带 %s..%s" % (rec["file"], nm, y0, y1))
+    if vis[3] > fill[3]:
+        out.append("%s 可见章面下沿 %d 越出该卡实景下沿 %.1f" % (rec["file"], vis[3], fill[3]))
+    if vis[3] > fill[3] - SEAL_BADGE_BAND:
+        out.append("%s 可见章面下沿 %d 进入台标带（实景下沿 %.1f − %d）"
+                   % (rec["file"], vis[3], fill[3], SEAL_BADGE_BAND))
+    return out
+
+
+def seal_readout(bx, by, bw, bh):
+    tiers = collections.OrderedDict()
+    tiers["3:2 源 1536x1024"] = (1536, 1024)
+    tiers["7:4 源 1792x1024"] = (1792, 1024)
+    tiers["占位窗（无实景）"] = None
+    for nm, src in tiers.items():
+        _, fill, box, vis = seal_boxes(bx, by, bw, bh, src)
+        print("  印章落点 %-18s 落点框 %s 可见章面 %s 实景下沿 %.1f" % (nm, box, vis, fill[3]))
+    return len(tiers)
 
 
 def band_rows(img, lo, hi):
@@ -118,6 +174,20 @@ def check(root):
     for c in man["cards"]:
         if CODE_RE.search(c.get("subtitle") or ""):
             fails.append("%s 副标题仍含档号：%s" % (c["file"], c["subtitle"]))
+
+    bx, by, bw, bh = body_rect(*CANVAS)
+    text_bands = {nm: (by + round(bh * lo), by + round(bh * hi))
+                  for nm, (lo, hi) in SEAL_TEXT_BANDS.items()}
+    stamped = 0
+    for c in man["cards"]:
+        if c["template"] == "back" or c["status"] == "OVERFLOW":
+            continue
+        src = tuple(c["src_size"]) if c.get("src_size") else None
+        band, fill, box, vis = seal_boxes(bx, by, bw, bh, src)
+        fails.extend(seal_fails(c, band, fill, box, vis, text_bands))
+        stamped += 1
+    print("印章叠合判据覆盖 %d 张（背面 5 张不叠章）" % stamped)
+    seal_readout(bx, by, bw, bh)
     return fails
 
 
