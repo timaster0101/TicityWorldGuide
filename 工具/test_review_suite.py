@@ -182,8 +182,10 @@ class ReviewSuiteTests(unittest.TestCase):
 
     def status_echo_violations(self):
         """判据纯函数：状态栏只许是清单的回显，不许是套件自己下的结论。
-        返回（回显与清单不符的条, 「已验收」出现在回显行之外的自撰行）。C139 之后清单里真有 312 条已验收，
-        原来那句「工作单里不许出现已验收」会把合法回显判成代签；改成钉回显本身，守卫力度不降。"""
+        返回（回显与清单不符的条, 「已验收」出现在回显行之外的自撰行）。C139 代签那阵清单里真有 312 条已验收，
+        原来那句「工作单里不许出现已验收」会把合法回显判成代签；改成钉回显本身，守卫力度不降。
+        C153 换档后清单现算全是待复验，那条豁免眼下不在真实数据上生效——它守的是重新签署之后的形态，
+        所以由负测的注入样本提供承载（见 test_status_echo_guard_is_not_inert），不是死代码。"""
         status = {it["id"]: it["status"] for it in self.manifest}
         mismatch = []
         for eid, lines in self.item_blocks().items():
@@ -246,13 +248,17 @@ class ReviewSuiteTests(unittest.TestCase):
 
         lie = '                        (info["head"].get("image_prompt_sha256") or "未绑定")[:12], it["status"]))'
         self.assertEqual(pristine.count(lie), 1, "注入锚点没落在状态回显的取值上")
-        self.script.write_text(pristine.replace(lie, lie.replace('it["status"]', '"待复验"'), 1),
+        # 注入值取「已验收」而不是当年那句「待复验」：C153 换档把 312 条整批降回待复验，
+        # 再注入「待复验」就成了照抄清单、mismatch 恒 0（假绿）。
+        # 这一注入同时兼作 stray 那条豁免正则的承载证明：回显行写成已验收必须**不**算自撰结论，
+        # 否则清单一旦重新签署，合法回显会整批判红。
+        self.script.write_text(pristine.replace(lie, lie.replace('it["status"]', '"已验收"'), 1),
                                encoding="utf-8")
         self.run_suite()
         mismatch, stray = self.status_echo_violations()
         self.assertEqual(len(mismatch), 312)
         self.assertEqual({r for _, r in mismatch}, {"状态回显与清单不符"})
-        self.assertEqual(stray, [])
+        self.assertEqual(stray, [], "回显行里的已验收被当成了套件自撰的结论，豁免支路失效")
         self.script.write_text(pristine, encoding="utf-8")
         self.run_suite()
         self.assertEqual(self.status_echo_violations(), ([], []))

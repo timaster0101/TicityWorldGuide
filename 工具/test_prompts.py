@@ -17,10 +17,15 @@ INPUTS = ("AI地点知识库.json", "参考房价租金.json", "城市空间名�
 BANNED_UNIQUE_TOWER = ("唯一超过200米", "唯一超过两百米", "唯一超200米",
                        "第二座超两百米塔", "第二座超过200米", "第二座超200米", "唯一368米地标")
 
-# C123 投放基线的逐条摘要存档。C125／C126 用它钉「判据侧改动不许动画面串」；
-# C132 是基线之后第一条**合法**改了画面串的裁定，所以这条比对必须按 C132 的口径把它的
-# 覆盖面现算出来再排除，而不是把断言整条删掉——删掉就再没人管其后新增的静默换串。
+# 摘要沿革的两份在案登记件（逐条 before/after，长期留档不随生成器重写）：
+#   c123 ＝ C123 投放基线；c153 ＝ C153 画风换档之前的基准（b74127f6079e 那一版）。
+# 「相对基线换了摘要」这件事从 C132 起不再是违例，违例换成了「换了串却没被在案裁定解释」。
+# 比对锚点因此必须是**最近一次在案换档之后**的那版基准，而不是最早那份：拿 C123 当锚点，
+# C153 的 312 条合法换档会把这条减法撑爆，历史上「判据侧改动不许动画面串」那道守卫就再也判不出红。
+# 下一次合法换档时：先追加裁定＋新登记件，再把 BASELINE_DIGESTS 挪到新件——
+# 不挪就是让新换档当场被点名，这是设计（守卫跟着在册走，不跟着便利走）。
 C123_DIGESTS = ("工具", "reinject_2026_11_05", "prompt_digests_c123.json")
+BASELINE_DIGESTS = ("工具", "reinject_2026_11_05", "prompt_digests_c153.json")
 C132_REPRINTED_SIZES = ("1280x1024", "1792x1024")
 HALF_ANGLE_PRINTS = ("degree half-angle", "水平半视锥")
 
@@ -37,28 +42,42 @@ def prompt_files(root=ROOT):
 
 
 def prompt_digest_moves(root=ROOT, items=None):
-    """相对 C123 基线换了 prompt_sha256 的条目 id（顺序随清单）；manifest 可注入以便负测。"""
-    snapshot = json.loads((root / Path(*C123_DIGESTS)).read_text(encoding="utf-8"))["items"]
+    """相对最近一次在案换档基准（BASELINE_DIGESTS）换了 prompt_sha256 的条目 id（顺序随清单）；
+    manifest 可注入以便负测。"""
+    snapshot = json.loads((root / Path(*BASELINE_DIGESTS)).read_text(encoding="utf-8"))["items"]
     items = manifest_items(root) if items is None else items
     return [m["id"] for m in items if m["prompt_sha256"] != snapshot[m["id"]]["after"]]
+
+
+def unexplained_moves(root=ROOT, items=None):
+    """换了串、又没有被在册换档裁定解释的条目——C125／C126 那类「判据侧改动」的违例就长这样。
+    锚点已是最后一次在案换档之后，所以本锚点之后没有任何合法换档面可减；下一次合法换档要走
+    BASELINE_DIGESTS 的注释里那条路（追加裁定＋登记件＋挪锚点），不是在这里加回减法——
+    加回减法等于让任何一次换档都能顺手把自己从守卫名单里抹掉。"""
+    return sorted(set(prompt_digest_moves(root, items)))
+
+
+def c132_moved_between_archives(root=ROOT):
+    """C123 基线与 C153 换档前基准两份登记件对拍出来的换串条＝C124—C152 期间动过画面的那些条。
+    为什么只能这么比：现清单已被 C153 整批改过，拿现清单减 C123 快照会把 312 条全算进来，
+    C132 那次的覆盖面历史就没法再证。两份留档都是登记件、不随生成器重写，比对永不过期。"""
+    a = json.loads((root / Path(*C123_DIGESTS)).read_text(encoding="utf-8"))["items"]
+    b = json.loads((root / Path(*BASELINE_DIGESTS)).read_text(encoding="utf-8"))["items"]
+    return sorted(i for i in b if a[i]["after"] != b[i]["before"])
 
 
 def c132_reprinted_ids(root=ROOT):
     """C132 能改到的条：只有 5:4 与 7:4 两档，且只有正文真打印了半视锥读数的条。
     3:2 横幅与 2:3 竖幅在同一定标下读数一字不变（1536→18 毫米、1024→12 毫米，与 C99／C118 已裁值相同），
     labeled variant 里取景段自换太阳的条按 C111 走静态句、根本没有这个读数。
-    集合从清单的 size 与产物正文现读，不抄条数——抄了就又是下一轮过期的第二个数字。"""
+    集合从清单的 size 与产物正文现读，不抄条数——抄了就又是下一轮过期的第二个数字。
+    正文措辞在 C153 换过画风档，但半视锥读数属取景段、不在画风三处之内，所以这里现算仍成立；
+    不成立时 test_the_moved_set_equals_the_c132_scope_exactly 会当场判红。"""
     files = prompt_files(root)
     return [it["id"] for it in manifest_items(root)
             if it["size"] in C132_REPRINTED_SIZES
             and it["id"] in files
             and any(tok in files[it["id"]].read_text(encoding="utf-8") for tok in HALF_ANGLE_PRINTS)]
-
-
-def moves_outside_c132(root=ROOT, items=None):
-    """既换了串、又不在 C132 覆盖面里的条目——C125／C126 那类「判据侧改动」的违例就长这样。"""
-    return sorted(set(prompt_digest_moves(root, items)) - set(c132_reprinted_ids(root)))
-
 
 
 class BuildPromptsTests(unittest.TestCase):
@@ -340,36 +359,44 @@ class BuildPromptsTests(unittest.TestCase):
         for gone in ("**实景**：主体为钛湖城 CG", "景群套系·{L编号}", "板块套系·{D编号}"):
             self.assertNotIn(gone, spec, "C142 作废的旧卡面措辞回来了：" + gone)
 
-    def test_manual_states_the_c122_medium_words_and_the_two_variable_attribution(self):
-        """C122：手册第11节的画风段必须把「颜料怎么铺」写成可执行的媒介句（非金属层平滑过渡、无厚涂无干笔、
-        皮肤豁免笔触、天空平滑渐变），并把 C105 的单变量归因（措辞管媒介感、画幅管远景可纳性）留在选型依据里——
-        否则下一轮又会拿换画幅当改画风。英文tag 单独取代码段判：C105 那两句作为「被撤掉的旧串」允许出现在
-        注释里引用，但不许再出现在实际投放的 tag 里。反向压制：厚涂句一回到 tag 或画风段就说明档位被人改回去了。"""
+    def test_manual_states_the_c153_medium_words_and_the_two_variable_attribution(self):
+        """C153：手册第11节的画风段必须把「颜料怎么铺」写成可执行的媒介句（不透明厚涂＋干笔边缘铺每一个面、
+        脸也在内、颜料保持可读、天空按可见云朵笔触铺），并把 C105 的单变量归因（措辞管媒介感、画幅管远景可纳性）
+        留在选型依据里——否则下一轮又会拿换画幅当改画风。反向压制：C122 的平滑四句一回到画风段或实际投放的
+        tag 代码段，就说明有人把档翻回被本轮否证的那一头；平滑串只允许作为「被否证的旧串」出现在注释里。"""
         manual = (ROOT / "AI创作使用手册.md").read_text(encoding="utf-8")
-        for keep in ("玻璃、石材、布料、树叶与天空都画成柔和过渡的色面，不做厚涂堆叠、不做干笔边缘",
-                     "皮肤干净平滑，既不带笔触也不带毛孔",
-                     "天空画成平滑渐变，不铺云朵笔触",
+        for keep in ("用不透明颜料的堆叠笔触与干笔边缘铺每一个面",
+                     "颜料保持可读而不是被抹平",
+                     "天空按可见的云朵笔触铺，不画成平滑渐变",
+                     "皮肤干净无毛孔但要带笔触",
+                     "笔触要能在幕墙玻璃、瓦面、石阶与柏油上读出来",
                      "中文段写的是题材不是媒介，媒介感得靠首句的声明撑住",
                      "措辞管媒介感、画幅管远景可纳性",
                      "C105只加媒介强度、不动画幅档位",
                      "人物通道与开图正典仍用同一组媒介词",
+                     "C153 起这一问重新看笔触",
+                     "C153 起这一项回到以笔触为准",
+                     "尚未裁定」自 C122 起作废",
+                     "自 C153 起已经走完、不再是路径"):
+            self.assertIn(keep, manual, "手册第11节的 C153 口径丢了：" + keep[:24])
+        self.assertNotIn("厚涂出。人物", manual, "手册画风段退回 C100 前的旧写法，媒介句没了")
+        for gone in ("玻璃、石材、布料、树叶与天空都画成柔和过渡的色面，不做厚涂堆叠、不做干笔边缘",
+                     "皮肤干净平滑，既不带笔触也不带毛孔",
                      "C122 起这一问不再看笔触",
-                     "尚未裁定」自 C122 起作废"):
-            self.assertIn(keep, manual, "手册第11节的 C122 口径丢了：" + keep[:24])
-        self.assertNotIn("厚涂出。人物", manual, "手册画风段退回旧写法，媒介句没了")
-        for gone in ("用不透明颜料的堆叠笔触与干笔边缘铺每一个面", "颜料保持可读而不是被抹平"):
-            self.assertNotIn(gone, manual, "C105 的厚涂媒介句回到手册画风段：" + gone[:24])
+                     "C122 起这一档管的是柔和过渡的层级差，不再管笔触"):
+            self.assertNotIn(gone, manual, "C122 的平滑口径回到手册正文：" + gone[:24])
         tag_line = [line for line in manual.splitlines() if line.startswith("英文tag：")][0]
         tag = tag_line.split("`")[1]
         self.assertNotIn("realistic proportions, smooth airbrushed skin", tag,
                          "人物特写 tag 退回 C100 的喷枪磨皮写法")
-        for keep in ("smoothly blended paint on glass, stone, fabric and foliage with no impasto texture",
-                     "clean blended skin", "sky as a smooth blended gradient",
+        for keep in ("opaque impasto brush strokes and dry-brush edges on skin and fabric",
+                     "paint kept readable instead of smoothly blended", "visible brushwork",
                      "hair in clean clumps with one stylized highlight streak"):
-            self.assertIn(keep, tag, "人物特写 tag 没有跟上 C122 的媒介词：" + keep[:32])
-        for gone in ("opaque impasto brush strokes and dry-brush edges on skin and fabric",
-                     "paint kept readable instead of smoothly blended", "visible brushwork"):
-            self.assertNotIn(gone, tag, "人物特写 tag 里 C105 的厚涂句回来了：" + gone[:40])
+            self.assertIn(keep, tag, "人物特写 tag 没有跟上 C153 回退后的媒介词：" + keep[:32])
+        # 判据方向反过来：MEDIUM_ROLLBACK_PHRASES 现在的语义是「被 C153 否证、不许回流」，
+        # 手册投放 tag 若与它有任何交集即为换档没落干净，故这里直接拿那份名单现算而不是另抄一组字面量。
+        for gone in self.MEDIUM_ROLLBACK_PHRASES:
+            self.assertNotIn(gone, tag, "被 C153 否证的平滑串回到人物特写 tag：" + gone[:40])
 
     def test_manual_checks_skyline_source_as_a_tenth_item(self):
         """C106：手册第10节的交付清单必须有「背景塔形来源」这一项，且第10节后面的复看段把判据数改成十条——
@@ -833,16 +860,19 @@ class BuildPromptsTests(unittest.TestCase):
 
     # C105 曾把媒介强度钉成「不透明厚涂铺每个面」；C122（2026-11-04）按三轮单变量诊断把它翻到另一头：
     # 皮肤豁免笔触、非金属层降到探底档。诊断链与归因见 工具/build_prompts.py 的 C122 注释块与本节手册第11节。
+    # C153（2026-11-09）：平滑档按 C122 自己在册的风险条款兑现——三种画布、四种串形态全部出成照片，
+    # 只说笔触不说厚涂的中间档也只回到半绘画，故本层判据换到强媒介档（回退串就是原 C105 串）。
     # 判据仍两侧钉：首句（媒介感唯一的实际生效位）与 English tail 正向段（模型读的第二遍）。
     # 分层要点：结构层 ANCHOR_MARKS 管「有没有声明媒介」，本层管「声明的是哪一档媒介」，换档只动本层。
-    MEDIUM_ANCHOR_MARKS = ("smoothly blended painted areas", "no visible impasto", "skin is clean and blended")
-    MEDIUM_CORE_MARKS = ("smoothly blended paint on glass", "no impasto texture",
-                         "sky as a smooth blended gradient")
-    # 被 C122 否证的上一档措辞：厚涂铺每个面、颜料保持可读、云笔触铺天——这三句一旦回到 tail，
-    # 说明有人把油画感加回来了；本档的画面里不许再出现「颜料可读优先于平滑过渡」这句话。
-    MEDIUM_ROLLBACK_PHRASES = ("opaque impasto paint layers", "kept readable instead of smoothly blended",
-                               "sky laid in with visible cloud strokes")
-    # C100／C105 时代的锚点原文，只用于违例负测（把 D11 降回旧措辞）。
+    MEDIUM_ANCHOR_MARKS = ("opaque impasto brush strokes", "dry-brush edges build every surface",
+                           "kept readable instead of smoothly blended")
+    MEDIUM_CORE_MARKS = ("opaque impasto paint layers", "sky laid in with visible cloud strokes",
+                         "visible brushwork and hand-mixed edges")
+    # 被 C153 否证的上一档（C122 平滑档）措辞：非金属层平滑过渡、无厚涂无干笔、皮肤平滑、天空平滑渐变——
+    # 这四句一旦回到 tail，说明有人把画面推回照片/干净CG 那一头；本档的画面里不许再出现「颜料铺成平滑过渡」这句话。
+    MEDIUM_ROLLBACK_PHRASES = ("smoothly blended paint on glass", "no impasto texture",
+                               "clean blended skin", "sky as a smooth blended gradient")
+    # C100／C105 时代的锚点原文：C100 只用于违例负测（证明媒介层强于结构层），C105 已升为本档正文。
     ANCHOR_C100 = ("【画风锚点】medium is a semi-realistic digital painting: visible brushwork and hand-mixed edges on "
                    "every surface, including faces, glass, stone, fabric and foliage; painted illustration rather than "
                    "a snapshot; the Chinese sections below describe the subject, not the medium")
@@ -850,6 +880,12 @@ class BuildPromptsTests(unittest.TestCase):
                    "edges build every surface, with visible brushwork and hand-mixed edges on faces, glass, stone, "
                    "fabric and foliage, and the paint kept readable instead of smoothly blended; painted illustration "
                    "rather than a snapshot; the Chinese sections below describe the subject, not the medium")
+    ANCHOR_C122 = ("【画风锚点】medium is a semi-realistic digital painting: glass, stone, fabric, foliage and sky are "
+                   "smoothly blended painted areas with no visible impasto and no dry-brush edges, and skin is clean and "
+                   "blended with no brush strokes on it; the picture still reads as a painting because of its soft "
+                   "hand-mixed transitions, its drawn edges and its idealized features, not because of thick paint; "
+                   "painted illustration rather than a snapshot; the Chinese sections below describe the subject, "
+                   "not the medium")
     CORE_C100 = ('STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed edges, painted surfaces, "\n'
                  '              "soft airbrushed gradient sky, warm late-autumn palette, illustrated cityscape rather than a snapshot")')
     CORE_C105 = ('STYLE_CORE = ("semi-realistic digital painting, visible brushwork and hand-mixed edges, opaque impasto paint layers "\n'
@@ -871,9 +907,9 @@ class BuildPromptsTests(unittest.TestCase):
                 out.append((eid, tuple(missing)))
         return out
 
-    def test_every_prompt_carries_the_c122_medium_words(self):
-        """C122：312 条的首句与 tail 正向段都要带本档的媒介词（非金属层平滑过渡／无厚涂／皮肤不带笔触／天空平滑渐变），
-        且被本档否证的上一档措辞（厚涂铺每个面、颜料可读优先、云笔触铺天）不得在 tail 里以任何形式回来。"""
+    def test_every_prompt_carries_the_c153_medium_words(self):
+        """C153：312 条的首句与 tail 正向段都要带本档的媒介词（不透明厚涂铺每个面／颜料可读优先于平滑／云笔触铺天），
+        且被本档否证的上一档措辞（非金属层平滑过渡、无厚涂无干笔、皮肤平滑、天空平滑渐变）不得在 tail 里以任何形式回来。"""
         self.assertEqual(self.medium_violations(), [])
         for eid in ("L083", "L066", "F039", "R009", "S02", "S18", "D03"):
             with self.subTest(eid=eid):
@@ -884,14 +920,14 @@ class BuildPromptsTests(unittest.TestCase):
             with self.subTest(word=word):
                 self.assertNotIn(word, self.fed_body("L083").splitlines()[0])
 
-    def test_downgrading_one_anchor_to_the_c105_wording_is_caught(self):
-        """违例负测（首句侧）：只把 D11 的首句降回 C105 锚点（厚涂铺每个面、皮肤须带笔触那一档）。
-        旧锚点仍满足 C122 结构层的四条标记，所以锚点判据必须全绿、媒介判据必须只报 D11 且报的是三个媒介词缺失——
+    def test_downgrading_one_anchor_to_the_c122_wording_is_caught(self):
+        """违例负测（首句侧）：只把 D11 的首句降回 C122 锚点（非金属层平滑过渡、皮肤豁免笔触那一档）。
+        旧锚点仍满足结构层的四条标记，所以锚点判据必须全绿、媒介判据必须只报 D11 且报的是三个媒介词缺失——
         证明媒介层判据严格强于结构层，而不是同一件事重复一遍。恢复后归零。"""
         pristine = self.script.read_text(encoding="utf-8")
         anchor = "    lines.append(STYLE_ANCHOR)"
         self.assertEqual(pristine.count(anchor), 1, "注入锚点没落在正文首句那一行")
-        downgrade = ('    lines.append(STYLE_ANCHOR if eid != "D11" else %r)' % self.ANCHOR_C105)
+        downgrade = ('    lines.append(STYLE_ANCHOR if eid != "D11" else %r)' % self.ANCHOR_C122)
         self.script.write_text(pristine.replace(anchor, downgrade, 1), encoding="utf-8")
         self.run_generator()
         violations = self.medium_violations()
@@ -905,19 +941,19 @@ class BuildPromptsTests(unittest.TestCase):
         self.run_generator()
         self.assertEqual(self.medium_violations(), [])
 
-    def test_rolling_the_tail_core_back_to_the_c105_phrase_is_caught(self):
-        """违例负测（tail 侧）：把 STYLE_CORE 整体降回 C105 的三行写法（含 opaque impasto paint layers 与
-        sky laid in with visible cloud strokes）。312 条必须全报，缺失项只有 tail 侧三个媒介词与两句「旧措辞回来了」，
+    def test_rolling_the_tail_core_back_to_the_c122_phrase_is_caught(self):
+        """违例负测（tail 侧）：把 STYLE_CORE 整体降回 C122 的三行写法（含 smoothly blended paint on glass 与
+        sky as a smooth blended gradient）。312 条必须全报，缺失项只有 tail 侧三个媒介词与四句「旧措辞回来了」，
         首句侧不许被牵连——证明这一判据管的是 tail，不与首句判据混成一个变量。恢复后归零。"""
         pristine = self.script.read_text(encoding="utf-8")
-        self.assertEqual(pristine.count(self.CORE_C122), 1, "注入用的 STYLE_CORE 原文与生成器不一致")
-        self.script.write_text(pristine.replace(self.CORE_C122, self.CORE_C105, 1), encoding="utf-8")
+        self.assertEqual(pristine.count(self.CORE_C105), 1, "注入用的 STYLE_CORE 原文与生成器不一致")
+        self.script.write_text(pristine.replace(self.CORE_C105, self.CORE_C122, 1), encoding="utf-8")
         self.run_generator()
         violations = self.medium_violations()
         self.assertEqual([eid for eid, _ in violations], sorted(self.items))
         expected = tuple(self.MEDIUM_CORE_MARKS) + tuple(
             "旧措辞回来了:" + r for r in self.MEDIUM_ROLLBACK_PHRASES
-            if r in self.CORE_C105 and r not in self.CORE_C122)
+            if r in self.CORE_C122 and r not in self.CORE_C105)
         self.assertEqual({v[1] for v in violations}, {expected})
         self.assertEqual(self.anchor_violations(), [])
         self.script.write_text(pristine, encoding="utf-8")
@@ -2074,10 +2110,10 @@ class RulingC125SilhouetteBoundary(unittest.TestCase):
     def test_c125_moves_no_prompt_digest_and_writes_nothing_into_the_prompt_bodies(self):
         manifest = manifest_items()
         self.assertEqual(len(manifest), 312)
-        # C132 是基线之后唯一在案的合法换串来源；除它以外一条都不许动。
-        self.assertEqual(moves_outside_c132(items=manifest), [],
-                         "C125 动了画面串（C132 的半幅宽派生之外）：%s"
-                         % moves_outside_c132(items=manifest)[:5])
+        # 在案换档之外一条都不许动（锚点＝C153 登记件，见 C123_DIGESTS 上方注释）。
+        self.assertEqual(unexplained_moves(items=manifest), [],
+                         "C125 动了画面串（在案换档之外）：%s"
+                         % unexplained_moves(items=manifest)[:5])
         leaks = []
         for path in sorted((ROOT / "数据" / "开图提示词").glob("*.txt")):
             text = path.read_text(encoding="utf-8")
@@ -2122,9 +2158,9 @@ class RulingC126RodAndCraneTiering(unittest.TestCase):
 
     def test_c126_moves_no_prompt_digest_and_writes_nothing_into_the_prompt_bodies(self):
         manifest = manifest_items()
-        self.assertEqual(moves_outside_c132(items=manifest), [],
-                         "C126 动了画面串（C132 的半幅宽派生之外）：%s"
-                         % moves_outside_c132(items=manifest)[:5])
+        self.assertEqual(unexplained_moves(items=manifest), [],
+                         "C126 动了画面串（在案换档之外）：%s"
+                         % unexplained_moves(items=manifest)[:5])
         leaks = []
         for path in sorted((ROOT / "数据" / "开图提示词").glob("*.txt")):
             text = path.read_text(encoding="utf-8")
@@ -2183,13 +2219,16 @@ class RulingC131DerivedCheckInCounts(unittest.TestCase):
 
 class RulingC132PromptDigestScope(unittest.TestCase):
     """C132 是 C123 投放基线之后第一条**合法**改了画面串的裁定，所以「相对基线换了摘要」这件事
-    本身不再是违例；违例换成了「换的条不在 C132 的覆盖面里」或「覆盖面里的条没换」。
-    这条类把 C125／C126 依赖的那个减法显式钉住，并证明减法本身不是空转判绿。"""
+    本身不再是违例；违例换成了「换的条不在在案裁定覆盖的换档面里」。
+    C153 是第二条：312 条整批换档，比对锚点因此从 C123 快照挪到 C153 登记件的 after。
+    C132 那次的覆盖面不再拿现清单证（现清单已被 C153 整批改过，减法会盖住一切），
+    改由两份登记件对拍——c123.after ≠ c153.before 的那 195 条，就是 C124—C152 期间动过画面的条。"""
 
     def test_the_moved_set_equals_the_c132_scope_exactly(self):
-        moved = set(prompt_digest_moves())
+        moved = set(c132_moved_between_archives())
         explained = set(c132_reprinted_ids())
         self.assertTrue(explained, "C132 覆盖面现算出空集——size 列或半视锥句没了，判据已空转")
+        self.assertTrue(moved, "两份登记件对拍出差集为空，说明登记件被同一版数据顶掉了，历史比对失效")
         self.assertEqual(moved, explained,
                          "换串的条与 C132 覆盖面不吻合：多换 %s｜该换没换 %s"
                          % (sorted(moved - explained)[:5], sorted(explained - moved)[:5]))
@@ -2199,18 +2238,30 @@ class RulingC132PromptDigestScope(unittest.TestCase):
 
     def test_a_move_outside_the_c132_scope_is_named(self):
         """违例负测：在内存里把一条 3:2 横幅（C132 覆盖面之外）的摘要改一个字符，
-        C125／C126 用的那条减法必须点名它；恢复后归零。不写盘。"""
+        相对在册基准的换串守卫必须点名它；恢复后归零。不写盘。"""
         items = json.loads((ROOT / "数据" / "开图清单.json").read_text(encoding="utf-8"))["items"]
         victim = next(it for it in items if it["size"] == "1536x1024"
                       and it["id"] not in set(c132_reprinted_ids()))
-        pristine = moves_outside_c132(items=items)
-        self.assertEqual(pristine, [], "真实仓库本身就带着 C132 覆盖面之外的换串，负测失去比对对象")
+        pristine = unexplained_moves(items=items)
+        self.assertEqual(pristine, [], "真实仓库本身就带着在册基准之外的换串，负测失去比对对象")
         tampered = json.loads(json.dumps(items))
         for it in tampered:
             if it["id"] == victim["id"]:
                 it["prompt_sha256"] = ("0" if it["prompt_sha256"][0] != "0" else "1") + it["prompt_sha256"][1:]
-        self.assertEqual(moves_outside_c132(items=tampered), [victim["id"]],
-                         "覆盖面外的一条换串没有被减法点出来（%s）" % victim["id"])
+        self.assertEqual(unexplained_moves(items=tampered), [victim["id"]],
+                         "在册基准之外的一条换串没有被守卫点出来（%s）" % victim["id"])
+
+    def test_c153_repin_left_no_unregistered_move(self):
+        """C153 换档的在册自证：现清单相对 C153 登记件的 after 一条都没再动，
+        且登记件自己写明 312 条全变、0 条没变——换档面就是整份清单，没有漏网的静默改动。
+        这条同时兜住「登记件写了 but 没落盘」与「落盘了但登记件是另一版」两种断链。"""
+        self.assertEqual(unexplained_moves(), [])
+        snap = json.loads((ROOT / Path(*BASELINE_DIGESTS)).read_text(encoding="utf-8"))
+        self.assertEqual(snap["换档裁定"], "C153")
+        self.assertEqual(snap["变更条数"], 312)
+        self.assertEqual(snap["未变条数"], 0)
+        self.assertEqual(sum(1 for v in snap["items"].values() if v["changed"]), 312)
+        self.assertEqual(snap["上一基线"]["baseline_sha256_12"], "b74127f6079e")
 
 
 CITATION_LANES = {
