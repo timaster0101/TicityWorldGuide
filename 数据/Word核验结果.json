@@ -1,8 +1,8 @@
 {
   "passed": true,
   "errors": [],
-  "source_sha256": "d1db27ee8828ea9787deaf071170936e878f508ce28a0907c82a7e8a9e7da456",
-  "docx_sha256": "f1af97b7e313094acf2abe3d0d12161c6207b1cbfec4236e2856ca0510a7c47a",
+  "source_sha256": "05189c5d26a8c3e42a7095341bb93b6e6a79e902d0107414eaea2b6656f69fe5",
+  "docx_sha256": "d3f91799376afa421c75ac9c08210a67e69cc7e8961583c6109137a637621e35",
   "paragraph_count": 8301,
   "table_count": 321,
   "cell_count": 4896,
@@ -38,7 +38,7 @@
   "crc_verified": true,
   "update_fields": true,
   "rendering_verified": true,
-  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 主会话（本轮 20 张 150dpi 单页目视＋全部机器取数，非脚本代签；工具/verify_docx.py 全程只回显本文件并核对 docx_sha256）。委托来源＝常设委托「你都代完成，用最彻底的方式，不要给未来留隐患」「连验收一起代签」「能做的都做，需要我做的你代签」，以及本轮直接指令「③ 新闸门/新脚本仍未登记进手册第 9 节与质量核验报告…都做」。本签的起因：手册第 9 节新增登记段是 compile_book 的入盘面，合订本与 docx 随之重导、摘要由 e3eb678e9537 变为 f1af97b7e313，第 21 签自动失效。」按「本机 WPS Office 提供 Word.Application COM 接口（本机没有 Microsoft Word，措辞口径沿用第 15 次记录起的订正）。驱动姿势与第 19／20／21 签同：一份 docx 一个进程，comtypes.client.CreateObject 取 Word.Application，app.Visible=False、DisplayAlerts=0，只读打开（绝对路径）→ Repaginate → Fields.Update → TablesOfContents(1).Update → Repaginate → ComputeStatistics 按本构建实测枚举序逐项取 0／1／2／3／4／5／6 → 同进程读结构计数 → ExportAsFixedFormat 导 PDF（17＝wdExportFormatPDF）→ Close(False) 后复算 docx 摘要一致。驱动件在仓库外 _scratch_cardref/render_word_c151.py。本签起了两个进程各渲一份：当前版（593823 字节／f1af97b7e313…，产物 render_c22_current.json／book_c22.pdf／同名 .log）与对照版（591804 字节／e3eb678e9537…，＝第 21 签绑定那份，本轮用 git show HEAD:钛湖城城市设定集-完整合订本.docx 取回为 docx_head_21.docx，产物 render_c22_head.json／book_c22_head.pdf）。两份各自「打开前后摘要一致」＝true。可比性由「同一驱动件、同一枚举序、同一轮、同一台机」直接支撑，不抄历签记录里的读数当基线。」目视，绑定当前 DOCX 摘要",
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 主会话（本轮 9 张 150dpi 单页目视＋全部机器取数，非脚本代签；工具/verify_docx.py 全程只回显本文件并核对 docx_sha256）。委托来源＝常设委托「你都代完成，用最彻底的方式，不要给未来留隐患」「连验收一起代签」「能做的都做，需要我做的你代签」，以及本轮直接指令「先做第 6 条，改尾句并重新生成合订本」。本签的起因：第 22 签在册项「末页 424 那一行孤悬尾句本轮判为可接受、未回改正文」被本轮按用户指令改为回改正文，索引卷尾句一改即进合订本入盘面，docx 摘要由 f1af97b7e313 变为 d3f91799376a，第 22 签自动失效。」按「本机 WPS Office 提供 Word.Application COM 接口（本机没有 Microsoft Word，措辞口径沿用第 15 次记录起的订正）。驱动姿势与第 19／20／21／22 签同：一份 docx 一个进程，comtypes.client.CreateObject 取 Word.Application，app.Visible=False、DisplayAlerts=0，只读打开（绝对路径）→ Repaginate → Fields.Update → TablesOfContents(1).Update → Repaginate → ComputeStatistics 按本构建实测枚举序逐项取 0／1／2／3／4／5／6 → 同进程读结构计数 → ExportAsFixedFormat 导 PDF（17＝wdExportFormatPDF）→ Close(False) 后复算 docx 摘要一致。驱动件在仓库外 _scratch_cardref/render_word_c151.py。本签起了两个进程各渲一份：当前版（593801 字节／d3f91799376a…，产物 render_c23_current.json／book_c23.pdf）与对照版（593823 字节／f1af97b7e313…，＝本轮 git show HEAD:钛湖城城市设定集-完整合订本.docx 取回为 docx_head_22.docx，即第 22 签绑定那份，产物 render_c23_head.json／book_c23_head.pdf）。两份各自「打开前后摘要一致」＝true。可比性由「同一驱动件、同一枚举序、同一轮、同一台机、结构计数五项两版全同」直接支撑，不抄历签记录里的读数当基线。」目视，绑定当前 DOCX 摘要",
   "source_block_count": 3378,
   "docx_body_block_count": 3378,
   "body_anchor": {
