@@ -156,6 +156,13 @@ def draw_flanking_dashes(canvas, band):
         d.line([(x + round(w * x0), cy), (x + round(w * x1), cy)], fill=GOLD, width=th)
 
 
+def full_bleed_fit(size, tol=0.002):
+    """路线 B（C147）满幅主图的装得下判据：主图即整卡，object-fit:cover 不裁切当且仅当
+    源画幅等于画布画幅 768:1024。旧的 window_box 窗带判据属烤 PNG 时代，不参与状态分类；
+    OVERFLOW 在本路线下的含义＝该源进满幅窗必被裁切，须按 3:4 原生重投。"""
+    return abs(size[0] / size[1] - CANVAS_W / CANVAS_H) <= tol
+
+
 def window_box(band, src_size):
     x, y, w, h = band
     wx0, wx1 = WIN_X
@@ -346,8 +353,12 @@ def main(argv=None):
     ap.add_argument("--only", default="", help="逗号分隔的 _idx／code／文件名子串")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--variant", default="both", choices=["both", "plain", "full"])
-    ap.add_argument("--sources", default="", help="JSON：{code: 卡面专用图路径}，优先于图集定档格")
+    ap.add_argument("--sources", default="", help="JSON：{code 或 文件名(不含扩展名) 或 _idx: 卡面专用图路径}，优先于图集定档格；"
+                                                  "code 为空的卡（职业/兑换/模板/物品/能力/景群总卡）只能用文件名或 _idx 键")
     ap.add_argument("--dry", action="store_true", help="只报分档与取数，不写图")
+    ap.add_argument("--manifest-only", action="store_true",
+                    help="只生成/刷新 manifest.json（数据真源），不烤卡面 PNG——"
+                         "2026-11-08 交付转 HTML（C147）后，本脚本退为 manifest 生成器")
     args = ap.parse_args(argv)
     if os.path.abspath(os.getcwd()) != os.path.abspath(ROOT):
         os.chdir(ROOT)
@@ -370,15 +381,17 @@ def main(argv=None):
     rows, miss, overflow = [], [], []
     for it in items:
         code = it.get("code") or ""
-        src = sources.get(code)
+        stem = os.path.splitext(it["file"])[0]
+        src = sources.get(code) or sources.get(stem) or sources.get(str(it["_idx"]))
         if src and not os.path.exists(src):
             src = None
         size = None
         if src:
             with Image.open(src) as im:
                 size = im.size
-            if window_box(body_rect(), size) is None and it["template"] != "back":
-                overflow.append({"code": code, "file": it["file"], "src_size": list(size)})
+            if not full_bleed_fit(size) and it["template"] != "back":
+                overflow.append({"code": code, "file": it["file"], "src_size": list(size),
+                                 "src_aspect": round(size[0] / size[1], 4)})
                 src = None
         status = "OK" if src else ("BACK" if it["template"] == "back" else
                                    ("OVERFLOW" if size else "MISSING"))
@@ -389,7 +402,7 @@ def main(argv=None):
                "bottom": it["render_bottom"]}
         if status == "MISSING":
             miss.append(rec)
-        if not args.dry:
+        if not args.dry and not args.manifest_only:
             canvas_img = make_canvas()
             for v in variants:
                 out_dir = os.path.join(args.out, v)
