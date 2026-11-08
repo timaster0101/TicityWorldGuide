@@ -1,0 +1,179 @@
+{
+ "declaration": "R3 卡面主图放量（114 条）的逐字回绑登记件。回绑源＝10 份子代理 transcript＋主会话 transcript 里 ImageGen 的 tool_use input.prompt，归一（CRLF→LF）后 sha256 与 数据/卡面主图提示词3x4 底串对拍。transcript 在会话临时区，跨会话会失效——本件把每份的字节数与 sha 前缀落进仓，缺失份数显式计数，不拿缺失当通过。",
+ "登记时刻": "2026-11-09",
+ "放行原话": "用户 2026-11-09 逐字「都做」",
+ "覆盖面": "114 条全发（基准 02:02:24.427 重钉后旧证据全部落带外）",
+ "统计面": "台账 114 条；回绑源 11 份（分片登记 10 份＋主会话 transcript 1 份）；逐字命中按 id 去重计数，同一 id 多次送入记入「同条多枚」",
+ "分片数": 10,
+ "回绑源数": 11,
+ "缺失份数": 0,
+ "命中形态合计": {
+  "去结尾换行": 112,
+  "含结尾换行": 3
+ },
+ "ImageGen送入合计": 139,
+ "逐字命中合计": 115,
+ "未命中合计": 24,
+ "台账条目被逐字命中数": 114,
+ "未被命中条目": [],
+ "同条多枚": {
+  "L032": 2
+ },
+ "分片明细": [
+  {
+   "分片": 1,
+   "agentId": "ageneral-purpose-4a24f81e54810599",
+   "在盘": true,
+   "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-4a24f81e54810599.jsonl",
+   "字节": 641808,
+   "sha256_12": "fe275891ee40",
+   "ImageGen送入次数": 12,
+   "逐字命中台账底串数": 12,
+   "未命中台账底串的送入数": 0,
+   "命中形态": {
+    "去结尾换行": 12
+   }
+  },
+  {
+   "分片": 2,
+   "agentId": "ageneral-purpose-4a78bb7e14e21046",
+   "在盘": true,
+   "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-4a78bb7e14e21046.jsonl",
+   "字节": 532138,
+   "sha256_12": "dc1e6cfc73ff",
+   "ImageGen送入次数": 12,
+   "逐字命中台账底串数": 12,
+   "未命中台账底串的送入数": 0,
+   "命中形态": {
+    "去结尾换行": 12
+   }
+  },
+  {
+   "分片": 3,
+   "agentId": "ageneral-purpose-4f113ed20532ac55",
+   "在盘": true,
+   "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-4f113ed20532ac55.jsonl",
+   "字节": 625670,
+   "sha256_12": "e2910e99c28e",
+   "ImageGen送入次数": 12,
+   "逐字命中台账底串数": 12,
+   "未命中台账底串的送入数": 0,
+   "命中形态": {
+    "去结尾换行": 12
+   }
+  },
+  {
+   "分片": 4,
+   "agentId": "ageneral-purpose-1f9feb74871de982",
+   "在盘": true,
+   "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-1f9feb74871de982.jsonl",
+   "字节": 660897,
+   "sha256_12": "fa5ae2391a42",
+   "ImageGen送入次数": 13,
+   "逐字命中台账底串数": 12,
+   "未命中台账底串的送入数": 1,
+   "命中形态": {
+    "去结尾换行": 12
+   }
+  },
+  {
+   "分片": 5,
+   "agentId": "ageneral-purpose-b5137bf03bf67e27",
+   "在盘": true,
+   "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-b5137bf03bf67e27.jsonl",
+   "字节": 649862,
+   "sha256_12": "7436f8e4f2b5",
+   "ImageGen送入次数": 12,
+   "逐字命中台账底串数": 11,
+   "未命中台账底串的送入数": 1,
+   "命中形态": {
+    "去结尾换行": 11
+   }
+  },
+  {
+   "分片": 6,
+   "agentId": "ageneral-purpose-331db245661a8374",
+   "在盘": true,
+   "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-331db245661a8374.jsonl",
+   "字节": 510147,
+   "sha256_12": "767131117705",
+   "ImageGen送入次数": 12,
+   "逐字命中台账底串数": 11,
+   "未命中台账底串的送入数": 1,
+   "命中形态": {
+    "去结尾换行": 11
+   }
+  },
+  {
+   "分片": 7,
+   "agentId": "ageneral-purpose-cce9a5f215d4470b",
+   "在盘": true,
+   "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-cce9a5f215d4470b.jsonl",
+   "字节": 651783,
+   "sha256_12": "342d69b16146",
+   "ImageGen送入次数": 12,
+   "逐字命中台账底串数": 12,
+   "未命中台账底串的送入数": 0,
+   "命中形态": {
+    "去结尾换行": 12
+   }
+  },
+  {
+   "分片": 8,
+   "agentId": "ageneral-purpose-48531be18388cef8",
+   "在盘": true,
+   "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-48531be18388cef8.jsonl",
+   "字节": 615945,
+   "sha256_12": "55728ae8aafd",
+   "ImageGen送入次数": 12,
+   "逐字命中台账底串数": 12,
+   "未命中台账底串的送入数": 0,
+   "命中形态": {
+    "去结尾换行": 12
+   }
+  },
+  {
+   "分片": 9,
+   "agentId": "ageneral-purpose-ece4b189e974b40a",
+   "在盘": true,
+   "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-ece4b189e974b40a.jsonl",
+   "字节": 625690,
+   "sha256_12": "e2200937b85c",
+   "ImageGen送入次数": 12,
+   "逐字命中台账底串数": 12,
+   "未命中台账底串的送入数": 0,
+   "命中形态": {
+    "含结尾换行": 3,
+    "去结尾换行": 9
+   }
+  },
+  {
+   "分片": 10,
+   "agentId": "ageneral-purpose-61cc64da7a3e1e17",
+   "在盘": true,
+   "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-61cc64da7a3e1e17.jsonl",
+   "字节": 309037,
+   "sha256_12": "d5539f92b6ca",
+   "ImageGen送入次数": 6,
+   "逐字命中台账底串数": 6,
+   "未命中台账底串的送入数": 0,
+   "命中形态": {
+    "去结尾换行": 6
+   }
+  },
+  {
+   "分片": "主会话",
+   "agentId": "6b39cfae-e2ed-48a8-81fd-0af6e4887eda.jsonl",
+   "在盘": true,
+   "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda.jsonl",
+   "字节": 106629095,
+   "sha256_12": "dd7af2cc30f9",
+   "ImageGen送入次数": 24,
+   "逐字命中台账底串数": 3,
+   "未命中台账底串的送入数": 21,
+   "命中形态": {
+    "去结尾换行": 3
+   }
+  }
+ ]
+}

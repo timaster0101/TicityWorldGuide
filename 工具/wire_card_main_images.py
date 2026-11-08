@@ -38,8 +38,34 @@ def sink_key(card_id):
     return m.group(1) if m else card_id
 
 
+def normalize(raw_row):
+    """把两种分片证据形态归一成一份口径。
+
+    wave1（R3 分片 1—5 与探针/补投）落 landing_bytes／landing_sha256（全 64 位）／width／height／imagegen_path；
+    wave2（R3 分片 6—10）落 copy_bytes／copy_sha256_12（只有 12 位前缀）／size=[w,h]／gen_path。
+    归一后统一用 wave1 的键名，并记下证据 sha 的位数——短前缀只按前缀对拍，不假装是全串校验。
+    """
+    row = dict(raw_row)
+    if not row.get("landing_bytes") and row.get("copy_bytes"):
+        row["landing_bytes"] = row["copy_bytes"]
+    if not row.get("landing_sha256") and row.get("copy_sha256_12"):
+        row["landing_sha256"] = row["copy_sha256_12"]
+    if not row.get("imagegen_path") and row.get("gen_path"):
+        row["imagegen_path"] = row["gen_path"]
+    if "width" not in row and isinstance(row.get("size"), (list, tuple)) and len(row["size"]) == 2:
+        row["width"], row["height"] = row["size"]
+    row["_证据sha位数"] = len(row.get("landing_sha256") or "")
+    return row
+
+
 def collect_evidence(scratch):
+    """同一 id 多行时留 timestamp_ms 最大的那一行（＝最后一次发起），与 R1 的「留后来出的」同口径。
+
+    探针与补投的分档文件按文件名排在放量之后，若按文件顺序覆盖就会让早先旧串的发起顶掉现串，
+    判成「送入串 sha256 与底串不符」。
+    """
     ev = {}
+    dup = {}
     files = sorted(glob.glob(os.path.join(scratch, "sent_shard*.jsonl")))
     for path in files:
         with open(path, encoding="utf-8") as fh:
@@ -47,9 +73,15 @@ def collect_evidence(scratch):
                 line = line.strip()
                 if not line:
                     continue
-                row = json.loads(line)
+                row = normalize(json.loads(line))
+                prev = ev.get(row["id"])
+                if prev is not None:
+                    dup.setdefault(row["id"], 0)
+                    dup[row["id"]] += 1
+                    if int(row.get("timestamp_ms") or 0) <= int(prev.get("timestamp_ms") or 0):
+                        continue
                 ev[row["id"]] = dict(row, _evidence_file=os.path.basename(path))
-    return ev, [os.path.basename(p) for p in files]
+    return ev, [os.path.basename(p) for p in files], dup
 
 
 def check(code, led_row, ev_row):
@@ -64,7 +96,8 @@ def check(code, led_row, ev_row):
     if not os.path.isfile(landing):
         problems.append("landing 缺失")
         return problems
-    raw = open(landing, "rb").read()
+    with open(landing, "rb") as fh:
+        raw = fh.read()
     sha = hashlib.sha256(raw).hexdigest()
     try:
         with Image.open(landing) as im:
@@ -77,9 +110,17 @@ def check(code, led_row, ev_row):
         problems.append("尺寸 %s≠%s" % (list(size), list(EXPECT)))
     if str(ev_row.get("landing_bytes")) != str(len(raw)):
         problems.append("证据字节 %s≠实读 %d" % (ev_row.get("landing_bytes"), len(raw)))
-    if ev_row.get("landing_sha256") != sha:
-        problems.append("证据 sha256≠实读")
-    return problems, {"bytes": len(raw), "size": list(size), "sha256": sha}
+    ev_sha = ev_row.get("landing_sha256") or ""
+    if len(ev_sha) == 64:
+        if ev_sha != sha:
+            problems.append("证据 sha256≠实读")
+    elif len(ev_sha) >= 12:
+        if sha[:len(ev_sha)] != ev_sha:
+            problems.append("证据 sha 前缀≠实读")
+    else:
+        problems.append("证据无 sha256（位数 %d）" % len(ev_sha))
+    return problems, {"bytes": len(raw), "size": list(size), "sha256": sha,
+                      "证据sha位数": len(ev_sha)}
 
 
 def main(argv=None):
@@ -96,7 +137,7 @@ def main(argv=None):
     os.chdir(ROOT)
     with open(led_path, encoding="utf-8") as fh:
         led = json.load(fh)
-    ev, evidence_files = collect_evidence(scratch)
+    ev, evidence_files, dup = collect_evidence(scratch)
     rows, bad = [], []
     for it in led["items"]:
         got = check(it["id"], it, ev.get(it["id"]))
