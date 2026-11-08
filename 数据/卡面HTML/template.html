@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh"><head><meta charset="utf-8">
+<link rel="stylesheet" href="card.css"><title>单卡模板骨架</title></head>
+<body>
+<!-- 单张卡模板。页面程序按 cards.json 逐字段注入；文案运行时叠加、不烤进像素。
+     .card 的 template 类 ∈ landmark|district|info|back；无主图时 .placeholder 顶替 .bg。 -->
+<div class="card landmark">
+  <img class="bg" src="{{main_image}}" alt="">
+  <div class="top">
+    <div class="title"><div class="tline bright">{{title}}</div></div>
+    <div class="subtitle">{{subtitle}}</div>
+    <div class="gold-rule"></div>
+  </div>
+  <img class="seal" src="{{seal}}" alt="">
+  <div class="panel"><div class="bottom">{{bottom}}</div></div>
+</div>
+</body></html>

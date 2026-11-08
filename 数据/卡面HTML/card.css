@@ -1,0 +1,38 @@
+/* 卡面 HTML 渲染器样式（路线 B）。画幅/浮层/印章落点口径见《卡面标准样式规范》第八节，印章几何单一真源 card_geometry.py。 */
+:root{--ink-title:#F6ECD6;--ink-sub:#e7d8b6;--ink-bottom:#F6ECD6;
+  --gold:#B8965E;--gold-soft:rgba(216,182,120,.3);--panel-bg:rgba(0,0,0,.3);
+  --radius:22px}
+*{box-sizing:border-box}
+body{margin:0;background:#1c1a17;color:#e8e2d6;
+  font-family:"Alibaba PuHuiTi 3.0","Microsoft YaHei",system-ui,sans-serif;padding:28px 20px 48px}
+h1{font-size:20px;font-weight:600;margin:0 0 6px}
+.legend{font-size:13px;color:#a89c88;max-width:1000px;line-height:1.7;margin:0 0 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:26px}
+.pair{display:flex;flex-direction:column;gap:8px}
+.pair .cap{font-size:12px;color:#b8965e;letter-spacing:.4px}
+.pair .cap b{color:#fff}
+
+/* 满幅主图卡：图铺满整张，字叠图上，底部暗黑半透明浮层 */
+.card{position:relative;aspect-ratio:3/4;width:100%;border-radius:var(--radius);overflow:hidden;
+  background:#2a2620;box-shadow:0 12px 36px rgba(0,0,0,.55)}
+.card .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:repeating-linear-gradient(45deg,#efe7d8,#efe7d8 14px,#e6dcc8 14px,#e6dcc8 28px);
+  color:#a89c88;font-size:15px;letter-spacing:2px}
+.card .top{position:absolute;left:0;right:0;top:0;padding:16px 14px 30px;
+  background:linear-gradient(180deg,rgba(18,14,8,.72),rgba(18,14,8,.28) 55%,transparent)}
+.card .title{text-align:center;line-height:1.28;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.card .tline{font-size:18px;font-weight:700}
+.card .tline.bright{color:var(--ink-title)}
+.card .tline.gold{color:var(--gold);font-size:15px;font-weight:600}
+.card .subtitle{margin-top:5px;text-align:center;color:var(--ink-sub);font-size:12px;
+  letter-spacing:2px;text-shadow:0 1px 5px rgba(0,0,0,.6)}
+.card .gold-rule{margin:8px auto 0;width:56%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.card .gold-dash{margin:8px auto 0;width:34px;height:2px;background:var(--gold)}
+.card .seal{position:absolute;width:27.6%;aspect-ratio:1;right:4%;bottom:19%;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+.card .panel{position:absolute;left:0;right:0;bottom:0;padding:16px 14px 14px;
+  background:var(--panel-bg);border-top:1px solid var(--gold-soft)}
+.card .bottom{text-align:center;color:var(--ink-bottom);font-size:13px;letter-spacing:.5px;
+  line-height:1.5;text-shadow:0 1px 4px rgba(0,0,0,.5)}
