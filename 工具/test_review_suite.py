@@ -174,6 +174,71 @@ class ReviewSuiteTests(unittest.TestCase):
         self.run_suite()
         self.assertEqual(self.c125_violations(), [])
 
+    C153_STYLE_CHECK = ("半写实数字厚涂，笔触可辨、颜料层次读得出来（C153 起回到 C105 强媒介档，C122 平滑档作废）；"
+                        "面上读不出厚涂与干边、或出成照片质感／干净CG渲染／描边平涂动画档即判废重出")
+    C122_STYLE_CHECK = ("半写实数字绘画、平滑过渡在位（C122 起不以笔触为准）；"
+                        "出成照片质感或干净CG渲染或描边平涂动画档即判废重出")
+    C153_SHEET_LEGEND = "画风按 C153 判笔触在位——厚涂与干边要能在面上读出来，C122 那句「不以笔触为准」已随平滑档一并作废。"
+    C122_SHEET_LEGEND = "画风按 C122 判平滑过渡在位、不以笔触为准。"
+
+    def style_criterion_violations(self):
+        """判据纯函数：画风档在两处出口都得是 C153 厚涂口径——工作单每条的第一栏，以及联络表每格里的那句图例。
+        C122 的平滑原句在任一处回流即报。备注里的历史人工读数（2026-11-06 那批写着「按 C122 口径判废」）属 as-run
+        记录、不在这条射程内，所以判据取整句而不是裸的「C122」三字。"""
+        out = []
+        for eid, lines in sorted(self.item_blocks().items()):
+            text = "\n".join(lines)
+            if self.C153_STYLE_CHECK not in text:
+                out.append((eid, "工作单画风栏缺 C153 厚涂口径"))
+            if self.C122_STYLE_CHECK in text:
+                out.append((eid, "工作单画风栏回流 C122 平滑原句"))
+        for page in sorted((self.out / "联络表").glob("页-*.html")):
+            text = page.read_text(encoding="utf-8")
+            if self.C153_SHEET_LEGEND not in text:
+                out.append((page.name, "联络表图例缺 C153 口径"))
+            if self.C122_SHEET_LEGEND in text:
+                out.append((page.name, "联络表图例回流 C122 口径"))
+        return out
+
+    def test_style_criterion_is_the_c153_medium_in_both_outputs(self):
+        """C153 把画风判据从「平滑过渡在位、不以笔触为准」整条退回 C105 强媒介档，复看判据必须跟着改，
+        否则目视人会按作废的那句打表。**Why**：C153 前一轮实测 103/114 枚卡面主图落在照片侧，
+        「不以笔触为准」正是能把这批洗成过关的那句判据。"""
+        self.assertEqual(self.style_criterion_violations(), [])
+        self.assertEqual(len(self.item_blocks()), 312)
+        text = "\n".join(self.item_blocks()["L001"])
+        self.assertIn(self.C153_STYLE_CHECK, text)
+        self.assertNotIn(self.C122_SHEET_LEGEND, text)
+
+    def test_reverting_the_style_criterion_to_c122_is_caught(self):
+        """违例负测，两支各造一个坏样本：①工作单画风栏改回 C122 平滑原句 → 312 条同时报「缺 C153」与「回流 C122」；
+        ②只改联络表那句图例、工作单常量不动 → 只报 39 页 ×2，抓的正是「常量改了但某条支路没走它」。
+        恢复后归零；注入只改临时副本，真实仓库不受影响。"""
+        pristine = self.script.read_text(encoding="utf-8")
+        self.assertEqual(pristine.count(self.C153_STYLE_CHECK), 1, "注入锚点没落在工作单的画风判据栏")
+        self.script.write_text(pristine.replace(self.C153_STYLE_CHECK, self.C122_STYLE_CHECK, 1),
+                               encoding="utf-8")
+        self.run_suite()
+        violations = self.style_criterion_violations()
+        self.assertEqual(sorted({eid for eid, _ in violations}), sorted(self.item_blocks()))
+        self.assertEqual({reason for _, reason in violations},
+                         {"工作单画风栏缺 C153 厚涂口径", "工作单画风栏回流 C122 平滑原句"})
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_suite()
+        self.assertEqual(self.style_criterion_violations(), [])
+
+        self.assertEqual(pristine.count(self.C153_SHEET_LEGEND), 1, "注入锚点没落在联络表的画风图例")
+        self.script.write_text(pristine.replace(self.C153_SHEET_LEGEND, self.C122_SHEET_LEGEND, 1),
+                               encoding="utf-8")
+        self.run_suite()
+        violations = self.style_criterion_violations()
+        self.assertEqual({reason for _, reason in violations},
+                         {"联络表图例缺 C153 口径", "联络表图例回流 C122 口径"})
+        self.assertEqual(len(violations), 39 * 2)
+        self.script.write_text(pristine, encoding="utf-8")
+        self.run_suite()
+        self.assertEqual(self.style_criterion_violations(), [])
+
     STATUS_ECHO = re.compile(r"^- 当前摘要：.*｜状态：(\S+)$")
 
     def authored_lines(self):
