@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""卡面 3:4 满幅主图的本机还原点（同盘 zip + 入库台账）。
+"""卡面 3:4 满幅主图的本机还原点（同盘 zip + 入库台账 + 可选异盘副本）。
 
 口径沿用 C146 时代的 数据/卡面备份台账.json：图本体不入库（gitignored），台账入库；
-同盘防误删，异地副本属用户 infra、本脚本不做。与退役的 backup_card_faces.py 的差别只有一处：
+同盘防误删，异盘副本由 --offdisk 显式指定目标目录后代做（C151 起，目标盘由会话代理选定），
+脚本不猜目标盘、也不在没有该参数时写任何仓外副本。与退役的 backup_card_faces.py 的差别只有一处：
 现役交付不再是烤 PNG，而是 数据/视觉控制资产/卡牌/主图3x4/ 的满幅主图，覆盖面以
 数据/卡面主图提示词3x4/主图3x4落点.json 的键现算——落点件有而盘上没有，或盘上有而落点件没登记，
 都当场退出非零，不产出半批还原点。
 
-    python 工具/backup_card_main_images.py            建/验还原点并写台账
-    python 工具/backup_card_main_images.py --verify   只把 zip 内条目逐字节对回盘上，不写盘
+    python 工具/backup_card_main_images.py                        建/验还原点并写台账
+    python 工具/backup_card_main_images.py --verify               只把 zip 内条目逐字节对回盘上，不写盘
+    python 工具/backup_card_main_images.py --offdisk D:/bak/钛湖城卡面主图
+                                                                  把 zip 与台账整件拷到异盘并逐字节对拍，
+                                                                  读数写进台账的 异盘副本 段
+    python 工具/backup_card_main_images.py --offdisk-verify DIR   只复查异盘副本，不写盘、不改台账
 """
 import argparse
 import datetime
@@ -17,6 +22,7 @@ import hashlib
 import io
 import json
 import os
+import shutil
 import sys
 import zipfile
 
@@ -61,10 +67,131 @@ def zip_members(path):
                 hashlib.sha256(z.read(i.filename)).hexdigest()[:12]) for i in z.infolist()}
 
 
+def sha256_full(path):
+    h = hashlib.sha256()
+    with io.open(path, 'rb') as f:
+        for blk in iter(lambda: f.read(1 << 20), b''):
+            h.update(blk)
+    return h.hexdigest()
+
+
+def copy_verified(src, dst):
+    """整件流式拷到 .part，先比全文件 sha256 再 os.replace——半途崩或截断都不会留下冒充成功的副本。"""
+    os.makedirs(os.path.dirname(dst) or '.', exist_ok=True)
+    tmp = dst + '.part'
+    with io.open(src, 'rb') as a, io.open(tmp, 'wb') as b:
+        for blk in iter(lambda: a.read(1 << 20), b''):
+            b.write(blk)
+    if sha256_full(tmp) != sha256_full(src):
+        os.remove(tmp)
+        raise SystemExit('✗ 副本写入后 sha256 与源不符，已删除 .part：%s' % src)
+    os.replace(tmp, dst)
+    return sha256_full(dst), os.path.getsize(dst)
+
+
+def offdisk_state(dest_dir, only_zip=False):
+    """异盘副本现读：逐文件比整件 sha256，zip 另开一次取成员数与逐枚 sha12 对回源 zip。"""
+    pairs = [(ZIP_PATH, os.path.join(dest_dir, os.path.basename(ZIP_PATH)))]
+    if not only_zip:
+        pairs.append((LEDGER, os.path.join(dest_dir, os.path.basename(LEDGER))))
+    rows, ok = [], True
+    for src, dst in pairs:
+        if not os.path.exists(dst):
+            ok = False
+            rows.append({'文件': os.path.basename(dst), '在盘': False})
+            continue
+        same = sha256_full(dst) == sha256_full(src)
+        ok = ok and same
+        row = {'文件': os.path.basename(dst), '在盘': True, '字节': os.path.getsize(dst)}
+        row['sha256_12'] = sha256_full(dst)[:12]
+        row['整件sha256与源相同'] = same
+        rows.append(row)
+    zsrc = zip_members(ZIP_PATH)
+    dst_zip = os.path.join(dest_dir, os.path.basename(ZIP_PATH))
+    try:
+        zdst = zip_members(dst_zip)
+        opened = True
+    except (zipfile.BadZipFile, OSError):
+        zdst, opened = {}, False
+    zip_member_equal = opened and zsrc == zdst
+    ok = ok and zip_member_equal
+    return ok, rows, {'源zip成员数': len(zsrc), '副本zip成员数': len(zdst),
+                      '副本zip可打开': opened,
+                      '逐枚sha12与源zip全等': zip_member_equal,
+                      '副本zip多余/缺失': sorted(set(zdst) ^ set(zsrc))[:5]}
+
+
+def carry_offdisk_block(prev, zsha):
+    """不带 --offdisk 重建 zip 时，异盘副本段照旧带过去，但 与当前还原点一致 按新 zip 摘要现算——
+    副本没跟着重建就会在这里留下 false，而不是悄悄留着上一次的 true。"""
+    if not prev:
+        return None
+    prev['与当前还原点一致'] = prev.get('zip_sha256_12') == zsha
+    return prev
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--verify', action='store_true', help='只把 zip 内条目逐字节对回盘上，不写盘')
+    ap.add_argument('--offdisk', metavar='DIR', help='把 zip 与台账整件拷到异盘目录并逐字节对拍')
+    ap.add_argument('--offdisk-verify', metavar='DIR', help='只复查异盘目录里的副本，不写盘')
     args = ap.parse_args()
+
+    if args.offdisk_verify:
+        dest = os.path.abspath(args.offdisk_verify)
+        ok, rows, zinfo = offdisk_state(dest)
+        print('异盘副本复查 %s' % dest)
+        for r in rows:
+            print('  %s' % json.dumps(r, ensure_ascii=False))
+        print('  %s' % json.dumps(zinfo, ensure_ascii=False))
+        print('结论：%s' % ('副本与源逐字节相同' if ok else '副本与源不符或不在盘'))
+        return 0 if ok else 1
+
+    if args.offdisk:
+        dest = os.path.abspath(args.offdisk)
+        if os.path.normcase(os.path.splitdrive(dest)[0]) == os.path.normcase(os.path.splitdrive(ROOT)[0]):
+            print('❌ 目标目录与仓库在同一盘（%s），异盘副本的意义就没了，停手' % dest)
+            return 1
+        if not os.path.exists(ZIP_PATH):
+            print('❌ 同盘还原点还没建，先不带参数跑一次：%s' % ZIP_PATH)
+            return 1
+        # 先拷 zip、再写台账、最后拷台账：台账里记的是「写完那一刻的」zip 摘要，
+        # 而台账自身的副本只能在它定稿之后拷，否则副本与仓内件永远差一个 异盘副本 段。
+        zsha, zbytes = sha12(ZIP_PATH)
+        dst_zip = os.path.join(dest, os.path.basename(ZIP_PATH))
+        csha, cbytes = copy_verified(ZIP_PATH, dst_zip)
+        print('✓ zip 整件写入并逐字节对拍通过：%s（%d 字节／%s，源 %s）'
+              % (dst_zip, cbytes, csha[:12], zsha))
+        ok, rows, zinfo = offdisk_state(dest, only_zip=True)
+        if not ok or not zinfo['逐枚sha12与源zip全等']:
+            print('❌ 写完复查不过：%s %s' % (json.dumps(rows, ensure_ascii=False), json.dumps(zinfo, ensure_ascii=False)))
+            return 1
+        usage = shutil.disk_usage(dest)
+        ledger = json.loads(io.open(LEDGER, encoding='utf-8').read())
+        ledger['异盘副本'] = {
+            '目标目录': dest.replace(os.sep, '/'),
+            '目标盘符': os.path.splitdrive(dest)[0],
+            '该盘容量GB': round(usage.total / 2 ** 30, 1),
+            '该盘剩余GB': round(usage.free / 2 ** 30, 1),
+            '写入时间': datetime.datetime.now().astimezone().replace(microsecond=0).isoformat(),
+            'zip字节': cbytes,
+            'zip_sha256_12': csha[:12],
+            'zip整件sha256': csha,
+            '对拍': zinfo,
+            '口径': '整件流式拷 .part → 全文件 sha256 与源相同才 os.replace；写完再开一次副本 zip，逐枚 sha12 对回源 zip。'
+                    '本段只记 zip 的摘要，台账自身的副本在这段写盘之后才拷，故本段不含台账副本的摘要。'
+                    '不带 --offdisk 重建 zip 时，本段的 与当前还原点一致 会转 false，提示重跑 --offdisk。',
+            '与当前还原点一致': csha[:12] == zsha,
+        }
+        io.open(LEDGER, 'w', encoding='utf-8', newline='\n').write(
+            json.dumps(ledger, ensure_ascii=False, indent=2) + '\n')
+        lsha, lbytes = sha12(LEDGER)
+        dst_ledger = os.path.join(dest, os.path.basename(LEDGER))
+        copy_verified(LEDGER, dst_ledger)
+        print('✓ 台账整件写入并逐字节对拍通过：%s（%d 字节／%s）' % (dst_ledger, lbytes, lsha))
+        print('台账已写入 异盘副本 段（%d 字节／%s，zip 成员 %d 枚全等）'
+              % (lbytes, lsha, zinfo['副本zip成员数']))
+        return 0
 
     land, rows, missing, stray = disk_rows()
     if missing:
@@ -105,7 +232,7 @@ def main():
     zsha, zbytes = sha12(ZIP_PATH)
     ledger = {
         '生成者': '工具/backup_card_main_images.py',
-        '口径': '卡面 3:4 满幅主图的本机还原点；图本体不入库（gitignored），台账入库；同盘防误删，异地副本属用户 infra。覆盖面以 数据/卡面主图提示词3x4/主图3x4落点.json 的键现算。',
+        '口径': '卡面 3:4 满幅主图的本机还原点；图本体不入库（gitignored），台账入库；同盘防误删，异盘副本由 --offdisk 显式指定目录后代做（读数见 异盘副本 段）。覆盖面以 数据/卡面主图提示词3x4/主图3x4落点.json 的键现算。',
         '归档时间': datetime.datetime.now().astimezone().replace(microsecond=0).isoformat(),
         '本次是否重建zip': '重建' if changed else '已对平、未重建',
         '主图目录': '数据/视觉控制资产/卡牌/主图3x4',
@@ -116,6 +243,15 @@ def main():
         '主图总字节': sum(r[3] for r in rows),
         '逐文件': [{'idx': idx, 'path': rel, 'bytes': n, 'sha256_12': s} for idx, rel, _p, n, s in rows],
     }
+    prev = None
+    if os.path.exists(LEDGER):
+        try:
+            prev = json.loads(io.open(LEDGER, encoding='utf-8').read()).get('异盘副本')
+        except ValueError:
+            prev = None
+    carried = carry_offdisk_block(prev, zsha)
+    if carried:
+        ledger['异盘副本'] = carried
     io.open(LEDGER, 'w', encoding='utf-8', newline='\n').write(
         json.dumps(ledger, ensure_ascii=False, indent=2) + '\n')
     lsha, lbytes = sha12(LEDGER)
