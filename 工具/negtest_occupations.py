@@ -22,6 +22,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -967,8 +968,15 @@ def run_gate(tmp):
     return r.returncode, r.stdout + r.stderr
 
 
+def _leftover_dirs():
+    return sorted(Path(tempfile.gettempdir()).glob(TMP_PREFIX + '*'))
+
+
 def main():
-    results, failures = [], []
+    results, failures, leaked = [], [], []
+    # 跑之前先记下盘上已有的夹具目录：occneg-* 只有一个计数口径是不够的，
+    # 上一轮被中途终止留下的空壳会让本轮报「残留 1」，而那个 1 既不是本轮造的、本轮也清不掉它。
+    pre_existing = {p.name for p in _leftover_dirs()}
     absent = [f for f in DATA if not (ROOT / '数据' / f).exists()]
     if absent:
         raise SystemExit(f'仓库缺少 {absent}：违例夹具按当前仓库文件搭造，先跑全链派生器再自检')
@@ -1003,10 +1011,23 @@ def main():
             if not red or not ok:
                 failures.append(name)
         finally:
-            shutil.rmtree(tmp, ignore_errors=True)
-    leftover = [p for p in Path(tempfile.gettempdir()).glob(TMP_PREFIX + '*') if p.is_dir()]
+            # 清理失败不许静默：ignore_errors=True 把「删不掉」和「删干净了」读成同一件事，
+            # 末了那个计数只剩个数，答不出是哪一例、为什么留了下来。改成收错误并点名。
+            errs = []
+            shutil.rmtree(tmp, onerror=lambda func, path, exc: errs.append(
+                '%s: %s' % (func.__name__, exc[1])))
+            if errs:
+                leaked.append('%s <- %s（%s）' % (tmp.name, name, errs[0]))
+    leftover = [p for p in _leftover_dirs() if p.is_dir()]
+    # 残留口径两头都给：总数照旧严格（本轮新造的清不掉、上一程被终止留下的，都算残留），
+    # 但逐条点出目录名、创建时刻与「本轮/此前已有」，否则下一个读这个数的人只能看到一个 1。
+    detail = [{'目录': p.name,
+               '创建': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(p.stat().st_ctime)),
+               '来源': '此前已有' if p.name in pre_existing else '本轮新增',
+               '项数': sum(1 for _ in p.rglob('*'))} for p in leftover]
     print(json.dumps(dict(cases=len(results), red=len(results) - len(failures),
-                          not_red=len(failures), fixture_leftover=len(leftover)), ensure_ascii=False))
+                          not_red=len(failures), fixture_leftover=len(leftover),
+                          残留明细=detail, 本轮清理失败=leaked), ensure_ascii=False))
     if failures or leftover:
         sys.exit(1)
     print(f'产业就业闸门违例自检通过：{len(results)} 个违例全部判红且措辞对得上，夹具零残留')

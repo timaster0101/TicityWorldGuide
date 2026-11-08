@@ -446,7 +446,9 @@ class Negtest(unittest.TestCase):
         summary = json.loads(next(l for l in r.stdout.splitlines() if l.startswith('{')))
         self.assertEqual(summary['cases'], 148)
         self.assertEqual(summary['not_red'], 0)
-        self.assertEqual(summary['fixture_leftover'], 0)
+        self.assertEqual(summary['fixture_leftover'], 0,
+                         '夹具残留要能归因：%s｜本轮清理失败=%s'
+                         % (summary['残留明细'], summary['本轮清理失败']))
         self.assertEqual((ROOT / '数据' / '产业就业正典.json').read_bytes(), before)
         self.assertEqual((ROOT / '数据' / '岗位准入正典.json').read_bytes(), adm_before)
         self.assertEqual((ROOT / '数据' / '物价与生活正典.json').read_bytes(), cost_before)

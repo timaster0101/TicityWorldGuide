@@ -175,8 +175,14 @@ def as_of_round(item, rows, token):
     还原只用读数自己写明的东西（本轮文件名、替换第N格、抬头里的 vNN），不抄第二份真源。
     签署面一并回退：那一轮的读数自己写着「待复验」，绑定与 C139 代签申报都是其后才发生的动作，
     留在还原视图里会让「已验收却没申报」这类负测在还原视图上恒绿。
-    C153 换档申报行同属「其后才发生的动作」，一并剔掉：还原视图按位置取末位行（view[-1] 即本轮读数），
-    留着换档行会让那一轮的读数不再是末位，坏数据注入会注到换档行上去。"""
+    剔行口径从 C154 起是白名单：只留 ROUNDS 抬头认得出的占格读数行。
+    为什么不再按行种拉黑名单（代签申报、C153 换档申报各一条正则）：还原视图按位置取末位行
+    （`view[-1]`／`mutated[-1]` 就是这批负测的注入口），而每登记一轮人工结论就会往末尾追加一种
+    不属任何一轮占格的行——2026-11-09 给 312 条追加「R1 组画风目视」结论行之后，
+    黑名单漏了这一种，末位行变成结论行，9 条负测集体注错行（判据查的那行没被动过，红的全是假红）。
+    黑名单要跟着每一轮新增的行种改一次，漏改那轮当场把整批注入口挪位；白名单的依据仍只有 ROUNDS 一份。
+    末位行必须正是本轮选中的那条读数，否则按位置注入仍然会注错行，所以这条不变量在还原处当场断言，
+    不留给九条负测各自去撞。"""
     row = round_row(item['id'], rows, token)
     idx = [i for i, (h, t, m2) in enumerate(ROUNDS) if t == token][0]
     files = list(item.get('image_file') or [])
@@ -190,9 +196,12 @@ def as_of_round(item, rows, token):
     vnm = VNN_IN_ROW.search(row)
     item['batch'] = '%s-%s%s-%s' % (item['type'], item['id'], token,
                                     (vnm.group(1) if vnm else 'v01') if token == 'C123新串' else 'v01')
-    later = [t for i, (h, t, m2) in enumerate(ROUNDS) if i > idx]
-    rows = [r for r in rows if not any(head_re(t).match(r) for t in later)
-            and not SIGN_DECL.match(r) and not SHIFT_DECL.match(r)]
+    kept_until = [h for i, (h, t, m2) in enumerate(ROUNDS) if i <= idx]
+    rows = [r for r in rows if any(h.match(r) for h in kept_until)]
+    if row:
+        assert rows and rows[-1] == row, (
+            '还原视图末位行不是本轮占格读数，按位置注入的负测会注到别的行上：%s %s'
+            % (item['id'], token))
     return item, rows
 
 
@@ -963,6 +972,37 @@ class ReviewNoteHistory(unittest.TestCase):
         pos_rows = list(rows[:rows.index(sel)]) + [injected[-1]]
         self.assertTrue(check_cell_registration(self.items[eid], pos_rows),
                         '按位置取没有代价，说明这条负测没测到选取本身')
+
+    def test_restored_view_drops_note_lines_that_are_not_cell_readouts(self):
+        """还原视图按白名单剔行有承载：非占格的结论行不许留在视图里，否则按位置注入的负测注错行。
+        2026-11-09 给 312 条追加「R1 组画风目视」结论行那天，行种黑名单漏了这一种，
+        `view[-1]` 指到结论行上，9 条负测同时红——那批红的根因不是判据松了，是注入口挪了位。
+        两头各证一次：正头＝字面量注在本轮占格读数上必须判红；
+        反头＝按旧的黑名单口径把同一段注到末位的结论行上，判据整轮无话可说（那才是真·假绿）。"""
+        eid, token = 'L063', 'C123新串'
+        rows = self.notes[eid]
+        head = head_re(token)
+        item, view = as_of_round(self.items[eid], rows, token)
+        self.assertEqual(check_cell_registration(item, view), [], '还原视图本身必须先达标')
+        self.assertFalse([r for r in view if not head.match(r)], '还原视图里还留着非占格行种')
+        self.assertIsNone(head.match(rows[-1]), '现备注末位已是占格读数，本例失去承载')
+        self.assertIn('画风目视', rows[-1], '末位行种换了，反例要跟着换成本轮真实追加的那种')
+        lit = 'image_prompt_sha256 留空'
+        self.assertIn(lit, view[-1], '本轮读数不写该口径，正例无承载')
+        self.assertNotIn(lit, rows[-1], '结论行里带着该口径，反例就注对行了')
+        stale = [r for r in rows if not any(head_re(t).match(r)
+                                           for t in ('C133冻结重投', 'C138主向重投'))
+                 and not SIGN_DECL.match(r) and not SHIFT_DECL.match(r)]
+        self.assertEqual(stale[-1], rows[-1], '旧口径下末位不是结论行，反例无对比价值')
+        inert = list(stale)
+        inert[-1] = inert[-1].replace(lit, '')
+        self.assertEqual(inert, stale, '反例的注入落不到末位行上，它验的就不是剔行口径')
+        self.assertEqual(check_cell_registration(item, inert), [],
+                         '注在结论行上也能判红，这条反例就变成在验判据严不严')
+        hit = list(view)
+        hit[-1] = hit[-1].replace(lit, '')
+        self.assertNotEqual(hit, view, '正例的注入没落地，负测无效')
+        self.assertTrue(check_cell_registration(item, hit), '白名单没生效，注入仍落在本轮读数之外')
 
     def test_history_survives_and_note_still_derives(self):
         # 308 条没有人工长文本，历史是空数组：判"键在不在"而不是"值真不真"；键随名录扩到312条
