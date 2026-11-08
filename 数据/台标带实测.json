@@ -1,0 +1,1749 @@
+{
+  "统计面": "manifest status=OK 的 114 张源图，逐张全量、非抽样；换算路线＝满幅 1:1（C148 路线 B，源即整卡）",
+  "检出": 38,
+  "未检出": 76,
+  "距实景下沿_max": 52.6,
+  "距实景下沿_min": 10.9,
+  "rows": [
+    {
+      "code": "L009",
+      "file": "东湖金融线-L009-东岸企业会客厅-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "AI",
+          61.6,
+          1013.1
+        ]
+      ],
+      "badge_top_src": 1013.1,
+      "badge_top_card": 1013.1,
+      "dist_above_photo_bottom": 10.9
+    },
+    {
+      "code": "L037",
+      "file": "交通枢纽线-L037-钛湖东站-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          45.5,
+          999.1
+        ]
+      ],
+      "badge_top_src": 999.1,
+      "badge_top_card": 999.1,
+      "dist_above_photo_bottom": 24.9
+    },
+    {
+      "code": "L038",
+      "file": "交通枢纽线-L038-东站城市接待塔-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          93.8,
+          991.3
+        ]
+      ],
+      "badge_top_src": 991.3,
+      "badge_top_card": 991.3,
+      "dist_above_photo_bottom": 32.7
+    },
+    {
+      "code": "L039",
+      "file": "交通枢纽线-L039-山湖交通博物馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L010",
+      "file": "会展接待线-L010-钛湖国际会展中心-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L011",
+      "file": "会展接待线-L011-潮湾会议酒店-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "AI",
+          52.7,
+          996.6
+        ],
+        [
+          "生成",
+          86.9,
+          995.4
+        ]
+      ],
+      "badge_top_src": 995.4,
+      "badge_top_card": 995.4,
+      "dist_above_photo_bottom": 28.6
+    },
+    {
+      "code": "",
+      "file": "兑换卡-T1轻量-城市主题壁纸包-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          88.0,
+          996.3
+        ]
+      ],
+      "badge_top_src": 996.3,
+      "badge_top_card": 996.3,
+      "dist_above_photo_bottom": 27.7
+    },
+    {
+      "code": "",
+      "file": "兑换卡-T2纪念-典藏明信片套装-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          96.0,
+          997.3
+        ]
+      ],
+      "badge_top_src": 997.3,
+      "badge_top_card": 997.3,
+      "dist_above_photo_bottom": 26.7
+    },
+    {
+      "code": "",
+      "file": "兑换卡-T3典藏-文创手办-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "兑换卡-T4纪念级-联名实物礼盒-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "AI",
+          77.9,
+          1001.4
+        ],
+        [
+          "生成",
+          93.2,
+          999.8
+        ]
+      ],
+      "badge_top_src": 999.8,
+      "badge_top_card": 999.8,
+      "dist_above_photo_bottom": 24.2
+    },
+    {
+      "code": "",
+      "file": "兑换卡-T5顶格-专属定制-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "全城地标巡礼-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L049",
+      "file": "农食丰储线-L049-西麓种子与食品馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L050",
+      "file": "农食丰储线-L050-丰仓城市食物馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L051",
+      "file": "农食丰储线-L051-农时试验温室-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L013",
+      "file": "医养健康线-L013-青湾中央医院-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L014",
+      "file": "医养健康线-L014-静溪康复中心-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L015",
+      "file": "医养健康线-L015-生命之窗医学馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L022",
+      "file": "古城记忆线-L022-白石钟楼-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          96.0,
+          1000.3
+        ]
+      ],
+      "badge_top_src": 1000.3,
+      "badge_top_card": 1000.3,
+      "dist_above_photo_bottom": 23.7
+    },
+    {
+      "code": "L023",
+      "file": "古城记忆线-L023-西湖商埠会馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L024",
+      "file": "古城记忆线-L024-青瓦地方民俗馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L052",
+      "file": "商贸修配线-L052-西门贸易交易馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L053",
+      "file": "商贸修配线-L053-古道修配博物馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L054",
+      "file": "商贸修配线-L054-西门工友服务站-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L043",
+      "file": "城市运维线-L043-南溪城市应急指挥馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          91.4,
+          989.3
+        ]
+      ],
+      "badge_top_src": 989.3,
+      "badge_top_card": 989.3,
+      "dist_above_photo_bottom": 34.7
+    },
+    {
+      "code": "L044",
+      "file": "城市运维线-L044-循环材料展示馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L045",
+      "file": "城市运维线-L045-城市维修技能中心-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L025",
+      "file": "数创科技线-L025-云栈协作中心-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          95.9,
+          991.6
+        ]
+      ],
+      "badge_top_src": 991.6,
+      "badge_top_card": 991.6,
+      "dist_above_photo_bottom": 32.4
+    },
+    {
+      "code": "L026",
+      "file": "数创科技线-L026-数岸交互艺术馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L027",
+      "file": "数创科技线-L027-城市计算展示馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L028",
+      "file": "文体活力线-L028-松岬体育场-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L029",
+      "file": "文体活力线-L029-钛湖游泳馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          88.3,
+          994.6
+        ]
+      ],
+      "badge_top_src": 994.6,
+      "badge_top_card": 994.6,
+      "dist_above_photo_bottom": 29.4
+    },
+    {
+      "code": "L030",
+      "file": "文体活力线-L030-户外运动中心-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L047",
+      "file": "文体活力线-L047-晨光综合体育馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          96.0,
+          996.6
+        ]
+      ],
+      "badge_top_src": 996.6,
+      "badge_top_card": 996.6,
+      "dist_above_photo_bottom": 27.4
+    },
+    {
+      "code": "L019",
+      "file": "文艺创意线-L019-西声大剧院-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L020",
+      "file": "文艺创意线-L020-旧炉影像馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L021",
+      "file": "文艺创意线-L021-风帆设计工坊-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L040",
+      "file": "智造工业线-L040-钛东工业设计中心-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L041",
+      "file": "智造工业线-L041-精工制造展示馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L042",
+      "file": "智造工业线-L042-新铸工匠学院-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D01",
+      "file": "板块套系-D01-北湖政务片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D02",
+      "file": "板块套系-D02-东北文教片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D03",
+      "file": "板块套系-D03-东湖金融片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D04",
+      "file": "板块套系-D04-东南会展片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "AI",
+          87.2,
+          994.4
+        ],
+        [
+          "生成",
+          95.8,
+          993.3
+        ]
+      ],
+      "badge_top_src": 993.3,
+      "badge_top_card": 993.3,
+      "dist_above_photo_bottom": 30.7
+    },
+    {
+      "code": "D05",
+      "file": "板块套系-D05-青湾医养片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D06",
+      "file": "板块套系-D06-南湖生活片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D07",
+      "file": "板块套系-D07-西南文艺片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          94.0,
+          995.3
+        ]
+      ],
+      "badge_top_src": 995.3,
+      "badge_top_card": 995.3,
+      "dist_above_photo_bottom": 28.7
+    },
+    {
+      "code": "D08",
+      "file": "板块套系-D08-西湖古城片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D09",
+      "file": "板块套系-D09-云栈数创片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "AI",
+          75.1,
+          1002.8
+        ]
+      ],
+      "badge_top_src": 1002.8,
+      "badge_top_card": 1002.8,
+      "dist_above_photo_bottom": 21.2
+    },
+    {
+      "code": "D10",
+      "file": "板块套系-D10-松岬体育片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D11",
+      "file": "板块套系-D11-北屏生态片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          94.2,
+          1003.9
+        ]
+      ],
+      "badge_top_src": 1003.9,
+      "badge_top_card": 1003.9,
+      "dist_above_photo_bottom": 20.1
+    },
+    {
+      "code": "D12",
+      "file": "板块套系-D12-书岭科研片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D13",
+      "file": "板块套系-D13-东门枢纽片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D14",
+      "file": "板块套系-D14-钛东智造片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "AI",
+          79.3,
+          982.6
+        ],
+        [
+          "生成",
+          96.1,
+          980.1
+        ]
+      ],
+      "badge_top_src": 980.1,
+      "badge_top_card": 980.1,
+      "dist_above_photo_bottom": 43.9
+    },
+    {
+      "code": "D15",
+      "file": "板块套系-D15-南溪服务片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D16",
+      "file": "板块套系-D16-南原居住片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D17",
+      "file": "板块套系-D17-西麓农食片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "AI",
+          59.2,
+          998.4
+        ]
+      ],
+      "badge_top_src": 998.4,
+      "badge_top_card": 998.4,
+      "dist_above_photo_bottom": 25.6
+    },
+    {
+      "code": "D18",
+      "file": "板块套系-D18-西门商贸片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "D19",
+      "file": "板块套系-D19-西岭能源片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          95.7,
+          989.1
+        ]
+      ],
+      "badge_top_src": 989.1,
+      "badge_top_card": 989.1,
+      "dist_above_photo_bottom": 34.9
+    },
+    {
+      "code": "D20",
+      "file": "板块套系-D20-北港水务片区-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L058",
+      "file": "水务生态线-L058-北港水文博物馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          64.5,
+          1003.4
+        ]
+      ],
+      "badge_top_src": 1003.4,
+      "badge_top_card": 1003.4,
+      "dist_above_photo_bottom": 20.6
+    },
+    {
+      "code": "L012",
+      "file": "湖湾生活线-L012-水光游客中心-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          95.6,
+          982.4
+        ]
+      ],
+      "badge_top_src": 982.4,
+      "badge_top_card": 982.4,
+      "dist_above_photo_bottom": 41.6
+    },
+    {
+      "code": "L016",
+      "file": "湖湾生活线-L016-南湖百业市场-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L017",
+      "file": "湖湾生活线-L017-湖湾邻里中心-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L018",
+      "file": "湖湾生活线-L018-公共儿童馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "物品卡-匠人工坊工具组-生产-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "物品卡-社区住所卡-居住-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "物品卡-通勤折叠车-出行-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "Ai",
+          41.2,
+          989.3
+        ]
+      ],
+      "badge_top_src": 989.3,
+      "badge_top_card": 989.3,
+      "dist_above_photo_bottom": 34.7
+    },
+    {
+      "code": "L031",
+      "file": "生态科普线-L031-北屏自然学校-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L032",
+      "file": "生态科普线-L032-森林访客中心-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L033",
+      "file": "生态科普线-L033-杉谷观鸟塔-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L059",
+      "file": "生态科普线-L059-水质公开实验馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L060",
+      "file": "生态科普线-L060-河口生态观察馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          93.6,
+          997.6
+        ]
+      ],
+      "badge_top_src": 997.6,
+      "badge_top_card": 997.6,
+      "dist_above_photo_bottom": 26.4
+    },
+    {
+      "code": "",
+      "file": "生态科普线-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L046",
+      "file": "社区生活线-L046-南原中央图书分馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L048",
+      "file": "社区生活线-L048-南原妇幼社区中心-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L034",
+      "file": "科研求索线-L034-书岭联合实验楼-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          96.5,
+          1003.4
+        ]
+      ],
+      "badge_top_src": 1003.4,
+      "badge_top_card": 1003.4,
+      "dist_above_photo_bottom": 20.6
+    },
+    {
+      "code": "L035",
+      "file": "科研求索线-L035-青岚仪器共享中心-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "AI",
+          70.2,
+          1007.6
+        ]
+      ],
+      "badge_top_src": 1007.6,
+      "badge_top_card": 1007.6,
+      "dist_above_photo_bottom": 16.4
+    },
+    {
+      "code": "L036",
+      "file": "科研求索线-L036-科研伦理与公众交流馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "职业卡-三电系统实训-A14-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          72.2,
+          987.3
+        ]
+      ],
+      "badge_top_src": 987.3,
+      "badge_top_card": 987.3,
+      "dist_above_photo_bottom": 36.7
+    },
+    {
+      "code": "",
+      "file": "职业卡-临床试验支持培训-A04-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "职业卡-仓储作业实训-A12-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "职业卡-会展策划培训-A09-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "ai",
+          67.8,
+          1007.4
+        ]
+      ],
+      "badge_top_src": 1007.4,
+      "badge_top_card": 1007.4,
+      "dist_above_photo_bottom": 16.6
+    },
+    {
+      "code": "",
+      "file": "职业卡-会计从业考-A08-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "职业卡-光伏运维实训-A16-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          45.2,
+          971.4
+        ]
+      ],
+      "badge_top_src": 971.4,
+      "badge_top_card": 971.4,
+      "dist_above_photo_bottom": 52.6
+    },
+    {
+      "code": "",
+      "file": "职业卡-净水运维实训-A17-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "AI",
+          77.2,
+          986.6
+        ],
+        [
+          "生成",
+          91.9,
+          984.8
+        ]
+      ],
+      "badge_top_src": 984.8,
+      "badge_top_card": 984.8,
+      "dist_above_photo_bottom": 39.2
+    },
+    {
+      "code": "",
+      "file": "职业卡-手作工坊技艺-A19-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "职业卡-护理照护训练-A03-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "职业卡-政务规范结业-A01-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "职业卡-教师资格认证-A02-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "职业卡-机器人集成实训-A15-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "职业卡-物业运维实训-A20-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          96.3,
+          996.4
+        ]
+      ],
+      "badge_top_src": 996.4,
+      "badge_top_card": 996.4,
+      "dist_above_photo_bottom": 27.6
+    },
+    {
+      "code": "",
+      "file": "职业卡-直播运营实训-A07-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          94.9,
+          993.1
+        ]
+      ],
+      "badge_top_src": 993.1,
+      "badge_top_card": 993.1,
+      "dist_above_photo_bottom": 30.9
+    },
+    {
+      "code": "",
+      "file": "职业卡-精密仪器操作证-A05-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "职业卡-装配技能证-A13-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          93.7,
+          995.4
+        ]
+      ],
+      "badge_top_src": 995.4,
+      "badge_top_card": 995.4,
+      "dist_above_photo_bottom": 28.6
+    },
+    {
+      "code": "",
+      "file": "职业卡-配送安全实训-A11-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          96.1,
+          992.3
+        ]
+      ],
+      "badge_top_src": 992.3,
+      "badge_top_card": 992.3,
+      "dist_above_photo_bottom": 31.7
+    },
+    {
+      "code": "",
+      "file": "职业卡-零售运营实训-A10-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "职业卡-食品检测证-A18-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          96.0,
+          992.8
+        ]
+      ],
+      "badge_top_src": 992.8,
+      "badge_top_card": 992.8,
+      "dist_above_photo_bottom": 31.2
+    },
+    {
+      "code": "",
+      "file": "职业卡-高级工程师答辩-A06-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "能力卡-危机谈判-实战-情商-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          95.6,
+          999.6
+        ]
+      ],
+      "badge_top_src": 999.6,
+      "badge_top_card": 999.6,
+      "dist_above_photo_bottom": 24.4
+    },
+    {
+      "code": "",
+      "file": "能力卡-深夜自习-学习-智力-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "能力卡-长跑习惯-习惯-体力-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L055",
+      "file": "能源低碳线-L055-西岭能源调度馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L056",
+      "file": "能源低碳线-L056-光谷低碳体验馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L057",
+      "file": "能源低碳线-L057-山城能源史馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "",
+      "file": "钛湖之脊-八景打卡-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          96.4,
+          1002.6
+        ]
+      ],
+      "badge_top_src": 1002.6,
+      "badge_top_card": 1002.6,
+      "dist_above_photo_bottom": 21.4
+    },
+    {
+      "code": "L001",
+      "file": "钛湖八景-L001-市民议事厅-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "生成",
+          93.9,
+          998.3
+        ]
+      ],
+      "badge_top_src": 998.3,
+      "badge_top_card": 998.3,
+      "dist_above_photo_bottom": 25.7
+    },
+    {
+      "code": "L002",
+      "file": "钛湖八景-L002-司法服务馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L003",
+      "file": "钛湖八景-L003-记忆档案塔-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L004",
+      "file": "钛湖八景-L004-大学图书馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L005",
+      "file": "钛湖八景-L005-科学博物馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L006",
+      "file": "钛湖八景-L006-青年交流馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    },
+    {
+      "code": "L007",
+      "file": "钛湖八景-L007-钛湖之脊-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": true,
+      "words": [
+        [
+          "AI",
+          63.5,
+          1001.3
+        ],
+        [
+          "生成",
+          96.6,
+          1002.6
+        ]
+      ],
+      "badge_top_src": 1001.3,
+      "badge_top_card": 1001.3,
+      "dist_above_photo_bottom": 22.7
+    },
+    {
+      "code": "L008",
+      "file": "钛湖八景-L008-金融博物馆-实际卡.png",
+      "src_size": [
+        768,
+        1024
+      ],
+      "detected": false,
+      "words": [],
+      "badge_top_src": null,
+      "badge_top_card": null,
+      "dist_above_photo_bottom": null
+    }
+  ]
+}
