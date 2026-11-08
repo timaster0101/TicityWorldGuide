@@ -168,7 +168,7 @@ def run_negtest():
         print('注入面缺口（有判据没被注入，闸门不算自证）：%s' % ', '.join(sorted(set(ALL_KINDS) - injected)))
         return 1
     print('对照（原样数据）：违例 %d 条%s' % (
-        len(baseline_bad), '' if not baseline_bad else ' ← ' + str(baseline_bad[:1][1])))
+        len(baseline_bad), '' if not baseline_bad else ' ← ' + str(baseline_bad[0][1])))
     hit_kinds = set()
     for kind, dr, dm, nr, nm, dn in cases:
         _, bad = compare(dr, dm, nr, nm, dn)
