@@ -1,0 +1,35 @@
+# 换行与文本性声明（C151 实测后引入）
+#
+# 引入理由不是「修 598 个文件的分叉」——那是 C150 的错：逐 blob 实测 1027 个跟踪文件里
+# 本体含 CRLF 的只有 7 个（6 个 .png ＋ 1 个 .docx），而那是二进制数据里的巧合字节、不是缺陷；
+# 其余 598 个是「工作区 CRLF 对 blob LF」的 autocrlf 正常态。私有索引上实测
+# `git add --renormalize .` 的 blob 变化为 0，说明本仓 blob 早已归一，没有可合的分叉。
+#
+# 本节真正要防的是另一件事：`* text=auto` 的内容嗅探一旦把二进制当文本，
+# 一次带换行转换的检出／再提交就会把图与 docx 改坏，故按扩展名显式声明二进制。
+# 文本侧不写 eol：写了会让几百个工作区文件在下一次 checkout 集体换行翻转，
+# 而本仓文档里引用的字节数全是工作区口径，翻转等于把这些读数一次性作废，纯 churn。
+* text=auto
+
+# 二进制：永不换行转换
+# *.svg 故意不在这里：三张空间图是纯文本 XML，每次重导都要能逐行 diff；
+# 一旦声明 binary，`git check-attr` 会把 diff/text/merge 一起置为 unset，提交评审里退化成「Binary files differ」。
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.zip binary
+*.gz binary
+*.docx binary
+*.xlsx binary
+*.pptx binary
+*.pdf binary
+*.mp4 binary
+*.mp3 binary
+*.wav binary
+*.7z binary
