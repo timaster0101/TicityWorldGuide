@@ -58,6 +58,22 @@ class DeriveTest(unittest.TestCase):
         self.assertIn("未点名的现代高层群", M.CLAUSE)
         self.assertIn("不放人群正面", M.CLAUSE)
         self.assertIn("不得有枝叶", M.CLAUSE)
+        # R3 起 precedence 连 English tail 里残留的 7:4 横幅措辞一起盖住（20/114 条串带这句）。
+        self.assertIn("7:4 横幅", M.CLAUSE)
+
+    def test_clause_bans_card_frame_and_burned_in_text(self):
+        """R3 重投串的两条新判据：四边装帧禁令＋文案不烤进图，两条支路（派生 CLAUSE 与拼装 CLAUSE_SCENE）都得有。
+
+        依据是 114 枚整批判废后的历史读数——带框 4/4 退照片、无框 3/3 落地，卡框装帧本身就是写实引力源；
+        而旧措辞「满幅铺整卡」与「卡名与副标题由页面叠在此处」正在邀请模型画一张带字的卡，所以旧串面也要当场证伪。
+        """
+        with open(os.path.join(M.ROOT, M.PENDING), encoding="utf-8") as fh:
+            scene = json.load(fh)["CLAUSE_SCENE"]
+        for text, lane in ((M.CLAUSE, "派生 CLAUSE"), (scene, "拼装 CLAUSE_SCENE")):
+            self.assertIn("四边装帧禁令", text, lane)
+            self.assertIn("文案不烤进图", text, lane)
+            self.assertIn("满幅铺到画布的四个像素边缘", text, lane)
+            self.assertNotIn("满幅铺整卡", text, lane + " 还留着邀请画卡的旧措辞")
 
 
 class MainTest(unittest.TestCase):
@@ -235,6 +251,19 @@ class MainTest(unittest.TestCase):
             self.assertIn("preserve mandatory platform AIGC labels and TC260 XMP metadata unchanged", tail,
                           it["name"])
             self.assertEqual(tail.count("overlaid text"), 1, it["name"])
+
+    def test_every_emitted_string_carries_the_two_resend_clauses(self):
+        """114 份串逐份验两条 R3 约束真的落到文件里：只验常量会漏掉「常量改了但某条支路没走它」。"""
+        summary = self._run()
+        self.assertEqual(summary["条数"], 114)
+        files = sorted(f for f in os.listdir(self.tmp.name) if f.endswith(".txt"))
+        self.assertEqual(len(files), 114)
+        for f in files:
+            with open(os.path.join(self.tmp.name, f), encoding="utf-8") as fh:
+                text = fh.read()
+            self.assertIn("四边装帧禁令", text, f)
+            self.assertIn("文案不烤进图", text, f)
+            self.assertNotIn("满幅铺整卡", text, f)
 
     def test_argv_subset_is_respected(self):
         """派生支路按卡号取、待投支路按 idxNNN 取，两条支路各自命中一条时不产出半份台账。"""

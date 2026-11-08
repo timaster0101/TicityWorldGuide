@@ -143,22 +143,13 @@ def check_item(it, by_idx, name):
         raise SystemExit("idx %s（%s，%s）：%s" % (it["idx"], it["name"], name, "；".join(problems)))
 
 
-def main():
-    os.chdir(ROOT)
-    want, by_idx = read_pending_codes()
-    items, from_file = load_items()
-    got = sorted(items)
-    if got != want:
-        raise SystemExit("待投清单与 manifest 不平：分片 %d 条／应投 %d 条，差集 %s"
-                         % (len(got), len(want), sorted(set(got) ^ set(want))))
-    for idx in want:
-        check_item(items[idx], by_idx, from_file[idx])
-
+def extract_skeleton():
+    """骨架五段从 80 张同源件的 3:2 原文重取；派生行的结构判据是 base_prompt_file 落在 数据/开图提示词/，
+    不看 manifest_status（待投 34 行投放后同样变 OK，用状态判会把待投行当骨架源切出 34 条自指串）。"""
     with open(os.path.join(ROOT, LEDGER), encoding="utf-8") as fh:
         led = json.load(fh)
-    # 台账现含 114 行：派生 80 行的 base_prompt_file 是 3:2 原文（骨架从这里取），
-    # 待投 34 行的 base_prompt_file 指向本文件自己，切不出【画风锚点】，必须排除。
-    derived = [it for it in led["items"] if it.get("manifest_status") in ("OK", "OVERFLOW")]
+    derived = [it for it in led["items"]
+               if it.get("base_prompt_file", "").startswith("数据/开图提示词/")]
     if len(derived) != 80:
         raise SystemExit("台账派生行数不是 80（现 %d），骨架取数范围已变" % len(derived))
     texts = []
@@ -180,6 +171,36 @@ def main():
     print("风格前缀截子句：%d→%d 字，尾部 %r" % (len(raw_pre), len(pre), pre[-48:]))
     if len(pre) + len(suf) > len(min(tails, key=len)):
         raise SystemExit("前缀与后缀在最短串上重叠，骨架不可分")
+    return sk_anchor, sk_hard, pre, suf
+
+
+def main():
+    os.chdir(ROOT)
+    skeleton_only = "--skeleton-only" in sys.argv
+    if skeleton_only:
+        sk_anchor, sk_hard, pre, suf = extract_skeleton()
+        with open(PENDING, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        doc["骨架"] = {"画风锚点": sk_anchor, "全局硬设定": sk_hard,
+                       "English tail 风格前缀": pre, "English tail 禁则后缀": suf,
+                       "English tail 画幅句": ASPECT_LINE.strip()}
+        doc["骨架指纹"] = {k: sha12(v) for k, v in doc["骨架"].items()}
+        doc["骨架字数"] = {k: len(v) for k, v in doc["骨架"].items()}
+        with open(PENDING, "w", encoding="utf-8") as fh:
+            json.dump(doc, fh, ensure_ascii=False, indent=1)
+        print("已只刷骨架五段 %s：items 未动 %d 条／指纹 %s"
+              % (PENDING, doc["条数"], json.dumps(doc["骨架指纹"], ensure_ascii=False)))
+        return 0
+    want, by_idx = read_pending_codes()
+    items, from_file = load_items()
+    got = sorted(items)
+    if got != want:
+        raise SystemExit("待投清单与 manifest 不平：分片 %d 条／应投 %d 条，差集 %s"
+                         % (len(got), len(want), sorted(set(got) ^ set(want))))
+    for idx in want:
+        check_item(items[idx], by_idx, from_file[idx])
+
+    sk_anchor, sk_hard, pre, suf = extract_skeleton()
     merged = []
     stripped = 0
     for idx in want:

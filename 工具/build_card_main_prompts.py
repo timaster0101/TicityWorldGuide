@@ -13,6 +13,11 @@ English tail 画幅句／English tail 禁则后缀）逐字复用 80 张同源�
 （空 code 且非模板正面／非模板背面的结构判）逐 idx 不等就抛错，不产半份台账。
 投放状态不进这条口径：34 张补投转 OK 后若仍按 `status == "MISSING"` 筛，待投名单会归零、
 整条拼装支路被静默关掉，正文字数与台账条数随即对不上。
+
+2026-11-08 R3 重投（C152）：114 张按 103/114 的机器读数加逐枚目视整批判废，判废后的两条修法都写进串本身——
+「四边装帧禁令」与「文案不烤进图」。依据是卡框装帧本身就是写实引力源（带框 4/4 退照片、无框 3/3 落地），
+而旧措辞「满幅铺整卡」「卡名与副标题由页面叠在此处」正是在邀请模型画一张带字卡；两条同时挂进派生的 CLAUSE
+与拼装的 CLAUSE_SCENE，画幅 precedence 也顺手扩到 English tail 里残留的 7:4 横幅措辞。正典段仍逐字不动。
 """
 import hashlib
 import json
@@ -28,13 +33,22 @@ PENDING = os.path.join("数据", "卡面主图正文待投.json")
 OUT_DIR = os.path.join("数据", "卡面主图提示词3x4")
 SIZE = "768x1024"
 CLAUSE = (
-    "画幅为3:4竖幅（768×1024，满幅铺整卡，不作裁切适配）：主体完整入画、冠部与基座一律不得裁切，"
+    "画幅为3:4竖幅（768×1024，画面铺满整幅画布、不作裁切适配，本图是画面本身而不是一张带装帧的卡片）："
+    "主体完整入画、冠部与基座一律不得裁切，"
     "主体竖向轮廓居中略偏上；顶部留出不少于画面高度14%的文字安全区（卡名与副标题由页面叠在此处，"
+    "主图本身在该带内不得含任何文字或图形叠加物，"
     "该带只许天空、远景墙体或均匀暗部，不得有枝叶、构件或灯杆切入），"
-    "底部留出不少于画面高度22%的暗部安全区（底部文案浮层叠在此处，该带以地面、阴影与实物体量为主，"
+    "底部留出不少于画面高度22%的暗部安全区（底部文案浮层叠在此处，主图本身在该带内同样不得含任何文字，"
+    "该带以地面、阴影与实物体量为主，"
     "不放关键构件、不放人群正面与可读招牌，画面下沿12%内保持均匀暗面）；"
+    "四边装帧禁令：卡框、边框、内框、双线框、装饰角花、描边、圆角、白边、投影边框与暗角压边一律禁止，"
+    "画面内容必须满幅铺到画布的四个像素边缘，不得在画面里画出「一张卡片」「一幅装裱画」这类带边的载体；"
+    "文案不烤进图：卡名、副标题、编号、数值、价格、属性图标、徽章、水印与任何可读字形一律不得出现在主图内，"
+    "版面文字全部由页面在图外叠加；画面内唯一允许的文字仍是【全局硬设定】点名的店铺招牌、灯箱与门牌，"
+    "且只许是不可读笔画，不得拼读；"
     "本条只改取景距离、画幅与上下安全区，主体外观、光照方位与人群密度沿用下文原句，不因此增删建筑构件；"
-    "下文【全局硬设定】仍按 3:2 横幅措辞处，画幅与上下安全区以本条为准；"
+    "下文（含【全局硬设定】与 English tail）任何画幅措辞处，无论写 3:2 横幅还是 7:4 横幅，"
+    "画幅与上下安全区一律以本条为准；"
     "竖幅只是同一机位的画幅变化，不因此获得新的背景授权：背景天际线仍然只许出现【取景指令】逐一点名的独立远景对象，"
     "未点名的现代高层群、玻璃塔群与塔吊一律不入画。"
 )
@@ -126,7 +140,7 @@ def main(argv=None):
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(prompt + "\n")
         ledger.append({"id": code, "name": e["name"], "file": path.replace("\\", "/"),
-                       "size": SIZE, "aspect": "3:4 竖幅满幅，含顶部14%与底部22%文字安全区",
+                       "size": SIZE, "aspect": "3:4 竖幅满幅，含顶部14%与底部22%文字安全区；无框、主图内不烤文案",
                        "len": len(prompt), "base_prompt_file": e["prompt_file"].replace("\\", "/"),
                        "card_type": next(c["card_type"] for c in man if c["code"] == code),
                        "manifest_status": next(c["status"] for c in man if c["code"] == code)})
@@ -160,13 +174,14 @@ def main(argv=None):
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(prompt)
         ledger.append({"id": pid, "name": it["name"], "file": path.replace("\\", "/"),
-                       "size": SIZE, "aspect": "3:4 竖幅满幅，含顶部14%与底部22%文字安全区",
+                       "size": SIZE, "aspect": "3:4 竖幅满幅，含顶部14%与底部22%文字安全区；无框、主图内不烤文案",
                        "len": len(prompt), "base_prompt_file": PENDING.replace("\\", "/"),
                        "card_type": it["card_type"], "anchor": it.get("anchor", ""),
                        "manifest_status": rec["status"]})
     with open(os.path.join(OUT_DIR, "台账.json"), "w", encoding="utf-8") as fh:
-        json.dump({"生成者": "build_card_main_prompts.py", "口径": "80 张派生自 3:2 底串、只改画幅与上下安全区；"
-                                                                "待投卡按 数据/卡面主图正文待投.json 分段拼装，骨架五段逐字复用",
+        json.dump({"生成者": "build_card_main_prompts.py",
+                   "口径": "80 张派生自 3:2 底串，改动只有画幅与上下安全区、四边装帧禁令、文案不烤进图三处；"
+                           "待投卡按 数据/卡面主图正文待投.json 分段拼装，骨架五段逐字复用",
                    "条数": len(ledger), "画幅": SIZE, "items": ledger}, fh, ensure_ascii=False, indent=1)
     print(json.dumps({"条数": len(ledger), "画幅": SIZE,
                       "字数区间": [min(x["len"] for x in ledger), max(x["len"] for x in ledger)],

@@ -1,0 +1,1156 @@
+{
+ "投放轮次": "card3x4_R3",
+ "放行原话": "用户 2026-11-08：「卡面主图整批判废后的重投。§55.32 遗留清单第 2 条：画风判废权在你手里（103/114 机器落在照片侧，idx090 机器判绘画、人眼仍像实拍）。重投是花钱的 ImageGen 批量调用，且方向已锁死为「无框主图 + 不烤文案」，要你一句「开始重投」我才发。／把这个做了」",
+ "探针": {
+  "ids": [
+   "L022",
+   "idx007"
+  ],
+  "note": "探针取 R1／R2 各自的探针卡（L022＝派生支路、idx007＝拼装支路），与旧轮同卡同机位可直接对拍；确认后放量其余 112 张"
+ },
+ "口径": "覆盖面＝台账.json 全部 114 条（派生 80＋拼装 34），本轮整批重投、不按投放状态筛；底串＝数据/卡面主图提示词3x4/<ID>.txt（本轮重生成，串面含四边装帧禁令与文案不烤进图）；画幅 768×1024；landing＝数据/视觉控制资产/卡牌/主图3x4/<ID>.png（本机资产、gitignored，旧版已在 主图3x4.zip 还原点内）；prompt_sha256 与 bytes 取 CRLF→LF 归一后的文本字节，送入串与证据对拍同一口径",
+ "条数": 114,
+ "画幅": "768x1024",
+ "items": [
+  {
+   "id": "L009",
+   "name": "东岸企业会客厅",
+   "prompt_file": "数据/卡面主图提示词3x4/L009-东岸企业会客厅.txt",
+   "prompt_sha256": "f61f4b026574240b6f688dfeef0470f20d9091c8ce6394b15e83934ae4673303",
+   "bytes": 10981,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L009.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L037",
+   "name": "钛湖东站",
+   "prompt_file": "数据/卡面主图提示词3x4/L037-钛湖东站.txt",
+   "prompt_sha256": "873ce98c647c9fd0e39c00ec9f5f33cfdc31de1fdfa901266f213bb9683730b7",
+   "bytes": 11007,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L037.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L038",
+   "name": "东站城市接待塔",
+   "prompt_file": "数据/卡面主图提示词3x4/L038-东站城市接待塔.txt",
+   "prompt_sha256": "6a8437e12b29881e7add8bc2e61301b6bb4a5acff205445bfd8afd2ac883d824",
+   "bytes": 10988,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L038.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L039",
+   "name": "山湖交通博物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L039-山湖交通博物馆.txt",
+   "prompt_sha256": "587d570c4a0956f1efb3f5acabcacd2e77598e457f7ea9f65f0675c47ee3324f",
+   "bytes": 10996,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L039.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L010",
+   "name": "钛湖国际会展中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L010-钛湖国际会展中心.txt",
+   "prompt_sha256": "031c8d94782cc4392592f5cda4193eee53aeed3d1f64516238a0aa5e51ada355",
+   "bytes": 11085,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L010.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L011",
+   "name": "潮湾会议酒店",
+   "prompt_file": "数据/卡面主图提示词3x4/L011-潮湾会议酒店.txt",
+   "prompt_sha256": "2b606c7186db1b4215e2db6f02fb4d71842ca7831975cad55f40df6371d968ed",
+   "bytes": 10943,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L011.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L049",
+   "name": "西麓种子与食品馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L049-西麓种子与食品馆.txt",
+   "prompt_sha256": "ce7d447e0717b0f6f68956bb0996109420dc6b9709612b3d4fa86502f131ee36",
+   "bytes": 11004,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L049.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L050",
+   "name": "丰仓城市食物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L050-丰仓城市食物馆.txt",
+   "prompt_sha256": "86d9083944ed2a6dd5a59ee4ece7d60c03ab612e69530e9ab3a30747f07b2c0f",
+   "bytes": 10958,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L050.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L051",
+   "name": "农时试验温室",
+   "prompt_file": "数据/卡面主图提示词3x4/L051-农时试验温室.txt",
+   "prompt_sha256": "19268b18f51aa3d5acd5c688409d454720d8fed647d9cfa7c839f23f12b89640",
+   "bytes": 10974,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L051.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L013",
+   "name": "青湾中央医院",
+   "prompt_file": "数据/卡面主图提示词3x4/L013-青湾中央医院.txt",
+   "prompt_sha256": "b2fa052d76fd3c496ddca7f303ebb19dc9a08e2716902d267bfd6bfc0dba9e8d",
+   "bytes": 11085,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L013.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L014",
+   "name": "静溪康复中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L014-静溪康复中心.txt",
+   "prompt_sha256": "8e851c474ab75a18a4b8a158329287e2bb8d938a1379b10bbd52d93bb8c71162",
+   "bytes": 11138,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L014.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L015",
+   "name": "生命之窗医学馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L015-生命之窗医学馆.txt",
+   "prompt_sha256": "14e9b1461fad81d89f601f9b6c6dfdc0cc597df38fa6092ae1f352e9bcef6f34",
+   "bytes": 11093,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L015.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L022",
+   "name": "白石钟楼",
+   "prompt_file": "数据/卡面主图提示词3x4/L022-白石钟楼.txt",
+   "prompt_sha256": "8b9ff72fed8e9e6802cce2e9263804b1293faf64682f95dbbbaef94468ffc764",
+   "bytes": 10864,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L022.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L023",
+   "name": "西湖商埠会馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L023-西湖商埠会馆.txt",
+   "prompt_sha256": "27bcd4fe289f4ce314bb6381d709a806b2d9996dc71b05f2961e0681b689675d",
+   "bytes": 10915,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L023.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L024",
+   "name": "青瓦地方民俗馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L024-青瓦地方民俗馆.txt",
+   "prompt_sha256": "f87252e234a93a6474fb49e1ddaef5f678c8aff3871be285da8f9dfb920c9b19",
+   "bytes": 10939,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L024.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L052",
+   "name": "西门贸易交易馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L052-西门贸易交易馆.txt",
+   "prompt_sha256": "e8f9a52e8f1a221cd37011cc8d4b75b612865a7b46462935b83df20e74f6a139",
+   "bytes": 10935,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L052.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L053",
+   "name": "古道修配博物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L053-古道修配博物馆.txt",
+   "prompt_sha256": "d78fbe5047868058d4738b4c1bc7f065ce802645fc536027c31b23c079b6678d",
+   "bytes": 10933,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L053.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L054",
+   "name": "西门工友服务站",
+   "prompt_file": "数据/卡面主图提示词3x4/L054-西门工友服务站.txt",
+   "prompt_sha256": "31a01c168eca054e697e4f085c19d81cdb217ca3cf4d7894bb97ad162c9d2d9c",
+   "bytes": 10948,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L054.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L043",
+   "name": "南溪城市应急指挥馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L043-南溪城市应急指挥馆.txt",
+   "prompt_sha256": "9a22aaf25189afa690bc2a5364ceeb49860dc2660e373fdbb6482e4c40e2fae9",
+   "bytes": 11052,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L043.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L044",
+   "name": "循环材料展示馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L044-循环材料展示馆.txt",
+   "prompt_sha256": "9d32ecb3c0b966a0b838dee8f6211ab573afc0501baa6ed603d4f70a2647d009",
+   "bytes": 11009,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L044.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L045",
+   "name": "城市维修技能中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L045-城市维修技能中心.txt",
+   "prompt_sha256": "072c0efc1b8fa441af18ad91471d9a033d153691861005fccbe6fa507c040f31",
+   "bytes": 11011,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L045.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L025",
+   "name": "云栈协作中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L025-云栈协作中心.txt",
+   "prompt_sha256": "10db3e88d65a7c4160a71a10b446b4fb07a74ec67f3fd11d162977cbd1d35c94",
+   "bytes": 10921,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L025.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L026",
+   "name": "数岸交互艺术馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L026-数岸交互艺术馆.txt",
+   "prompt_sha256": "6cba22d61f36ef0678f89850051d1edae7ecd50c86e65dc53d2bb1236cfcedcd",
+   "bytes": 10936,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L026.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L027",
+   "name": "城市计算展示馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L027-城市计算展示馆.txt",
+   "prompt_sha256": "7771c6363eb0dbfaf0d2d457a53d16f1b4e8f06e9d04354b5d31ec3bf95235c4",
+   "bytes": 11041,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L027.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L028",
+   "name": "松岬体育场",
+   "prompt_file": "数据/卡面主图提示词3x4/L028-松岬体育场.txt",
+   "prompt_sha256": "3f7e8506643838ddf6419b4410432426ccaad16f22bf76f59bfeddab40c59460",
+   "bytes": 11043,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L028.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L029",
+   "name": "钛湖游泳馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L029-钛湖游泳馆.txt",
+   "prompt_sha256": "52e38d93f2392bb7054810f924ea2ce3629d4301e552f3eec75846db9e1e2945",
+   "bytes": 11044,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L029.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L030",
+   "name": "山湖户外运动中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L030-山湖户外运动中心.txt",
+   "prompt_sha256": "95f929fc0389ea2ad6e0cd55ac5147f2e038e3e7624e1767e4a8d904f6b702f4",
+   "bytes": 11081,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L030.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L047",
+   "name": "晨光综合体育馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L047-晨光综合体育馆.txt",
+   "prompt_sha256": "3b97fdd3332ccfa998a1476157a2815c3b084c2d0c3b833938c7cfc19ba496d9",
+   "bytes": 11015,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L047.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L019",
+   "name": "西声大剧院",
+   "prompt_file": "数据/卡面主图提示词3x4/L019-西声大剧院.txt",
+   "prompt_sha256": "62b9e78e28f0e76ed16bcc145f4c447d1aac3750193e5e5bd1cdba07465579a9",
+   "bytes": 10982,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L019.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L020",
+   "name": "旧炉影像馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L020-旧炉影像馆.txt",
+   "prompt_sha256": "a5bb6a78a9c697b23ba93646d4686286b54674fd976f83075533065df5112c16",
+   "bytes": 11033,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L020.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L021",
+   "name": "风帆设计工坊",
+   "prompt_file": "数据/卡面主图提示词3x4/L021-风帆设计工坊.txt",
+   "prompt_sha256": "f886632e5547647398c7d82cde9204cdd258dbca0db14c3feeca403d236de2f5",
+   "bytes": 10961,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L021.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L040",
+   "name": "钛东工业设计中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L040-钛东工业设计中心.txt",
+   "prompt_sha256": "2900d4f33757310283e31b10a49d27b86d9d3f540691c583c201b4296398babc",
+   "bytes": 11043,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L040.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L041",
+   "name": "精工制造展示馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L041-精工制造展示馆.txt",
+   "prompt_sha256": "8d8f929064fb28bd04fd91def4a641f1bd5c29657c39fa74f32ab4f44e1fab1f",
+   "bytes": 11025,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L041.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L042",
+   "name": "新铸工匠学院",
+   "prompt_file": "数据/卡面主图提示词3x4/L042-新铸工匠学院.txt",
+   "prompt_sha256": "da6ef87bbe591e9ae7ba4ad212d3c6fc71f1cef19be4fd795c6eeec335f58d77",
+   "bytes": 11003,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L042.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "D01",
+   "name": "北湖政务片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D01-北湖政务片区.txt",
+   "prompt_sha256": "ab627ab802c4a3b56f133ea196fb3f0a6bb22dbef5e935c156a6bbf12f7651c2",
+   "bytes": 11097,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D01.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D02",
+   "name": "东北文教片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D02-东北文教片区.txt",
+   "prompt_sha256": "da98734d76d953d5558dbdf15d4e16c7f80cc70d281e58d4ca72d59b2c55d2c0",
+   "bytes": 11036,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D02.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D03",
+   "name": "东湖金融片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D03-东湖金融片区.txt",
+   "prompt_sha256": "44c8ac7b3d926b8f1339622aee2e9254f3864c59b91689d34632104ff13e97b9",
+   "bytes": 12755,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D03.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D04",
+   "name": "东南会展片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D04-东南会展片区.txt",
+   "prompt_sha256": "099c3cd1495fbd374ffe61b24d842d3858aabeebadef460030e8cd2af07203c7",
+   "bytes": 11022,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D04.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D05",
+   "name": "青湾医养片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D05-青湾医养片区.txt",
+   "prompt_sha256": "c625938f2ed8b6d8d85b37465fd9065af11ffbab5af8fa5d0fd80a0ec743c22a",
+   "bytes": 11039,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D05.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D06",
+   "name": "南湖生活片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D06-南湖生活片区.txt",
+   "prompt_sha256": "63c0b11c662d5ee7dc427780d7eee24adb802de71fa06651ef133bb902276671",
+   "bytes": 11706,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D06.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D07",
+   "name": "西南文艺片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D07-西南文艺片区.txt",
+   "prompt_sha256": "f355595b32b795c842ebb92ac2e2b39f7efe052d73920ea658c8aaac2c4e0e01",
+   "bytes": 11679,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D07.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D08",
+   "name": "西湖古城片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D08-西湖古城片区.txt",
+   "prompt_sha256": "1534701ce3c3f677d5dede403de65892c54ef78d32bfcdb5de018502e2fcb1dd",
+   "bytes": 12568,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D08.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D09",
+   "name": "云栈数创片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D09-云栈数创片区.txt",
+   "prompt_sha256": "6ca0235368f263578c8e3a5f9c6a8cf35ea7aaa37da4bb6456f82bca417def67",
+   "bytes": 11730,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D09.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D10",
+   "name": "松岬体育片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D10-松岬体育片区.txt",
+   "prompt_sha256": "f902145d497a375d66291aebe0c9c7883001fe171b3f5680d5b6ff486863a7ed",
+   "bytes": 11370,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D10.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D11",
+   "name": "北屏生态片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D11-北屏生态片区.txt",
+   "prompt_sha256": "f05382e2b4681187ec174625fa4a49387b05e48f51ac16d1674b0847db3fcfd6",
+   "bytes": 11747,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D11.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D12",
+   "name": "书岭科研片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D12-书岭科研片区.txt",
+   "prompt_sha256": "048a619d9c66d767906490cf2666bedc509d065b074d48b3c5848def05a008e9",
+   "bytes": 11765,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D12.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D13",
+   "name": "东门枢纽片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D13-东门枢纽片区.txt",
+   "prompt_sha256": "02986a3a12363ffd7e03e14ef9ddd9fab2eefc39bec29a43a323088df2e4c40a",
+   "bytes": 11636,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D13.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D14",
+   "name": "钛东智造片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D14-钛东智造片区.txt",
+   "prompt_sha256": "23a1d5d71eee757f65e53382b37b2ac5a0b6bb07a159cd4b03beb83c632f2131",
+   "bytes": 11747,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D14.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D15",
+   "name": "南溪服务片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D15-南溪服务片区.txt",
+   "prompt_sha256": "d3b8c88e379add9f3fd127cf94345dbed23d109c36bf6e0ee033cf03e7fb0339",
+   "bytes": 11780,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D15.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D16",
+   "name": "南原居住片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D16-南原居住片区.txt",
+   "prompt_sha256": "a8f806ca1da0b7e3a52458a928cbf4df6322ade63b51f5917ff3107be47e5405",
+   "bytes": 11795,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D16.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D17",
+   "name": "西麓农食片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D17-西麓农食片区.txt",
+   "prompt_sha256": "a4f58852633673333e5f257d86068cf4dc1be164c18da0cabc60589e6e815b42",
+   "bytes": 11837,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D17.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D18",
+   "name": "西门商贸片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D18-西门商贸片区.txt",
+   "prompt_sha256": "d5619fa3654dfd64de1acf09669de8f70115745c304462356ed987b2054cab2c",
+   "bytes": 11768,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D18.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D19",
+   "name": "西岭能源片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D19-西岭能源片区.txt",
+   "prompt_sha256": "11d6782540a7dc17cc36fbb73a0322471b9e4543b2d2904fd84149bf78f970d6",
+   "bytes": 11809,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D19.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "D20",
+   "name": "北港水务片区",
+   "prompt_file": "数据/卡面主图提示词3x4/D20-北港水务片区.txt",
+   "prompt_sha256": "e5d5663b01f3fccc6eeff99fdc965f53df9c429bbcb07323eedc41852d0b4702",
+   "bytes": 11810,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/D20.png",
+   "card_type": "板块卡"
+  },
+  {
+   "id": "L058",
+   "name": "北港水文博物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L058-北港水文博物馆.txt",
+   "prompt_sha256": "2a49ef3f20a6d4e6679d65fba6bc3c9fb090e70785e61e895b9248fd1e2fb816",
+   "bytes": 10987,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L058.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L012",
+   "name": "水光游客中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L012-水光游客中心.txt",
+   "prompt_sha256": "488878c57bd1f8e4bf007a7b279590a6154ab0875d0e76697612f5b3f010f02f",
+   "bytes": 11078,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L012.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L016",
+   "name": "南湖百业市场",
+   "prompt_file": "数据/卡面主图提示词3x4/L016-南湖百业市场.txt",
+   "prompt_sha256": "d099db8a3b1927e364e1c3ebf5fcf61e04e16bdfa65b06621fef4219b6081593",
+   "bytes": 10990,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L016.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L017",
+   "name": "湖湾邻里中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L017-湖湾邻里中心.txt",
+   "prompt_sha256": "745f99700d43d2b63de42f0c9cdfa0d41d10fb1305d9b5fef4e0b134af45d9f5",
+   "bytes": 11038,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L017.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L018",
+   "name": "南湖公共儿童馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L018-南湖公共儿童馆.txt",
+   "prompt_sha256": "a20babb17b2d0c238bb2b5ca3b6b80c7e849fe0ac357ac285b7a94127e60c295",
+   "bytes": 11024,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L018.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L031",
+   "name": "北屏自然学校",
+   "prompt_file": "数据/卡面主图提示词3x4/L031-北屏自然学校.txt",
+   "prompt_sha256": "6274431bf2143833b16472abbaebb45c2258e4685da15a695d96240863003a4b",
+   "bytes": 11043,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L031.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L032",
+   "name": "森林访客中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L032-森林访客中心.txt",
+   "prompt_sha256": "7fdfc01b851e0680d28289359e8f759dd4566389532a798ad1a417b527a256f2",
+   "bytes": 11039,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L032.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L033",
+   "name": "杉谷观鸟塔",
+   "prompt_file": "数据/卡面主图提示词3x4/L033-杉谷观鸟塔.txt",
+   "prompt_sha256": "37c496c38c818f0ef54bbe1f3b6956d15d92e429bb74a611b303a6b4c7a47895",
+   "bytes": 11155,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L033.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L059",
+   "name": "清流水质公开实验馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L059-清流水质公开实验馆.txt",
+   "prompt_sha256": "958e44e4a38d46ec9bc3e9970c463f686a5c1ee28eed198fc8fba377fc4e812b",
+   "bytes": 11021,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L059.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L060",
+   "name": "河口生态观察馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L060-河口生态观察馆.txt",
+   "prompt_sha256": "88152110bae449c2c4d9eb7cbcfbf25a4dad2fe33957386cd99de8e677fc2277",
+   "bytes": 10899,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L060.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L046",
+   "name": "南原中央图书分馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L046-南原中央图书分馆.txt",
+   "prompt_sha256": "9c594f2b8f0f3e051941aca9cf7c18ab0266f25d778ad2d7e53baa3411f97baf",
+   "bytes": 10971,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L046.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L048",
+   "name": "南原妇幼社区中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L048-南原妇幼社区中心.txt",
+   "prompt_sha256": "d55b8977d406b2ea035fc80ee44d1fc4f6907b2e2b51866426925f1ad5f7ca8f",
+   "bytes": 10930,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L048.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L034",
+   "name": "书岭联合实验楼",
+   "prompt_file": "数据/卡面主图提示词3x4/L034-书岭联合实验楼.txt",
+   "prompt_sha256": "1ca3933492e457acaa906e286076a3959ed695fc856c0da94c2ae97808be0594",
+   "bytes": 11025,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L034.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L035",
+   "name": "青岚仪器共享中心",
+   "prompt_file": "数据/卡面主图提示词3x4/L035-青岚仪器共享中心.txt",
+   "prompt_sha256": "6d1e2732e6a26d7b586d6f869bdf43a04aa9cb63e603419e99b04ca9a13e01a2",
+   "bytes": 11035,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L035.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L036",
+   "name": "科研伦理与公众交流馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L036-科研伦理与公众交流馆.txt",
+   "prompt_sha256": "f8fe98465490072e5f31da985418f173b47b2e192a530d0f411f012f3b6a0130",
+   "bytes": 11039,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L036.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L055",
+   "name": "西岭能源调度馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L055-西岭能源调度馆.txt",
+   "prompt_sha256": "39ff49da5aee3c36f011fa3da2985acc9a57d7385d77099d2b15c8f28c8657d1",
+   "bytes": 10914,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L055.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L056",
+   "name": "光谷低碳体验馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L056-光谷低碳体验馆.txt",
+   "prompt_sha256": "39cad81ac4703f86ccb55f4498fe53f95ba05c701bbfd516ad0fd129c96d5ce2",
+   "bytes": 10936,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L056.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L057",
+   "name": "山城能源史馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L057-山城能源史馆.txt",
+   "prompt_sha256": "0203ae34a326ce678e734c460b0e360bcb3afe2edc7c84112c6b1ca31e4dcb04",
+   "bytes": 11012,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L057.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L001",
+   "name": "钛湖市民议事厅",
+   "prompt_file": "数据/卡面主图提示词3x4/L001-钛湖市民议事厅.txt",
+   "prompt_sha256": "9500bf81d675f1c72f8cad1ec84441a765a1d85e9a11feb60870d9059ffc5813",
+   "bytes": 11011,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L001.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L002",
+   "name": "钛湖司法服务馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L002-钛湖司法服务馆.txt",
+   "prompt_sha256": "93128427a3f99e141acbb6648a4b7fb44642f2794018d0c3c9e6c909018a8057",
+   "bytes": 11001,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L002.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L003",
+   "name": "城市记忆档案塔",
+   "prompt_file": "数据/卡面主图提示词3x4/L003-城市记忆档案塔.txt",
+   "prompt_sha256": "384d4132d84673e8a21a51fedaf1e97040ab895ce2bd953918e0aaf93b2fc7ed",
+   "bytes": 10947,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L003.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L004",
+   "name": "钛湖大学中央图书馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L004-钛湖大学中央图书馆.txt",
+   "prompt_sha256": "ee5ec2d1081873b4b715bfd347b28db3551c5d2f147f46382700d490538ec3f4",
+   "bytes": 10945,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L004.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L005",
+   "name": "北书科学博物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L005-北书科学博物馆.txt",
+   "prompt_sha256": "ecff258ffbdf72da12dff1e752ef5557f1442ffbdb38c5d1df3237ace7febb39",
+   "bytes": 10942,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L005.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L006",
+   "name": "湖畔青年交流馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L006-湖畔青年交流馆.txt",
+   "prompt_sha256": "31568aa3f5de4966e035cd0ceb6b707a206f4cca9917ac8bcd1d62a0b584113d",
+   "bytes": 10969,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L006.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L007",
+   "name": "钛湖之脊",
+   "prompt_file": "数据/卡面主图提示词3x4/L007-钛湖之脊.txt",
+   "prompt_sha256": "a9ebaa6b48911ba5a6c9df58ce17ec00a5761351454978d52b16105336c0c295",
+   "bytes": 10834,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L007.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "L008",
+   "name": "金融秩序博物馆",
+   "prompt_file": "数据/卡面主图提示词3x4/L008-金融秩序博物馆.txt",
+   "prompt_sha256": "72a7f755176b186f102c4374d46c0af4ff748b83291bbb6300baa632be3941a3",
+   "bytes": 10953,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/L008.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "idx007",
+   "name": "T1轻量-城市主题壁纸包",
+   "prompt_file": "数据/卡面主图提示词3x4/idx007-T1轻量-城市主题壁纸包.txt",
+   "prompt_sha256": "fb1f5ff5d09ad2914e19bc2365a66207981d9717f5549de7988d34fb62b15440",
+   "bytes": 10093,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx007.png",
+   "card_type": "兑换卡"
+  },
+  {
+   "id": "idx008",
+   "name": "T2纪念-典藏明信片套装",
+   "prompt_file": "数据/卡面主图提示词3x4/idx008-T2纪念-典藏明信片套装.txt",
+   "prompt_sha256": "021572a4dca27eca199eeecae0fed3e9149ff514690ca46341a72f57f77e75b0",
+   "bytes": 10179,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx008.png",
+   "card_type": "兑换卡"
+  },
+  {
+   "id": "idx009",
+   "name": "T3典藏-文创手办",
+   "prompt_file": "数据/卡面主图提示词3x4/idx009-T3典藏-文创手办.txt",
+   "prompt_sha256": "4334ba483ddfd23a65ba98e4b7939e398311059ef037343a31cf82e5faf46c7e",
+   "bytes": 10133,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx009.png",
+   "card_type": "兑换卡"
+  },
+  {
+   "id": "idx010",
+   "name": "T4纪念级-联名实物礼盒",
+   "prompt_file": "数据/卡面主图提示词3x4/idx010-T4纪念级-联名实物礼盒.txt",
+   "prompt_sha256": "3d9e3ef51545829ebd3074c5eed2b87e83e4e2130113051cab9e99e9f30de691",
+   "bytes": 10279,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx010.png",
+   "card_type": "兑换卡"
+  },
+  {
+   "id": "idx011",
+   "name": "T5顶格-专属定制",
+   "prompt_file": "数据/卡面主图提示词3x4/idx011-T5顶格-专属定制.txt",
+   "prompt_sha256": "5402f4afd0038822f44286224a735ef639da37ea475168c0c70ebed9426ce984",
+   "bytes": 10228,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx011.png",
+   "card_type": "兑换卡"
+  },
+  {
+   "id": "idx014",
+   "name": "全城地标巡礼",
+   "prompt_file": "数据/卡面主图提示词3x4/idx014-全城地标巡礼.txt",
+   "prompt_sha256": "e9e9a5d303b48fb0f9b13234e2df41f2a60e6d7f801bbf2e3a29f0f129f02d8b",
+   "bytes": 10163,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx014.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "idx070",
+   "name": "匠人工坊工具组-生产",
+   "prompt_file": "数据/卡面主图提示词3x4/idx070-匠人工坊工具组-生产.txt",
+   "prompt_sha256": "af361c381f8914918d3f3a019448a8793583ab99853d27f2a3b775c11129f41e",
+   "bytes": 10296,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx070.png",
+   "card_type": "物品卡"
+  },
+  {
+   "id": "idx072",
+   "name": "社区住所卡-居住",
+   "prompt_file": "数据/卡面主图提示词3x4/idx072-社区住所卡-居住.txt",
+   "prompt_sha256": "2eb44ad8f39987013f72ec7f8a0338ddd5ebc1a679c555e719baf1b744519637",
+   "bytes": 10373,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx072.png",
+   "card_type": "物品卡"
+  },
+  {
+   "id": "idx074",
+   "name": "通勤折叠车-出行",
+   "prompt_file": "数据/卡面主图提示词3x4/idx074-通勤折叠车-出行.txt",
+   "prompt_sha256": "85b1edae0da8061d22e6c27017d86fcec22fc70c5d02286ed53e84b11bd4a6c0",
+   "bytes": 10298,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx074.png",
+   "card_type": "物品卡"
+  },
+  {
+   "id": "idx080",
+   "name": "生态科普线",
+   "prompt_file": "数据/卡面主图提示词3x4/idx080-生态科普线.txt",
+   "prompt_sha256": "90086419ed4491cbf8936e3a643d1b82ca37e55ee7198dd4645025e6c5464405",
+   "bytes": 10300,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx080.png",
+   "card_type": "景群地标卡"
+  },
+  {
+   "id": "idx086",
+   "name": "三电系统实训-A14",
+   "prompt_file": "数据/卡面主图提示词3x4/idx086-三电系统实训-A14.txt",
+   "prompt_sha256": "eb85568bcafd3687ed2ab76e534273ee33be997089fc3655455844cb577d2bc4",
+   "bytes": 11024,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx086.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx087",
+   "name": "临床试验支持培训-A04",
+   "prompt_file": "数据/卡面主图提示词3x4/idx087-临床试验支持培训-A04.txt",
+   "prompt_sha256": "f0675c753446926f023e8dd4b244578e7fa59332a44f054ee19328d05eb3dbe5",
+   "bytes": 10898,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx087.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx088",
+   "name": "仓储作业实训-A12",
+   "prompt_file": "数据/卡面主图提示词3x4/idx088-仓储作业实训-A12.txt",
+   "prompt_sha256": "20f162155620a125684d63824e9e86a14bfcb527a307ea96ad49747fc61e581f",
+   "bytes": 10931,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx088.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx089",
+   "name": "会展策划培训-A09",
+   "prompt_file": "数据/卡面主图提示词3x4/idx089-会展策划培训-A09.txt",
+   "prompt_sha256": "7c616294184215c89d1c2afb0aa0226b921def006ed1ec56dc749a10dddac022",
+   "bytes": 10758,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx089.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx090",
+   "name": "会计从业考-A08",
+   "prompt_file": "数据/卡面主图提示词3x4/idx090-会计从业考-A08.txt",
+   "prompt_sha256": "6b29f027d84137e16ff92ae87c54ef5ebcd76917d74158527e2b8588010da25b",
+   "bytes": 10895,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx090.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx091",
+   "name": "光伏运维实训-A16",
+   "prompt_file": "数据/卡面主图提示词3x4/idx091-光伏运维实训-A16.txt",
+   "prompt_sha256": "dd38133f3a3c51bbc505932bf7cd67931e914f7e29eaa7117e371364b769129e",
+   "bytes": 11088,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx091.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx092",
+   "name": "净水运维实训-A17",
+   "prompt_file": "数据/卡面主图提示词3x4/idx092-净水运维实训-A17.txt",
+   "prompt_sha256": "67cc98df210e4cbef4f7e3b186678515f3c8ce04fe5237dc8e2875156ef9ffba",
+   "bytes": 11085,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx092.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx093",
+   "name": "手作工坊技艺-A19",
+   "prompt_file": "数据/卡面主图提示词3x4/idx093-手作工坊技艺-A19.txt",
+   "prompt_sha256": "d11696a0a4196d1d6db1a211c6b1573921ff563c824b932ebcd347a3822c6ecc",
+   "bytes": 11078,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx093.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx094",
+   "name": "护理照护训练-A03",
+   "prompt_file": "数据/卡面主图提示词3x4/idx094-护理照护训练-A03.txt",
+   "prompt_sha256": "f6c34bc63ab7cf64feeca712d0c0b00982166d16cf74eac81f51a0bac5769740",
+   "bytes": 11034,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx094.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx095",
+   "name": "政务规范结业-A01",
+   "prompt_file": "数据/卡面主图提示词3x4/idx095-政务规范结业-A01.txt",
+   "prompt_sha256": "9d1adc1c1989f740ed8538acec0c1721d69af03108e5059ab289ba6749207704",
+   "bytes": 11219,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx095.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx096",
+   "name": "教师资格认证-A02",
+   "prompt_file": "数据/卡面主图提示词3x4/idx096-教师资格认证-A02.txt",
+   "prompt_sha256": "3ccf3991593dc5859b822af129743088248a03f35907d9a65056d93de1af5498",
+   "bytes": 10969,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx096.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx097",
+   "name": "机器人集成实训-A15",
+   "prompt_file": "数据/卡面主图提示词3x4/idx097-机器人集成实训-A15.txt",
+   "prompt_sha256": "b48f647ddbcfb0b861da25a8d5841f08c53cc45b919703999ce8c2566b201d31",
+   "bytes": 11216,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx097.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx099",
+   "name": "物业运维实训-A20",
+   "prompt_file": "数据/卡面主图提示词3x4/idx099-物业运维实训-A20.txt",
+   "prompt_sha256": "9321916440355640ad274512a47c292a329f5bd701df2323b51157580cabaf6e",
+   "bytes": 10311,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx099.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx100",
+   "name": "直播运营实训-A07",
+   "prompt_file": "数据/卡面主图提示词3x4/idx100-直播运营实训-A07.txt",
+   "prompt_sha256": "fb16ad1722f2d504bb61a4895e47f6d1a467eca7a29f683fd0837d8387290675",
+   "bytes": 10196,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx100.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx101",
+   "name": "精密仪器操作证-A05",
+   "prompt_file": "数据/卡面主图提示词3x4/idx101-精密仪器操作证-A05.txt",
+   "prompt_sha256": "55c181c7d17a98c8bc012e76d8502e900120376aaeb21d04d02aabf3e36a9335",
+   "bytes": 10111,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx101.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx103",
+   "name": "装配技能证-A13",
+   "prompt_file": "数据/卡面主图提示词3x4/idx103-装配技能证-A13.txt",
+   "prompt_sha256": "4330d5e8ecd1d9afcccce65fbf0bf3665f530e49d1b510e066697c40d1a8d404",
+   "bytes": 10131,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx103.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx104",
+   "name": "配送安全实训-A11",
+   "prompt_file": "数据/卡面主图提示词3x4/idx104-配送安全实训-A11.txt",
+   "prompt_sha256": "c17e481d958e52a3788da96b4e4ab0b35f990c3fa8b3328adf135048051515ef",
+   "bytes": 10254,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx104.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx105",
+   "name": "零售运营实训-A10",
+   "prompt_file": "数据/卡面主图提示词3x4/idx105-零售运营实训-A10.txt",
+   "prompt_sha256": "40f6e96c5379b6ef6d9aa80a64509d4bf4dfadf4e6d85aa0d3fe14637bf11306",
+   "bytes": 10080,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx105.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx106",
+   "name": "食品检测证-A18",
+   "prompt_file": "数据/卡面主图提示词3x4/idx106-食品检测证-A18.txt",
+   "prompt_sha256": "46bde3094bf092d7d5722b26b18aa390022b3ff35871c547ad4d2ebca1ffab23",
+   "bytes": 10055,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx106.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx107",
+   "name": "高级工程师答辩-A06",
+   "prompt_file": "数据/卡面主图提示词3x4/idx107-高级工程师答辩-A06.txt",
+   "prompt_sha256": "42e70b8179445055bb66335a3d28ee8b650b5a70891201664204ebbba5e00561",
+   "bytes": 10156,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx107.png",
+   "card_type": "职业卡"
+  },
+  {
+   "id": "idx108",
+   "name": "危机谈判-实战-情商",
+   "prompt_file": "数据/卡面主图提示词3x4/idx108-危机谈判-实战-情商.txt",
+   "prompt_sha256": "201342bc702099f317f9e7bb74a530e98f9ac012c7168906b25a6ee55b782f38",
+   "bytes": 10227,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx108.png",
+   "card_type": "能力卡"
+  },
+  {
+   "id": "idx110",
+   "name": "深夜自习-学习-智力",
+   "prompt_file": "数据/卡面主图提示词3x4/idx110-深夜自习-学习-智力.txt",
+   "prompt_sha256": "8f64c3d7255c3dd88728f19c4ac2ff87e242f5a06ba41a991d01f09b19df047b",
+   "bytes": 10310,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx110.png",
+   "card_type": "能力卡"
+  },
+  {
+   "id": "idx112",
+   "name": "长跑习惯-习惯-体力",
+   "prompt_file": "数据/卡面主图提示词3x4/idx112-长跑习惯-习惯-体力.txt",
+   "prompt_sha256": "ca155842b64fa87a51c1604aa637495b059214a4355729e9ca0860043d1587b8",
+   "bytes": 10474,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx112.png",
+   "card_type": "能力卡"
+  },
+  {
+   "id": "idx116",
+   "name": "钛湖之脊",
+   "prompt_file": "数据/卡面主图提示词3x4/idx116-钛湖之脊.txt",
+   "prompt_sha256": "111f323c2e03457917c67d93958396d1dd4245eb078a13bc5fd9ca7f2a150d89",
+   "bytes": 10512,
+   "size": "768x1024",
+   "landing": "数据/视觉控制资产/卡牌/主图3x4/idx116.png",
+   "card_type": "景群地标卡"
+  }
+ ]
+}

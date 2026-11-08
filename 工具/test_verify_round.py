@@ -52,6 +52,30 @@ def _measure(dims='1280x1024', container=None):
     return m
 
 
+# 画风三处的行首（提示词正文里唯一允许随画风裁定变动的三行）。
+STYLE_LINE_PREFIXES = ("【画风锚点】", "【全局硬设定】", "English tail:")
+
+
+def style_only_diff(archived, current):
+    """历史台账串面与现读正文的行级对拍：差异只许落在画风三处行上，返回违例清单（空＝达标）。
+
+    为什么按行首内容判而不按行号判：行号 (0, 6, 8) 是 2026-11-09 实测，取景段或人群段增删一行就会挪，
+    钉行号等于给下一轮埋一条假红。为什么还要求三处里至少变一处：台账与真源若整份相同，
+    「差异都在画风行里」会被空集满足，判据就成了恒绿空转。"""
+    a, b = archived.split('\n'), current.split('\n')
+    if len(a) != len(b):
+        return ['台账正文与现读正文行数不同构（%d≠%d），逐行对拍失去比对对象' % (len(a), len(b))]
+    diff = {i for i, (x, y) in enumerate(zip(a, b)) if x != y}
+    style = {i for i, l in enumerate(b) if l.startswith(STYLE_LINE_PREFIXES)}
+    bad = []
+    outside = sorted(diff - style)
+    if outside:
+        bad.append('画风三处以外的行也变了：行号 %s（%s）' % (outside, b[outside[0]][:40]))
+    if not diff & style:
+        bad.append('画风三处一行都没变，本对拍没有承载样本（判据空转）')
+    return bad
+
+
 class VerifyRoundGroups(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -318,14 +342,44 @@ class MergedR2Ledger(unittest.TestCase):
         cls.led = json.loads((CAMPAIGN / 'send_bodies_r2_full.json').read_text(encoding='utf-8'))
         cls.pilot = json.loads((CAMPAIGN / 'send_bodies_r1.json').read_text(encoding='utf-8'))
         cls.reg = json.loads((CAMPAIGN / 'transcripts_r2.json').read_text(encoding='utf-8'))
+        # R2 投于 C153 换档之前，台账里那 58 串逐字属于**换档前**基准。现读正文自 C153 起画风三处已回退，
+        # 所以「逐字等于现读正文」这条历史断言在换档后必然失效——留它等于每换一次档就要来改一次判据。
+        # 换档前基准串取 C153 登记件的 before（长期留档，不随生成器重写）。
+        dig = json.loads((ROOT / '工具' / 'reinject_2026_11_05' / 'prompt_digests_c153.json')
+                         .read_text(encoding='utf-8'))
+        cls.before = {k: v['before'] for k, v in dig['items'].items()}
 
     def test_a_body_is_verbatim_from_prompt_source(self):
+        """R2 台账的串面自证，拆成两支各管一段时间：
+        ①对历史本身——台账记的 sha256 必须逐条等于 C153 换档前的基准串，正文长度对得上 chars：
+          这一支证明「投出去的那一份」没被事后改写。
+        ②对现读真源——现读正文与台账正文的行级差异只许落在画风三处行上（【画风锚点】／
+          【全局硬设定】／English tail），别的行为改动一律点名。
+          拿「逐字相同」当判据在 C153 之后是恒红，拿「不再比对」当修法则是把守卫删了：
+          真源日后若改了科技层词、取景段或人群段，历史台账就再没人核对，正是这条要防的。"""
         for eid, rec in sorted(self.led.items()):
-            name, _src, body = self.bs.body_of(str(ROOT), eid)
-            self.assertEqual(body, rec['body'], eid)
-            self.assertEqual(name, rec['file'], eid)
-            self.assertEqual(len(body), rec['chars'], eid)
-            self.assertTrue(rec['send_name'].endswith('-' + SUFFIX['R2']), eid)
+            with self.subTest(eid=eid):
+                name, _src, cur = self.bs.body_of(str(ROOT), eid)
+                self.assertEqual(name, rec['file'], eid)
+                self.assertEqual(len(rec['body']), rec['chars'], eid)
+                self.assertEqual(rec['sha256'], self.before[eid],
+                                 '台账摘要不是 C153 换档前的基准串（历史串面被改写？）')
+                bad = style_only_diff(rec['body'], cur)
+                self.assertEqual(bad, [], '%s｜%s' % (eid, bad[:2]))
+                self.assertTrue(rec['send_name'].endswith('-' + SUFFIX['R2']), eid)
+
+    def test_style_only_diff_guard_is_not_inert(self):
+        """违例负测：②那一支必须能被两种坏数据打红——画风行以外的行变了、以及画风三处一行都没变
+        （后者防的是真源被整份复制回来、对拍退化成恒绿的空转）。全在内存里造，不写盘。"""
+        eid, rec = sorted(self.led.items())[0]
+        name, _src, cur = self.bs.body_of(str(ROOT), eid)
+        self.assertEqual(style_only_diff(rec['body'], cur), [], '基线：真实对拍本身必须先达标')
+        lines = cur.split('\n')
+        non_style = next(i for i, l in enumerate(lines) if not l.startswith(STYLE_LINE_PREFIXES))
+        self.assertTrue(style_only_diff(rec['body'], '\n'.join(
+            [(lines[non_style] + '（本轮悄悄加了半句）' if i == non_style else l)
+             for i, l in enumerate(lines)])), '画风行以外的改动没被点名')
+        self.assertTrue(style_only_diff(rec['body'], rec['body']), '画风三处一行都没变时没判红，对拍已空转')
 
     def test_b_count_matches_r2_queue_and_pilot_is_subset(self):
         queue = json.loads((CAMPAIGN / 'queue.json').read_text(encoding='utf-8'))

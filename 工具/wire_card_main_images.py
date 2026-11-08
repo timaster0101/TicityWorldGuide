@@ -28,6 +28,8 @@ ROUNDS = {
            "report": "投放核验.json", "sinks": "主图3x4落点.json"},
     "r2": {"scratch": "card3x4_r2", "ledger": "投放台账R2.json",
            "report": "投放核验R2.json", "sinks": "主图3x4落点.json"},
+    "r3": {"scratch": "card3x4_r3", "ledger": "投放台账R3.json",
+           "report": "投放核验R3.json", "sinks": "主图3x4落点.json"},
 }
 
 
