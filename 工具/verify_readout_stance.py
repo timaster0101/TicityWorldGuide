@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """C134 机检口径闸门：细尺度方差地板与日面 1500px 分档线必须是「只作读数、不作判据」。
 
-判红五类：
+判红六类：
   机检判据措辞复活      —— 7 份测量脚本里再次出现「视作非油画／数值越高越油画／疑似日面圆盘/强光源阈值／
                             视作疑似日面圆盘」这类把读数写成判据的原句；
   C134 读数口径标注缺失 —— 7 份脚本任一份丢了 C134 标注，或标注行数低于该文件的应得行数；
@@ -12,10 +12,15 @@
                             这一类守的是 C139 代签那轮未收口偏差的举证面：表被截短或图换了读数没换，
                             偏差申报就成了无证据的散文。阈值不在本闸门重搜（那是 clip_style.sep 的活、导入要拉 torch），
                             改为钉正典表 sha12＋用声明阈值复算声明错分，两边都对得上才认。
+  卡面主图画风读数对不上 —— 卡面 3:4 表与 数据/卡面主图提示词3x4/主图3x4落点.json 逐键对不上（缺枚／多枚／重枚），
+                            或读数 JSON 的计数、落点件键数、尺寸分布与表不符。
+                            这一类守的是 C150 代签那轮「卡面画风侧只有目视、无机读」这块举证面：
+                            主图重投或换档而读数没跟着重跑，代签声明里的「114 枚同侧」就是过期话。
 
 统计面（每个读数都自带）：扫描的是下面 FILES 这 7 个文件的全文，不排除任何行；
 产物面是 CAMPAIGN 那批文件（件数随登记增长，正检读数里直接打印实数）；
-R1 覆盖面现算自 数据/开图清单.json 里含 C138主向重投 字样的格（basename 逐枚比，不抄第二份枚数）。
+R1 覆盖面现算自 数据/开图清单.json 里含 C138主向重投 字样的格（basename 逐枚比，不抄第二份枚数）；
+卡面覆盖面现算自 数据/卡面主图提示词3x4/主图3x4落点.json 的全部键（不 glob 目录，落点件没登记的图不算有读数）。
 本闸门只读，不写任何真源。
 
 用法：
@@ -56,20 +61,27 @@ LEGACY_PHRASES = [
 CAMPAIGN = ['style_sep_final.py', 'style_sep_final.tsv', 'clip_style.py', 'clip_style_scores.tsv',
             'container_profile.py', 'container_profile.json', 'negtest_old_backfill_assert.py',
             'pick_primary_cell.py', 'primary_cells.json',
-            'clip_style_r1.py', 'clip_style_scores_r1.tsv', 'clip_style_r1_readings.json']
+            'clip_style_r1.py', 'clip_style_scores_r1.tsv', 'clip_style_r1_readings.json',
+            'clip_style_card3x4.py', 'clip_style_scores_card3x4.tsv', 'clip_style_card3x4_readings.json']
 REL_CAMPAIGN = '工具/reshoot_campaign_2026_11_06'
 # R1 画风读数的覆盖面真源：清单里含该档串字样的那一格。不抄 264 这个数——
 # 数由真源现算，抄一份就会在下一轮换档时把「覆盖面缺了」读成「行数对不上」。
 R1_CELL_TOKEN = 'C138主向重投'
 R1_TSV = 'clip_style_scores_r1.tsv'
 R1_JSON = 'clip_style_r1_readings.json'
+# 卡面 3:4 主图的覆盖面真源：落点件的全部键（键即卡号）。同样不抄 114 这个数。
+CARD_LANDING_REL = os.path.join('数据', '卡面主图提示词3x4', '主图3x4落点.json')
+CARD_TSV = 'clip_style_scores_card3x4.tsv'
+CARD_JSON = 'clip_style_card3x4_readings.json'
 
 K_LEGACY_PHRASE = '机检判据措辞复活'
 K_STANCE_MARK_MISSING = 'C134 读数口径标注缺失'
 K_ARTIFACT_MISSING = '判据实验产物不在盘'
 K_ARTIFACT_COUNT = '判据实验读数表行数或分组数不符'
 K_R1_COVERAGE = 'R1 画风读数覆盖面对不上'
-ALL_KINDS = (K_LEGACY_PHRASE, K_STANCE_MARK_MISSING, K_ARTIFACT_MISSING, K_ARTIFACT_COUNT, K_R1_COVERAGE)
+K_CARD_COVERAGE = '卡面主图画风读数对不上'
+ALL_KINDS = (K_LEGACY_PHRASE, K_STANCE_MARK_MISSING, K_ARTIFACT_MISSING, K_ARTIFACT_COUNT, K_R1_COVERAGE,
+             K_CARD_COVERAGE)
 
 
 def r1_cells(root):
@@ -85,6 +97,15 @@ def r1_cells(root):
             files = [files]
         out.update(os.path.basename(f) for f in files if R1_CELL_TOKEN in f)
     return out
+
+
+def card_cells(root):
+    """落点件 → {PNG basename: 卡号}；落点件不在盘返回 None（由调用方判缺件，不许当空集判绿）。"""
+    p = root / CARD_LANDING_REL
+    if not p.exists():
+        return None
+    return {os.path.basename(str(v)): k for k, v in
+            json.loads(p.read_text(encoding='utf-8')).items()}
 
 
 def check(root=ROOT):
@@ -219,12 +240,86 @@ def check(root=ROOT):
                              % ((j.get('统计面') or {}).get('选中格数'), len(want)))
             if drift:
                 viol.append('%s：读数 JSON 与表/清单不符 %s' % (K_R1_COVERAGE, drift))
+    # 卡面 3:4 主图侧（C150 代签轮的举证面）：表必须与落点件逐键对平，读数 JSON 的计数与尺寸分布
+    # 必须能由表重算出来。主图换档而 CLIP 表没重跑时，「114 枚同落照片侧」这类话就过期了。
+    land_c = card_cells(root)
+    readings['卡面落点件键数'] = len(land_c) if land_c is not None else 0
+    readings['卡面画风表行数'] = 0
+    if land_c is None:
+        viol.append('%s：落点件不在盘 %s，卡面覆盖面无法现算（不许当空集判绿）'
+                    % (K_CARD_COVERAGE, CARD_LANDING_REL))
+    else:
+        ctp = root / REL_CAMPAIGN / CARD_TSV
+        if ctp.exists():
+            cr = [l for l in ctp.read_text(encoding='utf-8').split('\n') if l.strip()]
+            ccols = cr[0].split('\t')
+            cbody = [r.split('\t') for r in cr[1:]]
+            readings['卡面画风表行数'] = len(cbody)
+            cgot = [r[2] for r in cbody if len(r) > 7]
+            bad = []
+            if ccols[:4] != ['label', 'idx', 'file', 'wh']:
+                bad.append('表头前四列 %s ≠ label/idx/file/wh' % ccols[:4])
+            if len(cgot) != len(cbody):
+                bad.append('有 %d 行取不出 file/p_photo 列' % (len(cbody) - len(cgot)))
+            if len(set(cgot)) != len(cgot):
+                bad.append('file 列有重枚（%d 行 %d 枚）' % (len(cgot), len(set(cgot))))
+            miss_c = sorted(set(land_c) - set(cgot))
+            extra_c = sorted(set(cgot) - set(land_c))
+            if miss_c:
+                bad.append('落点件有格而表无读数 %d 枚：%s' % (len(miss_c), miss_c[:5]))
+            if extra_c:
+                bad.append('表有读数而落点件无此格 %d 枚：%s' % (len(extra_c), extra_c[:5]))
+            if bad:
+                viol.append('%s：%s' % (K_CARD_COVERAGE, bad))
+            cjp = root / REL_CAMPAIGN / CARD_JSON
+            if cjp.exists() and len(cgot) == len(cbody):
+                cj = json.loads(cjp.read_text(encoding='utf-8'))
+                cstat = cj.get('统计面') or {}
+                cread = cj.get('卡面读数') or {}
+                ccc = cj.get('正典对照') or {}
+                thr_c = ccc.get('正典阈值')
+                drift_c = []
+                if cstat.get('落点件键数') != len(land_c):
+                    drift_c.append('统计面.落点件键数 %s ≠ 落点件现算 %d'
+                                   % (cstat.get('落点件键数'), len(land_c)))
+                if not isinstance(thr_c, (int, float)):
+                    drift_c.append('正典阈值缺失或非数：%r' % thr_c)
+                else:
+                    ph_c = sum(1 for r in cbody if float(r[7]) > thr_c)
+                    readings['卡面画风表照片侧'] = ph_c
+                    readings['卡面画风表绘画侧'] = len(cbody) - ph_c
+                    for k, v in (('行数', len(cbody)),
+                                 ('落在正典阈值照片侧的枚数', ph_c),
+                                 ('落在正典阈值绘画侧的枚数', len(cbody) - ph_c)):
+                        if cread.get(k) != v:
+                            drift_c.append('%s 声明 %s ≠ 卡面表现算 %s' % (k, cread.get(k), v))
+                    # 两张侧表必须用同一把尺：卡面表若换了阈值来源，两侧枚数就不可比。
+                    r1_thr = None
+                    if (root / REL_CAMPAIGN / R1_JSON).exists():
+                        r1_thr = ((json.loads((root / REL_CAMPAIGN / R1_JSON)
+                                              .read_text(encoding='utf-8')).get('正典对照') or {})
+                                  .get('正典阈值'))
+                    if r1_thr is not None and thr_c != r1_thr:
+                        drift_c.append('卡面表用的正典阈值 %s ≠ R1 表用的 %s' % (thr_c, r1_thr))
+                dist_c = {}
+                for r in cbody:
+                    dist_c[r[3]] = dist_c.get(r[3], 0) + 1
+                if cstat.get('尺寸分布') != dist_c:
+                    drift_c.append('统计面.尺寸分布 %s ≠ 卡面表现算 %s' % (cstat.get('尺寸分布'), dist_c))
+                if clip.exists():
+                    sha_c = hashlib.sha256(clip.read_bytes()).hexdigest()[:12]
+                    if ccc.get('正典表sha256_12') != sha_c:
+                        drift_c.append('正典表 sha12 声明 %s ≠ 现算 %s' % (ccc.get('正典表sha256_12'), sha_c))
+                if drift_c:
+                    viol.append('%s：读数 JSON 与表/落点件不符 %s' % (K_CARD_COVERAGE, drift_c))
     return viol, readings
 
 
 # ---------- 夹具与违例注入 ----------
 R1_FIXTURE_N = 4          # R1 表行数（夹具面，与真树的 264 无关：真树那个数由清单现算）
 R1_FIXTURE_PHOTO = 3      # 其中落在阈值照片侧的枚数
+CARD_FIXTURE_N = 3        # 卡面表行数（真树那个数由落点件现算）
+CARD_FIXTURE_PHOTO = 2
 
 
 def build_fixture(tmp):
@@ -267,6 +362,25 @@ def build_fixture(tmp):
            'R1读数': {'行数': R1_FIXTURE_N, '落在正典阈值照片侧的枚数': R1_FIXTURE_PHOTO,
                       '落在正典阈值绘画侧的枚数': R1_FIXTURE_N - R1_FIXTURE_PHOTO}}
     (camp / R1_JSON).write_text(json.dumps(r1j, ensure_ascii=False), encoding='utf-8')
+    # 卡面支路的最小落点件＋表＋读数 JSON：键即卡号，表与落点件逐键同名，阈值沿用 R1 夹具那把 0.5。
+    ccells = ['C%d.png' % i for i in range(CARD_FIXTURE_N)]
+    landing = tmp / '数据' / '卡面主图提示词3x4'
+    landing.mkdir(parents=True, exist_ok=True)
+    (landing / '主图3x4落点.json').write_text(
+        json.dumps({('K%d' % i): '数据/视觉控制资产/卡牌/主图3x4/' + c
+                    for i, c in enumerate(ccells)}, ensure_ascii=False), encoding='utf-8')
+    khdr = 'label\tidx\tfile\twh\tmax_sim\tphoto\tpaint\tp_photo'
+    kbody = '\n'.join(['CARD\tK%d\t%s\t768x1024\t0.2\t0.2\t0.2\t%s'
+                       % (i, c, '0.9' if i < CARD_FIXTURE_PHOTO else '0.1')
+                       for i, c in enumerate(ccells)])
+    (camp / CARD_TSV).write_text(khdr + '\n' + kbody + '\n', encoding='utf-8')
+    cardj = {'统计面': {'落点件键数': CARD_FIXTURE_N, '尺寸分布': {'768x1024': CARD_FIXTURE_N}},
+             '正典对照': {'正典表行数': 75, '正典照片侧': 45, '正典绘画侧': 30,
+                          '正典最小错分': 0, '正典阈值': thr,
+                          '正典表sha256_12': hashlib.sha256(canon_path.read_bytes()).hexdigest()[:12]},
+             '卡面读数': {'行数': CARD_FIXTURE_N, '落在正典阈值照片侧的枚数': CARD_FIXTURE_PHOTO,
+                          '落在正典阈值绘画侧的枚数': CARD_FIXTURE_N - CARD_FIXTURE_PHOTO}}
+    (camp / CARD_JSON).write_text(json.dumps(cardj, ensure_ascii=False), encoding='utf-8')
     # 产物清单再登记新件时不必改夹具：按 CAMPAIGN 补占位，缺谁补谁（已写好的表与 JSON 跳过）
     for name in CAMPAIGN:
         if not (camp / name).exists():
@@ -309,6 +423,11 @@ def negtest():
                 p = tmp / REL_CAMPAIGN / R1_TSV
                 rows = [l for l in p.read_text(encoding='utf-8').split('\n') if l.strip()]
                 p.write_text('\n'.join(rows[:-1]) + '\n', encoding='utf-8')
+            elif what == K_CARD_COVERAGE:
+                # 同型的真实错法：主图重投掉一枚而卡面表没重跑 → 表与落点件差一枚、JSON 计数仍旧值。
+                p = tmp / REL_CAMPAIGN / CARD_TSV
+                rows = [l for l in p.read_text(encoding='utf-8').split('\n') if l.strip()]
+                p.write_text('\n'.join(rows[:-1]) + '\n', encoding='utf-8')
             f.write_text(t, encoding='utf-8')
             return check(tmp)
 
@@ -347,11 +466,14 @@ def main():
         return 1
     print('✅ 机检读数口径闸门通过：判据原句 0 处、C134 标注 %d 行 / 扫描 %d 份、实验产物 %d/%d 件在盘、'
           '读数表 %d 行（照片 %d／绘画 %d）与 CLIP 表 %d 行同集；'
-          'R1 画风表 %d 行逐枚覆盖清单 %d 格（照片侧 %d／绘画侧 %d，按正典阈值现分、只作读数不判废）'
+          'R1 画风表 %d 行逐枚覆盖清单 %d 格（照片侧 %d／绘画侧 %d，按正典阈值现分、只作读数不判废）；'
+          '卡面 3:4 表 %d 行逐键覆盖落点件 %d 键（照片侧 %d／绘画侧 %d，同一把正典阈值）'
           % (readings['C134 标注行数合计'], readings['扫描文件数'], readings['产物在盘数'], len(CAMPAIGN),
              readings['像素读数表行数'], readings['像素表照片侧'], readings['像素表绘画侧'],
              readings['CLIP读数表行数'], readings['R1画风表行数'], readings['R1清单格数'],
-             readings.get('R1画风表照片侧', 0), readings.get('R1画风表绘画侧', 0)))
+             readings.get('R1画风表照片侧', 0), readings.get('R1画风表绘画侧', 0),
+             readings['卡面画风表行数'], readings['卡面落点件键数'],
+             readings.get('卡面画风表照片侧', 0), readings.get('卡面画风表绘画侧', 0)))
     return 0
 
 
