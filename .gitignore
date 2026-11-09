@@ -80,3 +80,9 @@ backup/*
 # 图片本体继续被上面的 `backup/*` 挡住不入库；这里只反选那一份逐条台账 json——它是「原路径→新路径＋字节／sha256」
 # 的唯一可追溯证据，也是 工具/verify_pre_e1_archive.py 的输入真源，闸门逐张读它自证；体积小，入库。
 !backup/归档明细_早于定档_20261106.json
+
+# 2026-11-09 第九批：R4 串面不符的坏枚（F007）按 C154 (7) 物理移出 ImageGen 落点、move 进 backup/同级vibe_images/。
+# 源目录是仓库同级的 c8c10ff8/vibe_images/（verify_round.py 的 IMG_DIR），不是仓内 vibe_images/，故另立子目录区分两个来源；
+# 图片本体继续被 `backup/*` 挡住不入库。这里只反选那一份逐条台账 json——它是「绝对源路径→新路径＋字节／sha256＋移动前后
+# 冻结带内落盘数」的唯一可追溯证据，体积小，入库。
+!backup/归档明细_R4坏枚_20261109.json
