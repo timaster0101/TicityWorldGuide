@@ -30,6 +30,12 @@ ROUNDS = {
            "report": "投放核验R2.json", "sinks": "主图3x4落点.json"},
     "r3": {"scratch": "card3x4_r3", "ledger": "投放台账R3.json",
            "report": "投放核验R3.json", "sinks": "主图3x4落点.json"},
+    # r4＝画风母图臂（图生图）：台账没有 prompt_sha256，底串摘要在 base_sha256、
+    # 实际送入串（前导一行＋底串逐字）摘要在 send_sha256。分片证据里的 prompt_sha256 按规程
+    # 记的是「真实喂进去那串」，所以这一轮的对拍目标是 send_sha256；核验件逐条里仍留底串摘要（与 R1—R3 同语义）。
+    "r4": {"scratch": "card3x4_r4", "ledger": "投放台账R4.json",
+           "report": "投放核验R4.json", "sinks": "主图3x4落点.json",
+           "ev_sha_field": "send_sha256"},
 }
 
 
@@ -84,14 +90,14 @@ def collect_evidence(scratch):
     return ev, [os.path.basename(p) for p in files], dup
 
 
-def check(code, led_row, ev_row):
+def check(code, led_row, ev_row, sha_field="prompt_sha256"):
     problems = []
     if ev_row is None:
         return ["分档证据缺失（未投放或子代理未落行）"]
     if ev_row.get("status") != "ok":
         problems.append("证据 status=%s" % ev_row.get("status"))
-    if ev_row.get("prompt_sha256") != led_row["prompt_sha256"]:
-        problems.append("送入串 sha256 与底串不符")
+    if ev_row.get("prompt_sha256") != led_row[sha_field]:
+        problems.append("送入串 sha256 与台账 %s 不符" % sha_field)
     landing = os.path.join(ROOT, led_row["landing"])
     if not os.path.isfile(landing):
         problems.append("landing 缺失")
@@ -138,9 +144,10 @@ def main(argv=None):
     with open(led_path, encoding="utf-8") as fh:
         led = json.load(fh)
     ev, evidence_files, dup = collect_evidence(scratch)
+    sha_field = cfg.get("ev_sha_field", "prompt_sha256")
     rows, bad = [], []
     for it in led["items"]:
-        got = check(it["id"], it, ev.get(it["id"]))
+        got = check(it["id"], it, ev.get(it["id"]), sha_field)
         if isinstance(got, tuple):
             problems, reading = got
         else:
@@ -150,7 +157,10 @@ def main(argv=None):
         else:
             rows.append({"id": it["id"], "sink": sink_key(it["id"]),
                          "name": it["name"], "prompt_file": it["prompt_file"],
-                         "prompt_sha256": it["prompt_sha256"], "landing": it["landing"],
+                         # r4 台账把底串摘要记在 base_sha256；核验件这一列沿 R1—R3 语义仍是底串摘要，
+                         # 送入串摘要另见台账 send_sha256（对拍目标由 sha_field 决定）。
+                         "prompt_sha256": it.get("prompt_sha256") or it.get("base_sha256"),
+                         "landing": it["landing"],
                          "imagegen_path": ev[it["id"]].get("imagegen_path"),
                          "bytes": reading["bytes"], "size": reading["size"],
                          "landing_sha256": reading["sha256"],

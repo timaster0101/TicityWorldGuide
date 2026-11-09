@@ -69,12 +69,26 @@ class LatestSendWinsTest(unittest.TestCase):
         old = dict(WAVE1, timestamp_ms=1000, prompt_sha256="a" * 64)
         led = {"id": "L001", "prompt_sha256": "b" * 64, "landing": "missing.png"}
         problems, _ = _check_with_no_landing(wire, led, old)
-        self.assertIn("送入串 sha256 与底串不符", problems)
+        self.assertIn("送入串 sha256 与台账 prompt_sha256 不符", problems)
+
+    def test_r4_arm_compares_against_send_sha_not_base_sha(self):
+        """r4 图生图臂：证据记的是「真实喂进去那串」（前导一行＋底串逐字）的摘要。
+
+        拿底串摘要去对拍会 85 条全判「送入串 sha256 与台账不符」；反过来，如果这一轮误用底串摘要当
+        对拍目标，逐字面就看不见漏加前导的那批发起——两侧都得钉住。
+        """
+        led = {"id": "idx007", "base_sha256": "b" * 64, "send_sha256": "c" * 64, "landing": "missing.png"}
+        bad = dict(WAVE1, prompt_sha256="b" * 64)
+        problems, _ = _check_with_no_landing(wire, led, bad, "send_sha256")
+        self.assertIn("送入串 sha256 与台账 send_sha256 不符", problems)
+        ok = dict(WAVE1, prompt_sha256="c" * 64)
+        problems, _ = _check_with_no_landing(wire, led, ok, "send_sha256")
+        self.assertNotIn("送入串 sha256 与台账 send_sha256 不符", problems)
 
 
-def _check_with_no_landing(module, led_row, ev_row):
+def _check_with_no_landing(module, led_row, ev_row, sha_field="prompt_sha256"):
     """只跑到 landing 缺失之前的一支：串 sha 对拍先于落盘存在性，旧串必须当场判红。"""
-    got = module.check("L001", led_row, ev_row)
+    got = module.check("L001", led_row, ev_row, sha_field)
     return (got, None) if isinstance(got, list) else got
 
 
