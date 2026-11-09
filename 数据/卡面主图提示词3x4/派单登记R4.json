@@ -1,0 +1,89 @@
+{
+ "declaration": "card3x4_R4（85 枚画风判废母图臂重投）的派单登记：分片→派单名→agentId→transcript，由 工具/register_r4_transcripts.py 现算，bind_check_card_r4.py 按本件扫逐字回绑。",
+ "登记时刻": "2026-11-09",
+ "放行原话": "用户 2026-11-09 逐字「卡面 85 枚＋R1 310 枚判废后的重投（花钱调用，方向已锁死「无框主图＋不烤文案」） 去做」",
+ "覆盖面": "成员面＝数据/卡面主图提示词3x4/投放台账R4.json 的 85 键",
+ "分片数": 2,
+ "卡面分片": [
+  {
+   "分片": 1,
+   "派单名": "r4card01",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-102207f58bb975ba",
+     "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-102207f58bb975ba.jsonl",
+     "在盘": true,
+     "字节": 269304,
+     "sha256_12": "a790aa15c77a"
+    }
+   ]
+  },
+  {
+   "分片": 2,
+   "派单名": "r4card02",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-45f5819d5326c540",
+     "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-45f5819d5326c540.jsonl",
+     "在盘": true,
+     "字节": 209684,
+     "sha256_12": "bee649724a5c"
+    }
+   ]
+  }
+ ],
+ "主链分片": [
+  {
+   "分片": 1,
+   "派单名": "r4main01",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-675c620b6bf1ab01",
+     "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-675c620b6bf1ab01.jsonl",
+     "在盘": true,
+     "字节": 203786,
+     "sha256_12": "61ced125a0ba"
+    }
+   ]
+  },
+  {
+   "分片": 2,
+   "派单名": "r4main02",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-3781c553dd69e9ea",
+     "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-3781c553dd69e9ea.jsonl",
+     "在盘": true,
+     "字节": 202249,
+     "sha256_12": "fa5a6b5c6562"
+    }
+   ]
+  },
+  {
+   "分片": 3,
+   "派单名": "r4main03",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-67e81c05a4404476",
+     "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-67e81c05a4404476.jsonl",
+     "在盘": true,
+     "字节": 206464,
+     "sha256_12": "8ee4a8d4ea8e"
+    }
+   ]
+  },
+  {
+   "分片": 4,
+   "派单名": "r4main04",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-17dd66f2699593e2",
+     "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-17dd66f2699593e2.jsonl",
+     "在盘": true,
+     "字节": 157271,
+     "sha256_12": "6aff5f3af20f"
+    }
+   ]
+  }
+ ]
+}

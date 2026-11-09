@@ -1,0 +1,15 @@
+{
+ "declaration": "R4 主链放量（310 条画风母图臂，档串 C154母图重投-v01）逐字回绑的正源清单：各分片子代理 transcript ＋ 主会话 jsonl。路径按派单名（invocationName）在会话区 *.meta.json 反查得到，跨会话不保证还在；verify_round.py 对缺失份数显式判红，补投前要重新登记当轮路径。",
+ "group": "R4",
+ "suffix": "C154母图重投-v01",
+ "registered_at": "2026-11-09",
+ "派单名数": 4,
+ "反查到 agentId 数": 4,
+ "transcripts": {
+  "1-ageneral-purpose-675c620b6bf1ab01": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-675c620b6bf1ab01.jsonl",
+  "2-ageneral-purpose-3781c553dd69e9ea": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-3781c553dd69e9ea.jsonl",
+  "3-ageneral-purpose-67e81c05a4404476": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-67e81c05a4404476.jsonl",
+  "4-ageneral-purpose-17dd66f2699593e2": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-17dd66f2699593e2.jsonl"
+ },
+ "主会话jsonl": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda.jsonl"
+}
