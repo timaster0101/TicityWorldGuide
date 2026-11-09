@@ -1,0 +1,243 @@
+{
+ "轮次": "R4_画风母图重投",
+ "档串": "C154母图重投-v01",
+ "生成器": "工具/rebuild_r4_evidence.py",
+ "口径": "只对已在盘的产物补记录，不据此判定任何一条合格；status 只由机械判据决定，任一不符即 failed。补建行带 来源＝主会话按 transcript 重建（非代理当场所写） 与 provenance 段，与代理当场写的 16 字段行可分。timestamp_ms 按规程取写入当刻，真实投放时刻另记 投放时刻_ms。",
+ "dry": false,
+ "重建时刻_ms": 1794199918507,
+ "重建时刻_本地": "2026-11-09 12:51:58.507",
+ "回绑源": {
+  "登记件": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/钛湖城城市设定集/工具/reshoot_campaign_2026_11_06/transcripts_r4.json",
+  "在盘份数": 5,
+  "缺失份数": 0,
+  "路径": [
+   "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-17dd66f2699593e2.jsonl",
+   "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-3781c553dd69e9ea.jsonl",
+   "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-675c620b6bf1ab01.jsonl",
+   "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-67e81c05a4404476.jsonl",
+   "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda.jsonl"
+  ]
+ },
+ "统计面": "扫登记件 transcripts 字典 4 份＋主会话 jsonl 1 份，共 5 份；条目取自 C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/shards/shard_*.json 的「条」数组，只取 --ids 点名的 3 个 id；产物只认回执 toolUseResult.filePath 那一个路径，不做目录扫描。",
+ "请求条数": 3,
+ "可重建条数": 3,
+ "拒跑条数": 0,
+ "拒跑": [],
+ "status 分布": {
+  "ok": 2,
+  "failed": 1
+ },
+ "逐条": [
+  {
+   "id": "D14",
+   "片号": 2,
+   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard02.jsonl",
+   "status": "ok",
+   "机械判据": [
+    {
+     "名": "串面逐字",
+     "符": true,
+     "读数": "实投 6643 字符／paste 6643 字符"
+    },
+    {
+     "名": "size 声明相符",
+     "符": true,
+     "读数": "实投 1792x1024／清单 1792x1024"
+    },
+    {
+     "名": "尺寸实读相符",
+     "符": true,
+     "读数": "1792x1024"
+    },
+    {
+     "名": "母图挂载相符",
+     "符": true,
+     "读数": "images 1 项：['D08-西湖古城片区-E1定档-v01_1793641802152_673724e7.png']"
+    },
+    {
+     "名": "母图摘要相符",
+     "符": true,
+     "读数": "5a1f9c6499c3"
+    },
+    {
+     "名": "产物名绑发名",
+     "符": true,
+     "读数": "D14-钛东智造片区-C154母图重投-v01_1794185876497_a5ef39a1.png"
+    },
+    {
+     "名": "落盘与回执同带",
+     "符": true,
+     "读数": "差 44 ms（带宽 600000）"
+    }
+   ],
+   "投放时刻_ms": 1794185876497,
+   "image_sha256": "306d2b5d5d410d07538e74bf72dcc3a47dfd4f87ee0eea9ee39c28a98fb25126",
+   "image_bytes": 4186456,
+   "实投串_chars": 6643,
+   "send_chars": 6643,
+   "串面差异": null,
+   "重建依据": {
+    "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-3781c553dd69e9ea.jsonl",
+    "tool_use_id": "call_fad26f04f3f34b47a1f6f94f",
+    "发起时刻_utc": "2026-11-09T00:57:25.574Z",
+    "发起记录uuid": "e1eda29b-55e3-4be8-a77f-4051f56b0ad6",
+    "回执时刻_utc": "2026-11-09T00:57:56.541Z",
+    "requestId": "d5caa11d-51a1-48e8-beb8-876209ee3380"
+   }
+  },
+  {
+   "id": "F007",
+   "片号": 3,
+   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard03.jsonl",
+   "status": "failed",
+   "机械判据": [
+    {
+     "名": "串面逐字",
+     "符": false,
+     "读数": "实投 6393 字符／paste 5951 字符"
+    },
+    {
+     "名": "size 声明相符",
+     "符": true,
+     "读数": "实投 1280x1024／清单 1280x1024"
+    },
+    {
+     "名": "尺寸实读相符",
+     "符": true,
+     "读数": "1280x1024"
+    },
+    {
+     "名": "母图挂载相符",
+     "符": true,
+     "读数": "images 1 项：['R043-白石老街坊-E1定档-v02_1793642297364_0f163b74.png']"
+    },
+    {
+     "名": "母图摘要相符",
+     "符": true,
+     "读数": "9ec87a15677d"
+    },
+    {
+     "名": "产物名绑发名",
+     "符": true,
+     "读数": "F007-湖东国际会展园-C154母图重投-v01_1794185836666_648baeff.png"
+    },
+    {
+     "名": "落盘与回执同带",
+     "符": true,
+     "读数": "差 38 ms（带宽 600000）"
+    }
+   ],
+   "投放时刻_ms": 1794185836666,
+   "image_sha256": "f3b6050cc16cdc7580e9ebfa582f549b7cac6da92bee02dd0f4bdc1903741778",
+   "image_bytes": 2959140,
+   "实投串_chars": 6393,
+   "send_chars": 5951,
+   "串面差异": {
+    "位置": 474,
+    "公共前缀长": 474,
+    "公共后缀长": 5477,
+    "多出字符": 442,
+    "首处opcode": {
+     "类型": "insert",
+     "paste段": [
+      474,
+      474
+     ],
+     "实投段": [
+      474,
+      916
+     ]
+    }
+   },
+   "重建依据": {
+    "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-67e81c05a4404476.jsonl",
+    "tool_use_id": "call_085343956ff54a0080c45d21",
+    "发起时刻_utc": "2026-11-09T00:56:58.359Z",
+    "发起记录uuid": "67fd99c5-a402-4e1d-8c53-75aa2fceeadc",
+    "回执时刻_utc": "2026-11-09T00:57:16.704Z",
+    "requestId": "167bcb98-e643-4fda-b0b0-0b00b9802515"
+   }
+  },
+  {
+   "id": "F019",
+   "片号": 4,
+   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard04.jsonl",
+   "status": "ok",
+   "机械判据": [
+    {
+     "名": "串面逐字",
+     "符": true,
+     "读数": "实投 5951 字符／paste 5951 字符"
+    },
+    {
+     "名": "size 声明相符",
+     "符": true,
+     "读数": "实投 1280x1024／清单 1280x1024"
+    },
+    {
+     "名": "尺寸实读相符",
+     "符": true,
+     "读数": "1280x1024"
+    },
+    {
+     "名": "母图挂载相符",
+     "符": true,
+     "读数": "images 1 项：['F012-湖湾社区服务网-C138主向重投-v01_1794019060047_213b5f4b.png']"
+    },
+    {
+     "名": "母图摘要相符",
+     "符": true,
+     "读数": "df089c7f3d18"
+    },
+    {
+     "名": "产物名绑发名",
+     "符": true,
+     "读数": "F019-松岬竞技体育园-C154母图重投-v01_1794185874722_5c1b44bf.png"
+    },
+    {
+     "名": "落盘与回执同带",
+     "符": true,
+     "读数": "差 26 ms（带宽 600000）"
+    }
+   ],
+   "投放时刻_ms": 1794185874722,
+   "image_sha256": "df8cc0514f2fa6756e68a3686f4684b39f1d6c8c0e3055e87866bd21feb97bbc",
+   "image_bytes": 2843009,
+   "实投串_chars": 5951,
+   "send_chars": 5951,
+   "串面差异": null,
+   "重建依据": {
+    "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-17dd66f2699593e2.jsonl",
+    "tool_use_id": "call_83b19348a53442b097cb14ae",
+    "发起时刻_utc": "2026-11-09T00:57:33.474Z",
+    "发起记录uuid": "a7daf137-fde1-4c8c-ad4a-df7d9e72b553",
+    "回执时刻_utc": "2026-11-09T00:57:54.748Z",
+    "requestId": "6042725e-d963-47a7-9b4f-60eeb588a542"
+   }
+  }
+ ],
+ "备份目录": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/bak_evidence_rebuild/20261109-125158",
+ "落盘": [
+  {
+   "id": "D14",
+   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard02.jsonl",
+   "备份": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/bak_evidence_rebuild/20261109-125158/sent_shard02.jsonl",
+   "行尾": "CRLF",
+   "追加字节": 2520
+  },
+  {
+   "id": "F007",
+   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard03.jsonl",
+   "备份": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/bak_evidence_rebuild/20261109-125158/sent_shard03.jsonl",
+   "行尾": "CRLF",
+   "追加字节": 3250
+  },
+  {
+   "id": "F019",
+   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard04.jsonl",
+   "备份": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/bak_evidence_rebuild/20261109-125158/sent_shard04.jsonl",
+   "行尾": "LF",
+   "追加字节": 2531
+  }
+ ]
+}
