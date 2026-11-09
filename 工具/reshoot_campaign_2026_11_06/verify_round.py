@@ -9,13 +9,15 @@
 4. C136：容器画像不按出图通道成立。本轮真图实测 caBX=0／iTXt=1（见 ledger.json 第 1 轮 rows），
    所以占格只要求「AIGC 标识至少其一在位」——旧的 `cabx == 1` 会把合规图判红。
 
-用法：python 工具/reshoot_campaign_2026_11_06/verify_round.py <回绑源> [R1|R2]
+用法：python 工具/reshoot_campaign_2026_11_06/verify_round.py <回绑源> [R1|R2|R4]
      回绑源两种形态：① 单份会话 jsonl 路径（老调用）；② 逗号分隔的多份 jsonl；
      ③ 指向 transcript 登记件（*.json，含 transcripts 字典）——登记件里在盘的逐份扫，
      不在盘的只报「回绑源缺失 N 份」，不拿缺失当通过。
      ④ 逗号分隔的混合清单（登记件与 jsonl 混写）：R1 组现在的发送面是「264 主向 ＋ 48 补投」两轮，
      回绑源就是两份登记件并列（transcripts_r1.json,transcripts_r3.json）——只给一份会把另一轮的
      实发串当没投过，与只读主台账是同一类假绿。
+     R4 组（画风母图臂）的 body 存的是「前导声明一行＋现串正文逐字」整串，逐字判据比的就是这一整串；
+     正文摘要在台账 sha256 字段（绑定按 C135 用它的），两者必然不同，不许拿正文摘要去核盘面串。
      组别不写＝R2，沿用老调用。两组的送入串台账、读数与轮次台账分档，
      免得 R1 一轮把 R2 的 round_readings.json／ledger.json 覆写掉。
      R2 的送入串面是「试点 4 条 + 全量并集」两份台账合成，缺全量那份直接停手——
@@ -46,12 +48,21 @@ GROUPS = {
     'R1': {'suffix': 'C138主向重投-v01', 'bodies': 'send_bodies_r1_primary.json',
            'bodies_extra': ['send_bodies_r1_evidence.json', 'send_bodies_r1_catchup.json'],
            'readings': 'round_readings_r1.json', 'ledger': 'ledger_r1.json'},
+    # R4＝画风母图臂（图生图）：送入串多一行前导声明，body 存的是「前导＋正文」整串，
+    # 台账里 sha256 仍是冻结基准的正文摘要（绑定按 C135 用它的），send_sha256 才是盘面真实发出去那串的摘要。
+    'R4': {'suffix': 'C154母图重投-v01', 'bodies': 'send_bodies_r4.json',
+           'bodies_extra': ['send_bodies_r4_evidence.json'],
+           'readings': 'round_readings_r4.json', 'ledger': 'ledger_r4.json'},
 }
 LEDGER_DECL = {
     'R2': '重投放量逐轮台账（R2 绑定关口组）。每轮一条，只追加不改写历史；'
           '判废结论由人工目视给出，本台账只登记机械取证项与人工结论字段（人工结论为空即未给）。',
     'R1': '重投放量逐轮台账（R1 画风判废组，每条目只投主向 1 格）。每轮一条，只追加不改写历史；'
           '判废结论由人工目视给出，本台账只登记机械取证项与人工结论字段（人工结论为空即未给）。',
+    'R4': '重投放量逐轮台账（R4 画风母图臂组，每条目主向 1 格＋1 张跨题材画风母图）。每轮一条，'
+          '只追加不改写历史；判废结论由人工目视给出，本台账只登记机械取证项与人工结论字段'
+          '（人工结论为空即未给）。本组的「母图相符」核的是 ImageGen 实调里 images 那一路文件名，'
+          '漏传母图＝投成了裸串，逐字串面照样对得上，只有这一列能判红。',
 }
 
 
@@ -119,7 +130,8 @@ def merge_bodies(here, cfg, group):
         p = os.path.join(here, extra_name)
         assert os.path.exists(p), ('%s 组缺并集补充台账 %s：本组的实发串面在 %d 份文件里，'
                                    '只读主台账等于把补充条目当没投过（并轨口径见 设计/2026-11-03-待办移交清单.md §55.17；'
-                                   'R1 的 evidence 补双发条目的投次、catchup 补 C139 后 48 条「非新画风／缺图」补投）'
+                                   'R1 的 evidence 补双发条目的投次、catchup 补 C139 后 48 条「非新画风／缺图」补投；'
+                                   'R4 的 evidence 补 D13 那次 images 形态校验失败的双发投次）'
                                    % (group, extra_name, 1 + len(extra_names)))
         extra = json.load(io.open(p, encoding='utf-8'))
         clash = sorted(set(bodies) & set(extra))
@@ -156,7 +168,7 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
         prompts.extend(sent_prompts(p))
     by_name = {}
     for p in prompts:
-        by_name.setdefault(p.get('name'), []).append(p.get('prompt') or '')
+        by_name.setdefault(p.get('name'), []).append(p)
 
     rows = []
     rc = 0
@@ -170,10 +182,19 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
                      '，另有缺失回绑源 %d 份' % len(missing) if missing else ''))
             rc = 1
             continue
-        verbatim_uses = [u for u in uses if u == ref['body']]
+        verbatim_uses = [u for u in uses if (u.get('prompt') or '') == ref['body']]
         drifted = len(uses) - len(verbatim_uses)
+        # 「作废发起」只数串面不符的发次。images 形态被工具校验挡下那种作废（prompt 仍逐字相等、零产物）
+        # 由「投次」与「冻结带内落盘恒 1 枚」承载，往这一列填数会让 drifted(0)≠known_drift(1) 判红（D13 实测）。
         known_drift = int(ref.get('作废发起', 0))
         verbatim = len(verbatim_uses) >= 1 and drifted == known_drift
+        # 母图臂的第二道判据：逐字串对了不代表投的就是本轮那条路线——漏传 images 会投成裸串（探针实测出照片），
+        # 而裸串那次的 prompt 与本轮逐字串只差前导一行，前导在的逐枚必然带 images，所以按文件名核 images。
+        ref_base = os.path.basename(str(ref.get('ref_image') or ''))
+        ref_ok = True
+        if ref_base:
+            ref_ok = any(any(os.path.basename(str(x.get('source') if isinstance(x, dict) else x)) == ref_base
+                             for x in (u.get('images') or [])) for u in verbatim_uses)
         files = []
         if os.path.isdir(img_dir):
             for f in os.listdir(img_dir):
@@ -202,16 +223,17 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
             'replaced_cell': ref['replaced_cell'], 'status_before': ref['status_before'],
             '投次': sends, '逐字发起数': len(verbatim_uses), '非逐字发起数': drifted,
             '登记作废发起数': known_drift,
+            '母图相符': ref_ok,
             '作废删除': ref.get('作废删除', []),
         }
         rows.append(row)
-        flag = '✓' if (verbatim and size_match and container_ok) else '✗'
+        flag = '✓' if (verbatim and size_match and container_ok and ref_ok) else '✗'
         if flag == '✗':
             rc = 1
-        print('%s %s｜%s｜%s｜逐字相等=%s 投次=%d（逐字%d／非逐字%d，登记作废发起%d）尺寸符=%s caBX=%s／iTXt=%s sha12=%s'
+        print('%s %s｜%s｜%s｜逐字相等=%s 投次=%d（逐字%d／非逐字%d，登记作废发起%d）尺寸符=%s caBX=%s／iTXt=%s 母图相符=%s sha12=%s'
               % (flag, eid, row['ts_text'], r['dims'], verbatim, sends,
                  len(verbatim_uses), drifted, known_drift, size_match, cont['cabx'], cont['itxt'],
-                 r['sha256_12']))
+                 ref_ok, r['sha256_12']))
 
     if missing:
         print('✗ 回绑源缺失 %d 份（登记件里有名、在盘找不到）：%s' % (len(missing), missing[:5]))
@@ -227,6 +249,7 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
                       '实测非逐字发起合计': sum(x['非逐字发起数'] for x in rows),
                       '作废删除枚数合计': sum(len(v.get('作废删除', [])) for v in bodies.values()),
                       '回绑成功条数': sum(1 for x in rows if x['逐字相等']),
+                      '母图相符条数': sum(1 for x in rows if x['母图相符']),
                       '落盘在冻结带内条数': len(rows),
                       '回绑源形态': 'transcript登记件' if str(jsonl).endswith('.json') else 'jsonl清单',
                       '回绑源在盘份数': len(sources),
@@ -266,7 +289,7 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
 
 def main():
     if len(sys.argv) not in (2, 3):
-        print('用法：verify_round.py <回绑源> [R1|R2]（不写＝R2）；'
+        print('用法：verify_round.py <回绑源> [R1|R2|R4]（不写＝R2）；'
               '回绑源＝单份会话 jsonl／逗号分隔多份／transcript 登记件 *.json')
         return 2
     group = sys.argv[2] if len(sys.argv) == 3 else 'R2'

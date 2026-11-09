@@ -10,6 +10,7 @@ verify_round.py 本轮从「只认 R2」改成按组取送入串台账与档串�
 import hashlib
 import importlib.util
 import contextlib
+import copy
 import io
 import json
 import os
@@ -26,7 +27,9 @@ REAL_FILES = ('ledger.json', 'round_readings.json',
               'send_bodies_r1.json', 'send_bodies_r1_primary.json',
               'send_bodies_r2_full.json', 'transcripts_r2.json',
               'send_bodies_r1_evidence.json', 'transcripts_r1.json',
-              'send_bodies_r1_catchup.json', 'transcripts_r3.json')
+              'send_bodies_r1_catchup.json', 'transcripts_r3.json',
+              'send_bodies_r4.json', 'send_bodies_r4_evidence.json',
+              'round_readings_r4.json', 'ledger_r4.json', 'transcripts_r4.json')
 PREFIX = 'verify_round_neg_'
 
 _spec = importlib.util.spec_from_file_location('verify_round_under_test', str(CAMPAIGN / 'verify_round.py'))
@@ -76,6 +79,33 @@ def style_only_diff(archived, current):
     return bad
 
 
+def r2_member_face_violations(led, rnd, queue, snap, suffix):
+    """R2 并轨台账的成员面三支对拍，返回违例清单（空＝达标）。
+
+    为什么不再拿台账直接比现读队列：C153 于 2026-11-09 02:02 重钉基准后 queue.json 重导，
+    R2_绑定关口 从 58 条长到 312 条（11-06～11-08 投的产物全成了「冻结前带时间戳格」），
+    而 send_bodies_r2_full.json 是那一轮**实际发出去**的 58 串历史事实，不许跟着重导。
+    两个不同冻结带比集合必然恒红；把断言删掉则「读取面少一条／多一条」与「派生队列过期」再没人管。
+    所以拆成：①对历史本身（轮次台账登记的那一轮发起条目）②派生队列不过期 ③历史条目仍在现读清单里。"""
+    sent = set(rnd.get('本轮发起条目') or [])
+    if not sent:
+        return ['轮次台账没登记「本轮发起条目」，成员面对拍没有比对对象（判据空转）']
+    bad = []
+    if set(led) != sent:
+        bad.append('台账与 R2 那一轮登记的发起条目不同集合：少 %s／多 %s'
+                   % (sorted(sent - set(led))[:5], sorted(set(led) - sent)[:5]))
+    if rnd.get('档串') != suffix:
+        bad.append('轮次台账末轮档串 %s 不是 R2 的 %s：取错了轮次' % (rnd.get('档串'), suffix))
+    if int(queue.get('frozen_at_ms') or 0) != int(snap['frozen_at_ms']):
+        bad.append('queue.json 停在旧冻结带（%s≠现读 %s）：派生队列过期'
+                   % (queue.get('frozen_at_ms'), snap['frozen_at_ms']))
+    owed = {e['id'] for e in queue['R2_绑定关口']['entries']}
+    gone = sorted(set(led) - owed)
+    if gone:
+        bad.append('历史条目已从现读 R2 队列消失：%s' % gone[:5])
+    return bad
+
+
 class VerifyRoundGroups(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -111,13 +141,17 @@ class VerifyRoundGroups(unittest.TestCase):
             (self.here / extra_name).write_text(
                 json.dumps({r['id']: r for r in extra_refs}, ensure_ascii=False, indent=1), encoding='utf-8')
 
-    def sent(self, ref, ts=FROZEN_MS + 1000, body=None, size='1280x1024', jsonl=None, write_file=True):
-        """按名＋串写进会话 jsonl，并落一枚带时间戳的 png（文件名口径照 ImageGen）。"""
+    def sent(self, ref, ts=FROZEN_MS + 1000, body=None, size='1280x1024', jsonl=None, write_file=True,
+             images=None):
+        """按名＋串写进会话 jsonl，并落一枚带时间戳的 png（文件名口径照 ImageGen）。
+        images=None 表示这一发根本没挂参考图（R4 母图臂的裸串违例）；挂图时元素形态由调用方给，
+        字符串数组与 {type,source} 对象数组两种都测——闸门读法必须两种都认，工具本身只收字符串。"""
+        inp = {'name': ref['send_name'], 'prompt': ref['body'] if body is None else body, 'size': size}
+        if images is not None:
+            inp['images'] = images
         with io.open(jsonl or self.jsonl, 'a', encoding='utf-8', newline='\n') as fp:
-            fp.write(json.dumps({'type': 'tool_use', 'name': 'ImageGen',
-                                 'input': {'name': ref['send_name'],
-                                           'prompt': ref['body'] if body is None else body,
-                                           'size': size}}, ensure_ascii=False) + '\n')
+            fp.write(json.dumps({'type': 'tool_use', 'name': 'ImageGen', 'input': inp},
+                                ensure_ascii=False) + '\n')
         if write_file:
             (self.img / ('%s_%d_abcd1234.png' % (ref['send_name'], ts))).write_bytes(b'\x89PNG\r\n')
 
@@ -311,6 +345,144 @@ class VerifyRoundGroups(unittest.TestCase):
         finally:
             sys.argv = keep
 
+    # ── R4 母图臂：整串逐字 ＋ images 文件名 ＋ 双发投次 ─────────────────────
+    # R4 接线时一条单测都没有，小样本（已投 14／395）才补上。三道判据各配违例负测：
+    # 整串（前导声明一行＋正文）逐字、images 按台账 ref_image 文件名核、双发靠投次承载。
+    LEAD4 = '图1 只作本条的画风母图：只借媒介与笔触，不借构图。\n'
+    REF4 = '数据/视觉控制资产/E1定档-20261103/D03-母图.png'
+
+    def ref4(self, eid='D13', body=None):
+        r = self.ref('R4', eid=eid, body=(self.LEAD4 + '正文逐字。') if body is None else body)
+        r['ref_image'] = self.REF4
+        return r
+
+    def test_r4_a_mother_image_string_form_is_green(self):
+        r = self.ref4()
+        self.put_ledger('R4', [r])
+        self.sent(r, images=[self.REF4])
+        self.assertEqual(self.run_group('R4'), 0)
+        row = self.ledger_rounds('R4')[0]['落盘与回绑'][0]
+        self.assertTrue(row['母图相符'])
+        self.assertTrue(row['逐字相等'])
+
+    def test_r4_b_mother_image_object_form_is_also_read(self):
+        # 工具本身只收字符串数组，但 transcript 里留着对象形态那一发（D13 首送）：闸门读法两种都要认，
+        # 否则那一发会被当成「没挂母图」，把一次参数校验失败误判成裸串违例。
+        r = self.ref4()
+        self.put_ledger('R4', [r])
+        self.sent(r, images=[{'type': 'image', 'source': self.REF4}])
+        self.assertEqual(self.run_group('R4'), 0)
+        self.assertTrue(self.ledger_rounds('R4')[0]['落盘与回绑'][0]['母图相符'])
+
+    def test_r4_c_empty_images_is_red(self):
+        r = self.ref4()
+        self.put_ledger('R4', [r])
+        self.sent(r, images=[])
+        self.assertEqual(self.run_group('R4'), 1, '漏挂母图＝投成裸串，探针实测裸串出照片质感')
+        self.assertFalse(self.ledger_rounds('R4')[0]['落盘与回绑'][0]['母图相符'])
+
+    def test_r4_d_images_field_absent_is_red(self):
+        r = self.ref4()
+        self.put_ledger('R4', [r])
+        self.sent(r)                       # images=None → input 里根本没有这个键
+        self.assertEqual(self.run_group('R4'), 1)
+        self.assertFalse(self.ledger_rounds('R4')[0]['落盘与回绑'][0]['母图相符'])
+
+    def test_r4_e_wrong_mother_is_red(self):
+        r = self.ref4()
+        self.put_ledger('R4', [r])
+        self.sent(r, images=['数据/视觉控制资产/卡牌/主图3x4/L016.png'])
+        self.assertEqual(self.run_group('R4'), 1, '挂错母图＝投的不是本轮那条路线')
+        self.assertFalse(self.ledger_rounds('R4')[0]['落盘与回绑'][0]['母图相符'])
+
+    def test_r4_f_bare_body_without_leading_line_is_red(self):
+        r = self.ref4()
+        self.put_ledger('R4', [r])
+        self.sent(r, body='正文逐字。', images=[self.REF4])
+        self.assertEqual(self.run_group('R4'), 1, '少前导一行＝裸串臂，不是本轮母图臂')
+        row = self.ledger_rounds('R4')[0]['落盘与回绑'][0]
+        self.assertFalse(row['逐字相等'])
+        self.assertFalse(row['母图相符'], '母图列只在逐字命中的发起上核，串不符会连带判 False')
+
+    def test_r4_g_two_verbatim_sends_zero_void_is_green(self):
+        """D13 的真实形态：首发 images 写成对象数组被工具校验挡下（零产物），重发成功，
+        两发 prompt 都逐字相等。作废在 images 轴上，不在串面轴上，所以「作废发起」登记 0。"""
+        r = self.ref4()
+        r['投次'] = 2
+        r['复投'] = 'images 形态校验失败重发'
+        self.put_ledger('R4', [r], extra_refs=[dict(r, **{'作废发起': 0})])
+        self.sent(r, images=[{'type': 'image', 'source': self.REF4}], write_file=False)
+        self.sent(r, ts=FROZEN_MS + 5000, images=[self.REF4])
+        self.assertEqual(self.run_group('R4'), 0)
+        row = self.ledger_rounds('R4')[0]['落盘与回绑'][0]
+        self.assertEqual((row['投次'], row['逐字发起数'], row['非逐字发起数'], row['登记作废发起数']),
+                         (2, 2, 0, 0))
+
+    def test_r4_h_two_verbatim_sends_but_void_one_registered_is_red(self):
+        """陷阱负测：把「作废发起」读成「作废掉的发次数」而填 1，drifted(0)≠known_drift(1) 必须判红。
+        这一列只数串面不符的发次；填错不会洗绿，只会把一条本该绿的判红——两个方向都要钉住。"""
+        r = self.ref4()
+        r['投次'] = 2
+        r['复投'] = 'images 形态校验失败重发'
+        self.put_ledger('R4', [r], extra_refs=[dict(r, **{'作废发起': 1})])
+        self.sent(r, images=[{'type': 'image', 'source': self.REF4}], write_file=False)
+        self.sent(r, ts=FROZEN_MS + 5000, images=[self.REF4])
+        self.assertEqual(self.run_group('R4'), 1)
+        self.assertFalse(self.ledger_rounds('R4')[0]['落盘与回绑'][0]['逐字相等'])
+
+    def test_r4_i_without_ref_image_the_mother_check_is_inert(self):
+        """变异自证：台账不写 ref_image 时母图列恒 True，test_r4_c/d/e 全部失效。
+        所以「R4 台账逐条必须带 ref_image」是一条真判据，由 test_r4_j 在真数据上钉住。"""
+        r = self.ref4()
+        r['ref_image'] = ''
+        self.put_ledger('R4', [r])
+        self.sent(r, images=[])
+        self.assertEqual(self.run_group('R4'), 0, '母图判据已空转却仍判红＝test_r4_c 测的不是这一条')
+        self.assertTrue(self.ledger_rounds('R4')[0]['落盘与回绑'][0]['母图相符'])
+
+    def test_r4_j_real_ledger_every_entry_declares_its_mother(self):
+        led = json.loads((CAMPAIGN / 'send_bodies_r4.json').read_text(encoding='utf-8'))
+        note = json.loads((CAMPAIGN / 'send_bodies_r4_note.json').read_text(encoding='utf-8'))
+        self.assertEqual(len(led), note['成员面']['本轮待重投'], '台账条数与轮次口径说明分叉')
+        self.assertEqual([k for k, v in sorted(led.items()) if not v.get('ref_image')], [],
+                         '有母图臂条目没写 ref_image＝母图判据对它恒绿（见 test_r4_i）')
+        self.assertEqual([k for k, v in sorted(led.items())
+                          if not v['body'].startswith(note['前导声明'])], [],
+                         '有串面不带前导声明＝投出去的是裸串臂')
+
+    def test_r4_k_evidence_record_is_self_consistent(self):
+        main = json.loads((CAMPAIGN / 'send_bodies_r4.json').read_text(encoding='utf-8'))
+        ev = json.loads((CAMPAIGN / 'send_bodies_r4_evidence.json').read_text(encoding='utf-8'))
+        self.assertTrue(ev, '覆盖件空集＝并轨断言无样本')
+        for eid, rec in sorted(ev.items()):
+            with self.subTest(eid=eid):
+                self.assertIn(eid, main, '覆盖件里出现主台账没有的条目＝串面出现第二条真源')
+                self.assertEqual(rec['body'], main[eid]['body'], eid)
+                self.assertEqual(rec['send_name'], main[eid]['send_name'], eid)
+                self.assertGreaterEqual(int(rec['投次']), 2, '覆盖件只该登记多投条目')
+                self.assertTrue(rec.get('作废删除') or rec.get('复投') or rec.get('点单'),
+                                '%s 记了多投却没写任何一次投放事实' % eid)
+                self.assertLessEqual(int(rec.get('作废发起', 0)), int(rec['投次']), eid)
+
+    def test_r4_l_group_config_points_at_evidence_file(self):
+        cfg = vr.GROUPS['R4']
+        self.assertEqual(cfg['suffix'], 'C154母图重投-v01')
+        self.assertEqual(cfg['bodies'], 'send_bodies_r4.json')
+        self.assertEqual(cfg['bodies_extra'], ['send_bodies_r4_evidence.json'])
+        for f in ((cfg['bodies'], cfg['readings'], cfg['ledger'], 'transcripts_r4.json')
+                  + tuple(cfg['bodies_extra'])):
+            self.assertTrue((CAMPAIGN / f).exists(), f)
+
+    def test_r4_m_without_extra_ledger_stops_before_any_write(self):
+        r = self.ref4()
+        (self.here / vr.GROUPS['R4']['bodies']).write_text(
+            json.dumps({r['id']: r}, ensure_ascii=False, indent=1), encoding='utf-8')
+        with self.assertRaises(AssertionError) as cm:
+            self.run_group('R4')
+        self.assertIn('缺并集补充台账', str(cm.exception))
+        for fn in ('round_readings_r4.json', 'ledger_r4.json'):
+            self.assertFalse((self.here / fn).exists(), '缺双发证据那轮仍落了笔：%s' % fn)
+
     def test_z_real_sources_untouched_and_no_fixture_left(self):
         self.assertEqual(_real_shas(), VerifyRoundGroups.before, '夹具跑动碰了仓库里的真源')
         # 本条自己 setUp 建的夹具还在盘（cleanup 在方法之后才跑），残留口径必须排除它，否则恒红。
@@ -348,6 +520,9 @@ class MergedR2Ledger(unittest.TestCase):
         dig = json.loads((ROOT / '工具' / 'reinject_2026_11_05' / 'prompt_digests_c153.json')
                          .read_text(encoding='utf-8'))
         cls.before = {k: v['before'] for k, v in dig['items'].items()}
+        cls.r2round = json.loads((CAMPAIGN / 'ledger.json').read_text(encoding='utf-8'))['rounds'][-1]
+        cls.queue = json.loads((CAMPAIGN / 'queue.json').read_text(encoding='utf-8'))
+        cls.snap = json.loads((ROOT / '数据' / '提示词基准冻结.json').read_text(encoding='utf-8'))
 
     def test_a_body_is_verbatim_from_prompt_source(self):
         """R2 台账的串面自证，拆成两支各管一段时间：
@@ -381,15 +556,47 @@ class MergedR2Ledger(unittest.TestCase):
              for i, l in enumerate(lines)])), '画风行以外的改动没被点名')
         self.assertTrue(style_only_diff(rec['body'], rec['body']), '画风三处一行都没变时没判红，对拍已空转')
 
-    def test_b_count_matches_r2_queue_and_pilot_is_subset(self):
-        queue = json.loads((CAMPAIGN / 'queue.json').read_text(encoding='utf-8'))
-        owed = {e['id'] for e in queue['R2_绑定关口']['entries']}
-        self.assertEqual(set(self.led), owed,
-                         '并轨台账与现读 R2 队列不同集合：闸门读取面又少了一条／多了一条')
+    def test_b_member_face_matches_its_own_round_and_queue_is_fresh(self):
+        """成员面三支对拍（口径与拆分理由见 r2_member_face_violations 的 docstring）。
+        试点 4 条必须是并集子集且串面逐字相同——那一支不受冻结带影响，原样保留。"""
+        bad = r2_member_face_violations(self.led, self.r2round, self.queue, self.snap, SUFFIX['R2'])
+        self.assertEqual(bad, [], '｜'.join(bad))
         self.assertTrue(set(self.pilot) <= set(self.led), '试点 4 条不在并集里＝两份真源各说各话')
         for eid in set(self.pilot) & set(self.led):
             self.assertEqual(self.pilot[eid]['body'], self.led[eid]['body'], eid)
             self.assertEqual(self.pilot[eid]['send_name'], self.led[eid]['send_name'], eid)
+
+    def test_b_negative_all_three_branches_and_the_inert_guard_go_red(self):
+        """违例负测：三支各造一种坏数据，外加「轮次台账没登记发起条目」的空转形态。
+        全在内存里改副本，不写盘；基线先自证真实对拍本身达标，否则下面每条红都可能是基线就红。"""
+        args = (self.led, self.r2round, self.queue, self.snap, SUFFIX['R2'])
+        self.assertEqual(r2_member_face_violations(*args), [], '基线：真实对拍本身必须先达标')
+
+        led = dict(self.led)
+        led.pop(sorted(led)[0])
+        self.assertTrue(r2_member_face_violations(led, self.r2round, self.queue, self.snap, SUFFIX['R2']),
+                        '①少一条没判红＝读取面缺条没人管')
+        led = dict(self.led, **{'ZZZ_不存在': self.led[sorted(self.led)[0]]})
+        self.assertTrue(r2_member_face_violations(led, self.r2round, self.queue, self.snap, SUFFIX['R2']),
+                        '①多一条没判红')
+
+        q = copy.deepcopy(self.queue)
+        q['frozen_at_ms'] = int(self.snap['frozen_at_ms']) - 1
+        self.assertTrue(r2_member_face_violations(self.led, self.r2round, q, self.snap, SUFFIX['R2']),
+                        '②派生队列过期没判红')
+
+        q = copy.deepcopy(self.queue)
+        drop = sorted(self.led)[0]
+        q['R2_绑定关口']['entries'] = [e for e in q['R2_绑定关口']['entries'] if e['id'] != drop]
+        self.assertTrue(r2_member_face_violations(self.led, self.r2round, q, self.snap, SUFFIX['R2']),
+                        '③历史条目从现读队列消失没判红')
+
+        rnd = dict(self.r2round, **{'本轮发起条目': []})
+        self.assertTrue(r2_member_face_violations(self.led, rnd, self.queue, self.snap, SUFFIX['R2']),
+                        '空集被当成达标＝①整支空转')
+        rnd = dict(self.r2round, **{'档串': SUFFIX['R1']})
+        self.assertTrue(r2_member_face_violations(self.led, rnd, self.queue, self.snap, SUFFIX['R2']),
+                        '取错轮次没判红')
 
     def test_c_round_evidence_fields_are_self_consistent(self):
         for eid, rec in sorted(self.led.items()):

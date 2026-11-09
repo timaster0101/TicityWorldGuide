@@ -25,7 +25,7 @@
     交付落点 `数据/图集/<条目ID>/`（C141，2026-11-07 用户「图集目录下，放到各个文件夹里」），仓外原件不删——
     清单挂的是仓内相对路径，不请进来那一格就是死链。
 
-跑法：python -X utf8 工具/reshoot_campaign_2026_11_06/backfill_round.py <R1|R2> [--only 送入串台账.json]
+跑法：python -X utf8 工具/reshoot_campaign_2026_11_06/backfill_round.py <R1|R2|R4> [--only 送入串台账.json]
      --only 把回填范围收到那一份台账的键面上（R1 组读数面已含 264＋5＋48 三份合成，不限范围就会把
      上一轮已写过的行按本轮的委托原句重打——抬头判据拦的是占格口径变了，拦不住正文被顶掉）。
 """
@@ -58,6 +58,13 @@ ROUNDS = {
            # 只是把「申报行没点名当前格」这件事写进备注并交给 sign_acceptance 复核（见 CATCHUP 面）。
            'statuses': ('待复验', '已验收', '待开图'),
            'catchup': 'send_bodies_r1_catchup.json'},
+    # R4＝画风母图臂重投（310 条目视判废的主向格）。占格范围与 R1 同为「全部占格」：
+    # 这 310 条现读全部带 image_prompt_sha256，但绑的是 C153 换档前的串摘要（未过期档实测 0 条），
+    # 所以本组备注全部走「维持原绑定＋摘要已过期＋重绑归人工」那一档——占格不洗绑定。
+    # 状态面现算单一：310 条 status_before 全是「待复验」（待开图／已验收各 0），不放行那两档。
+    'R4': {'readings': 'round_readings_r4.json', 'suffix': 'C154母图重投-v01',
+           'prefix': 'C154母图重投', 'head': 'C154母图重投%s（v01）', 'occupy_all': True,
+           'statuses': ('待复验',)},
 }
 GUARD = ('image_prompt_sha256 留空、状态按清单派生为待复验，不代签验收')
 GUARD_KEPT = ('image_prompt_sha256 维持原绑定 %s（本轮不撤不签），该摘要绑的是被替换前的旧文件、已过期，'
@@ -86,6 +93,10 @@ PROVENANCE = {
            '本组因此已带绑定摘要的条目也占格（摘要原样保留，见上），非逐字串的两条按「2 复投」补投达标后才进。'
            '同轮用户豁免逐张目视（「图不用检验，全出完我自己检验」），故本条只含机械对账项、'
            '人工目视未执行。'),
+    'R4': ('执行人：Qoder 会话代理，受用户 2026-11-09「卡面 85 枚＋R1 310 枚判废后的重投（花钱调用，'
+           '方向已锁死「无框主图＋不烤文案」） 去做」委托执行机械项回填；投放臂按同轮四枚双臂探针定为'
+           '「现串正文逐字＋跨题材画风母图」（图生图），裸串臂已判废。同轮用户豁免逐张目视'
+           '（常设原话「图不用检验，全出完我自己检验」），故本条只含机械对账项、人工目视未执行。'),
 }
 # catchup 那 48 条的委托来源原句，只加在补投面上：把这句混进全组通用文字会顶掉 264 行历史正文的原文。
 CATCHUP_DELEGATION = ('补投范围依据用户 2026-11-07 裁定「只要不是新画风生成的或者缺少的，都开」＋「3 补」'
@@ -151,7 +162,10 @@ def main(group, only=None):
     green, red = [], []
     for r in rows:
         cont = r['container']
-        ok = (r['逐字相等'] and r['size_match'] and (cont['cabx'] >= 1 or cont['itxt'] >= 1))
+        ok = (r['逐字相等'] and r['size_match'] and (cont['cabx'] >= 1 or cont['itxt'] >= 1)
+              # 母图相符只有画风母图臂那一组才有这一列（R1／R2 裸串组读数里没这个键，取默认不判）。
+              # 它是 R4 唯一的「漏传 images」防线：裸串的 prompt 与母图串只差前导一行，逐字列拦不住。
+              and r.get('母图相符', True))
         (green if ok else red).append(r)
     copied, already = bring_in(green)
     man = json.load(io.open(MANIFEST, encoding='utf-8'))
@@ -258,6 +272,6 @@ def main(group, only=None):
 if __name__ == '__main__':
     if len(sys.argv) not in (2, 4) or sys.argv[1] not in ROUNDS \
             or (len(sys.argv) == 4 and sys.argv[2] != '--only'):
-        print('用法：backfill_round.py <R1|R2> [--only 送入串台账文件名]')
+        print('用法：backfill_round.py <R1|R2|R4> [--only 送入串台账文件名]')
         sys.exit(2)
     sys.exit(main(sys.argv[1], sys.argv[3] if len(sys.argv) == 4 else None))
