@@ -76,7 +76,8 @@ def body_of(root, eid):
     hits = [f for f in os.listdir(os.path.join(root, '数据', '开图提示词'))
             if f.startswith(eid + '-')]
     assert len(hits) == 1, (eid, hits)
-    src = io.open(os.path.join(root, '数据', '开图提示词', hits[0]), encoding='utf-8').read()
+    with io.open(os.path.join(root, '数据', '开图提示词', hits[0]), encoding='utf-8') as fp:
+        src = fp.read()
     heads = [m.start() for m in re.finditer(r'^## 提示词正文$', src, re.M)]
     assert len(heads) == 1, (eid, heads)
     return hits[0], src, src[heads[0] + len('## 提示词正文'):].strip()
@@ -84,7 +85,8 @@ def body_of(root, eid):
 
 def primary_pointers(root):
     """现读清单跑 locate()，返回 ({id: 定位行}, items)。定位有违例就停：指针不齐时绝不放行。"""
-    man = json.load(io.open(os.path.join(root, '数据', '开图清单.json'), encoding='utf-8'))
+    with io.open(os.path.join(root, '数据', '开图清单.json'), encoding='utf-8') as fp:
+        man = json.load(fp)
     rows, viol, _ = locate(man['items'])
     assert not viol, '主向定位违例 %d 条（先修 pick_primary_cell 的口径再谈投放）：%s' % (len(viol), viol[:5])
     return {r['id']: r for r in rows}, man['items']
@@ -136,7 +138,8 @@ def build(ids, group, root, here, emit_paste=True, queue_entries=None):
     assert group in LEDGER, group
     ptrs, items = primary_pointers(root)
     by_id = {i['id']: i for i in items}
-    snap = json.load(io.open(os.path.join(root, '数据', '提示词基准冻结.json'), encoding='utf-8'))
+    with io.open(os.path.join(root, '数据', '提示词基准冻结.json'), encoding='utf-8') as fp:
+        snap = json.load(fp)
     base = {e['id']: e['prompt_sha256'] for e in snap['entries']}
     if queue_entries is None:
         if group == 'R3':
@@ -219,7 +222,8 @@ def summarize(group, out, snap, limit=None):
 
 
 def _json_load(p):
-    return json.load(io.open(p, encoding='utf-8'))
+    with io.open(p, encoding='utf-8') as fp:
+        return json.load(fp)
 
 
 def _other_group_ids(here, group):
@@ -273,10 +277,12 @@ def negtest():
             ]
             for it in items:
                 p = os.path.join(root, '数据', '开图提示词', '%s-%s.txt' % (it['id'], it['name']))
-                io.open(p, 'w', encoding='utf-8', newline='\n').write(
-                    '# 开图提示词｜%s %s\n\n- 地点ID：%s\n- 状态：待复验\n- prompt_sha256：（本行随状态漂移）\n\n'
-                    '## 提示词正文\n【画风锚点】fixture body for %s\n' % (it['id'], it['name'], it['id'], it['id']))
-                it['prompt_sha256'] = txt_sha(io.open(p, encoding='utf-8').read())
+                with io.open(p, 'w', encoding='utf-8', newline='\n') as fp:
+                    fp.write(
+                        '# 开图提示词｜%s %s\n\n- 地点ID：%s\n- 状态：待复验\n- prompt_sha256：（本行随状态漂移）\n\n'
+                        '## 提示词正文\n【画风锚点】fixture body for %s\n' % (it['id'], it['name'], it['id'], it['id']))
+                with io.open(p, encoding='utf-8') as fp:
+                    it['prompt_sha256'] = txt_sha(fp.read())
             _json_dump({'items': items}, os.path.join(root, '数据', '开图清单.json'))
             _json_dump({'frozen_at': 'fixture', 'frozen_at_ms': 0,
                         'entries': [{'id': i['id'], 'prompt_sha256': i['prompt_sha256']} for i in items]},
@@ -326,8 +332,9 @@ def negtest():
             return 'R1', ['L001'], None
 
         def inj_body_drift():
-            io.open(os.path.join(root, '数据', '开图提示词', 'L001-钛湖市民议事厅.txt'),
-                    'a', encoding='utf-8', newline='\n').write('被手改追加的一句\n')
+            with io.open(os.path.join(root, '数据', '开图提示词', 'L001-钛湖市民议事厅.txt'),
+                         'a', encoding='utf-8', newline='\n') as fp:
+                fp.write('被手改追加的一句\n')
             return 'R1', ['L001'], None
 
         def inj_two_ts():
@@ -441,7 +448,8 @@ def main():
     if args.negtest:
         return negtest()
     if args.r3_all:
-        man = json.load(io.open(os.path.join(ROOT, '数据', '开图清单.json'), encoding='utf-8'))
+        with io.open(os.path.join(ROOT, '数据', '开图清单.json'), encoding='utf-8') as fp:
+            man = json.load(fp)
         ids = catchup_ids(man['items'])
         out, snap = build(ids, 'R3', ROOT, HERE, emit_paste=False)
         summarize('R3', out, snap, limit=8)

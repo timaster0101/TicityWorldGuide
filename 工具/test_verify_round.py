@@ -7,6 +7,7 @@ verify_round.py 本轮从「只认 R2」改成按组取送入串台账与档串�
 3. C136：caBX=0／iTXt=1 的合规真图必须放行——旧判据 `cabx == 1` 会把已投的 3 枚全判红
    （ledger.json 第 1 轮三行实测就是 0／1）。
 """
+import ast
 import hashlib
 import importlib.util
 import contextlib
@@ -699,6 +700,62 @@ class MergedR1Ledger(unittest.TestCase):
         self.assertEqual(cfg['bodies_extra'], ['send_bodies_r1_evidence.json', 'send_bodies_r1_catchup.json'])
         for f in (cfg['bodies'], 'transcripts_r1.json', 'transcripts_r3.json') + tuple(cfg['bodies_extra']):
             self.assertTrue((CAMPAIGN / f).exists(), f)
+
+
+class CampaignHandlesAreClosed(unittest.TestCase):
+    """三个投放面脚本里每个 open 调用都必须是 with 的上下文表达式。
+
+    走 AST 而不是跑一遍数 ResourceWarning：警告只在被走到的路径上才发。§55.36 ⑪④ 当时只登记了
+    build_send_bodies.py:79 一处，本轮实测同一缺陷在三个文件里共 18 处，其中 11 处当轮根本没被跑到
+    （build_send_bodies_r4.py 全 4 处、build_send_bodies.py 另 7 处），静态判据才覆盖得到那些路径。
+    判据本身不钉 open 的个数——钉个数就是写死计数，删一处读文件反而会让它假红。
+    """
+
+    FILES = ('build_send_bodies.py', 'build_send_bodies_r4.py', 'verify_round.py')
+
+    @staticmethod
+    def unclosed(src):
+        tree = ast.parse(src)
+        withed = {id(item.context_expr)
+                  for n in ast.walk(tree) if isinstance(n, (ast.With, ast.AsyncWith))
+                  for item in n.items}
+        out = []
+        for n in ast.walk(tree):
+            if not isinstance(n, ast.Call):
+                continue
+            f = n.func
+            name = f.id if isinstance(f, ast.Name) else getattr(f, 'attr', None)
+            if name == 'open' and id(n) not in withed:
+                out.append(n.lineno)
+        return sorted(out)
+
+    def test_every_open_is_a_with_item(self):
+        for f in self.FILES:
+            with self.subTest(file=f):
+                self.assertEqual(self.unclosed((CAMPAIGN / f).read_text(encoding='utf-8')), [],
+                                 '%s 有 open 调用没进 with：句柄靠 GC 回收，走到就发 ResourceWarning' % f)
+
+    def test_old_unclosed_forms_are_caught(self):
+        """违例负测：改前那六种形态逐一注回内存，判据必须逐个点名，否则上面那条正测是空转。"""
+        cases = {
+            'read 临时': "src = io.open(p, encoding='utf-8').read()",
+            'json.load 临时': "man = json.load(io.open(p, encoding='utf-8'))",
+            'write 临时': "io.open(p, 'w', encoding='utf-8').write('x')",
+            'for 迭代临时': "for line in io.open(p, encoding='utf-8'):\n    pass",
+            '二进制裸 open': "got = hashlib.sha256(open(p, 'rb').read()).hexdigest()",
+            '条件表达式里的临时': "led = json.load(io.open(p, encoding='utf-8')) if os.path.exists(p) else {}",
+        }
+        for label, src in cases.items():
+            with self.subTest(form=label):
+                self.assertEqual(len(self.unclosed(src)), 1, '%s 未被点名：%s' % (label, src))
+
+    def test_with_form_passes(self):
+        """对照正测：同一批语义写成 with 就须放行，证明判据钉的是句柄闭合、不是「不许读文件」。"""
+        src = ("with io.open(p, encoding='utf-8') as fp:\n"
+               "    src = fp.read()\n"
+               "with open(p, 'rb') as fp:\n"
+               "    got = hashlib.sha256(fp.read()).hexdigest()\n")
+        self.assertEqual(self.unclosed(src), [])
 
 
 if __name__ == '__main__':

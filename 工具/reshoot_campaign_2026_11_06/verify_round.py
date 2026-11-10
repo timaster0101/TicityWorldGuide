@@ -88,15 +88,16 @@ def sent_prompts(jsonl):
             for v in o:
                 walk(v)
 
-    for line in io.open(jsonl, encoding='utf-8'):
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            rec = json.loads(line)
-        except ValueError:
-            continue
-        walk(rec)
+    with io.open(jsonl, encoding='utf-8') as fp:
+        for line in fp:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rec = json.loads(line)
+            except ValueError:
+                continue
+            walk(rec)
     return out
 
 
@@ -110,7 +111,8 @@ def resolve_sources(arg):
     paths = set()
     for token in [t.strip() for t in str(arg).split(',') if t.strip()]:
         if token.endswith('.json'):
-            paths.update(sorted(set(json.load(io.open(token, encoding='utf-8'))['transcripts'].values())))
+            with io.open(token, encoding='utf-8') as fp:
+                paths.update(sorted(set(json.load(fp)['transcripts'].values())))
         else:
             paths.add(token)
     paths = sorted(paths)
@@ -121,7 +123,8 @@ def resolve_sources(arg):
 
 def merge_bodies(here, cfg, group):
     """主台账 + 全部并集补充台账合成读取面；同 ID 两边都在时正文必须逐字相同。"""
-    bodies = json.load(io.open(os.path.join(here, cfg['bodies']), encoding='utf-8'))
+    with io.open(os.path.join(here, cfg['bodies']), encoding='utf-8') as fp:
+        bodies = json.load(fp)
     extra_names = cfg.get('bodies_extra') or []
     if isinstance(extra_names, str):   # 历史形态：单份字符串仍按一份补充台账处理
         extra_names = [extra_names]
@@ -133,7 +136,8 @@ def merge_bodies(here, cfg, group):
                                    'R1 的 evidence 补双发条目的投次、catchup 补 C139 后 48 条「非新画风／缺图」补投；'
                                    'R4 的 evidence 补 D13 那次 images 形态校验失败的双发投次）'
                                    % (group, extra_name, 1 + len(extra_names)))
-        extra = json.load(io.open(p, encoding='utf-8'))
+        with io.open(p, encoding='utf-8') as fp:
+            extra = json.load(fp)
         clash = sorted(set(bodies) & set(extra))
         for eid in clash:
             assert bodies[eid]['body'] == extra[eid]['body'], (
@@ -159,7 +163,8 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
     assert not wrong, ('%s 组台账 %s 里有 %d 条发名不带本组档串 %s（示例 %s）：'
                        '读错组会把别组的落盘算成本轮「已投」'
                        % (group, cfg['bodies'], len(wrong), cfg['suffix'], wrong[:3]))
-    snap = json.load(io.open(os.path.join(root, '数据', '提示词基准冻结.json'), encoding='utf-8'))
+    with io.open(os.path.join(root, '数据', '提示词基准冻结.json'), encoding='utf-8') as fp:
+        snap = json.load(fp)
     floor = int(snap['frozen_at_ms'])
 
     sources, missing = resolve_sources(jsonl)
@@ -262,8 +267,11 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
 
     # 台账：逐轮追加，不覆盖历史
     ledger_path = os.path.join(here, cfg['ledger'])
-    ledger = json.load(io.open(ledger_path, encoding='utf-8')) if os.path.exists(ledger_path) else {
-        'declaration': LEDGER_DECL[group], 'rounds': []}
+    if os.path.exists(ledger_path):
+        with io.open(ledger_path, encoding='utf-8') as fp:
+            ledger = json.load(fp)
+    else:
+        ledger = {'declaration': LEDGER_DECL[group], 'rounds': []}
     ts_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     seq = len(ledger['rounds']) + 1
     ledger['rounds'].append({

@@ -44,7 +44,8 @@ TS = re.compile(r'_(1\d{12})_')
 
 def reviewed_ids():
     """现读目视真源，返回 (参与目视的 ID, 达标 ID, 本轮待重投 ID)。"""
-    notes = json.load(io.open(os.path.join(ROOT, '数据', '开图验收备注.json'), encoding='utf-8'))['备注']
+    with io.open(os.path.join(ROOT, '数据', '开图验收备注.json'), encoding='utf-8') as fp:
+        notes = json.load(fp)['备注']
     reviewed = sorted(i for i, v in notes.items() if any('画风目视' in s for s in v))
     passed = []
     for i in reviewed:
@@ -70,8 +71,10 @@ def primary_cell(item):
 
 def main():
     reviewed, passed, todo = reviewed_ids()
-    man = json.load(io.open(os.path.join(ROOT, '数据', '开图清单.json'), encoding='utf-8'))
-    snap = json.load(io.open(os.path.join(ROOT, '数据', '提示词基准冻结.json'), encoding='utf-8'))
+    with io.open(os.path.join(ROOT, '数据', '开图清单.json'), encoding='utf-8') as fp:
+        man = json.load(fp)
+    with io.open(os.path.join(ROOT, '数据', '提示词基准冻结.json'), encoding='utf-8') as fp:
+        snap = json.load(fp)
     base = {e['id']: e['prompt_sha256'] for e in snap['entries']}
     by_id = {it['id']: it for it in man['items']}
     land = REF.check_pool(REF.LANDSCAPE, '主链横向母图')
@@ -126,7 +129,8 @@ def main():
         p = os.path.join(PASTE_DIR, '%s.txt' % eid)
         with io.open(p, 'w', encoding='utf-8', newline='') as fp:
             fp.write(rec['body'])
-        got = hashlib.sha256(open(p, 'rb').read()).hexdigest()
+        with open(p, 'rb') as fp:
+            got = hashlib.sha256(fp.read()).hexdigest()
         assert got == rec['send_sha256'], (eid, got, rec['send_sha256'])
         paste_ok += 1
     assert paste_ok == len(out), (paste_ok, len(out))
