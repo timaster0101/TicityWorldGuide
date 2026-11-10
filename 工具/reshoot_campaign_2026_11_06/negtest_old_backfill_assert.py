@@ -66,7 +66,8 @@ def build(tmp, source, rows):
         json.dumps({'rows': rows}, ensure_ascii=False, indent=1) + '\n', encoding='utf-8', newline='\n')
     (d / 'readings_draft.json').write_text(
         json.dumps({r['id']: CLEAN for r in rows}, ensure_ascii=False, indent=1) + '\n', encoding='utf-8', newline='\n')
-    man = json.loads(io.open(REPO_MANIFEST, encoding='utf-8').read())
+    with io.open(REPO_MANIFEST, encoding='utf-8') as fp:
+        man = json.loads(fp.read())
     keep = [{k: it[k] for k in ('id', 'type', 'size', 'status') if k in it}
             for it in man['items'] if it['id'] in IDS]
     (tmp / '数据' / '开图清单.json').write_text(
@@ -83,9 +84,11 @@ def run(tmp):
 
 def main():
     lines, rc = [], 0
-    sha_before = hashlib.sha256(io.open(REPO_MANIFEST, 'rb').read()).hexdigest()[:12]
+    with io.open(REPO_MANIFEST, 'rb') as fh:
+        sha_before = hashlib.sha256(fh.read()).hexdigest()[:12]
     source = head_source()
-    prof = json.loads(io.open(PROFILE, encoding='utf-8').read())
+    with io.open(PROFILE, encoding='utf-8') as _fh:
+        prof = json.loads(_fh.read())
     real = [r for g in prof['groups'] if g['group'] == 'C133冻结重投' for r in g['rows']]
     assert sorted(r['file'].split('-')[0] for r in real) == IDS, real
     dims = {'D03': '1792x1024', 'L061': '1024x1536', 'L066': '1024x1536'}
@@ -134,7 +137,8 @@ def main():
 
         # 案例 C —— 现工作树版 + 真实容器读数（只把批次串名换成它自己认的 -v02，为越过第 66 行的批次钉）
         # 目的：把 §55.7「改后代码只被片段级 exec 覆盖、没跑过一次真实落笔」那条换成整脚本落笔读数。
-        work = io.open(os.path.join(ROOT, TARGET), encoding='utf-8').read()
+        with io.open(os.path.join(ROOT, TARGET), encoding='utf-8') as _fp:
+            work = _fp.read()
         tmpc = Path(tempfile.mkdtemp(prefix=PREFIX))
         try:
             build(tmpc, work, rows_for('real_but_v02'))
@@ -152,7 +156,8 @@ def main():
             shutil.rmtree(tmpc, ignore_errors=True)
             lines.append('%s 临时目录已删：%s 存在=%s' % ('C', tmpc.name, tmpc.exists()))
 
-        sha_after = hashlib.sha256(io.open(REPO_MANIFEST, 'rb').read()).hexdigest()[:12]
+        with io.open(REPO_MANIFEST, 'rb') as _handle:
+            sha_after = hashlib.sha256(_handle.read()).hexdigest()[:12]
         same = sha_after == sha_before
         rc |= 0 if same else 1
         lines.append('%s 真源未被写过：仓库 数据/开图清单.json sha12 跑前 %s = 跑后 %s'

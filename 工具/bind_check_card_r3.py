@@ -68,23 +68,27 @@ def _merge_forms(rows):
 
 
 def main():
-    led = json.load(io.open(LEDGER, encoding="utf-8"))
+    with io.open(LEDGER, encoding="utf-8") as fp:
+        led = json.load(fp)
     by_sha = {}
     for it in led["items"]:
         by_sha.setdefault(it["prompt_sha256"], []).append(it["id"])
     # 底串文件以结尾换行落盘，ImageGen 送入的是去掉结尾换行的正文——两种形态都收，命中时记形态。
     by_txt = {}
     for it in led["items"]:
-        raw = open(os.path.join(ROOT, it["prompt_file"]), "rb").read().replace(b"\r\n", b"\n")
+        with open(os.path.join(ROOT, it["prompt_file"]), "rb") as _fh:
+            raw = _fh.read().replace(b"\r\n", b"\n")
         text = raw.decode("utf-8")
         by_txt.setdefault(norm_sha(text), (it["id"], "含结尾换行"))
         by_txt.setdefault(norm_sha(text.rstrip("\n")), (it["id"], "去结尾换行"))
-    disp = json.load(io.open(os.path.abspath(DISPATCH), encoding="utf-8"))
+    with io.open(os.path.abspath(DISPATCH), encoding="utf-8") as _fp:
+        disp = json.load(_fp)
     shards = list(disp.get("wave1", [])) + list(disp.get("wave2", []))
     hits, rows, missing = {}, [], 0
 
     def scan(path):
-        raw = open(path, "rb").read()
+        with open(path, "rb") as _handle:
+            raw = _handle.read()
         n_sent = 0
         matched = []
         forms = {}

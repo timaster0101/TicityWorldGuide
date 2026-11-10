@@ -257,14 +257,17 @@ IDS = sorted(N)
 
 
 def main():
-    mea = json.load(io.open(MEASURE, encoding='utf-8'))
+    with io.open(MEASURE, encoding='utf-8') as fp:
+        mea = json.load(fp)
     by = {}
     for row in mea:
         by[row['file'].split('-')[0]] = row
     assert sorted(by) == IDS, (sorted(by), IDS)
 
-    notes = json.load(io.open(NOTES, encoding='utf-8'))
-    man = json.load(io.open(MANIFEST, encoding='utf-8'))
+    with io.open(NOTES, encoding='utf-8') as fh:
+        notes = json.load(fh)
+    with io.open(MANIFEST, encoding='utf-8') as _fh:
+        man = json.load(_fh)
     items = {it['id']: it for it in man['items']}
 
     appended = 0
@@ -295,10 +298,12 @@ def main():
         assert not items[k].get('image_prompt_sha256'), (k, '已绑定摘要，不该再打表')
         appended += 1
 
-    io.open(NOTES, 'w', encoding='utf-8').write(
-        json.dumps(notes, ensure_ascii=False, indent=2) + '\n')
-    io.open(MANIFEST, 'w', encoding='utf-8').write(
-        json.dumps(man, ensure_ascii=False, indent=2) + '\n')
+    with io.open(NOTES, 'w', encoding='utf-8') as _fp:
+        _fp.write(
+            json.dumps(notes, ensure_ascii=False, indent=2) + '\n')
+    with io.open(MANIFEST, 'w', encoding='utf-8') as _handle:
+        _handle.write(
+            json.dumps(man, ensure_ascii=False, indent=2) + '\n')
     print('追加人工读数 %d 条；替换占格 %d 格；image_prompt_sha256 全部留空' % (appended, appended))
 
 

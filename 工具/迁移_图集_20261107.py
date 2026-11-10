@@ -70,7 +70,8 @@ def build_plan(items):
 
 
 def load_ledger():
-    raw = io.open(LEDGER, encoding='utf-8').read()
+    with io.open(LEDGER, encoding='utf-8') as fp:
+        raw = fp.read()
     data = json.loads(raw)
     # 只有这一种写法能逐字节还原真源，改表才敢用 json.dumps 落盘
     assert json.dumps(data, ensure_ascii=False, indent=2) + '\n' == raw or \
@@ -153,7 +154,8 @@ def rollback():
     if not os.path.exists(DETAIL):
         print('登记件不在盘，无法回滚')
         return 2
-    detail = json.load(io.open(DETAIL, encoding='utf-8'))
+    with io.open(DETAIL, encoding='utf-8') as _fh:
+        detail = json.load(_fh)
     data, old_raw = load_ledger()
     back = {r['to']: r['from'] for r in detail['明细']}
     done = 0

@@ -31,7 +31,8 @@ BATCH = 'C138主向重投'
 
 
 def r1_cells():
-    q = json.loads(io.open(QUEUE, encoding='utf-8').read())
+    with io.open(QUEUE, encoding='utf-8') as fp:
+        q = json.loads(fp.read())
     rows, excluded = [], []
     for it in q['items']:
         cells = [c for c in (it.get('image_file') or []) if c]
@@ -48,16 +49,18 @@ def r1_cells():
 
 
 def canon_threshold():
-    lines = [l for l in io.open(CANON, encoding='utf-8').read().split('\n') if l.strip()]
+    with io.open(CANON, encoding='utf-8') as fh:
+        lines = [l for l in fh.read().split('\n') if l.strip()]
     body = [l.split('\t') for l in lines[1:]]
     labs = [r[0] for r in body]
     sc = np.array([float(r[6]) for r in body])
     err, thr = sep(labs, sc)
-    return {'正典表行数': len(body),
-            '正典照片侧': sum(1 for x in labs if x == 'PHOTO'),
-            '正典绘画侧': sum(1 for x in labs if x == 'PAINT'),
-            '正典最小错分': err, '正典阈值': thr,
-            '正典表sha256_12': hashlib.sha256(io.open(CANON, 'rb').read()).hexdigest()[:12]}
+    with io.open(CANON, 'rb') as _fh:
+        return {'正典表行数': len(body),
+                '正典照片侧': sum(1 for x in labs if x == 'PHOTO'),
+                '正典绘画侧': sum(1 for x in labs if x == 'PAINT'),
+                '正典最小错分': err, '正典阈值': thr,
+                '正典表sha256_12': hashlib.sha256(_fh.read()).hexdigest()[:12]}
 
 
 def main():
@@ -107,11 +110,15 @@ def main():
     pp = np.array([o[4] for o in out])
     thr = canon['正典阈值']
     photo_side = [o[0]['id'] for o in out if thr is not None and o[4] > thr]
+    with io.open(QUEUE, 'rb') as queue_fp:
+        queue_sha12 = hashlib.sha256(queue_fp.read()).hexdigest()[:12]
+    with io.open(OUT_TSV, 'rb') as tsv_fp:
+        tsv_sha12 = hashlib.sha256(tsv_fp.read()).hexdigest()[:12]
     readings = {
         '口径': 'C134：只作读数、不作判废依据；画风判废权在人工目视。本脚本不写 accepted、不改 status、不动 image_prompt_sha256。',
         '统计面': {
             '真源': '数据/开图清单.json',
-            '真源sha256_12': hashlib.sha256(io.open(QUEUE, 'rb').read()).hexdigest()[:12],
+            '真源sha256_12': queue_sha12,
             '清单条目数': len(q['items']),
             '选取规则': 'image_file 四向格里含「%s」字样的那一格，逐条恰 1 格' % BATCH,
             '选中格数': len(rows),
@@ -141,7 +148,7 @@ def main():
         },
         '产物': {'tsv': os.path.basename(OUT_TSV),
                  'tsv字节': os.path.getsize(OUT_TSV),
-                 'tsv_sha256_12': hashlib.sha256(io.open(OUT_TSV, 'rb').read()).hexdigest()[:12]},
+                 'tsv_sha256_12': tsv_sha12},
     }
     with io.open(OUT_JSON, 'w', encoding='utf-8', newline='\n') as f:
         json.dump(readings, f, ensure_ascii=False, indent=2)

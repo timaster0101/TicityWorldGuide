@@ -35,9 +35,10 @@ def check_paste(items, paste_dir, sha_field, why):
         if not os.path.isfile(p):
             bad.append((key, 'paste 缺文件'))
             continue
-        if hashlib.sha256(open(p, 'rb').read()).hexdigest() != rec[sha_field]:
-            bad.append((key, 'paste 字节 sha ≠ 台账 %s' % sha_field))
-            continue
+        with open(p, 'rb') as fp:
+            if hashlib.sha256(fp.read()).hexdigest() != rec[sha_field]:
+                bad.append((key, 'paste 字节 sha ≠ 台账 %s' % sha_field))
+                continue
         ok += 1
     assert not bad, '%s 的 paste 复验失败 %d 条（示例 %s）：先重跑台账生成脚本，不要带着错串去花钱' % (why, len(bad), bad[:5])
     assert ok == len(items), (ok, len(items))
@@ -65,10 +66,12 @@ def write_shard_meta(doc, items):
 
 
 def main():
-    card = json.load(io.open(CARD_LEDGER, encoding='utf-8'))
+    with io.open(CARD_LEDGER, encoding='utf-8') as _fh:
+        card = json.load(_fh)
     card_items = {it['id']: it for it in card['items']}
     assert len(card_items) == card['条数'] == 85, (len(card_items), card['条数'])
-    mainb = json.load(io.open(MAIN_LEDGER, encoding='utf-8'))
+    with io.open(MAIN_LEDGER, encoding='utf-8') as _fp:
+        mainb = json.load(_fp)
     assert len(mainb) == 310 and all(isinstance(v, dict) for v in mainb.values()), len(mainb)
 
     card_ok, card_extra = check_paste(card_items, CARD_PASTE, 'send_sha256', '卡面')
@@ -82,7 +85,8 @@ def main():
         return os.path.join(ROOT, rel.replace('/', os.sep)).replace('\\', '/')
 
     def file_sha(path):
-        return hashlib.sha256(open(path, 'rb').read()).hexdigest()
+        with open(path, 'rb') as _handle:
+            return hashlib.sha256(_handle.read()).hexdigest()
 
     card_meta = {it['id']: {
         'id': it['id'], 'send_name': 'card3x4r4-' + it['id'], 'size': '768x1024',

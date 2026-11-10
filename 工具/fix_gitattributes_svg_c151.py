@@ -98,8 +98,9 @@ def wr(path, text):
     with io.open(path, 'w', encoding='utf-8', newline='') as f:
         f.write(text)
     b = text.encode('utf-8')
-    if io.open(path, 'rb').read() != b:
-        raise SystemExit('%s 写后逐字节复核不符' % path)
+    with io.open(path, 'rb') as fp:
+        if fp.read() != b:
+            raise SystemExit('%s 写后逐字节复核不符' % path)
     return fingerprint(text)
 
 

@@ -22,15 +22,18 @@ PREV = os.path.join(ROOT, "工具", "batch9c_2026_11_05", "send_bodies_31.json")
 REJECT = ["L065", "L080", "L081", "L083", "L085", "L090", "L092", "L093", "L094", "L095",
           "L099", "L100", "L101", "L103", "L104", "L105", "L106", "L107", "L108"]
 
-清单 = json.load(io.open(os.path.join(ROOT, "数据", "开图清单.json"), encoding="utf-8"))
+with io.open(os.path.join(ROOT, "数据", "开图清单.json"), encoding="utf-8") as fp:
+    清单 = json.load(fp)
 by_id = {i["id"]: i for i in 清单["items"]}
-prev = json.load(io.open(PREV, encoding="utf-8"))
+with io.open(PREV, encoding="utf-8") as fh:
+    prev = json.load(fh)
 
 out = {}
 for loc_id in REJECT:
     hits = glob.glob(os.path.join(PROMPT_DIR, "%s-*.txt" % loc_id))
     assert len(hits) == 1, (loc_id, hits)
-    src = io.open(hits[0], encoding="utf-8").read()
+    with io.open(hits[0], encoding="utf-8") as _fh:
+        src = _fh.read()
     name = os.path.basename(hits[0])[:-4]
     heads = [m.start() for m in re.finditer(r"^## 提示词正文$", src, re.M)]
     assert len(heads) == 1, (loc_id, heads)

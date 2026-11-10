@@ -43,7 +43,8 @@ def sha12(path):
 
 def disk_rows():
     """落点件逐键 → (卡号, 仓内相对路径, 绝对路径, 字节, sha12)；缺件即报错退出。"""
-    land = json.loads(io.open(LANDING, encoding='utf-8').read())
+    with io.open(LANDING, encoding='utf-8') as fp:
+        land = json.loads(fp.read())
     rows, missing = [], []
     for idx in sorted(land):
         rel = land[idx]
@@ -167,7 +168,8 @@ def main():
             print('❌ 写完复查不过：%s %s' % (json.dumps(rows, ensure_ascii=False), json.dumps(zinfo, ensure_ascii=False)))
             return 1
         usage = shutil.disk_usage(dest)
-        ledger = json.loads(io.open(LEDGER, encoding='utf-8').read())
+        with io.open(LEDGER, encoding='utf-8') as fh:
+            ledger = json.loads(fh.read())
         ledger['异盘副本'] = {
             '目标目录': dest.replace(os.sep, '/'),
             '目标盘符': os.path.splitdrive(dest)[0],
@@ -183,8 +185,9 @@ def main():
                     '不带 --offdisk 重建 zip 时，本段的 与当前还原点一致 会转 false，提示重跑 --offdisk。',
             '与当前还原点一致': csha[:12] == zsha,
         }
-        io.open(LEDGER, 'w', encoding='utf-8', newline='\n').write(
-            json.dumps(ledger, ensure_ascii=False, indent=2) + '\n')
+        with io.open(LEDGER, 'w', encoding='utf-8', newline='\n') as _fh:
+            _fh.write(
+                json.dumps(ledger, ensure_ascii=False, indent=2) + '\n')
         lsha, lbytes = sha12(LEDGER)
         dst_ledger = os.path.join(dest, os.path.basename(LEDGER))
         copy_verified(LEDGER, dst_ledger)
@@ -246,14 +249,16 @@ def main():
     prev = None
     if os.path.exists(LEDGER):
         try:
-            prev = json.loads(io.open(LEDGER, encoding='utf-8').read()).get('异盘副本')
+            with io.open(LEDGER, encoding='utf-8') as _fp:
+                prev = json.loads(_fp.read()).get('异盘副本')
         except ValueError:
             prev = None
     carried = carry_offdisk_block(prev, zsha)
     if carried:
         ledger['异盘副本'] = carried
-    io.open(LEDGER, 'w', encoding='utf-8', newline='\n').write(
-        json.dumps(ledger, ensure_ascii=False, indent=2) + '\n')
+    with io.open(LEDGER, 'w', encoding='utf-8', newline='\n') as _handle:
+        _handle.write(
+            json.dumps(ledger, ensure_ascii=False, indent=2) + '\n')
     lsha, lbytes = sha12(LEDGER)
     print('还原点 %s（%d 字节／%s，%d 枚）' % (ZIP_PATH, zbytes, zsha, len(rows)))
     print('台账 %s（%d 字节／%s，逐文件 %d 行）' % (LEDGER, lbytes, lsha, len(ledger['逐文件'])))

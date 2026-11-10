@@ -201,7 +201,8 @@ def main(argv=None):
         print('%s：%d 字节／%s　锚点计数=%d' % (name, nbytes, sha12, cnt))
     # 行尾复核
     for p, label in ((ROADMAP, '路线图'), (SPEC, '规范'), (CHECKLIST, '清单')):
-        b = io.open(p, 'rb').read()
+        with io.open(p, 'rb') as fp:
+            b = fp.read()
         print('%s 行尾：CRLF=%d 裸LF=%d' % (label, b.count(b'\r\n'), b.count(b'\n') - b.count(b'\r\n')))
     return 0
 

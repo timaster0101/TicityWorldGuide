@@ -7,7 +7,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check_notes_vs_source as gate
 
 measure, manifest, src = gate.load()
-text = io.open(gate.NOTES, encoding="utf-8").read()
+with io.open(gate.NOTES, encoding="utf-8") as fp:
+    text = fp.read()
 rows, concl, bad, checks = gate.run(text, measure, manifest, src)
 assert bad == [], "基线本身就不干净，负测无从判起：%s" % bad[:3]
 print("基线：小节 %d｜核对项 %d｜不符 %d" % (len(rows), checks, len(bad)))

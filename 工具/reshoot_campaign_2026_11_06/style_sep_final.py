@@ -19,7 +19,8 @@ from measure_images import fine_variance, sun_blob  # noqa: E402  真源同式
 
 # 复用 clip_style 的样本集与标签（不重复维护名单）
 _p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "clip_style.py")
-_cs_src = io.open(_p, encoding="utf-8").read()
+with io.open(_p, encoding="utf-8") as fp:
+    _cs_src = fp.read()
 _ns = {"__name__": "probe", "os": os, "glob": __import__("glob")}
 exec(compile(_cs_src.split("def main()")[0], "clip_style.py", "exec"), _ns)
 ITEMS = _ns["build_items"]()

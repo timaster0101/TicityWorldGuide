@@ -25,9 +25,11 @@ ROOT = os.path.abspath(os.path.join(OUT_DIR, "..", ".."))
 PROMPT_DIR = os.path.join(ROOT, "数据", "开图提示词")
 PREV = os.path.join(ROOT, "工具", "batch9g_2026_11_06", "send_bodies_9.json")
 
-清单 = json.load(io.open(os.path.join(ROOT, "数据", "开图清单.json"), encoding="utf-8"))
+with io.open(os.path.join(ROOT, "数据", "开图清单.json"), encoding="utf-8") as fh:
+    清单 = json.load(fh)
 by_id = {i["id"]: i for i in 清单["items"]}
-prev = json.load(io.open(PREV, encoding="utf-8"))
+with io.open(PREV, encoding="utf-8") as _fh:
+    prev = json.load(_fh)
 
 REJECT = sorted(i["id"] for i in 清单["items"] if i["status"] == "待开图" and not i["image_file"])
 assert REJECT == sorted(prev), (REJECT, sorted(prev))
@@ -37,7 +39,8 @@ out = {}
 for loc_id in REJECT:
     hits = glob.glob(os.path.join(PROMPT_DIR, "%s-*.txt" % loc_id))
     assert len(hits) == 1, (loc_id, hits)
-    src = io.open(hits[0], encoding="utf-8").read()
+    with io.open(hits[0], encoding="utf-8") as _fp:
+        src = _fp.read()
     name = os.path.basename(hits[0])[:-4]
     heads = [m.start() for m in re.finditer(r"^## 提示词正文$", src, re.M)]
     assert len(heads) == 1, (loc_id, heads)

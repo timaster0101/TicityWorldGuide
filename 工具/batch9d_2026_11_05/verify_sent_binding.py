@@ -14,7 +14,8 @@ from pathlib import Path
 J = Path("C:/Users/TIMASTER/.qoder/projects/"
          "C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/"
          "c0c216d9-4f5e-4156-8525-d49858e862dd.jsonl")
-BODIES = json.load(io.open(Path(__file__).resolve().parent / "send_bodies_19.json", encoding="utf-8"))
+with io.open(Path(__file__).resolve().parent / "send_bodies_19.json", encoding="utf-8") as fp:
+    BODIES = json.load(fp)
 
 sent = {}
 
@@ -32,17 +33,18 @@ def walk(o):
                 yield r
 
 
-for line in io.open(J, encoding="utf-8"):
-    if "ImageGen" not in line:
-        continue
-    try:
-        rec = json.loads(line)
-    except ValueError:
-        continue
-    for inp in walk(rec):
-        rid = inp.get("name", "").split("-")[0]
-        if rid in BODIES and inp.get("name", "").endswith("C123新串-v02"):
-            sent.setdefault(rid, []).append(inp)
+with io.open(J, encoding="utf-8") as fh:
+    for line in fh:
+        if "ImageGen" not in line:
+            continue
+        try:
+            rec = json.loads(line)
+        except ValueError:
+            continue
+        for inp in walk(rec):
+            rid = inp.get("name", "").split("-")[0]
+            if rid in BODIES and inp.get("name", "").endswith("C123新串-v02"):
+                sent.setdefault(rid, []).append(inp)
 
 rows = []
 for rid in sorted(BODIES):

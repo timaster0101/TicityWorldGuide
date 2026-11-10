@@ -62,8 +62,8 @@ def main():
     ap.add_argument("--full-bleed", action="store_true",
                     help="路线 B（C148）满幅主图：源即整卡，卡面空间按 1:1 换算，不走已退役的实景窗映射")
     args = ap.parse_args()
-    man = json.load(open(os.path.join(ROOT, "数据", "视觉控制资产", "卡牌", "768x1024",
-                                      "manifest.json"), encoding="utf-8"))
+    with open(os.path.join(ROOT, "数据", "视觉控制资产", "卡牌", "768x1024", "manifest.json"), encoding="utf-8") as fp:
+        man = json.load(fp)
     body = bcf.body_rect()
     rows = []
     for c in man["cards"]:

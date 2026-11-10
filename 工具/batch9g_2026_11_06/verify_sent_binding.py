@@ -18,7 +18,8 @@ from pathlib import Path
 J = Path("C:/Users/TIMASTER/.qoder/projects/"
          "C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/"
          "c0c216d9-4f5e-4156-8525-d49858e862dd.jsonl")
-BODIES = json.load(io.open(Path(__file__).resolve().parent / "send_bodies_9.json", encoding="utf-8"))
+with io.open(Path(__file__).resolve().parent / "send_bodies_9.json", encoding="utf-8") as fp:
+    BODIES = json.load(fp)
 FLOOR = 1793909919769
 
 uses = {}
@@ -39,34 +40,36 @@ def walk(o):
 
 
 wanted = set()
-for line in io.open(J, encoding="utf-8"):
-    if "ImageGen" not in line:
-        continue
-    try:
-        rec = json.loads(line)
-    except ValueError:
-        continue
-    for blk in walk(rec):
-        if blk.get("type") == "tool_use" and blk.get("name") == "ImageGen":
-            inp = blk.get("input") or {}
-            rid = (inp.get("name") or "").split("-")[0]
-            if rid in BODIES:
-                uses.setdefault(rid, []).append((blk.get("id"), inp))
-                wanted.add(blk.get("id"))
+with io.open(J, encoding="utf-8") as fh:
+    for line in fh:
+        if "ImageGen" not in line:
+            continue
+        try:
+            rec = json.loads(line)
+        except ValueError:
+            continue
+        for blk in walk(rec):
+            if blk.get("type") == "tool_use" and blk.get("name") == "ImageGen":
+                inp = blk.get("input") or {}
+                rid = (inp.get("name") or "").split("-")[0]
+                if rid in BODIES:
+                    uses.setdefault(rid, []).append((blk.get("id"), inp))
+                    wanted.add(blk.get("id"))
 
-for line in io.open(J, encoding="utf-8"):
-    if "tool_result" not in line:
-        continue
-    try:
-        rec = json.loads(line)
-    except ValueError:
-        continue
-    for blk in walk(rec):
-        if blk.get("type") == "tool_result" and blk.get("tool_use_id") in wanted:
-            txt = json.dumps(blk.get("content"), ensure_ascii=False)
-            m = re.search(r"_(\d{13})_[0-9a-f]{8}\.png", txt)
-            if m:
-                saved[blk.get("tool_use_id")] = int(m.group(1))
+with io.open(J, encoding="utf-8") as _fh:
+    for line in _fh:
+        if "tool_result" not in line:
+            continue
+        try:
+            rec = json.loads(line)
+        except ValueError:
+            continue
+        for blk in walk(rec):
+            if blk.get("type") == "tool_result" and blk.get("tool_use_id") in wanted:
+                txt = json.dumps(blk.get("content"), ensure_ascii=False)
+                m = re.search(r"_(\d{13})_[0-9a-f]{8}\.png", txt)
+                if m:
+                    saved[blk.get("tool_use_id")] = int(m.group(1))
 
 rows = []
 for rid in sorted(BODIES):

@@ -60,8 +60,8 @@ def main():
         print("%s 变体 %d 种；各变体覆盖卡数 %s" %
               (name, len(variants), [len(v) for v in variants.values()]))
     print("English tail 整串变体 %d 种（每条卡自带增量，必然多份）" % len(tails))
-    json.dump(out, open(os.path.join(os.pardir, "_scratch_cardref", "skeleton_probe.json"), "w",
-                        encoding="utf-8"), ensure_ascii=False, indent=1)
+    with open(os.path.join(os.pardir, "_scratch_cardref", "skeleton_probe.json"), "w", encoding="utf-8") as fp:
+        json.dump(out, fp, ensure_ascii=False, indent=1)
     return 0
 
 

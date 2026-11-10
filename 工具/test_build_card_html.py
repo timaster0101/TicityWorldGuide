@@ -37,7 +37,8 @@ class BuildCardHtmlTest(unittest.TestCase):
 
     def test_records_match_manifest_counts(self):
         self._run()
-        recs = json.load(open(os.path.join(self.tmp.name, "cards.json"), encoding="utf-8"))
+        with open(os.path.join(self.tmp.name, "cards.json"), encoding="utf-8") as fp:
+            recs = json.load(fp)
         man = load_manifest()["cards"]
         self.assertEqual(len(recs), len(man))
         self.assertEqual(sum(1 for r in recs if r["status"] == "OK"),
@@ -48,7 +49,8 @@ class BuildCardHtmlTest(unittest.TestCase):
         # 按 idx 取，不按 code：34 张待投卡的 code 是空串，补投转 OK 后它们在 code 字典里会互相顶掉
         by_idx = {c["idx"]: c for c in man}
         self._run()
-        recs = json.load(open(os.path.join(self.tmp.name, "cards.json"), encoding="utf-8"))
+        with open(os.path.join(self.tmp.name, "cards.json"), encoding="utf-8") as _fh:
+            recs = json.load(_fh)
         for r in recs:
             if r["status"] == "OK":
                 self.assertTrue(r["main_image"], "idx%s OK 应有主图" % r["idx"])
@@ -68,13 +70,15 @@ class BuildCardHtmlTest(unittest.TestCase):
         self.assertEqual(faces.count("模板背面"), 5)
         self.assertEqual(faces.count("模板正面"), 5)
         self._run()
-        recs = json.load(open(os.path.join(self.tmp.name, "cards.json"), encoding="utf-8"))
+        with open(os.path.join(self.tmp.name, "cards.json"), encoding="utf-8") as _fp:
+            recs = json.load(_fp)
         flagged = [r for r in recs if r["template_face"]]
         self.assertEqual(len(flagged), 10)
         self.assertTrue(all(r["main_image"] is None for r in flagged), "模板面不该有主图")
         pending = sum(1 for r in recs if not r["main_image"] and not r["template_face"])
         self.assertEqual(pending, sum(1 for c in man if c["status"] in ("MISSING", "OVERFLOW")) - 5)
-        html = open(os.path.join(self.tmp.name, "index.html"), encoding="utf-8").read()
+        with open(os.path.join(self.tmp.name, "index.html"), encoding="utf-8") as _handle:
+            html = _handle.read()
         self.assertIn("模板正面", html)
         self.assertEqual(html.count('<div class="placeholder">实景待投</div>'), pending * 2,
                          "index.html 每张卡有/无文案两个变体，故待投占位窗应为 2×")
@@ -111,7 +115,8 @@ class BuildCardHtmlTest(unittest.TestCase):
 
     def test_index_has_two_variants_per_card(self):
         out = self._run()
-        html = open(os.path.join(out, "index.html"), encoding="utf-8").read()
+        with open(os.path.join(out, "index.html"), encoding="utf-8") as _h118:
+            html = _h118.read()
         self.assertEqual(html.count('class="card'), 248)
         self.assertIn("cards.json", html)
 

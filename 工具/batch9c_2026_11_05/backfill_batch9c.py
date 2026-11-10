@@ -47,14 +47,18 @@ def is_clean(text):
 
 def main():
     mea = {}
-    for row in json.load(io.open(MEASURE, encoding='utf-8')):
-        mea[row['id']] = row
-    readings = json.load(io.open(READINGS, encoding='utf-8'))
+    with io.open(MEASURE, encoding='utf-8') as fp:
+        for row in json.load(fp):
+            mea[row['id']] = row
+    with io.open(READINGS, encoding='utf-8') as fh:
+        readings = json.load(fh)
     assert sorted(readings) == sorted(mea), (len(readings), len(mea))
     clean = sorted(k for k, v in readings.items() if is_clean(v))
 
-    notes = json.load(io.open(NOTES, encoding='utf-8'))
-    man = json.load(io.open(MANIFEST, encoding='utf-8'))
+    with io.open(NOTES, encoding='utf-8') as _fh:
+        notes = json.load(_fh)
+    with io.open(MANIFEST, encoding='utf-8') as _fp:
+        man = json.load(_fp)
     items = {it['id']: it for it in man['items']}
 
     filled = 0
@@ -93,10 +97,12 @@ def main():
         assert not items[k].get('image_prompt_sha256'), (k, '已绑定摘要，不该再打表')
         filled += 1
 
-    io.open(NOTES, 'w', encoding='utf-8', newline='\n').write(
-        json.dumps(notes, ensure_ascii=False, indent=2) + '\n')
-    io.open(MANIFEST, 'w', encoding='utf-8', newline='\n').write(
-        json.dumps(man, ensure_ascii=False, indent=2) + '\n')
+    with io.open(NOTES, 'w', encoding='utf-8', newline='\n') as _handle:
+        _handle.write(
+            json.dumps(notes, ensure_ascii=False, indent=2) + '\n')
+    with io.open(MANIFEST, 'w', encoding='utf-8', newline='\n') as _h103:
+        _h103.write(
+            json.dumps(man, ensure_ascii=False, indent=2) + '\n')
     print('回填 %d 条（首占 %d 条、替换第5格 %d 条）：%s'
           % (filled, filled - replaced, replaced, ' '.join(clean)))
     print('判废不回填 %d 条：%s' % (len(readings) - filled,
@@ -109,7 +115,8 @@ def align():
     为什么补：判据要求读数自带「绑定留空、状态只到待复验」两枚口径要素，上一批这两句写在结论正文里，
     本轮写在括号里；不补齐，下一轮按抬头复述时这两句会查不到。
     """
-    notes = json.load(io.open(NOTES, encoding='utf-8'))
+    with io.open(NOTES, encoding='utf-8') as _h118:
+        notes = json.load(_h118)
     hit = 0
     for eid, rows in notes['备注'].items():
         for i, row in enumerate(rows):
@@ -122,8 +129,9 @@ def align():
             rows[i] = row[:cut] + GUARD + row[cut:]
             hit += 1
     assert hit == 12, hit
-    io.open(NOTES, 'w', encoding='utf-8', newline='\n').write(
-        json.dumps(notes, ensure_ascii=False, indent=2) + '\n')
+    with io.open(NOTES, 'w', encoding='utf-8', newline='\n') as _h132:
+        _h132.write(
+            json.dumps(notes, ensure_ascii=False, indent=2) + '\n')
     print('抬头补齐 %d 条，正文未动' % hit)
 
 

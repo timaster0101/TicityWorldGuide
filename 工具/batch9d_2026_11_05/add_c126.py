@@ -56,7 +56,8 @@ C126 = {
 
 
 def main():
-    rows = json.load(io.open(RULINGS, encoding='utf-8'))
+    with io.open(RULINGS, encoding='utf-8') as fp:
+        rows = json.load(fp)
     assert len(rows) == 125, len(rows)
     hit = [r for r in rows if r['编号'] == 'C126']
     if hit:
@@ -64,8 +65,9 @@ def main():
         print('C126 已在位（第 %d 条），未重复追加' % (rows.index(hit[0]) + 1))
         return
     rows.append(C126)
-    io.open(RULINGS, 'w', encoding='utf-8', newline='\n').write(
-        json.dumps(rows, ensure_ascii=False, indent=2) + '\n')
+    with io.open(RULINGS, 'w', encoding='utf-8', newline='\n') as fh:
+        fh.write(
+            json.dumps(rows, ensure_ascii=False, indent=2) + '\n')
     print('追加 C126，裁定共 %d 条' % len(rows))
 
 

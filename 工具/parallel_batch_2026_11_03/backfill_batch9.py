@@ -189,16 +189,20 @@ IDS = ["L061", "L062", "L064", "L066", "L068", "L069", "L070", "L071", "L072", "
        "L077", "L078", "L079", "L082", "L084", "L088", "L091", "L096", "L098"]
 assert sorted(IDS) == sorted(N), set(IDS) ^ set(N)
 
-notes = json.load(io.open(NOTES, encoding="utf-8"))
+with io.open(NOTES, encoding="utf-8") as fp:
+    notes = json.load(fp)
 for k in IDS:
     notes["备注"].setdefault(k, [])
     for old in notes["备注"][k]:
         assert "第9批放量" not in old, (k, "已回填过")
     notes["备注"][k].append(N[k])
-io.open(NOTES, "w", encoding="utf-8", newline="").write(json.dumps(notes, ensure_ascii=False, indent=2) + "\n")
+with io.open(NOTES, "w", encoding="utf-8", newline="") as fh:
+    fh.write(json.dumps(notes, ensure_ascii=False, indent=2) + "\n")
 
-mea = {r["id"]: r["file"] for r in json.load(io.open(MEASURE, encoding="utf-8"))}
-man = json.load(io.open(MANIFEST, encoding="utf-8"))
+with io.open(MEASURE, encoding="utf-8") as _fh:
+    mea = {r["id"]: r["file"] for r in json.load(_fh)}
+with io.open(MANIFEST, encoding="utf-8") as _fp:
+    man = json.load(_fp)
 done = []
 for it in man["items"]:
     if it["id"] in N:
@@ -208,6 +212,7 @@ for it in man["items"]:
         it["image_file"] = [path]
         it["batch"] = "%s-%sC118新串-v01" % (it["type"], it["id"])
         done.append(it["id"])
-io.open(MANIFEST, "w", encoding="utf-8", newline="").write(json.dumps(man, ensure_ascii=False, indent=2) + "\n")
+with io.open(MANIFEST, "w", encoding="utf-8", newline="") as _handle:
+    _handle.write(json.dumps(man, ensure_ascii=False, indent=2) + "\n")
 print("备注追加 %d 条｜清单回填 %d 条" % (len(IDS), len(done)))
 print("批次样例", [i["batch"] for i in man["items"] if i["id"] in ("L061", "L088")])

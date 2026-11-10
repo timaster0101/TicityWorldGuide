@@ -26,15 +26,18 @@ REJECT = ["L081", "L083", "L085", "L094", "L099",
 # 探针：L083 数岸算力塔（竖幅，与 §35／§39 的探针同条，C126 的杆高阈值可落到数上）
 PROBE = "L083"
 
-清单 = json.load(io.open(os.path.join(ROOT, "数据", "开图清单.json"), encoding="utf-8"))
+with io.open(os.path.join(ROOT, "数据", "开图清单.json"), encoding="utf-8") as fh:
+    清单 = json.load(fh)
 by_id = {i["id"]: i for i in 清单["items"]}
-prev = json.load(io.open(PREV, encoding="utf-8"))
+with io.open(PREV, encoding="utf-8") as _fh:
+    prev = json.load(_fh)
 
 out = {}
 for loc_id in REJECT:
     hits = glob.glob(os.path.join(PROMPT_DIR, "%s-*.txt" % loc_id))
     assert len(hits) == 1, (loc_id, hits)
-    src = io.open(hits[0], encoding="utf-8").read()
+    with io.open(hits[0], encoding="utf-8") as _fp:
+        src = _fp.read()
     name = os.path.basename(hits[0])[:-4]
     heads = [m.start() for m in re.finditer(r"^## 提示词正文$", src, re.M)]
     assert len(heads) == 1, (loc_id, heads)

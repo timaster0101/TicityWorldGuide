@@ -38,7 +38,8 @@ def sha12(data):
 
 
 def main():
-    raw = open(CHECKLIST, 'rb').read()
+    with open(CHECKLIST, 'rb') as fp:
+        raw = fp.read()
     text = raw.decode('utf-8')
     if MARK in text:
         raise SystemExit('自证读数已在盘上，勿二次套用')
@@ -63,7 +64,8 @@ def main():
         fh.write(data)
     os.replace(tmp, CHECKLIST)
 
-    after = open(CHECKLIST, 'rb').read()
+    with open(CHECKLIST, 'rb') as _fh:
+        after = _fh.read()
     nl = after.decode('utf-8').split('\n')
     print('清单：%d 字节／`%s`／%d 行（写前 %d 字节／`%s`）' % (len(after), sha12(after), len(nl), len(raw), sha12(raw)))
     print('追加条目 %d 条，CRLF=%d 裸LF=%d' % (len(BLOCK), after.count(b'\r\n'), after.count(b'\n') - after.count(b'\r\n')))

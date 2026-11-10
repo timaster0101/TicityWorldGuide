@@ -70,18 +70,22 @@ def run(notes_text, measure, manifest, src):
 
 
 def load():
-    measure = {r["id"]: r for r in json.load(io.open(MEASURE, encoding="utf-8"))}
-    manifest = {i["id"]: i for i in json.load(io.open(MANIFEST, encoding="utf-8"))["items"]}
+    with io.open(MEASURE, encoding="utf-8") as fp:
+        measure = {r["id"]: r for r in json.load(fp)}
+    with io.open(MANIFEST, encoding="utf-8") as fh:
+        manifest = {i["id"]: i for i in json.load(fh)["items"]}
     src = {}
     for f in os.listdir(PROMPT_DIR):
         if re.match(r"L\d{3}-", f):
-            src[f[:4]] = io.open(os.path.join(PROMPT_DIR, f), encoding="utf-8").read().replace("\r\n", "\n")
+            with io.open(os.path.join(PROMPT_DIR, f), encoding="utf-8") as _fh:
+                src[f[:4]] = _fh.read().replace("\r\n", "\n")
     return measure, manifest, src
 
 
 def main():
     measure, manifest, src = load()
-    rows, concl, bad, checks = run(io.open(NOTES, encoding="utf-8").read(), measure, manifest, src)
+    with io.open(NOTES, encoding="utf-8") as _fp:
+        rows, concl, bad, checks = run(_fp.read(), measure, manifest, src)
     print("小节 %d｜核对项 %d｜不符 %d" % (len(rows), checks, len(bad)))
     print("结论分布", concl, "合计", sum(concl.values()))
     for x in bad:

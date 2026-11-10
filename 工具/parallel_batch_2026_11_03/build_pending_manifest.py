@@ -46,7 +46,8 @@ def slice_verify(src, seg, label):
 
 
 def parse(path):
-    src = io.open(path, encoding="utf-8").read()
+    with io.open(path, encoding="utf-8") as fp:
+        src = fp.read()
     name = os.path.basename(path)[:-4]
     loc_id = name.split("-")[0]
     body_start = src.index("## 提示词正文")
@@ -114,7 +115,8 @@ def main():
         if len(hits) != 1:
             raise AssertionError("%s 真源文件不唯一：%r" % (loc_id, hits))
         rec = parse(hits[0])
-        src = io.open(hits[0], encoding="utf-8").read()
+        with io.open(hits[0], encoding="utf-8") as fh:
+            src = fh.read()
         ok = all(seg in src for seg in [
             rec["画风锚点"], rec["取景指令_远景"], rec["锁定与禁则"],
             rec["tail_日面断言"], rec["tail_远景塔约束"],

@@ -42,14 +42,18 @@ def is_clean(text):
 
 
 def main():
-    rows = json.load(io.open(MEASURE, encoding='utf-8'))
+    with io.open(MEASURE, encoding='utf-8') as fp:
+        rows = json.load(fp)
     mea = {r['id']: r for r in (rows['rows'] if isinstance(rows, dict) else rows)}
-    readings = json.load(io.open(READINGS, encoding='utf-8'))
+    with io.open(READINGS, encoding='utf-8') as fh:
+        readings = json.load(fh)
     assert sorted(readings) == sorted(mea), (len(readings), len(mea))
     clean = sorted(k for k, v in readings.items() if is_clean(v))
 
-    notes = json.load(io.open(NOTES, encoding='utf-8'))
-    man = json.load(io.open(MANIFEST, encoding='utf-8'))
+    with io.open(NOTES, encoding='utf-8') as _fh:
+        notes = json.load(_fh)
+    with io.open(MANIFEST, encoding='utf-8') as _fp:
+        man = json.load(_fp)
     items = {it['id']: it for it in man['items']}
 
     added = 0
@@ -84,10 +88,12 @@ def main():
         items[k]['batch'] = '%s-%sC123新串-v02' % (items[k]['type'], k)
         added += 1
 
-    io.open(NOTES, 'w', encoding='utf-8', newline='\n').write(
-        json.dumps(notes, ensure_ascii=False, indent=2) + '\n')
-    io.open(MANIFEST, 'w', encoding='utf-8', newline='\n').write(
-        json.dumps(man, ensure_ascii=False, indent=2) + '\n')
+    with io.open(NOTES, 'w', encoding='utf-8', newline='\n') as _handle:
+        _handle.write(
+            json.dumps(notes, ensure_ascii=False, indent=2) + '\n')
+    with io.open(MANIFEST, 'w', encoding='utf-8', newline='\n') as _h94:
+        _h94.write(
+            json.dumps(man, ensure_ascii=False, indent=2) + '\n')
     print('回填 %d 条（新增首占 %d 条、改口重打 %d 条）：%s'
           % (len(clean), added, resynced, ' '.join(clean)))
     print('判废不回填 %d 条：%s' % (len(readings) - len(clean),

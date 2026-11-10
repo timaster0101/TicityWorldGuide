@@ -7,8 +7,10 @@ import os
 import sys
 
 DIR = os.path.dirname(os.path.abspath(__file__))
-ROWS = json.load(io.open(os.path.join(DIR, "pending_manifest.json"), encoding="utf-8"))["rows"]
-MEAS = {r["id"]: r for r in json.load(io.open(os.path.join(DIR, "measure.json"), encoding="utf-8"))}
+with io.open(os.path.join(DIR, "pending_manifest.json"), encoding="utf-8") as fp:
+    ROWS = json.load(fp)["rows"]
+with io.open(os.path.join(DIR, "measure.json"), encoding="utf-8") as fh:
+    MEAS = {r["id"]: r for r in json.load(fh)}
 
 for ident in sys.argv[1:]:
     rec = [r for r in ROWS if r["id"] == ident]

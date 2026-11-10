@@ -71,7 +71,8 @@ def main():
     hist = []
     for p in MEASURES:
         try:
-            d = json.load(io.open(p, encoding='utf-8'))
+            with io.open(p, encoding='utf-8') as fp:
+                d = json.load(fp)
         except Exception as e:
             hist.append({'file': os.path.relpath(p, SET), 'err': str(e)})
             continue
@@ -82,7 +83,8 @@ def main():
                      'caBX=0且iTXt≥1': sum(1 for x in c if x.get('cabx') == 0 and (x.get('itxt') or 0) >= 1)})
     out = {'说明': '本文件只读派生，不手抄：容器画像现读 PNG 块，历史面现读各批 measure JSON 的 container 字段。',
            'groups': groups, 'history': hist}
-    io.open(OUT, 'w', encoding='utf-8', newline='\n').write(json.dumps(out, ensure_ascii=False, indent=2) + '\n')
+    with io.open(OUT, 'w', encoding='utf-8', newline='\n') as fh:
+        fh.write(json.dumps(out, ensure_ascii=False, indent=2) + '\n')
     for g in groups:
         print('%-14s 枚数=%-3d caBX1/iTXt0=%-3d caBX0/iTXt≥1=%-3d 都无=%d'
               % (g['group'], g['枚数'], g['caBX=1且iTXt=0'], g['caBX=0且iTXt≥1'], g['两者都无']))

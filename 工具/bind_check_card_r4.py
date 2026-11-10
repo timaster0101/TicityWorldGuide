@@ -245,8 +245,10 @@ def main():
     if not os.path.isfile(REG):
         print("✗ 派单登记件缺失：%s：先跑 工具/register_r4_transcripts.py" % REG)
         return 1
-    led = json.load(io.open(LEDGER, encoding="utf-8"))
-    reg = json.load(io.open(REG, encoding="utf-8"))
+    with io.open(LEDGER, encoding="utf-8") as fp:
+        led = json.load(fp)
+    with io.open(REG, encoding="utf-8") as _fh:
+        reg = json.load(_fh)
     out, rc = scan(led, reg, ROOT, os.path.join(EVID, "paste"), EVID)
     with io.open(OUT, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)

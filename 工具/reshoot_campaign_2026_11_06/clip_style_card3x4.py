@@ -31,7 +31,8 @@ OUT_JSON = os.path.join(HERE, 'clip_style_card3x4_readings.json')
 
 def card_cells():
     """落点件逐键 → 绝对路径；键名即卡号（L009／D01／'7' 两种形态都原样留作 label 列）。"""
-    d = json.loads(io.open(LANDING, encoding='utf-8').read())
+    with io.open(LANDING, encoding='utf-8') as fp:
+        d = json.loads(fp.read())
     rows = []
     for idx, rel in sorted(d.items()):
         p = os.path.join(SET, rel.replace('/', os.sep))
@@ -40,16 +41,18 @@ def card_cells():
 
 
 def canon_threshold():
-    lines = [l for l in io.open(CANON, encoding='utf-8').read().split('\n') if l.strip()]
+    with io.open(CANON, encoding='utf-8') as fh:
+        lines = [l for l in fh.read().split('\n') if l.strip()]
     body = [l.split('\t') for l in lines[1:]]
     labs = [r[0] for r in body]
     sc = np.array([float(r[6]) for r in body])
     err, thr = sep(labs, sc)
-    return {'正典表行数': len(body),
-            '正典照片侧': sum(1 for x in labs if x == 'PHOTO'),
-            '正典绘画侧': sum(1 for x in labs if x == 'PAINT'),
-            '正典最小错分': err, '正典阈值': thr,
-            '正典表sha256_12': hashlib.sha256(io.open(CANON, 'rb').read()).hexdigest()[:12]}
+    with io.open(CANON, 'rb') as _fh:
+        return {'正典表行数': len(body),
+                '正典照片侧': sum(1 for x in labs if x == 'PHOTO'),
+                '正典绘画侧': sum(1 for x in labs if x == 'PAINT'),
+                '正典最小错分': err, '正典阈值': thr,
+                '正典表sha256_12': hashlib.sha256(_fh.read()).hexdigest()[:12]}
 
 
 def main():
@@ -103,11 +106,15 @@ def main():
     pp = np.array([o[5] for o in out])
     thr = canon['正典阈值']
     photo_side = [o[0]['idx'] for o in out if thr is not None and o[5] > thr]
+    with io.open(LANDING, 'rb') as landing_fp:
+        landing_sha12 = hashlib.sha256(landing_fp.read()).hexdigest()[:12]
+    with io.open(OUT_TSV, 'rb') as tsv_fp:
+        tsv_sha12 = hashlib.sha256(tsv_fp.read()).hexdigest()[:12]
     readings = {
         '口径': 'C134：只作读数、不作判废依据；画风判废权在人工目视。本脚本不写 accepted、不改 status、不动 manifest。',
         '统计面': {
             '真源': '数据/卡面主图提示词3x4/主图3x4落点.json',
-            '真源sha256_12': hashlib.sha256(io.open(LANDING, 'rb').read()).hexdigest()[:12],
+            '真源sha256_12': landing_sha12,
             '落点件键数': len(land),
             '选取规则': '落点件全部键（键即卡号），逐键恰 1 个 PNG',
             '读到的枚数': len(rows),
@@ -136,7 +143,7 @@ def main():
         },
         '产物': {'tsv': os.path.basename(OUT_TSV),
                  'tsv字节': os.path.getsize(OUT_TSV),
-                 'tsv_sha256_12': hashlib.sha256(io.open(OUT_TSV, 'rb').read()).hexdigest()[:12]},
+                 'tsv_sha256_12': tsv_sha12},
     }
     dist = {}
     for _, size, *_ in out:

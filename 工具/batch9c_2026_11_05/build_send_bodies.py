@@ -18,14 +18,16 @@ PENDING = ["L063", "L065", "L067", "L073", "L075", "L076", "L080", "L081", "L083
            "L107", "L108"]
 EXTRA = ["R063", "R066"]
 
-清单 = json.load(io.open(os.path.join(ROOT, "数据", "开图清单.json"), encoding="utf-8"))
+with io.open(os.path.join(ROOT, "数据", "开图清单.json"), encoding="utf-8") as fp:
+    清单 = json.load(fp)
 by_id = {i["id"]: i for i in 清单["items"]}
 
 out = {}
 for loc_id in PENDING + EXTRA:
     hits = glob.glob(os.path.join(PROMPT_DIR, "%s-*.txt" % loc_id))
     assert len(hits) == 1, (loc_id, hits)
-    src = io.open(hits[0], encoding="utf-8").read()
+    with io.open(hits[0], encoding="utf-8") as fh:
+        src = fh.read()
     name = os.path.basename(hits[0])[:-4]
     # 行首锚定：对应关系段的 review_note 里会原样引用「## 提示词正文」这句，不能用 index 取首次出现
     heads = [m.start() for m in re.finditer(r"^## 提示词正文$", src, re.M)]

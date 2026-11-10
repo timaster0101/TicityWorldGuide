@@ -702,38 +702,61 @@ class MergedR1Ledger(unittest.TestCase):
             self.assertTrue((CAMPAIGN / f).exists(), f)
 
 
-class CampaignHandlesAreClosed(unittest.TestCase):
-    """三个投放面脚本里每个 open 调用都必须是 with 的上下文表达式。
+class ToolHandlesAreClosed(unittest.TestCase):
+    """工具/ 下每个文件句柄 open 调用都必须是 with 的上下文表达式。
 
     走 AST 而不是跑一遍数 ResourceWarning：警告只在被走到的路径上才发。§55.36 ⑪④ 当时只登记了
-    build_send_bodies.py:79 一处，本轮实测同一缺陷在三个文件里共 18 处，其中 11 处当轮根本没被跑到
-    （build_send_bodies_r4.py 全 4 处、build_send_bodies.py 另 7 处），静态判据才覆盖得到那些路径。
-    判据本身不钉 open 的个数——钉个数就是写死计数，删一处读文件反而会让它假红。
+    build_send_bodies.py:79 一处，§55.37 按同一缺陷类枚举出投放面三脚本 18 处（其中 11 处当轮根本
+    没被跑到）；本轮覆盖面从三文件扩到 工具/ 全仓，文件清单由 rglob 现派生、不钉件数也不钉处数
+    ——钉个数就是写死计数，删一处读文件反而会让它假红。
+
+    匹配口径只认 builtin `open` 与 `io.open` 两个无歧义的文件句柄工厂。§55.37 那版检查器按
+    `attr == 'open'` 匹配，把 PIL 的 `Image.open` 也算成未闭合句柄（全仓 28 处），那是另一类资源：
+    PIL 的 fp 由 load()/convert() 内部处置，且 `with Image.open(...)` 退出后图像不能再惰性取像素，
+    机械包反而会改坏语义。静态 AST 不做 import/类型解析就分不清 `.open` 属于哪个模块，故显式把
+    其余 `*.open`（Image/wave/Path/gzip 等）划在匹配面之外，并由下面那条负测把这个边界钉住。
+
+    语法错的件不许静默跳过：ast.parse 直接抛，正测当场红，避免「扫了 0 个文件」的恒绿空转。
     """
 
-    FILES = ('build_send_bodies.py', 'build_send_bodies_r4.py', 'verify_round.py')
+    CAMPAIGN_FILES = ('build_send_bodies.py', 'build_send_bodies_r4.py', 'verify_round.py')
 
     @staticmethod
-    def unclosed(src):
+    def tool_files():
+        return sorted(p for p in (ROOT / '工具').rglob('*.py') if '__pycache__' not in p.parts)
+
+    @staticmethod
+    def is_file_open(func):
+        if isinstance(func, ast.Name):
+            return func.id == 'open'
+        if isinstance(func, ast.Attribute) and func.attr == 'open':
+            return isinstance(func.value, ast.Name) and func.value.id == 'io'
+        return False
+
+    @classmethod
+    def unclosed(cls, src):
         tree = ast.parse(src)
         withed = {id(item.context_expr)
                   for n in ast.walk(tree) if isinstance(n, (ast.With, ast.AsyncWith))
                   for item in n.items}
-        out = []
-        for n in ast.walk(tree):
-            if not isinstance(n, ast.Call):
-                continue
-            f = n.func
-            name = f.id if isinstance(f, ast.Name) else getattr(f, 'attr', None)
-            if name == 'open' and id(n) not in withed:
-                out.append(n.lineno)
-        return sorted(out)
+        return sorted(n.lineno for n in ast.walk(tree)
+                      if isinstance(n, ast.Call) and cls.is_file_open(n.func) and id(n) not in withed)
 
-    def test_every_open_is_a_with_item(self):
-        for f in self.FILES:
-            with self.subTest(file=f):
-                self.assertEqual(self.unclosed((CAMPAIGN / f).read_text(encoding='utf-8')), [],
-                                 '%s 有 open 调用没进 with：句柄靠 GC 回收，走到就发 ResourceWarning' % f)
+    def test_every_file_open_is_a_with_item(self):
+        files = self.tool_files()
+        self.assertTrue(files, '派生面为空＝正测恒绿空转')
+        for p in files:
+            with self.subTest(file=str(p.relative_to(ROOT))):
+                self.assertEqual(self.unclosed(p.read_text(encoding='utf-8')), [],
+                                 '%s 有文件句柄 open 没进 with：句柄靠 GC 回收，走到就发 ResourceWarning'
+                                 % p.name)
+
+    def test_coverage_reaches_the_campaign_scripts(self):
+        """覆盖面负测：派生清单必须真够到投放面三脚本，否则 rglob 写错也只是「扫了个别处」的假绿。"""
+        got = {p.name for p in self.tool_files()}
+        for f in self.CAMPAIGN_FILES:
+            self.assertIn(f, got, '%s 不在派生覆盖面里' % f)
+            self.assertTrue((CAMPAIGN / f).exists(), f)
 
     def test_old_unclosed_forms_are_caught(self):
         """违例负测：改前那六种形态逐一注回内存，判据必须逐个点名，否则上面那条正测是空转。"""
@@ -748,6 +771,14 @@ class CampaignHandlesAreClosed(unittest.TestCase):
         for label, src in cases.items():
             with self.subTest(form=label):
                 self.assertEqual(len(self.unclosed(src)), 1, '%s 未被点名：%s' % (label, src))
+
+    def test_pil_image_open_is_not_a_file_handle(self):
+        """匹配面边界负测：`Image.open` 不许被点名——旧检查器正是把这一类误算成 28 处未闭合句柄。
+        同时钉住「不是靠放开一切 .open 来消假阳」：io.open 仍须被抓。"""
+        pil = "im = Image.open(p).convert('RGB')\nwith Image.open(q) as im2:\n    im2.load()\n"
+        self.assertEqual(self.unclosed(pil), [], 'PIL 的 Image.open 被误判成文件句柄')
+        self.assertEqual(len(self.unclosed(pil + "x = io.open(p, encoding='utf-8').read()\n")), 1,
+                         '为了放过 Image.open 把 io.open 也放过了＝判据已空转')
 
     def test_with_form_passes(self):
         """对照正测：同一批语义写成 with 就须放行，证明判据钉的是句柄闭合、不是「不许读文件」。"""

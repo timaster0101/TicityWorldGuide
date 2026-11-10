@@ -122,16 +122,20 @@ def bring_in(green):
         tgt = os.path.join(dst_dir, r['file'])
         assert os.path.isfile(src), (r['id'], '仓外原件不在盘，读数与盘面对不上')
         if os.path.isfile(tgt):
-            h1 = hashlib.sha256(io.open(src, 'rb').read()).hexdigest()
-            h2 = hashlib.sha256(io.open(tgt, 'rb').read()).hexdigest()
+            with io.open(src, 'rb') as fp:
+                h1 = hashlib.sha256(fp.read()).hexdigest()
+            with io.open(tgt, 'rb') as fh:
+                h2 = hashlib.sha256(fh.read()).hexdigest()
             assert h1 == h2, (r['id'], '仓内同名文件与仓外原件字节不同，停手人工复核')
             already += 1
             continue
         # 上一档落点里已有同名原件时不重复占盘：先校验它确实就是本轮这一枚，再把它挪进图集目录。
         legacy = os.path.join(ROOT, 'vibe_images', r['file'])
         if os.path.isfile(legacy):
-            h1 = hashlib.sha256(io.open(src, 'rb').read()).hexdigest()
-            h2 = hashlib.sha256(io.open(legacy, 'rb').read()).hexdigest()
+            with io.open(src, 'rb') as _fh:
+                h1 = hashlib.sha256(_fh.read()).hexdigest()
+            with io.open(legacy, 'rb') as _fp:
+                h2 = hashlib.sha256(_fp.read()).hexdigest()
             assert h1 == h2, (r['id'], '仓内旧落点的同名文件与仓外原件字节不同，停手人工复核')
             os.makedirs(dst_dir, exist_ok=True)
             os.replace(legacy, tgt)
@@ -139,26 +143,30 @@ def bring_in(green):
             continue
         os.makedirs(dst_dir, exist_ok=True)
         shutil.copy2(src, tgt)
-        assert hashlib.sha256(io.open(tgt, 'rb').read()).hexdigest().startswith(r['sha256_12']), \
-            (r['id'], '落仓后前 12 位与投后核验读数不一致')
+        with io.open(tgt, 'rb') as _handle:
+            assert hashlib.sha256(_handle.read()).hexdigest().startswith(r['sha256_12']), \
+                (r['id'], '落仓后前 12 位与投后核验读数不一致')
         copied += 1
     return copied, already
 
 
 def main(group, only=None):
     cfg = ROUNDS[group]
-    rows = json.load(io.open(os.path.join(HERE, cfg['readings']), encoding='utf-8'))['rows']
+    with io.open(os.path.join(HERE, cfg['readings']), encoding='utf-8') as _h155:
+        rows = json.load(_h155)['rows']
     # --only 把回填范围收到某一份送入串台账的键上。本组读取面已经是「264 主向＋5 证据＋48 补投」三份合成，
     # 不做这个限制，补投那一轮会把 264 行的历史正文一并重打——抬头没变但正文里的委托原句会变，
     # 那就是拿本轮的话覆盖上一轮的话。
     face = None
     if only:
-        face = set(json.load(io.open(os.path.join(HERE, only), encoding='utf-8')))
+        with io.open(os.path.join(HERE, only), encoding='utf-8') as _h162:
+            face = set(json.load(_h162))
         assert face, (only, '补充台账是空的，回填范围收到空集等于什么都不做')
         rows = [r for r in rows if r['id'] in face]
         assert rows, (only, '读数里没有一条落在 %s 的键面上：先跑 verify_round 再谈回填' % only)
-    catchup = set(json.load(io.open(os.path.join(HERE, cfg['catchup']), encoding='utf-8'))) \
-        if cfg.get('catchup') and os.path.exists(os.path.join(HERE, cfg['catchup'])) else set()
+    with io.open(os.path.join(HERE, cfg['catchup']), encoding='utf-8') as _h167:
+        catchup = set(json.load(_h167)) \
+            if cfg.get('catchup') and os.path.exists(os.path.join(HERE, cfg['catchup'])) else set()
     green, red = [], []
     for r in rows:
         cont = r['container']
@@ -168,9 +176,11 @@ def main(group, only=None):
               and r.get('母图相符', True))
         (green if ok else red).append(r)
     copied, already = bring_in(green)
-    man = json.load(io.open(MANIFEST, encoding='utf-8'))
+    with io.open(MANIFEST, encoding='utf-8') as _h179:
+        man = json.load(_h179)
     items = {it['id']: it for it in man['items']}
-    notes = json.load(io.open(NOTES, encoding='utf-8'))
+    with io.open(NOTES, encoding='utf-8') as _h182:
+        notes = json.load(_h182)
 
     added = resynced = 0
     appended = retained = 0
@@ -250,8 +260,10 @@ def main(group, only=None):
         items[eid]['image_file'] = files
         items[eid]['batch'] = '%s-%s%s' % (items[eid]['type'], eid, cfg['suffix'])
 
-    io.open(NOTES, 'w', encoding='utf-8', newline='\n').write(json.dumps(notes, ensure_ascii=False, indent=2) + '\n')
-    io.open(MANIFEST, 'w', encoding='utf-8', newline='\n').write(json.dumps(man, ensure_ascii=False, indent=2) + '\n')
+    with io.open(NOTES, 'w', encoding='utf-8', newline='\n') as _h263:
+        _h263.write(json.dumps(notes, ensure_ascii=False, indent=2) + '\n')
+    with io.open(MANIFEST, 'w', encoding='utf-8', newline='\n') as _h265:
+        _h265.write(json.dumps(man, ensure_ascii=False, indent=2) + '\n')
     print('%s 组回填：%d 条（新增 %d／改口重打 %d），判绿未回填 0，判红不回填 %d 条：%s'
           % (group, len(green), added, resynced, len(red), ' '.join(x['id'] for x in red) or '—'))
     print('范围收束：--only %s → 本轮只动 %d 条（其余判绿行原样不重打，历史正文的委托原句不被本轮顶掉）'

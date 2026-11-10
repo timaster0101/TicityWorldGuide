@@ -31,18 +31,20 @@ def find(name):
     hits = []
     for meta in sorted(glob.glob(os.path.join(SUBDIR, '*.meta.json'))):
         try:
-            d = json.load(io.open(meta, encoding='utf-8'))
+            with io.open(meta, encoding='utf-8') as fp:
+                d = json.load(fp)
         except ValueError:
             continue
         if d.get('invocationName') == name:
             stem = os.path.basename(meta)[:-len('.meta.json')]
             path = os.path.join(SUBDIR, stem + '.jsonl')
-            hits.append({'agentId': stem[len('agent-'):] if stem.startswith('agent-') else stem,
-                         'transcript': os.path.abspath(path).replace('\\', '/'),
-                         '在盘': os.path.isfile(path),
-                         '字节': os.path.getsize(path) if os.path.isfile(path) else 0,
-                         'sha256_12': hashlib.sha256(open(path, 'rb').read()).hexdigest()[:12]
-                         if os.path.isfile(path) else ''})
+            with open(path, 'rb') as _fh:
+                hits.append({'agentId': stem[len('agent-'):] if stem.startswith('agent-') else stem,
+                             'transcript': os.path.abspath(path).replace('\\', '/'),
+                             '在盘': os.path.isfile(path),
+                             '字节': os.path.getsize(path) if os.path.isfile(path) else 0,
+                             'sha256_12': hashlib.sha256(_fh.read()).hexdigest()[:12]
+                             if os.path.isfile(path) else ''})
     return hits
 
 
@@ -50,7 +52,8 @@ def main():
     if not os.path.isfile(NAMES):
         print('✗ 派单名单缺失 %s：先在本文件里逐片登记 invocationName 再跑登记' % NAMES)
         return 1
-    doc = json.load(io.open(NAMES, encoding='utf-8'))
+    with io.open(NAMES, encoding='utf-8') as _fp:
+        doc = json.load(_fp)
     card, main = [], []
     for i, name in enumerate(doc['卡面'], 1):
         card.append({'分片': i, '派单名': name, '命中': find(name)})

@@ -3,7 +3,8 @@
 import json
 
 PATH = "数据/设定裁定记录.json"
-raw = open(PATH, "rb").read()
+with open(PATH, "rb") as fp:
+    raw = fp.read()
 rows = json.loads(raw.decode("utf-8"))
 assert rows[-1]["编号"] == "C124", rows[-1]["编号"]
 assert not any(r["编号"] == "C125" for r in rows)
@@ -47,4 +48,5 @@ rows.append({
 text = json.dumps(rows, ensure_ascii=False, indent=2) + "\n"
 with open(PATH, "wb") as f:
     f.write(text.replace("\n", "\r\n").encode("utf-8"))
-print("rows", len(rows), "last", json.loads(open(PATH, encoding="utf-8").read())[-1]["编号"])
+with open(PATH, encoding="utf-8") as fh:
+    print("rows", len(rows), "last", json.loads(fh.read())[-1]["编号"])

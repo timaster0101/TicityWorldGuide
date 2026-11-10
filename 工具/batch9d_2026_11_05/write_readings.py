@@ -219,7 +219,8 @@ VAR_RE = re.compile(r'画风细尺度方差全图[0-9.]+、中心[0-9.]+')
 def sync_metrics():
     """画风方差两个数一律从本轮测量表取，不许手抄：读数正文里只留句式，数字按 id 回填。"""
     mea_path = os.path.join(HERE, 'batch9d_measure.json')
-    rows = json.load(io.open(mea_path, encoding='utf-8'))
+    with io.open(mea_path, encoding='utf-8') as fp:
+        rows = json.load(fp)
     rows = rows['rows'] if isinstance(rows, dict) else rows
     for row in rows:
         text = R[row['id']]
@@ -235,8 +236,9 @@ def main():
     sync_metrics()
     for k, v in R.items():
         assert v.endswith('本条只记人工读数，不代签验收。'), k
-    io.open(OUT, 'w', encoding='utf-8', newline='\n').write(
-        json.dumps(R, ensure_ascii=False, indent=2) + '\n')
+    with io.open(OUT, 'w', encoding='utf-8', newline='\n') as fh:
+        fh.write(
+            json.dumps(R, ensure_ascii=False, indent=2) + '\n')
     clean = sorted(k for k, v in R.items() if is_clean(v))
     hard = sorted(k for k in R if k not in clean)
     print('可回填 %d 条：%s' % (len(clean), ' '.join(clean)))

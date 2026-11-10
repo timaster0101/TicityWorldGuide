@@ -130,7 +130,8 @@ def main():
     args = ap.parse_args()
     if args.negtest:
         return negtest()
-    man = json.load(io.open(os.path.join(ROOT, '数据', '开图清单.json'), encoding='utf-8'))
+    with io.open(os.path.join(ROOT, '数据', '开图清单.json'), encoding='utf-8') as fh:
+        man = json.load(fh)
     rows, viol, stats = locate(man['items'])
     ids = [r['id'] for r in rows]
     if len(ids) != len(set(ids)):

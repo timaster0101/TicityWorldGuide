@@ -43,8 +43,10 @@ def lf_sha(text):
 
 def main():
     os.chdir(ROOT)
-    eye = json.load(io.open(EYE, encoding="utf-8"))
-    led = json.load(io.open(SRC_LEDGER, encoding="utf-8"))
+    with io.open(EYE, encoding="utf-8") as fp:
+        eye = json.load(fp)
+    with io.open(SRC_LEDGER, encoding="utf-8") as _fh:
+        led = json.load(_fh)
     by_key = {it["id"]: it for it in led["items"]}
     rows_all = eye["逐枚"]
     # 放行面（母图池）与判废面（成员面）都从同一张目视表派生，两张表互斥且并起来是 114。
@@ -93,21 +95,23 @@ def main():
             text = fh.read()
         body = REF.send_body(text.rstrip("\n"))
         ref_abs = os.path.join(ROOT, ref_rel.replace("/", os.sep))
-        items.append({
-            "id": key, "name": base["name"], "prompt_file": base["prompt_file"],
-            "base_sha256": lf_sha(text), "base_bytes_lf": len(text.replace("\r\n", "\n").encode("utf-8")),
-            "send_sha256": hashlib.sha256(body.encode("utf-8")).hexdigest(), "send_chars": len(body),
-            "ref_image": ref_rel, "ref_dims": ref_dims,
-            "ref_sha256": hashlib.sha256(open(ref_abs, "rb").read()).hexdigest(),
-            "size": base["size"], "landing": os.path.join(SINK_DIR, "%s.png" % key).replace("\\", "/"),
-            "card_type": ctype,
-        })
+        with open(ref_abs, "rb") as _fp:
+            items.append({
+                "id": key, "name": base["name"], "prompt_file": base["prompt_file"],
+                "base_sha256": lf_sha(text), "base_bytes_lf": len(text.replace("\r\n", "\n").encode("utf-8")),
+                "send_sha256": hashlib.sha256(body.encode("utf-8")).hexdigest(), "send_chars": len(body),
+                "ref_image": ref_rel, "ref_dims": ref_dims,
+                "ref_sha256": hashlib.sha256(_fp.read()).hexdigest(),
+                "size": base["size"], "landing": os.path.join(SINK_DIR, "%s.png" % key).replace("\\", "/"),
+                "card_type": ctype,
+            })
     for it in items:
         if it["size"] != "768x1024":
             raise SystemExit("台账画幅 %s≠768x1024（ImageGen size 参数按本字段写）：%s" % (it["size"], it["id"]))
         for must in ("四边装帧禁令", "文案不烤进图"):
-            if must not in io.open(it["prompt_file"], encoding="utf-8").read():
-                raise SystemExit("底串缺本轮约束 %s：%s" % (must, it["prompt_file"]))
+            with io.open(it["prompt_file"], encoding="utf-8") as _handle:
+                if must not in _handle.read():
+                    raise SystemExit("底串缺本轮约束 %s：%s" % (must, it["prompt_file"]))
 
     reuse = {}
     for it in items:
@@ -117,11 +121,13 @@ def main():
     paste_dir = os.path.join(os.path.dirname(ROOT), "_scratch_cardref", "card3x4_r4", "paste")
     os.makedirs(paste_dir, exist_ok=True)
     for it in items:
-        body = REF.send_body(io.open(it["prompt_file"], encoding="utf-8").read().rstrip("\n"))
+        with io.open(it["prompt_file"], encoding="utf-8") as _h124:
+            body = REF.send_body(_h124.read().rstrip("\n"))
         p = os.path.join(paste_dir, "%s.txt" % it["id"])
         with io.open(p, "w", encoding="utf-8", newline="") as fh:
             fh.write(body)
-        assert hashlib.sha256(open(p, "rb").read()).hexdigest() == it["send_sha256"], it["id"]
+        with open(p, "rb") as _h129:
+            assert hashlib.sha256(_h129.read()).hexdigest() == it["send_sha256"], it["id"]
 
     doc = {"投放轮次": "card3x4_R4", "臂": "现串逐字＋跨卡型画风母图（图生图）",
            "放行原话": RELEASE_QUOTE, "放量前置": GATE_NOTE,

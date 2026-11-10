@@ -34,8 +34,10 @@ MS_TS = re.compile(r'_(1\d{12})_')
 
 
 def main():
-    man = json.load(io.open(os.path.join(ROOT, '数据', '开图清单.json'), encoding='utf-8'))
-    snap = json.load(io.open(os.path.join(ROOT, '数据', '提示词基准冻结.json'), encoding='utf-8'))
+    with io.open(os.path.join(ROOT, '数据', '开图清单.json'), encoding='utf-8') as fh:
+        man = json.load(fh)
+    with io.open(os.path.join(ROOT, '数据', '提示词基准冻结.json'), encoding='utf-8') as _fh:
+        snap = json.load(_fh)
     floor = int(snap['frozen_at_ms'])
     base = {e['id']: e['prompt_sha256'] for e in snap['entries']}
 

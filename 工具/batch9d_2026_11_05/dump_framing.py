@@ -8,7 +8,8 @@ import sys
 
 OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(OUT_DIR, "..", ".."))
-BODIES = json.load(io.open(os.path.join(OUT_DIR, "send_bodies_19.json"), encoding="utf-8"))
+with io.open(os.path.join(OUT_DIR, "send_bodies_19.json"), encoding="utf-8") as fp:
+    BODIES = json.load(fp)
 
 ids = sys.argv[1:] or sorted(BODIES)
 ref = BODIES["L099"]["body"]

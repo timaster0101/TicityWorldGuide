@@ -8,7 +8,8 @@ import os
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(DIR, "..", ".."))
-MANIFEST = json.load(io.open(os.path.join(DIR, "pending_manifest.json"), encoding="utf-8"))
+with io.open(os.path.join(DIR, "pending_manifest.json"), encoding="utf-8") as fp:
+    MANIFEST = json.load(fp)
 
 SEG_KEYS = ["画风锚点", "取景指令_远景", "外观辨识", "人群与烟火气",
             "锁定与禁则", "全局硬设定", "tail_日面断言", "tail_远景塔约束",
@@ -23,7 +24,8 @@ def sha(s):
 rows, total, miss, sha_where = [], 0, [], {}
 for rec in MANIFEST["rows"]:
     path = os.path.join(ROOT, rec["prompt_file"])
-    raw = io.open(path, "rb").read()
+    with io.open(path, "rb") as fh:
+        raw = fh.read()
     txt = raw.decode("utf-8").replace("\r\n", "\n")
     crlf = b"\r\n" in raw
     hits = {}
@@ -57,8 +59,9 @@ out = {"rows": len(rows), "段核对总数": total, "不一致段数": len(miss)
                  "该值是「不含状态、摘要与回填字段的基准生成输入摘要」（工具/build_prompts.py:614 计算、"
                  ":664 定义），不是落盘文件的摘要。落盘文件是否为当前代生成物，改由重跑 build_prompts 后"
                  "看数据/开图提示词是否零变更来证。")}
-json.dump(out, io.open(os.path.join(DIR, "src_consistency.json"), "w", encoding="utf-8"),
-          ensure_ascii=False, indent=1)
+with io.open(os.path.join(DIR, "src_consistency.json"), "w", encoding="utf-8") as _fh:
+    json.dump(out, _fh,
+              ensure_ascii=False, indent=1)
 print("核对行 %d｜段核对 %d 处｜与真源不一致 %d" % (len(rows), total, len(miss)))
 print("清单内 prompt_sha256 命中口径分布：" + "／".join(
       "%s %d 行" % (k, v) for k, v in sorted(sha_where.items())))

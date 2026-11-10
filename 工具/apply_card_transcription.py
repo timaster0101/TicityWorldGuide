@@ -202,7 +202,8 @@ def main(check_only):
         return 0
     with io.open(DRAFT, 'w', encoding='utf-8') as fh:
         json.dump(draft, fh, ensure_ascii=False, indent=1)
-    filled = sum(1 for it in json.load(io.open(DRAFT, encoding='utf-8'))['items'] if it['bottom_text'])
+    with io.open(DRAFT, encoding='utf-8') as fp:
+        filled = sum(1 for it in json.load(fp)['items'] if it['bottom_text'])
     print('回写后非空 bottom_text %d 条' % filled)
     return 0
 
