@@ -16,6 +16,7 @@ import io
 import json
 import os
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -710,11 +711,12 @@ class ToolHandlesAreClosed(unittest.TestCase):
     没被跑到）；本轮覆盖面从三文件扩到 工具/ 全仓，文件清单由 rglob 现派生、不钉件数也不钉处数
     ——钉个数就是写死计数，删一处读文件反而会让它假红。
 
-    匹配口径只认 builtin `open` 与 `io.open` 两个无歧义的文件句柄工厂。§55.37 那版检查器按
-    `attr == 'open'` 匹配，把 PIL 的 `Image.open` 也算成未闭合句柄（全仓 28 处），那是另一类资源：
-    PIL 的 fp 由 load()/convert() 内部处置，且 `with Image.open(...)` 退出后图像不能再惰性取像素，
-    机械包反而会改坏语义。静态 AST 不做 import/类型解析就分不清 `.open` 属于哪个模块，故显式把
-    其余 `*.open`（Image/wave/Path/gzip 等）划在匹配面之外，并由下面那条负测把这个边界钉住。
+    匹配口径只认 builtin `open` 与 `io.open` 两个无歧义的文件句柄工厂，其余 `*.open`
+    （Image/wave/Path/gzip 等）划在匹配面外，由下面那条边界负测钉住。§55.37 那版按 `attr == 'open'`
+    匹配，把 PIL 的 `Image.open` 也算进来（全仓 28 处 AST 命中）；逐处查后续用法后真漏只有 2 处，
+    其余 26 处紧跟 convert/load/crop 或喂 BytesIO，fp 早已处置。静态 AST 看不到后续有没有
+    convert/load/crop，覆盖 `Image.open` 就会造出 26 处假阳，故这一类改由
+    PilLazyOpenIsAResourceLeak 走运行时 ResourceWarning 钉，不进本判据。
 
     语法错的件不许静默跳过：ast.parse 直接抛，正测当场红，避免「扫了 0 个文件」的恒绿空转。
     """
@@ -787,6 +789,84 @@ class ToolHandlesAreClosed(unittest.TestCase):
                "with open(p, 'rb') as fp:\n"
                "    got = hashlib.sha256(fp.read()).hexdigest()\n")
         self.assertEqual(self.unclosed(src), [])
+
+
+class PilLazyOpenIsAResourceLeak(unittest.TestCase):
+    """PIL 惰性 open 的运行时判据：裸取属性就丢引用会漏句柄，同一读数包进 with 就不漏。
+
+    静态 AST 钉不了这一类——它看不到后续有没有 convert/load/crop 把 fp 处置掉，全仓 28 处命中里
+    26 处是假阳。故这里真起子进程跑，每形态各一个（-W always::ResourceWarning，避免同进程过滤器
+    注册键去重把第二条警告吃掉），且刻意不留 fp 引用：留着它就不会被 GC，警告永远不发、判据恒绿。
+    读数相等这条同时钉住「修法不改语义」：ImageFile.__exit__ 只 _close_fp() 并置 fp=None，
+    并不销毁图像核心（销毁核心的是 im.close()），所以 with 退出后 size／load 后的像素照常可读。
+    """
+
+    CHILD = (
+        "import gc, sys\n"
+        "import PIL.Image as Image\n"
+        "P = sys.argv[1]\n"
+        "def run():\n"
+        "%s\n"
+        "    return s\n"
+        "s = run()\n"
+        "print('READING=%%r' %% (s,))\n"
+        "gc.collect()\n"
+        "print('GC_DONE')\n"
+    )
+
+    LEAK_VS_WITH = {
+        '只取幅面就丢引用': (
+            "im = Image.open(P)\ns = '横幅' if im.width > im.height else '竖幅'",
+            "with Image.open(P) as im:\n    s = '横幅' if im.width > im.height else '竖幅'",
+        ),
+        '临时对象只取 info': (
+            "x = Image.open(P).info.get('xmp', b'')\ns = repr(x)",
+            "with Image.open(P) as src:\n    x = src.info.get('xmp', b'')\ns = repr(x)",
+        ),
+    }
+
+    LOAD_VS_WITH = (
+        "im = Image.open(P)\nim.load()\ns = (im.size, im.getpixel((0, 0)))",
+        "with Image.open(P) as im:\n    im.load()\ns = (im.size, im.getpixel((0, 0)))",
+    )
+
+    @classmethod
+    def run_form(cls, png, body):
+        src = cls.CHILD % '\n'.join('    ' + l for l in body.split('\n'))
+        r = subprocess.run([sys.executable, '-X', 'utf8', '-W', 'always::ResourceWarning', '-c', src, str(png)],
+                           capture_output=True, text=True, encoding='utf-8')
+        leaks = [l for l in (r.stderr or '').split('\n') if 'ResourceWarning: unclosed file' in l]
+        reading = [l for l in (r.stdout or '').split('\n') if l.startswith('READING=')]
+        return r.returncode, len(leaks), reading
+
+    def setUp(self):
+        from PIL import Image
+        self.tmp = tempfile.TemporaryDirectory(prefix='pil_gate_')
+        self.addCleanup(self.tmp.cleanup)
+        self.png = Path(self.tmp.name) / 'probe.png'
+        Image.new('RGB', (8, 12), (10, 20, 30)).save(self.png)
+
+    def test_lazy_forms_leak_and_with_forms_do_not(self):
+        for label, (leak, fixed) in self.LEAK_VS_WITH.items():
+            with self.subTest(form=label):
+                rc_l, n_l, read_l = self.run_form(self.png, leak)
+                rc_w, n_w, read_w = self.run_form(self.png, fixed)
+                self.assertEqual(rc_l, 0, '违例形态自己先崩了＝负测空转')
+                self.assertEqual(rc_w, 0, '修法跑不通')
+                self.assertGreaterEqual(n_l, 1, '%s 没发 unclosed file 警告＝探针恒绿，判据钉不住这一类' % label)
+                self.assertEqual(n_w, 0, '%s 的 with 修法仍在漏句柄' % label)
+                self.assertEqual(read_l, read_w, '%s 修法改了读数' % label)
+                self.assertEqual(len(read_w), 1, 'READING 行缺失＝没真跑到取值')
+
+    def test_with_exit_keeps_loaded_pixels(self):
+        """反证边界：load 过的图在 with 退出后取像素须与不包 with 完全同读数，且两者都不漏。"""
+        rc_l, n_l, read_l = self.run_form(self.png, self.LOAD_VS_WITH[0])
+        rc_w, n_w, read_w = self.run_form(self.png, self.LOAD_VS_WITH[1])
+        self.assertEqual((rc_l, rc_w), (0, 0), 'with 退出后取像素崩了＝「包 with 会改坏语义」成立')
+        self.assertEqual((n_l, n_w), (0, 0), 'load() 本应内部处置 fp')
+        self.assertEqual(read_l, read_w)
+        self.assertEqual(len(read_w), 1)
+        self.assertIn('(10, 20, 30)', read_w[0], '像素没真取到＝正测空转')
 
 
 if __name__ == '__main__':

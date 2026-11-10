@@ -257,7 +257,8 @@ def save_still():
     target = ROOT / "数据" / "图集" / "L007-钛湖之脊-v07-1024x1536.jpg"
     source = V05_SOURCE
     image = composite_realistic_still()
-    xmp = Image.open(source).info.get("xmp", b"")
+    with Image.open(source) as src:
+        xmp = src.info.get("xmp", b"")
     image.save(target, quality=95, subsampling=0, xmp=xmp)
     print(target)
 

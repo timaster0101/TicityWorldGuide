@@ -14,8 +14,8 @@ def rows_by_orient():
     out = []
     for f in sorted(VIBE.glob("*C123新串*.png")):
         rid = re.match(r"([A-Z]\d{2,3})-", f.name).group(1)
-        im = Image.open(f)
-        out.append((rid, f, "横幅" if im.width > im.height else "竖幅"))
+        with Image.open(f) as im:
+            out.append((rid, f, "横幅" if im.width > im.height else "竖幅"))
     return out
 
 
