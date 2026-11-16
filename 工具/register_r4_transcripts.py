@@ -132,10 +132,13 @@ def main():
         fh.write('\n')
     with io.open(CARD_OUT, 'w', encoding='utf-8', newline='\n') as fh:
         json.dump({'declaration': 'card3x4_R4（85 枚画风判废母图臂重投）的派单登记：分片→派单名→agentId→transcript，'
-                                  '由 工具/register_r4_transcripts.py 现算，bind_check_card_r4.py 按本件扫逐字回绑。',
+                                  '由 工具/register_r4_transcripts.py 现算，bind_check_card_r4.py 按本件扫逐字回绑。'
+                                  '主会话jsonl清单 一份不缺地并列进回绑源：主会话直投（分片通道禁用时的补投、'
+                                  '探针、纠偏）只发生在主会话 jsonl 里，只钉单份历史会话会把别的会话当成没投过。',
                    '登记时刻': doc.get('登记时刻', ''), '放行原话': doc.get('放行原话', ''),
                    '覆盖面': '成员面＝数据/卡面主图提示词3x4/投放台账R4.json 的 85 键',
-                   '分片数': len(card), '卡面分片': card, '主链分片': main},
+                   '分片数': len(card), '卡面分片': card, '主链分片': main,
+                   '主会话jsonl': mains[len(mains) - 1] if mains else '', '主会话jsonl清单': mains},
                   fh, ensure_ascii=False, indent=1)
         fh.write('\n')
     print('登记件落盘：主链 transcript 在盘 %d 份 → %s；卡面分片明细 → %s'

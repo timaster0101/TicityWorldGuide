@@ -35,13 +35,18 @@ function stripMarkers(text) {
   return text.replace(/`([^`]+)`/g, '$1').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
 }
 
-function runs(text) {
+// options 只给表格单元用：表格正文字号 18、表头整行加粗，正文段落沿用样式默认值。
+function runs(text, options = {}) {
   return stripMarkers(text).split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map(part => new TextRun({
     text: part.startsWith('**') ? part.slice(2, -2) : part,
-    bold: part.startsWith('**'),
+    bold: part.startsWith('**') || !!options.bold,
+    ...(options.size ? { size: options.size } : {}),
   }));
 }
 
+// 表格单元与段落共用同一条内联规则（先剥内联码/链接标记，再按加粗切段）。此前单元写的是裸
+// TextRun，合订本 2675 个表格行里有 94 枚反引号、58 对 ** 原样进了 Word 正文。改这里的剥法，
+// 必须同步改 verify_docx.py 的 _markdown_blocks 对单元做 _inline，否则正文块比对整片假红。
 function metadataTable(lines) {
   const border = { style: BorderStyle.SINGLE, size: 2, color: 'D9E1DD' };
   const headerCells = lines[0].trim().slice(1, -1).split('|').length;
@@ -53,7 +58,7 @@ function metadataTable(lines) {
       borders: { top: border, bottom: border, left: border, right: border },
       shading: { fill: rowIndex === 0 ? 'E5EDE8' : 'FAFBF9', type: ShadingType.CLEAR },
       margins: { top: 45, bottom: 45, left: 110, right: 110 },
-      children: [new Paragraph({ spacing: { before: 0, after: 0, line: 240 }, children: [new TextRun({ text, size: 18, bold: rowIndex === 0 })] })],
+      children: [new Paragraph({ spacing: { before: 0, after: 0, line: 240 }, children: runs(text, { size: 18, bold: rowIndex === 0 }) })],
     })) });
   });
   return new Table({ width: { size: contentWidth, type: WidthType.DXA }, columnWidths: widths, rows });

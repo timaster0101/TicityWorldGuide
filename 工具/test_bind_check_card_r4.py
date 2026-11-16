@@ -65,6 +65,9 @@ class Fixture:
         self.tr = os.path.join(self.tmp, 'tr', 'shard1.jsonl')
         Path(self.tr).write_text('', encoding='utf-8')
         Path(self.session + '.jsonl').write_text('', encoding='utf-8')
+        # 第二份主会话：2026-11-16 起回绑源是清单不是单份钉死路径（分片通道禁用那几轮的直投在别的会话里）。
+        self.session2 = os.path.join(self.tmp, 'session2')
+        Path(self.session2 + '.jsonl').write_text('', encoding='utf-8')
         self.reg = {'登记时刻': '2026-11-09', '卡面分片': [
             {'分片': 1, '命中': [{'在盘': True, 'transcript': self.tr}]}]}
 
@@ -78,7 +81,8 @@ class Fixture:
             inp['images'] = images
         rec = {'type': 'assistant', 'message': {'content': [
             {'type': 'tool_use', 'name': 'ImageGen', 'input': inp}]}}
-        p = self.tr if to == 'shard' else self.session + '.jsonl'
+        p = {'shard': self.tr, 'main': self.session + '.jsonl',
+             'main2': self.session2 + '.jsonl'}[to]
         with io.open(p, 'a', encoding='utf-8', newline='\n') as fh:
             fh.write(json.dumps(rec, ensure_ascii=False) + '\n')
 
@@ -346,6 +350,46 @@ class BindCardR4Test(unittest.TestCase):
         self.assertEqual(len(files), 1)
         self.assertEqual(ev, {}, '无落点字段的证据行被当成落盘凭据＝探针产物洗成已回填')
 
+    def test_o_main_session_list_pulls_in_a_second_session(self):
+        # 2026-11-16 起回绑源是清单：分片通道禁用那几轮的直投只长在别的主会话 jsonl 里。
+        self.fx.send(images=[self.fx.ref_rel], to='main2')
+        self.fx.evidence()
+        self.fx.reg['主会话jsonl清单'] = [self.fx.session, self.fx.session2]
+        out, rc = self.fx.run()
+        self.assertEqual(rc, 0)
+        self.assertEqual(out['回绑源在盘份数'], 3, '分片 1 份＋清单 2 份（重复的那份要折叠）')
+        self.assertEqual(out['逐字命中合计'], 1)
+        self.assertEqual(out['放量已落盘条目数'], 1)
+
+    def test_o2_without_the_list_a_second_session_send_is_orphan_landed(self):
+        # 同一条用例去掉清单键：发起扫不到、证据行却写着已落盘——只判「未命中」不放红就是拿缺失当通过。
+        self.fx.send(images=[self.fx.ref_rel], to='main2')
+        self.fx.evidence()
+        out, rc = self.fx.run()
+        self.assertEqual(rc, 1, '登记漏一份主会话＝已落盘没有发起面撑着，必须响')
+        self.assertEqual(out['回绑源在盘份数'], 2, '退回显式传入的那一份主会话')
+        self.assertEqual(out['逐字命中合计'], 0)
+        self.assertEqual([x['id'] for x in out['已落盘证据却无回绑发起']], [self.fx.cid])
+        self.assertEqual(out['已落盘证据却无回绑发起'][0]['落盘判'], '落盘相符')
+
+    def test_p_landing_claim_without_any_launch_is_red(self):
+        # 一份发起都没扫到（补投没登记、jsonl 被清）但证据行声称落盘相符＝孤悬落盘。
+        self.fx.evidence()
+        out, rc = self.fx.run()
+        self.assertEqual(rc, 1)
+        self.assertEqual([x['id'] for x in out['已落盘证据却无回绑发起']], [self.fx.cid])
+        self.assertEqual(out['放量已落盘条目数'], 0, '孤悬落盘不许进续投差集的已落盘面')
+
+    def test_p2_no_evidence_row_is_not_an_orphan_claim(self):
+        # 没投过 ≠ 违例：零产物（无证据行）与证据非ok（代理写明这发没成）都不算落盘主张，续投差集照样补得上。
+        out, rc = self.fx.run()
+        self.assertEqual(rc, 0, '台账里还没投的条目判红＝放量第一轮永远过不去，续投差集也就没意义')
+        self.assertEqual(out['已落盘证据却无回绑发起'], [])
+        self.fx.evidence(status='failed', error='403 code 112 额度不足')
+        out, rc = self.fx.run()
+        self.assertEqual(rc, 0, '失败行是「没投出来」的凭据，不是落盘主张')
+        self.assertEqual(out['已落盘证据却无回绑发起'], [])
+
     # ---------- 对闸门本身做变异：证明上面每条负测真的在测它 ----------
     def test_m_evidence_file_named_by_dispatch_batch_is_picked_up(self):
         # 2026-11-13 放量批次的证据文件叫 sent_r4-todo-cardNN.jsonl，11-09 那批才叫 sent_shardNN。
@@ -421,6 +465,19 @@ class BindCardR4Test(unittest.TestCase):
             self.assertEqual(out['放量已落盘条目数'], 1)
         finally:
             bc.landing_state = orig
+
+    def test_mutation_landed_claim_always_false_makes_p_toothless(self):
+        # 把「是否主张已落盘」判成恒否：孤悬落盘支退成不响，且 test_p2 的豁免面也失去意义——
+        # 证明 test_p/o2 守的正是 landed_claim 这一层，而不是恰好被别的判红顺带打掉。
+        orig = bc.landed_claim
+        bc.landed_claim = lambda state: False
+        try:
+            self.fx.evidence()
+            out, rc = self.fx.run()
+            self.assertEqual(rc, 0, '变异后孤悬落盘不再判红＝test_p 测的就是 landed_claim')
+            self.assertEqual(out['已落盘证据却无回绑发起'], [])
+        finally:
+            bc.landed_claim = orig
 
     def test_mutation_send_form_always_production_makes_probe_negative_toothless(self):
         orig = bc.send_form
@@ -525,6 +582,59 @@ class BindCardR4Test(unittest.TestCase):
             self.assertEqual(len(out['本轮发名却未命中（已登记作废豁免）']), 2)
         finally:
             bc.void_registrations = orig
+
+
+    def _q_fixture(self):
+        """R5 跨轮重投形态的最小现场：旧轮行在 `sent_shard01.jsonl`（字典序靠后）、
+        新轮行在 `sent_r5-card01.jsonl`（字典序靠前），落点上是新轮的字节。"""
+        self.fx.send(images=[self.fx.ref_rel])
+        old_row = {'id': self.fx.cid, 'arm': 'ref', 'status': 'ok', 'error': '',
+                   'landing': os.path.abspath(self.fx.land).replace('\\', '/'),
+                   'landing_sha256': _sha(self.fx.old_bytes), 'landing_bytes': len(self.fx.old_bytes),
+                   'width': 768, 'height': 1024, 'timestamp_ms': 1794185700000,
+                   '投放时刻_ms': 1794185714034}
+        with io.open(os.path.join(self.fx.evid, 'sent_shard01.jsonl'), 'w',
+                     encoding='utf-8', newline='\n') as fh:
+            fh.write(json.dumps(old_row, ensure_ascii=False) + '\n')
+        Path(self.fx.land).write_bytes(self.fx.new_bytes)
+        new_row = dict(old_row, landing_sha256=_sha(self.fx.new_bytes),
+                       landing_bytes=len(self.fx.new_bytes), timestamp_ms=1794826760000,
+                       投放时刻_ms=1794826757992)
+        with io.open(os.path.join(self.fx.evid, 'sent_r5-card01.jsonl'), 'w',
+                     encoding='utf-8', newline='\n') as fh:
+            fh.write(json.dumps(new_row, ensure_ascii=False) + '\n')
+        self.assertEqual([os.path.basename(f) for f in sorted(glob.glob(
+            os.path.join(self.fx.evid, 'sent_*.jsonl')))],
+            ['sent_r5-card01.jsonl', 'sent_shard01.jsonl'],
+            '夹具的字典序前提没成立，本例就测不到跨文件排序')
+
+    def test_q_cross_wave_resend_in_an_earlier_named_file_wins(self):
+        # 2026-11-16 R5 重投轮的形态：消费方取的是「末行＝最近那一发」。只按文件名字典序收行，
+        # 末行仍是旧轮那行，于是新图对上旧 landing_sha256＝假漂移，落盘面会判红一整批。
+        self._q_fixture()
+        ev, _files = bc.load_evidence(self.fx.evid)
+        self.assertEqual([pair[1].get('投放时刻_ms') for pair in ev[self.fx.cid]],
+                         [1794185714034, 1794826757992], '末行不是最近那一发＝按投放时刻排序未生效')
+        out, rc = self.fx.run()
+        self.assertEqual(rc, 0, '跨轮重投对上本轮证据行却判红＝把已投洗成漂移')
+        self.assertEqual(out['放量落盘判分布'], {'落盘相符': [self.fx.cid]})
+
+    def test_mutation_filename_order_instead_of_send_time_makes_q_toothless(self):
+        # 把排序退回旧口径（send_ms 恒 0 → 稳定排序保留文件名字典序）：test_q 必须当场判成漂移，
+        # 否则它验的就不是「末行＝最近那一发」而是别的支。
+        orig = bc.send_ms
+        bc.send_ms = lambda row: 0
+        try:
+            self._q_fixture()
+            ev, _files = bc.load_evidence(self.fx.evid)
+            self.assertEqual([pair[1].get('投放时刻_ms') for pair in ev[self.fx.cid]],
+                             [1794826757992, 1794185714034], '变异没接回字典序形态＝负测打的是别的支')
+            out, rc = self.fx.run()
+            self.assertEqual(rc, 1, '变异后仍全绿＝test_q 守的不是跨文件投放时刻排序这一支')
+            self.assertEqual(out['放量落盘判分布'], {'落盘漂移': [self.fx.cid]})
+            self.assertEqual(out['放量已落盘条目数'], 0)
+        finally:
+            bc.send_ms = orig
 
 
 class PinnedMutationCountIsNotDocumented(unittest.TestCase):

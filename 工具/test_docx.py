@@ -63,7 +63,7 @@ BODY = [
     paragraph('1. 编号 007'),
     paragraph('引用 -0.888'),
     paragraph('#### 四级保留井号'),
-    table([['字段', '参数'], ['坐标', '**原样** `-17` [原文](https://example.test)']]),
+    table([['字段', '参数'], ['坐标', '原样 -17 原文']]),
     paragraph(''),
     paragraph('结尾 -25 km²'),
 ]
@@ -143,9 +143,11 @@ class DocxVerificationTests(unittest.TestCase):
         clean = self.verify()
         self.assertEqual(clean['prose_marker_leaks'], 0, clean['prose_marker_leak_locations'])
         self.assertEqual(clean['prose_fence_paragraphs'], 0)
-        # 正样本里确有带反引号的表格单元（BODY 第 10 项），漏检数仍为 0 —— 说明免的是 kind，
-        # 不是「夹具碰巧一个反引号都没有」。
-        self.assertIn('`-17`', BODY[9])
+        # 正样本：源 md 的表格单元里确有内联码/链接/加粗标记，docx 那侧是剥完的正文。
+        # 若哪天夹具只剩无标记的表格，这条闸门会空转，所以两侧都钉住。
+        self.assertIn('`-17`', SOURCE)
+        self.assertNotIn('`-17`', BODY[9])
+        self.assertIn('原样 -17 原文', BODY[9])
 
         # 违例①：正文段落漏出配对的内联码标记，且段内有别的正文。
         leaked = list(BODY)
@@ -173,6 +175,26 @@ class DocxVerificationTests(unittest.TestCase):
         self.assertEqual(edge['prose_fence_paragraphs'], 0)
         self.assertEqual(edge['prose_marker_leaks'], 1, edge['prose_marker_leak_locations'])
         self.assertTrue(any('内联码标记' in error for error in edge['errors']), edge['errors'])
+
+    def test_table_cell_marker_leak_is_caught_both_ways(self):
+        """本轮关闭表格单元豁免（裁定号见 §55.53 登记）：导出器漏剥时，比对与字面标记两道必须同时响。
+        只响一道都算闸门半瞎——比对那侧管「源与 Word 内容不一致」，字面标记那侧管「缺陷种类」。"""
+        raw_cell = table([['字段', '参数'],
+                          ['坐标', '**原样** `-17` [原文](https://example.test)']])
+        self.write_docx(body=[part.replace(BODY[9], raw_cell) for part in BODY])
+        result = self.verify()
+        self.assertFalse(result['passed'], result['errors'])
+        self.assertTrue(result['differences'], '表格单元保留了标记却没过正文比对，比对侧空转')
+        self.assertEqual(result['prose_marker_leaks'], 1, result['prose_marker_leak_locations'])
+        self.assertIn('body/tbl[15]', ' '.join(result['prose_marker_leak_locations']))
+        self.assertTrue(any('内联码标记' in error for error in result['errors']), result['errors'])
+        # 反向自证：比对侧不是「见到表格就红」。换成不含标记、但正文也不同的一格，
+        # 漏检数回到 0，而差异必须仍然非空——证明上面那条差异来自标记残留，不是表格一律判红。
+        other = table([['字段', '参数'], ['坐标', '原样 -18 原文']])
+        self.write_docx(body=[part.replace(BODY[9], other) for part in BODY])
+        shifted = self.verify()
+        self.assertEqual(shifted['prose_marker_leaks'], 0, shifted['prose_marker_leak_locations'])
+        self.assertTrue(shifted['differences'], '比对侧对表格空转：单元正文变了也不响')
 
     def test_missing_reordered_and_extra_paragraphs_fail(self):
         variants = [BODY[:4] + BODY[5:], BODY[:4] + [BODY[5], BODY[4]] + BODY[6:], BODY + [paragraph('多余正文')]]

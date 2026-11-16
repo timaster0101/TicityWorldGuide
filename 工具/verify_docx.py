@@ -81,7 +81,10 @@ def _markdown_blocks(source):
                 table_lines.append(lines[i])
                 i += 1
             # The exporter tests separators against the raw line, not its trim.
-            rows = [[cell.strip() for cell in raw.strip()[1:-1].split('|')]
+            # Cells go through the same _inline as prose since 2026-11-16: export_docx.cjs strips
+            # markers inside table cells too, so the source side must be normalised or every
+            # marker-bearing cell turns into a fake difference.
+            rows = [[_inline(cell.strip()) for cell in raw.strip()[1:-1].split('|')]
                     for raw in table_lines if not re.fullmatch(r'\|[\s:|\-]+\|', raw)]
             blocks.append({'kind': 'table', 'rows': rows, 'source_line': source_line})
             continue
@@ -361,25 +364,23 @@ def verify(root=DEFAULT_ROOT):
             result['differences'] = _differences(source_blocks, actual)
             if result['differences']:
                 result['errors'].append('正文有序块不一致: %d 处差异（完整内容见 differences）' % len(result['differences']))
-        # 字面反引号体检：正文段落里的内联码标记必须在导出时剥掉，漏出来就是书面渲染缺陷。
-        # 两类既有形态不算漏：①表格单元不经 runs()，保留字面反引号（上一签已登记、不据此判废）；
-        # ②围栏代码块的 ``` 分隔行被导出器当普通段落写盘（实测 4 段，整段除反引号外无正文），
-        #    那是围栏本身而不是内联码没配对，去掉反引号后为空即可判别。
-        def leaked(block):
-            if block['kind'] == 'table':
-                return False
-            text = block['text']
-            if BT not in text:
-                return False
-            return bool(text.replace(BT, '').strip())
-        leaks = [block['docx_location'] for block in actual if leaked(block)]
+        # 字面反引号体检：正文里的内联码标记必须在导出时剥掉，漏出来就是书面渲染缺陷。
+        # 2026-11-16 起表格单元与段落同判（导出器改成走 runs()，豁免通道随之关闭）；仍豁免的只有
+        # 围栏代码块的 ``` 分隔行——那是围栏本身而不是内联码没配对，去掉反引号后为空即可判别。
+        def leak_texts(block):
+            candidates = [cell for row in block['rows'] for cell in row] \
+                if block['kind'] == 'table' else [block['text']]
+            return [text for text in candidates
+                    if BT in text and text.replace(BT, '').strip()]
+        leaks = ['%s：%s' % (block['docx_location'], text[:40])
+                 for block in actual for text in leak_texts(block)]
         result['prose_marker_leaks'] = len(leaks)
         result['prose_fence_paragraphs'] = sum(1 for block in actual
                                                if block['kind'] != 'table' and BT in block['text']
                                                and not block['text'].replace(BT, '').strip())
         result['prose_marker_leak_locations'] = leaks[:10]
         if leaks:
-            result['errors'].append('正文段落漏出未转换的内联码标记: %d 处（%s）'
+            result['errors'].append('正文（段落或表格单元）漏出未转换的内联码标记: %d 处（%s）'
                                     % (len(leaks), '、'.join(leaks)))
     result['rendering_verified'], result['rendering_note'] = rendering_state(root, result['docx_sha256'])
     result['passed'] = not result['errors']

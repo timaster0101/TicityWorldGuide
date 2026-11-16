@@ -42,6 +42,8 @@ EVID = os.path.join(os.path.dirname(ROOT), "_scratch_cardref", "card3x4_r4")
 # 本轮自己的发名前缀：放量臂与两种探针。用了这些名字却没命中台账串＝发送侧字符损坏，须判红；
 # 往轮／别组的发名不命中是预期。提成常量是为了让负测能对它做变异（置空即该支空转）。
 ROUND_NAME_PREFIXES = ("card3x4r4-", "card3x4r4ref-", "card3x4r4probe-")
+# 兜底的一份主会话（登记件没有 主会话jsonl清单 那一代的历史夹具仍然可跑）；
+# 真源是登记件里的清单——主会话源不钉死单份，详见 sources() 与 §55.47。
 SESSION = os.path.expanduser('~') + r'/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda'
 
 
@@ -82,15 +84,34 @@ def iter_tool_inputs(path):
 
 
 def sources(reg, session=SESSION):
-    """登记件里的 transcript ＋ 主会话 jsonl；在盘与否按扫的这一刻实测，不信登记时的快照
-    （transcript 在会话临时区，登记之后被清掉是常态），不在盘的显式列进缺失，不拿缺失当通过。"""
+    """登记件里的 transcript ＋ 主会话 jsonl 清单；在盘与否按扫的这一刻实测，不信登记时的快照
+    （transcript 在会话临时区，登记之后被清掉是常态），不在盘的显式列进缺失，不拿缺失当通过。
+
+    主会话源是一份清单而不是一个钉死路径（2026-11-16，§55.47 那条待办落地）：分片代理通道禁用时补投由主会话
+    直投，发起只长在当轮主会话 jsonl 里；只钉 6b39cfae 那一份会把别的会话当成没投过，
+    被命中条目少 9 条而证据行照旧——正是「拿缺失当通过」那一类假绿。
+    清单缺席（历史夹具／登记件还没带这一键）才退回显式传入的那一份，退回时照样在报告里点名。
+    """
     hit, gone = [], []
     for s in reg["卡面分片"]:
         for h in s["命中"]:
             p = h["transcript"]
             (hit if os.path.isfile(p) else gone).append((("分片%d" % s["分片"]), p))
-    main = os.path.abspath(session + ".jsonl").replace("\\", "/")
-    (hit if os.path.isfile(main) else gone).append(("主会话", main))
+    given = list(reg.get("主会话jsonl清单") or [])
+    if not given:
+        given = [session]
+    mains, seen = [], set()
+    for p in given + [session]:
+        # 两种形态都要接：登记件 主会话jsonl清单 带 .jsonl 后缀，函数入参（老口径的 session 前缀）不带。
+        if not str(p).endswith(".jsonl"):
+            p = str(p) + ".jsonl"
+        ap = os.path.abspath(p).replace("\\", "/")
+        if ap not in seen:
+            seen.add(ap)
+            mains.append(ap)
+    for p in mains:
+        stem = os.path.basename(p)[:-len(".jsonl")]
+        (hit if os.path.isfile(p) else gone).append(("主会话-%s" % stem[:8], p))
     return hit, gone
 
 
@@ -103,11 +124,27 @@ def send_form(name, cid):
     return "异名"
 
 
+def send_ms(row):
+    """一行的投放时刻：主会话重建／直投行带 provenance 的 投放时刻_ms（取自产物文件名的毫秒戳），
+    代理当场所写的行只有 timestamp_ms（写入当刻）。两者都缺或非法时记 0，排在有时刻的行前面。"""
+    for key in ("投放时刻_ms", "timestamp_ms"):
+        try:
+            val = int(row.get(key) or 0)
+        except (TypeError, ValueError):
+            continue
+        if val > 0:
+            return val
+    return 0
+
+
 def load_evidence(evid_dir):
     """逐片证据行 → id → [(文件, 行)]。只认带 landing＋landing_sha256 的行：
     探针证据（sent_shard_probe_ref.jsonl）没有落点字段，它是「产物留在 vibe_images」的凭据，不是落盘凭据。
     文件面按 sent_*.jsonl 现收，不按某一代的分片命名前缀收：11-09 那批叫 sent_shardNN、
-    放量批次叫 sent_r4-todo-cardNN，把前缀写死成 sent_shard* 会让后一批逐字命中却判成零产物。"""
+    放量批次叫 sent_r4-todo-cardNN，把前缀写死成 sent_shard* 会让后一批逐字命中却判成零产物。
+    同一 id 的多行按投放时刻排，不按文件名字典序（消费方取末行＝「最近那一发」）：
+    跨轮重投的证据必然落在新文件里，而 `sent_r4-*` < `sent_r5-*` < `sent_shard*`，
+    字典序会把 11-09 那批 shard 行留在末位，于是新一轮的图与旧一行的 landing_sha256 对拍＝假漂移。"""
     ev, files = {}, sorted(glob.glob(os.path.join(evid_dir, "sent_*.jsonl")))
     files = [os.path.abspath(p).replace("\\", "/") for p in files]
     for p in files:
@@ -120,6 +157,8 @@ def load_evidence(evid_dir):
                 if not r.get("landing") or not r.get("landing_sha256"):
                     continue
                 ev.setdefault(r["id"], []).append((os.path.abspath(p).replace("\\", "/"), r))
+    for rows in ev.values():
+        rows.sort(key=lambda pair: send_ms(pair[1]))
     return ev, files
 
 
@@ -170,6 +209,13 @@ def landing_state(item, ev, root):
     with open(land, "rb") as fh:
         got = hashlib.sha256(fh.read()).hexdigest()
     return ("落盘相符" if got == want_sha else "落盘漂移"), got[:12], want_sha[:12]
+
+
+def landed_claim(state):
+    """证据行是否主张「本轮已落盘」：零产物＝本轮没有证据行，证据非ok＝代理当场写明这发没成，两者都不算主张。
+    其余判档（落盘相符／漂移／缺失／落点不符）都意味着记录上写了这一发投出来并落了盘，
+    没有逐字命中的发起撑着就必须判红，而不是因为「台账里没这条」被静默漏掉。"""
+    return state not in ("零产物", "证据非ok")
 
 
 def scan(led, reg, root, paste_dir, evid_dir, session=SESSION):
@@ -245,6 +291,14 @@ def scan(led, reg, root, paste_dir, evid_dir, session=SESSION):
                      "ImageGen送入次数": n_sent, "逐字命中台账送入串数": matched,
                      "未命中数": n_sent - matched, "命中形态": forms, "命中发名档": arms})
     unmatched = [i for i in items if i not in hits]
+    # 台账条目没被逐字命中，但它的证据行声称本轮已落盘（landing_sha256 与落点实读逐字节相符）＝没有发起面撑着的落盘。
+    # 回绑源从「钉死单份主会话」换成清单后这一支才第一次有意义：少扫一份 transcript、登记漏一轮，
+    # 都会让「已落盘」只剩记录上的一句话，而 wire 照抄证据行把半批图接进渲染器。
+    orphan_landed = []
+    for cid in unmatched:
+        state, got_sha, ev_sha = landing_state(items[cid], ev, root)
+        if landed_claim(state):
+            orphan_landed.append({"id": cid, "落盘判": state, "落地sha12": got_sha, "证据sha12": ev_sha})
     states = {}
     for d in detail:
         if d["发名档"] != "放量":
@@ -253,7 +307,8 @@ def scan(led, reg, root, paste_dir, evid_dir, session=SESSION):
     landed = sorted(set(states.get("落盘相符", [])))
     drift = sorted(set(states.get("落盘漂移", []) + states.get("落盘缺失", [])
                        + states.get("落点不符", []) + states.get("证据非ok", [])))
-    rc = 1 if (drift or bad_name or round_unmatched or ref_bad["放量"] or ref_bad["异名"] or missing) else 0
+    rc = 1 if (drift or bad_name or round_unmatched or ref_bad["放量"] or ref_bad["异名"]
+               or missing or orphan_landed) else 0
     out = {
         "declaration": "card3x4_R4（85 枚画风判废母图臂重投）的逐字回绑登记件。回绑源＝派单登记R4.json 里各分片 transcript "
                        "＋ 主会话 jsonl 中 ImageGen 的 tool_use input；prompt 归一（CRLF→LF）后与台账 send_sha256 对拍，"
@@ -270,7 +325,9 @@ def scan(led, reg, root, paste_dir, evid_dir, session=SESSION):
                   "往轮与别组的送入不命中本轮台账是预期、不是违例，但本轮自己的发名（card3x4r4-／ref-／probe-）"
                   "却未命中的发起另立「本轮发名却未命中」并判红——那是发送侧字符损坏，不是没投过；"
                   "已按证据行登记作废的发起（同 id 有 status≠ok 且 error 写明串面不符的行）按次豁免、单列不判红，"
-                  "豁免次数不得超过登记次数"
+                  "豁免次数不得超过登记次数；"
+                  "台账条目未被逐字命中而它的证据行又声称本轮已落盘（落盘判不是 零产物／证据非ok）＝没有发起面撑着的落盘，"
+                  "另立「已落盘证据却无回绑发起」并判红——少扫一份主会话 transcript 或登记漏一轮都会落到这一支。"
                   % (led["条数"], len(srcs), len(missing), len(ev_files)),
         "回绑源在盘份数": len(srcs), "缺失份数": len(missing),
         "缺失清单": [x[1] for x in missing],
@@ -285,6 +342,7 @@ def scan(led, reg, root, paste_dir, evid_dir, session=SESSION):
         "本轮发名却未命中（已登记作废豁免）": voided_unmatched,
         "作废发起登记数": dict(sorted(void_reg.items())),
         "台账条目被逐字命中数": len(hits), "未被命中条目": unmatched,
+        "已落盘证据却无回绑发起": orphan_landed,
         "放量已落盘条目数": len(landed), "放量已落盘条目": landed,
         "放量落盘判分布": {k: sorted(set(v)) for k, v in sorted(states.items())},
         "放量落盘异常条目": drift,
@@ -313,10 +371,14 @@ def main():
           % (out["回绑源在盘份数"], out["缺失份数"], out["ImageGen送入合计"], out["逐字命中合计"],
              out["未命中合计"], out["台账条目被逐字命中数"], len(out["未被命中条目"])))
     print("发名档 %s｜放量落盘判 %s｜放量已落盘 %d 枚｜母图未对上 %s｜发名不符 %d｜本轮发名却未命中 %d"
-          "（另有已登记作废豁免 %d）｜EXIT=%d"
+          "（另有已登记作废豁免 %d）｜已落盘证据却无回绑发起 %d｜EXIT=%d"
           % (out["命中发名档合计"], {k: len(v) for k, v in out["放量落盘判分布"].items()},
              out["放量已落盘条目数"], out["母图未对上的条目"], len(out["发名不符的命中"]),
-             len(out["本轮发名却未命中"]), len(out["本轮发名却未命中（已登记作废豁免）"]), rc))
+             len(out["本轮发名却未命中"]), len(out["本轮发名却未命中（已登记作废豁免）"]),
+             len(out["已落盘证据却无回绑发起"]), rc))
+    if out["已落盘证据却无回绑发起"]:
+        print("✗ 已落盘证据却无回绑发起（落盘没有发起面撑着）",
+              out["已落盘证据却无回绑发起"][:5])
     if out["本轮发名却未命中（已登记作废豁免）"]:
         print("◎ 已登记作废发起豁免（不判红，逐条带登记依据）",
               out["本轮发名却未命中（已登记作废豁免）"][:5])

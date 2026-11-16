@@ -102,9 +102,21 @@ def check(root):
     for k, v in recomputed.items():
         if agg.get(k) != v:
             viol.append('汇总.%s 抄的是 %s，逐枚行现算是 %s' % (k, agg.get(k), v))
-    want_mis = sorted(r['file'] for r in rows if r['机器侧'] == '绘画侧')
+    want_mis = sorted(r['file'] for r in rows
+                      if r['机器侧'] == '绘画侧' and r['目视侧'].startswith('照片'))
     if sorted(agg.get('错分名单', [])) != want_mis:
-        viol.append('错分名单与逐枚行的绘画侧集合不符')
+        viol.append('错分名单与逐枚行「机器绘画侧且目视照片质感」集合不符：件 %d 条 应为 %d 条'
+                    % (len(agg.get('错分名单', [])), len(want_mis)))
+    # 落盘sha12 是目视结论的字节锚：逐枚行现值必须等于台账逐文件 sha12，
+    # 否则「我看的」与「绑进还原点的」不是同一批图，沿用链与本轮真看都失去凭据。
+    now = {os.path.splitext(os.path.basename(e['path']))[0]: e['sha256_12']
+           for e in led.get('逐文件', [])}
+    if not now:
+        viol.append('台账 逐文件 为空，落盘sha12 无法对拍')
+    for r in rows:
+        if r.get('落盘sha12') != now.get(r['file'][:-4]):
+            viol.append('逐枚行 落盘sha12 与台账逐文件不符：%s 件%s 台账%s'
+                        % (r['file'], r.get('落盘sha12'), now.get(r['file'][:-4])))
     return viol
 
 
@@ -150,7 +162,8 @@ class CardStanceRecordTest(unittest.TestCase):
 
     def test_汇总数手抄必须被逐枚行现算顶回(self):
         rec = self.record()
-        rec['汇总']['判废'] = 0
+        # 手抄值取「真值+1」而不是写死 0：R5 签后 判废 的真值就是 0，写死 0 会撞上巧合而空转。
+        rec['汇总']['判废'] = sum(1 for r in rec['逐枚'] if r['判定'] == '判废') + 1
         self.write(rec)
         viol = check(self.root)
         self.assertEqual(len(viol), 1, viol)
@@ -161,6 +174,34 @@ class CardStanceRecordTest(unittest.TestCase):
         viol = check(self.root)
         self.assertEqual(len(viol), 1, viol)
         self.assertIn('缺件', viol[0])
+
+
+    def test_错分名单抄成绘画侧全枚必须判红(self):
+        """R4 及以前的旧口径＝机器绘画侧全枚，与同段 错分枚数（绘画侧且目视照片）不是一回事；
+        现在名单要跟枚数同判据，旧口径直接判红。"""
+        rec = self.record()
+        rec['汇总']['错分名单'] = sorted(r['file'] for r in rec['逐枚'] if r['机器侧'] == '绘画侧')
+        self.write(rec)
+        viol = check(self.root)
+        self.assertEqual(len(viol), 1, viol)
+        self.assertIn('错分名单', viol[0])
+
+    def test_落盘sha12与台账不符必须判红(self):
+        rec = self.record()
+        rec['逐枚'][0]['落盘sha12'] = 'deadbeef0000'
+        self.write(rec)
+        viol = check(self.root)
+        self.assertEqual(len(viol), 1, viol)
+        self.assertIn('落盘sha12', viol[0])
+
+    def test_逐枚行缺落盘sha12必须判红(self):
+        rec = self.record()
+        for r in rec['逐枚']:
+            r.pop('落盘sha12', None)
+        self.write(rec)
+        viol = check(self.root)
+        self.assertEqual(len(viol), 114, viol)
+        self.assertIn('落盘sha12', viol[0])
 
 
 if __name__ == '__main__':
