@@ -3,7 +3,7 @@
  "登记时刻": "2026-11-09",
  "放行原话": "用户 2026-11-09 逐字「卡面 85 枚＋R1 310 枚判废后的重投（花钱调用，方向已锁死「无框主图＋不烤文案」） 去做」",
  "覆盖面": "成员面＝数据/卡面主图提示词3x4/投放台账R4.json 的 85 键",
- "分片数": 2,
+ "分片数": 8,
  "卡面分片": [
   {
    "分片": 1,
@@ -28,6 +28,84 @@
      "在盘": true,
      "字节": 209684,
      "sha256_12": "bee649724a5c"
+    }
+   ]
+  },
+  {
+   "分片": 3,
+   "派单名": "r4-todo-card01",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-cc5c00efa9b709b7",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-cc5c00efa9b709b7.jsonl",
+     "在盘": true,
+     "字节": 657119,
+     "sha256_12": "f802efe9c220"
+    }
+   ]
+  },
+  {
+   "分片": 4,
+   "派单名": "r4-todo-card02",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-915c3fe426e37df2",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-915c3fe426e37df2.jsonl",
+     "在盘": true,
+     "字节": 657694,
+     "sha256_12": "b937e51035ab"
+    }
+   ]
+  },
+  {
+   "分片": 5,
+   "派单名": "r4-todo-card03",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-598b4b6228e10240",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-598b4b6228e10240.jsonl",
+     "在盘": true,
+     "字节": 700378,
+     "sha256_12": "9f5d90d76435"
+    }
+   ]
+  },
+  {
+   "分片": 6,
+   "派单名": "r4-todo-card04",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-528126c0a4281462",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-528126c0a4281462.jsonl",
+     "在盘": true,
+     "字节": 983662,
+     "sha256_12": "d213bcc0388b"
+    }
+   ]
+  },
+  {
+   "分片": 7,
+   "派单名": "r4-todo-card05",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-c15e1af3a2e72b14",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-c15e1af3a2e72b14.jsonl",
+     "在盘": true,
+     "字节": 839620,
+     "sha256_12": "10d2282cd5d4"
+    }
+   ]
+  },
+  {
+   "分片": 8,
+   "派单名": "r4-todo-card06",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-97478d688bef5f45",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-97478d688bef5f45.jsonl",
+     "在盘": true,
+     "字节": 757769,
+     "sha256_12": "ca5bf5f9e55d"
     }
    ]
   }
@@ -82,6 +160,474 @@
      "在盘": true,
      "字节": 157271,
      "sha256_12": "6aff5f3af20f"
+    }
+   ]
+  },
+  {
+   "分片": 5,
+   "派单名": "r4-shard02",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-f2d71958bb5c02f9",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-f2d71958bb5c02f9.jsonl",
+     "在盘": true,
+     "字节": 439397,
+     "sha256_12": "ddca04ba6af0"
+    }
+   ]
+  },
+  {
+   "分片": 6,
+   "派单名": "r4-shard03",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-c48e3e94433cb4e2",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-c48e3e94433cb4e2.jsonl",
+     "在盘": true,
+     "字节": 523018,
+     "sha256_12": "2eb67ee61d64"
+    }
+   ]
+  },
+  {
+   "分片": 7,
+   "派单名": "r4-shard04",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-e078bd4886648681",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-e078bd4886648681.jsonl",
+     "在盘": true,
+     "字节": 517601,
+     "sha256_12": "e9e3b7edc8c8"
+    }
+   ]
+  },
+  {
+   "分片": 8,
+   "派单名": "r4-shard05",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-95db83bdd900f3a0",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-95db83bdd900f3a0.jsonl",
+     "在盘": true,
+     "字节": 267132,
+     "sha256_12": "2f5806275709"
+    }
+   ]
+  },
+  {
+   "分片": 9,
+   "派单名": "r4-shard06",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-8c0761a35138b1ed",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-8c0761a35138b1ed.jsonl",
+     "在盘": true,
+     "字节": 167040,
+     "sha256_12": "71cae28d6014"
+    }
+   ]
+  },
+  {
+   "分片": 10,
+   "派单名": "r4-shard06-cont",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-55ea1504a8a25543",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-55ea1504a8a25543.jsonl",
+     "在盘": true,
+     "字节": 545807,
+     "sha256_12": "5e60dcf53cf6"
+    }
+   ]
+  },
+  {
+   "分片": 11,
+   "派单名": "r4-shard07",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-97bae9b2259b0fa4",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-97bae9b2259b0fa4.jsonl",
+     "在盘": true,
+     "字节": 231903,
+     "sha256_12": "f20088152376"
+    }
+   ]
+  },
+  {
+   "分片": 12,
+   "派单名": "r4-shard07-cont",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-4001732500a8860a",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-4001732500a8860a.jsonl",
+     "在盘": true,
+     "字节": 470263,
+     "sha256_12": "84c001d6dfa6"
+    }
+   ]
+  },
+  {
+   "分片": 13,
+   "派单名": "r4-shard08",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-c6f24a26905afd14",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-c6f24a26905afd14.jsonl",
+     "在盘": true,
+     "字节": 141515,
+     "sha256_12": "914fa2349fea"
+    }
+   ]
+  },
+  {
+   "分片": 14,
+   "派单名": "r4-shard08-cont",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-dd2c1a3482b043c5",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-dd2c1a3482b043c5.jsonl",
+     "在盘": true,
+     "字节": 590406,
+     "sha256_12": "fa629867a584"
+    }
+   ]
+  },
+  {
+   "分片": 15,
+   "派单名": "r4-shard09",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-fe65450b9d8ede6b",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-fe65450b9d8ede6b.jsonl",
+     "在盘": true,
+     "字节": 202850,
+     "sha256_12": "25946c797f7c"
+    }
+   ]
+  },
+  {
+   "分片": 16,
+   "派单名": "r4-shard09-cont",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-e5e900a1f012695b",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-e5e900a1f012695b.jsonl",
+     "在盘": true,
+     "字节": 551957,
+     "sha256_12": "2b7af92a1dc7"
+    }
+   ]
+  },
+  {
+   "分片": 17,
+   "派单名": "r4-shard10",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-50544a963203aa15",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-50544a963203aa15.jsonl",
+     "在盘": true,
+     "字节": 269747,
+     "sha256_12": "5d5cf33644cc"
+    }
+   ]
+  },
+  {
+   "分片": 18,
+   "派单名": "r4-shard10-retry",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-460fb4a342e26dd2",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-460fb4a342e26dd2.jsonl",
+     "在盘": true,
+     "字节": 698686,
+     "sha256_12": "dc4d7ef071a9"
+    }
+   ]
+  },
+  {
+   "分片": 19,
+   "派单名": "r4-todo-main01",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-da67eea2530773e0",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-da67eea2530773e0.jsonl",
+     "在盘": true,
+     "字节": 83420,
+     "sha256_12": "87f69964ad55"
+    }
+   ]
+  },
+  {
+   "分片": 20,
+   "派单名": "r4-todo-main02",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-d0afd1e3d7a26ba0",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-d0afd1e3d7a26ba0.jsonl",
+     "在盘": true,
+     "字节": 797716,
+     "sha256_12": "1f78b6fced2d"
+    }
+   ]
+  },
+  {
+   "分片": 21,
+   "派单名": "r4-todo-main03",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-b65d22f463929cc2",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-b65d22f463929cc2.jsonl",
+     "在盘": true,
+     "字节": 496319,
+     "sha256_12": "712618f75cba"
+    }
+   ]
+  },
+  {
+   "分片": 22,
+   "派单名": "r4-todo-main04",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-5193a97e4ba3a21d",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-5193a97e4ba3a21d.jsonl",
+     "在盘": true,
+     "字节": 652375,
+     "sha256_12": "ba25109e35bc"
+    }
+   ]
+  },
+  {
+   "分片": 23,
+   "派单名": "r4-todo-main05",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-bce97275585bd645",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-bce97275585bd645.jsonl",
+     "在盘": true,
+     "字节": 573356,
+     "sha256_12": "d09dad695ccc"
+    }
+   ]
+  },
+  {
+   "分片": 24,
+   "派单名": "r4-todo-main06",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-9949ff27a2d1faee",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-9949ff27a2d1faee.jsonl",
+     "在盘": true,
+     "字节": 630568,
+     "sha256_12": "383213c1c217"
+    }
+   ]
+  },
+  {
+   "分片": 25,
+   "派单名": "r4-todo-main07",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-fe98fbba534f6dc1",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-fe98fbba534f6dc1.jsonl",
+     "在盘": true,
+     "字节": 803329,
+     "sha256_12": "b8d91b88dfff"
+    }
+   ]
+  },
+  {
+   "分片": 26,
+   "派单名": "r4-todo-main08",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-95087d71e08f1a98",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-95087d71e08f1a98.jsonl",
+     "在盘": true,
+     "字节": 494472,
+     "sha256_12": "47e6a9cc6fbd"
+    }
+   ]
+  },
+  {
+   "分片": 27,
+   "派单名": "r4-todo-main09",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-a235781fc91dd152",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-a235781fc91dd152.jsonl",
+     "在盘": true,
+     "字节": 624587,
+     "sha256_12": "7d1d6d9685a7"
+    }
+   ]
+  },
+  {
+   "分片": 28,
+   "派单名": "r4-todo-main10",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-27086017a13a064c",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-27086017a13a064c.jsonl",
+     "在盘": true,
+     "字节": 632638,
+     "sha256_12": "1b137a298ea7"
+    }
+   ]
+  },
+  {
+   "分片": 29,
+   "派单名": "r4-todo-main11",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-f6be54905d9c9d77",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-f6be54905d9c9d77.jsonl",
+     "在盘": true,
+     "字节": 533864,
+     "sha256_12": "f2d44213b25e"
+    }
+   ]
+  },
+  {
+   "分片": 30,
+   "派单名": "r4-todo-main12",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-1a29c772b3d9a4a5",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-1a29c772b3d9a4a5.jsonl",
+     "在盘": true,
+     "字节": 545535,
+     "sha256_12": "b92456c278e8"
+    }
+   ]
+  },
+  {
+   "分片": 31,
+   "派单名": "r4-todo-main13",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-246fb789497fc819",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-246fb789497fc819.jsonl",
+     "在盘": true,
+     "字节": 460386,
+     "sha256_12": "13799a1c14dc"
+    }
+   ]
+  },
+  {
+   "分片": 32,
+   "派单名": "r4-todo-main14",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-1b4e1e6c003a3d73",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-1b4e1e6c003a3d73.jsonl",
+     "在盘": true,
+     "字节": 592029,
+     "sha256_12": "8095d3da09c4"
+    }
+   ]
+  },
+  {
+   "分片": 33,
+   "派单名": "r4-todo-main15",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-0c5e24fefb2672d1",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-0c5e24fefb2672d1.jsonl",
+     "在盘": true,
+     "字节": 449503,
+     "sha256_12": "f2114b35155f"
+    }
+   ]
+  },
+  {
+   "分片": 34,
+   "派单名": "r4-todo-main16",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-d04652afc574e333",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-d04652afc574e333.jsonl",
+     "在盘": true,
+     "字节": 615533,
+     "sha256_12": "05ab25a47c9e"
+    }
+   ]
+  },
+  {
+   "分片": 35,
+   "派单名": "r4-gap-probe01",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-d48b622882a7d3b8",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-d48b622882a7d3b8.jsonl",
+     "在盘": true,
+     "字节": 260347,
+     "sha256_12": "41cc7ecf5a20"
+    }
+   ]
+  },
+  {
+   "分片": 36,
+   "派单名": "r4-todo-gap01b",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-678b38429411792a",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-678b38429411792a.jsonl",
+     "在盘": true,
+     "字节": 718348,
+     "sha256_12": "b77873c9c2f2"
+    }
+   ]
+  },
+  {
+   "分片": 37,
+   "派单名": "r4-todo-gap02",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-d09e386dcbc7850c",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-d09e386dcbc7850c.jsonl",
+     "在盘": true,
+     "字节": 331824,
+     "sha256_12": "678940ae8715"
+    }
+   ]
+  },
+  {
+   "分片": 38,
+   "派单名": "r4-todo-main17",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-fc944eeba3cc900c",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-fc944eeba3cc900c.jsonl",
+     "在盘": true,
+     "字节": 642094,
+     "sha256_12": "d1720e8727e8"
+    }
+   ]
+  },
+  {
+   "分片": 39,
+   "派单名": "r4-todo-main18",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-ba1a31137ce8135a",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-ba1a31137ce8135a.jsonl",
+     "在盘": true,
+     "字节": 72352,
+     "sha256_12": "7f10b9ceb296"
+    }
+   ]
+  },
+  {
+   "分片": 40,
+   "派单名": "r4-todo-main18b",
+   "命中": [
+    {
+     "agentId": "ageneral-purpose-9c80cfc9d9033742",
+     "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-9c80cfc9d9033742.jsonl",
+     "在盘": true,
+     "字节": 349280,
+     "sha256_12": "7f8c9fe5581f"
     }
    ]
   }

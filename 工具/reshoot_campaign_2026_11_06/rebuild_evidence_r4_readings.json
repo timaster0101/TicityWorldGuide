@@ -4,170 +4,81 @@
  "生成器": "工具/rebuild_r4_evidence.py",
  "口径": "只对已在盘的产物补记录，不据此判定任何一条合格；status 只由机械判据决定，任一不符即 failed。补建行带 来源＝主会话按 transcript 重建（非代理当场所写） 与 provenance 段，与代理当场写的 16 字段行可分。timestamp_ms 按规程取写入当刻，真实投放时刻另记 投放时刻_ms。",
  "dry": false,
- "重建时刻_ms": 1794199918507,
- "重建时刻_本地": "2026-11-09 12:51:58.507",
+ "重建时刻_ms": 1794795222858,
+ "重建时刻_本地": "2026-11-16 10:13:42.858",
  "回绑源": {
   "登记件": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/钛湖城城市设定集/工具/reshoot_campaign_2026_11_06/transcripts_r4.json",
-  "在盘份数": 5,
+  "在盘份数": 46,
   "缺失份数": 0,
   "路径": [
+   "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/1edab3d5-34e3-40e6-8dca-adbad29c2a1a.jsonl",
+   "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda.jsonl",
    "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-17dd66f2699593e2.jsonl",
    "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-3781c553dd69e9ea.jsonl",
    "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-675c620b6bf1ab01.jsonl",
    "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-67e81c05a4404476.jsonl",
-   "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda.jsonl"
+   "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/92f969f6-f0ac-484e-a078-eb37f25b9a7c.jsonl",
+   "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/b40d4d5f-4791-4292-ae3d-5e0530da1ddd.jsonl",
+   "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/da3b02cd-f0f6-47d6-ba1b-f3f847e0efd6.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/c0c216d9-4f5e-4156-8525-d49858e862dd.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-0c5e24fefb2672d1.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-109239f5d0f8ffe4.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-1a29c772b3d9a4a5.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-1b4e1e6c003a3d73.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-246fb789497fc819.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-27086017a13a064c.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-4001732500a8860a.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-460fb4a342e26dd2.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-50544a963203aa15.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-5193a97e4ba3a21d.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-55ea1504a8a25543.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-8c0761a35138b1ed.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-95087d71e08f1a98.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-95db83bdd900f3a0.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-97bae9b2259b0fa4.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-9949ff27a2d1faee.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-a235781fc91dd152.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-b65d22f463929cc2.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-bce97275585bd645.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-c48e3e94433cb4e2.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-c6f24a26905afd14.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-c9f757bf08493413.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-d04652afc574e333.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-d0afd1e3d7a26ba0.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-da67eea2530773e0.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-dd2c1a3482b043c5.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-e078bd4886648681.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-e5e900a1f012695b.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-ed638f329557db26.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-f2d71958bb5c02f9.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-f6be54905d9c9d77.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-fe65450b9d8ede6b.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-fe98fbba534f6dc1.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/c8c10ff8-992b-499d-9672-e4f0ae4ff64f.jsonl",
+   "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58.jsonl"
   ]
  },
- "统计面": "扫登记件 transcripts 字典 4 份＋主会话 jsonl 1 份，共 5 份；条目取自 C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/shards/shard_*.json 的「条」数组，只取 --ids 点名的 3 个 id；产物只认回执 toolUseResult.filePath 那一个路径，不做目录扫描。",
- "请求条数": 3,
- "可重建条数": 3,
+ "统计面": "扫登记件 transcripts 字典 45 份＋主会话 jsonl 1 份，共 46 份；条目取自 C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/shards/shard_*.json 的「条」数组，只取 --ids 点名的 2 个 id；产物只认回执 toolUseResult.filePath 那一个路径，不做目录扫描。",
+ "请求条数": 2,
+ "可重建条数": 2,
  "拒跑条数": 0,
  "拒跑": [],
  "status 分布": {
   "ok": 2,
-  "failed": 1
+  "failed": 0
  },
  "逐条": [
   {
-   "id": "D14",
-   "片号": 2,
-   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard02.jsonl",
+   "id": "R081",
+   "片号": 21,
+   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard21.jsonl",
    "status": "ok",
    "机械判据": [
     {
      "名": "串面逐字",
      "符": true,
-     "读数": "实投 6643 字符／paste 6643 字符"
-    },
-    {
-     "名": "size 声明相符",
-     "符": true,
-     "读数": "实投 1792x1024／清单 1792x1024"
-    },
-    {
-     "名": "尺寸实读相符",
-     "符": true,
-     "读数": "1792x1024"
-    },
-    {
-     "名": "母图挂载相符",
-     "符": true,
-     "读数": "images 1 项：['D08-西湖古城片区-E1定档-v01_1793641802152_673724e7.png']"
-    },
-    {
-     "名": "母图摘要相符",
-     "符": true,
-     "读数": "5a1f9c6499c3"
-    },
-    {
-     "名": "产物名绑发名",
-     "符": true,
-     "读数": "D14-钛东智造片区-C154母图重投-v01_1794185876497_a5ef39a1.png"
-    },
-    {
-     "名": "落盘与回执同带",
-     "符": true,
-     "读数": "差 44 ms（带宽 600000）"
-    }
-   ],
-   "投放时刻_ms": 1794185876497,
-   "image_sha256": "306d2b5d5d410d07538e74bf72dcc3a47dfd4f87ee0eea9ee39c28a98fb25126",
-   "image_bytes": 4186456,
-   "实投串_chars": 6643,
-   "send_chars": 6643,
-   "串面差异": null,
-   "重建依据": {
-    "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-3781c553dd69e9ea.jsonl",
-    "tool_use_id": "call_fad26f04f3f34b47a1f6f94f",
-    "发起时刻_utc": "2026-11-09T00:57:25.574Z",
-    "发起记录uuid": "e1eda29b-55e3-4be8-a77f-4051f56b0ad6",
-    "回执时刻_utc": "2026-11-09T00:57:56.541Z",
-    "requestId": "d5caa11d-51a1-48e8-beb8-876209ee3380"
-   }
-  },
-  {
-   "id": "F007",
-   "片号": 3,
-   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard03.jsonl",
-   "status": "failed",
-   "机械判据": [
-    {
-     "名": "串面逐字",
-     "符": false,
-     "读数": "实投 6393 字符／paste 5951 字符"
-    },
-    {
-     "名": "size 声明相符",
-     "符": true,
-     "读数": "实投 1280x1024／清单 1280x1024"
-    },
-    {
-     "名": "尺寸实读相符",
-     "符": true,
-     "读数": "1280x1024"
-    },
-    {
-     "名": "母图挂载相符",
-     "符": true,
-     "读数": "images 1 项：['R043-白石老街坊-E1定档-v02_1793642297364_0f163b74.png']"
-    },
-    {
-     "名": "母图摘要相符",
-     "符": true,
-     "读数": "9ec87a15677d"
-    },
-    {
-     "名": "产物名绑发名",
-     "符": true,
-     "读数": "F007-湖东国际会展园-C154母图重投-v01_1794185836666_648baeff.png"
-    },
-    {
-     "名": "落盘与回执同带",
-     "符": true,
-     "读数": "差 38 ms（带宽 600000）"
-    }
-   ],
-   "投放时刻_ms": 1794185836666,
-   "image_sha256": "f3b6050cc16cdc7580e9ebfa582f549b7cac6da92bee02dd0f4bdc1903741778",
-   "image_bytes": 2959140,
-   "实投串_chars": 6393,
-   "send_chars": 5951,
-   "串面差异": {
-    "位置": 474,
-    "公共前缀长": 474,
-    "公共后缀长": 5477,
-    "多出字符": 442,
-    "首处opcode": {
-     "类型": "insert",
-     "paste段": [
-      474,
-      474
-     ],
-     "实投段": [
-      474,
-      916
-     ]
-    }
-   },
-   "重建依据": {
-    "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-67e81c05a4404476.jsonl",
-    "tool_use_id": "call_085343956ff54a0080c45d21",
-    "发起时刻_utc": "2026-11-09T00:56:58.359Z",
-    "发起记录uuid": "67fd99c5-a402-4e1d-8c53-75aa2fceeadc",
-    "回执时刻_utc": "2026-11-09T00:57:16.704Z",
-    "requestId": "167bcb98-e643-4fda-b0b0-0b00b9802515"
-   }
-  },
-  {
-   "id": "F019",
-   "片号": 4,
-   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard04.jsonl",
-   "status": "ok",
-   "机械判据": [
-    {
-     "名": "串面逐字",
-     "符": true,
-     "读数": "实投 5951 字符／paste 5951 字符"
+     "读数": "实投 6019 字符／paste 6019 字符"
     },
     {
      "名": "size 声明相符",
@@ -192,52 +103,102 @@
     {
      "名": "产物名绑发名",
      "符": true,
-     "读数": "F019-松岬竞技体育园-C154母图重投-v01_1794185874722_5c1b44bf.png"
+     "读数": "R081-铸梦公寓-C154母图重投-v01_1794538785430_82151191.png"
     },
     {
      "名": "落盘与回执同带",
      "符": true,
-     "读数": "差 26 ms（带宽 600000）"
+     "读数": "差 24 ms（带宽 600000）"
     }
    ],
-   "投放时刻_ms": 1794185874722,
-   "image_sha256": "df8cc0514f2fa6756e68a3686f4684b39f1d6c8c0e3055e87866bd21feb97bbc",
-   "image_bytes": 2843009,
-   "实投串_chars": 5951,
-   "send_chars": 5951,
+   "投放时刻_ms": 1794538785430,
+   "image_sha256": "33ae893f206135b6cadeb7c120bd8cf1b819f8f98a23325bf0461b3ee788847c",
+   "image_bytes": 2913479,
+   "实投串_chars": 6019,
+   "send_chars": 6019,
    "串面差异": null,
    "重建依据": {
-    "transcript": "C:/Users/TIMASTER/.qoder-cn/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8/6b39cfae-e2ed-48a8-81fd-0af6e4887eda/subagents/agent-ageneral-purpose-17dd66f2699593e2.jsonl",
-    "tool_use_id": "call_83b19348a53442b097cb14ae",
-    "发起时刻_utc": "2026-11-09T00:57:33.474Z",
-    "发起记录uuid": "a7daf137-fde1-4c8c-ad4a-df7d9e72b553",
-    "回执时刻_utc": "2026-11-09T00:57:54.748Z",
-    "requestId": "6042725e-d963-47a7-9b4f-60eeb588a542"
+    "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-246fb789497fc819.jsonl",
+    "tool_use_id": "call_9d7743ae748a47129a5a4abe",
+    "发起时刻_utc": "2026-11-13T02:59:13.367Z",
+    "发起记录uuid": "5da4b335-2c3f-4d79-a3bd-d4c811bac7f6",
+    "回执时刻_utc": "2026-11-13T02:59:45.454Z",
+    "requestId": "8f1460b0-3bba-4fda-b8f8-608ded94c918"
+   }
+  },
+  {
+   "id": "R108",
+   "片号": 23,
+   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard23.jsonl",
+   "status": "ok",
+   "机械判据": [
+    {
+     "名": "串面逐字",
+     "符": true,
+     "读数": "实投 5913 字符／paste 5913 字符"
+    },
+    {
+     "名": "size 声明相符",
+     "符": true,
+     "读数": "实投 1280x1024／清单 1280x1024"
+    },
+    {
+     "名": "尺寸实读相符",
+     "符": true,
+     "读数": "1280x1024"
+    },
+    {
+     "名": "母图挂载相符",
+     "符": true,
+     "读数": "images 1 项：['R043-白石老街坊-E1定档-v02_1793642297364_0f163b74.png']"
+    },
+    {
+     "名": "母图摘要相符",
+     "符": true,
+     "读数": "9ec87a15677d"
+    },
+    {
+     "名": "产物名绑发名",
+     "符": true,
+     "读数": "R108-西关合居坊-C154母图重投-v01_1794539405888_e42f6b02.png"
+    },
+    {
+     "名": "落盘与回执同带",
+     "符": true,
+     "读数": "差 858 ms（带宽 600000）"
+    }
+   ],
+   "投放时刻_ms": 1794539405888,
+   "image_sha256": "b05db9bf71772d1e3a9349d3207e077b3819bdb0307e217eae4f20a497722405",
+   "image_bytes": 2623443,
+   "实投串_chars": 5913,
+   "send_chars": 5913,
+   "串面差异": null,
+   "重建依据": {
+    "transcript": "C:/Users/TIMASTER/.qoder/projects/C--Users-TIMASTER-Documents-Qoder-2026-10-29-c8c10ff8---------/d52455f0-e564-44d4-9fa6-f71a76e2ce58/subagents/agent-ageneral-purpose-0c5e24fefb2672d1.jsonl",
+    "tool_use_id": "call_a7e9d5225f1f4a7b8cc35937",
+    "发起时刻_utc": "2026-11-13T03:09:21.284Z",
+    "发起记录uuid": "c2b73842-007e-487b-8e78-fccd4d1eb533",
+    "回执时刻_utc": "2026-11-13T03:10:06.746Z",
+    "requestId": "6bbd11f9-a2bc-4ae2-bc08-42af959f70d6"
    }
   }
  ],
- "备份目录": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/bak_evidence_rebuild/20261109-125158",
+ "备份目录": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/bak_evidence_rebuild/20261116-101342",
  "落盘": [
   {
-   "id": "D14",
-   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard02.jsonl",
-   "备份": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/bak_evidence_rebuild/20261109-125158/sent_shard02.jsonl",
-   "行尾": "CRLF",
-   "追加字节": 2520
-  },
-  {
-   "id": "F007",
-   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard03.jsonl",
-   "备份": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/bak_evidence_rebuild/20261109-125158/sent_shard03.jsonl",
-   "行尾": "CRLF",
-   "追加字节": 3250
-  },
-  {
-   "id": "F019",
-   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard04.jsonl",
-   "备份": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/bak_evidence_rebuild/20261109-125158/sent_shard04.jsonl",
+   "id": "R081",
+   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard21.jsonl",
+   "备份": null,
    "行尾": "LF",
-   "追加字节": 2531
+   "追加字节": 2536
+  },
+  {
+   "id": "R108",
+   "目标": "C:/Users/TIMASTER/Documents/Qoder/2026-10-29/c8c10ff8/_scratch_cardref/reshoot_r4/sent_shard23.jsonl",
+   "备份": null,
+   "行尾": "LF",
+   "追加字节": 2543
   }
  ]
 }
