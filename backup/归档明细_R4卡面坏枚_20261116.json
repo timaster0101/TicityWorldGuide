@@ -1,0 +1,64 @@
+{
+ "状态": "完成",
+ "归档时间": "2026-11-16T11:38:46",
+ "归档时间来源": "归档明细写盘时刻；枚自身时刻取 move 前实读的 mtime（move 保留原 mtime）。",
+ "口径": "同 backup/归档明细_R4坏枚_20261109.json（F007）／_20261112.json（L052）／_20261116.json（主链 R103／R118）：C154 (7)／C150／§50.1——串面不符的坏枚必须物理移出 ImageGen 落点，move 进 backup/ 不硬删。本笔是卡面臂第一笔，差别三条：① 卡面臂不镜像，坏枚只有仓内 钛湖城城市设定集/vibe_images/ 一份（同级 c8c10ff8/vibe_images/ 按 glob 实读 0 枚，已断言）；② 作废证据行是代理当场所写（card3x4_r4/sent_r4-todo-card06.jsonl 第 7 行，status=failed、error 已写明串面不符与另行重投），主会话不再重建；③ 该条 landing 此刻仍压 R3 旧图，接线器 wire_card_main_images.py 按证据行 landing_sha256 与落地实读对拍、不扫目录选图，故坏枚不会被误选——移出是为「判废图不留在落点目录」这条口径本身。",
+ "触发": "用户 2026-11-16 逐字「只放行 84 次（余额内）」——本轮付费调用止于该上限；idx094 的逐字重投已由 card06 代理在同一放行内完成（证据行第 8 行 status=ok，landing_sha256 b05e482451c5 与盘面唯一留存枚逐字节相等），故本笔只缺「坏枚移出＋登记」这段零付费收口。",
+ "张数": 1,
+ "字节": 1489795,
+ "明细": [
+  {
+   "id": "idx094",
+   "落点": "inner",
+   "src": "C:\\Users\\TIMASTER\\Documents\\Qoder\\2026-10-29\\c8c10ff8\\钛湖城城市设定集\\vibe_images\\card3x4r4-idx094_1794798200109_ae28fdee.png",
+   "rel": "vibe_images/card3x4r4-idx094_1794798200109_ae28fdee.png",
+   "dst": "backup/vibe_images/card3x4r4-idx094_1794798200109_ae28fdee.png",
+   "bytes": 1489795,
+   "sha256": "c9bf62bc8a163146a31cc871fd796323142774da9daea6750fd8cabadaf3ab07",
+   "sha256_12": "c9bf62bc8a16",
+   "dims": "768x1024",
+   "produced": "2026-11-16 11:03:20.112281",
+   "time_source": "mtime",
+   "domain": "R4_卡面主图3x4",
+   "作废理由": "代理自造串：发名 card3x4r4-idx094 的首发实送 prompt 与台账 send_sha256 923f98da4482（6377 字符）逐字不等，移出前盘面该发名留存的坏枚 card3x4r4-idx094_1794798200109_ae28fdee.png／1489795 B／sha12 c9bf62bc8a16 正是那一发的产物（与代理证据行 landing_sha256 逐字节相等）；母图挂的是台账派定的 idx096.png，size 768x1024 无误，只差串面。第二发按 paste 实读串逐字命中并留盘，故该条投次 2／作废发起 1，本笔只补「坏枚物理移出」。",
+   "移动方式": "本笔未再移动：坏枚已在归档位（同一脚前一次跑动已完成 shutil.move，归档明细首次写盘时该脚本在写盘前中断）",
+   "移动后自证": {
+    "src_exists": false,
+    "dst_bytes": 1489795,
+    "sha256_前后相等": true
+   }
+  }
+ ],
+ "留盘枚": [
+  {
+   "名": "card3x4r4-idx094_1794798333702_1f5e919d.png",
+   "bytes": 1663778,
+   "sha256": "b05e482451c54e4d1316b771234f755abc462183f500c514831ce231dec25fbc",
+   "sha256_12": "b05e482451c5",
+   "produced": "2026-11-16 11:05:33.706519",
+   "证据行对应": "第 8 行 status=ok，landing_sha256 逐字节相等=True"
+  }
+ ],
+ "发起面取证": [
+  {
+   "证据文件": "card3x4_r4/sent_r4-todo-card06.jsonl",
+   "行": 7,
+   "status": "failed",
+   "送入sha12": "",
+   "台账sha12": "923f98da4482",
+   "落点sha12": "c9bf62bc8a16",
+   "落点字节": 1489795,
+   "error": "串面不符：该次发起未逐字复述 paste 全文（代理自造串，内容为无关场景），判作废发起、不计绿，产物留盘待主会话处置；已按 paste 实读串另行重投"
+  },
+  {
+   "证据文件": "card3x4_r4/sent_r4-todo-card06.jsonl",
+   "行": 8,
+   "status": "ok",
+   "送入sha12": "923f98da4482",
+   "台账sha12": "923f98da4482",
+   "落点sha12": "b05e482451c5",
+   "落点字节": 1663778,
+   "error": ""
+  }
+ ]
+}
