@@ -8,6 +8,7 @@ import json
 import os
 import shutil
 import tempfile
+import types
 import unittest
 
 import hashlib
@@ -63,6 +64,26 @@ class LatestSendWinsTest(unittest.TestCase):
         self.assertEqual(ev["L001"]["prompt_sha256"], "b" * 64)
         self.assertEqual(dup, {"L001": 1})
         self.assertEqual(files, ["sent_shard_02.jsonl", "sent_shard_probe.jsonl"])
+
+    def test_dispatch_batch_evidence_filename_is_collected(self):
+        """违例负测：收件面曾写死成 sent_shard*，放量批次（sent_r4-todo-cardNN.jsonl）整批收不到，
+        已落盘的主图会被判成「无证据」而漏接线。同一条行换个文件名，必须照样收到。"""
+        row = dict(WAVE1, timestamp_ms=3000)
+        self.write("sent_r4-todo-card03.jsonl", [row])
+        ev, files, dup = wire.collect_evidence(self.dir)
+        self.assertEqual(files, ["sent_r4-todo-card03.jsonl"], "收件面漏掉放量批次的证据文件")
+        self.assertEqual(ev["L001"]["timestamp_ms"], 3000)
+
+        import glob as _glob
+        old = wire.glob
+        wire.glob = types.SimpleNamespace(
+            glob=lambda pat: sorted(_glob.glob(pat.replace("sent_*.jsonl", "sent_shard*.jsonl"))))
+        try:
+            ev2, files2, _ = wire.collect_evidence(self.dir)
+            self.assertEqual(files2, [], "变异回旧前缀收件也收得到＝上面那条没在测收件面")
+            self.assertEqual(ev2, {})
+        finally:
+            wire.glob = old
 
     def test_reverting_to_file_order_would_bind_the_stale_string(self):
         """负测：按文件顺序覆盖（旧行为）会让探针旧串成为送入串，check() 必须当场判红。"""

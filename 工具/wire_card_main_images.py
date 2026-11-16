@@ -72,7 +72,7 @@ def collect_evidence(scratch):
     """
     ev = {}
     dup = {}
-    files = sorted(glob.glob(os.path.join(scratch, "sent_shard*.jsonl")))
+    files = sorted(glob.glob(os.path.join(scratch, "sent_*.jsonl")))
     for path in files:
         with open(path, encoding="utf-8") as fh:
             for line in fh:
@@ -167,7 +167,7 @@ def main(argv=None):
                          "timestamp_ms": ev[it["id"]].get("timestamp_ms")})
     report = {"投放轮次": led.get("投放轮次"), "证据件": evidence_files, "证据件数": len(evidence_files),
               "应投": led["条数"], "合规格": len(rows), "不合规格": len(bad),
-              "统计面": "只数 %s 列出的 %d 条；证据只取 %s 的 sent_shard*.jsonl；"
+              "统计面": "只数 %s 列出的 %d 条；证据只取 %s 的 sent_*.jsonl（按前缀派生收件，不写死某一代的分片命名）；"
                        "尺寸真源＝PIL 打开 landing 取 size；串 sha 真源＝数据/卡面主图提示词3x4 下的本轮 .txt"
                        % (led_path, led["条数"], scratch.replace("\\", "/")),
               "逐条": rows, "问题清单": bad}

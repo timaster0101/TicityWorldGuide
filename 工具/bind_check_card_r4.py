@@ -10,10 +10,19 @@
 3. 逐字命中还不等于投出来了：额度墙（403 code 112）与参数校验失败都是「串发进去了、零产物」，
    而该条 landing 路径上压着的是上一轮判废的旧图——只看在盘与否会把零产物洗成已投（本轮实测 D04／D20
    两枚命中、landing mtime 停在 04:09／04:13 的旧版，证据行根本没有）。所以命中之后按逐片证据行
-   （sent_shard*.jsonl 的 landing_sha256）与落地实读字节对拍，分「落盘相符／零产物／落盘漂移」三档，
+   （证据行 sent_*.jsonl 的 landing_sha256；旧文本此处写的是 sent_shard*.jsonl，那是 11-09 那一批的分片命名，
+   放量批次叫 sent_r4-todo-cardNN，按前缀收会把已落盘的 24 枚判成零产物——括注订正，旧串不删）与落地实读字节对拍，分「落盘相符／零产物／落盘漂移」三档，
    续投差集只认「落盘相符」那一档。发名也分档：放量臂 card3x4r4-<id>、探针 card3x4r4ref-/probe-、
    其余记异名——探针可以合法地借别的母图（本轮 L001 探针挂 L016 而台账派 L010），混在一档会把
    探针的母图偏差算成放量违例，反过来也会把放量违例藏在探针里。
+4. 「本轮发名却未命中」判红新增一条按登记面计数的豁免（2026-11-16 加，起于 idx094）：代理自造串那一发
+   确实是本轮自己的发名却没命中台账串，判红没错，但它已经被代理当场所写的证据行记成 status≠ok＋error
+   写明串面不符、并已另行逐字重投＋坏枚物理移出——这一类是「已处置的作废发起」，不是「未登记的字符损坏」。
+   豁免只在三个条件同时成立时才生效，缺一即回到判红：①同一 id 有 status≠ok 的证据行；
+   ②该行 error 里有「串面不符」四字（403 零产物那种失败行不带这四个字，照样判红）；
+   ③该行若写了 prompt_sha256，它必须≠send_sha256（串面对上的失败行属零产物类，不属作废串面类）。
+   并且豁免按条计数：登记了几次作废，就只豁免几次未命中发起，多出来的那发仍旧判红——
+   否则「登记一次作废」就能把后续任意多次改串洗成合法，这正是这条判据本要防的形态。
 
 回绑源＝派单登记R4.json 里各分片的 transcript ＋ 主会话 jsonl（违例补投由主会话直投）。
 transcript 在会话临时区、跨会话会失效，故逐份的在盘状态、字节数与 sha 前缀都落进仓内登记件，缺失显式计数。
@@ -96,8 +105,10 @@ def send_form(name, cid):
 
 def load_evidence(evid_dir):
     """逐片证据行 → id → [(文件, 行)]。只认带 landing＋landing_sha256 的行：
-    探针证据（sent_shard_probe_ref.jsonl）没有落点字段，它是「产物留在 vibe_images」的凭据，不是落盘凭据。"""
-    ev, files = {}, sorted(glob.glob(os.path.join(evid_dir, "sent_shard*.jsonl")))
+    探针证据（sent_shard_probe_ref.jsonl）没有落点字段，它是「产物留在 vibe_images」的凭据，不是落盘凭据。
+    文件面按 sent_*.jsonl 现收，不按某一代的分片命名前缀收：11-09 那批叫 sent_shardNN、
+    放量批次叫 sent_r4-todo-cardNN，把前缀写死成 sent_shard* 会让后一批逐字命中却判成零产物。"""
+    ev, files = {}, sorted(glob.glob(os.path.join(evid_dir, "sent_*.jsonl")))
     files = [os.path.abspath(p).replace("\\", "/") for p in files]
     for p in files:
         with io.open(p, encoding="utf-8") as fh:
@@ -110,6 +121,34 @@ def load_evidence(evid_dir):
                     continue
                 ev.setdefault(r["id"], []).append((os.path.abspath(p).replace("\\", "/"), r))
     return ev, files
+
+
+def name_to_id(name):
+    """本轮发名反推条号：探针／补投前缀先试，再试放量前缀；异名档返回 None（不享有豁免）。"""
+    for pre in ("card3x4r4ref-", "card3x4r4probe-", "card3x4r4-"):
+        if name.startswith(pre):
+            return name[len(pre):]
+    return None
+
+
+def void_registrations(ev):
+    """已登记的作废发起（串面不符那一类）→ id → 次数。
+
+    三个条件同时成立才计数（详见文件头第 4 点），且只在带 landing＋landing_sha256 的证据行上求值
+    ——探针证据没有落点字段，本来也进不了 ev。
+    """
+    n = {}
+    for cid, rows in ev.items():
+        for _path, r in rows:
+            if r.get("status") == "ok":
+                continue
+            if "串面不符" not in str(r.get("error") or ""):
+                continue
+            sent = str(r.get("prompt_sha256") or "")
+            if sent and sent == str(r.get("send_sha256") or ""):
+                continue
+            n[cid] = n.get(cid, 0) + 1
+    return n
 
 
 def landing_state(item, ev, root):
@@ -148,9 +187,11 @@ def scan(led, reg, root, paste_dir, evid_dir, session=SESSION):
         by_sha[it["send_sha256"]] = (it["id"], "去结尾换行")
         by_sha[norm_sha(text + "\n")] = (it["id"], "含结尾换行")
     ev, ev_files = load_evidence(evid_dir)
+    void_reg = void_registrations(ev)
+    void_left = dict(void_reg)
     srcs, missing = sources(reg, session)
     hits, ref_bad, rows, detail = {}, {"放量": set(), "探针": set(), "异名": set()}, [], []
-    bad_name, unmatched_names, round_unmatched = [], {}, []
+    bad_name, unmatched_names, round_unmatched, voided_unmatched = [], {}, [], []
     for label, path in srcs:
         with open(path, "rb") as fh:
             raw = fh.read()
@@ -166,8 +207,18 @@ def scan(led, reg, root, paste_dir, evid_dir, session=SESSION):
                 # 但 card3x4r4-／card3x4r4ref-／card3x4r4probe- 是本轮自己的名字，混进「未命中分布」
                 # 不判红就等于把改坏的串当成没投过——主链侧 F007 被插 442 字声明正是这一类。
                 if name.startswith(ROUND_NAME_PREFIXES):
-                    round_unmatched.append({"来源": label, "发名": name, "送入字符数": len(inp["prompt"]),
-                                            "送入sha12": norm_sha(inp["prompt"])[:12]})
+                    rec = {"来源": label, "发名": name, "送入字符数": len(inp["prompt"]),
+                           "送入sha12": norm_sha(inp["prompt"])[:12]}
+                    cid_void = name_to_id(name)
+                    # 豁免按登记面计数：登记了几次作废，就只豁免几次未命中发起，多出来的那发仍判红。
+                    if cid_void in void_left and void_left[cid_void] > 0:
+                        void_left[cid_void] -= 1
+                        rec["豁免依据"] = ("%s 有已登记的作废发起（证据行 status≠ok 且 error 写明串面不符，"
+                                          "该行 prompt_sha256 与台账 send_sha256 不等或为空）" % cid_void)
+                        rec["剩余未豁免作废登记数"] = void_left[cid_void]
+                        voided_unmatched.append(rec)
+                    else:
+                        round_unmatched.append(rec)
                 continue
             cid, form = got
             matched += 1
@@ -209,14 +260,17 @@ def scan(led, reg, root, paste_dir, evid_dir, session=SESSION):
                        "images 那一路按台账 ref_image 的文件名逐条核，再按逐片证据行的 landing_sha256 与落地实读字节对拍。"
                        "三条都对上才算本轮真投出来那一发：漏挂母图的发起串面逐字相等，只看串会把它投成裸串这一事实洗掉；"
                        "403／参数校验失败的发起串面也逐字相等，只看串（或只看 landing 在盘）会把零产物洗成已投——"
-                       "那条 landing 上压着的是上一轮判废旧图。续投差集只认「放量已落盘条目」。",
+                       "那条 landing 上压着的是上一轮判废旧图。续投差集只认「放量已落盘条目」。"
+                       "本轮发名却未命中那一判红支，对已登记作废的发起按登记次数豁免（详见文件头第 4 点）。",
         "登记时刻": reg.get("登记时刻", ""),
         "统计面": "台账 %d 条；回绑源在盘 %d 份、缺失 %d 份；证据文件 %d 份（只认带 landing＋landing_sha256 的行，"
                   "探针证据无落点字段故不计）；逐字命中按 id 去重计数，同 id 多次送入记入「同条多枚」；"
                   "发名分「放量 card3x4r4-<id>／探针 card3x4r4ref-|probe-／异名」三档，落盘判与母图判红都只在放量＋异名档上算，"
                   "探针档的母图偏差单列（探针可合法借别的放行枚）；「未命中发名分布」按发名逐条归因，"
                   "往轮与别组的送入不命中本轮台账是预期、不是违例，但本轮自己的发名（card3x4r4-／ref-／probe-）"
-                  "却未命中的发起另立「本轮发名却未命中」并判红——那是发送侧字符损坏，不是没投过"
+                  "却未命中的发起另立「本轮发名却未命中」并判红——那是发送侧字符损坏，不是没投过；"
+                  "已按证据行登记作废的发起（同 id 有 status≠ok 且 error 写明串面不符的行）按次豁免、单列不判红，"
+                  "豁免次数不得超过登记次数"
                   % (led["条数"], len(srcs), len(missing), len(ev_files)),
         "回绑源在盘份数": len(srcs), "缺失份数": len(missing),
         "缺失清单": [x[1] for x in missing],
@@ -228,6 +282,8 @@ def scan(led, reg, root, paste_dir, evid_dir, session=SESSION):
         "未命中合计": sum(r["未命中数"] for r in rows),
         "未命中发名分布": dict(sorted(unmatched_names.items())),
         "本轮发名却未命中": round_unmatched,
+        "本轮发名却未命中（已登记作废豁免）": voided_unmatched,
+        "作废发起登记数": dict(sorted(void_reg.items())),
         "台账条目被逐字命中数": len(hits), "未被命中条目": unmatched,
         "放量已落盘条目数": len(landed), "放量已落盘条目": landed,
         "放量落盘判分布": {k: sorted(set(v)) for k, v in sorted(states.items())},
@@ -256,10 +312,14 @@ def main():
     print("回绑源在盘 %d／缺失 %d｜送入 %d｜逐字命中 %d｜未命中 %d｜被命中条目 %d／未命中条目 %d"
           % (out["回绑源在盘份数"], out["缺失份数"], out["ImageGen送入合计"], out["逐字命中合计"],
              out["未命中合计"], out["台账条目被逐字命中数"], len(out["未被命中条目"])))
-    print("发名档 %s｜放量落盘判 %s｜放量已落盘 %d 枚｜母图未对上 %s｜发名不符 %d｜本轮发名却未命中 %d｜EXIT=%d"
+    print("发名档 %s｜放量落盘判 %s｜放量已落盘 %d 枚｜母图未对上 %s｜发名不符 %d｜本轮发名却未命中 %d"
+          "（另有已登记作废豁免 %d）｜EXIT=%d"
           % (out["命中发名档合计"], {k: len(v) for k, v in out["放量落盘判分布"].items()},
              out["放量已落盘条目数"], out["母图未对上的条目"], len(out["发名不符的命中"]),
-             len(out["本轮发名却未命中"]), rc))
+             len(out["本轮发名却未命中"]), len(out["本轮发名却未命中（已登记作废豁免）"]), rc))
+    if out["本轮发名却未命中（已登记作废豁免）"]:
+        print("◎ 已登记作废发起豁免（不判红，逐条带登记依据）",
+              out["本轮发名却未命中（已登记作废豁免）"][:5])
     if out["本轮发名却未命中"]:
         print("✗ 本轮发名却未命中（发送侧字符损坏）", out["本轮发名却未命中"][:5])
     if out["放量落盘异常条目"]:

@@ -15,6 +15,7 @@ timestamp_ms 仍按规程第 4 节取写入当刻；真实投放时刻另记在 
 """
 import argparse
 import difflib
+import glob
 import hashlib
 import io
 import json
@@ -126,16 +127,19 @@ def load_items(scratch, ids):
 
 
 def existing_ids(scratch, shard_no):
-    p = os.path.join(scratch, "sent_shard%02d.jsonl" % shard_no)
-    if not os.path.isfile(p):
-        return set(), p
+    """已有 id 取 sent_*.jsonl 的并集，不只看本片那一个文件名：分片证据从 11-09 的 sent_shardNN
+    到 11-13 放量批次的 sent_r4-todo-mainNN，命名换过一代，只认旧前缀会把已投的读成未投、补出重复行。
+    写回目标仍是本片文件，补行靠 来源 字段与代理行分得开。"""
     ids = set()
-    with io.open(p, encoding="utf-8") as fh:
-        for line in fh:
-            line = line.strip()
-            if line:
-                ids.add(json.loads(line)["id"])
-    return ids, p
+    for p in sorted(glob.glob(os.path.join(scratch, "sent_*.jsonl"))):
+        if not os.path.isfile(p):
+            continue
+        with io.open(p, encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if line:
+                    ids.add(json.loads(line)["id"])
+    return ids, os.path.join(scratch, "sent_shard%02d.jsonl" % shard_no)
 
 
 def file_eol(path):

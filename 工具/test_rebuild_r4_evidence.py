@@ -395,6 +395,20 @@ class RebuildEvidenceNegative(unittest.TestCase):
         self.assertEqual(Path(self.fx.sent_path()).read_bytes(), before, "幂等拒跑还动了原文件")
         self.assertFalse(os.path.exists(self.fx.readings))
 
+    def test_t2_existing_row_in_dispatch_batch_filename_is_also_refused(self):
+        """违例负测：放量批次的证据文件叫 sent_r4-todo-mainNN.jsonl，11-09 那批才叫 sent_shardNN。
+        收件面若只认那一个文件名，已投条目会被读成未投、补出第二条同 id 证据行。"""
+        row = {"id": self.fx.eid, "arm": "ref", "send_name": self.fx.send_name,
+               "status": "ok", "error": "", "timestamp_ms": 1}
+        other = os.path.join(self.fx.scratch, "sent_r4-todo-main07.jsonl")
+        with io.open(other, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+        self.fx.send()
+        rc, out = self.fx.run()
+        self.assertNotEqual(rc, 0, "换个命名代的已有行看不见＝幂等闸失效")
+        self.assertIn("拒跑", out)
+        self.assertFalse(os.path.exists(self.fx.sent_path()), "整条拒跑却新建了本片文件")
+
     def test_u_partial_refusal_writes_nothing_for_the_whole_run(self):
         self.fx.seed_row(eid=self.fx.eid)
         other = dict(self.fx.item, id="X02", send_name="X02-测试片区-C154母图重投-v01",
@@ -492,6 +506,34 @@ class RebuildEvidenceNegative(unittest.TestCase):
                              "变异后串面负测不再判红＝test_c 测的就是 status 这一条")
         finally:
             R.evaluate = orig
+
+    def test_mutation_single_file_existing_ids_makes_t2_toothless(self):
+        # 把我改掉的那一版（只认本片那一个文件名）装回去：同一条用例必须退成「补出第二行」。
+        orig = R.existing_ids
+
+        def one_file(scratch, no):
+            p = os.path.join(scratch, "sent_shard%02d.jsonl" % no)
+            ids = set()
+            if os.path.isfile(p):
+                with io.open(p, encoding="utf-8") as fh:
+                    for line in fh:
+                        if line.strip():
+                            ids.add(json.loads(line)["id"])
+            return ids, p
+
+        R.existing_ids = one_file
+        try:
+            row = {"id": self.fx.eid, "arm": "ref", "send_name": self.fx.send_name,
+                   "status": "ok", "error": "", "timestamp_ms": 1}
+            with io.open(os.path.join(self.fx.scratch, "sent_r4-todo-main07.jsonl"), "w",
+                         encoding="utf-8", newline="\n") as fh:
+                fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+            self.fx.send()
+            rc, out = self.fx.run()
+            self.assertEqual(rc, 0, "变异后仍然拒跑＝test_t2 测的就不是收件面而是别的判据")
+            self.assertTrue(os.path.exists(self.fx.sent_path()), "变异后没写第二行，test_t2 没有承载")
+        finally:
+            R.existing_ids = orig
 
     def test_mutation_idempotency_always_empty_makes_existing_row_negative_toothless(self):
         orig = R.existing_ids
