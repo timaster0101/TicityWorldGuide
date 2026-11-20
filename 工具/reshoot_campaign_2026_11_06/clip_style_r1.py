@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
-"""R1 组（C138主向重投-v01）264 枚的画风侧 CLIP 重读。
+"""重投面画风侧 CLIP 重读（覆盖面＝当前在册那一轮的主向交付格，逐条恰 1 格）。
+
+覆盖面按 `current_cells.py` 的唯一取法现算：备注里每条 ID 最后一条「投后机械对账读数」点名的那一格。
+原先这里写死 `BATCH = 'C138主向重投'` 去筛 `image_file`，C154 母图臂回填把那 310 条的一格换掉之后
+命中面从 312 塌到 2，画风读数表与闸门对拍同时判红（2026-11-20 实测）——所以档串不再写死。
+产物口径不变：R1 组首读时是 264 枚 C138 格，本表读的是同一族「重投期在册格」，
+逐枚在 `按档串分布` 里带出各条当前所属轮次，不冒充是某一轮的表。
 
 C134 口径：本脚本只出读数，不判废、不写 accepted、不改 status。画风判废权在人工目视。
 判据模板与分离度算法直接从 clip_style.py 导入，不另抄一份（那份已被 __main__ 守卫挡住，导入不会重跑正典实验）。
@@ -8,6 +14,7 @@ verify_readout_stance 钉着那两份各 75 行、照片 45／绘画 30 且两�
 
     python -X utf8 工具/reshoot_campaign_2026_11_06/clip_style_r1.py
 """
+import collections
 import hashlib
 import io
 import json
@@ -21,31 +28,18 @@ from transformers import CLIPModel, CLIPProcessor
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from clip_style import M, PAINT_T, PHOTO_T, SET, sep
+from current_cells import RULE_TEXT, current_cells
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 QUEUE = os.path.join(SET, '数据', '开图清单.json')
 CANON = os.path.join(HERE, 'clip_style_scores.tsv')
 OUT_TSV = os.path.join(HERE, 'clip_style_scores_r1.tsv')
 OUT_JSON = os.path.join(HERE, 'clip_style_r1_readings.json')
-BATCH = 'C138主向重投'
 
 
 def r1_cells():
-    with io.open(QUEUE, encoding='utf-8') as fp:
-        q = json.loads(fp.read())
-    rows, excluded = [], []
-    for it in q['items']:
-        cells = [c for c in (it.get('image_file') or []) if c]
-        hit = [c for c in cells if BATCH in c]
-        if not hit:
-            excluded.append({'id': it['id'], 'status': it['status'], '格数': len(cells),
-                             '原因': '无 C138 主向重投格'})
-            continue
-        for c in hit:
-            p = os.path.join(SET, c.replace('/', os.sep))
-            rows.append({'id': it['id'], 'name': it['name'], 'cell': c, 'path': p,
-                         '在盘': os.path.exists(p)})
-    return q, rows, excluded
+    """重投面在册格逐条一枚（取法与排除原因都在 current_cells.py，本处不另写一遍筛法）。"""
+    return current_cells(SET)
 
 
 def canon_threshold():
@@ -120,7 +114,8 @@ def main():
             '真源': '数据/开图清单.json',
             '真源sha256_12': queue_sha12,
             '清单条目数': len(q['items']),
-            '选取规则': 'image_file 四向格里含「%s」字样的那一格，逐条恰 1 格' % BATCH,
+            '选取规则': RULE_TEXT,
+            '按档串分布': dict(collections.Counter(r['档串'] for r in rows)),
             '选中格数': len(rows),
             '涉及条目数': len({r['id'] for r in rows}),
             '排除条目数': len(excluded),
@@ -128,7 +123,8 @@ def main():
                              for k in sorted({e['原因'] for e in excluded})},
             '排除条目名单': [e['id'] for e in excluded],
             '取不到的格数': len(missing),
-            '读取路径面': '仓内 钛湖城城市设定集/vibe_images/（清单真源所指），不读仓外工作区根落点',
+            '读取路径面': '清单 image_file 登记的在册路径（交付落点搬过三次家，读数里的历史路径不作读取依据），'
+                          '逐条现取不读仓外工作区根落点',
             '正典两表是否改动': '否，clip_style_scores.tsv 与 style_sep_final.tsv 均未写入',
         },
         '正典对照': canon,

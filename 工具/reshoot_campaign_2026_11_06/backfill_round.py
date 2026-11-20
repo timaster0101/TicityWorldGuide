@@ -164,9 +164,13 @@ def main(group, only=None):
         assert face, (only, '补充台账是空的，回填范围收到空集等于什么都不做')
         rows = [r for r in rows if r['id'] in face]
         assert rows, (only, '读数里没有一条落在 %s 的键面上：先跑 verify_round 再谈回填' % only)
-    with io.open(os.path.join(HERE, cfg['catchup']), encoding='utf-8') as _h167:
-        catchup = set(json.load(_h167)) \
-            if cfg.get('catchup') and os.path.exists(os.path.join(HERE, cfg['catchup'])) else set()
+    # `catchup` 只有 R1 那组才配：R2／R4 的配置里没有这一键，按 `cfg['catchup']` 直取会让这两组
+    # 在读取面就 KeyError 退出（2026-11-20 首跑 R4 实测），补投分支因此从未在 R4 上被执行过。
+    catchup_file = cfg.get('catchup')
+    catchup = set()
+    if catchup_file and os.path.exists(os.path.join(HERE, catchup_file)):
+        with io.open(os.path.join(HERE, catchup_file), encoding='utf-8') as _h167:
+            catchup = set(json.load(_h167))
     green, red = [], []
     for r in rows:
         cont = r['container']
@@ -231,7 +235,7 @@ def main(group, only=None):
             '%s%s 实发串逐字相等：本轮发起 %d 次（逐字 %d／非逐字 %d，登记作废发起 %d）；'
             '落盘 %d 枚（冻结带内，ts=%s）；尺寸与清单声明一致（%s）。'
             '占格为%s，其余 %d 格原样保留、旧文件不删。%s'
-            % (PROVENANCE[group], (CATCHUP_DELEGATION % cfg['catchup']) if eid in catchup else '',
+            % (PROVENANCE[group], (CATCHUP_DELEGATION % catchup_file) if eid in catchup else '',
                r['投次'], r['逐字发起数'], r['非逐字发起数'], r['登记作废发起数'],
                1, r['ts_text'], r['dims'],
                '新增首格' if old is None else '替换第 %d 格' % slot,

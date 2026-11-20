@@ -29,7 +29,11 @@ ROUNDS = (
     (re.compile(r'^C123新串([A-Z]+\d+)重投'), 'C123新串', 'vnn'),
     (re.compile(r'^C133冻结重投([A-Z]+\d+)（v01）'), 'C133冻结重投', 'fixed'),
     (re.compile(r'^C138主向重投([A-Z]+\d+)（v01）'), 'C138主向重投', 'fixed'),
+    # C154 母图臂重投（R4 组 310 条）替换的正是 C138 那一格；不认这一轮，占格判据会拿 C138 的档串
+    # 去要求已经换成 C154 的那一格，310 条集体假红（2026-11-20 回填首跑实测）。
+    (re.compile(r'^C154母图重投([A-Z]+\d+)（v01）'), 'C154母图重投', 'fixed'),
 )
+ROUND_TOKENS = tuple(t for _, t, _ in ROUNDS)
 
 ARCHIVE_ROOT = 'backup/'
 # 2026-11-07 起交付格的登记落点（按 ID 分文件夹）；归档镜像仍写完整 backup/数据/图集/... 所以只用于前缀判定
@@ -120,6 +124,15 @@ def signed_view(item):
     return dict(item, status='已验收')
 
 
+def unreshot_members(items, notes, token='C138主向重投'):
+    """最新一轮仍等于 token 的条目（＝那一格之后没被更晚一轮替换过），按 ID 排序现算，不抄名单。
+
+    为什么代签申报类的负测要跑在这一面上：C139 申报行点名的是它当时占的那一枚，更晚一轮（C154 母图重投）
+    把那一格换掉之后，判据在现清单格面上必然报「代签申报没点名当前在册的格」——那是判据在说话、不是坏数据。
+    负测的前置是「基线本身达标」，承载只能取没被替换的那些条；这个面随每轮回填派生，无需人工维护。"""
+    return sorted(eid for eid in items if cell_row(eid, notes.get(eid, []))[1] == token)
+
+
 def unsigned_binding_ok(item, rows, prev):
     """「条目没签却带着绑定摘要」在 C153 之后只允许一种形态，返回违例描述（None＝合规）。
 
@@ -161,8 +174,12 @@ def cell_row(eid, rows):
 
 
 def registered_file(row, token):
-    """从占格读数里取它自己点名的本轮文件名——判据要求读数自带出处，所以取得到，不必另抄名单。"""
-    hits = re.findall(r'(?:backup/)?vibe_images/\S*?%s-\S+?\.(?:png|jpg)' % re.escape(token), row)
+    """从占格读数里取它自己点名的本轮文件名——判据要求读数自带出处，所以取得到，不必另抄名单。
+
+    取法按「以空白／（／，分隔的一个图片路径，且档串在里面」，而不是按 `vibe_images/` 前缀：
+    登记落点已经走过三档（`backup/` 镜像 → `vibe_images/` → C141 的 `数据/图集/<ID>/`），
+    钉前缀等于每搬一次家就要把这条取数函数改一次，而回填脚本写进备注的永远是当时的真实落点。"""
+    hits = [p for p in re.findall(r'[^\s，、；：（）()]+\.(?:png|jpg)', row) if token in p]
     return hits[0] if hits else ''
 
 
@@ -407,14 +424,16 @@ class ReviewNoteHistory(unittest.TestCase):
         # 名单不手抄：
         # 从清单的 batch 后缀（回填脚本按档串写入）派生，键集合必须恰等于「历史钉住的批次 ∪ 本轮占格的条目」——
         # 多出来的键说明有人在清单之外造了备注，少掉的键说明某条占格没留出处，两种都判红。
-        c138 = {i['id'] for i in self.manifest['items']
-                if str(i.get('batch') or '').endswith('C138主向重投-v01')}
-        self.assertEqual(len(c138), 312,
-                         'C138 主向档的占格条目数不是 312（264 放量＋48 补投），回填范围或档串换了')
+        # 名单不手抄：「本轮占格的条目」由备注里的占格读数行派生（ROUNDS 一份依据），不取清单的 batch 后缀——
+        # 后缀只反映最新一轮，拿它选面会在每轮回填后把上一轮成员读成 0（C154 回填首跑实测：312→2）。
+        occupied = {i['id'] for i in self.manifest['items']
+                    if cell_row(i['id'], self.notes.get(i['id'], []))[1]}
+        self.assertEqual(len(occupied), len(self.manifest['items']),
+                         '有清单条目查不到任何一轮占格读数：回填范围或档串换了')
         self.assertEqual(set(self.notes),
                          set(self.RECOVERED + self.BACKFILLED + self.RESHOT + self.VARIANT
                              + self.MORNING + self.RAIN + self.SUNNY + self.BATCH9 + self.BATCH9C
-                             + self.BATCH9D + self.BATCH9E + self.BATCH9F + self.C_ITEM_REREAD) | c138)
+                             + self.BATCH9D + self.BATCH9E + self.BATCH9F + self.C_ITEM_REREAD) | occupied)
         # 本轮实测：809ed08 的原始长度 518/226/231/151，各带一条同文派生原因，剥净后如下
         self.assertEqual({k: len(v[0]) for k, v in self.notes.items() if k in self.RECOVERED},
                          {'D01': 204, 'L007': 491, 'L008': 199, 'R043': 124})
@@ -580,9 +599,11 @@ class ReviewNoteHistory(unittest.TestCase):
         48 条补投（用户 2026-11-07「2 只要不是新画风生成的或者缺少的，都开」「3 补」）里 39 条占格时是已验收、
         绑的是没换过的提示词串（C135），那句「摘要已过期」对它们是假申报，所以过期档按字面量而不是按
         「有没有维持原绑定」分——后者已被补投面撑到 43 条，拿它筛就会把 39 条真话读成过期申报。"""
-        c138 = sorted(i['id'] for i in self.manifest['items']
-                      if str(i.get('batch') or '').endswith('C138主向重投-v01'))
-        self.assertEqual(len(c138), 312)
+        # 选面按「本条备注里有没有 C138 那一轮的占格读数行」派生，不按清单 batch 后缀：
+        # C154 回填把 310 条的后缀顶成了 C154，按后缀选面等于把这一轮的历史判据读成 2 条、让沿革失去承载。
+        c138 = sorted(eid for eid in self.items if round_row(eid, self.notes.get(eid, []), 'C138主向重投'))
+        self.assertEqual(c138, sorted(self.items),
+                         'C138 主向档的覆盖面不再等于清单全体：该轮的放量／补投沿革变了，须先复核再改判据')
         # 历史面：占格当时申报过「摘要已过期、维持原绑定」的只有那四条。这条钉的是历史读数没被改写，
         # 不是钉当前绑定——当前绑定已由 C139 全部重绑到冻结串，拿它反推会把沿革读错。
         stale_declared = sorted(eid for eid in c138
@@ -608,17 +629,33 @@ class ReviewNoteHistory(unittest.TestCase):
                 self.assertEqual(item['status'], '待复验', eid)
                 self.assertIsNone(unsigned_binding_ok(item, self.notes[eid], self.prev_baseline), eid)
                 self.assertTrue(declaration_rows(self.notes[eid]), '%s 的代签申报行被删掉了' % eid)
-                self.assertEqual(check_sign_declaration(item, self.notes[eid]), [], eid)
+                # 申报判据按「该轮当时的在册格」核，不按现清单的格面核：C154 回填替换掉的正是这条申报点名过的那一枚，
+                # 拿现格面去要求一份 2026-11-07 的历史申报复述 2026-11-20 才换上去的文件名，
+                # 读出来的不是「申报不合规」而是「申报写晚了」——那是假红。历史申报一律不改写（在册纪律）。
+                era_cell = registered_file(row, 'C138主向重投')
+                latest = cell_row(eid, self.notes[eid])[1]
+                self.assertTrue(era_cell and on_disk(era_cell), '%s 的 C138 占格枚取不到或已不在盘' % eid)
+                self.assertEqual(check_sign_declaration(dict(item, image_file=[era_cell]), self.notes[eid]),
+                                 [], eid)
+                # 反过来钉一件事：C154 之后那条申报复述的格已不在册的条目，不许被当成「本轮验收依据还在」。
+                # 只判真正被替换掉的那一格（多格条目里申报点名的可能是另一向的定档格，那种仍成立，不强判红）。
+                if unrooted(era_cell) not in [unrooted(c) for c in (item['image_file'] or [])]:
+                    self.assertTrue('维持原绑定' in round_row(eid, self.notes[eid], latest)
+                                    or '留空' in round_row(eid, self.notes[eid], latest),
+                                    '%s 的格已被 %s 替换，占格行却没交代绑定去向' % (eid, latest))
         signed = [eid for eid in c138 if declaration_rows(self.notes[eid])]
-        self.assertEqual(len(signed), 312,
-                         'C138 主向档代签申报行的覆盖面不是 312：C139 的委托面变了须先复核裁定再改数')
+        self.assertEqual(signed, c138,
+                         'C138 主向档里有条目没有代签申报行：C139 的委托面变了须先复核裁定再改判据')
 
     def test_r1_signing_declaration_is_not_inert(self):
         """违例负测：C139 的「没申报不许签」必须能被坏数据打红，否则守卫只是散文。
         坏样本取真实会犯的错：整行删掉（等于静默洗成已验收）、四要素各缺一项、
         复述的摘要前 12 位换成另一串（等于把别的文件的验收挂到本条）、抬头点名别的 ID。
-        每一例都同时打红申报判据与占格判据——后者是闸门实际调用的入口，只测前者会漏掉接线断掉。"""
-        eid = 'L062'
+        每一例都同时打红申报判据与占格判据——后者是闸门实际调用的入口，只测前者会漏掉接线断掉。
+        承载件按 unreshot_members 现算：被更晚一轮替换过交付格的条目，其申报判据基线本来就不达标（见该函数注释）。"""
+        carrier = unreshot_members(self.items, self.notes)
+        self.assertTrue(carrier, '清单里已无一条的最新一轮还是 C138——这批负测要改跑在还原视图上')
+        eid = carrier[0]
         rows = self.notes[eid]
         # C153 换档后现清单里 L062 是待复验：签署判据（check_sign_declaration）只在已验收支路上被调用，
         # 直接拿现清单跑这批负测，删掉申报行也不会红——那正是假绿。承载取内存里的已验收视图，
@@ -649,18 +686,20 @@ class ReviewNoteHistory(unittest.TestCase):
         余下 52 位补零不影响可达性——补的是夹具，不是第二份真源。
         留着这条是因为后续轮次仍会出现「已绑条目再占格但尚未复验」，那一支不是死代码。
         C153 起申报有两个合法来源（本轮占格行＋本条换档申报行），注入必须同时打掉两处，
-        否则留着换档行当第二来源，这一支会假绿——那正是放宽时要付的对价。"""
+        否则留着换档行当第二来源，这一支会假绿——那正是放宽时要付的对价。
+        前 12 位取当前在册那一轮的占格行而不是历史轮次：C154 回填后更晚那一轮自己复述了新的那串，
+        而更早的 C138 行复述的是它当时的绑定（D01 即 d0556d18de11），取历史轮会让还原夹具天生不达标。"""
         eid = 'D01'
         rows = self.notes[eid]
-        sel = round_row(eid, rows, 'C138主向重投')
+        sel = round_row(eid, rows, cell_row(eid, rows)[1])
         m = re.search(r'维持原绑定 ([0-9a-f]{12})', sel)
-        self.assertTrue(m, '基线：D01 的占格读数里查不到「维持原绑定 <前12位>」申报')
+        self.assertTrue(m, '基线：%s 的当前在册占格读数里查不到「维持原绑定 <前12位>」申报' % eid)
         item = json.loads(json.dumps(self.items[eid]))
         item['status'] = '待复验'
         item['image_prompt_sha256'] = m.group(1) + '0' * 52
-        sources = [r for r in rows if '维持原绑定' in r]
+        sources = [r for r in rows if '维持原绑定 %s' % m.group(1) in r]
         self.assertTrue(len(sources) >= 2,
-                        '基线：D01 的申报来源不足两处（占格行＋换档行），本负测测不到放宽后的判据')
+                        '基线：%s 复述这一串的申报来源不足两处（占格行＋换档行），本负测测不到放宽后的判据' % eid)
         self.assertEqual(check_cell_registration(item, rows), [], '还原夹具本身必须先达标')
         for label, repl in (('漏申报', lambda r: r.replace('维持原绑定 %s' % m.group(1), 'image_prompt_sha256 留空')),
                             ('申报了但没复述前12位', lambda r: r.replace(m.group(1), ''))):
@@ -675,20 +714,27 @@ class ReviewNoteHistory(unittest.TestCase):
         等于给「未登记的补绑」开了第二道门。三个样本各打一种形态：整行删掉（过期没登记过）、
         被复述的前 12 位换成另一串（把别的基准串写成"本条维持的那串"）、抬头点名别的 ID
         （拿别条的申报冒充本条）。三种都同时打红占格判据与未签绑定判据。
-        样本取 L001：它的本轮占格行逐字写的是「image_prompt_sha256 留空」（那一轮确实留空），
-        过期这件事只由换档行承载，所以打掉换档行就等于打掉唯一来源——正是这条判据要防的。"""
-        eid = 'L001'
+        样本按面现算：取「本轮占格行逐字写的是 image_prompt_sha256 留空」的那批（那一轮确实留空，
+        过期这件事只由换档行承载，所以打掉换档行就等于打掉唯一来源——正是这条判据要防的）。
+        C154 回填后新的占格行自己复述了「维持原绑定＋摘要已过期」，那些条目不再有无来源可打的承载，
+        所以承载面只从没被 C154 替换过的那几条里取。"""
+        carrier = [eid for eid in unreshot_members(self.items, self.notes)
+                   if '维持原绑定' not in round_row(eid, self.notes[eid], 'C138主向重投')]
+        self.assertTrue(carrier, '已无一条的本轮占格行写「留空」，换档行不再是任何条目的唯一申报来源，本负测要换承载')
+        eid = carrier[0]
         item, rows = self.items[eid], self.notes[eid]
         sd = shift_decl_rows(eid, rows)
-        self.assertEqual(len(sd), 1, '基线：L001 应恰有一条本条的换档申报行')
+        self.assertEqual(len(sd), 1, '基线：%s 应恰有一条本条的换档申报行' % eid)
         decl = sd[0]
         bound = str(item['image_prompt_sha256'])
-        self.assertEqual(item['status'], '待复验', '基线：C153 之后 L001 须是待复验，否则本负测无承载')
+        other = next(i for i in sorted(self.items) if i != eid)
+        self.assertEqual(item['status'], '待复验', '基线：C153 之后 %s 须是待复验，否则本负测无承载' % eid)
         self.assertEqual(check_cell_registration(item, rows), [])
         self.assertIsNone(unsigned_binding_ok(item, rows, self.prev_baseline))
         cases = [('整行删掉', None),
                  ('摘要前12位换成另一串', decl.replace(bound[:12], '0' * 12)),
-                 ('抬头点名别的 ID', decl.replace('画风换档申报%s：' % eid, '画风换档申报L002：', 1))]
+                 ('抬头点名别的 ID', decl.replace('画风换档申报%s：' % eid,
+                                                 '画风换档申报%s：' % other, 1))]
         for label, repl in cases:
             with self.subTest(case=label):
                 mutated = ([r for r in rows if r != decl] if repl is None
@@ -710,13 +756,15 @@ class ReviewNoteHistory(unittest.TestCase):
         C123 那轮的档位后缀与投次抬头用 as_of_round 还原视图——后一轮替换掉的是同一格，
         现清单里已经没有 C123 的产物可查，直接在现清单上跑这批负测会做成恒绿。
         签署口径的字面量同理：未签档原文只在还原视图里还活着，
-        所以那三例跑在 C138 的未签档还原视图上，已签档两例另跑在 L062 的原文上——两档各抽各的字面量，
-        每例都先断言字面量真在原文里，防止抽成空操作后把「负测无效」读成「判据松了」。"""
-        base = signed_view(self.items['L062'])
-        rows = self.notes['L062']
-        sel = cell_row('L062', rows)[0]
+        所以那三例跑在 C138 的未签档还原视图上，已签档两例跑在补投面按字面量选出的那条的 C138 还原视图上——
+        两档各抽各的字面量，每例都先断言字面量真在原文里，防止抽成空操作后把「负测无效」读成「判据松了」。"""
+        carrier = unreshot_members(self.items, self.notes)
+        self.assertTrue(carrier, '清单里已无一条的最新一轮还是 C138——这批负测要改跑在还原视图上')
+        base = signed_view(self.items[carrier[0]])
+        rows = self.notes[carrier[0]]
+        sel = cell_row(carrier[0], rows)[0]
         self.assertEqual(check_cell_registration(base, rows), [])
-        self.assertEqual(self.items['L062']['status'], '待复验',
+        self.assertEqual(self.items[carrier[0]]['status'], '待复验',
                          '基线变了：C153 之后现清单不该有已验收条目，签署负测的承载要随之复核')
         cases = [
             ('追加不替换', lambda it: it['image_file'].append(it['image_file'][0]), rows),
@@ -752,14 +800,26 @@ class ReviewNoteHistory(unittest.TestCase):
                 mutated_rows = [(repl(r) if r == unst_sel else r) for r in unst_rows]
                 self.assertNotEqual(mutated_rows, unst_rows, '%s 的替换没落地，负测无效' % label)
                 self.assertTrue(check_cell_registration(unst, mutated_rows), label)
-        # 已签档那一档（补投 39 条）各防各的假话：抽掉「维持已验收」要退回未签档字面量、抽掉复核人即失据。
+        # 已签档那一档（R2 补投 39 条）各防各的假话：抽掉「维持已验收」要退回未签档字面量、抽掉复核人即失据。
+        # 承载按 C138 占格行里的字面量现算，不点名某条；且跑在 as_of_round 的 C138 还原视图上：
+        # C154 回填后这 39 条的最新一轮已是 C154，现清单视图上那句历史申报点不到当前在册格，
+        # 拿它抽字面量会把「判据本来就红」读成「负测抓到了坏数据」。
+        signed_carrier = [eid for eid in sorted(self.items)
+                          if 'accepted 维持已验收' in round_row(eid, self.notes[eid], 'C138主向重投')
+                          and 'sign_acceptance' in round_row(eid, self.notes[eid], 'C138主向重投')]
+        self.assertTrue(signed_carrier, '已无一条的 C138 占格行写着已签档口径，本组负测失去承载')
+        sitem, srows = as_of_round(self.items[signed_carrier[0]],
+                                   self.notes[signed_carrier[0]], 'C138主向重投')
+        self.assertEqual(check_cell_registration(sitem, srows), [],
+                         '已签档还原视图本身必须先达标（%s）' % signed_carrier[0])
+        ssel = cell_row(signed_carrier[0], srows)[0]
         for repl, label in ((lambda r: r.replace('accepted 维持已验收', ''), '已签档读数不写维持已验收'),
                             (lambda r: r.replace('sign_acceptance', ''), '已签档读数不点明代签复核人')):
             with self.subTest(case=label):
-                self.assertTrue(repl(sel) != sel, '%s 在已签档原文上找不到字面量，负测无承载' % label)
-                mutated_rows = [(repl(r) if r == sel else r) for r in rows]
-                self.assertNotEqual(mutated_rows, rows, '%s 的替换没落地，负测无效' % label)
-                self.assertTrue(check_cell_registration(base, mutated_rows), label)
+                self.assertTrue(repl(ssel) != ssel, '%s 在已签档原文上找不到字面量，负测无承载' % label)
+                mutated_rows = [(repl(r) if r == ssel else r) for r in srows]
+                self.assertNotEqual(mutated_rows, srows, '%s 的替换没落地，负测无效' % label)
+                self.assertTrue(check_cell_registration(sitem, mutated_rows), label)
         # 本轮两种新口径各自的坏数据（C123 还原视图）
         first, first_rows = as_of_round(self.items['L063'], self.notes['L063'], 'C123新串')
         self.assertEqual(check_cell_registration(first, first_rows), [])
@@ -925,14 +985,15 @@ class ReviewNoteHistory(unittest.TestCase):
         # 清单侧：9 条（含第 9 次发起被服务端 403 code 112 拒了、无产物的 L106）第六投之后仍零格待开图；
         # 2026-11-07 用户「2 只要不是新画风生成的或者缺少的，都开」「3 补」把这 9 条补投成 C138 主向档，
         # 所以「零格／待开图／无绑定」这个当轮形态已经翻篇——现在钉的是它翻篇翻得干净：
-        # 每条恰好只有一格、那一格是本轮补投枚，而第六投那 8 枚判废产物逐枚对账仍不在任何格里。
+        # 每条恰好只有一格，且那一格是最新一轮（C154 母图重投替换后的那一枚，档串按备注占格行现读、不写死），
+        # 而第六投那 8 枚判废产物逐枚对账仍不在任何格里。
         rejected_files = {r['file'] for r in rows}
         self.assertEqual(len(rejected_files), 8, '第六投的判废产物读数不足 8 枚，下面那句对账就无承载')
         for eid in sorted(draft) + ['L106']:
             item = self.items[eid]
             with self.subTest(case='第六投未占格' + eid):
                 self.assertEqual(len(item['image_file'] or []), 1, eid)
-                self.assertIn('C138主向重投', (item['image_file'] or [''])[0], eid)
+                self.assertIn(cell_row(eid, self.notes[eid])[1], (item['image_file'] or [''])[0], eid)
                 self.assertFalse(rejected_files & {unrooted(c) for c in item['image_file']},
                                  '%s 的第六投判废枚进了交付格' % eid)
                 self.assertFalse([r for r in self.notes.get(eid, []) if '重投第五投（v02）' in r],
@@ -947,10 +1008,14 @@ class ReviewNoteHistory(unittest.TestCase):
             mutated = dict(draft)
             mutated['L081'] = stripped
             self.assertEqual([k for k, v in sorted(mutated.items()) if g9.is_clean(v)], ['L081'])
+            # 剔行面按 ROUNDS 全体现算：只列 C133／C138 两轮的写法，在 C154 回填后会漏掉末位那条
+            # 占格行——它正文里逐字写着被替换的旧格路径（含「C138主向重投」字样），
+            # 于是下面那句「还原视图不许留着本轮登记行」会被同一行打成假红。
             hist = [r for r in self.notes.get('L081', [])
-                    if not any(head_re(t).match(r) for t in ('C133冻结重投', 'C138主向重投'))
-                    and not SIGN_DECL.match(r)]
-            self.assertFalse([r for r in hist if 'C138主向重投' in r], '还原视图里还留着本轮登记行，负测无效')
+                    if not any(head_re(t).match(r) for t in ROUND_TOKENS)
+                    and not SIGN_DECL.match(r) and not SHIFT_DECL.match(r)]
+            self.assertTrue([r for r in self.notes['L081']
+                             if head_re('C138主向重投').match(r)], '本例失去承载：L081 没有 C138 占格行')
             probe = json.loads(json.dumps(self.items['L081']))
             probe['image_file'] = []
             probe['status'] = '待开图'
@@ -978,20 +1043,28 @@ class ReviewNoteHistory(unittest.TestCase):
         2026-11-09 给 312 条追加「R1 组画风目视」结论行那天，行种黑名单漏了这一种，
         `view[-1]` 指到结论行上，9 条负测同时红——那批红的根因不是判据松了，是注入口挪了位。
         两头各证一次：正头＝字面量注在本轮占格读数上必须判红；
-        反头＝按旧的黑名单口径把同一段注到末位的结论行上，判据整轮无话可说（那才是真·假绿）。"""
-        eid, token = 'L063', 'C123新串'
+        反头＝按旧的黑名单口径把同一段注到末位的结论行上，判据整轮无话可说（那才是真·假绿）。
+        承载件从 L063 换成 L095：C154 回填把占格行追加到了 310 条的末尾，那些条的末位行种已经
+        不是结论行——本例要的正是「末位是非占格行」，所以取没进 R4 名单的那两条之一。"""
+        eid, token = 'L095', 'C123新串'
         rows = self.notes[eid]
         head = head_re(token)
         item, view = as_of_round(self.items[eid], rows, token)
         self.assertEqual(check_cell_registration(item, view), [], '还原视图本身必须先达标')
         self.assertFalse([r for r in view if not head.match(r)], '还原视图里还留着非占格行种')
         self.assertIsNone(head.match(rows[-1]), '现备注末位已是占格读数，本例失去承载')
-        self.assertIn('画风目视', rows[-1], '末位行种换了，反例要跟着换成本轮真实追加的那种')
+        self.assertFalse([h for h in [h for h, _, _ in ROUNDS] + [SIGN_DECL, SHIFT_DECL]
+                          if h.match(rows[-1])], '末位行种换成了申报行或占格行，反例无对比价值')
         lit = 'image_prompt_sha256 留空'
         self.assertIn(lit, view[-1], '本轮读数不写该口径，正例无承载')
         self.assertNotIn(lit, rows[-1], '结论行里带着该口径，反例就注对行了')
-        stale = [r for r in rows if not any(head_re(t).match(r)
-                                           for t in ('C133冻结重投', 'C138主向重投'))
+        # 旧黑名单口径＝它当时认得的行种全剔掉：剔除的是「比选中这轮更晚的占格行」＋两类申报行，
+        # 选中这轮及其更早的轮次仍留在视图里（否则还原视图的承载行也被剔走，反例就变成在验「读数不在档」）。
+        # 因此这里按 ROUNDS 的先后取 idx 之后的那些轮，而不是把 ROUND_TOKENS 全体剔走——C154 入表后
+        # 全体剔走会连选中的 C123 行一起删掉（2026-11-20 实测假红）。
+        idx = [i for i, (_, t, _) in enumerate(ROUNDS) if t == token][0]
+        later = ROUND_TOKENS[idx + 1:]
+        stale = [r for r in rows if not any(head_re(t).match(r) for t in later)
                  and not SIGN_DECL.match(r) and not SHIFT_DECL.match(r)]
         self.assertEqual(stale[-1], rows[-1], '旧口径下末位不是结论行，反例无对比价值')
         inert = list(stale)
@@ -1036,10 +1109,13 @@ class ReviewNoteHistory(unittest.TestCase):
     def test_visual_column_does_not_launder_an_undeclared_acceptance(self):
         """违例负测：「视觉复验」列必须能把「已验收但没申报」如实写成判红，而不是替它宣称验收成立。
         这是 C139 最容易出的产物侧事故：闸门红了、工作单还在印「已验收（机械代签）」，
-        下一轮读工作单的人就会把 accepted 当成人工目视已过。三个坏样本各打一种形态。"""
-        base = signed_view(self.items['L062'])
-        rows = self.notes['L062']
-        self.assertEqual(self.items['L062']['status'], '待复验',
+        下一轮读工作单的人就会把 accepted 当成人工目视已过。三个坏样本各打一种形态。
+        承载件按 unreshot_members 现算，理由同 test_r1_signing_declaration_is_not_inert。"""
+        carrier = unreshot_members(self.items, self.notes)
+        self.assertTrue(carrier, '清单里已无一条的最新一轮还是 C138，本负测失去承载')
+        base = signed_view(self.items[carrier[0]])
+        rows = self.notes[carrier[0]]
+        self.assertEqual(self.items[carrier[0]]['status'], '待复验',
                          '基线变了：C153 之后现清单不该有已验收条目，本负测的承载方式要随之复核')
         self.assertEqual(visual_column(dict(base, review_note_history=rows)),
                          '已验收（机械代签）／人工目视未执行')

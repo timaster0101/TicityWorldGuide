@@ -7,7 +7,7 @@
   C134 读数口径标注缺失 —— 7 份脚本任一份丢了 C134 标注，或标注行数低于该文件的应得行数；
   判据实验产物不在盘    —— 工具/reshoot_campaign_2026_11_06/ 的 CAMPAIGN 那批产物缺件（件数以该清单本轮长度为准）；
   判据实验读数表行数或分组数不符 —— 正典读数表不是 75 行／照片侧 45／绘画侧 30，或正典 CLIP 表行数与像素表不等；
-  R1 画风读数覆盖面对不上 —— R1 表与清单现算的 C138 格集逐枚对不上（缺枚／多枚／重枚），
+  R1 画风读数覆盖面对不上 —— R1 表与「当前在册重投格」集逐枚对不上（缺枚／多枚／重枚），
                             或读数 JSON 的计数、正典表 sha12、声明阈值在正典列上复算的错分与真源不符。
                             这一类守的是 C139 代签那轮未收口偏差的举证面：表被截短或图换了读数没换，
                             偏差申报就成了无证据的散文。阈值不在本闸门重搜（那是 clip_style.sep 的活、导入要拉 torch），
@@ -19,7 +19,8 @@
 
 统计面（每个读数都自带）：扫描的是下面 FILES 这 7 个文件的全文，不排除任何行；
 产物面是 CAMPAIGN 那批文件（件数随登记增长，正检读数里直接打印实数）；
-R1 覆盖面现算自 数据/开图清单.json 里含 C138主向重投 字样的格（basename 逐枚比，不抄第二份枚数）；
+R1 覆盖面现算自 current_cells（＝备注里每条 ID 最后一条「投后机械对账读数」点名的那一格，basename 逐枚比，
+不抄第二份枚数，也不按档串字面量筛——2026-11-20 C154 母图臂回填把 310 条那格换掉后，硬筛命中面从 312 塌到 2）；
 卡面覆盖面现算自 数据/卡面主图提示词3x4/主图3x4落点.json 的全部键（不 glob 目录，落点件没登记的图不算有读数）。
 本闸门只读，不写任何真源。
 
@@ -61,12 +62,15 @@ LEGACY_PHRASES = [
 CAMPAIGN = ['style_sep_final.py', 'style_sep_final.tsv', 'clip_style.py', 'clip_style_scores.tsv',
             'container_profile.py', 'container_profile.json', 'negtest_old_backfill_assert.py',
             'pick_primary_cell.py', 'primary_cells.json',
+            'current_cells.py',
             'clip_style_r1.py', 'clip_style_scores_r1.tsv', 'clip_style_r1_readings.json',
             'clip_style_card3x4.py', 'clip_style_scores_card3x4.tsv', 'clip_style_card3x4_readings.json']
 REL_CAMPAIGN = '工具/reshoot_campaign_2026_11_06'
-# R1 画风读数的覆盖面真源：清单里含该档串字样的那一格。不抄 264 这个数——
-# 数由真源现算，抄一份就会在下一轮换档时把「覆盖面缺了」读成「行数对不上」。
-R1_CELL_TOKEN = 'C138主向重投'
+# R1 画风读数的覆盖面真源：备注里每条 ID 最后一条「投后机械对账读数」点名的那一格。
+# 取法只有 current_cells.py 一份（clip_style_r1.py 与本闸门共用），本处不再写第二遍筛法：
+# 原先这里按档串字面量 `C138主向重投` 筛 image_file，回填一轮就把命中面整体换掉（2026-11-20 实测塌到 2）。
+sys.path.insert(0, str(ROOT / REL_CAMPAIGN))
+from current_cells import RULE_TEXT, current_cells  # noqa: E402
 R1_TSV = 'clip_style_scores_r1.tsv'
 R1_JSON = 'clip_style_r1_readings.json'
 # 卡面 3:4 主图的覆盖面真源：落点件的全部键（键即卡号）。同样不抄 114 这个数。
@@ -85,18 +89,13 @@ ALL_KINDS = (K_LEGACY_PHRASE, K_STANCE_MARK_MISSING, K_ARTIFACT_MISSING, K_ARTIF
 
 
 def r1_cells(root):
-    """从清单现算 R1 那一格的 basename 集合；清单不在盘返回 None（由调用方判缺件，不静默当空集）。"""
-    p = root / '数据' / '开图清单.json'
-    if not p.exists():
-        return None
-    items = json.loads(p.read_text(encoding='utf-8'))['items']
-    out = set()
-    for it in items:
-        files = it.get('image_file') or []
-        if isinstance(files, str):
-            files = [files]
-        out.update(os.path.basename(f) for f in files if R1_CELL_TOKEN in f)
-    return out
+    """当前在册重投格的 basename 集＋排除名单（取法＝current_cells.RULE_TEXT，逐条恰 1 格）；
+    清单不在盘返回 (None, [])（由调用方判缺件，不静默当空集）。排除名单不并进取面，
+    但要把读数 JSON 声明的排除条目数钉住——排除面变大等于覆盖面变小，不能只由脚本自己说。"""
+    if not (root / '数据' / '开图清单.json').exists():
+        return None, []
+    _q, rows, excluded = current_cells(str(root))
+    return {os.path.basename(r['cell']) for r in rows}, excluded
 
 
 def card_cells(root):
@@ -177,11 +176,12 @@ def check(root=ROOT):
     # 用声明阈值在正典列上复算声明的最小错分，两边都对得上才认这个阈值，R1 两侧再按它现分。
     r1t = root / REL_CAMPAIGN / R1_TSV
     r1j = root / REL_CAMPAIGN / R1_JSON
-    want = r1_cells(root)
-    readings['R1清单格数'] = len(want) if want is not None else 0
+    want, r1_excluded = r1_cells(root)
+    readings['R1在册格数'] = len(want) if want is not None else 0
+    readings['R1排除条目数'] = len(r1_excluded)
     readings['R1画风表行数'] = 0
     if want is None:
-        viol.append('%s：清单不在盘，R1 覆盖面无法现算（不许当空集判绿）' % K_R1_COVERAGE)
+        viol.append('%s：清单或备注不在盘，R1 覆盖面无法现算（不许当空集判绿）' % K_R1_COVERAGE)
     elif r1t.exists():
         rr = [l for l in r1t.read_text(encoding='utf-8').split('\n') if l.strip()]
         cols = rr[0].split('\t')
@@ -236,8 +236,11 @@ def check(root=ROOT):
                     if declared.get(k) != v:
                         drift.append('%s 声明 %s ≠ R1 表现算 %s' % (k, declared.get(k), v))
             if (j.get('统计面') or {}).get('选中格数') != len(want):
-                drift.append('统计面.选中格数 %s ≠ 清单现算 %d'
+                drift.append('统计面.选中格数 %s ≠ 在册格现算 %d'
                              % ((j.get('统计面') or {}).get('选中格数'), len(want)))
+            if (j.get('统计面') or {}).get('排除条目数') != len(r1_excluded):
+                drift.append('统计面.排除条目数 %s ≠ 现算 %d（排除面变大＝覆盖面变小）'
+                             % ((j.get('统计面') or {}).get('排除条目数'), len(r1_excluded)))
             if drift:
                 viol.append('%s：读数 JSON 与表/清单不符 %s' % (K_R1_COVERAGE, drift))
     # 卡面 3:4 主图侧（C150 代签轮的举证面）：表必须与落点件逐键对平，读数 JSON 的计数与尺寸分布
@@ -344,18 +347,27 @@ def build_fixture(tmp):
                        % ('PHOTO' if i < 45 else 'PAINT', i, i, '0.9' if i < 45 else '0.1') for i in range(75)])
     canon_path = camp / 'clip_style_scores.tsv'
     canon_path.write_text(chdr + '\n' + cbody + '\n', encoding='utf-8')
-    # 最小清单：R1_FIXTURE_N 条各占一格 C138，另 1 条无该档格（走排除支路，证明覆盖面对拍不是恒等式）
-    cells = ['R%d-C138主向重投-v01_1.png' % i for i in range(R1_FIXTURE_N)]
-    items = [{'id': 'T%d' % i, 'image_file': ['vibe_images/' + c]} for i, c in enumerate(cells)]
-    items.append({'id': 'TX', 'image_file': ['vibe_images/TX-别的档-v01_1.png']})
+    # 最小清单＋备注：每条的在册格由备注最后一条占格读数点名（档串故意取 C900 而不取任何真实轮次档串，
+    # 证明覆盖面不靠档串字面量）；T0 另留一枚换档前的旧格，读数只认在册那一枚——
+    # 谁把取法改回「该条全部格」，覆盖面当场多一枚判红。TX 没有占格读数，走排除支路，证明对拍不是恒等式。
+    cells = ['T%d-在册新枚-C900在册重投-v01.png' % i for i in range(R1_FIXTURE_N)]
+    items = [{'id': 'T%d' % i, 'name': '夹具条%02d' % i, 'status': '待复验',
+              'image_file': ['数据/图集/T%d/%s' % (i, c)] + (['数据/图集/T0/T0-换档前旧枚-C138主向重投-v01.png']
+                                                            if i == 0 else [])}
+             for i, c in enumerate(cells)]
+    items.append({'id': 'TX', 'name': '夹具排除条', 'status': '待复验',
+                  'image_file': ['数据/图集/TX/TX-别的档-v01.png']})
     data = tmp / '数据'
     data.mkdir(parents=True, exist_ok=True)
     (data / '开图清单.json').write_text(json.dumps({'items': items}, ensure_ascii=False), encoding='utf-8')
+    (data / '开图验收备注.json').write_text(json.dumps(
+        {'备注': {'T%d' % i: ['C900在册重投T%d（v01）投后机械对账读数（数据/图集/T%d/%s，夹具现读）' % (i, i, c)]
+                  for i, c in enumerate(cells)}}, ensure_ascii=False), encoding='utf-8')
     rbody = '\n'.join(['R1\tT%d\t%s\t0.2\t0.2\t0.2\t%s'
                        % (i, c, '0.9' if i < R1_FIXTURE_PHOTO else '0.1') for i, c in enumerate(cells)])
     (camp / R1_TSV).write_text(chdr + '\n' + rbody + '\n', encoding='utf-8')
     thr = 0.5
-    r1j = {'统计面': {'选中格数': R1_FIXTURE_N},
+    r1j = {'统计面': {'选中格数': R1_FIXTURE_N, '排除条目数': len(items) - R1_FIXTURE_N},
            '正典对照': {'正典表行数': 75, '正典照片侧': 45, '正典绘画侧': 30,
                         '正典最小错分': 0, '正典阈值': thr,
                         '正典表sha256_12': hashlib.sha256(canon_path.read_bytes()).hexdigest()[:12]},
@@ -466,11 +478,12 @@ def main():
         return 1
     print('✅ 机检读数口径闸门通过：判据原句 0 处、C134 标注 %d 行 / 扫描 %d 份、实验产物 %d/%d 件在盘、'
           '读数表 %d 行（照片 %d／绘画 %d）与 CLIP 表 %d 行同集；'
-          'R1 画风表 %d 行逐枚覆盖清单 %d 格（照片侧 %d／绘画侧 %d，按正典阈值现分、只作读数不判废）；'
+          'R1 画风表 %d 行逐枚覆盖在册 %d 格（排除 %d 条；照片侧 %d／绘画侧 %d，按正典阈值现分、只作读数不判废）；'
           '卡面 3:4 表 %d 行逐键覆盖落点件 %d 键（照片侧 %d／绘画侧 %d，同一把正典阈值）'
           % (readings['C134 标注行数合计'], readings['扫描文件数'], readings['产物在盘数'], len(CAMPAIGN),
              readings['像素读数表行数'], readings['像素表照片侧'], readings['像素表绘画侧'],
-             readings['CLIP读数表行数'], readings['R1画风表行数'], readings['R1清单格数'],
+             readings['CLIP读数表行数'], readings['R1画风表行数'], readings['R1在册格数'],
+             readings['R1排除条目数'],
              readings.get('R1画风表照片侧', 0), readings.get('R1画风表绘画侧', 0),
              readings['卡面画风表行数'], readings['卡面落点件键数'],
              readings.get('卡面画风表照片侧', 0), readings.get('卡面画风表绘画侧', 0)))
