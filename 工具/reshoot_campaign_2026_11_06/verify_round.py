@@ -9,7 +9,7 @@
 4. C136：容器画像不按出图通道成立。本轮真图实测 caBX=0／iTXt=1（见 ledger.json 第 1 轮 rows），
    所以占格只要求「AIGC 标识至少其一在位」——旧的 `cabx == 1` 会把合规图判红。
 
-用法：python 工具/reshoot_campaign_2026_11_06/verify_round.py <回绑源> [R1|R2|R4]
+用法：python 工具/reshoot_campaign_2026_11_06/verify_round.py <回绑源> [R1|R2|R4|R7|R8]
      回绑源两种形态：① 单份会话 jsonl 路径（老调用）；② 逗号分隔的多份 jsonl；
      ③ 指向 transcript 登记件（*.json，含 transcripts 字典）——登记件里在盘的逐份扫，
      不在盘的只报「回绑源缺失 N 份」，不拿缺失当通过。
@@ -53,6 +53,16 @@ GROUPS = {
     'R4': {'suffix': 'C154母图重投-v01', 'bodies': 'send_bodies_r4.json',
            'bodies_extra': ['send_bodies_r4_evidence.json'],
            'readings': 'round_readings_r4.json', 'ledger': 'ledger_r4.json'},
+    # R7＝R6 画风目视判废的 3 枚补重投（D18 烤字／D19 混档／L069 烤字）。臂与母图都沿用 R4，
+    # 台账里 body 与 send_bodies_r4.json 同条逐字节相等（build_send_bodies_r7.py 已 assert），
+    # 所以本轮唯一变量是这一次抽取；档串另起一支是为了不把两轮落盘混在同一 glob 里。
+    'R7': {'suffix': 'C154判废补重投-v01', 'bodies': 'send_bodies_r7.json',
+           'readings': 'round_readings_r7.json', 'ledger': 'ledger_r7.json'},
+    # R8＝R7 目视画风达标而取景与量级缺陷在册的 3 枚补重投（D18／D19 背景未点名塔群＋日盘入画、L069 量级不符）。
+    # 串面与母图仍与 R4 逐字节相同（build_send_bodies_r8.py 已 assert），所以「逐字相等／母图相符」两列
+    # 在这一轮核的是「这三次抽是不是真走了同一条路线」，取景缺陷是否消失只看投后目视，本表不判。
+    'R8': {'suffix': 'C154取景补重投-v01', 'bodies': 'send_bodies_r8.json',
+           'readings': 'round_readings_r8.json', 'ledger': 'ledger_r8.json'},
 }
 LEDGER_DECL = {
     'R2': '重投放量逐轮台账（R2 绑定关口组）。每轮一条，只追加不改写历史；'
@@ -63,6 +73,14 @@ LEDGER_DECL = {
           '只追加不改写历史；判废结论由人工目视给出，本台账只登记机械取证项与人工结论字段'
           '（人工结论为空即未给）。本组的「母图相符」核的是 ImageGen 实调里 images 那一路文件名，'
           '漏传母图＝投成了裸串，逐字串面照样对得上，只有这一列能判红。',
+    'R7': '重投放量逐轮台账（R7 判废补重投组：R6 画风目视判废的 3 枚，同串同母图重抽，每条目主向 1 格）。'
+          '每轮一条，只追加不改写历史；判废结论由人工目视给出，本台账只登记机械取证项与人工结论字段'
+          '（人工结论为空即未给）。本组的送入串与 R4 台账同条逐字节相等，故「逐字相等」与「母图相符」两列'
+          '核的是「这三次抽是不是真的走了同一条路线」，画风过关与否仍只由投后目视判。',
+    'R8': '重投放量逐轮台账（R8 取景补重投组：R7 目视画风达标而取景与量级缺陷在册的 3 枚，同串同母图重抽，'
+          '每条目主向 1 格）。每轮一条，只追加不改写历史；判废结论由人工目视给出，本台账只登记机械取证项'
+          '与人工结论字段（人工结论为空即未给）。本组送入串与母图都与 R4 台账同条逐字节相等，故两列核的是'
+          '「同一条路线」；取景与量级是否改好只有投后目视能判，本表按 C154(1) 与画风分栏、不折成一列。',
 }
 
 
@@ -297,7 +315,7 @@ def run(group, jsonl, here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
 
 def main():
     if len(sys.argv) not in (2, 3):
-        print('用法：verify_round.py <回绑源> [R1|R2|R4]（不写＝R2）；'
+        print('用法：verify_round.py <回绑源> [R1|R2|R4|R7|R8]（不写＝R2）；'
               '回绑源＝单份会话 jsonl／逗号分隔多份／transcript 登记件 *.json')
         return 2
     group = sys.argv[2] if len(sys.argv) == 3 else 'R2'

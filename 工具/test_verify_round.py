@@ -31,7 +31,12 @@ REAL_FILES = ('ledger.json', 'round_readings.json',
               'send_bodies_r1_evidence.json', 'transcripts_r1.json',
               'send_bodies_r1_catchup.json', 'transcripts_r3.json',
               'send_bodies_r4.json', 'send_bodies_r4_evidence.json',
-              'round_readings_r4.json', 'ledger_r4.json', 'transcripts_r4.json')
+              'round_readings_r4.json', 'ledger_r4.json', 'transcripts_r4.json',
+              'send_bodies_r7.json', 'send_bodies_r7_note.json',
+              'round_readings_r7.json', 'ledger_r7.json')
+# R8 那四件（send_bodies_r8／_note／round_readings_r8／ledger_r8）等本轮投后核验产出后再进来：
+# 付费面只走完 2／3（L069 那次 terminated、第 4 次调用未获放行），readings 还不存在，
+# 先把名字写进这份清单会把整套对拍打成一个 FileNotFoundError 而不是任何一条判据。
 PREFIX = 'verify_round_neg_'
 
 _spec = importlib.util.spec_from_file_location('verify_round_under_test', str(CAMPAIGN / 'verify_round.py'))
@@ -701,6 +706,114 @@ class MergedR1Ledger(unittest.TestCase):
         self.assertEqual(cfg['bodies_extra'], ['send_bodies_r1_evidence.json', 'send_bodies_r1_catchup.json'])
         for f in (cfg['bodies'], 'transcripts_r1.json', 'transcripts_r3.json') + tuple(cfg['bodies_extra']):
             self.assertTrue((CAMPAIGN / f).exists(), f)
+
+
+R6_VISUAL_HEAD = '2026-11-20 R6 组画风目视'
+R7_VISUAL_HEAD = '2026-11-20 R7 组画风目视'
+
+
+def _r6_failed_face(notes):
+    """画风目视判废面：每条 ID 最后一条 R6 目视行里带「｜判废（」的那些年。
+
+    这里与 build_send_bodies_r7.judged_failed() 各写一遍而不 import 它：
+    共用一份实现的话，派生逻辑一漂，两条断言会一起变绿，接线自证就成了空转。"""
+    face = []
+    for eid, rows in notes.items():
+        hits = [s for s in rows if R6_VISUAL_HEAD in s]
+        if hits and '｜判废（' in hits[-1]:
+            face.append(eid)
+    return sorted(face)
+
+
+class R7JudgedFailedReshoot(unittest.TestCase):
+    """R7（R6 画风目视判废 3 枚同串同母图重抽）的接线自证：只读真源、不建夹具、不写盘。
+
+    这一轮没有新增画风口径，所以判据是三组「不许漂」的等式：
+    成员面＝备注里 R6 目视现算的判废面（名单不许手抄）；正文与母图＝R4 台账同条逐字节相等（否则那三笔钱买的不是「同串重抽」）；
+    verify_round 的组配置与盘上真文件名互相指得上（哪一处漏接线，那一轮的读数就落在闸门看不见的地方）。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.led = json.loads((CAMPAIGN / 'send_bodies_r7.json').read_text(encoding='utf-8'))
+        cls.r4 = json.loads((CAMPAIGN / 'send_bodies_r4.json').read_text(encoding='utf-8'))
+        cls.readings = json.loads((CAMPAIGN / 'round_readings_r7.json').read_text(encoding='utf-8'))
+        cls.ledger = json.loads((CAMPAIGN / 'ledger_r7.json').read_text(encoding='utf-8'))
+        cls.notes = json.loads((ROOT / '数据' / '开图验收备注.json').read_text(encoding='utf-8'))['备注']
+
+    def test_a_group_config_points_at_this_rounds_own_files(self):
+        cfg = vr.GROUPS['R7']
+        self.assertEqual(cfg['suffix'], 'C154判废补重投-v01')
+        self.assertEqual(cfg['bodies'], 'send_bodies_r7.json')
+        for f in (cfg['bodies'], cfg['readings'], cfg['ledger'], 'send_bodies_r7_note.json'):
+            self.assertTrue((CAMPAIGN / f).exists(), f)
+        self.assertNotIn('bodies_extra', cfg,
+                         'R7 无双发条目却配了并集补充台账＝verify_round 会在写盘前停手，读数永远落不下来')
+
+    def test_b_member_face_is_derived_from_the_notes(self):
+        self.assertEqual(sorted(self.led), _r6_failed_face(self.notes),
+                         'R7 台账成员面与备注里 R6 目视判废现算结果分叉＝名单被手抄过或目视行改了写法')
+        flipped = copy.deepcopy(self.notes)
+        flipped['D18'] = [s.replace('｜判废（', '｜达标（') for s in flipped['D18']]
+        self.assertNotIn('D18', _r6_failed_face(flipped),
+                         '把「判废」改写成「达标」后 D18 仍被数到＝上一条断言在空转')
+
+    def test_c_same_arm_as_r4_byte_for_byte(self):
+        for eid, rec in sorted(self.led.items()):
+            with self.subTest(eid=eid):
+                base = self.r4[eid]
+                self.assertEqual(rec['body'], base['body'], '两轮正文不等＝这笔钱买的不是「同串重抽」')
+                self.assertEqual(rec['send_sha256'], base['send_sha256'], eid)
+                self.assertEqual(rec['ref_image'], base['ref_image'], '两轮母图不等＝一次投放同时动了两个变量')
+                self.assertIn('C154判废补重投-v01', rec['send_name'], eid)
+
+    def test_d_readings_and_ledger_agree_on_the_three_sends(self):
+        rows = self.readings['rows']
+        self.assertEqual([r['id'] for r in rows], sorted(self.led), '读数行与台账条目不对面')
+        for r in rows:
+            with self.subTest(eid=r['id']):
+                self.assertTrue(r['逐字相等'], '逐字回绑红了却已回填＝接线自证没进闸门')
+                self.assertTrue(r['size_match'], '%s 送 %s 落 %s' % (r['id'], r['declared_size'], r['dims']))
+                self.assertTrue(r['母图相符'], '%s 投放用的母图与台账登记不符' % r['id'])
+                self.assertEqual(r['投次'], 1, '本组没有多投条目，投次>1 说明台账与落盘对不上')
+                self.assertTrue(r['container']['itxt'] >= 1 and r['container']['aigc'],
+                                '%s 容器判据 C136 红（caBX/iTXt）' % r['id'])
+                self.assertTrue(r['container']['tc260'], '%s 缺 TC260 标识' % r['id'])
+        rnd = self.ledger['rounds'][-1]
+        self.assertEqual(rnd['组别'], 'R7')
+        self.assertEqual(rnd['投次合计'], len(rows))
+        self.assertEqual(rnd['复投条目'], [])
+
+    def test_e_backfill_moved_the_registered_cell_and_kept_the_old_one(self):
+        _cc = importlib.util.spec_from_file_location(
+            'cc_r7', str(CAMPAIGN / 'current_cells.py'))
+        cc = importlib.util.module_from_spec(_cc)
+        _cc.loader.exec_module(cc)
+        _q, rows, excluded = cc.current_cells(str(ROOT))
+        cells = {r['id']: r for r in rows}
+        self.assertEqual([e['id'] for e in excluded if e['id'] in self.led], [],
+                         '本轮条目被 current_cells 剔出在册面＝目视与后续判据看不到交付的那一格')
+        for eid in sorted(self.led):
+            with self.subTest(eid=eid):
+                self.assertIn('C154判废补重投', cells[eid]['档串'],
+                              '备注里的在册格还指着旧档串＝回填没接上，目视会打在没有交付的那一格上')
+                self.assertTrue(cells[eid]['在盘'], eid)
+                self.assertTrue((ROOT / self.led[eid]['replaced_cell']).exists(),
+                                '被替换的旧格删掉了＝「生成物永不手改／只追加」这条破了')
+        self.assertEqual(sorted([e for e, v in self.led.items() if v['status_before'] == '待复验']),
+                         sorted(self.led), '本组不许出现非待复验状态（重投不推进 status，推进归人工签署）')
+
+    def test_f_visual_conclusion_is_a_separate_row_and_not_signed_by_script(self):
+        heads = {eid: [s for s in rows if s.startswith(R7_VISUAL_HEAD)]
+                 for eid, rows in self.notes.items()}
+        judged = sorted([e for e, h in heads.items() if h])
+        self.assertEqual(judged, sorted(self.led), 'R7 目视行的覆盖面与本轮成员面不一致')
+        for eid in judged:
+            with self.subTest(eid=eid):
+                self.assertEqual(len(heads[eid]), 1, '同一条 R7 目视结论写了两遍＝追加面出现第二条真源')
+                tail = heads[eid][0]
+                self.assertIn('非脚本代签', tail, eid)
+                self.assertIn('｜达标（', tail, eid)
 
 
 class ToolHandlesAreClosed(unittest.TestCase):

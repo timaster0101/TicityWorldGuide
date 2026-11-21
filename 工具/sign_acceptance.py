@@ -4,21 +4,28 @@
 只在用户明确委托代签时运行。默认干跑（只打印计划与读数，不落盘），加 --execute 才写。
 守卫是「没申报不许签」，不是「不许签」：申报判据的唯一真源是 工具/signing_declaration.py，
 本脚本写出的行必须当场过 check_sign_declaration，过不了就退出非零、不落盘。
+DELEGATION 里引的是那一次委托的用户原句：轮次面派生化后本脚本认得全部在册格，落盘面从少数几条涨到整批，
+所以换一次委托必须先把它换成那一轮的原句——留着旧原句去 --execute，就是把一次没到手的授权写成有。
 
 签的语义边界（C139）：accepted 自此只表示机械判据验收通过，不表示人工逐张目视通过、
 也不表示画风已过关。每条申报行都逐字写明「人工逐张目视未执行」，画风读数只作读数附上。
 
 依据读数一律现取盘上真源，不预填、不抄第二份：
   绑定资格 —— 数据/提示词基准冻结.json 逐条 prompt_sha256（漂移非 0 即退出，换档后的格只能重投）；
-  投后核验 —— 工具/reshoot_campaign_2026_11_06/round_readings{,_r1}.json 里 file 与当前格 basename 相等的那一行；
+  投后核验 —— verify_round.GROUPS 登记的每一轮 readings 件里 file 与当前格 basename 相等的那一行；
   结构核验 —— 工具/verify_image_assets.py 的 check() 现算（不读可能过期的 图片资产核验.json）；
   画风读数 —— 同目录 clip_style_scores_r1.tsv 按格 basename 取，阈值取 clip_style_r1_readings.json 的正典对照。
-当前格在两份投后核验里都查不到时（早于重投期的图集格），依据只写结构核验与绑定资格，
-并逐字写明「本轮无该格投后核验读数」——不许拿别轮的读数顶替。
 
-四条过期绑定（占格当时申报过「维持原绑定」的那批）重绑到冻结串，其 generation_input_*／
-image_base_prompt_sha256 描述的是被替换前旧格的补充输入、不是当前格，一并清空；
-旧值逐字记进申报行，数据/生成输入记录/*.txt 原件不删。名单不手抄：由历史读数里的「维持原绑定」现派生。
+轮次面（哪几支档串算重投期、读哪几份投后核验）一律从 verify_round.GROUPS 现派生，本脚本不另存一份名单：
+2026-11-21 之前这里写死过 C138主向重投／C133冻结重投两支，C154 那几轮的在册格因此取成空集，
+于是被当成「当前格早于重投期」写进依据——那是筛子没跟上轮次，不是历史事实。取空集自此只剩一种真原因：
+这一轮的档串还没在 GROUPS 登记。此时依据只写结构核验与绑定资格，并逐字写明「本轮无该格投后核验读数」——
+不许拿别轮的读数顶替，也不许把没登记读成没投过。
+
+过期绑定重绑面由历史读数里的「维持原绑定」现派生，不手抄名单：占格时申报过维持原绑定、而清单
+image_prompt_sha256 已不等于冻结串的，一律重绑到冻结串，旧摘要逐字记进申报行。凡还记着
+generation_input_*／image_base_prompt_sha256 的（C139 那批 4 条），那些补充输入描述的是被替换前旧格、
+不是当前格，一并清空并在申报行写出原值，数据/生成输入记录/*.txt 原件不删；本条没记过的就不写这句。
 
 历史回填读数行一律不改写：那些行记的是占格当时的事实，代签是其后追加的另一行，两者并存才可追溯。
 
@@ -31,6 +38,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -40,11 +48,14 @@ from signing_declaration import check_sign_declaration, declaration_rows  # noqa
 import verify_image_assets as va  # noqa: E402
 
 CAMPAIGN = ROOT / '工具' / 'reshoot_campaign_2026_11_06'
+sys.path.insert(0, str(CAMPAIGN))
+import verify_round as vr  # noqa: E402  轮次面（档串／读数件）的唯一真源
+
 MANIFEST = ROOT / '数据' / '开图清单.json'
 NOTES = ROOT / '数据' / '开图验收备注.json'
 FROZEN = ROOT / '数据' / '提示词基准冻结.json'
 
-# 委托来源原句：逐字引用户本轮两次点单，不改写、不概括。
+# 委托来源原句：逐字引 C139 那一轮（2026-11-07）用户两次点单，不改写、不概括；换轮委托须先换掉这两句。
 DELEGATION = ('用户 2026-11-07 原句「连验收一起代签」，摊全代价与 CLIP 反向读数后复确认'
               '「你都代完成，用最彻底的方式，不要给未来留隐患」')
 EXECUTOR = '会话代理（Qoder，受用户明确委托代执行，非人工逐张目视）'
@@ -59,10 +70,24 @@ def sha12(p):
     return hashlib.sha256(Path(p).read_bytes()).hexdigest()[:12]
 
 
+def round_readings_files():
+    """投后核验读数件＝GROUPS 里每轮登记的 readings，按轮次顺序去重，不写死文件名。"""
+    out = []
+    for name in (g['readings'] for g in vr.GROUPS.values()):
+        if name not in out:
+            out.append(name)
+    return out
+
+
+def round_cell_tokens():
+    """重投期格认得出来的标记＝各轮 suffix 去掉 -vNN 版本号，现派生，不抄名单。"""
+    return sorted({re.sub(r'-v\d+$', '', g['suffix']) for g in vr.GROUPS.values()})
+
+
 def load_round_rows():
-    """两份投后核验读数按 basename 索引；同一格只许命中一行，命中多行说明两轮占了同一文件名，须先复核。"""
+    """各轮投后核验读数按 basename 索引；同一格只许命中一行，命中多行说明两轮占了同一文件名，须先复核。"""
     out = {}
-    for name in ('round_readings_r1.json', 'round_readings.json'):
+    for name in round_readings_files():
         p = CAMPAIGN / name
         if not p.exists():
             continue
@@ -70,7 +95,7 @@ def load_round_rows():
         for r in d['rows']:
             key = os.path.basename(r['file'])
             if key in out:
-                raise SystemExit('❌ 同一格 basename 在两份投后核验里各有一行（%s／%s），须先复核：%s'
+                raise SystemExit('❌ 同一格 basename 在多份投后核验里各有一行（%s／%s），须先复核：%s'
                                  % (out[key][0], name, key))
             out[key] = (name, r, d['统计面']['组别'])
     return out
@@ -91,13 +116,17 @@ def load_clip():
 
 
 def reshoot_cells(item):
-    """四向挂载里属于重投期的格（含档串字样），逐枚返回。
+    """四向挂载里属重投期的格（档串标记见 round_cell_tokens），逐枚返回。
+
     不许只取一枚：实测 19 条的挂载里 R1 投了主向格、R2 投了另一向的绑定关口格，两格都在册且各有投后读数，
-    只取一枚会把另一枚的证据静默丢掉、并把该条误报成「无投后核验读数」。"""
+    只取一枚会把另一枚的证据静默丢掉、并把该条误报成「无投后核验读数」。
+    标记面随 GROUPS 派生：写死某几支档串时，没登记的那几轮会被取成空集并误报成「早于重投期」——
+    那是筛子坏了，不是那条没投过。"""
     files = item.get('image_file') or []
     if isinstance(files, str):
         files = [files]
-    return [f for f in files if 'C138主向重投' in f or 'C133冻结重投' in f]
+    tokens = round_cell_tokens()
+    return [f for f in files if any(t in str(f) for t in tokens)]
 
 
 def stale_declared(notes, eid):
@@ -128,12 +157,13 @@ def build_row(item, bound, rounds, clip, thr, struct, old_fields):
     ev = []
     cells = reshoot_cells(item)
     if not cells:
-        ev.append('本轮无该格投后核验读数（当前格早于重投期），依据只取结构核验与基准绑定资格')
+        ev.append('本轮无该格投后核验读数（当前格不属任何已登记轮次的档串，须先在 verify_round.GROUPS 登记），'
+                  '依据只取结构核验与基准绑定资格')
     for cell in cells:
         base = os.path.basename(cell)
         hit = rounds.get(base)
         if not hit:
-            ev.append('%s 在两份投后核验里都查不到，不许拿别轮读数顶替' % base)
+            ev.append('%s 在 %d 份投后核验里都查不到，不许拿别轮读数顶替' % (base, len(round_readings_files())))
             continue
         name, r, group = hit
         c = r['container']
@@ -146,10 +176,13 @@ def build_row(item, bound, rounds, clip, thr, struct, old_fields):
     parts.append('依据=' + '；'.join(ev))
     parts.append('绑定摘要前12位=%s（image_prompt_sha256=prompt_sha256，C135）' % bound[:12])
     if old_fields:
-        parts.append('原过期绑定 %s 已撤销并重绑到冻结串；原补充输入备案 %s 描述的是被替换前旧格、'
-                     '不是当前格，本轮一并清空，原件不删'
-                     % (old_fields['image_prompt_sha256'][:12],
-                        '／'.join('%s=%s' % (k, old_fields[k]) for k in STALE_FIELDS if old_fields.get(k))))
+        seg = '原过期绑定 %s 已撤销并重绑到冻结串' % old_fields['image_prompt_sha256'][:12]
+        recorded = ['%s=%s' % (k, old_fields[k]) for k in STALE_FIELDS if old_fields.get(k)]
+        # 清空声明只在真记过补充输入的条目上写：轮次面派生化后过期绑定重绑面从少数几条涨到整批，
+        # 逐字留着「原补充输入备案 ／描述的是…」这种空枚举，等于申报了一件本条没做过的事。
+        if recorded:
+            seg += '；原补充输入备案 %s 描述的是被替换前旧格、不是当前格，本轮一并清空，原件不删' % '／'.join(recorded)
+        parts.append(seg)
     art = []
     for cell in cells:
         base = os.path.basename(cell)
@@ -157,7 +190,7 @@ def build_row(item, bound, rounds, clip, thr, struct, old_fields):
             p, side = clip[base]
             art.append('%s CLIP P(photo)=%.6f 落在正典阈值 %.6f 的%s' % (base, p, thr, side))
         else:
-            art.append('%s 本轮 R1 画风表无该格读数（不属 C138 主向重投面），不拿别轮读数顶替' % base)
+            art.append('%s 画风表无该格读数（本表按 current_cells 现算、逐条只收在册那一格），不拿别轮读数顶替' % base)
     parts.append('画风读数=' + '；'.join(art) + '（C134 只作读数、不判废；画风判废权在人工目视）')
     parts.append('人工逐张目视未执行，accepted 只表示机械判据验收通过、不表示人工目视通过、也不表示画风已过关')
     return 'C139代签验收%s：' % eid + '；'.join(parts)
@@ -228,8 +261,9 @@ def main():
     print('重投期格逐枚对账：代签面共 %d 格，投后核验命中 %d 格（%s），画风表命中 %d 格'
           % (len(cells), sum(v for k, v in groups.items() if k != '无投后读数'),
              '／'.join('%s %d' % (k, v) for k, v in sorted(groups.items())), clip_hit))
-    print('画风表真源：%d 枚在盘、阈值 %s（R1 表只覆盖 C138 主向面，R2 格不在其中属正常）'
-          % (len(clip), thr))
+    print('画风表真源：%d 枚在盘、阈值 %s（覆盖面＝current_cells 现算的在册格、逐条恰 1 格，'
+          '历史格与已被后一轮替换的格不在其中属正常）｜重投期档串 %d 支，现派生自 verify_round.GROUPS'
+          % (len(clip), thr, len(round_cell_tokens())))
     print('过期绑定重绑：%d 条 %s' % (sum(1 for _, _, _, o in plan if o),
                                      [i['id'] for i, _, _, o in plan if o]))
     print('已签不重复追加：%d 条；本轮计划代签：%d 条；拒签：%d 条' % (len(already), len(plan), len(bad)))
