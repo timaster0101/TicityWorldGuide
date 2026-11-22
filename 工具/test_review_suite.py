@@ -313,11 +313,14 @@ class ReviewSuiteTests(unittest.TestCase):
 
         lie = '                        (info["head"].get("image_prompt_sha256") or "未绑定")[:12], it["status"]))'
         self.assertEqual(pristine.count(lie), 1, "注入锚点没落在状态回显的取值上")
-        # 注入值取「已验收」而不是当年那句「待复验」：C153 换档把 312 条整批降回待复验，
-        # 再注入「待复验」就成了照抄清单、mismatch 恒 0（假绿）。
-        # 这一注入同时兼作 stray 那条豁免正则的承载证明：回显行写成已验收必须**不**算自撰结论，
-        # 否则清单一旦重新签署，合法回显会整批判红。
-        self.script.write_text(pristine.replace(lie, lie.replace('it["status"]', '"已验收"'), 1),
+        # 注入值取「与清单现态相反」的那一档，不写死某一边：C153 换档后清单是待复验、注入取已验收；
+        # 2026-11-22 真签之后清单是已验收、注入就取待复验。写死一边的写法在状态翻面时会变成
+        # 「照抄清单、mismatch 恒 0」的假绿——那正是本条负测要防的死法。
+        # 这一注入同时兼作 stray 那条豁免正则的承载证明：回显行写成清单现态必须**不**算自撰结论。
+        states = {it['status'] for it in self.manifest}
+        self.assertEqual(len(states), 1, '清单状态不再单一，本负测的注入面要重新设计')
+        injected = '待复验' if states.pop() == '已验收' else '已验收'
+        self.script.write_text(pristine.replace(lie, lie.replace('it["status"]', '"%s"' % injected), 1),
                                encoding="utf-8")
         self.run_suite()
         mismatch, stray = self.status_echo_violations()

@@ -150,6 +150,12 @@ def unsigned_binding_ok(item, rows, prev):
     bound = str(item.get('image_prompt_sha256') or '')
     if not bound:
         return None
+    if item['status'] == '已验收':
+        # 2026-11-22 用户「2 真签」之后：已验收条目带绑定是正常形态，但要被本条代签申报行复述，
+        # 否则就是「洗成已验收却没申报」——C139 那条守卫真正守的东西。
+        if not any(SIGN_DECL.match(r) and bound[:12] in r for r in rows):
+            return '已验收条目的绑定没被本条代签申报行复述'
+        return None
     if item['status'] != '待复验':
         return '未签署却带绑定，且状态不是待复验'
     if prev.get(item['id']) != bound:
@@ -524,7 +530,9 @@ class ReviewNoteHistory(unittest.TestCase):
         self.assertTrue(rejected, 'L083 的判废读数没点名任何一枚文件，这条判据无承载')
         self.assertFalse(rejected & {unrooted(c) for c in self.items[eid]['image_file']},
                          'L083 的判废枚进了交付格')
-        self.assertEqual(self.items[eid]['status'], '待复验', eid)
+        # 2026-11-22 用户「2 真签」之后现清单是已验收（每条自带 C139 代签申报行）；
+        # 本用例钉的是「判废枚不进交付格」，与状态无关，按现态读。
+        self.assertEqual(self.items[eid]['status'], '已验收', eid)
         self.assertEqual(len(self.items[eid]['image_file']), 1, eid)
         # C153 换档把 312 条整批降回待复验，本条曾在 C139 代签面里，所以这里同时钉两件事：
         # 换档申报行还在（过期是登记过的，不是被静默改写掉的），且旧绑定没被撤也没被补成新串。
@@ -629,10 +637,10 @@ class ReviewNoteHistory(unittest.TestCase):
                 row = round_row(eid, self.notes[eid], 'C138主向重投')
                 if '维持原绑定' not in row:
                     self.assertIn('image_prompt_sha256 留空', row, eid)
-                # C153 换档之后现清单里已无已验收条目，签署面的在册事实改成两条：
-                # 每条仍各留有 C139 代签申报行（历史申报不许被换档抹掉），且绑定逐条等于换档前基准串。
-                # 拿状态判等于把「基准换档」读成「验收撤销」，拿申报行判才钉得住 C139 那条委托的原命题。
-                self.assertEqual(item['status'], '待复验', eid)
+                # 2026-11-22 用户「2 真签」把 312 条整体重签为已验收：状态与申报行两件事同时成立——
+                # 每条仍是已验收，且每条都有一份复述当前绑定串的 C139 代签申报行。
+                # 只判状态会被坏数据洗成已验收（C139 最容易出的事故），所以申报行那条断言不能少。
+                self.assertEqual(item['status'], '已验收', eid)
                 self.assertIsNone(unsigned_binding_ok(item, self.notes[eid], self.prev_baseline), eid)
                 self.assertTrue(declaration_rows(self.notes[eid]), '%s 的代签申报行被删掉了' % eid)
                 # 申报判据按「该轮当时的在册格」核，不按现清单的格面核：C154 回填替换掉的正是这条申报点名过的那一枚，
@@ -641,8 +649,15 @@ class ReviewNoteHistory(unittest.TestCase):
                 era_cell = registered_file(row, 'C138主向重投')
                 latest = cell_row(eid, self.notes[eid])[1]
                 self.assertTrue(era_cell and on_disk(era_cell), '%s 的 C138 占格枚取不到或已不在盘' % eid)
-                self.assertEqual(check_sign_declaration(dict(item, image_file=[era_cell]), self.notes[eid]),
-                                 [], eid)
+                # 2026-11-22 真签又追加了一条复述当前格的新申报行；核「C139 那一轮申报是否点名当时那一格」时
+                # 必须把新申报剔掉，否则拿 11-22 的点名去对 11-07 的格＝把「申报写晚了」读成不合规。
+                era_rows = [r for r in self.notes[eid]
+                            if not (SIGN_DECL.match(r) and '2026-11-22' in r)]
+                # 那一轮绑的是 C153 换档前的基准串（C139 早于 C153），所以核历史申报时把绑定一并还原，
+                # 拿今天的绑定去核 11-07 的申报同样是假红。
+                era_item = dict(item, image_file=[era_cell],
+                                image_prompt_sha256=self.prev_baseline.get(eid))
+                self.assertEqual(check_sign_declaration(era_item, era_rows), [], eid)
                 # 反过来钉一件事：C154 之后那条申报复述的格已不在册的条目，不许被当成「本轮验收依据还在」。
                 # 只判真正被替换掉的那一格（多格条目里申报点名的可能是另一向的定档格，那种仍成立，不强判红）。
                 if unrooted(era_cell) not in [unrooted(c) for c in (item['image_file'] or [])]:
@@ -666,8 +681,8 @@ class ReviewNoteHistory(unittest.TestCase):
         # C153 换档后现清单里 L062 是待复验：签署判据（check_sign_declaration）只在已验收支路上被调用，
         # 直接拿现清单跑这批负测，删掉申报行也不会红——那正是假绿。承载取内存里的已验收视图，
         # 绑定串与 C139 申报行都还是当时的真值，只是把状态抬回去。
-        self.assertEqual(self.items[eid]['status'], '待复验',
-                         '基线变了：C153 之后现清单不该有已验收条目，本负测的承载方式要随之复核')
+        self.assertEqual(self.items[eid]['status'], '已验收',
+                         '基线变了：2026-11-22 真签之后现清单须是已验收；本负测的承载方式要随之复核')
         item = signed_view(self.items[eid])
         self.assertEqual(check_sign_declaration(item, rows), [])
         self.assertEqual(check_cell_registration(item, rows), [])
@@ -734,11 +749,20 @@ class ReviewNoteHistory(unittest.TestCase):
         decl = sd[0]
         bound = str(item['image_prompt_sha256'])
         other = next(i for i in sorted(self.items) if i != eid)
-        self.assertEqual(item['status'], '待复验', '基线：C153 之后 %s 须是待复验，否则本负测无承载' % eid)
+        self.assertEqual(item['status'], '已验收', '基线：2026-11-22 真签之后 %s 须是已验收，否则本负测无承载' % eid)
         self.assertEqual(check_cell_registration(item, rows), [])
         self.assertIsNone(unsigned_binding_ok(item, rows, self.prev_baseline))
+        # 换档申报这条分支守的是「未签条目」：2026-11-22 真签之后现清单已验收，
+        # 整个负测要在内存里退回 C153 当时的未签视图（状态待复验＋绑定＝换档前基准串）才有承载；
+        # 拿已验收视图跑，坏数据会被代签申报行这条主干先接住，测到的就不是换档分支。
+        unsigned = dict(item, status='待复验', image_prompt_sha256=self.prev_baseline.get(eid))
+        self.assertEqual(check_cell_registration(unsigned, rows), [], '未签视图本身必须先达标')
+        self.assertIsNone(unsigned_binding_ok(unsigned, rows, self.prev_baseline))
+        # 换档申报复述的是换档前的基准串（prev_baseline），不是今天的绑定——摘要改串要改它复述的那个。
+        prev12 = str(self.prev_baseline.get(eid))[:12]
+        self.assertIn(prev12, decl, '换档申报没复述换档前基准串，本负测无承载')
         cases = [('整行删掉', None),
-                 ('摘要前12位换成另一串', decl.replace(bound[:12], '0' * 12)),
+                 ('摘要前12位换成另一串', decl.replace(prev12, '0' * 12)),
                  ('抬头点名别的 ID', decl.replace('画风换档申报%s：' % eid,
                                                  '画风换档申报%s：' % other, 1))]
         for label, repl in cases:
@@ -746,8 +770,8 @@ class ReviewNoteHistory(unittest.TestCase):
                 mutated = ([r for r in rows if r != decl] if repl is None
                            else [(repl if r == decl else r) for r in rows])
                 self.assertNotEqual(mutated, rows, '%s 的注入没落地，负测无效' % label)
-                self.assertTrue(check_cell_registration(item, mutated), label)
-                self.assertIsNotNone(unsigned_binding_ok(item, mutated, self.prev_baseline), label)
+                self.assertTrue(check_cell_registration(unsigned, mutated), label)
+                self.assertIsNotNone(unsigned_binding_ok(unsigned, mutated, self.prev_baseline), label)
 
     def test_cell_registration_gate_reds_on_each_violation(self):
         """违例负测：占格判据的每一条都要能被造出来的坏数据打红，否则闸门是假绿。
@@ -770,8 +794,8 @@ class ReviewNoteHistory(unittest.TestCase):
         rows = self.notes[carrier[0]]
         sel = cell_row(carrier[0], rows)[0]
         self.assertEqual(check_cell_registration(base, rows), [])
-        self.assertEqual(self.items[carrier[0]]['status'], '待复验',
-                         '基线变了：C153 之后现清单不该有已验收条目，签署负测的承载要随之复核')
+        self.assertEqual(self.items[carrier[0]]['status'], '已验收',
+                         '基线变了：2026-11-22 真签之后现清单须是已验收，签署负测的承载要随之复核')
         cases = [
             ('追加不替换', lambda it: it['image_file'].append(it['image_file'][0]), rows),
             ('绑了摘要但申报没复述', lambda it: it.__setitem__('image_prompt_sha256', 'deadbeef' * 8), rows),
@@ -1058,9 +1082,10 @@ class ReviewNoteHistory(unittest.TestCase):
         item, view = as_of_round(self.items[eid], rows, token)
         self.assertEqual(check_cell_registration(item, view), [], '还原视图本身必须先达标')
         self.assertFalse([r for r in view if not head.match(r)], '还原视图里还留着非占格行种')
-        self.assertIsNone(head.match(rows[-1]), '现备注末位已是占格读数，本例失去承载')
+        tail_row = [r for r in rows if not SIGN_DECL.match(r)][-1]
+        self.assertIsNone(head.match(tail_row), '末位结论行已是占格读数，本例失去承载')
         self.assertFalse([h for h in [h for h, _, _ in ROUNDS] + [SIGN_DECL, SHIFT_DECL]
-                          if h.match(rows[-1])], '末位行种换成了申报行或占格行，反例无对比价值')
+                          if h.match(tail_row)], '末位结论行换成了申报行或占格行，反例无对比价值')
         lit = 'image_prompt_sha256 留空'
         self.assertIn(lit, view[-1], '本轮读数不写该口径，正例无承载')
         self.assertNotIn(lit, rows[-1], '结论行里带着该口径，反例就注对行了')
@@ -1072,7 +1097,7 @@ class ReviewNoteHistory(unittest.TestCase):
         later = ROUND_TOKENS[idx + 1:]
         stale = [r for r in rows if not any(head_re(t).match(r) for t in later)
                  and not SIGN_DECL.match(r) and not SHIFT_DECL.match(r)]
-        self.assertEqual(stale[-1], rows[-1], '旧口径下末位不是结论行，反例无对比价值')
+        self.assertEqual(stale[-1], tail_row, '旧口径下末位不是结论行，反例无对比价值')
         inert = list(stale)
         inert[-1] = inert[-1].replace(lit, '')
         self.assertEqual(inert, stale, '反例的注入落不到末位行上，它验的就不是剔行口径')
@@ -1105,8 +1130,10 @@ class ReviewNoteHistory(unittest.TestCase):
         # 312 条又整体降回待复验，needs_review 变 312、accepted 变 0——这是换档的在册后果，不是数据损坏。
         # accepted 从来不表示人工逐张目视通过、更不表示画风已过关；那两个含义由工作单「视觉复验」列
         # 与 verify_readout_stance 的画风读数分别承载，别在这个计数上读。
-        self.assertEqual(self.manifest['needs_review'], 312)
-        self.assertEqual(self.manifest['accepted'], 0)
+        # 2026-11-22 用户「2 真签」：312 条整体签署，accepted 312／needs_review 0；
+        # 计数口径仍是「按清单现读对拍」，不抄第二份。
+        self.assertEqual(self.manifest['needs_review'], 0)
+        self.assertEqual(self.manifest['accepted'], 312)
         self.assertEqual(self.manifest['generated'], 312)
         # pending 归 0：此前那 9 条零图条目按用户「2 只要不是新画风生成的或者缺少的，都开」「3 补」补投，
         # 各自新增首格并代签，清单里已无「真正无图」的条目。
@@ -1121,8 +1148,8 @@ class ReviewNoteHistory(unittest.TestCase):
         self.assertTrue(carrier, '清单里已无一条的最新一轮还是 C138，本负测失去承载')
         base = signed_view(self.items[carrier[0]])
         rows = self.notes[carrier[0]]
-        self.assertEqual(self.items[carrier[0]]['status'], '待复验',
-                         '基线变了：C153 之后现清单不该有已验收条目，本负测的承载方式要随之复核')
+        self.assertEqual(self.items[carrier[0]]['status'], '已验收',
+                         '基线变了：2026-11-22 真签之后现清单须是已验收，本负测的承载方式要随之复核')
         self.assertEqual(visual_column(dict(base, review_note_history=rows)),
                          '已验收（机械代签）／人工目视未执行')
         cases = [('整行删掉', [r for r in rows if not SIGN_DECL.match(r)]),

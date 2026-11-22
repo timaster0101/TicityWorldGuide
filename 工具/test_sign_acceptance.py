@@ -168,6 +168,7 @@ class DryRunNeverSigns(unittest.TestCase):
         man, notes = ROOT / '数据' / '开图清单.json', ROOT / '数据' / '开图验收备注.json'
         before = (_sha(man), _sha(notes))
         before_rows = sum(len(v) for v in _jload(notes)['备注'].values())
+        signed_before = sum(1 for i in _jload(man)['items'] if i.get('status') == '已验收')
         buf = io.StringIO()
         argv = list(sys.argv)
         try:
@@ -181,8 +182,10 @@ class DryRunNeverSigns(unittest.TestCase):
         self.assertIn('（干跑，未落盘', out)
         self.assertEqual(before, (_sha(man), _sha(notes)), '干跑写盘＝越过硬闸')
         items = _jload(man)['items']
-        self.assertEqual(sum(1 for i in items if i.get('status') == '已验收'), 0,
-                         '干跑之后仍有条目是已验收＝accepted 面被脚本翻过')
+        # 2026-11-22 用户「2 真签」之后现清单本来就是 312 条已验收：这里不能钉「已验收＝0」，
+        # 要钉的是「干跑不改变已验收面」——拿干跑前现读的计数对拍，状态面翻面时不用改判据。
+        self.assertEqual(sum(1 for i in items if i.get('status') == '已验收'), signed_before,
+                         '干跑之后已验收条数变了＝accepted 面被脚本翻过')
         self.assertEqual(sum(len(v) for v in _jload(notes)['备注'].values()), before_rows,
                          '干跑往备注追加了行')
 
