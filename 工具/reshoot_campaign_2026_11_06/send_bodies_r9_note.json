@@ -1,0 +1,30 @@
+{
+  "成员面": [
+    "D18",
+    "D19",
+    "L069"
+  ],
+  "串面": "现串正文逐字（C154 补记 8 之后的取景段）",
+  "母图": "沿用 R4 台账 ref_image 原值",
+  "占格对象": "current_cells 现读在册格",
+  "串面差异": {
+    "D18": {
+      "r4_body_sha12": "ff1864ecd413",
+      "r9_body_sha12": "d60cd044f7dc",
+      "与 R4 逐字相同": false,
+      "母图与 R4 相同": true
+    },
+    "D19": {
+      "r4_body_sha12": "ee0cbe447f27",
+      "r9_body_sha12": "c8dc115ea6a7",
+      "与 R4 逐字相同": false,
+      "母图与 R4 相同": true
+    },
+    "L069": {
+      "r4_body_sha12": "f8ff88b301cf",
+      "r9_body_sha12": "e6cfd3de5490",
+      "与 R4 逐字相同": false,
+      "母图与 R4 相同": true
+    }
+  }
+}
