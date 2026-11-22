@@ -31,12 +31,16 @@ REAL_FILES = ('ledger.json', 'round_readings.json',
               'send_bodies_r1_evidence.json', 'transcripts_r1.json',
               'send_bodies_r1_catchup.json', 'transcripts_r3.json',
               'send_bodies_r4.json', 'send_bodies_r4_evidence.json',
+              'send_bodies_r4_note.json',
               'round_readings_r4.json', 'ledger_r4.json', 'transcripts_r4.json',
+              'round_readings_r1.json', 'ledger_r1.json',
               'send_bodies_r7.json', 'send_bodies_r7_note.json',
-              'round_readings_r7.json', 'ledger_r7.json')
-# R8 那四件（send_bodies_r8／_note／round_readings_r8／ledger_r8）等本轮投后核验产出后再进来：
-# 付费面只走完 2／3（L069 那次 terminated、第 4 次调用未获放行），readings 还不存在，
-# 先把名字写进这份清单会把整套对拍打成一个 FileNotFoundError 而不是任何一条判据。
+              'round_readings_r7.json', 'ledger_r7.json',
+              'send_bodies_r8.json', 'send_bodies_r8_note.json')
+# R8 的 `round_readings_r8.json`／`ledger_r8.json` 两件仍不许进来（2026-11-22 现读盘上没有）：
+# 付费面只走完 2／3（L069 那次 terminated、第 4 次调用未获放行），投后核验还没跑，
+# 把不存在的名字写进这份清单会把整套对拍打成一个 FileNotFoundError 而不是任何一条判据。
+# 已落盘的送入串台账两件则现在就钉进来——它们是 R8 的单变量真源，夹具若误写仓库侧就该在这里红。
 PREFIX = 'verify_round_neg_'
 
 _spec = importlib.util.spec_from_file_location('verify_round_under_test', str(CAMPAIGN / 'verify_round.py'))
@@ -503,6 +507,21 @@ class VerifyRoundGroups(unittest.TestCase):
             self.assertIn(probe.name, seen, '残留扫描本身在空转，"残留 0" 不成立')
         finally:
             shutil.rmtree(probe, ignore_errors=True)
+
+    def test_y_real_ledgers_on_disk_are_all_pinned(self):
+        """盘上已有的轮次件必须逐件钉进 REAL_FILES，豁免面只许留给真不存在的件。
+
+        为什么要这条：REAL_FILES 是「夹具没写仓库侧」的唯一报警器，漏钉的那件即便被夹具改了也没人红。
+        本窗实测盘上就有三件从未进清单（`round_readings_r1`／`ledger_r1`／`send_bodies_r4_note`，
+        最后一件还是本文件 481 行自己读过的真源），说明"名单靠手记"这一条本身会漂。
+        豁免按文件名逐条写死并要求其真不在盘上：R8 的 readings／ledger 一落盘，这条当场判红，
+        逼下一窗把它们钉进来、把豁免删掉——不许留成一条永远为真的空子。"""
+        exempt = {'round_readings_r8.json', 'ledger_r8.json'}
+        pref = ('send_bodies_', 'ledger', 'round_readings_', 'transcripts_')
+        on_disk = {p.name for p in CAMPAIGN.iterdir() if p.suffix == '.json' and p.name.startswith(pref)}
+        self.assertEqual(sorted(on_disk - set(REAL_FILES)), [], '盘上已有却未钉进 REAL_FILES')
+        still_there = sorted(f for f in exempt if (CAMPAIGN / f).exists())
+        self.assertEqual(still_there, [], '豁免名单过期（该件已落盘，须钉进清单并删豁免）：%s' % still_there)
 
 
 class MergedR2Ledger(unittest.TestCase):
