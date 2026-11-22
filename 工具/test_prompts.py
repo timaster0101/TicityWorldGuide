@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """只在临时项目副本执行真实生成器；真实输入只读，不复制或改写真实图片/清单。"""
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -25,7 +26,12 @@ BANNED_UNIQUE_TOWER = ("唯一超过200米", "唯一超过两百米", "唯一超
 # 下一次合法换档时：先追加裁定＋新登记件，再把 BASELINE_DIGESTS 挪到新件——
 # 不挪就是让新换档当场被点名，这是设计（守卫跟着在册走，不跟着便利走）。
 C123_DIGESTS = ("工具", "reinject_2026_11_05", "prompt_digests_c123.json")
-BASELINE_DIGESTS = ("工具", "reinject_2026_11_05", "prompt_digests_c153.json")
+# 2026-11-22 C154 补记（8）片区取景换档：合法换档按 BASELINE_DIGESTS 注释里的路走——
+# 追加裁定 + 写新登记件（before＝上一登记的 after，after＝本轮现读）+ 挪锚点。
+BASELINE_DIGESTS = ("工具", "reinject_2026_11_05", "prompt_digests_c154_framing.json")
+# C124—C152 期间动过画面的那些条按「C123 快照 vs C153 登记件的 before」复原，
+# 这一对是历史比对、不随锚点迁移：拿它跟最新锚点比会把后续换档的条目混进历史面。
+C153_DIGESTS = ("工具", "reinject_2026_11_05", "prompt_digests_c153.json")
 C132_REPRINTED_SIZES = ("1280x1024", "1792x1024")
 HALF_ANGLE_PRINTS = ("degree half-angle", "水平半视锥")
 
@@ -62,7 +68,7 @@ def c132_moved_between_archives(root=ROOT):
     为什么只能这么比：现清单已被 C153 整批改过，拿现清单减 C123 快照会把 312 条全算进来，
     C132 那次的覆盖面历史就没法再证。两份留档都是登记件、不随生成器重写，比对永不过期。"""
     a = json.loads((root / Path(*C123_DIGESTS)).read_text(encoding="utf-8"))["items"]
-    b = json.loads((root / Path(*BASELINE_DIGESTS)).read_text(encoding="utf-8"))["items"]
+    b = json.loads((root / Path(*C153_DIGESTS)).read_text(encoding="utf-8"))["items"]
     return sorted(i for i in b if a[i]["after"] != b[i]["before"])
 
 
@@ -2257,11 +2263,16 @@ class RulingC132PromptDigestScope(unittest.TestCase):
         这条同时兜住「登记件写了 but 没落盘」与「落盘了但登记件是另一版」两种断链。"""
         self.assertEqual(unexplained_moves(), [])
         snap = json.loads((ROOT / Path(*BASELINE_DIGESTS)).read_text(encoding="utf-8"))
-        self.assertEqual(snap["换档裁定"], "C153")
-        self.assertEqual(snap["变更条数"], 312)
-        self.assertEqual(snap["未变条数"], 0)
-        self.assertEqual(sum(1 for v in snap["items"].values() if v["changed"]), 312)
-        self.assertEqual(snap["上一基线"]["baseline_sha256_12"], "b74127f6079e")
+        # 换档面不钉死某一轮的条数：按登记件自己现算，换下一条裁定时不用回来改这里。
+        self.assertTrue(snap["换档裁定"], "登记件没写裁定编号")
+        changed = sum(1 for v in snap["items"].values() if v["changed"])
+        self.assertEqual(snap["变更条数"], changed)
+        self.assertEqual(snap["未变条数"], len(snap["items"]) - changed)
+        self.assertGreater(changed, 0, "登记件里没有一条变更＝换档面是空的")
+        prev = ROOT / '工具' / 'reinject_2026_11_05' / snap["上一基线"]["file"]
+        self.assertEqual(hashlib.sha256(prev.read_bytes()).hexdigest()[:12],
+                         snap["上一基线"]["baseline_sha256_12"],
+                         "上一基线指针与登记件对不上：换档链断了")
 
 
 CITATION_LANES = {

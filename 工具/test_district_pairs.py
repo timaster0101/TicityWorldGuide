@@ -36,6 +36,14 @@ def prompt_of(cid):
         return fp.read()
 
 
+# 2026-11-22 C154 补记（8）落地后，六条的机位句型不再统一：三类视点与高度按片区轮换。
+EXPECTED = {
+    'D06': ('主街跨街连廊平台', '22'), 'D10': ('外缘中轴公共观景屋面', '96'),
+    'D11': ('主街跨街连廊平台', '24'), 'D15': ('跨层退台平台', '64'),
+    'D12': ('主街跨街连廊平台', '20'), 'D20': ('外缘中轴公共观景屋面', '72'),
+}
+
+
 class PairsRecord(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -56,13 +64,16 @@ class PairsRecord(unittest.TestCase):
             self.assertEqual(hashlib.sha256(data).hexdigest()[:12], self.rows[cid]['sha12'],
                              cid + ' sha12 变了＝在册件换了，三对同构图的结论要重看')
 
-    def test_c_framing_template_is_still_one_template(self):
+    def test_c_framing_template_is_now_diversified(self):
+        """三对本已按 C154 补记（8）拆开：六条的视点类型与离地高度逐条核对，朝向与焦距不动。"""
         for cid in IDS:
             txt = prompt_of(cid)
-            self.assertIn('外缘中轴公共观景屋面', txt, cid + ' 的机位句型变了')
-            self.assertIn('机位离地55米', txt, cid)
-            self.assertIn('35毫米' + FACING[cid], txt, cid + ' 的朝向与记录不一致')
-        self.assertIn('机位离地55米', self.rec['串面取证（根因在模板，不只在母图）']['逐条机位句'][0])
+            kind, h = EXPECTED[cid]
+            self.assertIn(kind, txt, cid + ' 的视点类型与预期不符')
+            self.assertIn('机位离地' + h + '米', txt, cid + ' 的机位高度与预期不符')
+            self.assertIn('35毫米' + FACING[cid], txt, cid + ' 的朝向变了（朝向属视锥判据，不许动）')
+        kinds = {EXPECTED[c][0] for c in IDS}
+        self.assertGreaterEqual(len(kinds), 2, '三类视点轮换退化成同一类')
 
     def test_d_note_on_same_facing_pair_outside_the_three(self):
         """D10 与 D20 朝向逐字相同却不在被点名的三对里：这条反例是本件「不能按朝向筛」的依据。"""

@@ -548,6 +548,12 @@ class MergedR2Ledger(unittest.TestCase):
         dig = json.loads((ROOT / '工具' / 'reinject_2026_11_05' / 'prompt_digests_c153.json')
                          .read_text(encoding='utf-8'))
         cls.before = {k: v['before'] for k, v in dig['items'].items()}
+        # 2026-11-22 C154 补记（8）：20 个片区的取景段换档，登记件里 changed 的那些条，
+        # 现读正文的【取景指令】行与 R2 历史串不同是被裁定的换档，不是静默改动。
+        reg = json.loads((ROOT / '工具' / 'reinject_2026_11_05' /
+                          'prompt_digests_c154_framing.json').read_text(encoding='utf-8'))
+        cls.framing_shift = {k for k, v in reg['items'].items() if v['changed']}
+        assert cls.framing_shift, '换档登记件里没有变更条，本条豁免面为空＝判据会空转'
         cls.r2round = json.loads((CAMPAIGN / 'ledger.json').read_text(encoding='utf-8'))['rounds'][-1]
         cls.queue = json.loads((CAMPAIGN / 'queue.json').read_text(encoding='utf-8'))
         cls.snap = json.loads((ROOT / '数据' / '提示词基准冻结.json').read_text(encoding='utf-8'))
@@ -568,13 +574,18 @@ class MergedR2Ledger(unittest.TestCase):
                 self.assertEqual(rec['sha256'], self.before[eid],
                                  '台账摘要不是 C153 换档前的基准串（历史串面被改写？）')
                 bad = style_only_diff(rec['body'], cur)
+                if eid in self.framing_shift:
+                    bad = [b for b in bad if '【取景指令】' not in b]
                 self.assertEqual(bad, [], '%s｜%s' % (eid, bad[:2]))
                 self.assertTrue(rec['send_name'].endswith('-' + SUFFIX['R2']), eid)
 
     def test_style_only_diff_guard_is_not_inert(self):
         """违例负测：②那一支必须能被两种坏数据打红——画风行以外的行变了、以及画风三处一行都没变
         （后者防的是真源被整份复制回来、对拍退化成恒绿的空转）。全在内存里造，不写盘。"""
-        eid, rec = sorted(self.led.items())[0]
+        # 承载件取「不在取景换档面里」的第一条：换档条的【取景指令】行与 R2 历史串本就不同，
+        # 拿它当基线会读到豁免前的差异，负测就变成在验豁免而不是验守卫。
+        eid, rec = next((k, v) for k, v in sorted(self.led.items())
+                        if k not in self.framing_shift)
         name, _src, cur = self.bs.body_of(str(ROOT), eid)
         self.assertEqual(style_only_diff(rec['body'], cur), [], '基线：真实对拍本身必须先达标')
         lines = cur.split('\n')

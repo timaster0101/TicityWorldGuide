@@ -317,10 +317,10 @@ class ReviewSuiteTests(unittest.TestCase):
         # 2026-11-22 真签之后清单是已验收、注入就取待复验。写死一边的写法在状态翻面时会变成
         # 「照抄清单、mismatch 恒 0」的假绿——那正是本条负测要防的死法。
         # 这一注入同时兼作 stray 那条豁免正则的承载证明：回显行写成清单现态必须**不**算自撰结论。
-        states = {it['status'] for it in self.manifest}
-        self.assertEqual(len(states), 1, '清单状态不再单一，本负测的注入面要重新设计')
-        injected = '待复验' if states.pop() == '已验收' else '已验收'
-        self.script.write_text(pristine.replace(lie, lie.replace('it["status"]', '"%s"' % injected), 1),
+        # 注入面按行取反，不假设清单状态单一：2026-11-22 真签后是 292 已验收 + 20 待复验，
+        # 写死某一档会让一半的回显行变成照抄。
+        injected = "('已验收' if it['status'] == '待复验' else '待复验')"
+        self.script.write_text(pristine.replace(lie, lie.replace('it["status"]', injected), 1),
                                encoding="utf-8")
         self.run_suite()
         mismatch, stray = self.status_echo_violations()

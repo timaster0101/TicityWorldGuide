@@ -640,8 +640,17 @@ class ReviewNoteHistory(unittest.TestCase):
                 # 2026-11-22 用户「2 真签」把 312 条整体重签为已验收：状态与申报行两件事同时成立——
                 # 每条仍是已验收，且每条都有一份复述当前绑定串的 C139 代签申报行。
                 # 只判状态会被坏数据洗成已验收（C139 最容易出的事故），所以申报行那条断言不能少。
-                self.assertEqual(item['status'], '已验收', eid)
-                self.assertIsNone(unsigned_binding_ok(item, self.notes[eid], self.prev_baseline), eid)
+                # 2026-11-22 真签后 312 条已验收；同日 C154 补记（8）把 20 个片区取景换档，
+                # 那 20 条按「撤销绑定、不补绑」降回待复验并各留一条 C154取景换档申报行。
+                # 两档都要被本条接住：已验收 ⇒ 申报复述当前绑定；待复验 ⇒ 绑定为空且换档申报在位。
+                if item['status'] == '已验收':
+                    self.assertIsNone(unsigned_binding_ok(item, self.notes[eid], self.prev_baseline), eid)
+                else:
+                    self.assertEqual(item['status'], '待复验', eid)
+                    self.assertIsNone(item.get('image_prompt_sha256'),
+                                      eid + ' 换档后降回待复验的条目不许补绑新摘要')
+                    self.assertTrue(any(r.startswith('C154取景换档申报' + eid + '：')
+                                        for r in self.notes[eid]), eid + ' 缺换档申报行')
                 self.assertTrue(declaration_rows(self.notes[eid]), '%s 的代签申报行被删掉了' % eid)
                 # 申报判据按「该轮当时的在册格」核，不按现清单的格面核：C154 回填替换掉的正是这条申报点名过的那一枚，
                 # 拿现格面去要求一份 2026-11-07 的历史申报复述 2026-11-20 才换上去的文件名，
@@ -1132,8 +1141,10 @@ class ReviewNoteHistory(unittest.TestCase):
         # 与 verify_readout_stance 的画风读数分别承载，别在这个计数上读。
         # 2026-11-22 用户「2 真签」：312 条整体签署，accepted 312／needs_review 0；
         # 计数口径仍是「按清单现读对拍」，不抄第二份。
-        self.assertEqual(self.manifest['needs_review'], 0)
-        self.assertEqual(self.manifest['accepted'], 312)
+        # 按清单现算，不钉死数：真签后恰等于「有图条目数」，换档降级的那些条计入 needs_review。
+        self.assertEqual(self.manifest['accepted'] + self.manifest['needs_review'], 312)
+        self.assertEqual(self.manifest['needs_review'],
+                         sum(1 for i in self.items.values() if i['status'] == '待复验'))
         self.assertEqual(self.manifest['generated'], 312)
         # pending 归 0：此前那 9 条零图条目按用户「2 只要不是新画风生成的或者缺少的，都开」「3 补」补投，
         # 各自新增首格并代签，清单里已无「真正无图」的条目。
