@@ -36,11 +36,12 @@ REAL_FILES = ('ledger.json', 'round_readings.json',
               'round_readings_r1.json', 'ledger_r1.json',
               'send_bodies_r7.json', 'send_bodies_r7_note.json',
               'round_readings_r7.json', 'ledger_r7.json',
-              'send_bodies_r8.json', 'send_bodies_r8_note.json')
-# R8 的 `round_readings_r8.json`／`ledger_r8.json` 两件仍不许进来（2026-11-22 现读盘上没有）：
-# 付费面只走完 2／3（L069 那次 terminated、第 4 次调用未获放行），投后核验还没跑，
-# 把不存在的名字写进这份清单会把整套对拍打成一个 FileNotFoundError 而不是任何一条判据。
-# 已落盘的送入串台账两件则现在就钉进来——它们是 R8 的单变量真源，夹具若误写仓库侧就该在这里红。
+              'send_bodies_r8.json', 'send_bodies_r8_note.json',
+              'send_bodies_r8_evidence.json',
+              'round_readings_r8.json', 'ledger_r8.json')
+# 2026-11-22 R8 投后链跑完：`round_readings_r8.json`／`ledger_r8.json` 已落盘并钉进来，
+# L069 那次 terminated 发起由 `send_bodies_r8_evidence.json` 承载（投次 2／作废发起 0），三件一起进清单。
+# 上一窗留下的「R8 两件不许进来」豁免理由已过期——那两件的缺席当时是真的，现在不是了。
 PREFIX = 'verify_round_neg_'
 
 _spec = importlib.util.spec_from_file_location('verify_round_under_test', str(CAMPAIGN / 'verify_round.py'))
@@ -514,9 +515,10 @@ class VerifyRoundGroups(unittest.TestCase):
         为什么要这条：REAL_FILES 是「夹具没写仓库侧」的唯一报警器，漏钉的那件即便被夹具改了也没人红。
         本窗实测盘上就有三件从未进清单（`round_readings_r1`／`ledger_r1`／`send_bodies_r4_note`，
         最后一件还是本文件 481 行自己读过的真源），说明"名单靠手记"这一条本身会漂。
-        豁免按文件名逐条写死并要求其真不在盘上：R8 的 readings／ledger 一落盘，这条当场判红，
-        逼下一窗把它们钉进来、把豁免删掉——不许留成一条永远为真的空子。"""
-        exempt = {'round_readings_r8.json', 'ledger_r8.json'}
+        豁免名单现为空：R8 的 readings／ledger 已在 2026-11-22 落盘并钉进 REAL_FILES，
+        上一窗那条「盘上没有所以豁免」的理由随之作废。通道保留而不删——下一窗若又有轮次件未落盘，
+        豁免只许按文件名逐条写死并要求其真不在盘上，一落盘这条当场判红，不许留成永远为真的空子。"""
+        exempt = frozenset()
         pref = ('send_bodies_', 'ledger', 'round_readings_', 'transcripts_')
         on_disk = {p.name for p in CAMPAIGN.iterdir() if p.suffix == '.json' and p.name.startswith(pref)}
         self.assertEqual(sorted(on_disk - set(REAL_FILES)), [], '盘上已有却未钉进 REAL_FILES')
@@ -812,11 +814,27 @@ class R7JudgedFailedReshoot(unittest.TestCase):
         cells = {r['id']: r for r in rows}
         self.assertEqual([e['id'] for e in excluded if e['id'] in self.led], [],
                          '本轮条目被 current_cells 剔出在册面＝目视与后续判据看不到交付的那一格')
+        # 2026-11-22 订正（R8 落盘后本条判红 3 处，根因在本断言自己）：这里原先写死
+        # 「在册格档串必须含 C154判废补重投」，那是把「R7 是最新一轮」当成永恒事实——R8 同串重抽把
+        # 同一格换掉后，它判红判的不是「回填没接上」而是「后面又投了一轮」。与 5 号点单修的是同一缺陷类。
+        # 换成随 GROUPS 声明序派生的「不许退回 R7 之前」，加一条 R7 交付枚本身仍在盘、仍被 R7 机械行点名。
+        order = list(vr.GROUPS)
+        r7_rank = order.index('R7')
+        delivered = {r['id']: r['file'] for r in self.readings['rows']}
         for eid in sorted(self.led):
             with self.subTest(eid=eid):
-                self.assertIn('C154判废补重投', cells[eid]['档串'],
-                              '备注里的在册格还指着旧档串＝回填没接上，目视会打在没有交付的那一格上')
+                sfx = cells[eid]['档串']
+                rank = max([i for i, g in enumerate(order)
+                            if vr.GROUPS[g]['suffix'].split('-v')[0] in sfx], default=-1)
+                self.assertGreaterEqual(rank, r7_rank,
+                                        '在册格档串 %s 退回 R7 之前＝R7 之后的回填链断了，'
+                                        '目视会打在没有交付的那一格上（不许把这条改回写死 R7 为最新）' % sfx)
                 self.assertTrue(cells[eid]['在盘'], eid)
+                self.assertTrue((ROOT / '数据' / '图集' / eid / delivered[eid]).is_file(),
+                                'R7 交付枚本身不在盘＝后续轮次把它删了，重投只许替换不许抹旧')
+                self.assertTrue(any(delivered[eid] in s for s in self.notes[eid]
+                                    if s.startswith('C154判废补重投' + eid)),
+                                'R7 机械行没点名自己那枚＝回填与备注分叉')
                 self.assertTrue((ROOT / self.led[eid]['replaced_cell']).exists(),
                                 '被替换的旧格删掉了＝「生成物永不手改／只追加」这条破了')
         self.assertEqual(sorted([e for e, v in self.led.items() if v['status_before'] == '待复验']),
@@ -833,6 +851,124 @@ class R7JudgedFailedReshoot(unittest.TestCase):
                 tail = heads[eid][0]
                 self.assertIn('非脚本代签', tail, eid)
                 self.assertIn('｜达标（', tail, eid)
+
+
+R8_VISUAL_HEAD = '2026-11-22 R8 组目视（画风＋取景分栏）'
+
+
+def _r7_framing_defect_face(notes):
+    """R8 成员面＝R7 目视行里「取景与量级栏另记」记了缺陷的那几枚——现算，不手抄名单。
+
+    判据只认另记段落里的缺陷动词（画入／量级不符／塔吊），并给一条显式豁免句
+    「本条取景与量级合规」留负测通道：改写成合规即从面里掉出去，上一条断言就不许空转。
+    """
+    face = []
+    for eid, rows in notes.items():
+        for s in rows:
+            if not s.startswith(R7_VISUAL_HEAD):
+                continue
+            body = s[s.find('取景与量级栏另记'):] if '取景与量级栏另记' in s else ''
+            if body and '本条取景与量级合规' not in body \
+                    and any(k in body for k in ('画入', '量级不符', '塔吊')):
+                face.append(eid)
+    return sorted(face)
+
+
+class R8FramingReshoot(unittest.TestCase):
+    """R8（R7 目视画风达标而取景与量级在册缺陷的 3 枚同串同母图重抽）的接线自证。
+
+    与 R7 同一套写法：只读真源、不建夹具、不写盘；成员面与缺陷文本都从 R7 目视行现算，
+    付费面（投次／复投／零产物那一次）从读数与证据台账现算，任何一处手抄都会与盘上分叉。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.led = json.loads((CAMPAIGN / 'send_bodies_r8.json').read_text(encoding='utf-8'))
+        cls.ev = json.loads((CAMPAIGN / 'send_bodies_r8_evidence.json').read_text(encoding='utf-8'))
+        cls.r7 = json.loads((CAMPAIGN / 'send_bodies_r7.json').read_text(encoding='utf-8'))
+        cls.r4 = json.loads((CAMPAIGN / 'send_bodies_r4.json').read_text(encoding='utf-8'))
+        cls.readings = json.loads((CAMPAIGN / 'round_readings_r8.json').read_text(encoding='utf-8'))
+        cls.notes = json.loads((ROOT / '数据' / '开图验收备注.json').read_text(encoding='utf-8'))['备注']
+
+    def test_a_group_config_wires_the_evidence_channel(self):
+        cfg = vr.GROUPS['R8']
+        self.assertEqual(cfg['suffix'], 'C154取景补重投-v01')
+        self.assertEqual(cfg['bodies'], 'send_bodies_r8.json')
+        self.assertEqual(cfg['bodies_extra'], ['send_bodies_r8_evidence.json'],
+                         'L069 那次 terminated 发起只住在并集补充台账里，漏配就等于把一次付费调用从调用面上抹掉')
+        for f in (cfg['bodies'], cfg['readings'], cfg['ledger'],
+                  'send_bodies_r8_note.json') + tuple(cfg['bodies_extra']):
+            self.assertTrue((CAMPAIGN / f).exists(), f)
+
+    def test_b_member_face_and_defect_text_are_derived_from_r7_notes(self):
+        self.assertEqual(sorted(self.led), _r7_framing_defect_face(self.notes),
+                         'R8 台账成员面与备注里 R7 取景与量级栏现算结果分叉＝名单被手抄过或目视行改了写法')
+        flipped = copy.deepcopy(self.notes)
+        flipped['D18'] = [(s.split('取景与量级栏另记')[0] + '取景与量级栏另记（按 C154(1) 分栏）：本条取景与量级合规。'
+                           if s.startswith(R7_VISUAL_HEAD) else s) for s in flipped['D18']]
+        self.assertNotIn('D18', _r7_framing_defect_face(flipped),
+                         '把 D18 的取景栏改写成合规句后仍被数到＝上一条断言在空转')
+        for eid, rec in sorted(self.led.items()):
+            with self.subTest(eid=eid):
+                r7row = [s for s in self.notes[eid] if s.startswith(R7_VISUAL_HEAD)]
+                self.assertEqual(len(r7row), 1, eid)
+                self.assertIn(rec['取景缺陷栏'][:24], r7row[0],
+                              '台账里的取景缺陷文本不在 R7 目视行里＝缺陷面是抄来的，不是从上一轮结论派生的')
+
+    def test_c_single_variable_same_body_and_matrix_as_r4_and_r7(self):
+        for eid, rec in sorted(self.led.items()):
+            with self.subTest(eid=eid):
+                for other, tag in ((self.r4[eid], 'R4'), (self.r7[eid], 'R7')):
+                    self.assertEqual(rec['body'], other['body'], '%s 正文不等＝这笔钱买的不是「同串重抽」' % tag)
+                    self.assertEqual(rec['send_sha256'], other['send_sha256'], '%s 串摘要不等' % tag)
+                    self.assertEqual(rec['ref_image'], other['ref_image'], '%s 母图不等＝一次投放动了两个变量' % tag)
+                self.assertIn('C154取景补重投-v01', rec['send_name'], eid)
+
+    def test_d_paid_face_reconciles_four_calls_three_products(self):
+        st = self.readings['统计面']
+        self.assertEqual(st['本轮发图串条数'], 3)
+        self.assertEqual(st['投次合计'], 4, '放行面是 4 次调用（含 11-21 那次 terminated），不是 3 条')
+        self.assertEqual(st['复投条目数'], 1)
+        self.assertEqual(st['登记作废发起合计'], 0, '两发 prompt 逐字相等，作废的是那一次发起而不是串面')
+        self.assertEqual(st['作废删除枚数合计'], 0)
+        self.assertEqual(st['落盘在冻结带内条数'], 3, '落盘面必须与成员面同数：中断那次零产物、不计第二枚')
+        self.assertEqual(sorted(self.ev), ['L069'], 'R8 只有 L069 有第二次发起')
+        self.assertEqual(int(self.ev['L069']['投次']), 2)
+        row = [r for r in self.readings['rows'] if r['id'] == 'L069'][0]
+        self.assertEqual((row['投次'], row['逐字发起数'], row['非逐字发起数']), (2, 2, 0),
+                         '读数面的 L069 发起面与证据台账不等＝并集通道没接上')
+
+    def test_e_visual_rows_cover_the_face_and_split_the_two_columns(self):
+        heads = {eid: [s for s in rows if s.startswith(R8_VISUAL_HEAD)]
+                 for eid, rows in self.notes.items()}
+        judged = sorted([e for e, h in heads.items() if h])
+        self.assertEqual(judged, sorted(self.led), 'R8 目视行的覆盖面与本轮成员面不一致')
+        for eid in judged:
+            with self.subTest(eid=eid):
+                self.assertEqual(len(heads[eid]), 1, '同一条 R8 目视结论写了两遍＝追加面出现第二条真源')
+                tail = heads[eid][0]
+                self.assertIn('非脚本代签', tail, eid)
+                self.assertIn('画风栏 达标', tail, eid)
+                self.assertIn('取景与量级栏另记', tail, eid)
+                self.assertIn('CLIP 旁证 p_photo=', tail, '目视行没带 CLIP 旁证＝C134 的只作读数口径没落进这一轮')
+        style_ok = sum(1 for e in judged if '画风栏 达标' in heads[e][0])
+        framing_bad = sum(1 for e in judged if '不达标' in heads[e][0].split('取景与量级栏另记')[1])
+        self.assertEqual((style_ok, framing_bad), (3, 3),
+                         '两栏计数与目视现读不一致（画风达标面／取景不达标面要分别对得上本轮三枚）')
+
+    def test_f_registered_cells_point_at_r8_and_old_cells_survive(self):
+        _cc = importlib.util.spec_from_file_location('cc_r8', str(CAMPAIGN / 'current_cells.py'))
+        cc = importlib.util.module_from_spec(_cc)
+        _cc.loader.exec_module(cc)
+        _q, rows, excluded = cc.current_cells(str(ROOT))
+        cells = {r['id']: r for r in rows}
+        self.assertEqual([e['id'] for e in excluded if e['id'] in self.led], [], 'R8 条目被剔出在册面')
+        for eid in sorted(self.led):
+            with self.subTest(eid=eid):
+                self.assertIn('C154取景补重投', cells[eid]['档串'],
+                              'R8 交付后在册格没跟上＝目视与后续判据打在旧格上')
+                self.assertTrue((ROOT / self.led[eid]['replaced_cell']).exists(),
+                                '被 R8 替换掉的 R7 旧格删掉了＝「生成物永不手改／只追加」这条破了')
 
 
 class ToolHandlesAreClosed(unittest.TestCase):

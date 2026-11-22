@@ -62,6 +62,7 @@ GROUPS = {
     # 串面与母图仍与 R4 逐字节相同（build_send_bodies_r8.py 已 assert），所以「逐字相等／母图相符」两列
     # 在这一轮核的是「这三次抽是不是真走了同一条路线」，取景缺陷是否消失只看投后目视，本表不判。
     'R8': {'suffix': 'C154取景补重投-v01', 'bodies': 'send_bodies_r8.json',
+           'bodies_extra': ['send_bodies_r8_evidence.json'],
            'readings': 'round_readings_r8.json', 'ledger': 'ledger_r8.json'},
 }
 LEDGER_DECL = {
