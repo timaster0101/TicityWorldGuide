@@ -68,23 +68,30 @@ class RoundFaceIsDerived(unittest.TestCase):
             self.assertIn(tok, sa.round_cell_tokens(), tok)
 
     def test_b_dropping_a_round_from_the_table_drops_its_cells(self):
-        """变异自证：从 GROUPS 摘掉 R7 那一档，R7 的在册格必须从取法里消失。
+        """变异自证：从 GROUPS 摘掉最新那一档，它的在册格必须从取法里消失，还原后跟着回来。
 
-        写死名单的实现不会有任何变化，这条就会变红——它证明上面那条对拍不是同义反复。"""
-        led = _jload(CAMPAIGN / 'send_bodies_r7.json')
+        写死名单的实现不会有任何变化，这条就会变红——它证明上面那条对拍不是同义反复。
+        轮次不写死成 R7：R8 回填把 D18／D19／L069 那三格顶成了取景补重投枚，盘面上确实不再有 R7 的在册格，
+        2026-11-22 全量套件实测这样会假红（与 5 号点单「轮次面写死」同一缺陷类，按 GROUPS 声明序取最新档）。"""
+        order = list(sa.vr.GROUPS)
+        group = order[-1]
+        tok = re.sub(r'-v\d+$', '', sa.vr.GROUPS[group]['suffix'])
+        led = _jload(CAMPAIGN / sa.vr.GROUPS[group]['bodies'])
         by_id = {i['id']: i for i in self.man}
         sample = by_id[sorted(led)[0]]
         self.assertTrue(sa.reshoot_cells(sample), '本轮在册格里没有一支认得出重投期档串，用例失去承载')
-        keep = copy.deepcopy(sa.vr.GROUPS['R7'])
+        self.assertTrue(any(tok in f for f in sa.reshoot_cells(sample)),
+                        '用例失去承载：最新一轮 %s 的在册格没挂在清单上，负测会空转' % tok)
+        keep = copy.deepcopy(sa.vr.GROUPS[group])
         try:
-            del sa.vr.GROUPS['R7']
-            self.assertNotIn('C154判废补重投', sa.round_cell_tokens())
-            self.assertFalse(any('C154判废补重投' in f for f in sa.reshoot_cells(sample)),
+            del sa.vr.GROUPS[group]
+            self.assertNotIn(tok, sa.round_cell_tokens())
+            self.assertFalse(any(tok in f for f in sa.reshoot_cells(sample)),
                              'GROUPS 里已经没这一轮，取法却还认得它的格＝档串面其实是写死的')
         finally:
-            sa.vr.GROUPS['R7'] = keep
-        self.assertIn('C154判废补重投', sa.round_cell_tokens(), '还原后档串面没跟着回来')
-        self.assertTrue(any('C154判废补重投' in f for f in sa.reshoot_cells(sample)))
+            sa.vr.GROUPS[group] = keep
+        self.assertIn(tok, sa.round_cell_tokens(), '还原后档串面没跟着回来')
+        self.assertTrue(any(tok in f for f in sa.reshoot_cells(sample)), '还原后取法没认回这一轮的格')
 
     def test_c_every_registered_cell_is_recognised_and_mostly_resolved(self):
         """在册格一枚都不许落进空集：这是 291 条误报的直接回归。"""
