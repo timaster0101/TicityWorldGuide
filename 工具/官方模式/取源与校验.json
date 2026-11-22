@@ -1,0 +1,266 @@
+{
+  "说明": "docx 官方 XSD 模式校验所用模式件的取源与逐件摘要（`工具/validate_docx_xsd.py` 读这里的 套件摘要前12位 与件数）。",
+  "口径": "官方件与外部引用件逐字入仓、不做任何改写；只有两支接入件是我方自建的，它们不定义任何模式语义，作用是把官方件里那两条没有写 schemaLocation 的 import（以及 OPC 核心属性件写了远端 http 地址的 import）在离线环境里指到本地同名件。校验时联网一律不需要。",
+  "标准": "ECMA-376 第五版（ISO/IEC 29500）Part 1 Transitional 主套件＋OpenPackagingConventions-XMLSchema 套件",
+  "取回日期": "2026-11-22",
+  "取回通道": "GitHub raw（ECMA 官方附件的 5th 版镜像 QtExcel/ecma-376-5th）与 www.w3.org、dublincore.org；逐件按 HTTP 200 与字节数对平后入仓",
+  "件数": 36,
+  "官方件数": 34,
+  "接入件数": 2,
+  "合计字节": 959967,
+  "套件摘要前12位": "68684ff497ba",
+  "逐件": [
+    {
+      "件": "dc.xsd",
+      "字节": 4112,
+      "sha256": "bc1d454db1bb20dfb1867a3fe0cf007775fc4afa33a5df425c12d854f049f1f6",
+      "类别": "外部引用件（Dublin Core）",
+      "取源": "http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd"
+    },
+    {
+      "件": "dcmitype.xsd",
+      "字节": 1442,
+      "sha256": "4980845d0bedcf45e707fa64eb47492ae4f95ac4ae42f5c3c68b58c0bc9e8e49",
+      "类别": "外部引用件（Dublin Core）",
+      "取源": "http://dublincore.org/schemas/xmls/qdc/2003/04/02/dcmitype.xsd"
+    },
+    {
+      "件": "dcterms.xsd",
+      "字节": 11171,
+      "sha256": "6328c8b574c166f8ebc28d07231e6ee47121e9791689b70c3afa665f22099fed",
+      "类别": "外部引用件（Dublin Core）",
+      "取源": "http://dublincore.org/schemas/xmls/qdc/2003/04/02/dcterms.xsd"
+    },
+    {
+      "件": "dml-chart.xsd",
+      "字节": 74984,
+      "sha256": "41b93bd8857cc68b1e43be2806a872d736a9bdd6566900062d8fdb57d7bbb354",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/dml-chart.xsd"
+    },
+    {
+      "件": "dml-chartDrawing.xsd",
+      "字节": 6956,
+      "sha256": "3fd0586f2637b98bb9886f0e0b67d89e1cc987c2d158cc7deb5f5b9890ced412",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/dml-chartDrawing.xsd"
+    },
+    {
+      "件": "dml-diagram.xsd",
+      "字节": 51302,
+      "sha256": "29b254ee0d10414a8504b5a08149c7baec35a60d5ff607d6b3f492aa36815f40",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/dml-diagram.xsd"
+    },
+    {
+      "件": "dml-lockedCanvas.xsd",
+      "字节": 624,
+      "sha256": "5cb76dabd8b97d1e9308a1700b90c20139be4d50792d21a7f09789f5cccd6026",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/dml-lockedCanvas.xsd"
+    },
+    {
+      "件": "dml-main.xsd",
+      "字节": 152039,
+      "sha256": "5375417f0f5394b8dd1a7035b9679151f19a6b65df309dec10cfb4a420cb00e9",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/dml-main.xsd"
+    },
+    {
+      "件": "dml-picture.xsd",
+      "字节": 1231,
+      "sha256": "5d389d42befbebd91945d620242347caecd3367f9a3a7cf8d97949507ae1f53c",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/dml-picture.xsd"
+    },
+    {
+      "件": "dml-spreadsheetDrawing.xsd",
+      "字节": 8862,
+      "sha256": "b4532b6d258832953fbb3ee4c711f4fe25d3faf46a10644b2505f17010d01e88",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/dml-spreadsheetDrawing.xsd"
+    },
+    {
+      "件": "dml-wordprocessingDrawing.xsd",
+      "字节": 14795,
+      "sha256": "bdad416b096b61d37b71603b2c949484f9070c830bdaeba93bf35e15c8900614",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/dml-wordprocessingDrawing.xsd"
+    },
+    {
+      "件": "driver_core.xsd",
+      "字节": 601,
+      "sha256": "43b5dfd7cb387b9922c38794e05303b110ee0a16e6575fcf440b15b3353cc8d3",
+      "类别": "接入件（我方自建）",
+      "取源": null
+    },
+    {
+      "件": "driver_wml.xsd",
+      "字节": 315,
+      "sha256": "e382d02765ec2ba32aeb7d387f76b1924e512b7976865afc62a69980a4deb9f7",
+      "类别": "接入件（我方自建）",
+      "取源": null
+    },
+    {
+      "件": "opc-contentTypes.xsd",
+      "字节": 1963,
+      "sha256": "9e0b7209fc69ab11987900404540969976000c5ebe4d4f58c43dc3842886bf3a",
+      "类别": "ECMA-376 第五版官方件（OPC 套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OpenPackagingConventions-XMLSchema/opc-contentTypes.xsd"
+    },
+    {
+      "件": "opc-coreProperties.xsd",
+      "字节": 2515,
+      "sha256": "451958454e8588dfc7cd945981ada142ca06ff3307937f5700df059c2b307fa8",
+      "类别": "ECMA-376 第五版官方件（OPC 套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OpenPackagingConventions-XMLSchema/opc-coreProperties.xsd"
+    },
+    {
+      "件": "opc-digSig.xsd",
+      "字节": 2856,
+      "sha256": "6de111e11403f7cd49027400755bae0ea1cabef2815f09bd40a24f0017613b24",
+      "类别": "ECMA-376 第五版官方件（OPC 套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OpenPackagingConventions-XMLSchema/opc-digSig.xsd"
+    },
+    {
+      "件": "opc-relationships.xsd",
+      "字节": 1344,
+      "sha256": "f565adfef5a502044abc3a9153e157edc25af78304d335994afb958874b15e26",
+      "类别": "ECMA-376 第五版官方件（OPC 套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OpenPackagingConventions-XMLSchema/opc-relationships.xsd"
+    },
+    {
+      "件": "pml.xsd",
+      "字节": 83612,
+      "sha256": "d173c3e5d61e42e2e3a97226c632fd2ab7cc481fc4e492365b87024ab546daff",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/pml.xsd"
+    },
+    {
+      "件": "shared-additionalCharacteristics.xsd",
+      "字节": 1269,
+      "sha256": "3c6709101c6aaa82888df5d8795c33f9e857196790eb320d9194e64be2b6bdd8",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/shared-additionalCharacteristics.xsd"
+    },
+    {
+      "件": "shared-bibliography.xsd",
+      "字节": 7328,
+      "sha256": "0b364451dc36a48dd6dae0f3b6ada05fd9b71e5208211f8ee5537d7e51a587e2",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/shared-bibliography.xsd"
+    },
+    {
+      "件": "shared-commonSimpleTypes.xsd",
+      "字节": 6329,
+      "sha256": "8df6a1d927bbefb091a5233bd4e872f7992f62b4065fe1f129caf4fa5da68ad7",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/shared-commonSimpleTypes.xsd"
+    },
+    {
+      "件": "shared-customXmlDataProperties.xsd",
+      "字节": 1248,
+      "sha256": "0ef4bb354ff44b923564c4ddbdda5987919d220225129ec94614a618ceafc281",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/shared-customXmlDataProperties.xsd"
+    },
+    {
+      "件": "shared-customXmlSchemaProperties.xsd",
+      "字节": 880,
+      "sha256": "0d103b99a4a8652f8871552a69d42d2a3760ac6a5e3ef02d979c4273257ff6a4",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/shared-customXmlSchemaProperties.xsd"
+    },
+    {
+      "件": "shared-documentPropertiesCustom.xsd",
+      "字节": 2608,
+      "sha256": "9c085407751b9061c1f996f6c39ce58451be22a8d334f09175f0e89e42736285",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/shared-documentPropertiesCustom.xsd"
+    },
+    {
+      "件": "shared-documentPropertiesExtended.xsd",
+      "字节": 3507,
+      "sha256": "bc92e36ccd233722d4c5869bec71ddc7b12e2df56059942cce5a39065cc9c368",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/shared-documentPropertiesExtended.xsd"
+    },
+    {
+      "件": "shared-documentPropertiesVariantTypes.xsd",
+      "字节": 7507,
+      "sha256": "7b5b7413e2c895b1e148e82e292a117d53c7ec65b0696c992edca57b61b4a74b",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/shared-documentPropertiesVariantTypes.xsd"
+    },
+    {
+      "件": "shared-math.xsd",
+      "字节": 23288,
+      "sha256": "1e1e49c96aa5faab9d72301151044c09556182adc95c00506605ff62b24e4cb8",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/shared-math.xsd"
+    },
+    {
+      "件": "shared-relationshipReference.xsd",
+      "字节": 1367,
+      "sha256": "12264f3c03d738311cd9237d212f1c07479e70f0cbe1ae725d29b36539aef637",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/shared-relationshipReference.xsd"
+    },
+    {
+      "件": "sml.xsd",
+      "字节": 242277,
+      "sha256": "beffeed56945c22a77440122c8bdc426f3fcbe7f3b12ea0976c770d1f8d54578",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/sml.xsd"
+    },
+    {
+      "件": "vml-main.xsd",
+      "字节": 26148,
+      "sha256": "f5ee623b08b6a66935e5aced2f5d8ad0fc71bf9e8e833cd490150c0fa94b8763",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/vml-main.xsd"
+    },
+    {
+      "件": "vml-officeDrawing.xsd",
+      "字节": 25279,
+      "sha256": "585bedc1313b40888dcc544cb74cd939a105ee674f3b1d3aa1cc6d34f70ff155",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/vml-officeDrawing.xsd"
+    },
+    {
+      "件": "vml-presentationDrawing.xsd",
+      "字节": 535,
+      "sha256": "133c9f64a5c5d573b78d0a474122b22506d8eadb5e063f67cdbbb8fa2f161d0e",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/vml-presentationDrawing.xsd"
+    },
+    {
+      "件": "vml-spreadsheetDrawing.xsd",
+      "字节": 5712,
+      "sha256": "6bdeb169c3717eb01108853bd9fc5a3750fb1fa5b82abbdd854d49855a40f519",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/vml-spreadsheetDrawing.xsd"
+    },
+    {
+      "件": "vml-wordprocessingDrawing.xsd",
+      "字节": 4010,
+      "sha256": "475dcae1e7d1ea46232db6f8481040c15e53a52a3c256831d3df204212b0e831",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/vml-wordprocessingDrawing.xsd"
+    },
+    {
+      "件": "wml.xsd",
+      "字节": 171115,
+      "sha256": "4112072b459b7a4b9fe31562223945124102185d1ad113178c4a642d11e97153",
+      "类别": "ECMA-376 第五版官方件（Part 1 Transitional 主套件）",
+      "取源": "https://raw.githubusercontent.com/QtExcel/ecma-376-5th/master/ECMA-376/OfficeOpenXML-XMLSchema-Transitional/wml.xsd"
+    },
+    {
+      "件": "xml.xsd",
+      "字节": 8836,
+      "sha256": "61960fb3131e38022caad5360e2f33a3382578ab3c80cd58bd74320ede61b20c",
+      "类别": "外部引用件（W3C XML 命名空间）",
+      "取源": "https://www.w3.org/2001/xml.xsd"
+    }
+  ]
+}

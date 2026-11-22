@@ -48,7 +48,14 @@ def paragraph(text='', style=None, properties='', raw=None):
 
 
 def table(rows):
-    return '<w:tbl>' + ''.join('<w:tr>' + ''.join('<w:tc>' + paragraph(cell) + '</w:tc>' for cell in row) + '</w:tr>' for row in rows) + '</w:tbl>'
+    # w:tbl 的官方模式要求「tblPr? + tblGrid + 行内容」，tblGrid 是必需项（CT_Tbl）。
+    # 早先的夹具漏了 tblGrid，verify_docx 不看这一层所以一直绿；2026-11-22 把官方 XSD 校验接进
+    # verify_docx 之后立刻判红——夹具本身必须先是合法 docx，这条修正属于夹具，不是放宽判据。
+    cols = len(rows[0]) if rows else 1
+    grid = '<w:tblGrid>%s</w:tblGrid>' % ('<w:gridCol w:w="%d"/>' % (8000 // cols) * cols)
+    return ('<w:tbl><w:tblPr/>' + grid
+            + ''.join('<w:tr>' + ''.join('<w:tc>' + paragraph(cell) + '</w:tc>' for cell in row) + '</w:tr>'
+                      for row in rows) + '</w:tbl>')
 
 
 BODY = [
@@ -483,6 +490,116 @@ class RenderingRecordTests(unittest.TestCase):
         # 4 这个数字来自导出器写盘的 ``` 段落，形态变了这条要重取而不是改成断言相等就完事。
         self.assertEqual(result['prose_marker_leaks'], 0, result['prose_marker_leak_locations'])
         self.assertEqual(result['prose_fence_paragraphs'], 4, '围栏段落形态变了，豁免支路的承载要重取')
+
+
+class OfficialSchemaTests(unittest.TestCase):
+    """官方 XSD 模式校验那一支（`validate_docx_xsd.py`）：读数绑定＋四类违例负测。
+
+    为什么必须自带夹具而不跑真件：真件只证明「今天这一份合法」，证不出「违例会被判红」。
+    负测里最要紧的是 `test_d`／`test_e`：扩展命名空间的属性**只有在件内自己声明了 mc:Ignorable 时才按不存在处理**，
+    没声明就必须判红——否则这条规则等于把所有 `w14:`/`msc:` 属性一律放过，是假绿而不是合规视图。
+    """
+    MC = 'http://schemas.openxmlformats.org/markup-compatibility/2006'
+    W14 = 'http://schemas.microsoft.com/office/word/2012/wordml'
+    XSD_PATH = Path(__file__).with_name('validate_docx_xsd.py')
+
+    @classmethod
+    def setUpClass(cls):
+        spec = importlib.util.spec_from_file_location('validate_docx_xsd_under_test', str(cls.XSD_PATH))
+        cls.mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.mod)
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.docx = Path(self.temp.name) / 'f.docx'
+
+    def write(self, document_attrs='', body_extra='', ignorable='w14 wp14', extra_parts=None):
+        mc_decl = (' xmlns:mc="%s" mc:Ignorable="%s"' % (self.MC, ignorable)) if ignorable else ''
+        parts = {
+            '[Content_Types].xml': '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+                                   '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+                                   '<Default Extension="xml" ContentType="application/xml"/>'
+                                   '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>',
+            '_rels/.rels': '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+                           '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>',
+            'word/document.xml': '<w:document xmlns:w="%s"%s xmlns:w14="%s"%s><w:body>%s%s<w:sectPr/></w:body></w:document>'
+                                 % (W, mc_decl, self.W14, document_attrs, body_extra, paragraph('正文')),
+            'word/_rels/document.xml.rels': '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"/>',
+        }
+        parts.update(extra_parts or {})
+        with zipfile.ZipFile(self.docx, 'w', compression=zipfile.ZIP_STORED) as archive:
+            for name, text in parts.items():
+                archive.writestr(name, text)
+
+    def run_validator(self):
+        return self.mod.validate(str(self.docx))
+
+    def test_a_delivered_record_binds_the_delivered_docx(self):
+        rec = json.loads((ROOT / '数据' / 'Word模式校验.json').read_text(encoding='utf-8'))
+        delivered = hashlib.sha256((ROOT / (BOOK + '.docx')).read_bytes()).hexdigest()
+        self.assertEqual(rec['docx_sha256'], delivered,
+                         '模式校验读数绑的是另一份 docx：重导即失效，须重跑 validate_docx_xsd.py')
+        self.assertEqual(rec['统计']['违例'], 0, rec['件面'])
+        self.assertEqual(rec['统计']['未覆盖命名空间'], 0, rec['未覆盖命名空间'])
+        self.assertGreater(rec['统计']['原样校验违例合计'], 0,
+                           '原样档那条 MCE 事实不见了＝口径被改成「装成 Part 1 全过」')
+        self.assertEqual(rec['统计']['Part3结构元素合计'], 0)
+        prov = json.loads((ROOT / '工具' / '官方模式' / '取源与校验.json').read_text(encoding='utf-8'))
+        self.assertEqual(rec['模式套件']['套件摘要前12位'], prov['套件摘要前12位'],
+                         '模式件面与取源清单分叉：仓内官方件被改动而记录没跟上')
+
+    def test_b_clean_fixture_passes(self):
+        self.write()
+        rep = self.run_validator()
+        self.assertEqual(rep['统计']['违例'], 0, rep['件面'])
+        self.assertEqual(rep['统计']['XML件面'], 4)
+
+    def test_c_undeclared_element_is_a_violation(self):
+        self.write(body_extra='<w:bogus/>')
+        rep = self.run_validator()
+        self.assertEqual(rep['统计']['违例'], 1, '未声明元素没被判红＝校验器不认模式只认文件名')
+        self.assertIn('bogus', ' '.join(rep['件面'][1]['违例'] + rep['件面'][0]['违例'])
+                      + str(rep['件面']))
+
+    def test_d_extension_attribute_needs_the_ignorable_declaration(self):
+        """同一个扩展属性：件内声明了 mc:Ignorable 才按不存在处理；没声明就是模式违例。"""
+        self.write(document_attrs=' w14:restartNumberingAfterBreak="0"', ignorable='w14 wp14')
+        declared = self.run_validator()
+        self.assertEqual(declared['统计']['违例'], 0, declared['件面'])
+        self.assertEqual(declared['统计']['剥掉的ignorable属性合计'], 1,
+                         '声明在位却没剥＝Ignorable 规则其实没生效')
+        self.write(document_attrs=' w14:restartNumberingAfterBreak="0"', ignorable='')
+        undeclared = self.run_validator()
+        self.assertEqual(undeclared['统计']['违例'], 1,
+                         '未声明的扩展属性被放过＝把所有扩展命名空间一律当合法，是假绿')
+
+    def test_e_alternatecontent_goes_to_a_human(self):
+        self.write(body_extra='<mc:AlternateContent xmlns:mc="%s"><mc:Choice Requires="w14">'
+                              '<w:p/></mc:Choice><mc:Fallback><w:p/></mc:Fallback></mc:AlternateContent>' % self.MC)
+        rep = self.run_validator()
+        self.assertEqual(rep['统计']['违例'], 1, 'Choice/Fallback 被默认放行＝脚本替人做了 Part 3 的取舍')
+        self.assertIn('Choice', str(rep['件面']))
+        self.assertEqual(rep['统计']['Part3结构元素合计'], 3)
+
+    def test_f_uncovered_namespace_is_not_a_pass(self):
+        self.write(extra_parts={'word/mystery.xml': '<Mystery xmlns="http://example.test/unknown-ns"><a/></Mystery>'})
+        rep = self.run_validator()
+        self.assertEqual(rep['统计']['未覆盖命名空间'], 1, '映射外的命名空间被跳过＝覆盖面会悄悄缩水')
+        self.assertEqual(rep['未覆盖命名空间'][0]['件'], 'word/mystery.xml')
+
+    def test_g_schema_dir_is_complete_and_official_files_untouched(self):
+        prov = json.loads((ROOT / '工具' / '官方模式' / '取源与校验.json').read_text(encoding='utf-8'))
+        names = sorted(p.name for p in (ROOT / '工具' / '官方模式').glob('*.xsd'))
+        self.assertEqual(names, sorted(r['件'] for r in prov['逐件']), '模式件面与取源清单不一致')
+        for row in prov['逐件']:
+            p = ROOT / '工具' / '官方模式' / row['件']
+            data = p.read_bytes()
+            self.assertEqual(hashlib.sha256(data).hexdigest(), row['sha256'], row['件'] + ' 内容与取源摘要不符')
+            self.assertEqual(len(data), row['字节'], row['件'] + ' 字节数与取源不符')
+        self.assertEqual(prov['接入件数'], 2, '接入件（driver）数量变了却没在这里说明＝离线定位那层被动过')
+        self.assertTrue(all(r['取源'] or r['类别'].startswith('接入') for r in prov['逐件']),
+                        '有模式件没有取源地址')
 
 
 if __name__ == '__main__':

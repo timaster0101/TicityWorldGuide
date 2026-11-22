@@ -8,6 +8,7 @@ import argparse
 from collections import Counter
 from difflib import SequenceMatcher
 import hashlib
+import importlib.util
 import io
 import json
 from pathlib import Path
@@ -246,6 +247,22 @@ def _parse_xml(name, data, errors):
         return None
 
 
+_XSD_TOOL = None
+
+
+def _xsd_module():
+    """按文件路径加载同目录的 validate_docx_xsd.py 并缓存：不能靠 sys.path——本脚本在单测里是
+    用 importlib 从路径加载的，工作目录与 sys.path 都不保证含「工具/」，裸 import 会 ModuleNotFoundError。"""
+    global _XSD_TOOL
+    if _XSD_TOOL is None:
+        path = Path(__file__).with_name('validate_docx_xsd.py')
+        spec = importlib.util.spec_from_file_location('validate_docx_xsd_sibling', str(path))
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        _XSD_TOOL = module
+    return _XSD_TOOL
+
+
 def verify(root=DEFAULT_ROOT):
     """Return fresh, JSON-serializable evidence without writing or reusing reports."""
     root = Path(root)
@@ -382,6 +399,26 @@ def verify(root=DEFAULT_ROOT):
         if leaks:
             result['errors'].append('正文（段落或表格单元）漏出未转换的内联码标记: %d 处（%s）'
                                     % (len(leaks), '、'.join(leaks)))
+    # 官方 XSD 模式校验并入本链（2026-11-22 用户点单「把 XSD 校验接进 verify_docx 日常链」）：
+    # 以前它是独立脚本，跑不跑靠人记得；并进来之后「docx 重导 → verify_docx」这一条日常动作就自带模式判定。
+    # 口径说明：判定认 Part 3 Ignorable 消费视图那一档（件内 mc:Ignorable 点名的扩展命名空间按不存在处理），
+    # 「原样校验违例数」照实记录不隐藏——Part 1 模式不声明 mc: 属性，那条非空是规范事实，不参与判红。
+    try:
+        xsd = _xsd_module().validate(str(root / (BOOK + '.docx')))
+        result['xsd'] = {
+            '件面': xsd['统计']['XML件面'], '通过': xsd['统计']['通过'], '违例': xsd['统计']['违例'],
+            '未覆盖命名空间': xsd['统计']['未覆盖命名空间'],
+            '原样校验违例合计': xsd['统计']['原样校验违例合计'],
+            'Part3结构元素合计': xsd['统计']['Part3结构元素合计'],
+            '模式套件摘要前12位': xsd['模式套件']['套件摘要前12位'],
+            '口径': xsd['口径'],
+        }
+        if xsd['统计']['违例'] or xsd['统计']['未覆盖命名空间']:
+            result['errors'].append('官方 XSD 模式校验未过：违例 %d 件面、未覆盖命名空间 %d（逐件见 数据/Word模式校验.json）'
+                                    % (xsd['统计']['违例'], xsd['统计']['未覆盖命名空间']))
+    except Exception as exc:
+        result['xsd'] = {'跳过原因': str(exc)[:200]}
+        result['errors'].append('官方 XSD 模式校验未能执行：%s' % str(exc)[:120])
     result['rendering_verified'], result['rendering_note'] = rendering_state(root, result['docx_sha256'])
     result['passed'] = not result['errors']
     return result
