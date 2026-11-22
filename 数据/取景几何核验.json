@@ -4446,7 +4446,7 @@
       "facing_deg": 216.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 20.0,
       "own_subjects": [
         "L004",
         "L005",
@@ -4477,7 +4477,7 @@
       "facing_deg": 252.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 48.0,
       "own_subjects": [
         "L007",
         "L008",
@@ -4516,7 +4516,7 @@
       "facing_deg": 288.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 72.0,
       "own_subjects": [
         "L010",
         "L011",
@@ -4547,7 +4547,7 @@
       "facing_deg": 324.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 22.0,
       "own_subjects": [
         "L013",
         "L014",
@@ -4576,7 +4576,7 @@
       "facing_deg": 0.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 22.0,
       "own_subjects": [
         "L016",
         "L017",
@@ -4605,7 +4605,7 @@
       "facing_deg": 36.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 96.0,
       "own_subjects": [
         "L019",
         "L020",
@@ -4634,7 +4634,7 @@
       "facing_deg": 72.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 24.0,
       "own_subjects": [
         "L022",
         "L023",
@@ -4659,7 +4659,7 @@
       "facing_deg": 108.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 32.0,
       "own_subjects": [
         "L025",
         "L026",
@@ -4696,7 +4696,7 @@
       "facing_deg": 144.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 96.0,
       "own_subjects": [
         "L028",
         "L029",
@@ -4725,7 +4725,7 @@
       "facing_deg": 180.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 24.0,
       "own_subjects": [
         "L031",
         "L032",
@@ -4750,7 +4750,7 @@
       "facing_deg": 216.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 20.0,
       "own_subjects": [
         "L034",
         "L035",
@@ -4779,7 +4779,7 @@
       "facing_deg": 252.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 72.0,
       "own_subjects": [
         "L037",
         "L038",
@@ -4812,7 +4812,7 @@
       "facing_deg": 288.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 22.0,
       "own_subjects": [
         "L040",
         "L041",
@@ -4841,7 +4841,7 @@
       "facing_deg": 324.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 64.0,
       "own_subjects": [
         "L043",
         "L044",
@@ -4868,7 +4868,7 @@
       "facing_deg": 0.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 96.0,
       "own_subjects": [
         "L046",
         "L047",
@@ -4899,7 +4899,7 @@
       "facing_deg": 36.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 24.0,
       "own_subjects": [
         "L049",
         "L050",
@@ -4926,7 +4926,7 @@
       "facing_deg": 72.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 32.0,
       "own_subjects": [
         "L052",
         "L053",
@@ -4986,7 +4986,7 @@
       "facing_deg": 144.0,
       "lens_mm": 35.0,
       "half_fov_deg": 31.0,
-      "camera_height_m": 55.0,
+      "camera_height_m": 72.0,
       "own_subjects": [
         "L058",
         "L059",

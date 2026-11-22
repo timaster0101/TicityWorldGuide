@@ -1,8 +1,8 @@
 {
   "passed": true,
   "errors": [],
-  "source_sha256": "bd03a1575a3912b39dc30ff9927941833ce18d8f08baddb30812b3e1c3485ec6",
-  "docx_sha256": "cbfee2d2f15116f2381d6f0a23437f64364406c5009449f2b7d6f5ce5129d99e",
+  "source_sha256": "8f7a598fffeb25afb7daea2f229471573282e59a4873f62d68ce37f6e2bcaa44",
+  "docx_sha256": "4d72121c1920740658b72fda28aa2cb699d69fa97ed36d7574326dd15d126bd7",
   "paragraph_count": 8302,
   "table_count": 321,
   "cell_count": 4896,
@@ -38,7 +38,7 @@
   "crc_verified": true,
   "update_fields": true,
   "rendering_verified": true,
-  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮 12 张 150dpi 单页目视＋全部机器取数，非脚本代签；工具/verify_docx.py 全程只回显本文件并核对 docx_sha256）。委托来源＝用户 2026-11-22 「1 你帮我签」原话（承接十项点单第 ④ 项「改即作废 docx 目视，代价＝人工第 28 次渲染复看」），以及常设委托「你都代完成，用最彻底的方式，不要给未来留隐患」「连验收一起代签」「能做的都做，需要我做的你代签」「这些都做，包括代签」。本签的起因：第 ④ 项把 AI创作使用手册.md:101 与 工具/compile_book.py:294 两处过期枚举改成随脚本键面派生、并在报告段补入 test_sign_acceptance 一支，重导后 docx 摘要由 7ecb1a707384… 变为 cbfee2d2f151…，第 27 签自动失效。」按「本机 WPS Office 提供 Word.Application COM 接口（本机没有 Microsoft Word，措辞口径沿用第 15 次记录起的订正）。驱动姿势与第 19—27 签同：一份 docx 一个进程，comtypes.client.CreateObject 取 Word.Application，app.Visible=False、DisplayAlerts=0，只读打开（绝对路径）→ Repaginate → Fields.Update → TablesOfContents(1).Update → Repaginate → ComputeStatistics 按本构建实测枚举序逐项取 0／1／2／3／4／5／6 → 同进程读结构五项（doc.Paragraphs.Count 结构口径、Tables.Count、Fields.Count、Sections.Count、InlineShapes.Count）→ ExportAsFixedFormat 导 PDF（17＝wdExportFormatPDF）→ Close(False) 后复算 docx 摘要一致。驱动件在仓库外 _scratch_cardref/render_word_c151.py（未改）。本签两个进程各渲一份：当前版（596851 字节／cbfee2d2f151…，产物 render_c28.json／book_c28.pdf）与对照版（596782 字节／7ecb1a707384…＝第 27 签绑定那一份，取法 git show HEAD:钛湖城城市设定集-完整合订本.docx，产物 render_c28_contrast.json／book_c28_contrast.pdf）。两份各自「打开前后摘要一致」＝True／True。两版页数同为 424，逐页 60dpi 位图对拍后差异页集＝[378, 379, 380, 381]（共 4 页），其余 420 页与对照版同页位图逐字节等值。人眼覆盖 12 张 150dpi 单页（页码 1、2、4、40、108、378、379、380、381、393、421、424），取帧件 render_c28/eye_c28/pNNN.png。」目视，绑定当前 DOCX 摘要",
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮 23 张差异页文本层逐段比对＋2 张差异页 150dpi 人眼抽看＋五项必检页位图等值；工具/verify_docx.py 全程只回显本文件并核对 docx_sha256）。委托来源＝用户 2026-11-22 逐字「1 你帮我签」与「3 全改」后的「继续全改」（同轮确认「先全改，再补签，再投」）。本签的起因：C154 补记（8）把 20 个城市片区的取景段改成三类视点轮换，取景段属合订本正文，docx 摘要由 cbfee2d2f151… 变为 4d72121c1920…，第 28 签自动失效。」按「本机 WPS Office 的 Word.Application COM（驱动件仓外 _scratch_cardref/render_word_c151.py，未改），一份 docx 一个进程，Repaginate／Fields.Update／TOC Update／ComputeStatistics／ExportAsFixedFormat 导 PDF。本签两个进程各渲一份：当前版（596761 字节／4d72121c1920…）与对照版（596851 字节／cbfee2d2f151…＝第 28 签绑定那一份，取法 git show HEAD）。两版均 424 页，「打开前后摘要一致」＝True／True。逐页 60dpi 位图对拍：**差异页集＝[41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]（共 23 页）**，其余 401 页与对照版同页位图逐字节等值。人眼覆盖 29 张 150dpi 单页（页码 1、2、4、41、42、43、44、45、46、47、48、49、50、51、52、53、54、55、56、57、58、59、60、61、62、63、393、421、424）。」目视，绑定当前 DOCX 摘要",
   "source_block_count": 3379,
   "docx_body_block_count": 3379,
   "body_anchor": {
