@@ -1,0 +1,27 @@
+# 钛湖城城市设定集 —— Python 依赖
+#
+# 只读设定（Markdown / JSON）不装任何依赖也能读。
+# 下面这些是【跑工具与闸门】才需要的。
+#
+# 安装（Windows / PowerShell）：
+#   python -m pip install -r REQUIREMENTS.txt
+#
+# 实测环境：CPython 3.14（3.11 及以上应可用），Windows 11。
+
+# --- 核心：生成器与图片闸门都要用 ---
+pillow>=10.0            # PIL：图片读写、像素体检、印章与页面图
+numpy>=1.24             # 数值计算：像素统计、亮度/方差判据
+
+# --- 解析与文档核验 ---
+lxml>=4.9               # OOXML / SVG 结构解析
+pymupdf>=1.23           # fitz：PDF 页数与逐页渲染（合订本目视通道）
+
+# --- 可选：只在个别脚本里出现，缺了不影响主线 ---
+opencv-python>=4.8      # cv2：仅 1 处调用，图像近似比对备用
+
+# --- 不需要（实测未引用，无须安装） ---
+# python-docx / python-pptx / openpyxl / pypdf / pandas / matplotlib
+
+# --- 外部程序（不是 pip 包） ---
+# LibreOffice 26.x   合订本转 PDF 与逐页渲染（可选；Word/WPS 的 COM 通道更准）
+#   下载：https://www.libreoffice.org/
