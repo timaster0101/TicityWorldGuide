@@ -39,12 +39,15 @@ REAL_FILES = ('ledger.json', 'round_readings.json',
               'send_bodies_r8.json', 'send_bodies_r8_note.json',
               'send_bodies_r8_evidence.json',
               'round_readings_r8.json', 'ledger_r8.json',
-              'send_bodies_r9.json', 'send_bodies_r9_note.json')
+              'send_bodies_r9.json', 'send_bodies_r9_note.json',
+              'send_bodies_r10.json', 'send_bodies_r10_note.json')
 # 2026-11-22 R8 投后链跑完：`round_readings_r8.json`／`ledger_r8.json` 已落盘并钉进来，
 # L069 那次 terminated 发起由 `send_bodies_r8_evidence.json` 承载（投次 2／作废发起 0），三件一起进清单。
 # 上一窗留下的「R8 两件不许进来」豁免理由已过期——那两件的缺席当时是真的，现在不是了。
 # 2026-11-22 晚 R9 台账（`send_bodies_r9.json`／`send_bodies_r9_note.json`）落盘，同一窗补钉；
 # 补钉前 `test_y_real_ledgers_on_disk_are_all_pinned` 实测判红，属于「新轮次件落盘必须同笔进名单」。
+# 2026-11-27 R10 台账（14 枚：R9 三条照抄 + 未裁定 11 条新出）落盘，同笔补钉两件；
+# 该轮次的成员面与串面判据在 `工具/test_send_bodies_r10.py`，本清单只负责「改了要有人红」。
 PREFIX = 'verify_round_neg_'
 
 _spec = importlib.util.spec_from_file_location('verify_round_under_test', str(CAMPAIGN / 'verify_round.py'))
