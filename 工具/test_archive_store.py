@@ -65,6 +65,31 @@ class RepoFirst(Base):
         self.assertTrue(A.exists(r'vibe_images\b.png'))
 
 
+class Directories(Base):
+    """`resolve_dir()`：整棵树外置后，目录也要能解析到归档根（`resolve()` 只认文件，会漏）。"""
+
+    def test_archive_directory_is_resolved(self):
+        os.makedirs(os.path.join(self.arch, 'backup', '数据', '图集', '四向', 'S02'))
+        got = A.resolve_dir('backup/数据/图集')
+        self.assertEqual(os.path.realpath(got), os.path.realpath(
+            os.path.join(self.arch, 'backup', '数据', '图集')))
+        self.assertTrue(A.exists_dir('backup/数据/图集'))
+
+    def test_directory_falls_back_to_repo_path_when_absent_everywhere(self):
+        got = A.resolve_dir('backup/数据/图集')
+        self.assertEqual(os.path.realpath(got), os.path.realpath(
+            os.path.join(self.repo, 'backup', '数据', '图集')))
+        self.assertFalse(A.exists_dir('backup/数据/图集'))
+
+    def test_directory_negative_fixture_root_never_borrows_archive(self):
+        """违例负测：临时 root 下不许回落到真实归档根，否则夹具里的空目录会被补成「存在」。"""
+        os.makedirs(os.path.join(self.arch, 'backup', '数据', '图集'))
+        elsewhere = os.path.join(self.tmp, 'elsewhere')
+        os.makedirs(elsewhere)
+        self.assertTrue(A.exists_dir('backup/数据/图集'), '基线：真仓库根下必须找得到')
+        self.assertFalse(A.exists_dir('backup/数据/图集', root=elsewhere))
+
+
 class NoFallbackOutsideRepo(Base):
     def test_fixture_root_never_borrows_the_real_archive(self):
         """违例负测：闸门负测把 root 指到临时目录，夹具里故意缺的件不许被归档件补上。"""

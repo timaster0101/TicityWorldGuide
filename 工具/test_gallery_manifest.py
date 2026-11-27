@@ -96,5 +96,70 @@ class VerifierSeesTrouble(unittest.TestCase):
         self.assertIn('盘上有、清单没有', self.kinds())
 
 
+class RebuildKeepsOssUrls(unittest.TestCase):
+    """重跑生成器不许抹掉直链：`url` 由 `工具/oss_gallery.py --backfill` 写，不是本生成器的产物。
+
+    首版没带这个字段，重写清单会静默清空 808 条 url，随后 `test_oss_gallery` 判红——
+    这是「生成器只重算自己负责的字段」的口径，不是把 url 变成生成器的活。
+    """
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix='bgm_url_')
+        os.makedirs(os.path.join(self.tmp, '数据', '图集', 'X01'))
+        self.p = os.path.join(self.tmp, '数据', '图集', 'X01', 'a.png')
+        with io.open(self.p, 'wb') as fp:
+            fp.write(b'abc')
+        self._old_out = bgm.OUT
+        self._old_root = bgm.ROOT
+        bgm.ROOT = self.tmp
+        bgm.OUT = os.path.join(self.tmp, '清单.json')
+        with io.open(os.path.join(self.tmp, '数据', '开图清单.json'), 'w', encoding='utf-8') as fp:
+            fp.write('{"items": []}')
+
+    def tearDown(self):
+        bgm.OUT = self._old_out
+        bgm.ROOT = self._old_root
+
+    def _write_manifest(self, url=None):
+        rows = [{'路径': '数据/图集/X01/a.png', '字节': 3,
+                 'sha256': hashlib.sha256(b'abc').hexdigest()}]
+        if url:
+            rows[0]['url'] = url
+        with io.open(bgm.OUT, 'w', encoding='utf-8') as fp:
+            json.dump({'统计': {}, '逐件': rows}, fp, ensure_ascii=False)
+
+    def test_existing_url_survives_rebuild(self):
+        url = 'https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/gallery/X01/a.png'
+        self._write_manifest(url)
+        argv_backup = sys.argv
+        sys.argv = ['build_gallery_manifest.py']
+        try:
+            with io.open(os.devnull, 'w') as null:
+                old = sys.stdout
+                sys.stdout = null
+                try:
+                    bgm.main(['x'])
+                finally:
+                    sys.stdout = old
+        finally:
+            sys.argv = argv_backup
+        with io.open(bgm.OUT, encoding='utf-8') as fp:
+            rows = json.loads(fp.read())['逐件']
+        self.assertEqual([r.get('url') for r in rows], [url])
+
+    def test_manifest_without_url_stays_without_url(self):
+        self._write_manifest(None)
+        with io.open(os.devnull, 'w') as null:
+            old = sys.stdout
+            sys.stdout = null
+            try:
+                bgm.main(['x'])
+            finally:
+                sys.stdout = old
+        with io.open(bgm.OUT, encoding='utf-8') as fp:
+            rows = json.loads(fp.read())['逐件']
+        self.assertNotIn('url', rows[0])
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -24,7 +24,8 @@ OUT = os.path.join(ROOT, '数据', '图集清单.json')
 PREFIX = '数据/图集/'
 
 
-def collect(root=ROOT):
+def collect(root=None):
+    root = root or ROOT
     """返回 (逐件, 统计)。逐件按相对路径排序，摘要与字节现读现算。"""
     gallery = os.path.join(root, '数据', '图集')
     rows = []
@@ -49,7 +50,8 @@ def collect(root=ROOT):
     return rows, stat
 
 
-def verify(root=ROOT):
+def verify(root=None):
+    root = root or ROOT
     """返回 (问题列表, 清单)。问题＝盘面与清单不一致之处，空列表即全对得上。"""
     p = os.path.join(root, '数据', '图集清单.json')
     with io.open(p, encoding='utf-8') as fp:
@@ -86,6 +88,23 @@ def main(argv):
             print('  ', x)
         return 0 if not problems else 1
     rows, stat = collect()
+    # 直链是 工具/oss_gallery.py --backfill 写的，不由本生成器负责；重写清单时把已有 url 带过去，
+    # 否则「重跑 build_gallery_manifest」会静默抹掉 808 条直链，随后 test_oss_gallery 判红。
+    prev_url = {}
+    if os.path.isfile(OUT):
+        try:
+            with io.open(OUT, encoding='utf-8') as fp:
+                for r in json.loads(fp.read()).get('逐件', []):
+                    if r.get('url'):
+                        prev_url[r['路径']] = r['url']
+        except (ValueError, OSError):
+            prev_url = {}
+    kept = 0
+    for r in rows:
+        url = prev_url.get(r['路径'])
+        if url:
+            r['url'] = url
+            kept += 1
     rec = {
         '说明': '数据/图集/ 的仓内可核对清单。图集本体在 .gitignore 内不入仓（单张 3—4MB，合计约 1.9GB），'
                 '仓内只留这份路径＋摘要，用于核对任意一份副本（备份／还原／异机）是否与在册那一版逐件相同。',
@@ -100,7 +119,8 @@ def main(argv):
     with io.open(OUT, 'w', encoding='utf-8', newline='\n') as fp:
         fp.write(json.dumps(rec, ensure_ascii=False, indent=2) + '\n')
     print('图集清单已重写：%d 件／%s MB（%d 个目录）→ 数据/图集清单.json'
-          % (stat['件数'], stat['合计MB'], stat['目录数']))
+          % (stat['件数'], stat['合计MB'], stat['目录数'])
+          + ('｜带回直链 %d 条' % kept if kept else ''))
     return 0
 
 

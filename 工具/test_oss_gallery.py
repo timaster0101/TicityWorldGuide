@@ -36,6 +36,106 @@ class KeyMapping(unittest.TestCase):
         self.assertTrue(url.startswith("https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/"))
         self.assertNotIn("//taihucheng", url)
 
+    def test_archive_gallery_goes_under_archive_prefix(self):
+        """外置的 `backup/数据/图集/`（四向基准照）单独进 archive/gallery/，不与在册图混。"""
+        self.assertEqual(G.remote_key("backup/数据/图集/四向/L001/x-r01.jpg"),
+                         "taihucheng/archive/gallery/四向/L001/x-r01.jpg")
+
+    def test_other_archive_trees_keep_their_relative_path(self):
+        """`backup/vibe_images/` 这类只在被引用时上传，key 保留原相对路径便于回溯。"""
+        self.assertEqual(G.remote_key("backup/vibe_images/S02-B3.png"),
+                         "taihucheng/archive/backup/vibe_images/S02-B3.png")
+        self.assertEqual(G.remote_key("vibe_images/x.png"),
+                         "taihucheng/archive/vibe_images/x.png")
+
+
+class Backfill(unittest.TestCase):
+    """URL 回写：开图清单的 image_url 与 image_file 逐格对齐、图集清单逐件有 url、缺链必须报出来。"""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix="oss_backfill_")
+        self._old = (G.ROOT, G.MANIFEST, G.LINKS, G.PROMPTS, G.META_DIR, G.LINKS_MD)
+        G.ROOT = self.tmp
+        G.MANIFEST = os.path.join(self.tmp, "gal.json")
+        G.LINKS = os.path.join(self.tmp, "links.json")
+        G.PROMPTS = os.path.join(self.tmp, "prompts.json")
+        G.LINKS_MD = os.path.join(self.tmp, "links.md")
+        G.META_DIR = os.path.join(self.tmp, "视觉控制资产")
+        self.img1 = os.path.join(self.tmp, "数据", "图集", "D01", "a.png")
+        self.img2 = os.path.join(self.tmp, "数据", "图集", "D01", "b.png")
+        os.makedirs(os.path.dirname(self.img1))
+        for p in (self.img1, self.img2):
+            with open(p, "wb") as fp:
+                fp.write(b"x" * 16)
+        self._dump(G.MANIFEST, {"逐件": [
+            {"路径": "数据/图集/D01/a.png", "字节": 16, "sha256": "0" * 64},
+            {"路径": "数据/图集/D01/b.png", "字节": 16, "sha256": "1" * 64}]})
+        self._dump(G.PROMPTS, {"items": [
+            {"id": "D01", "name": "北湖政务片区", "type": "城市片区",
+             "image_file": ["数据/图集/D01/a.png", "数据/图集/D01/b.png"]}]})
+
+    def tearDown(self):
+        (G.ROOT, G.MANIFEST, G.LINKS, G.PROMPTS, G.META_DIR, G.LINKS_MD) = self._old
+
+    @staticmethod
+    def _dump(path, doc):
+        with io.open(path, "w", encoding="utf-8") as fp:
+            json.dump(doc, fp, ensure_ascii=False)
+
+    def _load(self, path):
+        with io.open(path, encoding="utf-8") as fp:
+            return json.load(fp)
+
+    def test_urls_are_written_aligned_with_image_file(self):
+        missing = G.backfill(G.plan())
+        self.assertEqual(missing, [])
+        item = self._load(G.PROMPTS)["items"][0]
+        self.assertEqual(len(item["image_url"]), len(item["image_file"]))
+        for url in item["image_url"]:
+            self.assertTrue(url.startswith("https://timaster."), url)
+        rows = self._load(G.MANIFEST)["逐件"]
+        self.assertTrue(all(r["url"].startswith("https://timaster.") for r in rows))
+
+    def test_cell_without_link_is_reported_not_silently_blank(self):
+        self._dump(G.PROMPTS, {"items": [
+            {"id": "D01", "name": "n", "type": "城市片区",
+             "image_file": ["数据/图集/D01/a.png", "数据/图集/D01/未上传.png"]}]})
+        missing = G.backfill(G.plan())
+        self.assertEqual([m[1] for m in missing], ["数据/图集/D01/未上传.png"])
+        item = self._load(G.PROMPTS)["items"][0]
+        self.assertEqual(item["image_url"][0][:9], "https://t")
+        self.assertIsNone(item["image_url"][1])
+
+    def test_backfill_is_idempotent(self):
+        G.backfill(G.plan())
+        first = self._load(G.PROMPTS)
+        G.backfill(G.plan())
+        self.assertEqual(self._load(G.PROMPTS), first)
+
+
+class RealBackfillFace(unittest.TestCase):
+    """仓内两份真账本：每一格都要有链，长度与 image_file 对齐。"""
+
+    def test_every_cell_has_a_url(self):
+        with io.open(G.PROMPTS, encoding="utf-8") as fp:
+            items = json.load(fp)["items"]
+        bad = []
+        for item in items:
+            files = item.get("image_file") or []
+            urls = item.get("image_url")
+            if not isinstance(urls, list) or len(urls) != len(files):
+                bad.append((item["id"], "长度不符"))
+                continue
+            if any(u is None for u in urls):
+                bad.append((item["id"], "有空格无链"))
+        self.assertEqual(bad, [], "这些条目的 image_url 不达标：%s" % bad[:5])
+
+    def test_gallery_rows_carry_url(self):
+        with io.open(G.MANIFEST, encoding="utf-8") as fp:
+            rows = json.load(fp)["逐件"]
+        bad = [r["路径"] for r in rows if not str(r.get("url") or "").startswith("https://")]
+        self.assertEqual(bad, [], "这些件缺 url：%s" % bad[:5])
+
 
 class LinksDoc(unittest.TestCase):
     def _manifest(self, tmp, rows):
@@ -47,10 +147,11 @@ class LinksDoc(unittest.TestCase):
 
     def setUp(self):
         self.tmp = tempfile.mkdtemp(prefix="oss_links_")
-        self._old = (G.MANIFEST, G.LINKS, G.META_DIR, G.ROOT)
+        self._old = (G.MANIFEST, G.LINKS, G.META_DIR, G.ROOT, G.LINKS_MD)
         G.ROOT = self.tmp
         G.MANIFEST = os.path.join(self.tmp, "man.json")
         G.LINKS = os.path.join(self.tmp, "links.json")
+        G.LINKS_MD = os.path.join(self.tmp, "links.md")
         G.META_DIR = os.path.join(self.tmp, "视觉控制资产")
         os.makedirs(os.path.join(self.tmp, "数据", "图集", "D01"))
         self.img = os.path.join(self.tmp, "数据", "图集", "D01", "a.png")
@@ -59,7 +160,7 @@ class LinksDoc(unittest.TestCase):
         self._manifest(self.tmp, [{"路径": "数据/图集/D01/a.png", "字节": 32, "sha256": "0" * 64}])
 
     def tearDown(self):
-        G.MANIFEST, G.LINKS, G.META_DIR, G.ROOT = self._old
+        G.MANIFEST, G.LINKS, G.META_DIR, G.ROOT, G.LINKS_MD = self._old
 
     def test_links_cover_every_manifest_file(self):
         items = G.plan()

@@ -83,6 +83,23 @@ def exists(rel, root=None):
     return os.path.isfile(resolve(rel, root))
 
 
+def resolve_dir(rel, root=None):
+    """目录版 `resolve()`：找**目录**，两处都没有时返回仓内路径。
+
+    `resolve()` 只认文件，整棵树外置后拿 `resolve('backup/数据/图集')` 会一直返回仓内那条
+    不存在的老路径（首版就是这样，`oss_gallery.archive_files()` 读到 0 件）。
+    """
+    cands = candidates(rel, root)
+    for p in cands:
+        if os.path.isdir(p):
+            return p
+    return cands[0]
+
+
+def exists_dir(rel, root=None):
+    return os.path.isdir(resolve_dir(rel, root))
+
+
 def is_externalised(rel):
     """这条相对路径是否落在已外置的子树下（只判前缀，不看盘面）。"""
     rel = _norm(rel)

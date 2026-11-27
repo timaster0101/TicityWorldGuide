@@ -119,7 +119,7 @@ print(canon["region_area_km2"], len(canon["entries"]))
 
 `图集清单.json`：顶层 `说明`／`口径`／`接线`／`统计`／`逐件`。
 
-- `逐件[i]` 三键：`路径`（`数据/图集/<ID>/<文件名>`）、`字节`、`sha256`
+- `逐件[i]` 四键：`路径`（`数据/图集/<ID>/<文件名>`）、`字节`、`sha256`、`url`（OSS 直链，由 `工具/oss_gallery.py --backfill` 回写；`build_gallery_manifest.py` 重写清单时原样带回）
 - 用途：`mirror_gallery.py` 做仓外镜像时按 `sha256` 逐件对拍
 
 `图集AIGC声明.json`：顶层 `说明`／`口径`／`接线`／`统计`／`逐件`。
@@ -206,3 +206,12 @@ print(canon["region_area_km2"], len(canon["entries"]))
 3. `url` 必须由 `base_url` + `key` 拼成，不带签名参数。
 
 桶是私有的，`taihucheng/` 之外的键（`meixi/`、`pics/`、`software/`、`video/`）匿名读不到，别把它们的地址写进文档。
+
+### 8.1 回写：`开图清单.json` 的 `image_url`
+
+`items[i].image_url` 是与 `items[i].image_file` **逐格对齐**的列表（第 k 个 URL 对第 k 张图），
+由 `工具/oss_gallery.py --backfill` 从 `数据/图集OSS.json` 回写。1,125 格全部有链（2026-11-28 实测）。
+
+- 长度必须等于 `image_file`；缺链写 `null` 并让 `--backfill` 以退出码 1 报出来，不许静默留白；
+- 不参与 `prompt_sha256` / `image_prompt_sha256` 的任何绑定计算——绑定认的是提示词串，URL 只是取图位置；
+- 人工读版本在 `数据/图集直链.md`（一地点一行，图名即可点的链接）。
