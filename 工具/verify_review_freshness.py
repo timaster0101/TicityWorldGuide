@@ -18,6 +18,8 @@ from pathlib import Path
 from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "工具"))
+import archive_store  # noqa: E402  归档面已外置（§55.76）：在盘判定统一走解析器
 
 ITEM_HEAD = re.compile(r'^### (\S+) ')
 CELL_LINE = re.compile(r'^- 图格：(\S+)')
@@ -107,10 +109,12 @@ def compare(cells, sheet, refs, root=ROOT):
         bad.append((K_HTML_INERT, '%s（引用侧判据本身失效，不得当作通过）' % K_HTML_INERT))
     elif refset != cellset:
         bad.append((K_HTML_SET, '%s（缺 %d / 多 %d）' % (K_HTML_SET, len(cellset - refset), len(refset - cellset))))
-    dead_sheet = [p for seq in sheet.values() for p in seq if not (root / p).is_file()]
+    # 归档面（backup/、vibe_images/）已外置到 `..\钛湖城卡面备份`：在盘判定经解析器现找，两处都没有
+    # 才进 dead——判据不放宽，只是不再把「落点搬到仓外」误报成「文件丢了」。
+    dead_sheet = [p for seq in sheet.values() for p in seq if not archive_store.exists(p, root)]
     if dead_sheet:
         bad.append((K_SHEET_DEAD, '%s：%d 格，例 %s' % (K_SHEET_DEAD, len(dead_sheet), dead_sheet[0][:70])))
-    dead_html = [r for r in refs if not (root / r).is_file()]
+    dead_html = [r for r in refs if not archive_store.exists(r, root)]
     if dead_html:
         bad.append((K_HTML_DEAD, '%s：%d 处，例 %s' % (K_HTML_DEAD, len(dead_html), dead_html[0][:70])))
     return readings, bad

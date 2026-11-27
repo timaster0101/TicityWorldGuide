@@ -28,6 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import archive_pre_e1 as ARCH  # 下界取证、分域表、时间戳正则只有一份，闸门不另立口径
+import archive_store  # 归档区已外置到仓外：明细里的 dst 与视频素材都要经它解析（找不到照样判红）
 
 ROOT = Path(__file__).resolve().parents[1]
 DETAIL_REL = 'backup/归档明细_早于定档_20261106.json'
@@ -97,7 +98,10 @@ def check_files(items, root, top):
         rel, dst = it.get('rel', ''), it.get('dst', '')
         if not rel or not dst:
             continue
-        src, tgt = root / rel, root / dst
+        src = root / rel
+        # 归档区整体外置到仓外（§55.76）：dst 先按 root 找，找不到再到归档根找。两处都没有时
+        # resolve 返回仓内路径，下面那条 K_DST_MISSING 照样判红——外置改的是落点，不是判据。
+        tgt = Path(archive_store.resolve(dst, root))
         if src.exists():
             bad.append((K_SRC_PRESENT, '%s：原路径仍占位 %s（归档是 move，不该两边都有）' % (K_SRC_PRESENT, rel)))
         if not tgt.is_file():
@@ -208,8 +212,8 @@ def check_materials(root):
                 vals.append(anchor)
             for v in vals:
                 cells += 1
-                from_root = (root / v).is_file()
-                from_proj = (root / PROJECT_ROOT / v).is_file()
+                from_root = archive_store.exists(v, root)
+                from_proj = archive_store.exists(os.path.join(PROJECT_ROOT, v), root)
                 if from_root or from_proj:
                     continue
                 if Path(v).stem in archived:

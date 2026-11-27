@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / '工具'))
 
 # C139 代签申报的抬头、要素与判据只有一份真源：产物侧（verify_image_assets 的「视觉复验」列）
 # 与本闸门共用 signing_declaration，各抄一份就会漂成「闸门红了、工作单还在替它宣称验收成立」。
+import archive_store  # 归档面（backup/、vibe_images/）已外置到仓外，盘面存在性统一走这条解析口径
 from signing_declaration import (SIGN_DECL, SIGN_ELEMENTS, check_sign_declaration,
                                  declaration_rows, visual_column)
 
@@ -86,21 +87,29 @@ _INDEX = {}
 def gallery_index():
     """一次走盘建「文件名→仓内相对路径」索引，供 on_disk 把读数里的历史路径解析到当前落点。"""
     if not _INDEX:
-        for base in ('数据/图集', 'vibe_images', ARCHIVE_ROOT.rstrip('/')):
-            root = ROOT / base
-            if not root.is_dir():
-                continue
-            for dp, _, fn in os.walk(root):
-                for f in fn:
-                    if f.lower().endswith(('.png', '.jpg', '.jpeg')):
-                        _INDEX.setdefault(f, []).append((Path(dp) / f).relative_to(ROOT).as_posix())
+        # 2026-11-27 (§55.76) 把 backup/ 与 vibe_images/ 整体外置到 `..\\钛湖城卡面备份`，原地只剩空目录。
+        # 索引面因此要同时走仓内与归档根：只走仓内会让 on_disk 把每一条历史读数都判成「已不在盘」，
+        # 看起来像闸门发现了真问题，其实是索引自己少扫了一大片。
+        bases = ('数据/图集', 'vibe_images', ARCHIVE_ROOT.rstrip('/'))
+        for base_root in (ROOT, Path(archive_store.archive_root())):
+            for base in bases:
+                root = base_root / base
+                if not root.is_dir():
+                    continue
+                for dp, _, fn in os.walk(root):
+                    for f in fn:
+                        if f.lower().endswith(('.png', '.jpg', '.jpeg')):
+                            rel = (Path(dp) / f).relative_to(base_root).as_posix()
+                            _INDEX.setdefault(f, []).append(rel)
     return _INDEX
 
 
 def on_disk(path):
     """读数写的是历史路径，落点可能已随搬迁移动：登记路径、backup 镜像、按文件名的走盘索引任一处命中即算在盘。"""
     for cand in (unrooted(path), path, ARCHIVE_ROOT + unrooted(path)):
-        if (ROOT / cand).is_file():
+        # 归档面（backup/、vibe_images/）已外置到 `..\钛湖城卡面备份`（§55.76）：命中口径不变，
+        # 只是「在盘」这件事要经 archive_store 现找，两处都没有才判不在盘。
+        if archive_store.exists(cand, ROOT):
             return True
     return bool(gallery_index().get(unrooted(path)))
 
@@ -1354,9 +1363,9 @@ class AssetGate(unittest.TestCase):
         self.assertEqual(len(png), 472)
         for p in jpg:
             self.assertTrue(p.startswith(ARCHIVE_ROOT + GALLERY_ROOT), p)
-            self.assertTrue((ROOT / p).is_file(), p)
+            self.assertTrue(archive_store.exists(p, ROOT), p)
         for p in png:
-            self.assertTrue((ROOT / p).is_file(), p)
+            self.assertTrue(archive_store.exists(p, ROOT), p)
             if p.startswith(GALLERY_ROOT):
                 # 落点约定：图集目录下按条目 ID 分文件夹，档名不改（毫秒时间戳带＋sha256 尾巴是回绑证据）
                 self.assertTrue(gallery_slot_ok(p, p.split('/')[2]), p)
@@ -1543,7 +1552,7 @@ class AssetGate(unittest.TestCase):
         buckets = {'C2PA(caBX)': 0, 'iTXt·TC260': 0}
         for p in paths:
             with self.subTest(path=p):
-                info = self.va.sniff(ROOT / p)
+                info = self.va.sniff(Path(archive_store.resolve(p, ROOT)))
                 self.assertIsNone(self.va.verdict(info), p)
                 self.assertIn(info['标识容器'], buckets, p)
                 buckets[info['标识容器']] += 1

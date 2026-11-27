@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """用显式78层几何渲染L007写实建筑首图；不依赖文本生图抽卡。"""
+import sys
 from functools import lru_cache
 from pathlib import Path
 
@@ -10,8 +11,10 @@ from PIL import Image, ImageDraw
 from build_visual_controls import SCENES, project_point
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "工具"))
+import archive_store  # noqa: E402  归档区已外置到 `..\钛湖城卡面备份`（§55.76），取源件统一走解析
 # v05 原件已按 B 前置裁定整体归档进 backup/ 镜像路径（移交清单 §50.2），此处只读不改。
-V05_SOURCE = ROOT / "backup" / "数据" / "图集" / "L007-钛湖之脊-v05.jpg"
+V05_SOURCE = Path(archive_store.resolve("backup/数据/图集/L007-钛湖之脊-v05.jpg", ROOT))
 SCENE = SCENES["L007"]
 SHAFT_BOTTOM = 24
 SHAFT_TOP = 320

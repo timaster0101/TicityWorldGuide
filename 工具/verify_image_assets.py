@@ -15,6 +15,7 @@ import json
 import os
 from pathlib import Path
 
+import archive_store  # 归档区（backup/、vibe_images/）已外置到仓外，逐格取图统一走这条解析口径
 from signing_declaration import visual_column
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -155,11 +156,15 @@ def verdict(info):
 
 
 def check(items, root=ROOT):
-    """返回逐格结论。`失败` 只收三档容器的硬判据；扩展名与字节不符只进提示。"""
+    """返回逐格结论。`失败` 只收三档容器的硬判据；扩展名与字节不符只进提示。
+
+    取图口径：`rel` 先按 `root` 找，找不到再到归档根找（`archive_store.resolve`）。外置的只是
+    落点位置，不是判据：归档根也没有这一件时，`sniff()` 拿到的仍是不存在的路径，照样判红。
+    """
     rows, fails, notes = [], [], []
     for it in items:
         for rel in (it.get('image_file') or []):
-            info = sniff(root / rel)
+            info = sniff(Path(archive_store.resolve(rel, root)))
             reason = verdict(info)
             row = {'id': it['id'], '路径': rel, **info, '判定': '通过' if not reason else '失败',
                    '原因': reason or ''}

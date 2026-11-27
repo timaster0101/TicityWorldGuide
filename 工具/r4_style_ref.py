@@ -18,6 +18,8 @@ input.prompt 首行，主会话 transcript 现读，不是手抄）。探针结�
 """
 import os
 
+import archive_store  # 母图池里有两枚落在已外置的 backup/ 下，取件统一走归档区解析
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 送入串形态：前导一行 + 换行 + 现串正文逐字。正文侧一个字都不动（逐字回绑靠的就是这句）。
@@ -54,7 +56,7 @@ def send_body(body_text):
 
 def dims(rel):
     from PIL import Image
-    p = os.path.join(ROOT, rel.replace("/", os.sep))
+    p = archive_store.resolve(rel, ROOT)
     with Image.open(p) as im:
         im.load()
         return "%dx%d" % im.size
@@ -64,7 +66,7 @@ def check_pool(pool, why):
     """池内逐枚取到尺寸才算池成立；不在盘或打不开直接停，不留「池子中道崩殂」的半批。"""
     out = []
     for rel in pool:
-        p = os.path.join(ROOT, rel.replace("/", os.sep))
+        p = archive_store.resolve(rel, ROOT)
         if not os.path.isfile(p):
             raise SystemExit("R4 母图池缺件（%s）：%s" % (why, rel))
         out.append((rel, dims(rel)))

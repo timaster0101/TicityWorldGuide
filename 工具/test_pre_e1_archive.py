@@ -43,7 +43,12 @@ class ArchiveGate(unittest.TestCase):
         self.assertGreaterEqual(readings['豁免命中']['数据/生成输入记录/'], 1)
         self.assertEqual((readings['素材枚数'], readings['素材未同步'], readings['素材取不到']), (5, 0, 0))
         self.assertEqual(readings['下界'], '2026-11-03 01:50:02.152000')
-        self.assertEqual(readings['下界取证枚数'], 10)
+        # 下界取证枚数改成现算：2026-11-27 把 `backup/数据` 整体外置到 `..\钛湖城卡面备份` 之后，
+        # 原先那 10 枚里有 5 枚是 backup 下的副本，仓内只剩数据区那 5 枚。判据仍是「非空转」——
+        # 现算值与读数必须逐数相等，且至少 5 枚；下界值本身由上一行与前文 CUTOFF_EXPECT 钉住。
+        in_repo = len([p for p in (ROOT / '数据').rglob('*') if p.is_file() and 'E1定档' in p.name])
+        self.assertEqual(readings['下界取证枚数'], in_repo)
+        self.assertGreaterEqual(in_repo, 5)
         self.assertEqual(sum(readings['分域'].values()), 187)
 
     def test_negtest_catches_every_kind_without_residue(self):

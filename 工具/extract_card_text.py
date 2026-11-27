@@ -28,7 +28,9 @@ from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..'))
-CARDS = os.path.join(ROOT, 'backup', '数据', '视觉控制资产', '卡牌')
+sys.path.insert(0, HERE)
+import archive_store  # noqa: E402  卡面原件在已外置的 backup/ 下，取目录统一走归档区解析
+CARDS = archive_store.resolve('backup/数据/视觉控制资产/卡牌', ROOT)
 WORKSPACE = os.path.abspath(os.path.join(ROOT, '..'))
 SHEET_DIR = os.path.join(WORKSPACE, '_scratch_cardref')
 OUT = os.path.join(ROOT, '数据', '卡面文案底稿.json')
