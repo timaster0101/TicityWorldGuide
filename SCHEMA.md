@@ -186,3 +186,23 @@ print(canon["region_area_km2"], len(canon["entries"]))
 | 随判据动 | 各种 `*核验.json` 的键名与计数（机器读数，别当接口用） |
 
 要长期依赖某字段，请以 `城市空间名录.json` 为准，并在自己的派生项目里做一层适配。
+
+## 8. 图集直链表（`数据/图集OSS.json`）
+
+图集不在仓，这份表是唯一的取图入口。生成器：`工具/oss_gallery.py --links`。
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `bucket` / `region` / `prefix` | str | `timaster` / `oss-cn-shenzhen` / `taihucheng/` |
+| `base_url` | str | 直链前缀 |
+| `统计` | object | `地点数`(312)／`件数`(967)／`合计字节` |
+| `按地点` | object | `ID → [{文件, url, bytes}]`，给「这个地点有哪几张图」用 |
+| `逐件` | object | `仓内相对路径 → {key, url, bytes}`，与 `数据/图集清单.json` 的 `逐件` 一一对应 |
+
+不变量（`工具/test_oss_gallery.py` 守着）：
+
+1. 图集清单里每一件，在 `逐件` 里都要有对应行；
+2. `key` 必须落在 `taihucheng/` 前缀内（Bucket Policy 只放开这个前缀）；
+3. `url` 必须由 `base_url` + `key` 拼成，不带签名参数。
+
+桶是私有的，`taihucheng/` 之外的键（`meixi/`、`pics/`、`software/`、`video/`）匿名读不到，别把它们的地址写进文档。
