@@ -90,8 +90,27 @@ def _finding(code, level, line, excerpt, message, hint=""):
             "excerpt": excerpt.strip()[:80], "message": message, "hint": hint}
 
 
+FENCE_RE = re.compile(r"^```.*?^```[ \t]*$", re.S | re.M)
+
+
+INLINE_CODE_RE = re.compile(r"`[^`\n]{1,80}`")
+
+
+def mask_fences(text):
+    """把围栏代码块整段替换成等长空白（保留换行，行号不变）。
+
+    文档里写违例示例（「L001 写成 8 层」）必须放在代码块里，否则会被当正文判红；
+    这里把代码块遮掉，判据只看正文。
+    """
+    def _blank(m):
+        return re.sub(r"[^\n]", " ", m.group(0))
+    text = FENCE_RE.sub(_blank, text)
+    return INLINE_CODE_RE.sub(_blank, text)
+
+
 def check_text(text, entries, rulings, globals_=None):
     """对一段文本跑全部判据，返回违例列表（按行号排序）。"""
+    text = mask_fences(text)
     out = []
     globals_ = globals_ or {}
 
@@ -182,9 +201,11 @@ def check_text(text, entries, rulings, globals_=None):
                                 "区域面积是 %s km²，文中写 %s" % (area, m.group(1)),
                                 "面积属硬正典，不可改"))
 
-    # 5) 虚构声明
+    # 5) 虚构声明（否定式不算：「不能伪造真实城市档案」「而不是虚构湖港卸货」说的是反面）
     for w in FICTION_WORDS:
         for m in re.finditer(re.escape(w), text):
+            if _negated(text, m.start()):
+                continue
             out.append(_finding("FICTION_BREAK", "error", _line_no(text, m.start()), _ctx(text, m.start()),
                                 "「%s」把虚构城市说成真实存在" % w,
                                 "钛湖城完全虚构（fictional=true），改写成「设定中的城市」"))
@@ -203,7 +224,7 @@ def check_text(text, entries, rulings, globals_=None):
         seg = _sentence(text, m.start())
         for w in OVERRIDE_WORDS:
             if w in seg:
-                out.append(_finding("RULING_OVERRIDE", "error", _line_no(text, m.start()), _ctx(text, m.start()),
+                out.append(_finding("RULING_OVERRIDE", "warn", _line_no(text, m.start()), _ctx(text, m.start()),
                                     "在二创里主张「%s」裁定 %s" % (w, num),
                                     "既有裁定不接受在二创中废止；要改请走裁定流程并升版本"))
                 break
@@ -226,11 +247,23 @@ def _sentence(text, pos):
     return text[start:end]
 
 
-def _locate_nearest(text, pos, entries):
-    """取数字前面最近的那一个地点（编号优先，其次名称）。
+NEGATION_PREFIX = ("不是", "不", "不能", "不可", "不得", "并非", "而非", "避免", "勿", "别", "无", "未")
+
+
+def _negated(text, pos, window=12):
+    """判断 pos 处的词是否处在否定式里（看它前面 12 个字里有没有否定词）。"""
+    head = text[max(0, pos - window):pos]
+    word_start_is_negation = text[pos:pos + 1] in ("不", "非", "勿", "别")
+    return word_start_is_negation or any(p in head for p in NEGATION_PREFIX)
+
+
+def _locate_nearest(text, pos, entries, max_dist=24):
+    """取数字前面最近的那一个地点（编号优先，其次名称）；离得太远则不归它。
 
     量级判据必须这样做：一句里常并列多个地点（「L019 6层、32米，L020 4层、24米」），
-    按句首第一个取会把后者的数字算到前者头上，制造假红。
+    按句首第一个取会把后者的数字算到前者头上，制造假红。距离上限再挡掉另一种假红：
+    「L022 白石钟楼在东北方向…其独立高度不改变院落 12 米控制」里的 12 米说的是院落，
+    不是钟楼——数字离它名下最近的那个编号超过 max_dist 个字符，就不算它写的量级。
     """
     start = max(text.rfind("。", 0, pos), text.rfind("\n", 0, pos), text.rfind("；", 0, pos),
                 text.rfind("!", 0, pos), text.rfind("？", 0, pos), 0)
@@ -247,6 +280,8 @@ def _locate_nearest(text, pos, entries):
         i = prefix.rfind(nm)
         if i >= 0 and (last is None or i > last[0]):
             last = (i, e)
+    if last and pos - (start + last[0]) > max_dist:
+        return None
     return last[1] if last else None
 
 

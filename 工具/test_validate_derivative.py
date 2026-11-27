@@ -137,6 +137,39 @@ class FictionAndRulings(unittest.TestCase):
         self.assertEqual(codes("依 C2 的裁定，红斗方按节庆装饰字放行。"), [])
 
 
+class NegationAndProximity(unittest.TestCase):
+    """两条防假红的口径，每条都要正反两面：该判的判、不该判的不判。"""
+
+    def test_negated_fiction_words_are_not_flagged(self):
+        for text in ("这里不写真实城市档案，只写设定。",
+                     "食品供应靠运输，而不是虚构湖港卸货。",
+                     "不能伪造真实城市档案。"):
+            self.assertEqual(codes(text), [], text)
+
+    def test_plain_fiction_break_still_reds(self):
+        self.assertIn("FICTION_BREAK", codes("钛湖城其实是真实城市。"))
+
+    def test_far_number_is_not_attributed_to_the_building(self):
+        # 12 米说的是院落，离 L022 名下太远，不该算成 L022 的量级
+        text = "L022白石钟楼在东北方向，其独立高度不改变院落 12 米控制。"
+        got = codes(text)
+        self.assertNotIn("SCALE_CONFLICT", got)
+
+    def test_near_number_is_still_attributed(self):
+        got = codes("L019西声大剧院为 40 层、200 米。")
+        self.assertIn("SCALE_CONFLICT", got)
+
+    def test_fenced_example_is_skipped(self):
+        text = "正文没问题。\n\n```\nL069 只有 8 层高\n```\n"
+        self.assertEqual(codes(text), [])
+
+    def test_inline_code_example_is_skipped(self):
+        self.assertEqual(codes("不要写 `D21 是一片新城` 这种例子。"), [])
+
+    def test_unfenced_example_still_reds(self):
+        self.assertIn("UNKNOWN_ID", codes("不要写 D21 是一片新城 这种例子。"))
+
+
 class RealCanon(unittest.TestCase):
     def test_canon_loads(self):
         entries, rulings, globals_ = V.load_canon(V.ROOT)
