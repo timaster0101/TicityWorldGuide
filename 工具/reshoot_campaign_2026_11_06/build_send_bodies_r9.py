@@ -32,12 +32,14 @@ SUFFIX = 'C154取景二次重投-v01'
 
 
 def main():
-    cand = json.loads(io.open(os.path.join(ROOT, '数据', '下一轮重投候选.json'), encoding='utf-8').read())
+    with io.open(os.path.join(ROOT, '数据', '下一轮重投候选.json'), encoding='utf-8') as _h35:
+        cand = json.loads(_h35.read())
     ids = [r['id'] for r in cand['候选'] if r['现态裁定'].startswith('未定')]
     assert ids == ['D18', 'D19', 'L069'], ids
-    r4 = json.loads(io.open(R4, encoding='utf-8').read())
-    man = {i['id']: i for i in
-           json.loads(io.open(os.path.join(ROOT, '数据', '开图清单.json'), encoding='utf-8').read())['items']}
+    with io.open(R4, encoding='utf-8') as _h38:
+        r4 = json.loads(_h38.read())
+    with io.open(os.path.join(ROOT, '数据', '开图清单.json'), encoding='utf-8') as _h40:
+        man = {i['id']: i for i in json.loads(_h40.read())['items']}
     _q, cells, exc = current_cells(ROOT)
     assert not exc, exc
     cell = {r['id']: r['cell'] for r in cells}

@@ -38,10 +38,13 @@ REAL_FILES = ('ledger.json', 'round_readings.json',
               'round_readings_r7.json', 'ledger_r7.json',
               'send_bodies_r8.json', 'send_bodies_r8_note.json',
               'send_bodies_r8_evidence.json',
-              'round_readings_r8.json', 'ledger_r8.json')
+              'round_readings_r8.json', 'ledger_r8.json',
+              'send_bodies_r9.json', 'send_bodies_r9_note.json')
 # 2026-11-22 R8 投后链跑完：`round_readings_r8.json`／`ledger_r8.json` 已落盘并钉进来，
 # L069 那次 terminated 发起由 `send_bodies_r8_evidence.json` 承载（投次 2／作废发起 0），三件一起进清单。
 # 上一窗留下的「R8 两件不许进来」豁免理由已过期——那两件的缺席当时是真的，现在不是了。
+# 2026-11-22 晚 R9 台账（`send_bodies_r9.json`／`send_bodies_r9_note.json`）落盘，同一窗补钉；
+# 补钉前 `test_y_real_ledgers_on_disk_are_all_pinned` 实测判红，属于「新轮次件落盘必须同笔进名单」。
 PREFIX = 'verify_round_neg_'
 
 _spec = importlib.util.spec_from_file_location('verify_round_under_test', str(CAMPAIGN / 'verify_round.py'))
@@ -516,7 +519,9 @@ class VerifyRoundGroups(unittest.TestCase):
         本窗实测盘上就有三件从未进清单（`round_readings_r1`／`ledger_r1`／`send_bodies_r4_note`，
         最后一件还是本文件 481 行自己读过的真源），说明"名单靠手记"这一条本身会漂。
         豁免名单现为空：R8 的 readings／ledger 已在 2026-11-22 落盘并钉进 REAL_FILES，
-        上一窗那条「盘上没有所以豁免」的理由随之作废。通道保留而不删——下一窗若又有轮次件未落盘，
+        上一窗那条「盘上没有所以豁免」的理由随之作废。R9 台账（send_bodies_r9 两件）同理，
+        2026-11-22 晚落盘时未同笔进名单，本条当场判红，补钉后转绿——这正是它要起的作用。
+        通道保留而不删——下一窗若又有轮次件未落盘，
         豁免只许按文件名逐条写死并要求其真不在盘上，一落盘这条当场判红，不许留成永远为真的空子。"""
         exempt = frozenset()
         pref = ('send_bodies_', 'ledger', 'round_readings_', 'transcripts_')
