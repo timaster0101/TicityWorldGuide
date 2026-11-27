@@ -56,11 +56,11 @@ NOTES = ROOT / '数据' / '开图验收备注.json'
 FROZEN = ROOT / '数据' / '提示词基准冻结.json'
 
 # 委托来源原句：逐字引当轮委托，不改写、不概括；换轮委托必须先换掉这一句。
-# 2026-11-22 换成用户对「还有没做的么」第 2 条的逐字应答「2 真签」；前序两次长期委托原句
-# （2026-11-07「连验收一起代签」与「你都代完成，用最彻底的方式，不要给未来留隐患」）仍写在括号里，
+# 2026-11-27 换成用户对「还有待办的事情么」第 2 条的逐字应答「2 处理并收口」——这一轮签的是 R10 回填后的
+# 13 格（另有 7 条按在册裁定不签，见 工具/ruling_closeout.py）。前序三次长期委托原句仍写在括号里，
 # 因为本次签署是那条长期委托的延续，不是新的一次授权。
-DELEGATION = ('用户 2026-11-22 逐字「2 真签」（对「还有没做的么」第 2 条「验收面要不要真签」的应答；'
-              '承接 2026-11-07 原句「连验收一起代签」与「你都代完成，用最彻底的方式，不要给未来留隐患」）')
+DELEGATION = ('用户 2026-11-27 逐字「2 处理并收口」（对「还有待办的事情么」第 2 条「20 条待复验全未收口」的应答；'
+              '承接 2026-11-22「2 真签」、2026-11-07 原句「连验收一起代签」与「你都代完成，用最彻底的方式，不要给未来留隐患」）')
 EXECUTOR = '会话代理（Qoder，受用户明确委托代执行，非人工逐张目视）'
 STALE_FIELDS = ('generation_input_file', 'generation_input_sha256', 'image_base_prompt_sha256')
 
@@ -209,7 +209,12 @@ def build_row(item, bound, rounds, clip, thr, struct, old_fields):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--execute', action='store_true', help='落盘（默认干跑，只打印计划）')
+    ap.add_argument('--ids', default='',
+                    help='只对这批 ID 签署，逗号分隔（如 D01,D02）。不给＝代签面全量。'
+                         '分批时用它把「本轮真能绑的格」与「按裁定不绑的条」分开：'
+                         '绑串凭据是该格投后读数里的逐字相等，历史轮的读数是当时事实，不能拿来当今天的证明。')
     args = ap.parse_args()
+    only = [x.strip() for x in args.ids.split(',') if x.strip()]
 
     manifest = jload(MANIFEST)
     items = manifest['items']
@@ -224,9 +229,14 @@ def main():
         print('❌ 基准漂移 %d 条，换档后的格只能重投、不得代签补绑：%s' % (len(drift), drift[:10]))
         return 1
 
-    targets = [i for i in items if i.get('image_file')]
+    face = [i for i in items if i.get('image_file')]
     skipped = [i['id'] for i in items if not i.get('image_file')]
-    struct_all = va.check(targets)
+    unknown = sorted(set(only) - {i['id'] for i in face})
+    if unknown:
+        print('❌ --ids 里有不在代签面的 ID：%s' % unknown)
+        return 1
+    targets = [i for i in face if not only or i['id'] in only]
+    struct_all = va.check(face)
     per = {}
     for row in struct_all['逐格']:
         d = per.setdefault(row['id'], {'格数': 0, '通过': 0, '失败': 0})
@@ -264,10 +274,10 @@ def main():
         hit = rounds.get(os.path.basename(c))
         groups[hit[2] if hit else '无投后读数'] = groups.get(hit[2] if hit else '无投后读数', 0) + 1
     clip_hit = sum(1 for _, c in cells if os.path.basename(c) in clip)
-    print('统计面：清单 %d 条，有图 %d 条（代签面），无图 %d 条不动 %s'
-          % (len(items), len(targets), len(skipped), skipped))
+    print('统计面：清单 %d 条，有图 %d 条（代签面，本轮 --ids 收窄为 %d 条），无图 %d 条不动 %s'
+          % (len(items), len(face), len(targets), len(skipped), skipped))
     print('绑定资格：基准漂移 0 条，%d/%d 条 prompt_sha256 与冻结快照相等'
-          % (sum(1 for i in targets if i['prompt_sha256'] == snap[i['id']]), len(targets)))
+          % (sum(1 for i in face if i['prompt_sha256'] == snap[i['id']]), len(face)))
     print('重投期格逐枚对账：代签面共 %d 格，投后核验命中 %d 格（%s），画风表命中 %d 格'
           % (len(cells), sum(v for k, v in groups.items() if k != '无投后读数'),
              '／'.join('%s %d' % (k, v) for k, v in sorted(groups.items())), clip_hit))

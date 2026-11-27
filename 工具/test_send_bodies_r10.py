@@ -63,10 +63,19 @@ class R10Ledger(unittest.TestCase):
     def test_membership_is_derived_not_handcopied(self):
         r9_ids, rest = B.members(self.man, self.cand)
         self.assertEqual(r9_ids, ['D18', 'D19', 'L069'])
-        self.assertEqual(rest, ['D01', 'D02', 'D03', 'D04', 'D05', 'D07', 'D08',
-                                'D13', 'D14', 'D16', 'D17'])
-        self.assertEqual(list(self.led), r9_ids + rest)
+        expected = ['D01', 'D02', 'D03', 'D04', 'D05', 'D07', 'D08',
+                    'D13', 'D14', 'D16', 'D17']
+        # 台账成员面不手抄：名册与成员数直接对死，不论收口前后都成立。
+        self.assertEqual(list(self.led), r9_ids + expected)
         self.assertEqual(self.note['成员数'], 14)
+        if rest:
+            self.assertEqual(rest, expected)
+            return
+        # 收口之后这 11 条不再是待复验，推导面自然空了。空集只能由「逐条已收口」支撑：
+        # 不收口就空 = 名册被悄悄改名，那种情况这里会红。
+        for eid in expected:
+            rows = self.man[eid].get('review_note_history') or []
+            self.assertTrue(any(r.startswith('C139代签验收' + eid + '：') for r in rows), eid)
 
     def test_probe_is_first_and_single(self):
         self.assertEqual(self.note['探针'], 'D18')
@@ -76,6 +85,13 @@ class R10Ledger(unittest.TestCase):
 
     def test_audit_clean_on_real_ledger(self):
         self.assertEqual(B.audit(self.man, self.led, self.cell, self.pool), [])
+
+    def test_frozen_membership_cannot_shrink(self):
+        """收口后推导面只剩 R9 三条；重跑若照写，会把 14 条台账改写成 3 条——必须被拒。"""
+        self.assertEqual(len(self.led), 14)
+        self.assertEqual(B.existing_members(LED), 14)
+        self.assertIsNotNone(B.guard_no_shrink(['D18', 'D19', 'L069'], LED))
+        self.assertIsNone(B.guard_no_shrink(list(self.led), LED))
 
     def test_negative_wrong_body_reds(self):
         bad = copy.deepcopy(self.led)

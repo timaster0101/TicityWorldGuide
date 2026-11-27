@@ -13,6 +13,14 @@ import re
 SIGN_DECL = re.compile(r'^C139代签验收([A-Z]+\d+)：')
 SIGN_ELEMENTS = ('执行人', '委托来源', '依据', '人工逐张目视未执行')
 
+# C155：在册接受／不重投的裁定入账。它不是验收——状态停在待复验、不绑串，工作单要说得出这一点，
+# 否则这几条会被渲染成「待人工复验」，读的人分不清「还没人看」与「看过了、按裁定接受、只是没有本串产物」。
+RULING_DECL = re.compile(r'^C155在册裁定收口([A-Z]+\d+)：')
+
+
+def ruling_rows(rows):
+    return [r for r in (rows or []) if RULING_DECL.match(r)]
+
 
 def declaration_rows(rows):
     """按抬头取申报行（不按位置：同一 ID 之后还会被追加别类人工读数）。"""
@@ -60,4 +68,6 @@ def visual_column(item):
         if check_sign_declaration(item, item.get('review_note_history') or []):
             return '已验收（代签申报不合规格，闸门判红）'
         return '已验收（机械代签）／人工目视未执行'
+    if ruling_rows(item.get('review_note_history') or []):
+        return '在册裁定收口（不绑串，待重投方能签）'
     return '待人工复验'

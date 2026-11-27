@@ -32,14 +32,26 @@ class VerdictMatchesLedger(unittest.TestCase):
         self.assertEqual(len(ids), len(set(ids)))
 
     def test_fail_list_agrees_with_rows(self):
-        bad = sorted(r['ID'] for r in self.v['逐枚'] if r['取景与量级'] != '达标')
+        bad = sorted(r['ID'] for r in self.v['逐枚'] if r['取景与量级'] == '不达标')
         self.assertEqual(bad, sorted(self.v['统计']['不达标ID']))
         self.assertEqual(self.v['统计']['不达标'], len(bad))
+
+    def test_accepted_list_agrees_with_rows(self):
+        """「在册接受」是裁定档，不是达标档：判词原文必须留着，依据里必须写得出是哪一次裁定。"""
+        acc = sorted(r['ID'] for r in self.v['逐枚'] if r['取景与量级'] == '在册接受')
+        self.assertEqual(acc, sorted(self.v['统计']['在册接受ID']))
+        self.assertEqual(self.v['统计']['取景与量级在册接受'], len(acc))
+        for r in self.v['逐枚']:
+            if r['取景与量级'] != '在册接受':
+                continue
+            self.assertIn(r['原判词'], ('不达标',), r['ID'])
+            self.assertIn('裁定', r['依据'], r['ID'])
 
     def test_counts_agree(self):
         s = self.v['统计']
         self.assertEqual(s['投送'], len(self.v['逐枚']))
-        self.assertEqual(s['取景与量级达标'], len(self.v['逐枚']) - len(s['不达标ID']))
+        self.assertEqual(
+            s['投送'], s['取景与量级达标'] + s['取景与量级在册接受'] + s['不达标'], s)
         self.assertEqual(s['画风达标'], sum(1 for r in self.v['逐枚'] if r['画风'] == '达标'))
 
     def test_every_row_has_reason(self):

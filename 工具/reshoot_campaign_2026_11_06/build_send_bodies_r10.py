@@ -43,15 +43,42 @@ def load_json(rel):
         return json.loads(fp.read())
 
 
+def existing_members(path=OUT):
+    """盘上已有台账的成员数；没有就返回 0。"""
+    if not os.path.exists(path):
+        return 0
+    with io.open(path, encoding='utf-8') as fp:
+        return len(json.loads(fp.read()))
+
+
+def guard_no_shrink(order, path=OUT):
+    """台账是历史记录，不是可随状态重算的派生件：收口后待复验转已验收，成员面会从 14 收窄成 3，
+    重跑就把一轮投送记录删掉。成员数不等一律不写，要重建须先人工移走旧台账。"""
+    had = existing_members(path)
+    if had and had != len(order):
+        return ('❌ 盘上台账 %d 条，本次现推导 %d 条（%s）。台账是历史件，不随清单一并收窄；'
+                '确要重建请先移走旧台账。' % (had, len(order), order))
+    return None
+
+
+REST_EXPECT = ['D01', 'D02', 'D03', 'D04', 'D05', 'D07', 'D08',
+               'D13', 'D14', 'D16', 'D17']
+
+
 def members(man, cand):
-    """14 条成员面：R9 三条 + 待复验片区减去已有裁定与 R9 成员后的余量。"""
+    """14 条成员面：R9 三条 + 待复验片区减去已有裁定与 R9 成员后的余量。
+
+    收口（2026-11-27）之后这 11 条已转「已验收」，余量自然为空。空集只有一种合法解释：
+    这 11 条逐条已在册签过；否则就是名册被改过，这里判红。"""
     ruled = {r['id'] for r in cand['候选'] if not r['现态裁定'].startswith('未定')}
     r9_ids = [r['id'] for r in cand['候选'] if r['现态裁定'].startswith('未定')]
     nr = [i for i, it in man.items() if i.startswith('D') and it['status'] == '待复验']
     rest = sorted(set(nr) - ruled - set(r9_ids))
     assert r9_ids == ['D18', 'D19', 'L069'], r9_ids
-    assert rest == ['D01', 'D02', 'D03', 'D04', 'D05', 'D07', 'D08',
-                    'D13', 'D14', 'D16', 'D17'], rest
+    if rest != REST_EXPECT:
+        assert not rest, rest
+        signed = [i for i in REST_EXPECT if man[i]['status'] == '已验收' and man[i].get('image_prompt_sha256')]
+        assert signed == REST_EXPECT, '余量为空但并非 11 条全在册签过：%s' % signed
     return r9_ids, rest
 
 
@@ -157,6 +184,10 @@ def main():
                      '与 R4 逐字相同': body == r4[eid]['body'] if eid in r4 else None}
 
     order = r9_ids + rest
+    stop = guard_no_shrink(order)
+    if stop:
+        print(stop)
+        return 2
     body = {eid: out[eid] for eid in order}
     pool_dims = dict(pool)
     bad = audit(man, body, cell, pool_dims)
