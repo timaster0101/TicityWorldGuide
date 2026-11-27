@@ -1,8 +1,8 @@
 {
   "passed": true,
   "errors": [],
-  "source_sha256": "8f7a598fffeb25afb7daea2f229471573282e59a4873f62d68ce37f6e2bcaa44",
-  "docx_sha256": "4d72121c1920740658b72fda28aa2cb699d69fa97ed36d7574326dd15d126bd7",
+  "source_sha256": "5ee01f13f308403946bcf243e45402ba8a6fa2180f10bbb90d3c3771b8189416",
+  "docx_sha256": "f311387cdc2e7439480b812ab5a881549091e0478a1cc287394396bbdffd9b9e",
   "paragraph_count": 8302,
   "table_count": 321,
   "cell_count": 4896,
@@ -38,7 +38,7 @@
   "crc_verified": true,
   "update_fields": true,
   "rendering_verified": true,
-  "rendering_note": "结论来自 数据/Word渲染目视.json：由「Qoder 会话代理（本轮 23 张差异页文本层逐段比对＋2 张差异页 150dpi 人眼抽看＋五项必检页位图等值；工具/verify_docx.py 全程只回显本文件并核对 docx_sha256）。委托来源＝用户 2026-11-22 逐字「1 你帮我签」与「3 全改」后的「继续全改」（同轮确认「先全改，再补签，再投」）。本签的起因：C154 补记（8）把 20 个城市片区的取景段改成三类视点轮换，取景段属合订本正文，docx 摘要由 cbfee2d2f151… 变为 4d72121c1920…，第 28 签自动失效。」按「本机 WPS Office 的 Word.Application COM（驱动件仓外 _scratch_cardref/render_word_c151.py，未改），一份 docx 一个进程，Repaginate／Fields.Update／TOC Update／ComputeStatistics／ExportAsFixedFormat 导 PDF。本签两个进程各渲一份：当前版（596761 字节／4d72121c1920…）与对照版（596851 字节／cbfee2d2f151…＝第 28 签绑定那一份，取法 git show HEAD）。两版均 424 页，「打开前后摘要一致」＝True／True。逐页 60dpi 位图对拍：**差异页集＝[41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]（共 23 页）**，其余 401 页与对照版同页位图逐字节等值。人眼覆盖 29 张 150dpi 单页（页码 1、2、4、41、42、43、44、45、46、47、48、49、50、51、52、53、54、55、56、57、58、59、60、61、62、63、393、421、424）。」目视，绑定当前 DOCX 摘要",
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「会话代理（本轮做机检：文本层 39 句逐条定位＋424 页空白/稀疏/发暗/压边体检；未逐页人眼）。委托来源＝用户 2026-11-27 对基版一致性的选择「A 正文对齐名录（推荐）」与同日原话「1 如果是文字的话，就不用检查了，直接过吧」——逐页人眼按该弃权不执行，本签不声称做过人眼。」按「本机 WPS Office 的 Word.Application COM（驱动件仓外 _scratch_cardref/render_word_c151.py，未改），一份 docx 一个进程，Repaginate／Fields.Update／TOC Update／ComputeStatistics／ExportAsFixedFormat 导 PDF。本签只渲当前版一份（596787 字节／f311387cdc2e…），导出 PDF 424 页。」目视，绑定当前 DOCX 摘要",
   "source_block_count": 3379,
   "docx_body_block_count": 3379,
   "body_anchor": {
