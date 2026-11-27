@@ -1,8 +1,8 @@
 {
   "passed": true,
   "errors": [],
-  "source_sha256": "5ee01f13f308403946bcf243e45402ba8a6fa2180f10bbb90d3c3771b8189416",
-  "docx_sha256": "f311387cdc2e7439480b812ab5a881549091e0478a1cc287394396bbdffd9b9e",
+  "source_sha256": "bd3c8867b72b267fae1b363398c1cdaf9191d59ce24f45f194a4d051ec8baa57",
+  "docx_sha256": "868684d034d257568fb9dbe3d593aa7c17c3f571fe482fc776fbc6794e65db7b",
   "paragraph_count": 8302,
   "table_count": 321,
   "cell_count": 4896,
@@ -38,7 +38,7 @@
   "crc_verified": true,
   "update_fields": true,
   "rendering_verified": true,
-  "rendering_note": "结论来自 数据/Word渲染目视.json：由「会话代理（本轮做机检：文本层 39 句逐条定位＋424 页空白/稀疏/发暗/压边体检；未逐页人眼）。委托来源＝用户 2026-11-27 对基版一致性的选择「A 正文对齐名录（推荐）」与同日原话「1 如果是文字的话，就不用检查了，直接过吧」——逐页人眼按该弃权不执行，本签不声称做过人眼。」按「本机 WPS Office 的 Word.Application COM（驱动件仓外 _scratch_cardref/render_word_c151.py，未改），一份 docx 一个进程，Repaginate／Fields.Update／TOC Update／ComputeStatistics／ExportAsFixedFormat 导 PDF。本签只渲当前版一份（596787 字节／f311387cdc2e…），导出 PDF 424 页。」目视，绑定当前 DOCX 摘要",
+  "rendering_note": "结论来自 数据/Word渲染目视.json：由「会话代理（本轮做机检：文本层改动面逐条定位＋424 页空白/稀疏/发暗/压边体检；未逐页人眼）。委托来源＝用户 2026-11-27 对基版一致性的选择「A 正文对齐名录（推荐）」与同日原话「1 如果是文字的话，就不用检查了，直接过吧」——逐页人眼按该弃权不执行，本签不声称做过人眼。」按「本机 WPS Office 的 Word.Application COM（驱动件仓外 _scratch_cardref/render_word_c151.py，未改），一份 docx 一个进程，Repaginate／Fields.Update／TOC Update／ComputeStatistics／ExportAsFixedFormat 导 PDF。本签渲当前版一份（596794 字节／868684d034d2…），导出 PDF 424 页。」目视，绑定当前 DOCX 摘要",
   "source_block_count": 3379,
   "docx_body_block_count": 3379,
   "body_anchor": {

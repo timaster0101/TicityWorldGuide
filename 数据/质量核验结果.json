@@ -7,7 +7,7 @@
     "L": 108,
     "R": 120
   },
-  "total_cjk": 271452,
+  "total_cjk": 271454,
   "min_cjk": 665,
   "max_cjk": 1239,
   "errors": [],
@@ -1568,7 +1568,7 @@
     },
     {
       "id": "R119",
-      "cjk_count": 895,
+      "cjk_count": 897,
       "source": "11-R111-R120.md"
     },
     {
