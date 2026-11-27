@@ -136,6 +136,9 @@ class BuildPromptsTests(unittest.TestCase):
         tools.mkdir()
         self.script = tools / "build_prompts.py"
         shutil.copyfile(ROOT / "工具" / "build_prompts.py", self.script)
+        # 渲染 数据/开图清单.md 的唯一渲染方已抽成独立模块（收口轮 §55.74），夹具里要一并带上，
+        # 否则临时副本 import 不到、生成器直接起不来。
+        shutil.copyfile(ROOT / "工具" / "manifest_md.py", tools / "manifest_md.py")
         for name in INPUTS:
             shutil.copyfile(ROOT / "数据" / name, self.data / name)
         self.kb = self.load("AI地点知识库.json")
