@@ -113,11 +113,11 @@ def flags_for(m, dpi, page_mm):
     return out
 
 
-def run(docx=DOCX, out_dir=PAGES, dpi=100, limit=None, quiet=False):
+def run(docx=DOCX, out_dir=PAGES, dpi=100, limit=None, quiet=False, pdf=None):
     import fitz
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    pdf = convert(docx)
+    pdf = Path(pdf) if pdf else convert(docx)
     doc = fitz.open(str(pdf))
     zoom = dpi / 72.0
     rows = []
@@ -133,24 +133,76 @@ def run(docx=DOCX, out_dir=PAGES, dpi=100, limit=None, quiet=False):
         m['dpi'] = dpi
         m['flags'] = flags_for(m, dpi, page_mm)
         m['file'] = name
+        text = pg.get_text().strip()
+        m['首行'] = first_content_line(text)[:40]
+        m['字符数'] = len(text)
         rows.append(m)
         if not quiet and (i + 1) % 50 == 0:
             print('  渲染 %d/%d' % (i + 1, n))
     doc.close()
-    shutil.rmtree(pdf.parent, ignore_errors=True)
+    if pdf.parent != Path(out_dir):
+        shutil.rmtree(pdf.parent, ignore_errors=True) if pdf.name == 'book.pdf' else None
     return rows
 
 
-def summarize(rows, pages_in_word=424):
+def _is_chrome(line):
+    """页眉页脚行：合订本每页都印的书名/卷名/页码，找结构页时要跳过，否则每页首行都一样。"""
+    import re
+    s = line.strip()
+    if not s:
+        return True
+    if re.match(r'^(原创|钛湖城)', s) and len(s) < 30:
+        return True
+    if re.fullmatch(r'[\d\s·・.]+', s):
+        return True
+    if re.match(r'^卷[一二三四五六七八九十]+', s) and len(s) < 30:
+        return True
+    return False
+
+
+def first_content_line(text):
+    for line in text.splitlines():
+        if not _is_chrome(line):
+            return ' '.join(line.split())
+    return ''
+
+
+def structure_pages(rows):
+    """结构页定位：按首行文字找封面、目录、分卷首页、卷末与末页，给人眼审查当索引用。"""
+    import re
+    out = {'封面': [], '目录': [], '分卷首页': [], '卷末': [], '末页': []}
+    for r in rows:
+        head = r.get('首行', '')
+        page = int(r['file'][1:4])
+        if page == 1:
+            out['封面'].append(page)
+        if '目录' in head[:6]:
+            out['目录'].append(page)
+        if re.match(r'^(卷[一二三四五六七八九十]|第[一二三四五六七八九十]+卷)', head) or \
+                (len(head) <= 16 and head.endswith('卷')):
+            out['分卷首页'].append(page)
+        if r.get('字符数', 0) < 60:
+            out['卷末'].append(page)
+    if rows:
+        out['末页'] = [int(rows[-1]['file'][1:4])]
+    return out
+
+
+def summarize(rows, pages_in_word=424, renderer='LibreOffice'):
     flagged = [r for r in rows if r['flags']]
     by_flag = {}
     for r in flagged:
         for f in r['flags']:
             by_flag.setdefault(f, []).append(r['file'])
+    caveat = ('LibreOffice 分页与 Word 不同（本机 %d 页 vs Word %d 页），页号不作为 Word 页号依据；'
+              '本单是版面体检的第二意见，不替代 Word 渲染目视签署' % (len(rows), pages_in_word)
+              if renderer == 'LibreOffice' else
+              '%s 渲染 %d 页，与 Word 分页读数一致，页号即 Word 页号；本单只判版面，不判错字/数字/交叉引用'
+              % (renderer, len(rows)))
     return {
-        '口径': 'LibreOffice 渲染 + 像素机检；只判版面，不判图文内容',
-        '局限': 'LibreOffice 分页与 Word 不同（本机 %d 页 vs Word %d 页），页号不作为 Word 页号依据；'
-                '本单是版面体检的第二意见，不替代 Word 渲染目视签署' % (len(rows), pages_in_word),
+        '口径': '%s 渲染 + 像素机检；只判版面，不判图文内容' % renderer,
+        '局限': caveat,
+        '结构页': structure_pages(rows),
         '统计': {'页数': len(rows), '被标记页数': len(flagged),
                  '空白页': len(by_flag.get('空白页', [])),
                  '稀疏页': len(by_flag.get('稀疏页', [])),
@@ -183,13 +235,23 @@ def main():
     ap.add_argument('--dpi', type=int, default=100)
     ap.add_argument('--limit', type=int, default=None)
     ap.add_argument('--no-report', action='store_true')
+    ap.add_argument('--pdf', help='已渲染好的 PDF（如 WPS 导出的 424 页版本），给了就不走 LibreOffice')
+    ap.add_argument('--out-dir', default=None)
+    ap.add_argument('--json', default=None)
+    ap.add_argument('--md', default=None)
+    ap.add_argument('--renderer', default=None)
+    ap.add_argument('--pages-in-word', type=int, default=424)
     args = ap.parse_args()
-    rows = run(dpi=args.dpi, limit=args.limit)
+    renderer = args.renderer or ('WPS' if args.pdf else 'LibreOffice')
+    rows = run(dpi=args.dpi, limit=args.limit,
+               out_dir=Path(args.out_dir) if args.out_dir else PAGES, pdf=args.pdf)
     if args.no_report:
         print('渲染 %d 页，未写报告' % len(rows))
         return 0
-    rep = summarize(rows)
-    write_report(rep)
+    rep = summarize(rows, pages_in_word=args.pages_in_word, renderer=renderer)
+    write_report(rep,
+                 json_path=Path(args.json) if args.json else REPORT,
+                 md_path=Path(args.md) if args.md else REPORT_MD)
     print(json.dumps(rep['统计'], ensure_ascii=False))
     return 0
 

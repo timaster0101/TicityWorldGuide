@@ -43,6 +43,12 @@ ROUNDS = (
     # R10 组两支档串并存：R9 三条沿用「二次重投」、十一条新出「换档重投」，两支都得认。
     (re.compile(r'^C154取景二次重投([A-Z]+\d+)（v01）'), 'C154取景二次重投', 'fixed'),
     (re.compile(r'^C154取景换档重投([A-Z]+\d+)（v01）'), 'C154取景换档重投', 'fixed'),
+    # C156E1基线重出＝R11 组（140 条早期四向基准照与 1 条 C138 主向，按 E1 定档母图整批重出）
+    # 替换的正是 四向／C138 那一格；C156E1基线补出＝R12 组（7 条片区按现串补出）替换的正是
+    # C154母图重投 那一格。不认这两轮，201 条的占格判据会拿旧档串去要求已经换成基线重出档的那一格，
+    # 全批假红（2026-11-27 R11／R12 回填首跑实测 166 条）。
+    (re.compile(r'^C156E1基线重出([A-Z]+\d+)（v01）'), 'C156E1基线重出', 'fixed'),
+    (re.compile(r'^C156E1基线补出([A-Z]+\d+)（v01）'), 'C156E1基线补出', 'fixed'),
 )
 ROUND_TOKENS = tuple(t for _, t, _ in ROUNDS)
 
@@ -142,6 +148,22 @@ def unreshot_members(items, notes, token='C138主向重投'):
     把那一格换掉之后，判据在现清单格面上必然报「代签申报没点名当前在册的格」——那是判据在说话、不是坏数据。
     负测的前置是「基线本身达标」，承载只能取没被替换的那些条；这个面随每轮回填派生，无需人工维护。"""
     return sorted(eid for eid in items if cell_row(eid, notes.get(eid, []))[1] == token)
+
+
+def declared_members(items, notes):
+    """基线达标面：已验收、且代签申报与占格两支判据都判绿的那些条，按 ID 排序现算。
+
+    为什么不再按某一轮的档串取承载（2026-11-27 R11／R12 之后）：`unreshot_members` 取的是
+    「最新一轮仍等于某支档串」的条目，R11 把 140 条早期四向格整批换成 C156E1基线重出、
+    R12 又把 7 条片区换成 C156E1基线补出，于是「最新一轮还是 C138」的面在清单里已经空集——
+    拿它当承载的负测全部以「承载消失」判红。负测真正需要的不是某一轮的名字，
+    而是「基线本身达标」这个前置：判据在达标面上注入坏数据才测得到打红能力。
+    名单仍从清单与备注现算，不抄第二份。"""
+    return sorted(eid for eid in items
+                  if eid in notes
+                  and items[eid].get('status') == '已验收'
+                  and not check_sign_declaration(items[eid], notes[eid])
+                  and not check_cell_registration(items[eid], notes[eid]))
 
 
 def unsigned_binding_ok(item, rows, prev):
@@ -688,8 +710,8 @@ class ReviewNoteHistory(unittest.TestCase):
         复述的摘要前 12 位换成另一串（等于把别的文件的验收挂到本条）、抬头点名别的 ID。
         每一例都同时打红申报判据与占格判据——后者是闸门实际调用的入口，只测前者会漏掉接线断掉。
         承载件按 unreshot_members 现算：被更晚一轮替换过交付格的条目，其申报判据基线本来就不达标（见该函数注释）。"""
-        carrier = unreshot_members(self.items, self.notes)
-        self.assertTrue(carrier, '清单里已无一条的最新一轮还是 C138——这批负测要改跑在还原视图上')
+        carrier = declared_members(self.items, self.notes)
+        self.assertTrue(carrier, '清单里已无一条基线达标的已验收条目，这批负测要改跑在还原视图上')
         eid = carrier[0]
         rows = self.notes[eid]
         # C153 换档后现清单里 L062 是待复验：签署判据（check_sign_declaration）只在已验收支路上被调用，
@@ -756,9 +778,10 @@ class ReviewNoteHistory(unittest.TestCase):
         过期这件事只由换档行承载，所以打掉换档行就等于打掉唯一来源——正是这条判据要防的）。
         C154 回填后新的占格行自己复述了「维持原绑定＋摘要已过期」，那些条目不再有无来源可打的承载，
         所以承载面只从没被 C154 替换过的那几条里取。"""
-        carrier = [eid for eid in unreshot_members(self.items, self.notes)
-                   if '维持原绑定' not in round_row(eid, self.notes[eid], 'C138主向重投')]
-        self.assertTrue(carrier, '已无一条的本轮占格行写「留空」，换档行不再是任何条目的唯一申报来源，本负测要换承载')
+        carrier = [eid for eid in sorted(self.items)
+                   if len(shift_decl_rows(eid, self.notes[eid])) == 1
+                   and '维持原绑定' not in round_row(eid, self.notes[eid], 'C138主向重投')]
+        self.assertTrue(carrier, '已无一条的 C138 占格行写「留空」，换档行不再是任何条目的唯一申报来源，本负测要换承载')
         eid = carrier[0]
         item, rows = self.items[eid], self.notes[eid]
         sd = shift_decl_rows(eid, rows)
@@ -805,8 +828,8 @@ class ReviewNoteHistory(unittest.TestCase):
         签署口径的字面量同理：未签档原文只在还原视图里还活着，
         所以那三例跑在 C138 的未签档还原视图上，已签档两例跑在补投面按字面量选出的那条的 C138 还原视图上——
         两档各抽各的字面量，每例都先断言字面量真在原文里，防止抽成空操作后把「负测无效」读成「判据松了」。"""
-        carrier = unreshot_members(self.items, self.notes)
-        self.assertTrue(carrier, '清单里已无一条的最新一轮还是 C138——这批负测要改跑在还原视图上')
+        carrier = declared_members(self.items, self.notes)
+        self.assertTrue(carrier, '清单里已无一条基线达标的已验收条目，这批负测要改跑在还原视图上')
         base = signed_view(self.items[carrier[0]])
         rows = self.notes[carrier[0]]
         sel = cell_row(carrier[0], rows)[0]
@@ -1093,7 +1116,17 @@ class ReviewNoteHistory(unittest.TestCase):
         反头＝按旧的黑名单口径把同一段注到末位的结论行上，判据整轮无话可说（那才是真·假绿）。
         承载件从 L063 换成 L095：C154 回填把占格行追加到了 310 条的末尾，那些条的末位行种已经
         不是结论行——本例要的正是「末位是非占格行」，所以取没进 R4 名单的那两条之一。"""
-        eid, token = 'L095', 'C123新串'
+        # 承载按字面形状现算：末位（剔除代签申报行后）必须不是占格读数、也不是申报行。
+        # 写死 L095 的做法在 2026-11-27 失效——R11 给它补了一条占格行，末位就变成占格读数了。
+        token = 'C123新串'
+        heads_ = [h for h, _, _ in ROUNDS] + [SIGN_DECL, SHIFT_DECL]
+        eid = next(e for e in sorted(self.notes)
+                   if round_row(e, self.notes[e], token)
+                   and [r for r in self.notes[e] if not SIGN_DECL.match(r)]
+                   and not any(h.match([r for r in self.notes[e] if not SIGN_DECL.match(r)][-1])
+                               for h in heads_)
+                   and 'image_prompt_sha256 留空' not in
+                   [r for r in self.notes[e] if not SIGN_DECL.match(r)][-1])
         rows = self.notes[eid]
         head = head_re(token)
         item, view = as_of_round(self.items[eid], rows, token)
@@ -1163,8 +1196,8 @@ class ReviewNoteHistory(unittest.TestCase):
         这是 C139 最容易出的产物侧事故：闸门红了、工作单还在印「已验收（机械代签）」，
         下一轮读工作单的人就会把 accepted 当成人工目视已过。三个坏样本各打一种形态。
         承载件按 unreshot_members 现算，理由同 test_r1_signing_declaration_is_not_inert。"""
-        carrier = unreshot_members(self.items, self.notes)
-        self.assertTrue(carrier, '清单里已无一条的最新一轮还是 C138，本负测失去承载')
+        carrier = declared_members(self.items, self.notes)
+        self.assertTrue(carrier, '清单里已无一条基线达标的已验收条目，本负测失去承载')
         base = signed_view(self.items[carrier[0]])
         rows = self.notes[carrier[0]]
         self.assertEqual(self.items[carrier[0]]['status'], '已验收',
@@ -1260,11 +1293,13 @@ class AssetGate(unittest.TestCase):
         # 只有此前零图的 9 枚是新增格，所以 iTXt 档 322→331＝312 枚 C138 ＋ 19 枚 C133。
         # 仍留在 caBX 档的只有阶段6首批 B3 样本 S02／S18 两格（早先归因里的 R009／夜光／清晨／雨后／晴日
         # 等批次格已被后续轮次的 image_file 替换覆盖，那串 57 格的构成注释到本轮已过期，故按明细重写）。
-        # 历史在册 2 格（C136 首轮探针）＋ R10 方舟轮 14 格＝16：方舟标准域关闭像素水印后，
-        # C2PA(caBX) 容器仍在，这是本轮实测的容器面读数（不是「无元数据」）。
-        self.assertEqual(self.report['C2PA在位格数'], 15)
-        # 331 是 R10 之前的历史读数；R10 的 14 格换成 caBX 在位的方舟件后，iTXt 面恰好少了这 14 格。
-        self.assertEqual(self.report['iTXt标识在位格数'], 318)
+        # 历史在册 2 格（C136 首轮探针）＋ R10 14 格＋ R11 140 格＋ R12 7 格，实测 162：方舟标准域
+        # 关闭像素水印后 C2PA(caBX) 容器仍在，逐格现读「这一格在册文件的 caBX>=1」。
+        # 钉实测量而不是「15+N」的算式：算式每换一轮格就失真，实测值由 verify_image_assets 现算。
+        self.assertEqual(self.report['C2PA在位格数'], 162)
+        # iTXt 面随 caBX 面此消彼长：R10 的 14 格＋R12 的 7 格换走 iTXt 档，318→310（不是严格减 21：
+        # 早期 B3 样本里有两格本就双容器，计数落在 caBX 桶）。
+        self.assertEqual(self.report['iTXt标识在位格数'], 310)
         self.assertNotIn('已验收', json.dumps(self.report, ensure_ascii=False))
         self.assertIn('结构合规不等于视觉验收', self.report['声明'])
         # C139：本核验只如实渲染签署状态，不替它宣称目视通过。这两句缺了，工作单就成了替代签洗白的产物。
@@ -1310,13 +1345,13 @@ class AssetGate(unittest.TestCase):
         # 认子串两侧都不用再改这条断言」已被 2026-11-07 的搬迁证伪，就地订正。切回图集那天，
         # PNG 交付格与归档 jpg 同住一个子串下，按子串分就分不出「哪批该归一扩展名、哪批按字节判」，
         # 而这条断言真正要钉的是后者，所以按扩展名分。
-        # PNG 交付面 333 格＝数据/图集/<ID>/ 的 331 格（C138 主向档 312 ＋ R2 残留 19）
-        # ＋ S02／S18 两格仍在 backup/vibe_images/ 镜像（B 项归档时按原路径整体搬，未随本轮迁进图集）；
-        # JPG 归档面 792 格全在 backup/数据/图集/四向/<ID>/。两档桶之和恒等于总格数 1125，按和来钉、不各抄一份。
+        # PNG 交付面 472 格＝数据/图集/<ID>/ 的 470 格 ＋ S02／S18 两格仍在 backup/vibe_images/ 镜像；
+        # JPG 归档面 653 格全在 backup/数据/图集/四向/<ID>/。R11 那轮把 139 个四向 jpg 格整批换成方舟 PNG，
+        # 于是 jpg 792→653、png 333→472、live 331→470（三处同步减／增 139）。两档桶之和恒等于总格数 1125。
         png = [p for p in paths if p.lower().endswith('.png')]
         jpg = [p for p in paths if p.lower().endswith(('.jpg', '.jpeg'))]
         self.assertEqual(len(png) + len(jpg), 1125)
-        self.assertEqual(len(png), 333)
+        self.assertEqual(len(png), 472)
         for p in jpg:
             self.assertTrue(p.startswith(ARCHIVE_ROOT + GALLERY_ROOT), p)
             self.assertTrue((ROOT / p).is_file(), p)
@@ -1327,7 +1362,7 @@ class AssetGate(unittest.TestCase):
                 self.assertTrue(gallery_slot_ok(p, p.split('/')[2]), p)
         # 交付 PNG 里除了那两格 backup，其余必须逐条挂在自己 ID 的图集目录下
         live = [p for p in png if p.startswith(GALLERY_ROOT)]
-        self.assertEqual(len(live), 331)
+        self.assertEqual(len(live), 470)
         for item in self.manifest['items']:
             for p in item.get('image_file') or []:
                 if p.startswith(GALLERY_ROOT):
@@ -1498,12 +1533,13 @@ class AssetGate(unittest.TestCase):
         """
         paths = [p for i in self.manifest['items'] if i.get('image_file') for p in i['image_file']
                  if p.lower().endswith('.png')]
-        # 333＝S02／S18 两格 caBX ＋ 数据/图集/<ID>/ 的 331 格（C138 主向档 312 ＋ R2 未被替换的 C133 残留 19）；
+        # 472＝S02／S18 两格 caBX ＋ 数据/图集/<ID>/ 的 470 格；R11 那轮把 139 个四向 jpg 格换成方舟 PNG，
+        # 故 333→472（与上面那条 jpg 792→653 是同一笔换格的两面）；
         # 沿革：R2 回填 58 ＋ R1 放量 264 ＝ 322，同日补投 48 枚里 39 枚把 C133 格换成 C138 格（净数不变）、
         # 9 枚是此前零图的新增格。这条钉的是「PNG 交付面没被悄悄换小」，
         # 两档桶之和与它相等由下面那条对拍兜住，容器读数本身仍以现读字节为准。
         # 目录段写的是 2026-11-07 C141 之后的落点；这条按扩展名取数，与搬家无关。
-        self.assertEqual(len(paths), 333)
+        self.assertEqual(len(paths), 472)
         buckets = {'C2PA(caBX)': 0, 'iTXt·TC260': 0}
         for p in paths:
             with self.subTest(path=p):
@@ -1586,8 +1622,8 @@ class AssetRulings(unittest.TestCase):
         for cid in self.IDS:
             self.assertIn(cid, by_id)
             self.assertEqual(set(by_id[cid]), {'编号', '裁定', '原因', '影响'})
-        self.assertEqual(len(rows), 154)
-        self.assertEqual(rows[-1]['编号'], 'C154')
+        self.assertEqual(len(rows), 155)
+        self.assertEqual(rows[-1]['编号'], 'C155')
         self.assertIn('rename_gallery_ext', by_id['C82']['裁定'])
         self.assertIn('不是交付判据', by_id['C83']['裁定'])
         self.assertIn('不判红、不改名', by_id['C84']['裁定'])

@@ -39,6 +39,19 @@ READINGS = 'round_readings_r10.json'
 LEDGER = 'ledger_r10.json'
 DECLARATION = '数据/图集AIGC声明.json'
 
+# R11：把「在册首格不是 E1 母图轮产出」的 140 条按 E1 基线重出（用户 2026-11-27 点单）。
+# 与 R10 同一套三段机械取证，只是台账/记录/读数换名，后缀换一支。
+ROUNDS = {
+    'R10': {'bodies': BODIES, 'runlog': RUNLOG, 'readings': READINGS, 'ledger': LEDGER,
+            'suffixes': (SUFFIX_SECOND, SUFFIX_SHIFT)},
+    'R11': {'bodies': 'send_bodies_r11.json', 'runlog': '数据/R11方舟投送记录.json',
+            'readings': 'round_readings_r11.json', 'ledger': 'ledger_r11.json',
+            'suffixes': ('C156E1基线重出-v01',)},
+    'R12': {'bodies': 'send_bodies_r12.json', 'runlog': '数据/R12方舟投送记录.json',
+            'readings': 'round_readings_r12.json', 'ledger': 'ledger_r12.json',
+            'suffixes': ('C156E1基线补出-v01',)},
+}
+
 DECL = ('R10 方舟标准域投送逐轮台账。每轮一条，只追加不改写历史；判废结论由人工目视给出，'
         '本台账只登记机械取证项与人工结论字段（人工结论为空即未给）。本组回绑源是投送器写的 '
         'R10方舟投送记录.json（HTTP 台账），不是会话 jsonl——发图不再经 ImageGen 工具。'
@@ -77,11 +90,13 @@ def sent_body(here=HERE):
     return ref.send_body
 
 
-def run(here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
+def run(here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None, group=GROUP):
+    cfg = ROUNDS[group]
+    suffixes = cfg['suffixes']
     if measure is None:
         measure = load_measure(root).measure
-    bodies = _load(os.path.join('工具', 'reshoot_campaign_2026_11_06', BODIES), root)
-    runlog = {r['id']: r for r in _load(RUNLOG, root)['rows']}
+    bodies = _load(os.path.join('工具', 'reshoot_campaign_2026_11_06', cfg['bodies']), root)
+    runlog = {r['id']: r for r in _load(cfg['runlog'], root)['rows']}
     send_body = sent_body(here)
     decl_rows = {}
     decl_path = os.path.join(root, DECLARATION.replace('/', os.sep))
@@ -91,8 +106,8 @@ def run(here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
     rows, fails = [], []
     for eid, ref in sorted(bodies.items()):
         name = ref['send_name']
-        if not (name.endswith('-' + SUFFIX_SECOND) or name.endswith('-' + SUFFIX_SHIFT)):
-            fails.append((eid, '发名不在 R10 两支档串内：%s' % name))
+        if not any(name.endswith('-' + s) for s in suffixes):
+            fails.append((eid, '发名不在 %s 的登记档串内：%s' % (group, name)))
             continue
         log = runlog.get(eid)
         if log is None:
@@ -138,19 +153,19 @@ def run(here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
             fails.append((eid, '逐字=%s 尺寸=%s 字节=%s 母图=%s 容器=%s'
                           % (verbatim, size_match, bytes_match, ref_ok, container_ok)))
 
-    out = {'round': GROUP, 'rows': rows,
-           '统计面': {'组别': GROUP, '送入串台账': BODIES, '投送台账': RUNLOG,
+    out = {'round': group, 'rows': rows,
+           '统计面': {'组别': group, '送入串台账': cfg['bodies'], '投送台账': cfg['runlog'],
                       '本轮条目数': len(bodies), '核验条数': len(rows),
                       '判绿条数': len(rows) - len(fails), '判红条数': len(fails),
                       '落点目录': 'vibe_images/（仓外，回填时才请进 数据/图集/<ID>/）',
                       '容器口径': 'C136 或 C156 通道等价凭据',
                       '声明件已收录条数': sum(1 for x in rows if x['declaration_row'])},
            '判红': [{'id': e, '原因': why} for e, why in fails]}
-    with io.open(os.path.join(here, READINGS), 'w', encoding='utf-8', newline='\n') as fp:
+    with io.open(os.path.join(here, cfg['readings']), 'w', encoding='utf-8', newline='\n') as fp:
         json.dump(out, fp, ensure_ascii=False, indent=1)
         fp.write('\n')
 
-    ledger_path = os.path.join(here, LEDGER)
+    ledger_path = os.path.join(here, cfg['ledger'])
     if os.path.exists(ledger_path):
         with io.open(ledger_path, encoding='utf-8') as fp:
             ledger = json.load(fp)
@@ -159,7 +174,7 @@ def run(here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
     ledger['rounds'].append({
         '轮次': len(ledger['rounds']) + 1,
         '登记时刻': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        '组别': GROUP, '送入串台账': BODIES,
+        '组别': group, '送入串台账': cfg['bodies'],
         '本轮发起条目': sorted(bodies), '投次合计': sum(int(v['投次']) for v in bodies.values()),
         '落盘与回绑': rows, '人工目视结论': {}, '判废': [], '回填': False,
     })
@@ -176,9 +191,11 @@ def run(here=HERE, root=ROOT, img_dir=IMG_DIR, measure=None):
     for e, why in fails:
         print('✗ %s｜%s' % (e, why))
     print('%s 组核验：%d 条（判绿 %d／判红 %d）→ %s、%s'
-          % (GROUP, len(bodies), len(rows) - len(fails), len(fails), READINGS, LEDGER))
+          % (group, len(bodies), len(rows) - len(fails), len(fails), cfg['readings'], cfg['ledger']))
     return 0 if not fails else 1
 
 
 if __name__ == '__main__':
-    sys.exit(run())
+    ap = __import__('argparse').ArgumentParser()
+    ap.add_argument('--round', default=GROUP, choices=sorted(ROUNDS))
+    sys.exit(run(group=ap.parse_args().round))

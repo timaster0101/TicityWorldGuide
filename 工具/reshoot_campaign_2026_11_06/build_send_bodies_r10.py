@@ -82,6 +82,10 @@ def members(man, cand):
     return r9_ids, rest
 
 
+# 本轮之后还有整批换格的轮次：那几轮的产物接管本轮的格是合法现态，不是「占格被改坏」。
+LATER_SUFFIXES = ('C156E1基线重出', 'C156E1基线补出')
+
+
 def audit(man, ledger, cell, pool_dims):
     """台账对盘上现态的复核：逐条回绑串面正文、发名、母图、占格。返回问题表，空表才算过。
 
@@ -112,7 +116,8 @@ def audit(man, ledger, cell, pool_dims):
         # 占格判据两种合法现态：回填前＝本轮要替换的那一格；回填后＝本轮自己那一枚接管了该格。
         # 写死只认 replaced_cell 会让台账在回填成功之后自己判红——那不是「回填断了」，是判据没跟上。
         live = cell.get(eid) or ''
-        if live != row.get('replaced_cell') and row.get('send_name') not in live:
+        if (live != row.get('replaced_cell') and row.get('send_name') not in live
+                and not any(t in live for t in LATER_SUFFIXES)):
             bad.append('%s：占格与 current_cells 现读不符（既不是本轮要替换的那格，也不是本轮自己那一枚）：%s'
                        % (eid, live))
         ref = row.get('ref_image')

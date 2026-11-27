@@ -41,10 +41,16 @@ REAL_FILES = ('ledger.json', 'round_readings.json',
               'round_readings_r8.json', 'ledger_r8.json',
               'send_bodies_r9.json', 'send_bodies_r9_note.json',
               'send_bodies_r10.json', 'send_bodies_r10_note.json',
-              'round_readings_r10.json', 'ledger_r10.json')
+              'round_readings_r10.json', 'ledger_r10.json',
+              'send_bodies_r11.json', 'send_bodies_r11_note.json',
+              'round_readings_r11.json', 'ledger_r11.json',
+              'send_bodies_r12.json', 'send_bodies_r12_note.json',
+              'round_readings_r12.json', 'ledger_r12.json')
 # 2026-11-22 R8 投后链跑完：`round_readings_r8.json`／`ledger_r8.json` 已落盘并钉进来，
 # L069 那次 terminated 发起由 `send_bodies_r8_evidence.json` 承载（投次 2／作废发起 0），三件一起进清单。
 # 上一窗留下的「R8 两件不许进来」豁免理由已过期——那两件的缺席当时是真的，现在不是了。
+# 2026-11-27 R11／R12 两轮走方舟 HTTP 落地：140 枚 E1 基线重出、7 枚补出，四对台账与读数全部钉进来；
+# 这八件缺席过就会让「盘上每一件都在清单里」这条判据失去对象，所以补钉是跟着落盘走的，不是放水。
 # 2026-11-22 晚 R9 台账（`send_bodies_r9.json`／`send_bodies_r9_note.json`）落盘，同一窗补钉；
 # 补钉前 `test_y_real_ledgers_on_disk_are_all_pinned` 实测判红，属于「新轮次件落盘必须同笔进名单」。
 # 2026-11-27 R10 台账（14 枚：R9 三条照抄 + 未裁定 11 条新出）落盘，同笔补钉两件；

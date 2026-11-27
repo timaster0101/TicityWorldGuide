@@ -146,3 +146,35 @@ class NegativeGate(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+class ChromeAndStructure(unittest.TestCase):
+    def test_header_lines_are_chrome(self):
+        for line in ('钛湖城/ 城市空间与生活设定', '原创虚构设定· 12', '卷三 地标建筑', '424', '  '):
+            self.assertTrue(I._is_chrome(line), line)
+
+    def test_content_lines_are_not_chrome(self):
+        for line in ('地标建筑上卷', 'D01 北湖政务片区', 'L007 天际线主塔'):
+            self.assertFalse(I._is_chrome(line), line)
+
+    def test_first_content_line_skips_header(self):
+        text = '钛湖城/ 城市空间与生活设定\n原创虚构设定· 108\n地标建筑上卷\n正文第一段'
+        self.assertEqual(I.first_content_line(text), '地标建筑上卷')
+
+    def test_structure_pages_finds_cover_and_last(self):
+        rows = [
+            {'file': 'p001.png', '首行': '城市设定集· 完整合订本', '字符数': 210},
+            {'file': 'p002.png', '首行': '卷目导航', '字符数': 3273},
+            {'file': 'p108.png', '首行': '地标建筑上卷', '字符数': 500},
+            {'file': 'p424.png', '首行': '正典末条', '字符数': 1409},
+        ]
+        sp = I.structure_pages(rows)
+        self.assertEqual(sp['封面'], [1])
+        self.assertEqual(sp['末页'], [424])
+        self.assertIn(108, sp['分卷首页'])
+
+    def test_wps_renderer_caveat_does_not_disclaim_page_numbers(self):
+        rows = [{'file': 'p001.png', 'flags': [], '首行': 'x', '字符数': 10}]
+        rep = I.summarize(rows, pages_in_word=424, renderer='WPS')
+        self.assertIn('页号即 Word 页号', rep['局限'])
+        self.assertNotIn('不作为 Word 页号依据', rep['局限'])
+

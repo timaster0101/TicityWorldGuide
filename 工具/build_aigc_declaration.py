@@ -27,7 +27,9 @@ OUT_JSON = os.path.join(ROOT, '数据', '图集AIGC声明.json')
 OUT_MD = os.path.join(ROOT, '数据', '图集AIGC声明.md')
 MANIFEST = os.path.join(ROOT, '数据', '图集清单.json')
 PROMPTS = os.path.join(ROOT, '数据', '开图清单.json')
-RUNLOGS = ('数据/R10方舟投送记录.json', '数据/R10方舟投送记录-带水印轮.json')
+RUNLOGS = ('数据/R10方舟投送记录.json', '数据/R10方舟投送记录-带水印轮.json',
+           '数据/R11方舟投送记录.json', '数据/R12方舟投送记录.json',
+           '数据/R11方舟投送记录-双重前导废轮.json')
 TS_RE = re.compile(r'_(1\d{12})_[0-9a-f]{8}\.[a-z]+$')
 
 STATEMENT = (

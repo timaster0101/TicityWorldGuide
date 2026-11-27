@@ -53,7 +53,7 @@ class Candidates(unittest.TestCase):
             row = self.rows[eid]
             cell = self.cells[eid]['cell']
             base = os.path.basename(cell)
-            later = ('C154取景二次重投', 'C154取景换档重投')
+            later = ('C154取景二次重投', 'C154取景换档重投', 'C156E1基线重出', 'C156E1基线补出')
             self.assertTrue(base == row['在册件'] or any(t in base for t in later),
                             '%s 的在册件与清单不一致（既不是候选表记的那枚，也不被更晚一轮接管）：%s'
                             % (eid, base))

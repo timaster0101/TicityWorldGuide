@@ -44,9 +44,9 @@ IMG_DIR = os.path.join(WORKSPACE, 'vibe_images')
 # R10 起有「不经 ImageGen 工具」的轮次（方舟 HTTP 直投）：它们没有 jsonl 可收，故不进 GROUPS，
 # 但回填后照样会占在册格。判据排序要认得这两支档串，把它们当作比 GROUPS 里任何一轮都晚，
 # 否则「在册格被更晚一轮接管」会被误读成「回填链断在 R7 之前」。
-LATER_ROUND_SUFFIXES = ('C154取景二次重投', 'C154取景换档重投')
+LATER_ROUND_SUFFIXES = ('C154取景二次重投', 'C154取景换档重投', 'C156E1基线重出', 'C156E1基线补出')
 # 方舟直投轮次的投后核验读数件（同样是「只追加」的读数，判据与 GROUPS 内各轮同一条）。
-HTTP_ROUND_READINGS = ('round_readings_r10.json',)
+HTTP_ROUND_READINGS = ('round_readings_r10.json', 'round_readings_r11.json', 'round_readings_r12.json')
 
 GROUPS = {
     'R2': {'suffix': 'C133冻结重投-v01', 'bodies': 'send_bodies_r1.json',
