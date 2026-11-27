@@ -40,7 +40,8 @@ REAL_FILES = ('ledger.json', 'round_readings.json',
               'send_bodies_r8_evidence.json',
               'round_readings_r8.json', 'ledger_r8.json',
               'send_bodies_r9.json', 'send_bodies_r9_note.json',
-              'send_bodies_r10.json', 'send_bodies_r10_note.json')
+              'send_bodies_r10.json', 'send_bodies_r10_note.json',
+              'round_readings_r10.json', 'ledger_r10.json')
 # 2026-11-22 R8 投后链跑完：`round_readings_r8.json`／`ledger_r8.json` 已落盘并钉进来，
 # L069 那次 terminated 发起由 `send_bodies_r8_evidence.json` 承载（投次 2／作废发起 0），三件一起进清单。
 # 上一窗留下的「R8 两件不许进来」豁免理由已过期——那两件的缺席当时是真的，现在不是了。
@@ -845,6 +846,11 @@ class R7JudgedFailedReshoot(unittest.TestCase):
                 sfx = cells[eid]['档串']
                 rank = max([i for i, g in enumerate(order)
                             if vr.GROUPS[g]['suffix'].split('-v')[0] in sfx], default=-1)
+                # R10 走方舟 HTTP、不经 ImageGen 工具，故不进 GROUPS（GROUPS 是 jsonl 取数面），
+                # 但它回填后确实占格，档串是「二次重投」「换档重投」两支之一——排序必须认它们为
+                # 「比 GROUPS 里任何一轮都晚」，否则在册格一换，这条就假报「退回 R7 之前」。
+                if any(t in sfx for t in vr.LATER_ROUND_SUFFIXES):
+                    rank = len(order)
                 self.assertGreaterEqual(rank, r7_rank,
                                         '在册格档串 %s 退回 R7 之前＝R7 之后的回填链断了，'
                                         '目视会打在没有交付的那一格上（不许把这条改回写死 R7 为最新）' % sfx)
@@ -984,8 +990,16 @@ class R8FramingReshoot(unittest.TestCase):
         self.assertEqual([e['id'] for e in excluded if e['id'] in self.led], [], 'R8 条目被剔出在册面')
         for eid in sorted(self.led):
             with self.subTest(eid=eid):
-                self.assertIn('C154取景补重投', cells[eid]['档串'],
-                              'R8 交付后在册格没跟上＝目视与后续判据打在旧格上')
+                sfx = cells[eid]['档串']
+                # 同 test_e 的教训：写死「在册格必须是 R8 那枚」等于把「R8 是最新一轮」当成永恒事实，
+                # R10 换掉同一格后判红判的不是回填断链，而是「后面又投了一轮」。改成「在册格是 R8 那枚，
+                # 或被更晚一轮接管」，并另核 R8 交付枚仍在盘、仍被自己的机械行点名——重投只许替换不许抹旧。
+                self.assertTrue('C154取景补重投' in sfx
+                                or any(t in sfx for t in vr.LATER_ROUND_SUFFIXES),
+                                'R8 交付后在册格既不是 R8 那枚、也不被更晚一轮接管＝档串断链：%s' % sfx)
+                r8_file = {r['id']: r['file'] for r in self.readings['rows']}[eid]
+                self.assertTrue((ROOT / '数据' / '图集' / eid / r8_file).is_file(),
+                                'R8 交付枚不在盘＝后续轮次把它删了，重投只许替换不许抹旧')
                 self.assertTrue((ROOT / self.led[eid]['replaced_cell']).exists(),
                                 '被 R8 替换掉的 R7 旧格删掉了＝「生成物永不手改／只追加」这条破了')
 

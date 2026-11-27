@@ -57,12 +57,17 @@ class RoundFaceIsDerived(unittest.TestCase):
         cls.rounds = sa.load_round_rows()
 
     def test_a_tokens_and_readings_equal_the_group_table(self):
-        self.assertEqual(sa.round_cell_tokens(),
-                         sorted({re.sub(r'-v\d+$', '', g['suffix']) for g in sa.vr.GROUPS.values()}),
-                         '重投期档串与 GROUPS 的 suffix 分叉＝这里又抄了一份名单')
-        self.assertEqual(sa.round_readings_files(),
-                         list(dict.fromkeys(g['readings'] for g in sa.vr.GROUPS.values())),
-                         '投后核验读数件与 GROUPS 的 readings 分叉＝新轮的读数永远读不到')
+        # 期待面＝GROUPS 里各轮 ＋ 方舟直投轮（不进 GROUPS，但同样占格、同样有读数）。
+        # R10 起方舟轮是「方舟直接发 HTTP、不经 ImageGen 工具」的一类，GROUPS 是 jsonl 取数面，
+        # 它们登记在 verify_round.LATER_ROUND_SUFFIXES／HTTP_ROUND_READINGS 两处，这里一并期待。
+        want_tokens = {re.sub(r'-v\d+$', '', g['suffix']) for g in sa.vr.GROUPS.values()}
+        want_tokens.update(sa.vr.LATER_ROUND_SUFFIXES)
+        self.assertEqual(sa.round_cell_tokens(), sorted(want_tokens),
+                         '重投期档串与轮次表分叉＝这里又抄了一份名单')
+        want_readings = list(dict.fromkeys(g['readings'] for g in sa.vr.GROUPS.values()))
+        want_readings += [n for n in sa.vr.HTTP_ROUND_READINGS if n not in want_readings]
+        self.assertEqual(sa.round_readings_files(), want_readings,
+                         '投后核验读数件与轮次表分叉＝新轮的读数永远读不到')
         # 派生必须真的覆盖到 C154 这几支：写死两支时这三条正是要命的那几轮
         for tok in ('C154母图重投', 'C154判废补重投'):
             self.assertIn(tok, sa.round_cell_tokens(), tok)
@@ -73,23 +78,47 @@ class RoundFaceIsDerived(unittest.TestCase):
         写死名单的实现不会有任何变化，这条就会变红——它证明上面那条对拍不是同义反复。
         轮次不写死成 R7：R8 回填把 D18／D19／L069 那三格顶成了取景补重投枚，盘面上确实不再有 R7 的在册格，
         2026-11-22 全量套件实测这样会假红（与 5 号点单「轮次面写死」同一缺陷类，按 GROUPS 声明序取最新档）。"""
-        order = list(sa.vr.GROUPS)
-        group = order[-1]
-        tok = re.sub(r'-v\d+$', '', sa.vr.GROUPS[group]['suffix'])
-        led = _jload(CAMPAIGN / sa.vr.GROUPS[group]['bodies'])
+        # 先在盘面上找一支「真的有在册格」的重投期档串，再把它从轮次表摘掉做变异。
+        # 原来写死取 GROUPS 的最后一轮：R10 回填之后那一轮（R9）在盘上一格都不占，
+        # 用例就变成「夹具本身没有承载」的恒红——那是夹具过期，不是档串面写死了。
+        tokens = sa.round_cell_tokens()
         by_id = {i['id']: i for i in self.man}
-        sample = by_id[sorted(led)[0]]
-        self.assertTrue(sa.reshoot_cells(sample), '本轮在册格里没有一支认得出重投期档串，用例失去承载')
-        self.assertTrue(any(tok in f for f in sa.reshoot_cells(sample)),
-                        '用例失去承载：最新一轮 %s 的在册格没挂在清单上，负测会空转' % tok)
-        keep = copy.deepcopy(sa.vr.GROUPS[group])
-        try:
-            del sa.vr.GROUPS[group]
-            self.assertNotIn(tok, sa.round_cell_tokens())
-            self.assertFalse(any(tok in f for f in sa.reshoot_cells(sample)),
-                             'GROUPS 里已经没这一轮，取法却还认得它的格＝档串面其实是写死的')
-        finally:
-            sa.vr.GROUPS[group] = keep
+        found = None
+        for eid in sorted(by_id):
+            for f in sa.reshoot_cells(by_id[eid]):
+                for tok in tokens:
+                    if tok in f:
+                        found = (eid, tok)
+                        break
+                if found:
+                    break
+            if found:
+                break
+        self.assertTrue(found, '清单里一支重投期在册格都找不到，负测无从承载')
+        eid, tok = found
+        sample = by_id[eid]
+        self.assertTrue(any(tok in f for f in sa.reshoot_cells(sample)), '用例失去承载')
+
+        if tok in sa.vr.LATER_ROUND_SUFFIXES:
+            keep = sa.vr.LATER_ROUND_SUFFIXES
+            try:
+                sa.vr.LATER_ROUND_SUFFIXES = tuple(t for t in keep if t != tok)
+                self.assertNotIn(tok, sa.round_cell_tokens())
+                self.assertFalse(any(tok in f for f in sa.reshoot_cells(sample)),
+                                 '轮次表里已经没这一轮，取法却还认得它的格＝档串面其实是写死的')
+            finally:
+                sa.vr.LATER_ROUND_SUFFIXES = keep
+        else:
+            group = [g for g in sa.vr.GROUPS
+                     if re.sub(r'-v\d+$', '', sa.vr.GROUPS[g]['suffix']) == tok][0]
+            keep = sa.vr.GROUPS[group]
+            try:
+                del sa.vr.GROUPS[group]
+                self.assertNotIn(tok, sa.round_cell_tokens())
+                self.assertFalse(any(tok in f for f in sa.reshoot_cells(sample)),
+                                 'GROUPS 里已经没这一轮，取法却还认得它的格＝档串面其实是写死的')
+            finally:
+                sa.vr.GROUPS[group] = keep
         self.assertIn(tok, sa.round_cell_tokens(), '还原后档串面没跟着回来')
         self.assertTrue(any(tok in f for f in sa.reshoot_cells(sample)), '还原后取法没认回这一轮的格')
 

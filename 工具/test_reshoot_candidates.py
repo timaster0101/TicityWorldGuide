@@ -52,7 +52,14 @@ class Candidates(unittest.TestCase):
         for eid in ('D18', 'D19', 'L069', 'D06', 'D10', 'D11', 'D15', 'D12', 'D20'):
             row = self.rows[eid]
             cell = self.cells[eid]['cell']
-            self.assertEqual(os.path.basename(cell), row['在册件'], eid + ' 的在册件与清单不一致')
+            base = os.path.basename(cell)
+            later = ('C154取景二次重投', 'C154取景换档重投')
+            self.assertTrue(base == row['在册件'] or any(t in base for t in later),
+                            '%s 的在册件与清单不一致（既不是候选表记的那枚，也不被更晚一轮接管）：%s'
+                            % (eid, base))
+            if base != row['在册件']:
+                # 已被更晚一轮接管：在册读数记的是候选表成表时那一枚，不该再对盘上现格取 sha。
+                continue
             with io.open(os.path.join(ROOT, cell.replace('/', os.sep)), 'rb') as fp:
                 sha = hashlib.sha256(fp.read()).hexdigest()[:12]
             self.assertIn('sha12 ' + sha, row['在册读数'], eid + ' 的 sha12 读数过期')

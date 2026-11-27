@@ -79,12 +79,19 @@ def round_readings_files():
     for name in (g['readings'] for g in vr.GROUPS.values()):
         if name not in out:
             out.append(name)
+    # 方舟直投的轮次不进 GROUPS（那是对 jsonl 的取数面），但它们的投后核验读数是真读数，
+    # 不并进来就会把 R10 那 13 格误判成「无投后核验读数」。
+    for name in vr.HTTP_ROUND_READINGS:
+        if name not in out:
+            out.append(name)
     return out
 
 
 def round_cell_tokens():
     """重投期格认得出来的标记＝各轮 suffix 去掉 -vNN 版本号，现派生，不抄名单。"""
-    return sorted({re.sub(r'-v\d+$', '', g['suffix']) for g in vr.GROUPS.values()})
+    tokens = {re.sub(r'-v\d+$', '', g['suffix']) for g in vr.GROUPS.values()}
+    tokens.update(vr.LATER_ROUND_SUFFIXES)
+    return sorted(tokens)
 
 
 def load_round_rows():

@@ -82,8 +82,12 @@ def audit(man, ledger, cell, pool_dims):
             bad.append('%s：chars 与送入串长度不符' % eid)
         if row.get('file') != name:
             bad.append('%s：file 与清单地名不符' % eid)
-        if cell.get(eid) != row.get('replaced_cell'):
-            bad.append('%s：占格与 current_cells 现读不符' % eid)
+        # 占格判据两种合法现态：回填前＝本轮要替换的那一格；回填后＝本轮自己那一枚接管了该格。
+        # 写死只认 replaced_cell 会让台账在回填成功之后自己判红——那不是「回填断了」，是判据没跟上。
+        live = cell.get(eid) or ''
+        if live != row.get('replaced_cell') and row.get('send_name') not in live:
+            bad.append('%s：占格与 current_cells 现读不符（既不是本轮要替换的那格，也不是本轮自己那一枚）：%s'
+                       % (eid, live))
         ref = row.get('ref_image')
         if not ref or not os.path.isfile(os.path.join(ROOT, ref.replace('/', os.sep))):
             bad.append('%s：母图不在盘 %s' % (eid, ref))

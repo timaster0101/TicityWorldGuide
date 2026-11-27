@@ -96,10 +96,14 @@ class R10Ledger(unittest.TestCase):
         self.assertTrue(any('D13' in p and '不同画幅' in p for p in probs), probs)
 
     def test_negative_moved_cell_reds(self):
+        # 夹具取 L069：本组对它按 skip 不占格，在册格仍是 R8 那一枚、也不含本轮发名，
+        # 所以「把 replaced_cell 改成一个不存在的路径」才会真的落到占格判据上判红。
+        # 原先拿 D17 当夹具，回填成功后它的在册格就是本轮自己那一枚，这条篡改被「本轮接管」这一合法态吸收，
+        # 用例就变成恒绿空转——那种红是夹具过期，不是判据坏了。
         bad = copy.deepcopy(self.led)
-        bad['D17']['replaced_cell'] = '数据/图集/D17/不存在.png'
+        bad['L069']['replaced_cell'] = '数据/图集/L069/不存在.png'
         probs = B.audit(self.man, bad, self.cell, self.pool)
-        self.assertTrue(any('D17' in p and '占格' in p for p in probs), probs)
+        self.assertTrue(any('L069' in p and '占格' in p for p in probs), probs)
 
     def test_readonly(self):
         before = (_sha(LED), _sha(NOTE))

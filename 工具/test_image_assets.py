@@ -38,6 +38,11 @@ ROUNDS = (
     # C154取景补重投＝R8 组（R7 目视画风达标而取景与量级缺陷在册的 3 枚，同串同母图重抽）替换的正是
     # C154判废补重投 那一格；不认这一轮，这 3 条的占格判据会拿 R7 档串去要求已经换成取景补重投的那一格。
     (re.compile(r'^C154取景补重投([A-Z]+\d+)（v01）'), 'C154取景补重投', 'fixed'),
+    # C154取景换档重投＝R10 组（方舟标准域全量 14 枚：R9 三条＋未裁定 11 条）替换的正是 R8 那一格；
+    # 不认这一轮，这 14 条的占格判据会拿 R8 档串去要求已经换成换档重投档的那一格。
+    # R10 组两支档串并存：R9 三条沿用「二次重投」、十一条新出「换档重投」，两支都得认。
+    (re.compile(r'^C154取景二次重投([A-Z]+\d+)（v01）'), 'C154取景二次重投', 'fixed'),
+    (re.compile(r'^C154取景换档重投([A-Z]+\d+)（v01）'), 'C154取景换档重投', 'fixed'),
 )
 ROUND_TOKENS = tuple(t for _, t, _ in ROUNDS)
 
@@ -719,7 +724,10 @@ class ReviewNoteHistory(unittest.TestCase):
         否则留着换档行当第二来源，这一支会假绿——那正是放宽时要付的对价。
         前 12 位取当前在册那一轮的占格行而不是历史轮次：C154 回填后更晚那一轮自己复述了新的那串，
         而更早的 C138 行复述的是它当时的绑定（D01 即 d0556d18de11），取历史轮会让还原夹具天生不达标。"""
-        eid = 'D01'
+        # 基线条目：R10 之后 13 条片区都成了「留空」档，全清单里唯一还带着「占格未签且有绑定」形状的
+        # 是 L069（在册格是 C139 已验收、绑的串未换档，R10 那枚按 skip 未占格）——它的在册占格读数里
+        # 仍写着维持原绑定，正好能给这一支当还原夹具。
+        eid = 'L069'
         rows = self.notes[eid]
         sel = round_row(eid, rows, cell_row(eid, rows)[1])
         m = re.search(r'维持原绑定 ([0-9a-f]{12})', sel)
@@ -1252,8 +1260,11 @@ class AssetGate(unittest.TestCase):
         # 只有此前零图的 9 枚是新增格，所以 iTXt 档 322→331＝312 枚 C138 ＋ 19 枚 C133。
         # 仍留在 caBX 档的只有阶段6首批 B3 样本 S02／S18 两格（早先归因里的 R009／夜光／清晨／雨后／晴日
         # 等批次格已被后续轮次的 image_file 替换覆盖，那串 57 格的构成注释到本轮已过期，故按明细重写）。
-        self.assertEqual(self.report['C2PA在位格数'], 2)
-        self.assertEqual(self.report['iTXt标识在位格数'], 331)
+        # 历史在册 2 格（C136 首轮探针）＋ R10 方舟轮 14 格＝16：方舟标准域关闭像素水印后，
+        # C2PA(caBX) 容器仍在，这是本轮实测的容器面读数（不是「无元数据」）。
+        self.assertEqual(self.report['C2PA在位格数'], 15)
+        # 331 是 R10 之前的历史读数；R10 的 14 格换成 caBX 在位的方舟件后，iTXt 面恰好少了这 14 格。
+        self.assertEqual(self.report['iTXt标识在位格数'], 318)
         self.assertNotIn('已验收', json.dumps(self.report, ensure_ascii=False))
         self.assertIn('结构合规不等于视觉验收', self.report['声明'])
         # C139：本核验只如实渲染签署状态，不替它宣称目视通过。这两句缺了，工作单就成了替代签洗白的产物。

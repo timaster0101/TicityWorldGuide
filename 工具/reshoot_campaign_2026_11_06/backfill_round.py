@@ -75,6 +75,23 @@ ROUNDS = {
     'R8': {'readings': 'round_readings_r8.json', 'suffix': 'C154取景补重投-v01',
            'prefix': 'C154取景补重投', 'head': 'C154取景补重投%s（v01）', 'occupy_all': True,
            'statuses': ('待复验',)},
+    # R10＝方舟标准域全量 14 枚（R9 三条 + 未裁定 11 条）。发名两支后缀并存：三条沿用「二次重投」、
+    # 十一条新出「换档重投」，故本组不按后缀校验成员面（verify_round_ark.py 才是成员面的判据）。
+    # 占格范围与 R4／R7／R8 同为全部占格：这 14 条 image_prompt_sha256 现读全为 None，
+    # 走 GUARD 那档（留空、不代签）。
+    'R10': {'readings': 'round_readings_r10.json', 'suffix': 'C154取景换档重投-v01',
+            'prefix': 'C154取景换档重投', 'head': 'C154取景换档重投%s（v01）', 'occupy_all': True,
+            # 本组两支档串并存：R9 三条沿用「C154取景二次重投-v01」、十一条新出「C154取景换档重投-v01」。
+            # 抬头与 batch 都按落盘文件自己的那一支现取，否则三条的抬头会与文件名打架、闸门判红。
+            'suffix_from_file': True,
+            # L069 不占格：它的在册格是已验收（C139 代签，绑的串本轮未换档），而本轮这枚投后量级仍不符
+            # （名录 69 层／276 米，画面 8–10 层体量）。用户 2026-11-27「审看的图都没问题，继续」是放行
+            # 推进，不是允许拿一枚更差的图去顶已验收格；采纳与否留给用户点单，本轮只登记不占格。
+            'skip': ('L069',),
+            # 14 条里 13 条是待复验；L069 是「已验收」且 image_prompt_sha256＝prompt_sha256
+            # （C135 绑的是串不是格，本轮串未换档，摘要因此未过期）——放行它走 CATCHUP 那套
+            # 已验收档的收尾句：占格不洗绑定、不改状态，代签依据须由 sign_acceptance 按本轮新枚复核。
+            'statuses': ('待复验', '已验收')},
 }
 GUARD = ('image_prompt_sha256 留空、状态按清单派生为待复验，不代签验收')
 GUARD_KEPT = ('image_prompt_sha256 维持原绑定 %s（本轮不撤不签），该摘要绑的是被替换前的旧文件、已过期，'
@@ -123,6 +140,13 @@ PROVENANCE = {
            '本行只含机械对账项；这 3 枚的目视结论在同一 ID 的「R8 组目视（画风＋取景分栏）」结论行里'
            '（目视动作沿用同轮点单，非脚本代签）。'),
 }
+PROVENANCE['R10'] = (
+    '执行人：会话代理（DSH，受用户 2026-11-27「审看的图都没问题，继续」委托执行机械项回填）。'
+    '投放改走火山方舟标准域 HTTP 接口（doubao-seedream-5-0-pro-260628，watermark=false），'
+    '不再经会话内置 ImageGen，故本轮回绑源是投送器写的 数据/R10方舟投送记录.json，'
+    '不是会话 jsonl；逐字面＝现算 send_body 的 sha256 与台账 send_sha256 相等，'
+    '母图面＝input_images==1。人工目视已由用户在审看联络表上逐枚复核（结论见 数据/R10目视结论.json），'
+    '本条只含机械对账项，accepted 未签。')
 # catchup 那 48 条的委托来源原句，只加在补投面上：把这句混进全组通用文字会顶掉 264 行历史正文的原文。
 CATCHUP_DELEGATION = ('补投范围依据用户 2026-11-07 裁定「只要不是新画风生成的或者缺少的，都开」＋「3 补」'
                       '（＝清单现算没有一枚 C138主向重投 格的 48 条，串面在 %s，核验并读进 R1 组发送面）。')
@@ -215,8 +239,12 @@ def main(group, only=None):
     appended = retained = 0
     kept = []
     promoted = []
+    skip = tuple(cfg.get('skip') or ())
     for r in sorted(green, key=lambda x: x['id']):
         eid, old, new = r['id'], r['replaced_cell'], GALLERY_PREFIX + r['id'] + '/' + r['file']
+        if eid in skip:
+            print('· %s 按本组 skip 不占格（在册格保留原状）' % eid)
+            continue
         files = list(items[eid]['image_file'] or [])
         if old is None:
             # 补投面里「此前零图」那 9 条没有可替换的格：占格口径只能是新增首格，读数里逐字写「为首占」，
@@ -254,7 +282,12 @@ def main(group, only=None):
             items[eid]['status'] = '待复验'
             promoted.append(eid)
         cont = r['container']
-        head = (cfg['head'] % eid) + '投后机械对账读数（%s，%s，%s，%d字节，sha12=%s，caBX=%d、iTXt=%d；%s）：%s'
+        prefix, suffix = cfg['prefix'], cfg['suffix']
+        if cfg.get('suffix_from_file'):
+            m = re.search(r'-(C154取景[^-]+)-v01_', r['file'])
+            assert m, (eid, '落盘文件名里取不到档串：%s' % r['file'])
+            prefix, suffix = m.group(1), m.group(1) + '-v01'
+        head = ('%s%s（v01）' % (prefix, eid)) + '投后机械对账读数（%s，%s，%s，%d字节，sha12=%s，caBX=%d、iTXt=%d；%s）：%s'
         note = head % (
             new, occupy, r['dims'], r['bytes'], r['sha256_12'], cont['cabx'], cont['itxt'], guard,
             '%s%s 实发串逐字相等：本轮发起 %d 次（逐字 %d／非逐字 %d，登记作废发起 %d）；'
@@ -269,9 +302,9 @@ def main(group, only=None):
         # 抬头必须逐字落进占格判据认的那一轮：2026-11-07 首跑时 `head_fmt % '{}'` 把 %s 换成了字面 '{}'，
         # 备注写进真源后 test_image_assets 的按轮次选行选不中它、判据回落到上一轮，58 条全判红——
         # 格式串静默跑偏的代价是「回填做了但闸门不认」，所以在这里当场钉抬头，不让它进真源。
-        assert note.startswith('%s%s（v01）' % (cfg['prefix'], eid)), (eid, note[:60])
+        assert note.startswith('%s%s（v01）' % (prefix, eid)), (eid, note[:60])
         notes['备注'].setdefault(eid, [])
-        at = [i for i, prev in enumerate(notes['备注'][eid]) if prev.startswith(cfg['prefix'])]
+        at = [i for i, prev in enumerate(notes['备注'][eid]) if prev.startswith(prefix)]
         if at:
             assert len(at) == 1, (eid, at)
             prev = notes['备注'][eid][at[0]]
@@ -287,7 +320,7 @@ def main(group, only=None):
         else:
             files[slot - 1] = new   # 已回填过时这一行是原地重写，不改格位
         items[eid]['image_file'] = files
-        items[eid]['batch'] = '%s-%s%s' % (items[eid]['type'], eid, cfg['suffix'])
+        items[eid]['batch'] = '%s-%s%s' % (items[eid]['type'], eid, suffix)
 
     with io.open(NOTES, 'w', encoding='utf-8', newline='\n') as _h263:
         _h263.write(json.dumps(notes, ensure_ascii=False, indent=2) + '\n')
