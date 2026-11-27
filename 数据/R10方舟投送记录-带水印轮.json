@@ -1,0 +1,112 @@
+{
+  "note": "R10 方舟标准域投送记录：每行一次付费调用。unit_cost 为刊例价，实扣以方舟账单为准。",
+  "endpoint": "https://ark.cn-beijing.volces.com/api/v3/images/generations",
+  "model": "doubao-seedream-5-0-pro-260628",
+  "unit_cost": 0.3,
+  "rows": [
+    {
+      "id": "D18",
+      "send_name": "D18-西门商贸片区-C154取景二次重投-v01",
+      "file": "D18-西门商贸片区-C154取景二次重投-v01_1795754522015_7f2f2152.png",
+      "bytes": 4487399,
+      "sha256": "7f2f21525a5a9b5cdc55912244a8b1ea57445f8e56e51b673c167e79aae795cd",
+      "size": "1792x1024",
+      "seconds": null,
+      "cost": null,
+      "model": null,
+      "input_images": null,
+      "note": "ingest（探针件归位，成本记在诊断轮）"
+    },
+    {
+      "id": "D19",
+      "send_name": "D19-西岭能源片区-C154取景二次重投-v01",
+      "file": "D19-西岭能源片区-C154取景二次重投-v01_1795754981300_8d7d097f.png",
+      "bytes": 650992,
+      "sha256": "8d7d097fa06c58523a07edc854bfcc99d0bf58fa193d4faa47d470cddb7ace94",
+      "size": "1792x1024",
+      "seconds": 137.3,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": ""
+    },
+    {
+      "id": "L069",
+      "send_name": "L069-云浦结算中心-C154取景二次重投-v01",
+      "file": "L069-云浦结算中心-C154取景二次重投-v01_1795755080027_6eb3ed52.png",
+      "bytes": 446186,
+      "sha256": "6eb3ed52ad26a3aceed21888f1c5d9c9fc336b71b48d9cab8575d246aa0484f9",
+      "size": "1536x1024",
+      "seconds": 98.5,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": ""
+    },
+    {
+      "id": "D01",
+      "send_name": "D01-北湖政务片区-C154取景换档重投-v01",
+      "file": "D01-北湖政务片区-C154取景换档重投-v01_1795755195684_ccf649e9.png",
+      "bytes": 542194,
+      "sha256": "ccf649e9ac8c37e7b1051129c88929bd228f789495baec91a50d607f3d2781ae",
+      "size": "1792x1024",
+      "seconds": 115.5,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": ""
+    },
+    {
+      "id": "D02",
+      "send_name": "D02-东北文教片区-C154取景换档重投-v01",
+      "file": "D02-东北文教片区-C154取景换档重投-v01_1795755304812_e60d4178.png",
+      "bytes": 644564,
+      "sha256": "e60d4178b731a237eb4f55be7286ee8421fa061000b2ca733c4607f56666b763",
+      "size": "1792x1024",
+      "seconds": 108.4,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": ""
+    },
+    {
+      "id": "D03",
+      "send_name": "D03-东湖金融片区-C154取景换档重投-v01",
+      "file": "D03-东湖金融片区-C154取景换档重投-v01_1795755422863_c49ac05d.png",
+      "bytes": 557282,
+      "sha256": "c49ac05dfc9166bcf118fef61b2f9c73f846e86da25ed323332f45b4b6dab40e",
+      "size": "1792x1024",
+      "seconds": 117.8,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": ""
+    },
+    {
+      "id": "D04",
+      "send_name": "D04-东南会展片区-C154取景换档重投-v01",
+      "file": "D04-东南会展片区-C154取景换档重投-v01_1795755514329_084d0da3.png",
+      "bytes": 557648,
+      "sha256": "084d0da37bb93bd1871baebd88fba4244c11bf5fb4c75e6509f0dbbf769839e6",
+      "size": "1792x1024",
+      "seconds": 91.2,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": ""
+    },
+    {
+      "id": "D05",
+      "send_name": "D05-青湾医养片区-C154取景换档重投-v01",
+      "file": "D05-青湾医养片区-C154取景换档重投-v01_1795755633117_f01e186f.png",
+      "bytes": 537671,
+      "sha256": "f01e186f13b611d84932eb24338fc866f36537664ac6d54d8c74637cbaf3de24",
+      "size": "1792x1024",
+      "seconds": 118.5,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": ""
+    }
+  ]
+}
