@@ -1,0 +1,92 @@
+{
+  "note": "R11 方舟标准域投送记录：把在册首格为四向基准照/C138 母图的 140 条按 E1 基线重出。",
+  "endpoint": "https://ark.cn-beijing.volces.com/api/v3/images/generations",
+  "model": "doubao-seedream-5-0-pro-260628",
+  "unit_cost": 0.3,
+  "rows": [
+    {
+      "id": "L002",
+      "send_name": "L002-钛湖司法服务馆-C156E1基线重出-v01",
+      "file": "L002-钛湖司法服务馆-C156E1基线重出-v01_1795766472824_5f88fc82.png",
+      "bytes": 3478357,
+      "sha256": "5f88fc8257b9580e9bcd20299a737d655249690cf595cb1f8257d129cba7ce6b",
+      "size": "1536x1024",
+      "seconds": 94.9,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": "png",
+      "sha256_jpeg": "5f88fc8257b9580e9bcd20299a737d655249690cf595cb1f8257d129cba7ce6b"
+    },
+    {
+      "id": "F004",
+      "send_name": "F004-北书公共教育园-C156E1基线重出-v01",
+      "file": "F004-北书公共教育园-C156E1基线重出-v01_1795766578082_0fc80422.png",
+      "bytes": 3124884,
+      "sha256": "0fc80422d1735b1ac4df0850cdb9389f49650c76a7ccc54aa6385fa609959a94",
+      "size": "1280x1024",
+      "seconds": 80.0,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": "png",
+      "sha256_jpeg": "0fc80422d1735b1ac4df0850cdb9389f49650c76a7ccc54aa6385fa609959a94"
+    },
+    {
+      "id": "F002",
+      "send_name": "F002-法务与城市档案园-C156E1基线重出-v01",
+      "file": "F002-法务与城市档案园-C156E1基线重出-v01_1795766596189_f6b8c830.png",
+      "bytes": 3048154,
+      "sha256": "f6b8c83004bf4fa42ea25172d89de6d1a4f33d02696c3f11292194de74ed8fd4",
+      "size": "1280x1024",
+      "seconds": 97.8,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": "png",
+      "sha256_jpeg": "f6b8c83004bf4fa42ea25172d89de6d1a4f33d02696c3f11292194de74ed8fd4"
+    },
+    {
+      "id": "D01",
+      "send_name": "D01-北湖政务片区-C156E1基线重出-v01",
+      "file": "D01-北湖政务片区-C156E1基线重出-v01_1795766632824_5035328b.png",
+      "bytes": 4165094,
+      "sha256": "5035328b96c01660e995f5218a8e8c130f075abadb1cb22020fc146e2c36ab43",
+      "size": "1792x1024",
+      "seconds": 135.5,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": "png",
+      "sha256_jpeg": "5035328b96c01660e995f5218a8e8c130f075abadb1cb22020fc146e2c36ab43"
+    },
+    {
+      "id": "F005",
+      "send_name": "F005-钛心总部金融区-C156E1基线重出-v01",
+      "file": "F005-钛心总部金融区-C156E1基线重出-v01_1795766677109_bf8cf1f3.png",
+      "bytes": 3001870,
+      "sha256": "bf8cf1f378bd87f4a5efe83d95c69f97c41f31261a778b137be5959c1e3ee265",
+      "size": "1280x1024",
+      "seconds": 97.6,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": "png",
+      "sha256_jpeg": "bf8cf1f378bd87f4a5efe83d95c69f97c41f31261a778b137be5959c1e3ee265"
+    },
+    {
+      "id": "F007",
+      "send_name": "F007-湖东国际会展园-C156E1基线重出-v01",
+      "file": "F007-湖东国际会展园-C156E1基线重出-v01_1795766709969_15e02a6b.png",
+      "bytes": 3129917,
+      "sha256": "15e02a6b8f7a49301b8ece8e9a99e5366a6b1a8dc9540842ff1cb85a0f6bacc0",
+      "size": "1280x1024",
+      "seconds": 109.4,
+      "cost": 0.3,
+      "model": "doubao-seedream-5-0-pro-260628",
+      "input_images": 1,
+      "note": "png",
+      "sha256_jpeg": "15e02a6b8f7a49301b8ece8e9a99e5366a6b1a8dc9540842ff1cb85a0f6bacc0"
+    }
+  ]
+}
