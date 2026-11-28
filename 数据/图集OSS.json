@@ -7,13 +7,14 @@
  "base_url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/",
  "统计": {
   "地点数": 312,
-  "件数": 2608,
+  "件数": 2614,
   "图集": 808,
   "母图池": 159,
   "历史归档": 1163,
   "过程图": 478,
+  "运行资产": 6,
   "元数据": 5,
-  "合计字节": 4291938202
+  "合计字节": 4306099168
  },
  "按地点": {
   "D01": [
@@ -17721,6 +17722,36 @@
    "key": "taihucheng/mothers/画风诊断-皮肤媒介-2026-11-04/第2轮B-皮肤豁免笔触-锁机位图生图.png",
    "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/mothers/画风诊断-皮肤媒介-2026-11-04/第2轮B-皮肤豁免笔触-锁机位图生图.png",
    "bytes": 3306415
+  },
+  "数据/运行时资产/卡面专用图/L003.png": {
+   "key": "taihucheng/runtime/卡面专用图/L003.png",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/卡面专用图/L003.png",
+   "bytes": 3005760
+  },
+  "数据/运行时资产/卡面专用图/L007.png": {
+   "key": "taihucheng/runtime/卡面专用图/L007.png",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/卡面专用图/L007.png",
+   "bytes": 2418082
+  },
+  "数据/运行时资产/卡面专用图/L022.png": {
+   "key": "taihucheng/runtime/卡面专用图/L022.png",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/卡面专用图/L022.png",
+   "bytes": 2700399
+  },
+  "数据/运行时资产/卡面专用图/L033.png": {
+   "key": "taihucheng/runtime/卡面专用图/L033.png",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/卡面专用图/L033.png",
+   "bytes": 2701242
+  },
+  "数据/运行时资产/卡面专用图/L038.png": {
+   "key": "taihucheng/runtime/卡面专用图/L038.png",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/卡面专用图/L038.png",
+   "bytes": 3068937
+  },
+  "数据/运行时资产/印章-已获得-酒红.png": {
+   "key": "taihucheng/runtime/印章-已获得-酒红.png",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/印章-已获得-酒红.png",
+   "bytes": 266546
   }
  },
  "元数据": {
@@ -17737,7 +17768,7 @@
   "数据/图集OSS.json": {
    "key": "taihucheng/meta/图集OSS.json",
    "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/meta/图集OSS.json",
-   "bytes": 1172051
+   "bytes": 1173520
   },
   "数据/图集清单.json": {
    "key": "taihucheng/meta/图集清单.json",

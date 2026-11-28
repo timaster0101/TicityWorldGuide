@@ -25270,19 +25270,19 @@
   },
   "taihucheng/meta/图集直链.md": {
    "本地路径": "数据/图集直链.md",
-   "sha256": "68f4c26bb22885ade1f68f1e7b6b388cb2d7eaef69257485a08173fad0e2c0af",
+   "sha256": "74172fdf8a1b6ef5d3ea33394fbfa0c50d055ab13502a99694a3734e2735d348",
    "bytes": 190947,
-   "etag": "873A3E73078DD21790B3CC644DB2539D",
+   "etag": "4615850AE3F8FB27404A9FD929AF9579",
    "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/meta/图集直链.md",
-   "上传时间": "2026-11-28 09:32:21"
+   "上传时间": "2026-11-28 09:50:48"
   },
   "taihucheng/meta/图集OSS.json": {
    "本地路径": "数据/图集OSS.json",
-   "sha256": "18657d2d6268d37704f23e16830d2d44ccb23e587cfa007a7587cb8a29b005da",
-   "bytes": 1172051,
-   "etag": "B267B340BC320065C590A5C86A21AF5A",
+   "sha256": "3a30d7fb352970765d79a5df5b525f9a241fbc3b4a6d51bc0dd1d87815aebd49",
+   "bytes": 1173520,
+   "etag": "9B8663C2F064546AD1550CC9675E98CB",
    "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/meta/图集OSS.json",
-   "上传时间": "2026-11-28 09:33:06"
+   "上传时间": "2026-11-28 09:50:48"
   },
   "taihucheng/archive/backup/vibe_images/L062-市民法务服务中心-C123新串-v01_1793813263524_67d8d2d5.png": {
    "本地路径": "backup/vibe_images/L062-市民法务服务中心-C123新串-v01_1793813263524_67d8d2d5.png",
@@ -29651,6 +29651,54 @@
    "etag": "E712E2FC0084CDC48699880B6AE4CA1B",
    "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/archive/vibe_images/锁机位诊断A-皮肤须带笔触_1793793911316_1b887f79.png",
    "上传时间": "2026-11-28 09:32:23"
+  },
+  "taihucheng/runtime/印章-已获得-酒红.png": {
+   "本地路径": "数据/运行时资产/印章-已获得-酒红.png",
+   "sha256": "641bf85f2047f82b0593eee5f3d7701563d08cb3a0e316a533e5013a309cfbd3",
+   "bytes": 266546,
+   "etag": "82C916D1D6B7A7D14930D3E4A05F2582",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/印章-已获得-酒红.png",
+   "上传时间": "2026-11-28 09:50:48"
+  },
+  "taihucheng/runtime/卡面专用图/L022.png": {
+   "本地路径": "数据/运行时资产/卡面专用图/L022.png",
+   "sha256": "9c290acfe47480d3cc1f44a7427a40b900f9d4b10b73da34e1433d9772270335",
+   "bytes": 2700399,
+   "etag": "4107E97C33876EC8E354D05F20E2D9AB",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/卡面专用图/L022.png",
+   "上传时间": "2026-11-28 09:50:48"
+  },
+  "taihucheng/runtime/卡面专用图/L038.png": {
+   "本地路径": "数据/运行时资产/卡面专用图/L038.png",
+   "sha256": "47f5a2bb7fb9f95dfddd23e315709a9476f59b1c943791245e1f1bc17630d1c0",
+   "bytes": 3068937,
+   "etag": "ED4D60B5FBB5930694FB987EDE4DC8A7",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/卡面专用图/L038.png",
+   "上传时间": "2026-11-28 09:50:48"
+  },
+  "taihucheng/runtime/卡面专用图/L007.png": {
+   "本地路径": "数据/运行时资产/卡面专用图/L007.png",
+   "sha256": "e89c8b6169418678aed0b47e34c1b9e737c90ca32c20917d45939906b137c593",
+   "bytes": 2418082,
+   "etag": "4DAC383C2D5E717ACF3BA254D18ED737",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/卡面专用图/L007.png",
+   "上传时间": "2026-11-28 09:50:49"
+  },
+  "taihucheng/runtime/卡面专用图/L003.png": {
+   "本地路径": "数据/运行时资产/卡面专用图/L003.png",
+   "sha256": "6d6e8851a827fb30c2bb4de3bcd91e0145fb237b8a434ef7f5bb0bfc676dbf23",
+   "bytes": 3005760,
+   "etag": "C6E251A74AA14EF9D0FFA1EB72C8EA3F",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/卡面专用图/L003.png",
+   "上传时间": "2026-11-28 09:50:49"
+  },
+  "taihucheng/runtime/卡面专用图/L033.png": {
+   "本地路径": "数据/运行时资产/卡面专用图/L033.png",
+   "sha256": "d09822fa1e28b2e817cc5af202e960c2fcc0f458033a55848d8db105f687640b",
+   "bytes": 2701242,
+   "etag": "E8C63EE16BE6CF07D1B3663621C1D556",
+   "url": "https://timaster.oss-cn-shenzhen.aliyuncs.com/taihucheng/runtime/卡面专用图/L033.png",
+   "上传时间": "2026-11-28 09:50:49"
   }
  }
 }
