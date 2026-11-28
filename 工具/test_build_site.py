@@ -64,7 +64,7 @@ class DataIsRendered(unittest.TestCase):
         base = self.site.oss["base_url"]
         self.assertTrue(base.startswith("https://"), base)
         for name, text in (("index.html", self.index), ("atlas.html", self.atlas)):
-            for url in re.findall(r'src="([^"]+)"', text):
+            for url in re.findall(r'<img[^>]+src="([^"]+)"', text):
                 self.assertTrue(url.startswith(base), "%s 里出现非图床地址：%s" % (name, url[:80]))
                 self.assertNotIn(" ", url, "%s 里的地址含空格" % name)
 
@@ -107,6 +107,51 @@ class GeneratorIsDataDriven(unittest.TestCase):
         for item in site.items[:20]:
             urls = item.get("image_url") or []
             self.assertEqual(site.url_of(item["id"]), urls[0] if urls else None)
+
+
+class AtlasLightbox(unittest.TestCase):
+    """图集要能点开放大、左右翻页：缩略图是按钮，带原图地址，页尾挂灯箱与脚本。"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.site = B.Site()
+        cls.atlas = read("atlas.html")
+        cls.index = read("index.html")
+        cls.tiles = re.findall(r'<button type="button" class="tile"[^>]*>', cls.atlas)
+
+    def test_every_place_has_a_tile_button(self):
+        with_url = [it for it in self.site.items if self.site.url_of(it["id"])]
+        self.assertEqual(len(self.tiles), len(with_url))
+
+    def test_tiles_carry_full_url_and_id(self):
+        base = self.site.oss["base_url"]
+        for tag in self.tiles:
+            full = re.search(r'data-full="([^"]+)"', tag)
+            self.assertIsNotNone(full, tag)
+            self.assertTrue(full.group(1).startswith(base), full.group(1)[:80])
+            self.assertRegex(tag, r'data-id="[SDRFL]\d{2,3}"')
+            self.assertRegex(tag, r'data-cap="[^"]+"')
+
+    def test_old_anchor_tiles_are_gone(self):
+        self.assertNotIn('<a class="tile"', self.atlas)
+
+    def test_lightbox_markup_is_present(self):
+        self.assertIn('id="lb"', self.atlas)
+        self.assertIn('hidden', self.atlas.split('id="lb"')[1][:40])
+        for act in ("prev", "next", "close"):
+            self.assertIn('data-lb="%s"' % act, self.atlas)
+
+    def test_lightbox_script_is_wired_and_exists(self):
+        self.assertIn('<script src="lightbox.js" defer></script>', self.atlas)
+        self.assertTrue((ROOT / "网站" / "lightbox.js").is_file())
+        self.assertNotIn("lightbox.js", self.index, "只有图集页需要灯箱")
+
+    def test_lightbox_script_has_navigation_and_zoom(self):
+        with io.open(ROOT / "网站" / "lightbox.js", encoding="utf-8") as fp:
+            js = fp.read()
+        for token in ("ArrowLeft", "ArrowRight", "Escape", "wheel", "touchstart", "dblclick"):
+            self.assertIn(token, js, token)
+        self.assertIn("data-full", js)
 
 
 if __name__ == "__main__":

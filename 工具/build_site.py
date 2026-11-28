@@ -130,7 +130,7 @@ class Site:
         ]
     )
 
-    def shell(self, title, desc, body, current=None, extra_class=""):
+    def shell(self, title, desc, body, current=None, extra_class="", script=None):
         nav = []
         for href, label in self.NAV.items():
             cur = ' aria-current="page"' if href == current else ""
@@ -151,8 +151,11 @@ class Site:
             '<nav class="nav">%s</nav>'
             '<span class="tag-ver">v1.0.6</span>'
             "</div></header>\n"
-            "<main>\n%s</main>\n%s\n</body>\n</html>\n"
-        ) % (esc(title), esc(desc), extra_class, "".join(nav), body, self.footer())
+            "<main>\n%s</main>\n%s\n%s\n</body>\n</html>\n"
+        ) % (
+            esc(title), esc(desc), extra_class, "".join(nav), body, self.footer(),
+            ('<script src="%s" defer></script>' % esc(script)) if script else "",
+        )
 
     def footer(self):
         return (
@@ -478,10 +481,11 @@ class Site:
             for it in members:
                 url = self.url_of(it["id"])
                 tiles.append(
-                    '<a class="tile" href="%s" target="_blank" rel="noopener">'
+                    '<button type="button" class="tile" data-full="%s" data-cap="%s" data-id="%s">'
                     '<img src="%s" alt="%s" loading="lazy" />'
-                    '<span class="tile__cap">%s<span>%s</span></span></a>'
-                    % (esc(url), esc(url), esc(it["name"]), esc(it["name"]), esc(it["id"]))
+                    '<span class="tile__cap"><b class="tile__name">%s</b><span>%s</span></span></button>'
+                    % (esc(url), esc(it["name"]), esc(it["id"]),
+                       esc(url), esc(it["name"]), esc(it["name"]), esc(it["id"]))
                 )
             groups.append(
                 '<section class="group" id="%s"><div class="wrap">'
@@ -508,6 +512,7 @@ class Site:
             "人读版在 <code>数据/图集直链.md</code>。母图池、历史归档与过程图一并在册，"
             "共 %s 件、%s GB。</p></div>"
             "</div></div></section>"
+            + LIGHTBOX_HTML
         ) % (
             num(stats.get("图集", 808)),
             "".join(nav),
@@ -520,6 +525,7 @@ class Site:
             "钛湖城 312 个地点的在册配图，按类型陈列，直链托管在 OSS。",
             body,
             current="atlas.html",
+            script="lightbox.js",
         )
 
     # ---------- 落盘 ----------
@@ -556,6 +562,26 @@ FILTER_JS = """
     if (t) apply(t);
   }
 })();
+"""
+
+
+LIGHTBOX_HTML = """
+<div class="lb" id="lb" hidden>
+  <div class="lb__bar">
+    <div class="lb__meta"><b class="lb__name"></b><span class="lb__id"></span></div>
+    <div class="lb__tools">
+      <span class="lb__count" aria-live="polite"></span>
+      <a class="lb__orig" href="#" target="_blank" rel="noopener">原图 ↗</a>
+      <button type="button" class="lb__btn" data-lb="close" aria-label="关闭（Esc）">✕</button>
+    </div>
+  </div>
+  <button type="button" class="lb__nav lb__nav--prev" data-lb="prev" aria-label="上一张（←）">‹</button>
+  <figure class="lb__fig">
+    <img class="lb__img" alt="" />
+    <figcaption class="lb__hint">← → 翻页 · Esc 关闭 · 滚轮缩放</figcaption>
+  </figure>
+  <button type="button" class="lb__nav lb__nav--next" data-lb="next" aria-label="下一张（→）">›</button>
+</div>
 """
 
 
