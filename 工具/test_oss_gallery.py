@@ -48,6 +48,15 @@ class KeyMapping(unittest.TestCase):
         self.assertEqual(G.remote_key("vibe_images/x.png"),
                          "taihucheng/archive/vibe_images/x.png")
 
+    def test_process_trees_are_enumerated(self):
+        """三棵过程图（`vibe_images` 各棵）也要进计划：用户问「图片都传了么」，答案是全传。"""
+        self.assertEqual(G.PROCESS_TREES,
+                         ("backup/vibe_images", "backup/同级vibe_images", "vibe_images"))
+        for rel in G.PROCESS_TREES:
+            self.assertIn(rel, " ".join(G.PROCESS_TREES))
+        # key 一律落在 archive/ 下，与在册图（gallery/）分开
+        self.assertTrue(G.remote_key("vibe_images/a.png").startswith("taihucheng/archive/"))
+
 
 class Backfill(unittest.TestCase):
     """URL 回写：开图清单的 image_url 与 image_file 逐格对齐、图集清单逐件有 url、缺链必须报出来。"""

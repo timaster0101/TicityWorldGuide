@@ -209,9 +209,34 @@ def meta_files():
     return out
 
 
+PROCESS_TREES = ("backup/vibe_images", "backup/同级vibe_images", "vibe_images")
+
+
+def process_files():
+    """过程图与新轮产物（`vibe_images` 各棵）：不被两个账本引用，但也是项目里的图片。
+
+    2026-11-28 用户问「图片都传到 OSS 了么」，核对后这三棵共 546 件只在本地。
+    它们不参与开图/图集账本，故单独进 `taihucheng/archive/<原相对路径>`，与在册图分开；
+    上传它们是为了「项目里所有图片都能用链接取到」，不是为了给账本补链。
+    """
+    out = []
+    for rel_root in PROCESS_TREES:
+        base = archive_store.resolve_dir(rel_root, ROOT)
+        if not os.path.isdir(base):
+            continue
+        for dirpath, _dirs, files in os.walk(base):
+            for f in sorted(files):
+                if not f.lower().endswith(IMAGE_EXT):
+                    continue
+                full = os.path.join(dirpath, f)
+                rel = os.path.relpath(full, base).replace("\\", "/")
+                out.append((full, rel_root + "/" + rel, None, os.path.getsize(full)))
+    return out
+
+
 def plan(limit=None):
     items = []
-    core = gallery_files() + mother_files() + archive_files()
+    core = gallery_files() + mother_files() + archive_files() + process_files()
     extra = referenced_archive_files({rel for _f, rel, _s, _b in core})
     seen = set()
     for full, rel, sha, size in core + extra:
@@ -324,7 +349,10 @@ def write_links(items):
         "统计": {"地点数": len(per_id), "件数": len(files),
                  "图集": sum(1 for r in files if r.startswith("数据/图集/")),
                  "母图池": sum(1 for r in files if r.startswith("数据/视觉控制资产/")),
-                 "历史归档": sum(1 for r in files if archive_store.is_externalised(r)),
+                 "历史归档": sum(1 for r in files if r.startswith(ARCHIVE_REL + "/")
+                                or r.startswith("backup/vibe_images/")
+                                or r.startswith("backup/同级vibe_images/")),
+                 "过程图": sum(1 for r in files if r.startswith("vibe_images/")),
                  "元数据": len(meta),
                  "合计字节": sum(v["bytes"] for v in files.values())},
         "按地点": dict(sorted(per_id.items())),
