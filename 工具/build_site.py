@@ -34,7 +34,7 @@ WORD_CHECK = DATA / "Word核验结果.json"
 RULINGS = DATA / "设定裁定记录.json"
 KNOWLEDGE = DATA / "AI地点知识库.json"
 
-SITE_VERSION = "v1.0.7"
+SITE_VERSION = "v0.3.6"
 
 # 分卷正文的在线阅读地址（站内不复制 11 卷正文，链到仓库）
 REPO_BLOB = "https://github.com/timaster0101/TicityWorldGuide/blob/main/"

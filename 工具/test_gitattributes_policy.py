@@ -169,7 +169,17 @@ class GitAttributesPolicy(unittest.TestCase):
     def test_svg_在文本侧且可_diff(self):
         self.assertEqual(self.parsed['svg_declared'], [])
         svg = ls('*.svg')
-        self.assertEqual(len(svg), 3, '空间图应为三张，取到 %r' % svg)
+        src = [p for p in svg if not p.startswith('网站/地图/')]
+        copies = [p for p in svg if p.startswith('网站/地图/')]
+        # 三张源图 + 站点自包含所需的同名副本（`网站/地图/`），副本必须与源逐字节相同。
+        self.assertEqual(len(src), 3, '空间图应为三张，取到 %r' % src)
+        self.assertEqual(sorted(os.path.basename(p) for p in copies),
+                         sorted(os.path.basename(p) for p in src), '副本面与源图不一致：%r' % copies)
+        for name in src:
+            a = os.path.join(ROOT, name)
+            b = os.path.join(ROOT, '网站', '地图', os.path.basename(name))
+            with open(a, 'rb') as fa, open(b, 'rb') as fb:
+                self.assertEqual(fa.read(), fb.read(), '副本与源图不同：%s' % name)
         out = git('check-attr', 'diff', 'text', '--', *svg)
         self.assertNotIn('diff: unset', out, 'SVG 的 diff 被关掉＝binary 宏仍在位：%s' % out)
         self.assertIn('text: auto', out)
