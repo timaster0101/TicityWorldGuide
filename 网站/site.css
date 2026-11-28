@@ -1211,3 +1211,282 @@ body.is-locked {
 .tile__cap > span {
   flex: none;
 }
+
+/* ---------- 追加：搜索、行内链接、地图页、版本条、无障碍 ---------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.filters {
+  align-items: center;
+}
+
+.filters__search {
+  position: relative;
+  display: flex;
+}
+
+.filters__search input {
+  font: inherit;
+  font-size: var(--text-sm);
+  width: 260px;
+  max-width: 100%;
+  padding: 8px 14px;
+  color: var(--text-primary);
+  background: var(--bg-deep);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+.filters__search input::placeholder {
+  color: var(--text-faint);
+}
+
+.filters__search input:focus {
+  outline: none;
+  border-color: var(--green-border);
+  background: var(--bg-surface);
+}
+
+.filters__count {
+  margin-left: auto;
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+table.loc .id a,
+table.loc .name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+table.loc .id a {
+  border-bottom: 1px dotted var(--line-strong);
+}
+
+table.loc .name a {
+  border-bottom: 1px solid transparent;
+}
+
+table.loc .id a:hover,
+table.loc .name a:hover {
+  color: var(--green-bright);
+  border-bottom-color: var(--green-border);
+}
+
+.tile:target {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
+/* 地图页 */
+.mapfig {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: #0d0f12;
+}
+
+.mapfig img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mapfig figcaption {
+  padding: 12px 16px;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  border-top: 1px solid var(--line);
+  background: var(--bg-surface);
+}
+
+/* 灯箱：同地点历代版本 */
+.lb__versions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(20, 23, 26, 0.7);
+}
+
+.lb__vlabel {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.lb__vlist {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.lb__ver {
+  flex: none;
+  width: 64px;
+  height: 40px;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  background: #0d0f12;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  opacity: 0.72;
+  transition: opacity var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.lb__ver img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lb__ver:hover,
+.lb__ver[aria-current="true"] {
+  opacity: 1;
+  border-color: var(--green);
+}
+
+/* 键盘焦点 */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+/* 减少动态效果 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .filters__count {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .nav {
+    gap: 12px;
+  }
+
+  .nav a {
+    font-size: 12px;
+  }
+
+  .tag-ver {
+    display: none;
+  }
+
+  .filters__search input {
+    width: 100%;
+  }
+
+  .filters__search {
+    width: 100%;
+  }
+}
+
+/* 地图页：SVG 原本是浅底印刷图，做成「纸面图版」放在深色站点里 */
+.mapfig {
+  background: #f4f2ec;
+  padding: 18px 18px 0;
+}
+
+.mapfig figcaption {
+  margin: 14px -18px 0;
+  padding: 10px 18px;
+  color: #4a4f52;
+  background: #f4f2ec;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* 灯箱：图 + 提示 + 历代版本竖排，别让版本条压住提示或被裁 */
+.lb__fig {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  overflow: visible;
+  padding: 10px 14px 4px;
+}
+
+.lb__img {
+  max-height: min(calc(100vh - 216px), 76vh);
+}
+
+.lb__hint {
+  position: static;
+  left: auto;
+  bottom: auto;
+  transform: none;
+  white-space: normal;
+  text-align: center;
+}
+
+.lb__versions {
+  max-width: min(94vw, 1200px);
+  margin-top: 2px;
+}
+
+.lb__vlist {
+  max-width: min(70vw, 900px);
+}
+
+@media (max-width: 560px) {
+  .lb__img {
+    max-height: calc(100vh - 260px);
+  }
+
+  .lb__vlabel {
+    display: none;
+  }
+
+  .lb__vlist {
+    max-width: 82vw;
+  }
+}
+
+/* ID 链接的点击区补到 24px 高 */
+table.loc .id a {
+  display: inline-block;
+  padding: 4px 6px;
+  margin: -4px -6px;
+  line-height: 1.4;
+}
+
+/* 名称链接的点击区同样补到 24px 高 */
+table.loc .name a {
+  display: inline-block;
+  padding: 4px 6px;
+  margin: -4px -6px;
+  line-height: 1.4;
+}

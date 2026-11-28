@@ -1,4 +1,5 @@
-/* 图集放大查看：点击缩略图开大图，← →（或手机左右滑）翻页，Esc 关闭，滚轮/双击缩放，拖动平移。 */
+/* 图集放大查看：点击缩略图开大图，← →（或手机左右滑）翻页，Esc 关闭，滚轮/双击缩放，拖动平移；
+   同一地点有多轮成果时，弹层底部列出历代版本，点一下切换。 */
 (function () {
   'use strict';
 
@@ -13,12 +14,16 @@
   var countEl = box.querySelector('.lb__count');
   var orig = box.querySelector('.lb__orig');
   var fig = box.querySelector('.lb__fig');
+  var versBox = box.querySelector('.lb__versions');
+  var versList = box.querySelector('.lb__vlist');
+  var mainEl = document.querySelector('main');
 
   var index = 0;
   var scale = 1;
   var tx = 0;
   var ty = 0;
   var lastFocus = null;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function clampScale(v) {
     return Math.min(6, Math.max(1, v));
@@ -36,6 +41,45 @@
     fig.classList.toggle('is-zoomed', false);
   }
 
+  function versionsOf(tile, full) {
+    var raw = tile.getAttribute('data-versions') || '';
+    var list = raw ? raw.split('|') : [full];
+    return list.filter(Boolean);
+  }
+
+  function paintVersions(urls, current) {
+    if (!versBox || !versList) return;
+    if (urls.length < 2) {
+      versBox.hidden = true;
+      versList.textContent = '';
+      return;
+    }
+    versBox.hidden = false;
+    versList.textContent = '';
+    urls.forEach(function (u, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'lb__ver';
+      b.setAttribute('aria-label', '第 ' + (i + 1) + ' 版');
+      b.setAttribute('aria-current', u === current ? 'true' : 'false');
+      b.title = i === 0 ? '第 1 版（现版）' : '第 ' + (i + 1) + ' 版';
+      var im = document.createElement('img');
+      im.loading = 'lazy';
+      im.alt = '';
+      im.src = u;
+      b.appendChild(im);
+      b.addEventListener('click', function () {
+        img.src = u;
+        orig.href = u;
+        resetZoom();
+        Array.prototype.forEach.call(versList.children, function (c) {
+          c.setAttribute('aria-current', c === b ? 'true' : 'false');
+        });
+      });
+      versList.appendChild(b);
+    });
+  }
+
   function show(i) {
     index = (i + tiles.length) % tiles.length;
     var tile = tiles[index];
@@ -46,9 +90,10 @@
     img.alt = name;
     nameEl.textContent = name;
     idEl.textContent = id;
-    countEl.textContent = (index + 1) + ' / ' + tiles.length;
+    countEl.textContent = index + 1 + ' / ' + tiles.length;
     orig.href = full;
     resetZoom();
+    paintVersions(versionsOf(tile, full), full);
     // 预取相邻两张，翻页不空窗
     [index + 1, index - 1].forEach(function (n) {
       var t = tiles[(n + tiles.length) % tiles.length];
@@ -57,10 +102,19 @@
     });
   }
 
+  function focusables() {
+    return Array.prototype.slice
+      .call(box.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])'))
+      .filter(function (el) {
+        return !el.disabled && el.offsetParent !== null;
+      });
+  }
+
   function open(i) {
     lastFocus = document.activeElement;
     box.hidden = false;
     document.body.classList.add('is-locked');
+    if (mainEl) mainEl.setAttribute('aria-hidden', 'true');
     show(i);
     box.querySelector('[data-lb="close"]').focus();
   }
@@ -68,6 +122,7 @@
   function close() {
     box.hidden = true;
     document.body.classList.remove('is-locked');
+    if (mainEl) mainEl.removeAttribute('aria-hidden');
     img.removeAttribute('src');
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
@@ -100,6 +155,20 @@
       show(index + 1);
     } else if (e.key === '0') {
       resetZoom();
+    } else if (e.key === 'Tab') {
+      // 焦点锁在弹层内
+      var list = focusables();
+      if (!list.length) return;
+      var first = list[0];
+      var last = list[list.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        last.focus();
+        e.preventDefault();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        first.focus();
+        e.preventDefault();
+      }
+      return;
     } else {
       return;
     }
@@ -132,14 +201,16 @@
     { passive: false }
   );
 
-  // 双击缩放
+  // 双击缩放（减少动态效果时直接跳变，不做过渡）
   img.addEventListener('dblclick', function () {
     if (scale > 1) {
       resetZoom();
     } else {
       scale = 2.2;
+      if (reduceMotion) fig.style.transition = 'none';
       fig.classList.add('is-zoomed');
       applyTransform();
+      if (reduceMotion) fig.style.transition = '';
     }
   });
 
