@@ -57,6 +57,18 @@ class KeyMapping(unittest.TestCase):
         # key 一律落在 archive/ 下，与在册图（gallery/）分开
         self.assertTrue(G.remote_key("vibe_images/a.png").startswith("taihucheng/archive/"))
 
+    def test_runtime_assets_go_under_runtime_prefix(self):
+        """`数据/运行时资产/`（卡面专用图、印章）既不属图集也不属母图池，单独进 runtime/。
+
+        2026-11-28 全仓扫图时这 6 件没进计划、没上云——判据就是「key 必须落在 runtime/ 且进计划」。
+        """
+        self.assertEqual(G.RUNTIME_REL, "数据/运行时资产")
+        self.assertEqual(G.remote_key("数据/运行时资产/印章-已获得-酒红.png"),
+                         "taihucheng/runtime/印章-已获得-酒红.png")
+        self.assertEqual(G.remote_key("数据/运行时资产/卡面专用图/L003.png"),
+                         "taihucheng/runtime/卡面专用图/L003.png")
+        self.assertTrue(G.remote_key("数据/运行时资产/x.png").startswith(G.PREFIX))
+
 
 class Backfill(unittest.TestCase):
     """URL 回写：开图清单的 image_url 与 image_file 逐格对齐、图集清单逐件有 url、缺链必须报出来。"""

@@ -150,6 +150,9 @@ def remote_key(rel):
     if rel.startswith(ARCHIVE_REL + "/"):
         tail = rel[len(ARCHIVE_REL) + 1:]
         return PREFIX + "archive/gallery/" + tail
+    if rel.startswith(RUNTIME_REL + "/"):
+        tail = rel[len(RUNTIME_REL) + 1:]
+        return PREFIX + "runtime/" + tail
     if archive_store.is_externalised(rel):
         return PREFIX + "archive/" + rel
     return PREFIX + "other/" + rel
@@ -211,6 +214,29 @@ def meta_files():
 
 PROCESS_TREES = ("backup/vibe_images", "backup/同级vibe_images", "vibe_images")
 
+RUNTIME_REL = "数据/运行时资产"
+
+
+def runtime_files():
+    """运行时资产（卡面专用图、已获得印章等）：既不在图集也不在母图池。
+
+    2026-11-28 全仓扫图时发现 6 件只落在这棵里、因此没进计划、没上云
+    （`印章-已获得-酒红.png`＋`卡面专用图/L003、L007、L022、L033、L038.png`）。
+    它们不被账本引用，单独进 `taihucheng/runtime/<相对路径>`。
+    """
+    base = os.path.join(ROOT, RUNTIME_REL.replace("/", os.sep))
+    out = []
+    if not os.path.isdir(base):
+        return out
+    for dirpath, _dirs, files in os.walk(base):
+        for f in sorted(files):
+            if not f.lower().endswith(IMAGE_EXT):
+                continue
+            full = os.path.join(dirpath, f)
+            rel = os.path.relpath(full, base).replace("\\", "/")
+            out.append((full, RUNTIME_REL + "/" + rel, None, os.path.getsize(full)))
+    return out
+
 
 def process_files():
     """过程图与新轮产物（`vibe_images` 各棵）：不被两个账本引用，但也是项目里的图片。
@@ -236,7 +262,8 @@ def process_files():
 
 def plan(limit=None):
     items = []
-    core = gallery_files() + mother_files() + archive_files() + process_files()
+    core = (gallery_files() + mother_files() + archive_files() + process_files()
+            + runtime_files())
     extra = referenced_archive_files({rel for _f, rel, _s, _b in core})
     seen = set()
     for full, rel, sha, size in core + extra:
@@ -353,6 +380,7 @@ def write_links(items):
                                 or r.startswith("backup/vibe_images/")
                                 or r.startswith("backup/同级vibe_images/")),
                  "过程图": sum(1 for r in files if r.startswith("vibe_images/")),
+                 "运行资产": sum(1 for r in files if r.startswith(RUNTIME_REL + "/")),
                  "元数据": len(meta),
                  "合计字节": sum(v["bytes"] for v in files.values())},
         "按地点": dict(sorted(per_id.items())),
