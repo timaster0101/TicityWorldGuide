@@ -1,0 +1,40 @@
+name: pages
+
+# 把 网站/ 作为 GitHub Pages 站点发布（纯静态，无构建）
+on:
+  push:
+    branches: [main]
+    paths:
+      - "网站/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 配置 Pages
+        uses: actions/configure-pages@v5
+
+      - name: 打包 网站/
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 网站
+
+      - name: 发布
+        id: deployment
+        uses: actions/deploy-pages@v4
