@@ -973,11 +973,241 @@ table.loc th.num {
   }
 
   .tile__cap {
-    font-size: 11px;
+    font-size: 12px;
     padding: 26px 8px 7px;
   }
 
   .tile__cap span {
-    font-size: 10px;
+    font-size: 12px;
   }
+}
+
+/* ---------- 图集：缩略图按钮化 + 灯箱 ---------- */
+
+button.tile {
+  appearance: none;
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: zoom-in;
+}
+
+button.tile:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  grid-template-rows: 56px 1fr;
+  background: rgba(9, 11, 12, 0.96);
+  backdrop-filter: blur(6px);
+}
+
+.lb[hidden] {
+  display: none;
+}
+
+.lb__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 clamp(14px, 3vw, 28px);
+  border-bottom: 1px solid var(--line);
+}
+
+.lb__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.lb__name {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lb__id {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  color: var(--green);
+  flex: none;
+}
+
+.lb__tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+}
+
+.lb__count {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.lb__orig {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 7px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+}
+
+.lb__orig:hover {
+  color: var(--green-bright);
+  border-color: var(--green-border);
+}
+
+.lb__btn {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: none;
+  color: var(--text-secondary);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.lb__btn:hover {
+  color: var(--text-primary);
+  border-color: var(--green-border);
+}
+
+.lb__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(20, 23, 25, 0.72);
+  color: var(--text-primary);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.lb__nav:hover {
+  border-color: var(--green-border);
+  color: var(--green-bright);
+}
+
+.lb__nav--prev {
+  left: clamp(8px, 2vw, 22px);
+}
+
+.lb__nav--next {
+  right: clamp(8px, 2vw, 22px);
+}
+
+.lb__fig {
+  position: relative;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 14px;
+}
+
+.lb__img {
+  max-width: min(94vw, 1600px);
+  max-height: calc(100vh - 116px);
+  width: auto;
+  height: auto;
+  border-radius: 2px;
+  box-shadow: 0 26px 64px rgba(0, 0, 0, 0.55);
+  transition: transform 120ms ease-out;
+  cursor: default;
+  will-change: transform;
+}
+
+.lb__fig.is-zoomed .lb__img {
+  cursor: grab;
+  transition: none;
+}
+
+.lb__fig.is-dragging .lb__img {
+  cursor: grabbing;
+}
+
+.lb__hint {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .lb {
+    grid-template-rows: 52px 1fr;
+  }
+
+  .lb__nav {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .lb__hint,
+  .lb__orig {
+    display: none;
+  }
+
+  .lb__img {
+    max-height: calc(100vh - 104px);
+  }
+}
+
+/* 缩略图标题：名字过长走省略号，编号贴右 */
+.tile__cap {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+.tile__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tile__cap > span {
+  flex: none;
 }
