@@ -17,7 +17,9 @@ import html
 import io
 import json
 import re
+import shutil
 import sys
+import urllib.parse
 from collections import Counter, OrderedDict
 from pathlib import Path
 
@@ -30,6 +32,29 @@ REGISTRY = DATA / "城市空间名录.json"
 OSS_LINKS = DATA / "图集OSS.json"
 WORD_CHECK = DATA / "Word核验结果.json"
 RULINGS = DATA / "设定裁定记录.json"
+KNOWLEDGE = DATA / "AI地点知识库.json"
+
+SITE_VERSION = "v1.0.7"
+
+# 分卷正文的在线阅读地址（站内不复制 11 卷正文，链到仓库）
+REPO_BLOB = "https://github.com/timaster0101/TicityWorldGuide/blob/main/"
+
+# 站点图标：暗底 + 绿塔 + 湖面弧线，内联成 data URI，不额外落文件
+FAVICON = "data:image/svg+xml," + urllib.parse.quote(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'
+    '<rect width="64" height="64" rx="14" fill="#25292d"/>'
+    '<rect x="29" y="11" width="6" height="27" rx="1" fill="#3eb182"/>'
+    '<ellipse cx="32" cy="45" rx="18" ry="6.5" fill="none" stroke="#3ec58c" stroke-width="3"/>'
+    "</svg>",
+    safe="",
+)
+
+# 仓内三张 SVG 地图（相对 网站/ 的路径 + 标题 + 说明）
+MAPS = [
+    ("全域卫星聚落图.svg", "全域卫星与聚落", "24 个外围聚落、湖面与环山的关系，含湖心原点与四圈层分界。"),
+    ("主城区空间索引图.svg", "主城区空间索引", "主城区的道路、岸线与扇区划分，按 D／F／L 编号标位。"),
+    ("产业空间图层图.svg", "产业空间图层", "产业小镇与功能区叠加：一镇一链、货运通道与班车动线。"),
+]
 
 TYPE_ORDER = ["城市片区", "功能区", "标志性建筑", "居民区", "产业小镇", "特色村落"]
 TYPE_META = {
@@ -86,6 +111,7 @@ class Site:
         self.word = load_json(WORD_CHECK)
         self.rulings = load_json(RULINGS)
         self.volumes = sorted(p for p in (ROOT / "分卷").glob("*.md"))
+        self.kb = {row["id"]: row for row in load_json(KNOWLEDGE)}
         self.pages = (self.word.get("段落数") and None) or None
         self.docx_pages = self._docx_pages()
 
@@ -116,6 +142,17 @@ class Site:
         urls = it.get("image_url") or []
         return urls[0] if urls else None
 
+    def versions_of(self, eid):
+        """同一地点在册的全部格（越靠前越新），用于图集灯箱的版本条。"""
+        it = self.by_id.get(eid) or {}
+        return [u for u in (it.get("image_url") or []) if u]
+
+    def volume_of(self, eid):
+        """该地点所属的分卷成稿（相对仓库根的路径，如 分卷/02-城市片区.md）。"""
+        row = self.kb.get(eid) or {}
+        vol = row.get("volume") or ""
+        return vol if vol.startswith("分卷/") else ""
+
     def entry_text(self, eid):
         e = self.entries.get(eid, {})
         return e.get("focus") or "", e.get("visual") or ""
@@ -125,37 +162,58 @@ class Site:
         [
             ("index.html", "世界"),
             ("locations.html", "地点"),
+            ("map.html", "地图"),
             ("atlas.html", "图集"),
             ("index.html#howto", "怎么用"),
         ]
     )
 
-    def shell(self, title, desc, body, current=None, extra_class="", script=None):
+    def shell(self, title, desc, body, current=None, extra_class="", script=None, og_image=None):
         nav = []
         for href, label in self.NAV.items():
             cur = ' aria-current="page"' if href == current else ""
             nav.append('<a href="%s"%s>%s</a>' % (href, cur, label))
-        return (
-            "<!DOCTYPE html>\n"
-            '<html lang="zh-CN">\n<head>\n'
+        og = og_image or self.url_of(HERO_ID) or ""
+        head_meta = (
             '<meta charset="utf-8" />\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1" />\n'
-            "<title>%s</title>\n"
-            '<meta name="description" content="%s" />\n'
+            "<title>%(title)s</title>\n"
+            '<meta name="description" content="%(desc)s" />\n'
+            '<link rel="icon" href="%(icon)s" />\n'
+            '<meta name="theme-color" content="#25292d" />\n'
+            '<meta property="og:type" content="website" />\n'
+            '<meta property="og:site_name" content="钛湖城城市设定集" />\n'
+            '<meta property="og:locale" content="zh_CN" />\n'
+            '<meta property="og:title" content="%(title)s" />\n'
+            '<meta property="og:description" content="%(desc)s" />\n'
+            '<meta property="og:image" content="%(og)s" />\n'
+            '<meta property="og:image:alt" content="钛湖城 · 城市设定集封面" />\n'
+            '<meta name="twitter:card" content="summary_large_image" />\n'
+            '<meta name="twitter:title" content="%(title)s" />\n'
+            '<meta name="twitter:description" content="%(desc)s" />\n'
+            '<meta name="twitter:image" content="%(og)s" />\n'
             '<link rel="stylesheet" href="tokens.css" />\n'
             '<link rel="stylesheet" href="site.css" />\n'
+        ) % {
+            "title": esc(title),
+            "desc": esc(desc),
+            "icon": FAVICON,
+            "og": esc(og),
+        }
+        rest = (
             "</head>\n<body class=\"%s\">\n"
             '<header class="topbar"><div class="wrap topbar__inner">'
             '<a class="brand" href="index.html"><span class="brand__mark">钛湖城</span>'
             '<span class="brand__sub">URBAN CANON</span></a>'
             '<nav class="nav">%s</nav>'
-            '<span class="tag-ver">v1.0.6</span>'
+            '<span class="tag-ver">%s</span>'
             "</div></header>\n"
             "<main>\n%s</main>\n%s\n%s\n</body>\n</html>\n"
         ) % (
-            esc(title), esc(desc), extra_class, "".join(nav), body, self.footer(),
+            extra_class, "".join(nav), SITE_VERSION, body, self.footer(),
             ('<script src="%s" defer></script>' % esc(script)) if script else "",
         )
+        return "<!DOCTYPE html>\n" '<html lang="zh-CN">\n<head>\n' + head_meta + rest
 
     def footer(self):
         return (
@@ -169,6 +227,7 @@ class Site:
             "<div><h4>内容</h4><ul>"
             '<li><a href="index.html">世界总览</a></li>'
             '<li><a href="locations.html">312 个地点</a></li>'
+            '<li><a href="map.html">地图</a></li>'
             '<li><a href="atlas.html">图集</a></li>'
             "</ul></div>"
             "<div><h4>授权</h4><ul>"
@@ -178,11 +237,11 @@ class Site:
             "</ul></div>"
             "</div>"
             '<div class="footer__note">'
-            "<span>版本 v1.0.6 · 第 %d 条裁定为最新 · %d 页合订本</span>"
+            "<span>版本 %s · 第 %d 条裁定为最新 · %d 页合订本</span>"
             "<span>页面由 工具/build_site.py 从 数据/ 生成；图在 OSS</span>"
             "</div>"
             "</div></footer>"
-        ) % (len(self.rulings), self.docx_pages)
+        ) % (SITE_VERSION, len(self.rulings), self.docx_pages)
 
     # ---------- 首页 ----------
     def index(self):
@@ -420,14 +479,29 @@ class Site:
             pop = e.get("population")
             area = e.get("area_km2")
             dist = it.get("distance_to_lake_center_km")
+            vol = self.volume_of(it["id"])
+            has_img = bool(self.url_of(it["id"]))
+            id_cell = (
+                '<a href="atlas.html#t-%s" title="在图集中查看 %s">%s</a>' % (esc(it["id"]), esc(it["name"]), esc(it["id"]))
+                if has_img
+                else esc(it["id"])
+            )
+            name_cell = (
+                '<a href="%s%s" target="_blank" rel="noopener" '
+                'title="读分卷正文（GitHub 上的 Markdown 原文）">%s</a>' % (REPO_BLOB, esc(vol), esc(it["name"]))
+                if vol
+                else esc(it["name"])
+            )
             rows.append(
-                '<tr data-type="%s"><td class="id">%s</td><td class="name">%s</td>'
+                '<tr data-type="%s" data-search="%s">'
+                '<td class="id">%s</td><td class="name">%s</td>'
                 '<td>%s</td><td><span class="pill%s">%s</span></td>'
                 '<td class="num">%s</td><td class="num">%s</td><td class="num">%s</td></tr>'
                 % (
                     esc(it["type"]),
-                    esc(it["id"]),
-                    esc(it["name"]),
+                    esc((it["id"] + " " + it["name"]).lower()),
+                    id_cell,
+                    name_cell,
                     esc(it["type"]),
                     " pill--ring0" if ring == "内湖环" else "",
                     esc(ring),
@@ -447,10 +521,17 @@ class Site:
             '<div class="eyebrow">INDEX · 312 LOCATIONS</div>'
             "<h1>地点索引</h1>"
             "<p>每一行都来自 <code style=\"font-family:var(--font-mono);font-size:13px\">"
-            "数据/城市空间名录.json</code> 的登记条目：面积、人口、圈层与到湖心的距离均按正典口径。</p>"
+            "数据/城市空间名录.json</code> 的登记条目：面积、人口、圈层与到湖心的距离均按正典口径。"
+            "点编号看该地点的图，点名称读分卷正文。</p>"
             "</div></section>"
             '<section><div class="wrap">'
-            '<div class="filters" id="filters">%s</div>'
+            '<div class="filters" id="filters" role="group" aria-label="按类型筛选与搜索">'
+            '<label class="filters__search">'
+            '<input id="q" type="search" placeholder="搜编号或名称，如 D08 / 西湖" '
+            'aria-label="搜索地点" autocomplete="off" />'
+            "</label>%s"
+            '<span class="filters__count" id="count" aria-live="polite">%d 处</span>'
+            "</div>"
             '<div class="tablewrap"><table class="loc"><thead><tr>'
             "<th>编号</th><th>名称</th><th>类型</th><th>圈层</th>"
             '<th class="num">面积 km²</th><th class="num">人口</th><th class="num">距湖心 km</th>'
@@ -459,7 +540,8 @@ class Site:
             "人口栏仅对登记了人口的片区／居民区／聚落有值；「—」表示该条目按其他量级登记（如建筑面积、层数）。</p>"
             "</div></section>"
             "<script>%s</script>"
-        ) % ("".join(chips), "".join(rows), FILTER_JS)
+            % ("".join(chips), len(self.items), "".join(rows), FILTER_JS)
+        )
         return self.shell(
             "地点索引 · 钛湖城",
             "钛湖城 312 个地点的索引表：编号、类型、圈层、面积、人口与到湖心的距离。",
@@ -479,12 +561,14 @@ class Site:
             nav.append('<a class="chip" href="#%s">%s %d</a>' % (anchor, esc(t), len(members)))
             tiles = []
             for it in members:
-                url = self.url_of(it["id"])
+                urls = self.versions_of(it["id"])
+                url = urls[0]
+                vers = ' data-versions="%s"' % esc("|".join(urls)) if len(urls) > 1 else ""
                 tiles.append(
-                    '<button type="button" class="tile" data-full="%s" data-cap="%s" data-id="%s">'
+                    '<button type="button" class="tile" id="t-%s" data-full="%s" data-cap="%s" data-id="%s"%s>'
                     '<img src="%s" alt="%s" loading="lazy" />'
                     '<span class="tile__cap"><b class="tile__name">%s</b><span>%s</span></span></button>'
-                    % (esc(url), esc(it["name"]), esc(it["id"]),
+                    % (esc(it["id"]), esc(url), esc(it["name"]), esc(it["id"]), vers,
                        esc(url), esc(it["name"]), esc(it["name"]), esc(it["id"]))
                 )
             groups.append(
@@ -499,7 +583,7 @@ class Site:
             '<div class="eyebrow">ATLAS · 312 PLACES</div>'
             "<h1>图集</h1>"
             "<p>在册成品 %s 张，全部按设定里的机位与日照角度生成，托管在 OSS 并带 C2PA 元数据。"
-            "下面按类型陈列每个地点的在册图；点开即看原图。</p>"
+            "点开大图可放大、按 ← → 翻页；同一地点若有多轮成果，弹层底部会列出历代版本，点一下就切过去。</p>"
             "</div></section>"
             '<nav class="atlasnav"><div class="wrap" style="display:flex;gap:8px;flex-wrap:wrap">%s</div></nav>'
             "%s"
@@ -528,11 +612,57 @@ class Site:
             script="lightbox.js",
         )
 
+    # ---------- 地图 ----------
+    def map(self):
+        # 把仓内三张 SVG 复制进站点目录：站点根就是 网站/，引用 .. 之外的路径在静态托管上会 404
+        maps_dir = SITE / "地图"
+        maps_dir.mkdir(exist_ok=True)
+        figs = []
+        for name, title, note in MAPS:
+            src = ROOT / name
+            if src.is_file():
+                shutil.copyfile(src, maps_dir / name)
+            figs.append(
+                '<section class="group" id="map-%s"><div class="wrap">'
+                "<h2>%s</h2>"
+                '<figure class="mapfig"><img src="地图/%s" alt="%s" loading="lazy" />'
+                "<figcaption>%s</figcaption></figure>"
+                "</div></section>" % (esc(name.split(".")[0]), esc(title), esc(name), esc(title), esc(note))
+            )
+        body = (
+            '<section class="pagehead"><div class="wrap">'
+            '<div class="eyebrow">MAPS · THC-LOCAL-2013</div>'
+            "<h1>地图</h1>"
+            "<p>三张按正典坐标画的图：湖心为原点 (0,0)，单位千米，x 向东、y 向北，方位角自北顺时针。"
+            "都是 SVG 矢量图，放大器不会糊，窗口多宽就铺多宽。</p>"
+            "</div></section>"
+            + "".join(figs)
+            + '<section class="group"><div class="wrap">'
+            "<h2>怎么用这三张图 <span>口径</span></h2>"
+            '<div class="notes">'
+            '<div class="note"><h3>先看全域</h3><p>搞清湖、环山与 24 个外围聚落的关系，'
+            "再决定故事发生在城里还是山外台地。</p></div>"
+            '<div class="note"><h3>再定位片区</h3><p>主城区图按 D／F／L 编号标位：'
+            "一个片区、一条街、一栋楼都能指到图上。</p></div>"
+            '<div class="note"><h3>产业看第三张</h3><p>产业小镇与功能区叠在一张图上，'
+            "货运通道与班车动线就在那一层。</p></div>"
+            '<div class="note"><h3>坐标能算</h3><p>任意两点距离与朝向都能用中心坐标直接算，'
+            "不必目测；正典口径见 CANON.md。</p></div>"
+            "</div></div></section>"
+        )
+        return self.shell(
+            "地图 · 钛湖城",
+            "钛湖城的三张空间图：全域卫星聚落、主城区索引、产业空间图层，均为 SVG。",
+            body,
+            current="map.html",
+        )
+
     # ---------- 落盘 ----------
     def build(self):
         pages = {
             "index.html": self.index(),
             "locations.html": self.locations(),
+            "map.html": self.map(),
             "atlas.html": self.atlas(),
         }
         return pages
@@ -542,31 +672,55 @@ FILTER_JS = """
 (function () {
   var chips = document.querySelectorAll('#filters .chip');
   var rows = document.querySelectorAll('#rows tr');
-  function apply(type) {
+  var input = document.getElementById('q');
+  var count = document.getElementById('count');
+  var total = rows.length;
+  var state = { type: 'all', q: '' };
+  function apply() {
+    var q = state.q.trim().toLowerCase();
     var shown = 0;
     rows.forEach(function (tr) {
-      var hit = type === 'all' || tr.getAttribute('data-type') === type;
+      var byType = state.type === 'all' || tr.getAttribute('data-type') === state.type;
+      var byText = !q || (tr.getAttribute('data-search') || '').indexOf(q) !== -1;
+      var hit = byType && byText;
       tr.style.display = hit ? '' : 'none';
       if (hit) shown++;
     });
     chips.forEach(function (c) {
-      c.setAttribute('aria-pressed', String(c.getAttribute('data-filter') === type));
+      c.setAttribute('aria-pressed', String(c.getAttribute('data-filter') === state.type));
     });
-    return shown;
+    if (count) {
+      count.textContent = shown === total ? total + ' 处' : shown + ' / ' + total + ' 处';
+    }
   }
   chips.forEach(function (c) {
-    c.addEventListener('click', function () { apply(c.getAttribute('data-filter')); });
+    c.addEventListener('click', function () {
+      state.type = c.getAttribute('data-filter');
+      apply();
+    });
   });
+  if (input) {
+    input.addEventListener('input', function () {
+      state.q = input.value;
+      apply();
+    });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { input.value = ''; state.q = ''; apply(); }
+    });
+  }
   if (location.hash) {
     var t = decodeURIComponent(location.hash.slice(1));
-    if (t) apply(t);
+    var known = false;
+    chips.forEach(function (c) { if (c.getAttribute('data-filter') === t) known = true; });
+    if (t && known) { state.type = t; }
   }
+  apply();
 })();
 """
 
 
 LIGHTBOX_HTML = """
-<div class="lb" id="lb" hidden>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="图集大图查看" hidden>
   <div class="lb__bar">
     <div class="lb__meta"><b class="lb__name"></b><span class="lb__id"></span></div>
     <div class="lb__tools">
@@ -578,7 +732,11 @@ LIGHTBOX_HTML = """
   <button type="button" class="lb__nav lb__nav--prev" data-lb="prev" aria-label="上一张（←）">‹</button>
   <figure class="lb__fig">
     <img class="lb__img" alt="" />
-    <figcaption class="lb__hint">← → 翻页 · Esc 关闭 · 滚轮缩放</figcaption>
+    <figcaption class="lb__hint">← → 翻页 · Esc 关闭 · 滚轮缩放 · 双击复位或放大</figcaption>
+    <div class="lb__versions" id="lb-vers" hidden>
+      <span class="lb__vlabel">同地点历代版本</span>
+      <div class="lb__vlist"></div>
+    </div>
   </figure>
   <button type="button" class="lb__nav lb__nav--next" data-lb="next" aria-label="下一张（→）">›</button>
 </div>

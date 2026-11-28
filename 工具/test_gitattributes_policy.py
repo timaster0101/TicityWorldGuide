@@ -175,14 +175,20 @@ class GitAttributesPolicy(unittest.TestCase):
         self.assertIn('text: auto', out)
 
     def test_声明覆盖与统计面(self):
-        used = {ext: len(f) for ext, f in self.tracked.items() if f}
+        # 声明面本身（19 条 binary）与预防性声明处数是口径读数，变了要重取。
         prev = preview_extensions(self.parsed, self.tracked)
-        self.assertEqual(sorted(used), ['docx', 'png'], '本轮实际生效的二进制声明应只有 png／docx：%r' % used)
-        self.assertEqual(sum(used.values()), 7, 'png 6 枚＋docx 1 枚：%r' % used)
-        self.assertEqual(len(prev), 17, '预防性（无跟踪文件）声明处数变了要重取读数：%r' % prev)
+        # jpg 从「预防性声明」转为「生效声明」（`网站/预览/` 8 张跟踪 JPEG），故 17 → 16。
+        self.assertEqual(len(prev), 16, '预防性（无跟踪文件）声明处数变了要重取读数：%r' % prev)
         self.assertEqual(len(self.parsed['binary']), 19)
-        for ext in used:
-            for rel in self.tracked[ext]:
+
+        # 生效面按盘上现况推导：凡落在二进制声明下的跟踪件都必须真是二进制，
+        # 且不得有声明了 binary 却仍被当文本跟踪的扩展名（那会让检出/提交改坏文件）。
+        used = {ext: len(f) for ext, f in self.tracked.items() if f}
+        self.assertTrue(used, '一条二进制声明都没生效，说明夹具或取数坏了')
+        self.assertTrue(set(used) <= set(self.parsed['binary']),
+                        '有跟踪件落在未声明的扩展名上：%r vs %r' % (sorted(used), sorted(self.parsed['binary'])))
+        for ext, files in self.tracked.items():
+            for rel in files:
                 self.assertTrue(is_binary_file(rel), '%s 其实不是二进制' % rel)
 
     def test_违例注入必须判红(self):
