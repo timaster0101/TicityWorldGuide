@@ -4,13 +4,16 @@
 
 这个仓库是**设定基版**：你拿它当世界底座，在上面写故事、造人物、出图、做短视频。正典部分不许改，改了闸门会判红；叙事与创作全部开放（见 [CANON.md](CANON.md)）。
 
+**在线看**：<https://timaster0101.github.io/TicityWorldGuide/> ｜ 图集 <https://timaster0101.github.io/TicityWorldGuide/atlas.html> ｜ 地图 <https://timaster0101.github.io/TicityWorldGuide/map.html>
+
 ---
 
 ## 一分钟上手
 
 ```powershell
 # 1. 看城市
-打开 网站/index.html             # 介绍网站：世界总览 / 312 地点索引（可搜索）/ 地图 / 图集墙（可放大翻页）
+打开 https://timaster0101.github.io/TicityWorldGuide/   # 在线版（GitHub Pages，随仓库自动更新）
+打开 网站/index.html             # 离线版：世界总览 / 312 地点索引（可搜索）/ 地图 / 图集墙（可放大翻页）
 打开 阅读入口.md              # 312 个地点的索引表，按 ID 查
 打开 00-城市总纲.md            # 一页看懂这座城
 
@@ -23,7 +26,9 @@ python -X utf8 工具/validate_derivative.py 我的故事.md
 
 Python 3.11+，依赖见 [REQUIREMENTS.txt](REQUIREMENTS.txt)。不装依赖也能读全部 Markdown 与 JSON。
 
-介绍网站是纯静态四页（`网站/index.html`、`locations.html`、`map.html`、`atlas.html`），双击即可打开，不需要起服务；
+介绍网站是纯静态四页（`网站/index.html`、`locations.html`、`map.html`、`atlas.html`），
+在线地址 <https://timaster0101.github.io/TicityWorldGuide/>（GitHub Pages，`.github/workflows/pages.yml` 在 `网站/**` 有改动时自动发布）；
+离线直接双击 `网站/index.html`，不需要起服务；
 图直接从 OSS 取，所以看图需要联网。页面由 `python -X utf8 工具/build_site.py` 从 `数据/` 现算生成，
 改完数据重跑一次即可，`--check` 只核对盘上是否过期。预览图由 `python -X utf8 工具/shoot_site_preview.py` 重截（需 `playwright`）。
 
@@ -31,7 +36,9 @@ Python 3.11+，依赖见 [REQUIREMENTS.txt](REQUIREMENTS.txt)。不装依赖也�
 
 ## 网站长什么样
 
-四页纯静态，双击 `网站/index.html` 就能看；没有框架与构建步骤，只有 `tokens.css`、`site.css`、`lightbox.js` 三个静态件，图从 OSS 直取。
+在线：<https://timaster0101.github.io/TicityWorldGuide/>（四页同源，内部链接全部相对路径，换域名也能跑）。
+
+四页纯静态，双击 `网站/index.html` 也能看；没有框架与构建步骤，只有 `tokens.css`、`site.css`、`lightbox.js` 三个静态件，图从 OSS 直取。
 
 ![首页封面](网站/预览/cover.jpg)
 
@@ -70,7 +77,7 @@ Python 3.11+，依赖见 [REQUIREMENTS.txt](REQUIREMENTS.txt)。不装依赖也�
 | 路径 | 是什么 | 规模 |
 | --- | --- | --- |
 | `00-城市总纲.md` | 城市总纲：地理、人口、产业、规则索引 | 1 份 |
-| `网站/` | 介绍网站：世界总览、312 地点索引（筛选＋搜索）、地图、图集墙（放大翻页＋历代版本）；样式照 `D:\work\mxaiSpace\taihucheng` | 4 页 + 3 静态件（`地图/` 为 SVG 副本，`预览/` 9 张截图） |
+| `网站/` | 介绍网站：世界总览、312 地点索引（筛选＋搜索）、地图、图集墙（放大翻页＋历代版本）；样式照 `D:\work\mxaiSpace\taihucheng`；在线 <https://timaster0101.github.io/TicityWorldGuide/> | 4 页 + 3 静态件（`地图/` 为 SVG 副本，`预览/` 9 张截图） |
 | `阅读入口.md` | 312 个地点的索引表（ID／名称／类型／圈层） | 312 行 |
 | `分卷/` | 11 个分卷成稿：外围村镇、城市片区、功能区、地标 4 卷、居民区 4 卷 | 312 地点详档 |
 | `分卷/原稿/` | **手写真源**：一地的正文从这里进 | 32 份 |
@@ -155,7 +162,7 @@ python -X utf8 工具/validate_derivative.py 我的故事.md --strict
 
 ## 版本
 
-- **v0.3.6**（2026-11-28）：**版本号改为 0.3.6**（此前的 1.0.x 是早期编号，下面几条保留原样以便对账）。本轮内容同前一版——①新增 `map.html`，三张 SVG 正典地图上站（副本在 `网站/地图/`）；②地点索引加搜索框（编号或名称，与类型筛选可叠加）与计数，每行两条链（编号→图集那一格、名称→GitHub 分卷正文）；③图集灯箱列出「同地点历代版本」并可直接切换；④补齐 favicon、`og:`／`twitter:` 分享卡片、`theme-color`，灯箱加 `role="dialog"`／`aria-modal`／焦点陷阱／`prefers-reduced-motion`。预览生成器 `工具/shoot_site_preview.py` 入仓。
+- **v0.3.6**（2026-11-28）：**版本号改为 0.3.6**（此前的 1.0.x 是早期编号，下面几条保留原样以便对账）。本轮内容同前一版——①新增 `map.html`，三张 SVG 正典地图上站（副本在 `网站/地图/`）；②地点索引加搜索框（编号或名称，与类型筛选可叠加）与计数，每行两条链（编号→图集那一格、名称→GitHub 分卷正文）；③图集灯箱列出「同地点历代版本」并可直接切换；④补齐 favicon、`og:`／`twitter:` 分享卡片、`theme-color`，灯箱加 `role="dialog"`／`aria-modal`／焦点陷阱／`prefers-reduced-motion`。预览生成器 `工具/shoot_site_preview.py` 入仓。**网站上线 GitHub Pages**（<https://timaster0101.github.io/TicityWorldGuide/>，`.github/workflows/pages.yml` 只发布 `网站/`，`网站/**` 有改动自动重发）；README 各节给出在线地址。
 - **v1.0.6**（2026-11-28）：新增 `示例/`（角色卡＋一周时间线）与 `工具/check_samples.py`（12 条判据核样板数字）；`数据/图集直链.md` 补全「在册之外的图」（母图池／历史归档／过程图／运行资产）。
 - **v1.0.5**（2026-11-28）：补上 `数据/运行时资产/` 6 件（卡面专用图 5 张＋已获得印章），`oss_gallery.py` 增 `runtime_files()`，key 落 `runtime/<相对路径>`；全部图片 2,614 件／4.31 GB。
 - **v1.0.4**（2026-11-28）：本地**全部**图片上云（多出 546 件过程图与旧轮产物，共 2,608 件／4.09 GB）；`oss_gallery.py` 增 `process_files()` 把三棵 `vibe_images` 纳入计划，key 落 `archive/<原相对路径>`，与在册图分开。
