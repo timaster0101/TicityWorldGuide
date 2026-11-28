@@ -426,10 +426,80 @@ def write_links_md(doc=None):
         name, typ = names.get(eid, (eid, ""))
         links = "、".join("[%s](%s)" % (it["文件"], it["url"]) for it in items)
         out.append("| %s | %s | %s | %s |" % (eid, name, typ or "—", links))
-    out.append("")
+    out.extend(other_images_section(doc))
     with io.open(LINKS_MD, "w", encoding="utf-8", newline="\n") as fp:
         fp.write("\n".join(out))
     print("已写 %s（%d 行）" % (os.path.relpath(LINKS_MD, ROOT), len(out)))
+
+
+OTHER_TREES = (
+    ("数据/视觉控制资产/", "母图池", "生成用的定档母图，不是某地点的成品图。"),
+    ("backup/数据/图集/", "历史归档·图集", "四向基准照等历史产物，账本里仍被部分格子引用。"),
+    ("backup/vibe_images/", "历史归档·过程图", "早轮生成产物，仅供回溯与对照。"),
+    ("backup/同级vibe_images/", "历史归档·旁支过程图", "旁支目录里的过程图，备份口径。"),
+    ("vibe_images/", "过程图", "历轮生成过程产物，不代表可对外引用的成品。"),
+    (RUNTIME_REL + "/", "运行资产", "卡面专用图与已获得印章等运行时素材。"),
+)
+PER_LINE = 4
+
+
+def _bucket_of(rel):
+    for prefix, title, note in OTHER_TREES:
+        if rel.startswith(prefix):
+            return prefix, title, note
+    return None, "其它", "未归类的图片。"
+
+
+def other_images_section(doc):
+    """在册图之外的图：按树分组，逐目录列链接（每行 4 条），末尾给口径提示。"""
+    groups = {}
+    for rel, it in (doc.get("逐件") or {}).items():
+        if rel.startswith("数据/图集/"):
+            continue
+        prefix, title, note = _bucket_of(rel)
+        if prefix is None:
+            continue
+        groups.setdefault((title, note), []).append((rel, it["url"]))
+    if not groups:
+        return []
+    total = sum(len(v) for v in groups.values())
+    out = ["", "---", "",
+           "## 二、在册图之外的图（%d 件）" % total, "",
+           "这些图不被 `开图清单.image_url` 引用（母图池与过程图是生成素材，历史归档只被部分旧格引用），"
+           "但同样在 OSS 上、同样可用链接直接打开。按树分组、每行 4 条。", ""]
+    for (title, note), rows in groups.items():
+        out.append("### %s（%d 件）" % (title, len(rows)))
+        out.append("")
+        out.append(note)
+        out.append("")
+        rows = sorted(rows)
+        by_dir = {}
+        for rel, url in rows:
+            tail = rel.rsplit("/", 1)
+            d = tail[0] + "/" if len(tail) == 2 else ""
+            by_dir.setdefault(d, []).append((tail[-1], url))
+        for d in sorted(by_dir):
+            out.append("**%s**" % (d or "（根）"))
+            out.append("")
+            chunk = []
+            for fname, url in by_dir[d]:
+                chunk.append("[%s](%s)" % (fname, url))
+                if len(chunk) == PER_LINE:
+                    out.append("· " + "、".join(chunk))
+                    out.append("")
+                    chunk = []
+            if chunk:
+                out.append("· " + "、".join(chunk))
+                out.append("")
+    out.extend([
+        "### 口径提醒", "",
+        "- 过程图与历史归档图是**生成过程产物**，不代表可对外引用的成品；"
+        "在册成品仍以 `数据/开图清单.json` 的 `image_url` 为准。",
+        "- 若要整批下架，按 `taihucheng/archive/`、`taihucheng/runtime/` 两个前缀处理；"
+        "`工具/oss_gallery.py --prune` 会把计划外对象列为孤儿。",
+        "",
+    ])
+    return out
 
 
 def backfill(items=None):

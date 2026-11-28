@@ -206,6 +206,33 @@ class LinksDoc(unittest.TestCase):
             self.assertIn("/taihucheng/", rec["url"])
 
 
+class LinksMdCoversEverything(unittest.TestCase):
+    """`数据/图集直链.md` 是人读入口：项目里 2,614 件图必须件件有点得开的链接。
+
+    旧版只按 312 个地点列在册图，母图池／历史归档／过程图／运行资产全都不在里面——
+    用户要的是「人读版也能看到全部图片」，这条闸门判的就是「逐件的 url 都在 md 里出现」。
+    """
+
+    def setUp(self):
+        with io.open(G.LINKS, encoding="utf-8") as fp:
+            self.doc = json.load(fp)
+        with io.open(G.LINKS_MD, encoding="utf-8") as fp:
+            self.md = fp.read()
+
+    def test_every_image_url_appears_in_the_markdown(self):
+        miss = [rel for rel, v in self.doc["逐件"].items() if v["url"] not in self.md]
+        self.assertEqual(miss, [], "直链表漏了 %d 件，例：%s" % (len(miss), miss[:3]))
+
+    def test_other_images_section_is_present(self):
+        self.assertIn("## 二、在册图之外的图", self.md)
+        for title in ("母图池", "历史归档·图集", "过程图", "运行资产"):
+            self.assertIn(title, self.md)
+
+    def test_process_images_are_labelled_not_deliverable(self):
+        """过程图是生成过程产物，md 里必须写明「不代表可对外引用的成品」。"""
+        self.assertIn("不代表可对外引用的成品", self.md)
+
+
 class RealLinksFace(unittest.TestCase):
     """仓内两份真文件的一致性：清单里有几件，对照表里就得有几条直链。"""
 
